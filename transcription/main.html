@@ -2,8 +2,13 @@
   <head>
     <title>Read Text File</title>
     <script src="./data.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap" rel="stylesheet">
+
   </head>
-  <body>
+  <body style="font-family: 'Voces', sans-serif;">
     <input type="file" name="inputfile" id="inputfile" />
     <br />
     <form id="frm1" onsubmit="return false">
@@ -14,10 +19,8 @@
           required=""
           autofocus=""
           style="height: 101px; overflow: auto; resize: vertical; width: 500px"
-        >
-Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
-        >
-        <input type="button" id="clear_button" />
+        >Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea>
+        <input type="button" id="clear_button"/>
         <div class="btn-group btn-block" role="group">
           <input
             id="submit"
@@ -30,60 +33,70 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         </div>
       </div>
     </form>
-    <div
+    <div 
       id="result"
       style="overflow: auto; resize: vertical; width: 500px"
     ></div>
     <pre id="output"></pre>
     <script type="text/javascript">
       function sanitize(text) {
+
         return text.replace(/[^\p{L}]/gu, "");
       }
 
       function transcribe() {
         text = document.getElementById("text_to_transcribe").value;
-        textlines = text.split("\n");
-        div = document.getElementById("result");
-        div.innerHTML = "";
-        function process_line(line) {
-          separated = line.split(" ");
-          result = separated.map((i) => get_ipa(i));
+        textlines = text.split('\n')
+        div = document.getElementById("result")
+	    div.innerHTML = '';
+        function process_line(line){
+	        separated = line.split(" ");
+	        result = separated.map((i) => get_ipa(i));
 
-          div.insertAdjacentHTML("afterbegin", "</br>");
-          result.reverse().map((x) => div.insertAdjacentHTML("afterbegin", x));
-
-          console.log(result);
-          //document.getElementById("result").value = result.join(" ");
+	        div.insertAdjacentHTML('afterbegin', '</br>')
+	        result.reverse().map(x=>div.insertAdjacentHTML('afterbegin',x));
+	        
+	        console.log(result)
+	        //document.getElementById("result").value = result.join(" ");
         }
-        textlines.reverse().map(process_line);
+        textlines.reverse().map(process_line)
+        
       }
-
+      
+      
+      
       var form = document.getElementById("frm1");
       function handleForm(event) {
         event.preventDefault();
       }
       form.addEventListener("submit", transcribe);
-
+      
+	  document.getElementById("clear_button").addEventListener("click", clear_input);
+	  function clear_input(){
+	   i = document.getElementById("text_to_transcribe")
+	   i.value = ""
+	  }
+	  
+	  
       function get_ipa(text) {
-        clean_text = sanitize(text);
-        ret = dict.get(clean_text);
-        if (ret) {
-          ret = unescape(ret);
+        clean_text = sanitize(text)
+        ret = dict.get(clean_text)
+        if (ret){
+        	ret = unescape(ret)
         }
         if (!ret) {
           ret = dict.get(clean_text.toLowerCase());
         }
-        if (!ret) {
-          ret = dict.get(clean_text.toLowerCase().replace("ß", "ss"));
+        if (!ret){
+          ret = dict.get(clean_text.toLowerCase().replace('ß','ss'));
         }
-        split = text.split(/([\p{L}]+)/gu);
-        index_in_split = split
-          .map((x, n) => x == clean_text && n)
-          .filter(Boolean)[0];
-        split[index_in_split] = ret;
-        ret = split.join("");
-
+        split = text.split(/([\p{L}]+)/gu)
+        index_in_split = split.map((x, n)=>(x == clean_text && n)).filter(Boolean)[0]
+        split[index_in_split] = ret
+        ret = split.join('')
+        
         if (!ret) {
+          
           return `<span style='color:red;'>${text} </span>`;
         }
         return `<span>${ret} </span>`;
@@ -97,7 +110,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
 
       function process_lexicon(text, sep = "\r\n") {
         lines = text.split(sep).map((i) => splitAndAppend(i, " ", 1));
-        lines = lines.filter((x) => !x[1].includes("|"));
+        lines = lines.filter(x=>!x[1].includes('|'))
         ret = new Map(lines.map((i) => [i[0], i[1].split(" ").join("")]));
         return ret;
       }
@@ -112,18 +125,20 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         .then(function (Normal) {
           text = Normal;
           console.log("loaded text");
-          dict = process_lexicon(text, (sep = "\n"));
+          dict = process_lexicon(text, sep='\n');
           console.log("created dict");
         })
         .catch(function (err) {
           console.log("Fetch problem show: " + err.message);
         });
+        
+        
+		window.addEventListener('load', function() {
+			lines = lines.filter(x=>!x[1].includes('|'))
+		    dict = new Map(lines);
+		    console.log('loaded dict')
+		})
 
-      window.addEventListener("load", function () {
-        lines = lines.filter((x) => !x[1].includes("|"));
-        dict = new Map(lines);
-        console.log("loaded dict");
-      });
 
       document
         .getElementById("inputfile")
