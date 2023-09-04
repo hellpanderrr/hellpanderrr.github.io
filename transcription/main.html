@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Read Text File</title>
+        <title>Online IPA Phonetic Transcription</title>
         <script src="./data.js"></script>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -165,9 +165,11 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
                 });
 
             window.addEventListener("load", function () {
-                lines = lines.filter((x) => !x[1].includes("|"));
-                dict = new Map(lines);
-                console.log("loaded dict");
+            	if (lines_from_js){
+	                lines = lines_from_js.filter((x) => !x[1].includes("|"));
+	                dict = new Map(lines);
+	                console.log("loaded dict");
+                }
             });
 
             document.getElementById("inputfile").addEventListener("change", function () {
