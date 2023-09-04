@@ -1,6 +1,7 @@
 <html>
   <head>
     <title>Read Text File</title>
+    <script src="./data.js"></script>
   </head>
   <body>
     <input type="file" name="inputfile" id="inputfile" />
@@ -13,7 +14,7 @@
           required=""
           autofocus=""
           style="height: 101px; overflow: auto; resize: vertical; width: 300px"
-        ></textarea>
+        >Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea>
         <input type="button" id="clear_button" />
         <div class="btn-group btn-block" role="group">
           <input
@@ -27,20 +28,25 @@
         </div>
       </div>
     </form>
-    <textarea
+    <div 
       id="result"
       style="overflow: auto; resize: vertical; width: 300px"
-    ></textarea>
+    ></div>
     <pre id="output"></pre>
     <script type="text/javascript">
       function sanitize(text) {
-        return text.replace(/[^\p{L}\d]/gu, "");
+
+        return text.replace(/[^\p{L}]/gu, "");
       }
 
       function transcribe() {
         text = document.getElementById("text_to_transcribe").value;
         separated = text.split(" ");
-        result = separated.map((i) => get_ipa(sanitize(i)));
+        result = separated.map((i) => get_ipa(i));
+        div = document.getElementById("result")
+        div.innerHTML = '';
+        result.reverse().map(x=>div.insertAdjacentHTML('afterbegin',x));
+        console.log(result)
         document.getElementById("result").value = result.join(" ");
       }
       var form = document.getElementById("frm1");
@@ -50,14 +56,24 @@
       form.addEventListener("submit", transcribe);
 
       function get_ipa(text) {
-        ret = dict.get(text);
-        if (!ret) {
-          ret = dict.get(text.toLowerCase());
+        clean_text = sanitize(text)
+        ret = dict.get(clean_text)
+        if (ret){
+        	ret = unescape(ret)
         }
         if (!ret) {
-          ret = "[]";
+          ret = dict.get(clean_text.toLowerCase());
         }
-        return ret;
+        split = text.split(/([\p{L}]+)/gu)
+        index_in_split = split.map((x, n)=>(x == clean_text && n)).filter(Boolean)[0]
+        split[index_in_split] = ret
+        ret = split.join('')
+        
+        if (!ret) {
+          
+          return `<span style='color:red;'>${text} </span>`;
+        }
+        return `<span>${ret} </span>`;
       }
 
       const splitAndAppend = (str, delim, count) => {
@@ -88,6 +104,14 @@
         .catch(function (err) {
           console.log("Fetch problem show: " + err.message);
         });
+        
+        
+		window.addEventListener('load', function() {
+			lines = lines.filter(x=>!x[1].includes('|'))
+		    dict = new Map(lines);
+		    console.log('loaded dict')
+		})
+
 
       document
         .getElementById("inputfile")
