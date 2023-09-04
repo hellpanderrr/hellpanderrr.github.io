@@ -82,7 +82,7 @@
         .then(function (Normal) {
           text = Normal;
           console.log("loaded text");
-          dict = process_lexicon(text);
+          dict = process_lexicon(text, sep='\n');
           console.log("created dict");
         })
         .catch(function (err) {
