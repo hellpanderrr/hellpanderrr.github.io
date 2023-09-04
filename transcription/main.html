@@ -1,157 +1,185 @@
 <html>
-  <head>
-    <title>Read Text File</title>
-    <script src="./data.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <head>
+        <title>Read Text File</title>
+        <script src="./data.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap" rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body style="font-family: &quot;Voces&quot;, sans-serif">
+        <input type="file" name="inputfile" id="inputfile" />
+        <br />
+        <form id="frm1" onsubmit="return false">
+            <div class="form-group">
+                <textarea
+                    id="text_to_transcribe"
+                    name="text_to_transcribe"
+                    required=""
+                    autofocus=""
+                    style="height: 101px; overflow: auto; resize: vertical; width: 500px"
+                >
+Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
+                >
+                <input type="button" id="clear_button" />
+                <div class="btn-group btn-block" role="group">
+                    <input
+                        id="submit"
+                        class="btn btn-primary btn-block"
+                        name="submit"
+                        type="submit"
+                        value="Show transcription"
+                        title="or Ctrl+Enter while in the text area"
+                    />
+                    <input
+                        id="submit_by_line"
+                        class="btn btn-primary btn-block"
+                        name="submit"
+                        type="button"
+                        value="Show transcription line-by-line"
+                        title="or Ctrl+Enter while in the text area"
+                    />
+                </div>
+            </div>
+        </form>
+        <table style="overflow: auto; resize: vertical; width: 500px">
+            <tbody id="result"></tbody>
+        </table>
+        <pre id="output"></pre>
+        <script type="text/javascript">
+            function sanitize(text) {
+                return text.replace(/[^\p{L}]/gu, "");
+            }
 
-  </head>
-  <body style="font-family: 'Voces', sans-serif;">
-    <input type="file" name="inputfile" id="inputfile" />
-    <br />
-    <form id="frm1" onsubmit="return false">
-      <div class="form-group">
-        <textarea
-          id="text_to_transcribe"
-          name="text_to_transcribe"
-          required=""
-          autofocus=""
-          style="height: 101px; overflow: auto; resize: vertical; width: 500px"
-        >Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea>
-        <input type="button" id="clear_button"/>
-        <div class="btn-group btn-block" role="group">
-          <input
-            id="submit"
-            class="btn btn-primary btn-block"
-            name="submit"
-            type="submit"
-            value="Show transcription"
-            title="or Ctrl+Enter while in the text area"
-          />
-        </div>
-      </div>
-    </form>
-    <div 
-      id="result"
-      style="overflow: auto; resize: vertical; width: 500px"
-    ></div>
-    <pre id="output"></pre>
-    <script type="text/javascript">
-      function sanitize(text) {
+            function transcribe() {
+                text = document.getElementById("text_to_transcribe").value;
+                textlines = text.split("\n");
+                div = document.getElementById("result");
+                div.innerHTML = "";
+                function process_line(line) {
+                    separated = line.split(" ");
+                    result = separated.map((i) => get_ipa(i));
+                    result = result.map((i) =>
+                        i.status === "error"
+                            ? `<span style="color:red">${i.value} </span>`
+                            : `<span>${i.value} </span>`,
+                    );
+                    div.insertAdjacentHTML("afterbegin", "</br>");
+                    result.reverse().map((x) => div.insertAdjacentHTML("afterbegin", x));
+                }
+                textlines.reverse().map(process_line);
+            }
 
-        return text.replace(/[^\p{L}]/gu, "");
-      }
+            function transcribe_by_line() {
+                text = document.getElementById("text_to_transcribe").value;
+                textlines = text.split("\n");
+                div = document.getElementById("result");
+                div.innerHTML = "";
+                function process_line(line) {
+                    separated = line.split(" ");
+                    result = separated.map((i) => get_ipa(i));
+                    result = result.map((i) =>
+                        i.status === "error" ? `<div style="color:red">${i.value} </div>` : `<div>${i.value} </div>`,
+                    );
 
-      function transcribe() {
-        text = document.getElementById("text_to_transcribe").value;
-        textlines = text.split('\n')
-        div = document.getElementById("result")
-	    div.innerHTML = '';
-        function process_line(line){
-	        separated = line.split(" ");
-	        result = separated.map((i) => get_ipa(i));
+                    function insert_cell(string, row) {
+                        cell = row.insertCell(-1);
+                        //cell.innerText = new DOMParser().parseFromString(string	, 'text/html').body.childNodes[0].innerText
+                        cell.innerHTML = string;
+                    }
+                    row = div.insertRow(-1);
+                    old = separated.map((x) => `<div>${x} </div>`);
+                    glued = result.map((k, i) => '<div style="float:left;margin-left:5px;">' + old[i] + k + "</div>");
+                    glued.reverse().map((x) => row.insertAdjacentHTML("afterbegin", x));
+                }
+                textlines.map(process_line);
+            }
 
-	        div.insertAdjacentHTML('afterbegin', '</br>')
-	        result.reverse().map(x=>div.insertAdjacentHTML('afterbegin',x));
-	        
-	        console.log(result)
-	        //document.getElementById("result").value = result.join(" ");
-        }
-        textlines.reverse().map(process_line)
-        
-      }
-      
-      
-      
-      var form = document.getElementById("frm1");
-      function handleForm(event) {
-        event.preventDefault();
-      }
-      form.addEventListener("submit", transcribe);
-      
-	  document.getElementById("clear_button").addEventListener("click", clear_input);
-	  function clear_input(){
-	   i = document.getElementById("text_to_transcribe")
-	   i.value = ""
-	  }
-	  
-	  
-      function get_ipa(text) {
-        clean_text = sanitize(text)
-        ret = dict.get(clean_text)
-        if (ret){
-        	ret = unescape(ret)
-        }
-        if (!ret) {
-          ret = dict.get(clean_text.toLowerCase());
-        }
-        if (!ret){
-          ret = dict.get(clean_text.toLowerCase().replace('ß','ss'));
-        }
-        split = text.split(/([\p{L}]+)/gu)
-        index_in_split = split.map((x, n)=>(x == clean_text && n)).filter(Boolean)[0]
-        split[index_in_split] = ret
-        ret = split.join('')
-        
-        if (!ret) {
-          
-          return `<span style='color:red;'>${text} </span>`;
-        }
-        return `<span>${ret} </span>`;
-      }
+            var form = document.getElementById("frm1");
+            function handleForm(event) {
+                event.preventDefault();
+            }
+            form.addEventListener("submit", transcribe);
+            document.getElementById("submit_by_line").addEventListener("click", transcribe_by_line);
 
-      const splitAndAppend = (str, delim, count) => {
-        const arr = str.split(delim);
-        return [...arr.splice(0, count), arr.join(delim)];
-      };
-      let text = "";
+            document.getElementById("clear_button").addEventListener("click", clear_input);
+            function clear_input() {
+                i = document.getElementById("text_to_transcribe");
+                i.value = "";
+            }
 
-      function process_lexicon(text, sep = "\r\n") {
-        lines = text.split(sep).map((i) => splitAndAppend(i, " ", 1));
-        lines = lines.filter(x=>!x[1].includes('|'))
-        ret = new Map(lines.map((i) => [i[0], i[1].split(" ").join("")]));
-        return ret;
-      }
+            function get_ipa(text) {
+                clean_text = sanitize(text);
+                ret = dict.get(clean_text);
+                if (ret) {
+                    ret = unescape(ret);
+                }
+                if (!ret) {
+                    ret = dict.get(clean_text.toLowerCase());
+                }
+                if (!ret) {
+                    ret = dict.get(clean_text.toLowerCase().replace("ß", "ss"));
+                }
+                split = text.split(/([\p{L}]+)/gu);
+                index_in_split = split.map((x, n) => x == clean_text && n).filter(Boolean)[0];
+                split[index_in_split] = ret;
+                ret = split.join("");
 
-      fetch("./data/german_ipa.txt")
-        .then(function (response) {
-          return response;
-        })
-        .then(function (data) {
-          return data.text();
-        })
-        .then(function (Normal) {
-          text = Normal;
-          console.log("loaded text");
-          dict = process_lexicon(text, sep='\n');
-          console.log("created dict");
-        })
-        .catch(function (err) {
-          console.log("Fetch problem show: " + err.message);
-        });
-        
-        
-		window.addEventListener('load', function() {
-			lines = lines.filter(x=>!x[1].includes('|'))
-		    dict = new Map(lines);
-		    console.log('loaded dict')
-		})
+                if (!ret) {
+                    return new Object({ value: text, status: "error" });
+                }
+                return new Object({ value: ret, status: "success" });
+            }
 
+            const splitAndAppend = (str, delim, count) => {
+                const arr = str.split(delim);
+                return [...arr.splice(0, count), arr.join(delim)];
+            };
+            let text = "";
 
-      document
-        .getElementById("inputfile")
-        .addEventListener("change", function () {
-          var fr = new FileReader();
-          fr.onload = function () {
-            text = fr.result;
-            dict = process_lexicon(text);
-            alert("Success.");
-          };
+            function process_lexicon(text, sep = "\r\n") {
+                lines = text.split(sep).map((i) => splitAndAppend(i, " ", 1));
+                lines = lines.filter((x) => !x[1].includes("|"));
+                ret = new Map(lines.map((i) => [i[0], i[1].split(" ").join("")]));
+                return ret;
+            }
 
-          fr.readAsText(this.files[0]);
-        });
-    </script>
-  </body>
+            fetch("./data/german_ipa.txt")
+                .then(function (response) {
+                    return response;
+                })
+                .then(function (data) {
+                    return data.text();
+                })
+                .then(function (Normal) {
+                    text = Normal;
+                    console.log("loaded text");
+                    dict = process_lexicon(text, (sep = "\n"));
+                    console.log("created dict");
+                })
+                .catch(function (err) {
+                    console.log("Fetch problem show: " + err.message);
+                });
+
+            window.addEventListener("load", function () {
+                lines = lines.filter((x) => !x[1].includes("|"));
+                dict = new Map(lines);
+                console.log("loaded dict");
+            });
+
+            document.getElementById("inputfile").addEventListener("change", function () {
+                var fr = new FileReader();
+                fr.onload = function () {
+                    text = fr.result;
+                    dict = process_lexicon(text);
+                    alert("Success.");
+                };
+
+                fr.readAsText(this.files[0]);
+            });
+        </script>
+    </body>
 </html>
