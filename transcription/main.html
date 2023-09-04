@@ -59,14 +59,33 @@
 		    return [...arr.splice(0, count), arr.join(delim)];
 		}
 		let text = ''
+		
+		fetch("./data/german_ipa.txt").then(function(response) {
+		   return response
+		}).then(function(data) {
+		  return data.text()
+		}).then(function(Normal) {
+		  text = Normal; console.log('123')
+		}).catch(function(err) {
+		  console.log('Fetch problem show: ' + err.message);
+		});
+		
+		
+		function process_lexicon(text, sep='\r\n'){
+			lines = text.split(sep).map(i => splitAndAppend(i,' ',1))
+			ret = new Map(lines.map(i=>[i[0],i[1].split(' ').join('')]))
+			return ret
+		}
+		
+		dict = process_lexicon(text)
+		
 		document.getElementById('inputfile')
 			.addEventListener('change', function() {
 			
 			var fr=new FileReader();
 			fr.onload=function(){
 				text = fr.result;
-				lines = text.split('\r\n').map(i => splitAndAppend(i,' ',1))
-				dict = new Map(lines.map(i=>[i[0],i[1].split(' ').join('')]))
+				dict = process_lexicon(text)
 				alert('succes')
 			}	
 			
