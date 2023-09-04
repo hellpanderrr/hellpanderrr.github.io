@@ -1,97 +1,106 @@
-<!DOCTYPE html>
 <html>
+  <head>
+    <title>Read Text File</title>
+  </head>
+  <body>
+    <input type="file" name="inputfile" id="inputfile" />
+    <br />
+    <form id="frm1" onsubmit="return false">
+      <div class="form-group">
+        <textarea
+          id="text_to_transcribe"
+          name="text_to_transcribe"
+          required=""
+          autofocus=""
+          style="height: 101px; overflow: auto; resize: vertical; width: 300px"
+        ></textarea>
+        <input type="button" id="clear_button" />
+        <div class="btn-group btn-block" role="group">
+          <input
+            id="submit"
+            class="btn btn-primary btn-block"
+            name="submit"
+            type="submit"
+            value="Show transcription"
+            title="or Ctrl+Enter while in the text area"
+          />
+        </div>
+      </div>
+    </form>
+    <textarea
+      id="result"
+      style="overflow: auto; resize: vertical; width: 300px"
+    ></textarea>
+    <pre id="output"></pre>
+    <script type="text/javascript">
+      function sanitize(text) {
+        return text.replace(/[^\p{L}\d]/gu, "");
+      }
 
-<head>
-	<title>Read Text File</title>
-</head>
+      function transcribe() {
+        text = document.getElementById("text_to_transcribe").value;
+        separated = text.split(" ");
+        result = separated.map((i) => get_ipa(sanitize(i)));
+        document.getElementById("result").value = result.join(" ");
+      }
+      var form = document.getElementById("frm1");
+      function handleForm(event) {
+        event.preventDefault();
+      }
+      form.addEventListener("submit", transcribe);
 
-<body>
-	<input type="file" name="inputfile"
-			id="inputfile">
-	<br>
-	<form id="frm1" onsubmit="return false">
-	<div class="form-group"><textarea id="text_to_transcribe" name="text_to_transcribe" required="" autofocus="" style="height: 101px; overflow: auto;
-    resize: vertical; width:300px;"></textarea>
-<input type="button" id="clear_button"><div class="btn-group btn-block" role="group">
+      function get_ipa(text) {
+        ret = dict.get(text);
+        if (!ret) {
+          ret = dict.get(text.toLowerCase());
+        }
+        if (!ret) {
+          ret = "[]";
+        }
+        return ret;
+      }
 
-<input id="submit" class="btn btn-primary btn-block" name="submit" type="submit" value="Show transcription" title="or Ctrl+Enter while in the text area">
-</div></div>
-</form>
+      const splitAndAppend = (str, delim, count) => {
+        const arr = str.split(delim);
+        return [...arr.splice(0, count), arr.join(delim)];
+      };
+      let text = "";
 
-	<textarea id="result" style="    overflow: auto;
-    resize: vertical; width:300px;"></textarea>
+      function process_lexicon(text, sep = "\r\n") {
+        lines = text.split(sep).map((i) => splitAndAppend(i, " ", 1));
+        ret = new Map(lines.map((i) => [i[0], i[1].split(" ").join("")]));
+        return ret;
+      }
 
-	<pre id="output"></pre>
-	
-	<script type="text/javascript">
+      fetch("./data/german_ipa.txt")
+        .then(function (response) {
+          return response;
+        })
+        .then(function (data) {
+          return data.text();
+        })
+        .then(function (Normal) {
+          text = Normal;
+          console.log("loaded text");
+          dict = process_lexicon(text);
+          console.log("created dict");
+        })
+        .catch(function (err) {
+          console.log("Fetch problem show: " + err.message);
+        });
 
-		function sanitize(text){
-		     return text.replace(/[^\p{L}\d]/gu, '')
-		}
-	
-		function transcribe() {
-		    
-			text = document.getElementById('text_to_transcribe').value
-			separated = text.split(' ')
-			result = separated.map(i => get_ipa(sanitize(i)))
-			document.getElementById('result').value = result.join(' ')
-		}
-		var form = document.getElementById("frm1");
-		function handleForm(event) { event.preventDefault(); } 
-		form.addEventListener('submit', transcribe);
-		
-		
-		function get_ipa(text){
-		
-			ret = dict.get(text)
-			if (!ret){
-				ret = dict.get(text.toLowerCase())
-			
-			}
-			if (!ret){
-				ret = '[]'
-				}
-			return ret
-		}
-	
-		const splitAndAppend = (str, delim, count) => {
-		    const arr = str.split(delim);
-		    return [...arr.splice(0, count), arr.join(delim)];
-		}
-		let text = ''
-		
-		fetch("./data/german_ipa.txt").then(function(response) {
-		   return response
-		}).then(function(data) {
-		  return data.text()
-		}).then(function(Normal) {
-		  text = Normal; console.log('123')
-		}).catch(function(err) {
-		  console.log('Fetch problem show: ' + err.message);
-		});
-		
-		
-		function process_lexicon(text, sep='\r\n'){
-			lines = text.split(sep).map(i => splitAndAppend(i,' ',1))
-			ret = new Map(lines.map(i=>[i[0],i[1].split(' ').join('')]))
-			return ret
-		}
-		
-		dict = process_lexicon(text)
-		
-		document.getElementById('inputfile')
-			.addEventListener('change', function() {
-			
-			var fr=new FileReader();
-			fr.onload=function(){
-				text = fr.result;
-				dict = process_lexicon(text)
-				alert('succes')
-			}	
-			
-			fr.readAsText(this.files[0]);
-		})
-	</script>
-</body>
+      document
+        .getElementById("inputfile")
+        .addEventListener("change", function () {
+          var fr = new FileReader();
+          fr.onload = function () {
+            text = fr.result;
+            dict = process_lexicon(text);
+            alert("Success.");
+          };
 
+          fr.readAsText(this.files[0]);
+        });
+    </script>
+  </body>
 </html>
