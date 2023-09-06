@@ -1,4 +1,6 @@
-<html>
+<meta charset="UTF-8">
+
+<html lang="">
 <head>
     <title>Online IPA Phonetic Transcription</title>
     <script src="./data.js"></script>
@@ -10,9 +12,56 @@
             href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap"
             rel="stylesheet"
     />
+
+    <style>
+
+
+        /* loading dots */
+
+        .loading:after {
+            content: ' .';
+            animation: dots 0.5s steps(5, end) infinite;}
+
+        @keyframes dots {
+            0%, 20% {
+                color: rgb(255, 255, 255);
+                text-shadow:
+                        .25em 0 0 rgb(255, 255, 255),
+                        .5em 0 0 rgb(255, 255, 255);}
+            40% {
+                color: #090909;
+                text-shadow:
+                        .25em 0 0 rgb(255, 255, 255),
+                        .5em 0 0 rgb(255, 255, 255);}
+            60% {
+                text-shadow:
+                        .25em 0 0 #000000,
+                        .5em 0 0 rgb(255, 255, 255);}
+            80%, 100% {
+                text-shadow:
+                        .25em 0 0 #000000,
+                        .5em 0 0 #090909;}}
+
+
+
+
+    </style>
 </head>
-<body style="font-family: &quot;Voces&quot;, sans-serif">
+<body style="font-family: 'Voces', sans-serif">
 <input type="file" name="inputfile" id="inputfile"/>
+<div style="width: 300px" id="lexicon_status">
+    Lexicon status:
+    <div id="progress_bar"  style="float:right" class="loading">
+
+        loading
+
+    </div>
+    <div id="lexicon_count" style="float: right">
+
+
+    </div>
+
+</div>
 <br/>
 <form id="frm1" onsubmit="return false">
     <div class="form-group">
@@ -41,6 +90,14 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
                     name="submit"
                     type="button"
                     value="Show transcription line-by-line"
+                    title="or Ctrl+Enter while in the text area"
+            />
+            <input
+                    id="submit_by_col"
+                    class="btn btn-primary btn-block"
+                    name="submit"
+                    type="button"
+                    value="Show transcription column to column"
                     title="or Ctrl+Enter while in the text area"
             />
         </div>
@@ -87,14 +144,8 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
             result = separated.map((i) => get_ipa(i));
             result = result.map((i) => i.status === "error" ? `<div style="color:red">${i.value} </div>` : `<div>${i.value} </div>`,);
 
-            function insert_cell(string, row) {
-                cell = row.insertCell(-1);
-                //cell.innerText = new DOMParser().parseFromString(string	, 'text/html').body.childNodes[0].innerText
-                cell.innerHTML = string;
-            }
-
             row = div.insertRow(-1);
-            old = separated.map((x) => `<div>${x} </div>`);
+            old = separated.map((x) => `<div style="font-family: Garamond;">${x} </div>`);
             glued = result.map((k, i) => '<div style="float:left;margin-left:5px;margin-top:5px;">' + old[i] + k + "</div>");
             glued.reverse().map((x) => row.insertAdjacentHTML("afterbegin", x));
         }
@@ -102,14 +153,40 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         textlines.map(process_line);
     }
 
+    function transcribe_by_column() {
+        text = document.getElementById("text_to_transcribe").value;
+        textlines = text.split("\n");
+        div = document.getElementById("result");
+        div.innerHTML = "";
+
+        function process_line(line) {
+            separated = line.split(" ");
+            result = separated.map((i) => get_ipa(i));
+            result = result.map((i) => i.status === "error" ? `<td style="color:red">${i.value} </td>` : `<td>${i.value} </td>`,);
+
+            function insert_row(div, cells) {
+                row = div.insertRow(-1)
+                for (cell of cells) {
+                    new_cell = row.insertCell(-1);
+                    new_cell.outerHTML = cell;
+
+                }
+
+            }
+
+            old = separated.map((x) => `<td style="font-family: Garamond;">${x} </td>`);
+            glued = result.map((k, i) => insert_row(div, [old[i], k]));
+        }
+
+        textlines.map(process_line);
+    }
+
     var form = document.getElementById("frm1");
 
-    function handleForm(event) {
-        event.preventDefault();
-    }
 
     form.addEventListener("submit", transcribe);
     document.getElementById("submit_by_line").addEventListener("click", transcribe_by_line);
+    document.getElementById("submit_by_col").addEventListener("click", transcribe_by_column);
 
     document.getElementById("clear_button").addEventListener("click", clear_input);
 
@@ -122,7 +199,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         clean_text = sanitize(text);
         ipa = dict.get(clean_text);
         if (ipa) {
-            ipa = unescape(ipa);
+            ipa = decodeURIComponent(ipa);
         }
         if (!ipa) {
             ipa = dict.get(clean_text.toLowerCase());
@@ -131,7 +208,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
             ipa = dict.get(clean_text.toLowerCase().replace("ß", "ss"));
         }
         split = text.split(/([\p{L}]+)/gu);
-        index_in_split = split.map((x, n) => x == clean_text && n).filter(Boolean)[0];
+        index_in_split = split.map((x, n) => x === clean_text && n).filter(Boolean)[0];
 
         split[index_in_split] = ipa;
 
@@ -149,16 +226,49 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
     };
     let text = "";
 
-    function process_lexicon(text, sep = "\r\n") {
-        lines = text.split(sep).map((i) => splitAndAppend(i, " ", 1));
-        console.log('split')
-        lines = lines.filter((x) => !x[1].includes("|"));
-        console.log('filtered')
-        ret = new Map(lines.map((i) => [i[0], i[1].split(" ").join("")]));
-        console.log('dict created')
-        return ret;
+    function process_lexicon(text) {
+        progress_bar = document.getElementById('progress_bar')
+        progress_bar.style.display = 'block'
+        document.getElementById('lexicon_count').style.display = 'none'
+        split = text.split(/\r?\n/)
+        lines = []
+
+        var chunk = 10000;
+        var index = 0;
+
+        function doChunk() {
+            var cnt = chunk;
+            console.log(index)
+            while (cnt-- && index < split.length) {
+                lines.push(splitAndAppend(split[index], " ", 1))
+                ++index;
+            }
+            if (index < split.length) {
+                // set Timeout for async iteration
+                setTimeout(doChunk, 1);
+            } else {
+                console.log('split')
+                return rest(lines)
+            }
+        }
+
+        function rest(lines) {
+            lines = lines.filter((x) => !x[1].includes("|"));
+            console.log('filtered')
+            splited = lines.map((i) => [i[0], i[1].split(" ").join("")])
+            console.log('splited')
+            dict = new Map(splited);
+            console.log('dict created')
+            progress_bar.style.display = 'none'
+            document.getElementById('lexicon_count').style.display = 'block'
+            document.getElementById('lexicon_count').innerText = `Loaded ${dict.size} entries.`
+
+        }
+
+        return doChunk();
     }
 
+    console.log('started loading')
     fetch("./data/german_ipa.txt")
         .then(function (response) {
             return response;
@@ -169,7 +279,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         .then(function (Normal) {
             text = Normal;
             console.log("loaded text");
-            dict = process_lexicon(text, (sep = "\n"));
+            dict = process_lexicon(text);
             console.log("created dict");
         })
         .catch(function (err) {
@@ -189,7 +299,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         fr.onload = function () {
             text = fr.result;
             dict = process_lexicon(text);
-            alert("Success.");
+
         };
 
         fr.readAsText(this.files[0]);
