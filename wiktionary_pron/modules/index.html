@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="application/lua">
+
+    </script>
+
+    <script src="fengari-web.js" type="text/javascript"></script>
+    <script>
+        fengari.load('package.path = "../../?.lua"')()
+        fengari.load('mw = require "mw"')()
+        fengari.load('libraryUtil = require "libraryUtil"')()
+        fengari.load('require "mw-text"')()
+        fengari.load('package.path = "../translit/?.lua"')()
+        fengari.load('local m_debug = require "debug"')()
+<!--        fengari.load('export = require "la-pronunc"')()-->
+<!--        fengari.load('export = require "ru-pron"')()-->
+        fengari.load('export = require "pt-pronunc"')()
+    </script>
+<!--    <script src="la-pronunc.lua" type="application/lua" async></script>-->
+
+</head>
+<body>
+
+</body>
+</html>
