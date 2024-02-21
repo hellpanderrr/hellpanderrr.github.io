@@ -1,6 +1,5 @@
 local export = {}
 
-local profile = require("profile")
 
 
 local m_a = require("accent qualifier")
