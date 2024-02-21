@@ -17,8 +17,8 @@
         fengari.load('require "mw-text"')()
         fengari.load('package.path = "modules/test/translit/?.lua"')()
         fengari.load('local m_debug = require "debug"')()
-        fengari.load('export = require "la-pronunc"')()
-        fengari.load('export = require "de-pron"')()
+        fengari.load('export_la = require "la-pronunc"')()
+        fengari.load('export_de = require "de-pron"')()
         <!--        fengari.load('export = require "ru-pron"')()-->
         // fengari.load('export = require "pt-pronunc"')()
 
@@ -224,7 +224,7 @@
 
         function process_line(line) {
             separated = line.split(' ')
-            result = separated.map((i) => get_ipa(i))
+            result = separated.map((i) => get_ipa(i, lang, lang_style, lang_form))
             result = result.map((i) =>
                 i.status === 'error'
                     ? `<td style="color:red">${i.value} </td>`
@@ -294,36 +294,38 @@
                     case 'Ecc':
                         switch (lang_form) {
                             case 'Phonetic':
-                                command = `return (export.convert_words('${clean_text}',true,true,false))`
-
+                                command = `return (export_la.convert_words('${clean_text}',true,true,false))`
+                                console.log(command)
                                 break;
                             case 'Phonemic':
-                                command = `return (export.convert_words('${clean_text}',false,true,false))`
+                                command = `return (export_la.convert_words('${clean_text}',false,true,false))`
                                 break;
                         }
                         break;
                     case 'Classical':
                         switch (lang_form) {
                             case 'Phonetic':
-                                command = `return (export.convert_words('${clean_text}',true,false,false))`
+                                command = `return (export_la.convert_words('${clean_text}',true,false,false))`
                                 break;
                             case 'Phonemic':
-                                command = `return (export.convert_words('${clean_text}',false,false,false))`
+                                command = `return (export_la.convert_words('${clean_text}',false,false,false))`
                                 break;
                         }
                         break;
                 }
+                break;
             case 'German':
                 switch (lang_form) {
                     case 'Phonetic':
-                        command = `return (export.phonetic('${clean_text}'))`
-
+                        command = `return (export_de.phonetic('${clean_text}'))`
+                        console.log(command)
                         break;
                     case 'Phonemic':
-                        command = `return (export.phonemic('${clean_text}'))`
-
+                        command = `return (export_de.phonemic('${clean_text}'))`
+                        console.log(command)
                         break;
                 }
+                break;
         }
 
         try {

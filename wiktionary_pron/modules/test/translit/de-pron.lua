@@ -1055,6 +1055,7 @@ end
 
 decompose = memoize(decompose)
 
+
 -- Decompose the text, canonicalize in various ways, lowercase and split into words, returning each word along with
 -- whether the word was initially capitalized.
 --
@@ -2369,7 +2370,7 @@ local function generate_phonemic_word(word, is_cap)
 	return word
 end
 
-local function do_phonemic_phonetic(text, pos, is_phonetic)
+local function do_phonemic_phonetic(text, is_phonetic)
 	if type(text) == "table" then
 		text = text[1]
 	end
