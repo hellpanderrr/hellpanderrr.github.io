@@ -2,21 +2,30 @@ local export = {}
 local pathOfThisFile = ...
 print(1)
 print(pathOfThisFile)
+local profile = require("profile")
+profile.start()
+
 mw = require('mw')
+local memoize = require 'memoize'
 local m_a = require("accent qualifier")
 local m_IPA = require("IPA")
 local lang = require("languages").getByCode("la")
-
-
 local u = mw.ustring.char
 local rfind = mw.ustring.find
+local rfind = memoize(mw.ustring.find)
 local rsubn = mw.ustring.gsub
+local rsubn = memoize(rsubn)
+
+
 local rmatch = mw.ustring.match
+local rmatch = memoize(rmatch)
 local rsplit = mw.text.split
 local ulower = mw.ustring.lower
+local ulower = memoize(ulower)
 local usub = mw.ustring.sub
+local usub = memoize(usub)
 local ulen = mw.ustring.len
-
+local ulen = memoize(ulen)
 local BREVE = u(0x0306) -- breve =  ̆
 local TILDE = u(0x0303) -- ̃
 local HALF_LONG = "ˑ"
@@ -90,10 +99,10 @@ local phonetic_rules = {
 	{"m([.ˈ]?)([kɡ])", "ŋ%1%2"},
 		-- Per George M. Lane: “Nasals changed their place of articulation to that of the following consonant. Thus, dental n before the labials p and b became the labial m... labial m before the gutturals c and g became guttural n...labial m before the dentals t, d, s became dental n…” (§164.3); “One nasal, n, is assimilated to another, m...but an m before n is never assimilated..." (§166.5).		-- Per Lloyd (1987: 84): “The opposition between nasals was neutralized in syllable-final position, with the realization of the nasality being assimilated to the point of articulation of the following consonant, e.g., [m] is found only before labials, [n] only before dentals or alveolars, and [ŋ] only before velars and /n/."
 		-- Potential addition: assimilation of final /m/ and /n/ across word boundaries, per e.g. Allen (1987: 28, 31).
-	
+
 	-- No additional labialization before high back vowels
 	{"ʷ%f[uʊ]", ""},
-	
+
 	-- Tensing of short vowels before another vowel
 	{
 		"([ɛɪʏɔʊ])([.ˈ][h]?)%f[aeɛiɪoɔuʊyʏ]",
@@ -124,14 +133,14 @@ local phonetic_rules = {
 	--{"([wu])([.ˈ]?)([h]?)ʊ", "%1%2%3o"},
 	--{"([ji])([.ˈ]?)([h]?)ɪ", "%1%2%3e"},
 	---Disabled per 19 September 2021 discussion at Template_talk:la-IPA#Transcription_of_syllable-initial_semivowels
-	
+
 	-- Realization of /r/ as a tap
 		-- Pultrová (2013) argues for Latin /r/ being an alveolar tap.
 		-- Lloyd (1987: 81) agrees: “The /r/ was doubtlessly an alveolar flap."
 		-- Allen (1978: 33) expresses doubt: “By the classical period there is no reason to think that the sound had not strengthened to the trill described by later writers.”
         -- Unconditional [r] transcription is preferable to unconditional [ɾ] per 18 September 2021 discussion at Module_talk:la-pronunc#Transcription_of_Latin's_rhotic_consonant
         -- No consensus yet on how to implement conditional allophony of [r] vs. [ɾ]
-        
+
 	-- Voicing and loss of intervocalic /h/.
 	{"([^ˈ].)h", "%1(ɦ)"},
 	-- Per Allen (1978: 43–45).
@@ -166,7 +175,7 @@ local phonetic_rules = {
 		-- “Pinguis”. Dark/velarized.
 		-- Per Weiss (2009: 117): “…pinguis (velar). l is exīlis before i and when geminate, otherwise l is pinguis.”
 		-- Page 82: “…l is pinguis even before e, e.g. Herculēs < Hercolēs … < Hercelēs …”
-		-- Per Sihler (1995: 174): “l exilis was found before the vowels -i- and -ī-, and before another -l-; l pinguis occurred before any other vowel; before any consonant except l; and in word-final position […] l pinguis actually had two degrees of avoirdupois, being fatter before a consonant than before a vowel…” 
+		-- Per Sihler (1995: 174): “l exilis was found before the vowels -i- and -ī-, and before another -l-; l pinguis occurred before any other vowel; before any consonant except l; and in word-final position […] l pinguis actually had two degrees of avoirdupois, being fatter before a consonant than before a vowel…”
 		-- Page 41: “…velarized l (that is, ‘l pinguis’)…”
 		-- Sen (2015: §2) states that /l/ was velarized in word-final position or before consonants–other than another /l/–and that it had varying degrees of “dark resonance (velarization in articulatory terms)” (p. 23) before e, a, o, and u (p. 33).
 		-- Both Sen and Sihler indicate different degrees of velarization, depending on the environment. IPA lacks a way to represent these gradations, unfortunately.
@@ -223,12 +232,12 @@ local phonetic_rules_eccl = {
 	-- ^ Citation needed for this being the case in Ecclesiastical pronunciation
 	-- {"([aɛeiɔou]ː?[.ˈ])r([aɛeiɔou]?)", "%1ɾ%2"},
 	-- {"([fbdgptk])r", "%1ɾ"},
-    
+
 	{"a", "ä"},  --a is open and central per 17 September 2021 discussion at Template_talk:la-IPA#Ecclesiastical_a
 	-- /e/ and /o/ realization is phonetic but handled in convert_word below as it is sensitive to stress
 
     -- Dental articulations
-	{"n([.ˈ]?)([td])([^͡])", "n̪%1%2%3"}, --assimilation of n to dentality. 
+	{"n([.ˈ]?)([td])([^͡])", "n̪%1%2%3"}, --assimilation of n to dentality.
     {"l([.ˈ]?)([td])([^͡])", "l̪%1%2%3"},
     --Note that the quality of n might not be dental otherwise--it may be alveolar in most contexts in Italian, according to Wikipedia.
 	{"t([^͡])", "t̪%1"},       --t is dental, except as the first element of a palatal affricate
@@ -287,12 +296,12 @@ local onsets = {
 	"ɡ", "k", "kʰ", "kʷ", "ɡʷ", "kw", "ɡw", "t͡s", "t͡ʃ", "d͡ʒ", "ʃ",
 	"f", "s", "z", "d͡z", "h",
 	"l", "m", "n", "ɲ", "r", "j", "v", "w",
-	
+
 	"bl", "pl", "pʰl", "br", "pr", "pʰr",
 	"dr", "tr", "tʰr",
 	"ɡl", "kl", "kʰl", "ɡr", "kr", "kʰr",
 	"fl", "fr",
-	
+
 	"sp", "st", "sk", "skʷ", "sw",
 	"spr", "str", "skr",
 	"spl", "skl",
@@ -302,28 +311,28 @@ local codas = {
 	"b", "p", "pʰ", "d", "t", "tʰ", "ɡ", "k", "kʰ", "β",
 	"f", "s", "z",
 	"l", "m", "n", "ɲ", "r", "j", "ʃ",
-	
+
 	"sp", "st", "sk",
 	"spʰ", "stʰ", "skʰ",
-	
+
 	"lp", "lt", "lk",
 	"lb", "ld", "lɡ",
 	"lpʰ", "ltʰ", "lkʰ",
 	"lf",
-	
+
 	"rp", "rt", "rk",
 	"rb", "rd", "rɡ",
 	"rpʰ", "rtʰ", "rkʰ",
 	"rf",
-	
+
 	"mp", "nt", "nk",
 	"mb", "nd", "nɡ",
 	"mpʰ", "ntʰ", "nkʰ",
-	
+
 	"lm", "rl", "rm", "rn",
-	
+
 	"ps", "ts", "ks", "ls", "ns", "rs",
-	"lks", "nks", "rks", 
+	"lks", "nks", "rks",
     "rps", "mps",
 	"lms", "rls", "rms", "rns",
 }
@@ -400,6 +409,9 @@ local function rsub(term, foo, bar)
 	return retval
 end
 
+
+
+
 -- version of rsubn() that returns a 2nd argument boolean indicating whether
 -- a substitution was made.
 local function rsubb(term, foo, bar)
@@ -409,18 +421,18 @@ end
 
 local function letters_to_ipa(word,phonetic,eccl,vul)
 	local phonemes = {}
-	
+
 	local dictionary = eccl and letters_ipa_eccl or (vul and letters_ipa_vul or letters_ipa)
-	
+
 	while ulen(word) > 0 do
 		local longestmatch = ""
-		
+
 		for letter, ipa in pairs(dictionary) do
 			if ulen(letter) > ulen(longestmatch) and usub(word, 1, ulen(letter)) == letter then
 				longestmatch = letter
 			end
 		end
-		
+
 		if ulen(longestmatch) > 0 then
 			if dictionary[longestmatch] == "ks" then
 				table.insert(phonemes, "k")
@@ -434,7 +446,7 @@ local function letters_to_ipa(word,phonetic,eccl,vul)
 			word = usub(word, 2)
 		end
 	end
-	
+
 	if eccl then for i=1,#phonemes do
 		local prev, cur, next = phonemes[i-1], phonemes[i], phonemes[i+1]
 		if next and (cur == "k" or cur == "ɡ") and rfind(next, "^[eɛi]ː?$") then
@@ -462,7 +474,7 @@ local function letters_to_ipa(word,phonetic,eccl,vul)
 		if cur == "z" then
             if next == "z" then
             	cur = "d"
-            	next = "d͡z" 
+            	next = "d͡z"
             else
             	cur = "d͡z"
             end
@@ -475,14 +487,14 @@ local function letters_to_ipa(word,phonetic,eccl,vul)
 		end
 		phonemes[i-1], phonemes[i], phonemes[i+1] = prev, cur, next
 	end end
-	
+
 	return phonemes
 end
 
 
 local function get_onset(syll)
 	local consonants = {}
-	
+
 	for i = 1, #syll do
 		if vowels[syll[i]] then
 			break
@@ -491,22 +503,22 @@ local function get_onset(syll)
 			table.insert(consonants, syll[i])
 		end
 	end
-	
+
 	return table.concat(consonants)
 end
 
 
 local function get_coda(syll)
 	local consonants = {}
-	
+
 	for i = #syll, 1, -1 do
 		if vowels[syll[i]] then
 			break
 		end
-		
+
 		table.insert(consonants, 1, syll[i])
 	end
-	
+
 	return table.concat(consonants)
 end
 
@@ -522,7 +534,7 @@ end
 local function split_syllables(remainder)
 	local syllables = {}
 	local syll = {}
-	
+
 	for _, phoneme in ipairs(remainder) do
 		if phoneme == "." then
 			if #syll > 0 then
@@ -546,14 +558,14 @@ local function split_syllables(remainder)
 			table.insert(syll, phoneme)
 		end
 	end
-	
+
 	-- If there are phonemes left, then the word ends in a consonant.
 	-- Add another syllable for them, which will get joined the preceding
 	-- syllable down below.
 	if #syll > 0 then
 		table.insert(syllables, syll)
 	end
-	
+
 	-- Split consonant clusters between syllables
 	for i, current in ipairs(syllables) do
 		if #current == 1 and current[1] == "." then
@@ -571,13 +583,13 @@ local function split_syllables(remainder)
 				table.insert(previous, table.remove(current, 1))
 				onset = get_onset(current)
 			end
-			
+
 			-- If the preceding syllable still ends with a vowel,
 			-- and the current one begins with s + another consonant, then shift it over.
 			if get_coda(previous) == "" and (current[1] == "s" and not vowels[current[2]]) then
 				table.insert(previous, table.remove(current, 1))
 			end
-			
+
 			-- Check if there is no vowel at all in this syllable. That
 			-- generally happens either (1) with an explicit syllable division
 			-- specified, like 'cap.ra', which will get divided into the syllables
@@ -599,7 +611,7 @@ local function split_syllables(remainder)
 			end
 		end
 	end
-	
+
 	for i, syll in ipairs(syllables) do
 		local onset = get_onset(syll)
 		local coda = get_coda(syll)
@@ -608,13 +620,13 @@ local function split_syllables(remainder)
 			track("bad onset")
 			--error("onset error:[" .. onset .. "]")
 		end
-		
+
 		if not (coda == "" or codas[coda]) then
 			track("bad coda")
 			--error("coda error:[" .. coda .. "]")
 		end
 	end
-	
+
 	return syllables
 end
 
@@ -655,7 +667,7 @@ local function detect_accent(syllables, is_prefix, is_suffix)
 	if #syllables > 2 then
 		-- Does the penultimate syllable end in a single vowel?
 		local penult = syllables[#syllables - 1]
-		
+
 		if phoneme_is_short_vowel(penult[#penult]) then
 			return #syllables - 2
 		else
@@ -676,7 +688,7 @@ local function convert_word(word, phonetic, eccl, vul)
 	word = rsub(word, "(" .. vowels_c .. ")v(" .. non_vowels_c .. ")", "%1u%2")
 	word = rsub(word, "qu", "qv")
 	word = rsub(word, "ngu(" .. vowels_c .. ")", "ngv%1")
-	
+
 	word = rsub(word, "^i(" .. vowels_c .. ")", "j%1")
 	word = rsub(word, "^u(" .. vowels_c .. ")", "v%1")
 	-- Per the August 31 2019 recommendation by [[User:Brutal Russian]] in
@@ -726,7 +738,7 @@ local function convert_word(word, phonetic, eccl, vul)
 	word = rsub(word, "([ăĕĭŏŭ])", remove_breves)
 	-- BREVE sits uncombined in y+breve and vowel-macron + breve
 	word = rsub(word, BREVE, "")
-	
+
 	-- Normalize aë, oë; do this after removing breves but before any
 	-- other normalizations involving e.
 	word = rsub(word, "([ao])ë", "%1.e")
@@ -735,7 +747,7 @@ local function convert_word(word, phonetic, eccl, vul)
 	word = rsub(word, "e(u[ms])$", "e.%1")
 	word = rsub(word, "ei", "e.i")
 	word = rsub(word, "_", "")
-	
+
 	-- Vowel length before nasal + fricative is allophonic
 	word = rsub(word, "([āēīōūȳ])([mn][fs])",
 		function(vowel, nasalfric)
@@ -753,17 +765,17 @@ local function convert_word(word, phonetic, eccl, vul)
     if eccl then
     	word = rsub(word, "([aeiouy])([j])", vowel_before_yod)
     end
-	
+
 	-- Apply some basic phoneme-level assimilations for Ecclesiastical, which reads as written; in living varieties the assimilations were phonetic
-    --  Italian (and therefore, by implication, Ecclesiastical Latin) does not show assimilation in clusters like /bk/ 
+    --  Italian (and therefore, by implication, Ecclesiastical Latin) does not show assimilation in clusters like /bk/
     -- Source: "How can Italian phonology lack voice assimilation?", by Bálint Huszthy (2019): https://www.academia.edu/39347303/How_can_Italian_phonology_lack_voice_assimilation
 	word = rsub(word, "xs", "x")
 
 	-- Per May 10 2019 discussion in [[Module talk:la-pronunc]], we syllabify
 	-- prefixes ab-, ad-, ob-, sub- separately from following l or r.
-	word = rsub(word, "^a([bd])([lr])", "a%1.%2")	
-	word = rsub(word, "^ob([lr])", "ob.%1")	
-	word = rsub(word, "^sub([lr])", "sub.%1")	
+	word = rsub(word, "^a([bd])([lr])", "a%1.%2")
+	word = rsub(word, "^ob([lr])", "ob.%1")
+	word = rsub(word, "^sub([lr])", "sub.%1")
 
 	-- Remove hyphens indicating prefixes or suffixes; do this after the above,
 	-- some of which are sensitive to beginning or end of word and shouldn't
@@ -774,14 +786,14 @@ local function convert_word(word, phonetic, eccl, vul)
 
 	-- Convert word to IPA
 	local phonemes = letters_to_ipa(word,phonetic,eccl,vul)
-	
+
 	-- Split into syllables
 	local syllables = split_syllables(phonemes)
-	
+
 	-- Add accent
 	local accent = detect_accent(syllables, is_prefix, is_suffix)
-	
-    -- poetic meter shows that a consonant before "h" was syllabified as an onset, not as a coda. 
+
+    -- poetic meter shows that a consonant before "h" was syllabified as an onset, not as a coda.
     -- Based on outcome of talk page discussion, this will be indicated by the omission of /h/ [h] in this context.
     word = rsub(word, "([^aeɛiɪoɔuʊyʏe̯u̯ptk])([.ˈ]?)h", "%1")
 
@@ -794,12 +806,12 @@ local function convert_word(word, phonetic, eccl, vul)
 			end
 		end
 	end
-	
+
 	for i, syll in ipairs(syllables) do
 		if (eccl or vul) and i == accent and phonetic and vowels[syll[#syll]] then
 			syll[#syll] = lengthen_vowel[syll[#syll]] or syll[#syll]
 		end
-	
+
 		for j=1, #syll-1 do
 			if syll[j]==syll[j+1] then
 				syll[j+1] = ""
@@ -823,7 +835,7 @@ local function convert_word(word, phonetic, eccl, vul)
 	end
 
 	word = (rsub(table.concat(syllables, "."), "%.ˈ", "ˈ"))
-	
+
 	if #syllables == 1 then
 		word = rsub(word, "^ˈ", "")   --remove word-initial accent marks in monosyllables
 	    end
@@ -836,7 +848,7 @@ local function convert_word(word, phonetic, eccl, vul)
 		word = rsub(word, "j", "i̯")       -- normalize glide spelling
 		word = rsub(word, "w", "u̯")
 		end
-    
+
 	if phonetic then
 		local rules = eccl and phonetic_rules_eccl or (vul and phonetic_rules_vul or phonetic_rules)
 		for i, rule in ipairs(rules) do
@@ -859,6 +871,8 @@ local function convert_word(word, phonetic, eccl, vul)
 	return word
 end
 
+convert_word = memoize(convert_word)
+
 local function initial_canonicalize_text(text)
 	-- Call ulower() even though it's also called in phoneticize,
 	-- in case convert_words() is called externally.
@@ -870,22 +884,22 @@ end
 
 function export.convert_words(text, phonetic, eccl, vul)
 	text = initial_canonicalize_text(text)
-	
+
 	local disallowed = rsub(text, '[a-z%-āēīōūȳăĕĭŏŭë,.?!:;()\'"_ ' .. BREVE .. ']', '')
 	if ulen(disallowed) > 0 then
 		if ulen(disallowed) == 1 then
 			error('The character "' .. disallowed .. '" is not allowed.')
 		else
 			error('The characters "' .. disallowed .. '" are not allowed.')
-		end	
+		end
 	end
-	
+
 	local result = {}
-	
+
 	for word in mw.text.gsplit(text, " ") do
 		table.insert(result, convert_word(word, phonetic, eccl, vul))
 	end
-	
+
 	return table.concat(result, " ")
 end
 
@@ -977,24 +991,24 @@ function export.show_full(frame)
 
 	local indent = (args.indent or "*") .. " "
 	local out = ''
-	
+
 	if args.indent then
 		out = indent
 	end
-	
+
 	if args.classical then
 		out = out .. make_row(export.phoneticize(text, false, false), #accent > 0 and accent or {'Classical'})
 	elseif not args.vul then
 		table.insert(categories, lang:getCanonicalName() .. ' terms with Ecclesiastical IPA pronunciation only')
 	end
-	
+
 	local anntext = (
 		args.ann == "1" and "'''" .. rsub(text, "[.'_]", "") .. "''':&#32;" or
 		args.ann and "'''" .. args.ann .. "''':&#32;" or
 		"")
 
 	out = anntext .. out
-	
+
 	if args.ecclesiastical then
 		if args.classical or args.vul then
 			out = out .. '\n' .. indent .. anntext
@@ -1004,7 +1018,7 @@ function export.show_full(frame)
 			#accent > 0 and accent or {'Ecclesiastical'}
 		)
 	end
-	
+
 	return out .. require("utilities").format_categories(categories)
 end
 
@@ -1015,11 +1029,11 @@ function export.show(text, phonetic, eccl, vul)
 		vul = text.args["vul"]
 		text = text.args[1] or mw.title.getCurrentTitle().text
 	end
-	
+
 	if vul then
 		phonetic = true
 	end
-	
+
 	return export.convert_words(text, phonetic, eccl, vul)
 end
 
@@ -1028,16 +1042,18 @@ function export.allophone(word, eccl, vul)
 	return export.show(word, true, eccl, vul)
 end
 
--- ecclesiastical phonemic
-e1 = (export.convert_words('Hat Herr Muller eine Frau? Ja, er hat eine Frau. Wie',false,true,false))
--- ecclesiastical phonetic
-e2 = (export.convert_words('Hat Herr Muller eine Frau? Ja, er hat eine Frau. Wie',true,true,false))
--- classical phonemic
-c1 = (export.convert_words('Hat Herr Muller eine Frau? Ja, er hat eine Frau. Wie',false,false,false))
--- classical phonetic
-c2 = (export.convert_words('Hat Herr Muller eine Frau? Ja, er hat eine Frau. Wie',true,false,false))
+local test_line = "Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi."
+-- local test_line = 'Aegyptum'
+e1 = (export.convert_words(test_line,false,true,false))
+e2 = (export.convert_words(test_line,true,true,false))
+c1 = (export.convert_words(test_line,false,false,false))
+c2 = (export.convert_words(test_line,true,false,false))
 
 print (e1..'\n'..e2..'\n'..c1..'\n'..c2)
+
+profile.stop()
+print(profile.report(30))
+print('test')
 
 
 

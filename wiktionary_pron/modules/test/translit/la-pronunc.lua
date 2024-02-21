@@ -1,18 +1,28 @@
 local export = {}
 
+local profile = require("profile")
+
+
 local m_a = require("accent qualifier")
 local m_IPA = require("IPA")
 local lang = require("languages").getByCode("la")
-
+local memoize = require 'memoize'
 local u = mw.ustring.char
 local rfind = mw.ustring.find
+local rfind = memoize(mw.ustring.find)
 local rsubn = mw.ustring.gsub
+local rsubn = memoize(rsubn)
+
+
 local rmatch = mw.ustring.match
+local rmatch = memoize(rmatch)
 local rsplit = mw.text.split
 local ulower = mw.ustring.lower
+local ulower = memoize(ulower)
 local usub = mw.ustring.sub
+local usub = memoize(usub)
 local ulen = mw.ustring.len
-
+local ulen = memoize(ulen)
 local BREVE = u(0x0306) -- breve =  ̆
 local TILDE = u(0x0303) -- ̃
 local HALF_LONG = "ˑ"
@@ -854,6 +864,7 @@ local function convert_word(word, phonetic, eccl, vul)
 
 	return word
 end
+convert_word = memoize(convert_word)
 
 local function initial_canonicalize_text(text)
 	-- Call ulower() even though it's also called in phoneticize,
@@ -1026,3 +1037,4 @@ end
 
 
 return export
+
