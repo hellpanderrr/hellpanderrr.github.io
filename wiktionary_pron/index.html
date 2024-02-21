@@ -12,11 +12,13 @@
     <script>
         fengari.load('package.path = "modules/?.lua"')()
         fengari.load('mw = require "mw"')()
+        fengari.load('require "mw-language"')()
         fengari.load('libraryUtil = require "libraryUtil"')()
         fengari.load('require "mw-text"')()
         fengari.load('package.path = "modules/test/translit/?.lua"')()
         fengari.load('local m_debug = require "debug"')()
         fengari.load('export = require "la-pronunc"')()
+        fengari.load('export = require "de-pron"')()
         <!--        fengari.load('export = require "ru-pron"')()-->
         // fengari.load('export = require "pt-pronunc"')()
 
@@ -55,7 +57,7 @@
     <select class="dropdown" id="lang_style">
         <option data-option="Latin">Ecc</option>
         <option data-option="Latin">Classical</option>
-        <option data-option="German">apple</option>
+        <option data-option="German">Default</option>
 
     </select>
     Form:
@@ -63,6 +65,7 @@
         <option data-option="Latin">Phonetic</option>
         <option data-option="Latin">Phonemic</option>
         <option data-option="German">Phonetic</option>
+        <option data-option="German">Phonemic</option>
 
     </select>
 
@@ -83,8 +86,12 @@
                         width: 500px;
                     "
                 >
-Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
-                >
+] Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. Gallias et Hispanias provincias, item Germaniam, qua includit Oceanus a Gadibus ad ostium Albis fluminis pacavi. Alpes a regione ea quae proxima est Hadriano mari ad Tuscum pacificavi nulli genti bello per iniuriam inlato. Classis mea per Oceanum ab ostio Rheni ad solis orientis regionem usque ad fines Cimbrorum navigavit, quo neque terra neque mari quisquam Romanus ante id tempus adit. Cimbrique et Charydes et Semnones et eiusdem tractus alii Germanorum populi per legatos amicitiam meam et populi Romani petierunt. Meo iussu et auspicio ducti sunt duo exercitus eodem fere tempore in Aethiopiam et in Arabiam quae appellatur Eudaemon, magnaeque hostium gentis utriusque copiae caesae sunt in acie et complura oppida capta. In Aethiopiam usque ad oppidum Nabata perventum est, cui proxima est Meroe; in Arabiam usque in fines Sabaeorum processit exercitus ad oppidum Mariba.
+
+[27] Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi.
+
+</textarea
+>
         <input type="button" id="clear_button"/>
         <div class="btn-group btn-block" role="group">
             <input
@@ -121,7 +128,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
 <pre id="output"></pre>
 <script type="text/javascript">
     function sanitize(text) {
-        
+
         return text.replace(/[^\p{L}]/gu, '')
     }
 
@@ -134,9 +141,11 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
     }
 
     async function transcribe() {
-
         [div, textlines] = prepare_transcribe()
+        const {lang, lang_style, lang_form} = get_lang_style_form()
+
         console.log('START TRANSCRIBE')
+
         async function asyncMapStrict(arr, fn) {
             const result = [];
             console.time("Elapsed time :");
@@ -149,22 +158,25 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
             console.timeEnd("Elapsed time :")
             return result;
         }
+
         async function process_line(line) {
 
             separated = line.split(' ')
             div.insertAdjacentHTML('beforeend', '</br>')
+
             // result = separated.map((i) => get_ipa(i))
-            function process_word(i){
-                
-                result = get_ipa(i)
-                
+            function process_word(i) {
+
+                result = get_ipa(i, lang, lang_style, lang_form)
+
                 result = result.status === 'error'
                     ? `<span style="color:red">${result.value} </span>`
                     : `<span>${result.value} </span>`
-                
+
                 div.insertAdjacentHTML('beforeend', result)
 
             }
+
             await asyncMapStrict(separated, process_word)
 
 
@@ -177,10 +189,11 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
 
     function transcribe_by_line() {
         [div, textlines] = prepare_transcribe()
+        const {lang, lang_style, lang_form} = get_lang_style_form()
 
         function process_line(line) {
             separated = line.split(' ')
-            result = separated.map((i) => get_ipa(i))
+            result = separated.map((i) => get_ipa(i, lang, lang_style, lang_form))
             result = result.map((i) =>
                 i.status === 'error'
                     ? `<div style="color:red">${i.value} </div>`
@@ -262,9 +275,8 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         return {lang, lang_style, lang_form}
     }
 
-    function get_ipa(text) {
+    function get_ipa(text, lang, lang_style, lang_form) {
 
-        const {lang, lang_style, lang_form} = get_lang_style_form()
 
         args = lang + ';' + lang_style + ';' + lang_form
         return get_ipa_cache(text, args)
@@ -272,8 +284,9 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
     }
 
     function get_ipa_no_cache(text, args) {
+        console.log('doing actual IPA',text,args)
         clean_text = sanitize(text)
-        
+
         const [lang, lang_style, lang_form] = args.split(';')
         switch (lang) {
             case 'Latin':
@@ -300,13 +313,23 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
                         }
                         break;
                 }
+            case 'German':
+                switch (lang_form) {
+                    case 'Phonetic':
+                        command = `return (export.phonetic('${clean_text}'))`
 
+                        break;
+                    case 'Phonemic':
+                        command = `return (export.phonemic('${clean_text}'))`
+
+                        break;
+                }
         }
 
         try {
             ipa = fengari.load(command)()
         } catch (err) {
-            
+
             ipa = ''
         }
         split = text.split(/([\p{L}]+)/gu)
@@ -316,13 +339,13 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
 
         split[index_in_split] = ipa
 
-        
+
         if (!ipa) {
             return new Object({value: text, status: 'error'})
         }
         ipa = split.join('')
-        
 
+        console.log('Stopped doing actual IPA',text,args)
         return new Object({value: ipa, status: 'success'})
     }
 
@@ -330,10 +353,10 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
         let cache = {};
         return (value) => {
             if (value in cache) {
-                
+
                 return cache[value];
             } else {
-                
+
                 let result = fn(value);
                 cache[value] = result;
                 return result;
@@ -343,7 +366,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
 
     function memoizeLocalStorage(
         fn,
-        options = {ttl: 100, backgroundRefresh: true},
+        options = {ttl: 100, backgroundRefresh: false},
     ) {
         if (!fn.name)
             throw new Error('memoizeLocalStorage only accepts non-anonymous functions');
@@ -352,14 +375,14 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
 
         //executes and caches result
         function executeAndCacheFn(fn, args, argsKey) {
-            
+
             const result = fn(...args);
             // reset the cache value
             cache[fn.name] = {
                 ...cache[fn.name],
                 [argsKey]: {expiration: Date.now() + options.ttl, result},
             };
-            
+
             localStorage.setItem(fn.name, JSON.stringify(cache));
         }
 
@@ -367,7 +390,7 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
             // Note: JSON.stringify is non-deterministic,
             // consider something like json-stable-stringify to avoid extra cache misses
             const argsKey = JSON.stringify(arguments);
-            
+
             if (
                 !cache[fn.name] ||
                 !cache[fn.name][argsKey] ||
@@ -375,15 +398,15 @@ Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
             ) {
                 executeAndCacheFn(fn, arguments, argsKey);
             } else if (options.backgroundRefresh) {
-                
+
                 executeAndCacheFn(fn, arguments, argsKey);
             }
-            
+            console.log('Using cached', argsKey)
             return cache[fn.name][argsKey].result;
         };
     }
 
-    const get_ipa_cache= memoizeLocalStorage(get_ipa_no_cache);
+    const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
 
 
 </script>

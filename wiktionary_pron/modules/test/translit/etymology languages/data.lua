@@ -273,17 +273,25 @@ m["cmn-ear"] = {
 	"Early Mandarin",
 	837169,
 	"cmn",
+	ancestors = "ltc",
 }
 
 m["cmn-sic"] = {
 	"Sichuanese",
 	2278732,
 	"cmn",
+	ancestors = "cmn-ear",
 }
 
 m["wuu-sha"] = {
 	"Shanghainese",
 	36718,
+	"wuu",
+}
+
+m["wuu-szh"] = {
+	"Suzhounese",
+	831744,
 	"wuu",
 }
 
@@ -1053,8 +1061,6 @@ m["non-grn"] = {
 	"Greenlandic Norse",
 	855236,
 	"non-own",
-	family = "gmq-ins",
-	ancestors = "non-own",
 }
 
 m["non-oen"] = {
@@ -2293,6 +2299,7 @@ m["hi-mid"] = {
 	"Middle Hindi",
 	nil,
 	"inc-ohi",
+	ancestors = "inc-ohi",
 }
 
 m["sa-bhs"] = {
@@ -2381,7 +2388,6 @@ m["ta-mid"] = {
 	"Middle Tamil",
 	20987434,
 	"ta",
-	ancestors = "oty",
 }
 
 m["kn-hav"] = {
@@ -2436,9 +2442,9 @@ m["pra-mah"] = {
 m["pra-pai"] = {
 	"Paisaci Prakrit",
 	2995607,
-	"inc-pra",
-	ancestors = "inc-ash",
+	"pra-sau",
 	aliases = {"Paisaci", "Paisachi"},
+	ancestors = "pra-sau"
 }
 
 m["pra-sau"] = {
@@ -2546,7 +2552,6 @@ m["la-cla"] = {
 	"Classical Latin",
 	253854,
 	"la",
-	ancestors = "itc-ola",
 	alias_codes = {"CL."}
 }
 
@@ -2578,7 +2583,6 @@ m["la-eme"] = {
 	"Early Medieval Latin",
 	nil,
 	"la-med",
-	ancestors = "la-lat",
 	wikipedia_article = "Medieval Latin",
 }
 

@@ -15,6 +15,7 @@ local langcode_to_abbr = {
 	hak = "h",				-- Hakka
 	hsn = "x",				-- Xiang
 	ltc = "mc",				-- Middle Chinese
+	lzh = "m",				-- Literary (Classical) Chinese
 	mnp = "mb",				-- Min Bei
 	nan = "mn",				-- Min Nan
 	och = "oc",				-- Old Chinese
@@ -30,7 +31,7 @@ local langcode_to_abbr = {
 
 local abbr_to_langcode = {}
 for k, v in pairs(langcode_to_abbr) do
-	if k ~= "zh" then
+	if k ~= "zh" and k ~= "lzh" then
 		abbr_to_langcode[v] = k
 	end
 end

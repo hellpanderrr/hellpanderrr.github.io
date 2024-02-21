@@ -36,6 +36,7 @@ local function get_reading(readings, lang, i, i_end, start)
 	local c = sub(readings, i, i)
 	if c == "," and (
 		lang == "cmn" or
+		lang == "lzh" or
 		lang == "wuu" or
 		lang == "yue" or
 		lang == "zh" or
@@ -142,7 +143,7 @@ function export.tr(text, lang, sc)
 		return fail(lang)
 	end
 	
-	if lang == "cmn" or lang == "zh" then
+	if lang == "cmn" or lang == "lzh" or lang == "zh" then
 		tr = tr:gsub("#", "")
 		if tr:match("[\194-\244]") then
 			tag = tag or mw.loadData("zh/data/cmn-tag").MT

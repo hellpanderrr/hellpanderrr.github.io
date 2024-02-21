@@ -397,8 +397,6 @@ function export.py_ipa(text)
 			elseif next_tone_cat ~= "5" then
 				tones[i] = "²¹⁴⁻²¹"
 			end
-		elseif curr_tone_cat == "2" and i > 1 and i < #tone_cats and (tones[i-1]:find("³⁵$") or tones[i-1]:find("⁵⁵$")) then
-			tones[i] = "³⁵⁻⁵⁵"
 		elseif curr_tone_cat == "4" and (next_tone_cat == "4" or next_tone_cat == "1-4") then
 			tones[i] = "⁵¹⁻⁵³"
 		elseif curr_tone_cat == "1-4" and next_tone_cat == "4" then

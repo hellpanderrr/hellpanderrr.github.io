@@ -1975,7 +1975,7 @@ m["dra-cen"] = {
 m["dra-gki"] = {
 	"Gondi-Kui",
 	12631610,
-	"dra-scn",
+	"dra-sdt",
 }
 
 m["dra-gon"] = {
@@ -2063,16 +2063,25 @@ m["dra-pgd"] = {
 	"dra-cen",
 }
 
-m["dra-scn"] = {
-	"South-Central Dravidian",
+m["dra-sdo"] = {
+	"South Dravidian I",
+	16112843, -- Wikipedia's "South Dravidian" is South Dravidian I in this scheme.
+	"dra-sou",
+	aliases = {"South Dravidian"}, -- This is why I and II are used.
+}
+
+m["dra-sdt"] = {
+	"South Dravidian II",
 	12633975,
-	"dra",
+	"dra-sou",
+	aliases = {"South-Central Dravidian"},
 }
 
 m["dra-sou"] = {
 	"South Dravidian",
-	16112843,
+	nil,
 	"dra",
+	aliases = {"Southern Dravidian"},
 }
 
 m["dra-tam"] = {
@@ -2085,7 +2094,7 @@ m["dra-tam"] = {
 m["dra-tel"] = {
 	"Teluguic",
 	nil,
-	"dra-scn",
+	"dra-sdt",
 	protoLanguage = "dra-ote",
 }
 
@@ -2098,7 +2107,7 @@ m["dra-tkd"] = {
 m["dra-tkn"] = {
 	"Tamil-Kannada",
 	6478506,
-	"dra-sou",
+	"dra-sdo",
 }
 
 m["dra-tkt"] = {
@@ -2110,7 +2119,7 @@ m["dra-tkt"] = {
 m["dra-tlk"] = {
 	"Tulu-Koraga",
 	nil,
-	"dra-sou",
+	"dra-sdo",
 }
 
 m["dra-tml"] = {
@@ -2342,7 +2351,8 @@ m["inc-chi"] = {
 m["inc-dar"] = {
 	"Dardic",
 	161101,
-	"inc-old",
+	"inc",
+	protoLanguage = "sa",
 }
 
 m["inc-dre"] = {
@@ -2378,6 +2388,7 @@ m["inc-hnd"] = {
 	11051,
 	"inc-hiw",
 	aliases = {"Hindi-Urdu"},
+	protoLanguage = "hi-mid",
 }
 
 m["inc-ins"] = {
@@ -2432,7 +2443,6 @@ m["inc-old"] = {
 	118976896,
 	"inc",
 	aliases = {"Old Indic"},
-	protoLanguage = "sa",
 }
 
 m["inc-pah"] = {
@@ -2459,8 +2469,9 @@ m["inc-pas"] = {
 m["inc-psu"] = {
 	"Sauraseni Prakrit",
 	2452885,
-	"pra",
+	"inc",
 	aliases = {"Sauraseni", "Shauraseni"},
+	protoLanguage = "pra-sau",
 }
 
 m["inc-rom"] = {
@@ -2555,12 +2566,6 @@ m["ine-luw"] = {
 	aliases = {"Luvic"},
 }
 
-m["ira-mid"] = {
-	"Middle Iranian",
-	6841465,
-	"ira",
-}
-
 m["ira-mny"] = {
 	"Munji-Yidgha",
 	nil,
@@ -2584,12 +2589,6 @@ m["ira-nwi"] = {
 	"Northwestern Iranian",
 	390576,
 	"ira-wes",
-}
-
-m["ira-old"] = {
-	"Old Iranian",
-	23301845,
-	"ira",
 }
 
 m["ira-orp"] = {
@@ -4278,6 +4277,7 @@ m["pra"] = {
 	192170,
 	"inc",
 	aliases = {"Prakritic"},
+	protoLanguage = "inc-pra",
 }
 
 m["qfa-adc"] = {
@@ -5168,10 +5168,23 @@ m["sit-alm"] = {
 	"sit-whm",
 }
 
+m["sit-bai"] = {
+	"Bai",
+	35103,
+	"sit-mba",
+}
+
 m["sit-bdi"] = {
 	"Bodish",
 	1814078,
 	"sit",
+}
+
+m["sit-cln"] = {
+	"Cai-Long",
+	107182612,
+	"sit-mba",
+	aliases = {"Cai–Long", "Ta–Li", "Ta-Li"},
 }
 
 m["sit-dhi"] = {
@@ -5305,6 +5318,13 @@ m["sit-mar"] = {
 	"Maringic",
 	nil,
 	"sit-tma",
+}
+
+m["sit-mba"] = {
+	"Macro-Bai",
+	16963847,
+	"sit",
+	aliases = {"Greater Bai"},
 }
 
 m["sit-mdz"] = {
@@ -5665,6 +5685,7 @@ m["tbq-lol"] = {
 	"Loloish",
 	37035,
 	"tbq-lob",
+	aliases = {"Yi", "Ngwi", "Nisoic"},
 }
 
 m["tbq-lso"] = {
@@ -6011,11 +6032,23 @@ m["zhx"] = {
 	protoLanguage = "och",
 }
 
-m["zhx-gba"] = {
-	"Greater Bai",
-	16963847,
+m["zhx-com"] = {
+	"Coastal Min",
+	nil,
+	"zhx-min",
+}
+
+m["zhx-inm"] = {
+	"Inland Min",
+	nil,
+	"zhx-min",
+}
+
+m["zhx-man"] = {
+	"Mandarinic",
+	nil,
 	"zhx",
-	aliases = {"Macro-Bai"},
+	protoLanguage = "cmn-ear",
 }
 
 m["zhx-min"] = {
@@ -6024,22 +6057,17 @@ m["zhx-min"] = {
 	"zhx",
 }
 
-m["zhx-min-hai"] = {
-	"Coastal Min",
-	nil,
-	"zhx-min",
-}
-
-m["zhx-min-shn"] = {
-	"Inland Min",
-	nil,
-	"zhx-min",
-}
-
 m["zhx-pin"] = {
 	"Pinghua",
 	2735715,
 	"zhx",
+}
+
+m["zhx-yue"] = {
+	"Yue",
+	7033959,
+	"zhx",
+	protoLanguage = "ltc",
 }
 
 m["zle"] = {

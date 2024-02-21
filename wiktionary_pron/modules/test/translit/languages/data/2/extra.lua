@@ -299,7 +299,7 @@ m["ig"] = {
 
 m["ii"] = {
 	aliases = {
-		"Nosu", "Sichuan Yi", "Northern Yi", "Liangshan Yi",
+		"Nosu", "Nuosu Yi", "Nosu Yi", "Sichuan Yi", "Northern Yi", "Liangshan Yi",
 		zh = {"四川彝語"},
 	},
 }

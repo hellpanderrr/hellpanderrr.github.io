@@ -1288,12 +1288,28 @@ m["dra-bry"] = {
 	},
 }
 
+m["dra-cen-pro"] = {
+	"Proto-Central Dravidian",
+	nil,
+	"dra-cen",
+	"Latn",
+	type = "reconstructed",
+}
+
 m["dra-mkn"] = {
 	"Middle Kannada",
 	nil,
 	"dra-kan",
 	"Knda",
 	translit = "kn-translit",
+}
+
+m["dra-nor-pro"] = {
+	"Proto-North Dravidian",
+	124433593,
+	"dra-nor",
+	"Latn",
+	type = "reconstructed",
 }
 
 m["dra-okn"] = {
@@ -1316,6 +1332,30 @@ m["dra-pro"] = {
 	"Proto-Dravidian",
 	1702853,
 	"dra",
+	"Latn",
+	type = "reconstructed",
+}
+
+m["dra-sdo-pro"] = {
+	"Proto-South Dravidian I",
+	104847952, -- Wikipedia's "Proto-South Dravidian" is Proto-South Dravidian I in this scheme.
+	"dra-sdo",
+	"Latn",
+	type = "reconstructed",
+}
+
+m["dra-sdt-pro"] = {
+	"Proto-South Dravidian II",
+	nil,
+	"dra-sdt",
+	"Latn",
+	type = "reconstructed",
+}
+
+m["dra-sou-pro"] = {
+	"Proto-South Dravidian",
+	nil,
+	"dra-sou",
 	"Latn",
 	type = "reconstructed",
 }
@@ -1701,7 +1741,7 @@ m["ijo-pro"] = {
 m["inc-ash"] = {
 	"Ashokan Prakrit",
 	nil,
-	"inc-mid",
+	"inc",
 	"Brah, Khar",
 	ancestors = "sa",
 	translit = {
@@ -1713,17 +1753,15 @@ m["inc-ash"] = {
 m["inc-gup"] = {
 	"Gurjar Apabhramsa",
 	nil,
-	"inc-mid",
+	"inc-wes",
 	"Deva",
-	ancestors = "pra-sau",
 }
 
 m["inc-kam"] = {
 	"Kamarupi Prakrit",
 	6356097,
-	"inc-mid",
+	"inc-eas",
 	"Brah, Sidd",
-	ancestors = "pra-mag",
 }
 
 m["inc-kho"] = {
@@ -1838,7 +1876,7 @@ m["inc-ork"] = {
 m["inc-pra"] = {
 	"Prakrit",
 	192170,
-	"inc-mid",
+	"inc",
 	"Brah, Deva, Knda",
 	ancestors = "inc-ash",
 	translit = {
@@ -1863,26 +1901,23 @@ m["inc-pro"] = {
 m["inc-sap"] = {
 	"Sauraseni Apabhramsa",
 	nil,
-	"inc-mid",
+	"inc-cen",
 	"Deva",
-	ancestors = "pra-sau",
 }
 
 m["inc-tak"] = {
 	"Takka Apabhramsa",
 	nil,
-	"inc-mid",
+	"inc-nwe",
 	"Deva",
-	ancestors = "inc-pra",
 	translit = "sa-translit",
 }
 
 m["inc-vra"] = {
 	"Vracada Apabhramsa",
 	nil,
-	"inc-mid",
+	"inc-nwe",
 	"Deva",
-	ancestors = "inc-pra",
 	translit = "sa-translit",
 }
 
@@ -1892,7 +1927,6 @@ m["inc-cen-pro"] = {
 	"inc-cen",
 	"Latn",
 	type = "reconstructed",
-	ancestors = "pra-sau",
 }
 
 m["ine-ana-pro"] = {
@@ -3254,7 +3288,7 @@ m["pqe-pro"] = {
 m["pra-niy"] = {
 	"Niya Prakrit",
 	nil,
-	"inc-mid",
+	"inc",
 	"Khar",
 	ancestors = "inc-ash",
 	translit = "Khar-translit",
@@ -4424,6 +4458,13 @@ m["sit-bok"] = {
 	sort_key = {Tibt = "Tibt-sortkey"},
 }
 
+m["sit-cai"] = {
+	"Caijia",
+	5017528,
+	"sit-cln",
+	"Latn"
+}
+
 m["sit-cha"] = {
 	"Chairel",
 	5068066,
@@ -4457,6 +4498,20 @@ m["sit-liz"] = {
 	6660653,
 	"sit-qia",
 	"Latn", -- and Ersu Shaba
+}
+
+m["sit-lnj"] = {
+	"Longjia",
+	17096251,
+	"sit-cln",
+	"Latn"
+}
+
+m["sit-lrn"] = {
+	"Luren",
+	16946370,
+	"sit-cln",
+	"Latn"
 }
 
 m["sit-luu-pro"] = {
@@ -4961,7 +5016,7 @@ m["ypk-pro"] = {
 m["zhx-lui"] = {
 	"Leizhou Min",
 	1988433,
-	"zhx-min-hai",
+	"zhx-com",
 	"Hani, Hant, Hans",
 	ancestors = "nan",
 	generate_forms = "zh-generateforms",
@@ -4988,9 +5043,8 @@ m["zhx-sht"] = {
 m["zhx-tai"] = {
 	"Taishanese",
 	2208940,
-	"zhx",
+	"zhx-yue",
 	"Hani, Hant, Hans",
-	ancestors = "yue",
 	generate_forms = "zh-generateforms",
 	translit = "zh-translit",
 	sort_key = "Hani-sortkey",
@@ -4999,7 +5053,7 @@ m["zhx-tai"] = {
 m["zhx-teo"] = {
 	"Teochew",
 	36759,
-	"zhx-min-hai",
+	"zhx-com",
 	"Hani, Hant, Hans",
 	ancestors = "nan",
 	generate_forms = "zh-generateforms",

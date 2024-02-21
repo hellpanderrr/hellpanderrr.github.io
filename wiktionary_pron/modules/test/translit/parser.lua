@@ -11,12 +11,62 @@ local unpack = unpack
 
 ------------------------------------------------------------------------------------
 --
+-- Node proxy
+--
+------------------------------------------------------------------------------------
+
+local Proxy = {}
+
+function Proxy:__index(k)
+	return Proxy[k] or self.__chars[k]
+end
+
+function Proxy:__newindex(k, v)
+	local key = self.__keys[k]
+	if key then
+		self.__chars[k] = v
+		self.__parents[key] = v
+	elseif key == false then
+		error("Character is immutable.")
+	else
+		error("Invalid key.")
+	end
+end
+
+function Proxy:build(a, b, c)
+	local len = self.__len + 1
+	self.__chars[len] = a
+	self.__parents[len] = b
+	self.__keys[len] = c
+	self.__len = len
+end
+
+function Proxy:iter(i)
+	i = i + 1
+	local char = self.__chars[i]
+	if char then
+		return i, self[i], self, self.__parents[i], self.__keys[i]
+	end
+end
+
+------------------------------------------------------------------------------------
+--
 -- Nodes
 --
 ------------------------------------------------------------------------------------
 
 local Node = {}
 Node.__index = Node
+
+function Node:new_proxy()
+	return setmetatable({
+		__node = self,
+		__chars = {},
+		__parents = {},
+		__keys = {},
+		__len = 0
+	}, Proxy)
+end
 
 function Node:next(i)
 	i = i + 1

@@ -562,8 +562,14 @@ m["dra-bry"] = {
 	aliases = {"Byari"},
 }
 
+m["dra-cen-pro"] = {
+}
+
 m["dra-mkn"] = {
 	aliases = {"Nadugannada"},
+}
+
+m["dra-nor-pro"] = {
 }
 
 m["dra-okn"] = {
@@ -574,6 +580,18 @@ m["dra-ote"] = {
 }
 
 m["dra-pro"] = {
+}
+
+m["dra-sdo-pro"] = {
+	aliases = {"Proto-South Dravidian"},
+}
+
+m["dra-sdt-pro"] = {
+	aliases = {"Proto-South-Central Dravidian"},
+}
+
+m["dra-sou-pro"] = {
+	aliases = {"Proto-Southern Dravidian"},
 }
 
 m["egx-dem"] = {
@@ -1962,6 +1980,9 @@ m["sit-bok"] = {
 	otherNames = {"Ramo", "Pailibo"},
 }
 
+m["sit-cai"] = {
+}
+
 m["sit-cha"] = {
 }
 
@@ -1969,13 +1990,19 @@ m["sit-hrs-pro"] = {
 }
 
 m["sit-jap"] = {
-	otherNames = {"Chabao", "rGyalrong", "Rgyalrong", "Jiarong", "Gyarung", "Kuru"},
+	otherNames = {"Chabao", "Kuru"},
 }
 
 m["sit-kha-pro"] = {
 }
 
 m["sit-liz"] = {
+}
+
+m["sit-lnj"] = {
+}
+
+m["sit-lrn"] = {
 }
 
 m["sit-luu-pro"] = {
@@ -2067,7 +2094,7 @@ m["tbq-lob-pro"] = {
 }
 
 m["tbq-lol-pro"] = {
-	otherNames = {"Proto-Nisoic"},
+	otherNames = {"Proto-Yi", "Proto-Ngwi", "Proto-Nisoic"},
 }
 
 m["tbq-mor"] = {

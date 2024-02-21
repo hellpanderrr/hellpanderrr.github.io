@@ -325,7 +325,7 @@ local has_diacritics_subs = {
 	-- words lacking iʿrāb (must go before removing other consonants).
 	-- If you want to catch places without iʿrāb, comment out the next two lines.
 	{"[" .. lconsonants .. "]$", ""},
-	{"[" .. lconsonants .. "](" .. space_like_class .. ")", "%1"},
+	{"[" .. lconsonants .. "]([%)%]}]?" .. space_like_class .. ")", "%1"},
 	-- remove consonants (or alif) when followed by diacritics
 	-- must go after removing shadda
 	-- do not remove the diacritics yet because we need them to handle

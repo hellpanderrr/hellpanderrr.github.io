@@ -566,11 +566,17 @@ The possible types are
 			if type(family) == "table" then
 				family = family:getCode()
 			end
-			if not self:getFamilyCode() then
+			local self_family_code = self:getFamilyCode()
+			if not self_family_code then
 				return false
-			elseif self:getFamilyCode() == family or self:getFamily():inFamily(family) then
+			elseif self_family_code == family then
 				return true
-			else
+			end
+			local self_family = self:getFamily()
+			if self_family:inFamily(family) then
+				return true
+			-- If the family isn't a real family (e.g. creoles) check any ancestors.
+			elseif self_family:getFamilyCode() == "qfa-not" then
 				local ancestors = self:getAncestors()
 				for _, ancestor in ipairs(ancestors) do
 					if ancestor:inFamily(family) then

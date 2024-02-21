@@ -447,6 +447,7 @@ return {
 	["wae"] = "Walser German",
 	["woy"] = "Weyto",
 	["wuu-sha"] = "Shanghainese",
+	["wuu-szh"] = "Suzhounese",
 	["xcg"] = "Cisalpine Gaulish",
 	["xln"] = "Alanic",
 	["xme-aby"] = "Abyanehi",

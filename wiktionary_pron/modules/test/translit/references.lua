@@ -7,7 +7,7 @@ local rsplit = mw.text.split
 -- Multiple references are separated by !!! (optionally with spaces around it), and the equivalent of
 -- <ref name="bendo">{{R:it:DiPI|bendo}}</ref><ref>{{R:it:Olivetti}}</ref> can be specified using a syntax like the following:
 -- {{IPA|it|ˈben.do|ˈbɛn.do|ref2={{R:it:DiPI|bendo}}<<name:bendo>> !!! {{R:it:Olivetti}}}}
--- To include a group as in <ref name="bendo" group="pron">...</ref>, use:
+-- To include a group as in,<ref name="bendo" group="pron">...</ref> use:
 -- {{IPA|it|ˈben.do|ˈbɛn.do|ref2={{R:it:DiPI|bendo}}<<name:bendo>><<group:pron>>}}
 -- To reference a prior name, as in <ref name="bendo"/>, leave the reference text blank:
 -- {{IPA|it|ˈben.do|ˈbɛn.do|ref2=<<name:bendo>>}}

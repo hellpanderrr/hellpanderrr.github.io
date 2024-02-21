@@ -62,6 +62,7 @@ data.lemmas = {
 	"counters",
 	"determiners",
 	"diacritical marks",
+	"digraphs",
 	"equative adjectives",
 	"fu'ivla",
 	"gismu",

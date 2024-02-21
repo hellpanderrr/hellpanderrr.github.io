@@ -431,6 +431,7 @@ return {
 	["Southwestern Pashto"] = "ps-swe",
 	["Standard Babylonian"] = "akk-stb",
 	["Suevic"] = "gem-sue",
+	["Suzhounese"] = "wuu-szh",
 	["Switzerland French"] = "fr-CH",
 	["Switzerland German"] = "de-CH",
 	["Switzerland Italian"] = "it-CH",

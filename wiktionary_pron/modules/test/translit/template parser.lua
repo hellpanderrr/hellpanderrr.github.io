@@ -29,23 +29,24 @@ local export = {}
 
 ------------------------------------------------------------------------------------
 --
--- Helper functions
+-- Utilities
 --
 ------------------------------------------------------------------------------------
 
-local function is_space(this)
-	return this == " " or
-		this == "\t" or
-		this == "\n" or
-		this == "\r"
-end
+-- Table lookup is much faster than match. \v and \f are excluded as the parser treats them as invalid. \r can't appear in page content (as the parser normalizes newlines to \n), but it might be needed in some niche cases.
+local ascii_spaces = {
+	[" "] = true,
+	["\t"] = true,
+	["\n"] = true,
+	["\r"] = true
+}
 
 -- Trims ASCII spacing characters.
 -- Note: loops + sub make this much faster than the equivalent string patterns.
 local function trim(str)
 	local n
 	for i = 1, #str do
-		if not is_space(sub(str, i, i)) then
+		if not ascii_spaces[sub(str, i, i)] then
 			n = i
 			break
 		end
@@ -54,7 +55,7 @@ local function trim(str)
 		return ""
 	end
 	for i = #str, n, -1 do
-		if not is_space(sub(str, i, i)) then
+		if not ascii_spaces[sub(str, i, i)] then
 			return sub(str, n, i)
 		end
 	end
@@ -458,7 +459,7 @@ do
 			self.n.self_closing = true
 			self:advance()
 			return self:pop()
-		elseif is_space(this) then
+		elseif ascii_spaces[this] then
 			self.n.handler = handle_ignored_tag
 		else
 			return self:fail_route()
@@ -480,7 +481,7 @@ do
 			return self:pop()
 		elseif this == ">" then
 			self.n.handler = handle_tag_block
-		elseif is_space(this) then
+		elseif ascii_spaces[this] then
 			self.n.handler = handle_before_attribute_name
 		else
 			return self:fail_route()
@@ -494,7 +495,7 @@ do
 			return self:pop()
 		elseif this == ">" then
 			self.n.handler = handle_tag_block
-		elseif this ~= "/" and not is_space(this) then
+		elseif this ~= "/" and not ascii_spaces[this] then
 			self:push_sublayer(handle_attribute_name)
 			return self:consume()
 		elseif this == "" then
@@ -503,7 +504,7 @@ do
 	end
 	
 	function handle_attribute_name(self, this)
-		if this == "/" or this == ">" or is_space(this) then
+		if this == "/" or this == ">" or ascii_spaces[this] then
 			self:pop_sublayer()
 			return self:consume()
 		elseif this == "=" then
@@ -522,7 +523,7 @@ do
 		if this == "/" or this == ">" then
 			handle_after_attribute_value(self, "")
 			return self:consume()
-		elseif is_space(this) then
+		elseif ascii_spaces[this] then
 			handle_after_attribute_value(self, "")
 		elseif this == "\"" or this == "'" then
 			self:push_sublayer(handle_quoted_attribute_value)
@@ -552,7 +553,7 @@ do
 		if this == "/" or this == ">" then
 			handle_after_attribute_value(self, concat(self:pop_sublayer()))
 			return self:consume()
-		elseif is_space(this) then
+		elseif ascii_spaces[this] then
 			handle_after_attribute_value(self, concat(self:pop_sublayer()))
 		elseif this == "" then
 			return self:fail_route()
@@ -590,7 +591,7 @@ do
 	function handle_end(self, this)
 		if this == ">" then
 			return self:pop()
-		elseif not is_space(this) then
+		elseif not ascii_spaces[this] then
 			return self:fail_route()
 		end
 	end
@@ -780,9 +781,9 @@ end
 do
 	local normalized = {}
 	
-	-- Normalize the template name and check it's a valid template, and use `normalized` to memoize results, using false for invalid titles.
-	-- Parser functions (e.g. {{#IF:a|b|c}}) need to have the first argument extracted from the title, as it comes after the colon.
-	-- FIXME: Some parser functions have special argument argument handling (e.g. {{#SWITCH:}}).
+	-- Normalize the template name, check it's a valid template, and use `normalized` to memoize results, using false for invalid titles.
+	-- Parser functions (e.g. {{#IF:a|b|c}}) need to have the first argument extracted from the title, as it comes after the colon. Because of this, the parser function and first argument are memoized as a table.
+	-- FIXME: Some parser functions have special argument handling (e.g. {{#SWITCH:}}).
 	local function get_name_and_params(node)
 		local name = tostring(node[1])
 		local norm = normalized[name]

@@ -1,3 +1,5 @@
+local insert = table.insert
+
 local export = {}
 
 local function track(page, calling_module, calling_function, param_name)
@@ -41,14 +43,6 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 			required[name] = true
 		end
 		
-		if name == 1 and param.no_lang_code then
-			if not params["notlangcode"] then
-				error("The parameter \"notlangcode\" must be enabled for this template.", 2)
-			elseif not args["notlangcode"] and require("languages").getByCode(args[name]) then
-				error("The parameter \"" .. name .. "\" should not be a language code.", 2)
-			end
-		end
-		
 		if param.list then
 			-- A helper function to escape magic characters in a string
 			-- Magic characters: ^$()%.[]*+-?
@@ -58,7 +52,8 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 			if type(name) == "string" then
 				key = string.gsub(name, "=", "")
 			end
-			args_new[key] = {maxindex = 0}
+			-- _list is used as a temporary type flag.
+			args_new[key] = {maxindex = 0, _list = true}
 			
 			if type(param.list) == "string" then
 				-- If the list property is a string, then it represents the name
@@ -87,7 +82,7 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 				-- Some elements may be skipped or processed twice if you do.
 				-- Instead, track the changes we want to make to `params`, and
 				-- do them after the iteration over `params` is done.
-				table.insert(names_with_equal_sign, name)
+				insert(names_with_equal_sign, name)
 			end
 		end
 	end
@@ -187,6 +182,32 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 			-- Convert to proper type if necessary.
 			if param.type == "boolean" then
 				val = require("yesno")(val, true)
+			elseif param.type == "lang" then
+				local lang = require("languages").getByCode(val, nil, param.etym_lang, param.family)
+				if not lang then
+					local list = {"language"}
+					if param.allowEtymLang then
+						insert(list, "etymology language")
+					end
+					if param.allowFamily then
+						insert(list, "family")
+					end
+					list = mw.text.listToText( list, nil, " or " )
+					error("The parameter \"" .. name .. index .. "\" should be a valid " .. list .. " code; the value '" .. val .. "' is not valid.")
+				end
+				val = lang
+			elseif param.type == "family" then
+				local fam = require("families").getByCode(val)
+				if not fam then
+					error("The parameter \"" .. name .. index .. "\" should be a valid family code; the value '" .. val .. "' is not valid.")
+				end
+				val = fam
+			elseif param.type == "script" then
+				local sc = require("scripts").getByCode(val)
+				if not sc then
+					error("The parameter \"" .. name .. index .. "\" should be a valid script code; the value '" .. val .. "' is not valid.")
+				end
+				val = sc
 			elseif param.type == "number" then
 				val = tonumber(val)
 			elseif param.type then
@@ -276,8 +297,8 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 	-- If any entry remains, trigger an error, unless we're in the template namespace.
 	if mw.title.getCurrentTitle().namespace ~= 10 then
 		local list = {}
-		for name, param in pairs(required) do
-			table.insert(list, name)
+		for name in pairs(required) do
+			insert(list, name)
 		end
 		if #list > 0 then
 			error('The parameters "' .. mw.text.listToText(list, '", "', '" and "') .. '" are required.', 2)
@@ -286,7 +307,7 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 	
 	-- Remove holes in any list parameters if needed.
 	for name, val in pairs(args_new) do
-		if type(val) == "table" then
+		if type(val) == "table" and val._list then
 			if params[name].disallow_holes then
 				local highest = 0
 				for num, _ in pairs(val) do
@@ -305,6 +326,7 @@ function export.process(args, params, return_unknown, calling_module, calling_fu
 			elseif not params[name].allow_holes then
 				args_new[name] = require("parameters/remove_holes")(val)
 			end
+			val._list = nil
 		end
 	end
 	

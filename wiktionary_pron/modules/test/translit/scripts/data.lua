@@ -1583,9 +1583,9 @@ m["Linb"] = process_ranges{
 }
 
 m["Lisu"] = process_ranges{
-	"Lisu",
+	"Fraser",
 	"alphabet",
-	aliases = {"Fraser"},
+	aliases = {"Old Lisu", "Lisu"},
 	ranges = {
 		0xA4D0, 0xA4FF,
 		0x11FB0, 0x11FB0,
