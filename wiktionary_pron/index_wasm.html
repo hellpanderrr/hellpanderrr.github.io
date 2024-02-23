@@ -4,25 +4,79 @@
 <head>
     <title>Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
-    <meta name="Keywords" content="Online IPA Latin Phonetics Transcription"/>
+    <meta name="Keywords" content="Online IPA Latin German Phonetics Transcription"/>
     <meta name="description"
           content="Rule-base IPA phonetic transcription engine, which uses Wiktionary Lua pronunciation modules.">
+    <script src="wasmoon.js" type="text/javascript"></script>
 
-    <script src="fengari-web.js" type="text/javascript"></script>
-    <script>
-        fengari.load('package.path = "modules/?.lua"')()
-        fengari.load('mw = require "mw"')()
-        fengari.load('require "mw-language"')()
-        fengari.load('libraryUtil = require "libraryUtil"')()
-        fengari.load('require "mw-text"')()
-        fengari.load('package.path = "modules/test/translit/?.lua"')()
-        fengari.load('local m_debug = require "debug"')()
-        fengari.load('export_la = require "la-pronunc"')()
-        fengari.load('export_de = require "de-pron"')()
-        <!--        fengari.load('export = require "ru-pron"')()-->
-        // fengari.load('export = require "pt-pronunc"')()
+    <script type="module">
+        const factory = await lb.factory
+        const lua = await factory.createEngine()
+
+        // Set a JS function to be a global lua function
+        lua.global.set('fetch', (url) => fetch(url));
+
+        async function mountFile(file_path, lua_path) {
+            const x = await fetch(file_path).then(data => data.text())
+            await factory.mountFile(lua_path, x)
+        }
+
+        await mountFile('../wiktionary_pron/modules/test/translit/memoize.lua', 'memoize.lua')
+        await lua.doString(`
+            function split(text, delim)
+                -- returns an array of fields based on text and delimiter (one character only)
+                local result = {}
+                local magic = "().%+-*?[]^$"
+
+                if delim == nil then
+                    delim = "%s"
+                elseif string.find(delim, magic, 1, true) then
+                    -- escape magic
+                    delim = "%"..delim
+                end
+
+                local pattern = "[^"..delim.."]+"
+                for w in string.gmatch(text, pattern) do
+                    table.insert(result, w)
+                end
+                return result
+            end
+          memoize = require('memoize')
+
+          function require(path)
+               print('required '..path,'from:', debug.getinfo(2).name)
+              -- print(debug.traceback())
 
 
+
+                  print('..')
+                  if select(2,string.gsub(path, "%.", "")) > 0 then
+                       new_path = string.gsub(path,"%.", "/",1)
+                       print('replacing ', path,'->', new_path)
+                       path = new_path
+                  end
+                  local resp = fetch(string.format('../wiktionary_pron/modules/test/translit/%s.lua',path) ):await()
+                  local text = resp:text():await()
+                  local module =  load(text)()
+
+                  print('loaded '..path)
+                  return module
+          end
+          require = memoize(require)
+
+        `);
+
+        // Run a lua string
+        await lua.doString(`
+
+    la = require("la-pronunc_wasm")
+    de = require("de-pron_wasm")
+    `)
+        // Get a global lua function as a JS function
+        const de_IPA = lua.global.get('de')
+        const la_IPA = lua.global.get('la')
+        window.de_ipa = de_IPA
+        window.la_ipa = la_IPA
     </script>
 
 
@@ -164,7 +218,6 @@
             separated = line.split(' ')
             div.insertAdjacentHTML('beforeend', '</br>')
 
-            // result = separated.map((i) => get_ipa(i))
             function process_word(i) {
 
                 result = get_ipa(i, lang, lang_style, lang_form)
@@ -284,7 +337,7 @@
     }
 
     function get_ipa_no_cache(text, args) {
-        console.log('doing actual IPA',text,args)
+        console.log('doing actual IPA', text, args)
         clean_text = sanitize(text)
 
         const [lang, lang_style, lang_form] = args.split(';')
@@ -294,21 +347,20 @@
                     case 'Ecc':
                         switch (lang_form) {
                             case 'Phonetic':
-                                command = `return (export_la.convert_words('${clean_text}',true,true,false))`
-                                console.log(command)
+                                command = `(window.la_ipa.convert_words('${clean_text}',true,true,false))`
                                 break;
                             case 'Phonemic':
-                                command = `return (export_la.convert_words('${clean_text}',false,true,false))`
+                                command = `(window.la_ipa.convert_words('${clean_text}',false,true,false))`
                                 break;
                         }
                         break;
                     case 'Classical':
                         switch (lang_form) {
                             case 'Phonetic':
-                                command = `return (export_la.convert_words('${clean_text}',true,false,false))`
+                                command = `(window.la_ipa.convert_words('${clean_text}',true,false,false))`
                                 break;
                             case 'Phonemic':
-                                command = `return (export_la.convert_words('${clean_text}',false,false,false))`
+                                command = `(window.la_ipa.convert_words('${clean_text}',false,false,false))`
                                 break;
                         }
                         break;
@@ -317,38 +369,33 @@
             case 'German':
                 switch (lang_form) {
                     case 'Phonetic':
-                        command = `return (export_de.phonetic('${clean_text}'))`
+                        command = `(window.de_ipa.phonetic('${clean_text}'))`
                         console.log(command)
                         break;
                     case 'Phonemic':
-                        command = `return (export_de.phonemic('${clean_text}'))`
+                        command = `(window.de_ipa.phonemic('${clean_text}'))`
                         console.log(command)
                         break;
                 }
                 break;
         }
 
-        try {
-            ipa = fengari.load(command)()
-        } catch (err) {
-
-            ipa = ''
-        }
+        ipa_ = eval(command)
         split = text.split(/([\p{L}]+)/gu)
         index_in_split = split
             .map((x, n) => x === clean_text && n)
             .filter(Boolean)[0]
 
-        split[index_in_split] = ipa
+        split[index_in_split] = ipa_
 
 
-        if (!ipa) {
+        if (!ipa_) {
             return new Object({value: text, status: 'error'})
         }
-        ipa = split.join('')
+        ipa_ = split.join('')
 
-        console.log('Stopped doing actual IPA',text,args)
-        return new Object({value: ipa, status: 'success'})
+        console.log('Stopped doing actual IPA', text, args)
+        return new Object({value: ipa_, status: 'success'})
     }
 
     const memoizedFunction = (fn) => {
@@ -439,6 +486,7 @@
         }
     }
 
+    giveSelection("Latin")
 
 </script>
 </body>

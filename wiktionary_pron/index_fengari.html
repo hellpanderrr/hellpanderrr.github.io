@@ -1,0 +1,445 @@
+<meta charset="UTF-8"/>
+
+<html lang="">
+<head>
+    <title>Online IPA Phonetic Transcription</title>
+    <meta charset="UTF-8">
+    <meta name="Keywords" content="Online IPA Latin Phonetics Transcription"/>
+    <meta name="description"
+          content="Rule-base IPA phonetic transcription engine, which uses Wiktionary Lua pronunciation modules.">
+    <script src="fengari-web.js" type="text/javascript"></script>
+
+    <script>
+        fengari.load('package.path = "modules/?.lua"')()
+        fengari.load('mw = require "mw"')()
+        fengari.load('require "mw-language"')()
+        fengari.load('libraryUtil = require "libraryUtil"')()
+        fengari.load('require "mw-text"')()
+        fengari.load('package.path = "modules/test/translit/?.lua"')()
+        fengari.load('local m_debug = require "debug"')()
+        fengari.load('export_la = require "la-pronunc"')()
+        fengari.load('export_de = require "de-pron"')()
+        <!--        fengari.load('export = require "ru-pron"')()-->
+        // fengari.load('export = require "pt-pronunc"')()
+
+
+    </script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap"
+            rel="stylesheet"
+    />
+
+
+</head>
+<body style="font-family: 'Voces', sans-serif">
+
+<br/>
+
+
+<form name="myForm">
+    <div>
+        Language:
+    </div>
+    <select class="dropdown" id="lang" onchange="giveSelection(this.value)">
+        <option value="Latin" selected="selected">Latin</option>
+        <option value="German">German</option>
+
+    </select>
+    <div>
+        Additional options:
+    </div>
+    Style:
+    <select class="dropdown" id="lang_style">
+        <option data-option="Latin">Ecc</option>
+        <option data-option="Latin">Classical</option>
+        <option data-option="German">Default</option>
+
+    </select>
+    Form:
+    <select class="dropdown" id="lang_form">
+        <option data-option="Latin">Phonetic</option>
+        <option data-option="Latin">Phonemic</option>
+        <option data-option="German">Phonetic</option>
+        <option data-option="German">Phonemic</option>
+
+    </select>
+
+</form>
+
+
+<form id="frm1" onsubmit="return false">
+    <div class="form-group">
+                <textarea
+                        id="text_to_transcribe"
+                        name="text_to_transcribe"
+                        required=""
+                        autofocus=""
+                        style="
+                        height: 101px;
+                        overflow: auto;
+                        resize: vertical;
+                        width: 500px;
+                    "
+                >
+] Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. Gallias et Hispanias provincias, item Germaniam, qua includit Oceanus a Gadibus ad ostium Albis fluminis pacavi. Alpes a regione ea quae proxima est Hadriano mari ad Tuscum pacificavi nulli genti bello per iniuriam inlato. Classis mea per Oceanum ab ostio Rheni ad solis orientis regionem usque ad fines Cimbrorum navigavit, quo neque terra neque mari quisquam Romanus ante id tempus adit. Cimbrique et Charydes et Semnones et eiusdem tractus alii Germanorum populi per legatos amicitiam meam et populi Romani petierunt. Meo iussu et auspicio ducti sunt duo exercitus eodem fere tempore in Aethiopiam et in Arabiam quae appellatur Eudaemon, magnaeque hostium gentis utriusque copiae caesae sunt in acie et complura oppida capta. In Aethiopiam usque ad oppidum Nabata perventum est, cui proxima est Meroe; in Arabiam usque in fines Sabaeorum processit exercitus ad oppidum Mariba.
+
+[27] Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi.
+
+</textarea
+>
+        <input type="button" id="clear_button"/>
+        <div class="btn-group btn-block" role="group">
+            <input
+                    id="submit"
+                    class="btn btn-primary btn-block"
+                    name="submit"
+                    type="submit"
+                    value="Show transcription"
+                    title="or Ctrl+Enter while in the text area"
+            />
+            <input
+                    id="submit_by_line"
+                    class="btn btn-primary btn-block"
+                    name="submit"
+                    type="button"
+                    value="Show transcription line-by-line"
+                    title="or Ctrl+Enter while in the text area"
+            />
+            <input
+                    id="submit_by_col"
+                    class="btn btn-primary btn-block"
+                    name="submit"
+                    type="button"
+                    value="Show transcription column to column"
+                    title="or Ctrl+Enter while in the text area"
+            />
+        </div>
+    </div>
+</form>
+
+<table style="overflow: auto; resize: vertical; width: 500px">
+    <tbody id="result"></tbody>
+</table>
+<pre id="output"></pre>
+<script type="text/javascript">
+    function sanitize(text) {
+
+        return text.replace(/[^\p{L}]/gu, '')
+    }
+
+    function prepare_transcribe() {
+        text = document.getElementById('text_to_transcribe').value
+        textlines = text.split('\n')
+        div = document.getElementById('result')
+        div.innerHTML = ''
+        return [div, textlines]
+    }
+
+    async function transcribe() {
+        [div, textlines] = prepare_transcribe()
+        const {lang, lang_style, lang_form} = get_lang_style_form()
+
+        console.log('START TRANSCRIBE')
+
+        async function asyncMapStrict(arr, fn) {
+            const result = [];
+            console.time("Elapsed time :");
+            for (let idx = 0; idx < arr.length; idx += 1) {
+                const cur = arr[idx];
+                await new Promise(resolve => setTimeout(resolve, 1));
+
+                result.push(await fn(cur, idx, arr));
+            }
+            console.timeEnd("Elapsed time :")
+            return result;
+        }
+
+        async function process_line(line) {
+
+            separated = line.split(' ')
+            div.insertAdjacentHTML('beforeend', '</br>')
+
+            // result = separated.map((i) => get_ipa(i))
+            function process_word(i) {
+
+                result = get_ipa(i, lang, lang_style, lang_form)
+
+                result = result.status === 'error'
+                    ? `<span style="color:red">${result.value} </span>`
+                    : `<span>${result.value} </span>`
+
+                div.insertAdjacentHTML('beforeend', result)
+
+            }
+
+            await asyncMapStrict(separated, process_word)
+
+
+        }
+
+        asyncMapStrict(textlines, process_line)
+
+
+    }
+
+    function transcribe_by_line() {
+        [div, textlines] = prepare_transcribe()
+        const {lang, lang_style, lang_form} = get_lang_style_form()
+
+        function process_line(line) {
+            separated = line.split(' ')
+            result = separated.map((i) => get_ipa(i, lang, lang_style, lang_form))
+            result = result.map((i) =>
+                i.status === 'error'
+                    ? `<div style="color:red">${i.value} </div>`
+                    : `<div>${i.value} </div>`
+            )
+
+            row = div.insertRow(-1)
+            old = separated.map(
+                (x) => `<div style="font-family: Garamond;">${x} </div>`
+            )
+            glued = result.map(
+                (k, i) =>
+                    '<div style="float:left;margin-left:5px;margin-top:5px;">' +
+                    old[i] +
+                    k +
+                    '</div>'
+            )
+            glued
+                .reverse()
+                .map((x) => row.insertAdjacentHTML('afterbegin', x))
+        }
+
+        textlines.map(process_line)
+    }
+
+    function transcribe_by_column() {
+        [div, textlines] = prepare_transcribe()
+
+        function process_line(line) {
+            separated = line.split(' ')
+            result = separated.map((i) => get_ipa(i, lang, lang_style, lang_form))
+            result = result.map((i) =>
+                i.status === 'error'
+                    ? `<td style="color:red">${i.value} </td>`
+                    : `<td>${i.value} </td>`
+            )
+
+            function insert_row(div, cells) {
+                row = div.insertRow(-1)
+                for (cell of cells) {
+                    new_cell = row.insertCell(-1)
+                    new_cell.outerHTML = cell
+                }
+            }
+
+            old = separated.map(
+                (x) => `<td style="font-family: Garamond;">${x} </td>`
+            )
+            result.map((k, i) => insert_row(div, [old[i], k]))
+        }
+
+        textlines.map(process_line)
+    }
+
+    var form = document.getElementById('frm1')
+
+    form.addEventListener('submit', transcribe)
+    document
+        .getElementById('submit_by_line')
+        .addEventListener('click', transcribe_by_line)
+    document
+        .getElementById('submit_by_col')
+        .addEventListener('click', transcribe_by_column)
+
+    document
+        .getElementById('clear_button')
+        .addEventListener('click', clear_input)
+
+    function clear_input() {
+        i = document.getElementById('text_to_transcribe')
+        i.value = ''
+    }
+
+    function get_lang_style_form() {
+        const lang = document.querySelector('#lang').value;
+        const lang_style = document.querySelector('#lang_style').value;
+        const lang_form = document.querySelector('#lang_form').value;
+
+        return {lang, lang_style, lang_form}
+    }
+
+    function get_ipa(text, lang, lang_style, lang_form) {
+
+
+        args = lang + ';' + lang_style + ';' + lang_form
+        return get_ipa_cache(text, args)
+
+    }
+
+    function get_ipa_no_cache(text, args) {
+        console.log('doing actual IPA',text,args)
+        clean_text = sanitize(text)
+
+        const [lang, lang_style, lang_form] = args.split(';')
+        switch (lang) {
+            case 'Latin':
+                switch (lang_style) {
+                    case 'Ecc':
+                        switch (lang_form) {
+                            case 'Phonetic':
+                                command = `return (export_la.convert_words('${clean_text}',true,true,false))`
+                                console.log(command)
+                                break;
+                            case 'Phonemic':
+                                command = `return (export_la.convert_words('${clean_text}',false,true,false))`
+                                break;
+                        }
+                        break;
+                    case 'Classical':
+                        switch (lang_form) {
+                            case 'Phonetic':
+                                command = `return (export_la.convert_words('${clean_text}',true,false,false))`
+                                break;
+                            case 'Phonemic':
+                                command = `return (export_la.convert_words('${clean_text}',false,false,false))`
+                                break;
+                        }
+                        break;
+                }
+                break;
+            case 'German':
+                switch (lang_form) {
+                    case 'Phonetic':
+                        command = `return (export_de.phonetic('${clean_text}'))`
+                        console.log(command)
+                        break;
+                    case 'Phonemic':
+                        command = `return (export_de.phonemic('${clean_text}'))`
+                        console.log(command)
+                        break;
+                }
+                break;
+        }
+
+        try {
+            ipa = fengari.load(command)()
+        } catch (err) {
+
+            ipa = ''
+        }
+        split = text.split(/([\p{L}]+)/gu)
+        index_in_split = split
+            .map((x, n) => x === clean_text && n)
+            .filter(Boolean)[0]
+
+        split[index_in_split] = ipa
+
+
+        if (!ipa) {
+            return new Object({value: text, status: 'error'})
+        }
+        ipa = split.join('')
+
+        console.log('Stopped doing actual IPA',text,args)
+        return new Object({value: ipa, status: 'success'})
+    }
+
+    const memoizedFunction = (fn) => {
+        let cache = {};
+        return (value) => {
+            if (value in cache) {
+
+                return cache[value];
+            } else {
+
+                let result = fn(value);
+                cache[value] = result;
+                return result;
+            }
+        }
+    }
+
+    function memoizeLocalStorage(
+        fn,
+        options = {ttl: 100, backgroundRefresh: false},
+    ) {
+        if (!fn.name)
+            throw new Error('memoizeLocalStorage only accepts non-anonymous functions');
+        // Fetch localstorage or init new object
+        const cache = JSON.parse(localStorage.getItem(fn.name) || '{}');
+
+        //executes and caches result
+        function executeAndCacheFn(fn, args, argsKey) {
+
+            const result = fn(...args);
+            // reset the cache value
+            cache[fn.name] = {
+                ...cache[fn.name],
+                [argsKey]: {expiration: Date.now() + options.ttl, result},
+            };
+
+            localStorage.setItem(fn.name, JSON.stringify(cache));
+        }
+
+        return function () {
+            // Note: JSON.stringify is non-deterministic,
+            // consider something like json-stable-stringify to avoid extra cache misses
+            const argsKey = JSON.stringify(arguments);
+
+            if (
+                !cache[fn.name] ||
+                !cache[fn.name][argsKey] ||
+                cache[fn.name][argsKey].expiration >= Date.now()
+            ) {
+                executeAndCacheFn(fn, arguments, argsKey);
+            } else if (options.backgroundRefresh) {
+
+                executeAndCacheFn(fn, arguments, argsKey);
+            }
+            console.log('Using cached', argsKey)
+            return cache[fn.name][argsKey].result;
+        };
+    }
+
+    const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
+
+
+</script>
+
+<script>
+
+
+    var sel1 = document.querySelector('#lang');
+    var sel2 = document.querySelector('#lang_style');
+    var sel3 = document.querySelector('#lang_form');
+    var options2 = sel2.querySelectorAll('option');
+    var options3 = sel3.querySelectorAll('option');
+
+    function giveSelection(selValue) {
+
+
+        sel2.innerHTML = '';
+        for (var i = 0; i < options2.length; i++) {
+            if (options2[i].dataset.option === selValue) {
+                sel2.appendChild(options2[i]);
+            }
+        }
+        sel3.innerHTML = '';
+        for (var i = 0; i < options3.length; i++) {
+            if (options3[i].dataset.option === selValue) {
+                sel3.appendChild(options3[i]);
+            }
+        }
+    }
+    giveSelection("Latin")
+
+</script>
+</body>
+</html>
