@@ -379,8 +379,12 @@
                 }
                 break;
         }
-
-        ipa_ = eval(command)
+        try {
+            ipa_ = eval(command)
+        }
+        catch (err) {
+            ipa_ = ''
+        }
         split = text.split(/([\p{L}]+)/gu)
         index_in_split = split
             .map((x, n) => x === clean_text && n)
