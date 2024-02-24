@@ -63,22 +63,32 @@
                   return module
           end
           require = memoize(require)
-
+            require('ustring/charsets')
+            require('ustring/lower')
+            require('ustring/normalization-data')
         `);
 
         // Run a lua string
-        await lua.doString(`
 
-    la = require("la-pronunc_wasm")
-    de = require("de-pron_wasm")
-    `)
-        // Get a global lua function as a JS function
-        const de_IPA = lua.global.get('de')
-        const la_IPA = lua.global.get('la')
-        window.de_ipa = de_IPA
-        window.la_ipa = la_IPA
+        window.lua = lua
     </script>
+    <script>
+        async function load_language(code) {
 
+
+            const lua = window.lua
+            await lua.doString(`
+
+            ${code} = require("${code}-pron_wasm")
+
+            `)
+            // Get a global lua function as a JS function
+
+            window[code + '_ipa'] = lua.global.get(code)
+
+        }
+
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -99,29 +109,37 @@
     <div>
         Language:
     </div>
-    <select class="dropdown" id="lang" onchange="giveSelection(this.value)">
-        <option value="Latin" selected="selected">Latin</option>
+    <select class="dropdown" id="lang" onchange="giveSelection(this.value)" autocomplete="off">
+        <option disabled selected value> -- select an option -- </option>
+        <option value="Latin">Latin</option>
         <option value="German">German</option>
-
+        <option value="Portugese">Portugese</option>
     </select>
     <div>
         Additional options:
     </div>
     Style:
-    <select class="dropdown" id="lang_style">
+    <select class="dropdown" id="lang_style" disabled="true">
+        <option disabled selected value> -- </option>
         <option data-option="Latin">Ecc</option>
         <option data-option="Latin">Classical</option>
         <option data-option="German">Default</option>
+        <option data-option="Portugese">Brazil</option>
+        <option data-option="Portugese">Portugal</option>
+
 
     </select>
     Form:
-    <select class="dropdown" id="lang_form">
+    <select class="dropdown" id="lang_form"  disabled="true">
+        <option disabled selected value> -- </option>
         <option data-option="Latin">Phonetic</option>
         <option data-option="Latin">Phonemic</option>
         <option data-option="German">Phonetic</option>
         <option data-option="German">Phonemic</option>
-
+        <option data-option="Portugese">Phonetic</option>
+        <option data-option="Portugese">Phonemic</option>
     </select>
+
 
 </form>
 
@@ -146,7 +164,8 @@
 
 </textarea
 >
-        <input type="button" id="clear_button"/>
+        <input type="button" id="clear_button" value='X'>
+        <input type="button" id="clear_storage">
         <div class="btn-group btn-block" role="group">
             <input
                     id="submit"
@@ -195,49 +214,65 @@
     }
 
     async function transcribe() {
-        [div, textlines] = prepare_transcribe()
-        const {lang, lang_style, lang_form} = get_lang_style_form()
+        disable_all()
+        try {
+            [div, textlines] = prepare_transcribe()
+            const {lang, lang_style, lang_form} = get_lang_style_form()
 
-        console.log('START TRANSCRIBE')
+            console.log('START TRANSCRIBE')
 
-        async function asyncMapStrict(arr, fn) {
-            const result = [];
-            console.time("Elapsed time :");
-            for (let idx = 0; idx < arr.length; idx += 1) {
-                const cur = arr[idx];
-                await new Promise(resolve => setTimeout(resolve, 1));
+            async function asyncMapStrict(arr, fn) {
+                const result = [];
+                console.time("Elapsed time :");
+                for (let idx = 0; idx < arr.length; idx += 1) {
+                    const cur = arr[idx];
+                    await new Promise(resolve => setTimeout(resolve, 1));
 
-                result.push(await fn(cur, idx, arr));
-            }
-            console.timeEnd("Elapsed time :")
-            return result;
-        }
-
-        async function process_line(line) {
-
-            separated = line.split(' ')
-            div.insertAdjacentHTML('beforeend', '</br>')
-
-            function process_word(i) {
-
-                result = get_ipa(i, lang, lang_style, lang_form)
-
-                result = result.status === 'error'
-                    ? `<span style="color:red">${result.value} </span>`
-                    : `<span>${result.value} </span>`
-
-                div.insertAdjacentHTML('beforeend', result)
-
+                    result.push(await fn(cur, idx, arr));
+                }
+                console.timeEnd("Elapsed time :")
+                return result;
             }
 
-            await asyncMapStrict(separated, process_word)
+            async function process_line(line) {
+
+                separated = line.split(' ')
+                div.insertAdjacentHTML('beforeend', '</br>')
+
+                function process_word(i) {
+
+                    result = get_ipa(i, lang, lang_style, lang_form)
+
+                    result = result.status === 'error'
+                        ? `<span style="color:red">${result.value} </span>`
+                        : `<span>${result.value} </span>`
+
+                    div.insertAdjacentHTML('beforeend', result)
+
+                }
+
+                await asyncMapStrict(separated, process_word)
 
 
+            }
+
+            await asyncMapStrict(textlines, process_line)
+            console.log('finished')
+        } catch (err) {
+            console.log(err)
+        } finally {
+            console.log('finally')
+            enable_all()
         }
 
-        asyncMapStrict(textlines, process_line)
+    }
 
+    function disable_all() {
+        Array.from(document.querySelectorAll('form')).map(form => Array.from(form.elements).map(x => x.disabled = true))
+    }
 
+    function enable_all() {
+        Array.from(document.querySelectorAll('form')).map(form => Array.from(form.elements).map(x => x.disabled = false))
     }
 
     function transcribe_by_line() {
@@ -315,6 +350,16 @@
         .getElementById('clear_button')
         .addEventListener('click', clear_input)
 
+    document
+        .getElementById('clear_storage')
+        .addEventListener('click', clear_storage)
+
+    function clear_storage() {
+        const cache = JSON.parse(localStorage.getItem("get_ipa_no_cache") || '{}');
+        cache["get_ipa_no_cache"] = ""
+        localStorage.setItem("get_ipa_no_cache", JSON.stringify(cache));
+    }
+
     function clear_input() {
         i = document.getElementById('text_to_transcribe')
         i.value = ''
@@ -378,11 +423,34 @@
                         break;
                 }
                 break;
+            case 'Portugese':
+                switch (lang_style) {
+                    case 'Brazil':
+                        switch (lang_form) {
+                            case 'Phonetic':
+                                command = `window.pt_ipa.IPA('${clean_text}',"rio")[0].phonetic`
+                                break;
+                            case 'Phonemic':
+                                command = `window.pt_ipa.IPA('${clean_text}',"rio")[0].phonemic`
+                                break;
+                        }
+                        break;
+                    case 'Portugal':
+                        switch (lang_form) {
+                            case 'Phonetic':
+                                command = `window.pt_ipa.IPA('${clean_text}',"pt")[0].phonetic`
+                                break;
+                            case 'Phonemic':
+                                command = `window.pt_ipa.IPA('${clean_text}',"pt")[0].phonemic`
+                                break;
+                        }
+                        break;
+                }
+                break;
         }
         try {
             ipa_ = eval(command)
-        }
-        catch (err) {
+        } catch (err) {
             ipa_ = ''
         }
         split = text.split(/([\p{L}]+)/gu)
@@ -424,7 +492,7 @@
         if (!fn.name)
             throw new Error('memoizeLocalStorage only accepts non-anonymous functions');
         // Fetch localstorage or init new object
-        const cache = JSON.parse(localStorage.getItem(fn.name) || '{}');
+        cache = JSON.parse(localStorage.getItem(fn.name) || '{}');
 
         //executes and caches result
         function executeAndCacheFn(fn, args, argsKey) {
@@ -450,9 +518,10 @@
                 cache[fn.name][argsKey].expiration >= Date.now()
             ) {
                 executeAndCacheFn(fn, arguments, argsKey);
+                return cache[fn.name][argsKey].result;
             } else if (options.backgroundRefresh) {
-
                 executeAndCacheFn(fn, arguments, argsKey);
+                return cache[fn.name][argsKey].result;
             }
             console.log('Using cached', argsKey)
             return cache[fn.name][argsKey].result;
@@ -473,24 +542,36 @@
     var options2 = sel2.querySelectorAll('option');
     var options3 = sel3.querySelectorAll('option');
 
-    function giveSelection(selValue) {
+    loaded_languages = {}
+    lang_map = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt'}
 
-
+    async function giveSelection(selValue) {
+        if (!(selValue in loaded_languages)) {
+            console.log(1, selValue)
+            lang_code = lang_map[selValue]
+            disable_all()
+            await load_language(lang_code)
+            enable_all()
+            loaded_languages[selValue] = true
+            console.log('end')
+        }
+        console.log(selValue)
         sel2.innerHTML = '';
         for (var i = 0; i < options2.length; i++) {
             if (options2[i].dataset.option === selValue) {
                 sel2.appendChild(options2[i]);
             }
         }
+        sel2.disabled = false
         sel3.innerHTML = '';
         for (var i = 0; i < options3.length; i++) {
             if (options3[i].dataset.option === selValue) {
                 sel3.appendChild(options3[i]);
             }
         }
+        sel3.disabled = false
     }
 
-    giveSelection("Latin")
 
 </script>
 </body>

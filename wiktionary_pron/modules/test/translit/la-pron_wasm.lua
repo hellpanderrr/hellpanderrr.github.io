@@ -3,8 +3,11 @@ mw = require('mw')
 
 
 local m_a = require("accent qualifier")
+
 local m_IPA = require("IPA")
+
 local lang = require("languages").getByCode("la")
+
 local memoize = require 'memoize'
 local u = mw.ustring.char
 local rfind = mw.ustring.find
@@ -17,6 +20,7 @@ local rmatch = mw.ustring.match
 local rmatch = memoize(rmatch)
 local rsplit = mw.text.split
 local ulower = mw.ustring.lower
+
 local ulower = memoize(ulower)
 local usub = mw.ustring.sub
 local usub = memoize(usub)
@@ -1034,7 +1038,6 @@ function export.allophone(word, eccl, vul)
 	return export.show(word, true, eccl, vul)
 end
 
-e1 = (export.convert_words('Hat Herr Muller eine Frau? Ja, er hat eine Frau. Wie',false,true,false))
-print(e1)
+
 return export
 

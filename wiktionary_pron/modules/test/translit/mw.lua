@@ -46,12 +46,15 @@ mw = {
 setmetatable(mw, mw_meta)
 
 function mw_meta.__index(table, key)
+    print('mw key', key)
    local modname = mw_autoload[key]
    if modname == nil then return nil end
    local ret
    if type(modname) == "string" then
+      print(string.format('require module [%s] from ', modname))
       ret = require(modname)
    elseif type(modname) == "function" then
+      print(string.format('require modfunc [%s] from ', modname))
       ret = modname(table)
    else
       error("mw_meta.__index had modname", modname)
