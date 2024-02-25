@@ -58,6 +58,7 @@
               return module
           end
           require = memoize(require)
+            require('debug/track')
             require('ustring/charsets')
             require('ustring/lower')
             require('ustring/normalization-data')
