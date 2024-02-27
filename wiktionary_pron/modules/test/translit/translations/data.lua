@@ -1,5 +1,11 @@
 local export = {}
 
+export.categorize = {
+	["en"] = true,
+	["mul"] = true,
+	["und"] = true
+}
+
 local function lang_info(code)
 	return require("languages").getByCode(code):getCanonicalName() .. " (" .. code .. ")"
 end

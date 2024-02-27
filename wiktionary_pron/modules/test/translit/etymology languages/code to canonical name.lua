@@ -446,6 +446,8 @@ return {
 	["vaf"] = "Vafsi",
 	["wae"] = "Walser German",
 	["woy"] = "Weyto",
+	["wuu-hzh"] = "Hangzhounese",
+	["wuu-ngb"] = "Ningbonese",
 	["wuu-sha"] = "Shanghainese",
 	["wuu-szh"] = "Suzhounese",
 	["xcg"] = "Cisalpine Gaulish",

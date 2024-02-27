@@ -19,7 +19,7 @@ local concat = table.concat
 local get_entities = require("utilities").get_entities
 local gsub = mw.ustring.gsub
 local insert = table.insert
-local lower = mw.ustring.lower
+local ulower = mw.ustring.lower
 local make_entities = require("utilities").make_entities
 local remove = table.remove
 local shallowcopy = require("table").shallowcopy
@@ -117,7 +117,7 @@ function export.get_link_page(target, lang, sc, plain)
 	-- Check if the target is an interwiki link.
 	if target:match(":") and target ~= ":" then
 		-- If this is an a link to another namespace or an interwiki link, ensure there's an initial colon and then return what we have (so that it works as a conventional link, and doesn't do anything weird like add the term to a category.)
-		local prefix = target:gsub("^:*(.-):.*", lower)
+		local prefix = target:gsub("^:*(.-):.*", ulower)
 		if (
 			mw.loadData("data/namespaces")[prefix] or
 			mw.loadData("data/interwikis")[prefix]
@@ -170,7 +170,7 @@ function export.get_link_page(target, lang, sc, plain)
 	-- Reconstructed languages and substrates require an initial *.
 	elseif lang:hasType("reconstructed") or lang:getFamilyCode() == "qfa-sub" then
 		local check = target:match("^:*([^:]*):")
-		check = check and lower(check)
+		check = check and ulower(check)
 		if (
 			mw.loadData("data/namespaces")[check] or
 			mw.loadData("data/interwikis")[check]
@@ -257,9 +257,14 @@ local function make_link(link, lang, sc, id, isolated, plain, cats, no_alt_ast)
 			:wikitext(link.display))
 	end
 
-	-- Add fragment. Do not add a section link to "Undetermined", as such sections do not exist and are invalid. TabbedLanguages handles links without a section by linking to the "last visited" section, but adding "Undetermined" would break that feature. For localized prefixes that make syntax error, please use the format: ["xyz"] = true.
+	-- Add fragment. Do not add a section link to "Undetermined", as such sections do not exist and are invalid.
+	-- TabbedLanguages handles links without a section by linking to the "last visited" section, but adding
+	-- "Undetermined" would break that feature. For localized prefixes that make syntax error, please use the
+	-- format: ["xyz"] = true.
 	local prefix = link.target:match("^:*([^:]+):")
-	if not (prefix and mw.loadData("data/interwikis")[lower(prefix)]) then
+	prefix = prefix and ulower(prefix)
+
+	if prefix ~= "category" and not (prefix and mw.loadData("data/interwikis")[prefix]) then
 		if (link.fragment or link.target:find("#$")) and not plain then
 			track("fragment", lang:getNonEtymologicalCode())
 			if cats then

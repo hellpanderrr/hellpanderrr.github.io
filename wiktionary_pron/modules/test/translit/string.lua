@@ -513,38 +513,6 @@ function str._getBoolean(boolean_str)
 	return boolean_value
 end
 
---[[
-Helper function that escapes all pattern characters – ().%+-*?[^$] – so that they will be treated
-as plain text.
-]]
-function str.pattern_escape(pattern_str)
-	local invoked = false
-	local escape = require("string/pattern_escape")
-	
-	if type(pattern_str) == "table" then
-		if pattern_str.args then
-			local frame = pattern_str
-			invoked = true
-			
-			if frame.args[1] then
-				pattern_str = frame.args[1]
-			else
-				pattern_str = frame:getParent().args[1]
-			end
-		else
-			error("First argument to pattern_escape should be a string, a number, or a frame object.")
-		end
-	elseif not (type(pattern_str) == "string" or type(pattern_str) == "number") then
-		error("First argument to pattern_escape should be a string or a number.")
-	end
-	
-	if invoked then
-		return (escape(pattern_str)) -- only the first value
-	else
-		return escape(pattern_str)
-	end
-end
-
 function str.count(text, pattern, plain)
 	if not (type(text) == "string" or type(text) == "number") then
 		error('The first argument to the function "count" must be a string or a number, not a ' .. type(text) .. '.')
@@ -561,49 +529,6 @@ function str.count(text, pattern, plain)
 	local _, count = mw.ustring.gsub(text, pattern, "")
 	
 	return count
-end
-
-function str.plain_gsub(text, pattern, replacement)
-	local invoked = false
-	
-	if type(text) == "table" then
-		invoked = true
-		
-		if text.args then
-			local frame = text
-			
-			local params = {
-				[1] = {},
-				[2] = {},
-				[3] = { allow_empty = true },
-			}
-			
-			local args = require("parameters").process(frame.args, params)
-			
-			text = args[1]
-			pattern = args[2]
-			replacement = args[3]
-		else
-			error("If the first argument to plain_gsub is a table, it should be a frame object.")
-		end
-	else
-		if not (type(pattern) == "string" or type(pattern) == "number") then
-			error("The second argument to plain_gsub should be a string or a number.")
-		end
-		
-		if not (type(replacement) == "string" or type(replacement) == "number") then
-			error("The third argument to plain_gsub should be a string or a number.")
-		end
-	end
-	
-	pattern = str.pattern_escape(pattern)
-	
-	if invoked then
-		text = mw.ustring.gsub(text, pattern, replacement)
-		return text
-	else
-		return mw.ustring.gsub(text, pattern, replacement)
-	end
 end
 
 function str.matchToArray(text, pattern)
@@ -721,4 +646,9 @@ function str.reverse(s)
 	return s:reverse()
 end
 
-return str
+function str:__index(k)
+	self[k] = package.loaders[2]("Module:string/" .. k)()
+	return self[k]
+end
+
+return setmetatable(str, str)

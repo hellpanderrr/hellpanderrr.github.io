@@ -26,7 +26,7 @@ local lang = require("languages").getByCode("ru")
 local strutils = require("string utilities")
 local m_table_tools = require("table tools")
 -- Prevents an infinite require loop since ru-translit requires a different function in this module.
-local m_ru_translit = require("utilities").require_when_needed("Module:ru-translit")
+local m_ru_translit = require("utilities/require when needed")("Module:ru-translit")
 
 
 local u = mw.ustring.char

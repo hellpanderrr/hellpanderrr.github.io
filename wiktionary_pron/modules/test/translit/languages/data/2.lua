@@ -171,7 +171,23 @@ m["az"] = {
 			from = {"ʼ"},
 			to = {"'"},
 		},
-		["fa-Arab"] = "ar-entryname",
+		["fa-Arab"] = {
+			module = "ar-entryname",
+			["from"] = {
+				"ۆ",
+				"ۇ",
+				"وْ",
+				"ڲ",
+				"ؽ",
+			},
+			["to"] = {
+				"و",
+				"و",
+				"و",
+				"گ",
+				"ی",
+			},
+		},
 	},
 	display_text = {
 		Latn = {
@@ -2037,6 +2053,7 @@ m["sq"] = {
 	8748,
 	"sqj",
 	"Latn, Grek, ota-Arab, Elba, Todr, Vith",
+	translit = {Elba = "Elba-translit"},
 	entry_name = {Latn = {
 		remove_diacritics = c.acute,
 		from = {'^i (%w)', '^të (%w)'}, to = {'%1', '%1'},

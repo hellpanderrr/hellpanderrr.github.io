@@ -1175,6 +1175,15 @@ m["crp-rsn"] = {
 	ancestors = "nn, ru",
 }
 
+m["crp-slb"] = {
+	"Solombala English",
+	7558525,
+	"crp",
+	"Cyrl, Latn",
+	ancestors = "en, ru",
+	translit = {Cyrl = "ru-translit"},
+}
+
 m["crp-tnw"] = {
 	"Tangwang",
 	7683179,
@@ -4311,6 +4320,7 @@ m["sel-nor"] = {
 	30304565,
 	"sel",
 	"Cyrl",
+	translit = "sel-nor-translit",
 }
 
 m["sel-pro"] = {
@@ -4442,6 +4452,14 @@ m["sio-pro"] = { -- NB this is not Proto-Siouan-Catawban 'nai-sca-pro'
 	"Proto-Siouan",
 	34181,
 	"sio",
+	"Latn",
+	type = "reconstructed",
+}
+
+m["sit-bai-pro"] = {
+	"Proto-Bai",
+	nil,
+	"sit-bai",
 	"Latn",
 	type = "reconstructed",
 }
@@ -4687,6 +4705,14 @@ m["tbq-bdg-pro"] = {
 	type = "reconstructed",
 }
 
+m["tbq-blg"] = {
+	"Bailang",
+	2879843,
+	"tbq-lob",
+	"Hani",
+	sort_key = "Hani-sortkey",
+}
+
 m["tbq-gkh"] = {
 	"Gokhy",
 	5578069,
@@ -4745,14 +4771,6 @@ m["tbq-ngo"] = {
 	nil,
 	"tbq-brm",
 	"Latn",
-}
-
-m["tbq-plg"] = {
-	"Pai-lang",
-	2879843,
-	"tbq-lob",
-	"Hani, Latn",
-	sort_key = {Hani = "Hani-sortkey"},
 }
 
 -- tbq-pro is now etymology-only

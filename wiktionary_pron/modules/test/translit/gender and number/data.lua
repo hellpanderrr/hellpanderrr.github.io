@@ -6,6 +6,7 @@ local data = {}
 -- In a given gender/number spec, only one part of each class is allowed.
 data.codes = {
 	["?"] = {type = "other", display = '<abbr title="gender incomplete">?</abbr>'},
+	-- FIXME: The following should be either eliminated in favor of g! or converted to a general "gender/number unattested".
 	["?!"] = {type = "other", display = '<abbr title="gender unattested">gender unattested</abbr>'},
 
 -- Genders
@@ -14,29 +15,33 @@ data.codes = {
 	["n"] = {type = "gender", cat = "neuter POS", display = '<abbr title="neuter gender">n</abbr>'},
 	["c"] = {type = "gender", cat = "common-gender POS", display = '<abbr title="common gender">c</abbr>'},
 	["gneut"] = {type = "gender", cat = "gender-neutral POS", display = '<abbr title="gender-neutral">gender-neutral</abbr>'},
+	["g!"] = {type = "gender", display = '<abbr title="gender unattested">gender unattested</abbr>'},
 
 -- Animacy
+	-- Animate = either animal or personal (for Russian, etc.)
 	["an"] = {type = "animacy", cat = "animate POS", display = '<abbr title="animate">anim</abbr>'},
 	["in"] = {type = "animacy", cat = "inanimate POS", display = '<abbr title="inanimate">inan</abbr>'},
--- Animal (for Ukrainian, Belarusian, Polish)
+	-- Animal (for Ukrainian, Belarusian, Polish, etc.)
 	["anml"] = {type = "animacy", cat = "animal POS", display = '<abbr title="animal">animal</abbr>'},
--- Personal (for Ukrainian, Belarusian, Polish)
+	-- Personal (for Ukrainian, Belarusian, Polish, etc.)
 	["pr"] = {type = "animacy", cat = "personal POS", display = '<abbr title="personal">pers</abbr>'},
--- Nonpersonal not currently used
 	["np"] = {type = "animacy", cat = "nonpersonal POS", display = '<abbr title="nonpersonal">npers</abbr>'},
+	["an!"] = {type = "animacy", display = '<abbr title="animacy unattested">animacy unattested</abbr>'},
 
 -- Virility (for Polish)
-	["vr"] = {type = "virility", cat = "virile POS", display = '<abbr title="virile">vir</abbr>'},
-	["nv"] = {type = "virility", cat = "nonvirile POS", display = '<abbr title="nonvirile">nvir</abbr>'},
+	["vr"] = {type = "virility", cat = "virile POS", display = '<abbr title="virile (= masculine personal)">vir</abbr>'},
+	["nv"] = {type = "virility", cat = "nonvirile POS", display = '<abbr title="nonvirile (= other than masculine personal)">nvir</abbr>'},
 
 -- Numbers
 	["s"] = {type = "number", display = '<abbr title="singular number">sg</abbr>'},
 	["d"] = {type = "number", cat = "dualia tantum", display = '<abbr title="dual number">du</abbr>'},
 	["p"] = {type = "number", cat = "pluralia tantum", display = '<abbr title="plural number">pl</abbr>'},
+	["num!"] = {type = "number", display = '<abbr title="number unattested">number unattested</abbr>'},
 
 -- Verb qualifiers
 	["impf"] = {type = "aspect", cat = "imperfective POS", display = '<abbr title="imperfective aspect">impf</abbr>'},
 	["pf"] = {type = "aspect", cat = "perfective POS", display = '<abbr title="perfective aspect">pf</abbr>'},
+	["asp!"] = {type = "aspect", display = '<abbr title="aspect unattested">aspect unattested</abbr>'},
 }
 
 -- Combined codes that are equivalent to giving multiple specs. `mf` is the same as specifying two separate specs,

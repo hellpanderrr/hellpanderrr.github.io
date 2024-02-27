@@ -670,7 +670,7 @@ function export.full_headword(data)
 	init_and_find_maximum_index(data, "whole_page_categories")
 	local pos_category_already_present = false
 	if #data.categories > 0 then
-		local escaped_langname = require("pattern utilities").pattern_escape(full_langname)
+		local escaped_langname = require("string/pattern escape")(full_langname)
 		local matches_lang_pattern = "^" .. escaped_langname .. " "
 		for _, cat in ipairs(data.categories) do
 			-- Does the category begin with the language name? If not, tag it with a tracking category.

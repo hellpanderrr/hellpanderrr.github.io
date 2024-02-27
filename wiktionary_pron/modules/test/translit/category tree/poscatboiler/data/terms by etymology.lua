@@ -1,3 +1,5 @@
+local str = require("string")
+
 local labels = {}
 local raw_categories = {}
 local handlers = {}
@@ -569,7 +571,7 @@ table.insert(handlers, function(data)
 		end
 		-- Italicize the word/word in the title.
 		local function displaytitle(title, lang)
-			return require("string").plain_gsub(title, term, require("script utilities").tag_text(term, source, nil, "term"))
+			return str.plain_gsub(title, term, require("script utilities").tag_text(term, source, nil, "term"))
 		end
 		local breadcrumb = require("script utilities").tag_text(term, source, nil, "term") .. (id and " (" .. id .. ")" or "")
 		return {
@@ -631,7 +633,7 @@ table.insert(handlers, function(data)
 		end
 		-- Italicize the word/word in the title.
 		local function displaytitle(title, lang)
-			return require("string").plain_gsub(title, word, require("script utilities").tag_text(word, lang, nil, "term"))
+			return str.plain_gsub(title, word, require("script utilities").tag_text(word, lang, nil, "term"))
 		end
 		local breadcrumb = require("script utilities").tag_text(word, data.lang, nil, "term") .. (id and " (" .. id .. ")" or "")
 		return {
@@ -645,7 +647,7 @@ table.insert(handlers, function(data)
 end)
 
 table.insert(handlers, function(data)
-	local num_letters = data.label:match("^([0-9]+)-letter words$")
+	local num_letters = data.label:match("^([1-9]%d*)-letter words$")
 	if num_letters then
 		return {
 			description = "{{{langname}}} words with " .. num_letters .. " letters in them.",
@@ -743,7 +745,7 @@ table.insert(handlers, function(data)
 		end
 		-- Italicize the root/word in the title.
 		local function displaytitle(title, lang)
-			return require("string").plain_gsub(title, term, require("script utilities").tag_text(term, source, nil, "term"))
+			return str.plain_gsub(title, term, require("script utilities").tag_text(term, source, nil, "term"))
 		end
 		local breadcrumb = require("script utilities").tag_text(term, source, nil, "term") .. (id and " (" .. id .. ")" or "")
 		return {
@@ -805,7 +807,7 @@ table.insert(handlers, function(data)
 		end
 		-- Italicize the root/word in the title.
 		local function displaytitle(title, lang)
-			return require("string").plain_gsub(title, root, require("script utilities").tag_text(root, lang, nil, "term"))
+			return str.plain_gsub(title, root, require("script utilities").tag_text(root, lang, nil, "term"))
 		end
 		local breadcrumb = require("script utilities").tag_text(root, data.lang, nil, "term") .. (id and " (" .. id .. ")" or "")
 		return {
@@ -819,7 +821,7 @@ table.insert(handlers, function(data)
 end)
 
 table.insert(handlers, function(data)
-	local num_letters = data.label:match("^([0-9]+)-letter roots$")
+	local num_letters = data.label:match("^([1-9]%d*)-letter roots$")
 	if num_letters then
 		return {
 			description = "{{{langname}}} roots with " .. num_letters .. " letters in them.",
@@ -1141,7 +1143,7 @@ for bortype, spec in pairs(borrowing_specs) do
 		-- If the label pattern isn't specifically given, generate it from the `bortype`; but make sure to
 		-- escape hyphens in the pattern.
 		local label_pattern =
-			spec.label_pattern or "^" .. require("pattern utilities").pattern_escape(bortype) .. " from (.+)$"
+			spec.label_pattern or "^" .. str.pattern_escape(bortype) .. " from (.+)$"
 		table.insert(handlers, function(data)
 			local source_name = data.label:match(label_pattern)
 			if source_name then

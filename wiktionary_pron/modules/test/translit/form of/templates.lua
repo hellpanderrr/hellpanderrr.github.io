@@ -85,7 +85,7 @@ local function process_parent_args(template, parent_args, params, defaults, igno
 						table.insert(numbered_list_params_to_ignore, tonumber(param))
 					else
 						table.insert(named_list_params_to_ignore,
-							"^" .. require("utilities").pattern_escape(param) .. "[0-9]*$")
+							"^" .. require("string/pattern escape")(param) .. "[0-9]*$")
 					end
 				else
 					if rfind(ignore, "^[0-9]+$") then

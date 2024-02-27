@@ -9,19 +9,6 @@ local data = mw.loadData("utilities/data")
 
 local export = {}
 
-function export.require_when_needed(text)
-	return setmetatable({}, {
-		__index = function(t, k)
-			t = require(text)
-			return t[k]
-		end,
-		__call = function(t, ...)
-			t = require(text)
-			return t(...)
-		end
-	})
-end
-
 -- A helper function to escape magic characters in a string.
 -- Magic characters: ^$()%.[]*+-?
 function export.pattern_escape(text)
@@ -78,68 +65,6 @@ function export.make_entities(text, set, raw)
 	end))
 end
 
--- Trims in accordance with native parser's PHP trim.
--- Note: loops + sub make this much faster than the equivalent string patterns.
-do
-	local sub = string.sub
-	
-	-- Note: PHP does not trim \f but does trim \0.
-	local spaces = {
-		["\0"] = true,
-		["\t"] = true,
-		["\n"] = true,
-		["\v"] = true,
-		["\r"] = true,
-		[" "] = true,
-	}
-	
-	function export.php_trim(text)
-		local n
-		for i = 1, #text do
-			if not spaces[sub(text, i, i)] then
-				n = i
-				break
-			end
-		end
-		if not n then
-			return ""
-		end
-		for i = #text, n, -1 do
-			if not spaces[sub(text, i, i)] then
-				return sub(text, n, i)
-			end
-		end
-	end
-end
-
--- Takes a parameter name as an input, and returns the Scribunto-normalized form (i.e. the key which is used in frame.args).
--- If the input is not a string, it is returned unchanged.
--- Strings have ASCII spaces trimmed, and are converted to numbers if:
--- (a) They are integers, with no decimals (2.0) or leading zeroes (02).
--- (b) They are <= 2^53 and >= -2^53.
--- Note: Lua integers are only accurate to 2^53 - 1, so 2^53 and -2^53 have to be specifically checked for since Lua will evaluate 2^53 as equal to 2^53 + 1.
-do
-	local match = string.match
-	local tonumber = tonumber
-	local trim = export.php_trim
-	
-	function export.scribunto_param_key(key)
-		if type(key) ~= "string" then
-			return key
-		end
-		key = trim(key)
-		if match(key, "^-?[1-9]%d*$") or key == "0" then
-			local num = tonumber(key)
-			key = (
-				num <= 9007199254740991 and num >= -9007199254740991 or
-				key == "9007199254740992" or
-				key == "-9007199254740992"
-			) and num or key
-		end
-		return key
-	end
-end
-
 do
 	local function check_level(lvl)
 		if type(lvl) ~= "number" then
@@ -159,23 +84,10 @@ do
 		b = b and check_level(b) or a or nil
 		local start, loc, lvl, sec = 1
 		
-		local function iterate()
-			loc, lvl, sec, start = text:match("()%f[^%z\n\r](=+)([^\n\r]+)%2[\t ]*%f[%z\n\r]()", start)
-			if not loc then
-				return
-			end
-			lvl = #lvl
-			if lvl > 6 then
-				local excess = ("="):rep(lvl - 6)
-				sec = excess .. sec .. excess
-				lvl = 6
-			end
-			return sec, lvl, loc
-		end
-		
 		return function()
 			repeat
-				iterate()
+				loc, lvl, sec, start = text:match("()%f[^%z\n\r](==?=?=?=?=?)([^\n\r]+)%2[\t ]*%f[%z\n\r]()", start)
+				lvl = lvl and #lvl
 			until not (sec and a) or (lvl >= a and lvl <= b)
 			return sec and trim(export.get_entities(sec)) or nil, lvl, loc
 		end
@@ -194,8 +106,7 @@ do
 			if start and lvl <= level then
 				return content:sub(start, loc - 1)
 			elseif not start and (not level or lvl == level) and sec == name then
-				start = loc
-				level = lvl
+				start, level = loc, lvl
 			end
 		end
 		return start and content:sub(start)

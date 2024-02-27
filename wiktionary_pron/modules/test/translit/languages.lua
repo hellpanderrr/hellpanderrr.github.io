@@ -164,7 +164,7 @@ local function make_language(code, data, useRequire)
 		text = text
 			:gsub("%f[%[]%[%[", "\1")
 			:gsub("%f[%]]%]%]", "\2")
-		local i, pe = #subbedChars, require("utilities").pattern_escape
+		local i, pe = #subbedChars, require("string/pattern escape")
 		for j, pattern in ipairs(patterns) do
 			-- Patterns ending in \0 stand are for things like "[[" or "]]"), so the inserted PUA are treated as breaks between terms by modules that scrape info from pages.
 			local term_divider
@@ -195,7 +195,7 @@ local function make_language(code, data, useRequire)
 	
 	-- Reinsert any formatting that was temporarily substituted.
 	local function undoTempSubstitutions(text, subbedChars)
-		local pe = require("utilities").pattern_escape
+		local pe = require("string/pattern escape")
 		for i = 1, #subbedChars do
 			local byte2 = math.floor(i / 4096) % 64 + 128
 			local byte3 = math.floor(i / 64) % 64 + 128
@@ -243,7 +243,7 @@ local function make_language(code, data, useRequire)
 	
 	-- Split the text into sections, based on the presence of temporarily substituted formatting characters, then iterate over each one to apply substitutions. This avoids putting PUA characters through language-specific modules, which may be unequipped for them.
 	local function iterateSectionSubstitutions(text, subbedChars, keepCarets, self, sc, substitution_data, function_name)
-		local pe = require("utilities").pattern_escape
+		local pe = require("string/pattern escape")
 		local fail, cats, sections = nil, {}
 		-- See [[Module:languages/data]].
 		if not text:match("\244") or conditionalRequire("Module:languages/data").contiguous_substitution[self:getCode()] then
@@ -1490,16 +1490,13 @@ function export.getByCode(code, paramForError, allowEtymLang, allowFamily, useRe
 	-- in the hope that this reduces memory usage as we have to do this for every invocation of getByCode() for every
 	-- language code.
 	local codes_to_track = {
+		-- Codes duplicated been full and etymology-only languages
 		["bsg"] = true,
-		["inc-kha"] = true,
-		["pka"] = true,
-		["inc-mgd"] = true,
-		["inc-psc"] = true,
-		["pmh"] = true,
-		["psu"] = true,
-		["elu-prk"] = true,
 		["rdb"] = true,
 		["tgf"] = true,
+		-- Codes that will be converted to families
+		["kca"] = true,
+		["mns"] = true,
 	}
 
 	local function track_bad_code(code)
@@ -1528,7 +1525,7 @@ end
 --[==[Like {{code|lua|getByCanonicalName()}}, except it also looks at the <code class="n">otherNames</code> listed in the non-etymology language data modules, and does not (currently) have options to look up etymology languages and families.]==]
 function export.getByName(name, errorIfInvalid)
 	local code = require("languages/canonical names/serialized")
-		:match("%z" .. require("utilities").pattern_escape(name) .. "\1(.-)%f[%z]")
+		:match("%z" .. require("string/pattern escape")(name) .. "\1(.-)%f[%z]")
 	
 	if not code then
 		if errorIfInvalid then

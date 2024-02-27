@@ -12,10 +12,11 @@ local insert = table.insert
 local lower = string.lower
 local match = string.match
 local new_title = mw.title.new
+local php_trim = require("string/php trim")
 local rawset = rawset
+local scribunto_param_key = require("utilities/scribunto parameter key")
 local select = select
 local sub = string.sub
-local tonumber = tonumber
 local tostring = tostring
 local type = type
 local ulower = string.ulower
@@ -25,15 +26,6 @@ local m_parser = require("parser")
 local data = mw.loadData("template parser/data")
 local frame = mw.getCurrentFrame()
 
-local export = {}
-
-------------------------------------------------------------------------------------
---
--- Utilities
---
-------------------------------------------------------------------------------------
-
--- Table lookup is much faster than match. \v and \f are excluded as the parser treats them as invalid. \r can't appear in page content (as the parser normalizes newlines to \n), but it might be needed in some niche cases.
 local ascii_spaces = {
 	[" "] = true,
 	["\t"] = true,
@@ -41,25 +33,7 @@ local ascii_spaces = {
 	["\r"] = true
 }
 
--- Trims ASCII spacing characters.
--- Note: loops + sub make this much faster than the equivalent string patterns.
-local function trim(str)
-	local n
-	for i = 1, #str do
-		if not ascii_spaces[sub(str, i, i)] then
-			n = i
-			break
-		end
-	end
-	if not n then
-		return ""
-	end
-	for i = #str, n, -1 do
-		if not ascii_spaces[sub(str, i, i)] then
-			return sub(str, n, i)
-		end
-	end
-end
+local export = {}
 
 ------------------------------------------------------------------------------------
 --
@@ -158,16 +132,8 @@ function Template:get_params()
 		local param = self[i]
 		local key, value = param.key
 		if key then
-			key = trim(tostring(key))
-			if match(key, "^-?[1-9]%d*$") or key == "0" then
-				local num = tonumber(key)
-				key = (
-					num <= 9007199254740991 and num >= -9007199254740991 or
-					key == "9007199254740992" or
-					key == "-9007199254740992"
-				) and num or key
-			end
-			value = trim(Node.__tostring(param))
+			key = scribunto_param_key(tostring(key))
+			value = php_trim(Node.__tostring(param))
 		else
 			implicit = implicit + 1
 			key = implicit
@@ -797,7 +763,7 @@ do
 		elseif norm == false then
 			return
 		end
-		local title = trim(frame:preprocess(name))
+		local title = php_trim(frame:preprocess(name))
 		local pf, arg1 = match(title, "[ \t\n\r]*(.-):(.*)")
 		if pf then
 			local parser_funcs = data.parser_funcs

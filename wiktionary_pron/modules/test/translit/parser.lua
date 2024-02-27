@@ -4,6 +4,7 @@ local next = next
 local rawget = rawget
 local rawset = rawset
 local remove = table.remove
+local select = select
 local setmetatable = setmetatable
 local tostring = tostring
 local type = type
@@ -120,9 +121,8 @@ do
 		self.len = len
 	end
 	
-	function Iterator2:__call()
-		local node, v = self[-1].node
-		v, self[-1].k = node[self.next_func](node, self[-1].k)
+	function Iterator2:catch_values(node, ...)
+		local v, k = ...
 		if v == nil then
 			self:pop()
 			if self[-1] then
@@ -130,11 +130,16 @@ do
 			end
 			return
 		end
-		local k = self[-1].k
+		self[-1].k = k
 		if type(v) == "table" then
 			self:push(v)
 		end
-		return v, node, k
+		return v, node, select(2, ...)
+	end
+	
+	function Iterator2:__call()
+		local node = self[-1].node
+		return self:catch_values(node, node[self.next_func](node, self[-1].k))
 	end
 	
 	function Node:__pairs(next_func)

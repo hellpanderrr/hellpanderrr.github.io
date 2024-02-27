@@ -283,6 +283,18 @@ m["cmn-sic"] = {
 	ancestors = "cmn-ear",
 }
 
+m["wuu-hzh"] = {
+	"Hangzhounese",
+	5648144,
+	"wuu",
+}
+
+m["wuu-ngb"] = {
+	"Ningbonese",
+	3972199,
+	"wuu",
+}
+
 m["wuu-sha"] = {
 	"Shanghainese",
 	36718,

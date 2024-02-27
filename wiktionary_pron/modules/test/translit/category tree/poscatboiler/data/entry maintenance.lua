@@ -304,6 +304,23 @@ for _, pos in ipairs({"nouns", "proper nouns", "verbs", "adjectives", "adverbs",
 end
 
 
+for _, pos in ipairs { "nouns", "proper nouns", "pronouns" } do
+	local label = pos .. " with unknown or uncertain plurals"
+	labels[label] = {
+		description = "{{{langname}}} " .. label .. ".",
+		additional = "Terms are usually added to this category by specifying <code>?</code> as the plural. As much " ..
+		"is possible, a plural should be added or, if the noun is uncountable, indicated appropriately (usually " ..
+		"using <code>-</code> in place of the plural). Some languages support the value <code>!</code> to indicate " ..
+		"that a plural cannot be attested but the noun is theoretically countable.",
+		breadcrumb = "with unknown or uncertain plurals",
+		parents = {
+			{name = pos, sort = "unknown or uncertain plurals"},
+			"entry maintenance",
+		},
+	}
+end
+
+
 -- Add 'umbrella_parents' key if not already present.
 for key, data in pairs(labels) do
 	if not data.umbrella_parents then
@@ -421,90 +438,93 @@ local function script_name_to_code(name)
 	return sc:getCode()
 end
 
--- This array consists of category match specs. Each spec contains one or more properties, whose values are (a) strings
--- that may contain references to other properties using the {{{PROPERTY}}} syntax; (b) functions of one argument, an
--- `items` table of the same properties that are accessible using the {{{PROPERTY}} syntax. Each such spec should have
--- at least a `regex` property that matches the name of the category. Capturing groups in this regex can be referenced
--- in other properties using {{{1}}} for the first group, {{{2}}} for the second group, etc. (or using keys "1", "2",
--- etc. in functions). Property expansion happens recursively if needed (i.e. a property can reference another property,
--- which in turn references a third property).
---
--- If there is a `language_name` propery, it specifies the language name (and will typically be a reference to a
--- capturing group from the `regex` property); if not specified, it defaults to "{{{1}}}" unless the `nolang` property
--- is set, in which case there is no language name derivable from the category name. The language name must be the
--- canonical name of a recognized regular language, or an error is thrown; however, if the `etym_lang_only`
--- property is set, the language name must be the canonical name of an etymology-only language, or the category spec
--- entry will be skipped. Based on the language name, the `language_code` and `language_object` properties are
--- automatically filled in. If `language_name` is an etymology-only language, additional properties
--- `parent_language_name`, `parent_language_code` and `parent_language_object` are set for the parent regular language
--- of the etymology-only language.
---
--- If the `regex` values of multiple category specs match, the first one takes precedence.
---
--- Recognized or predefined properties:
---
--- `pagename`: Current pagename.
--- `regex`: See above.
--- `1`, `2`, `3`, ...: See above.
--- `language_name`, `language_code`, `language_object`: See above.
--- `parent_language_name`, `parent_language_code`, `parent_language_object`: See above.
--- `nolang`: See above.
--- `etym_lang_only`: Language names must be etymology-only languages. See above.
--- `description`: Override the description (normally taken directly from the pagename).
--- `template_name`: Name of template which generates this category.
--- `template_sample_call`: Syntax for calling the template. Defaults to "{{{template_name}}}|{{{language_code}}}".
---    Used to display an example template call and the output of this call.
--- `template_actual_sample_call`: Syntax for calling the template. Takes precedence over `template_sample_call` when
---    generating example template output (but not when displaying an example template call) and is intended for a
---    template call that uses the |nocat=1 parameter.
--- `template_example_output`: Override the text that displays example template output (see `template_sample_call`).
--- `additional_template_description`: Extra text to be displayed after the example template output.
--- `parents`: Parent categories. Should be a list of elements, each of which is an object containing at least a name=
---    and sort= field (same format as parents= for regular raw categories, except that the name= and sort= field will
---    have {{{PROPERTY}}} references expanded). If no parents are specified, and the pagename is of the form
---    "Requests for FOO by language", the parent will be "Request subcategories by language" with FOO as the sort key.
---    Otherwise, the `language_name` property must exist, and the parent will be "Requests concerning LANGNAME" with
---    the pagename minus any initial "Requests for " as the sort key.
--- `umbrella`: Parent all-language category. Sort key is based on the language name.
--- `breadcrumb`: Specify the breadcrumb. If `parents` is given, there is no default (i.e. it will end up being the
---    pagename). Otherwise, if the pagename is of the form "Requests for FOO by language", "Requests for FOO in BAR",
---    or "Requests for FOO", it will be FOO.
--- `not_hidden_category`: Don't hide the category.
--- `catfix`: Same as `catfix` in regular labels and raw categories, except that request-specific {{{PROPERTY}}} syntax
---    is expanded.
--- `toc_template`, `toc_template_full`: Same as the corresponding fields in regular labels and raw categories, except
---    that request-specific {{{PROPERTY}}} syntax is expanded.
---
--- In general, properties can contain references to templates (e.g. {{tl}} and {{para}}), which will be appropriately
--- expanded (this expansion happens in the poscatboiler code, not in this module). The major exception is in the
--- `template_sample_call` and `template_actual_sample_call` properties, which are surrounded by <pre>...</pre> when
--- inserted, so template references are not expanded. Triple-brace property references are still expanded in these
--- properties; but beware that if any of those property references contain template references, they won't be expanded.
--- (This actually happens in the handlers for 'Request for SCRIPT script for LANG terms'; the sample call references
--- {{{script_code}}}, whose definition therefore cannot contain template references. The solution is to define this
--- property using a function.)
+--[=[
+This array consists of category match specs. Each spec contains one or more properties, whose values are (a) strings
+that may contain references to other properties using the {{{PROPERTY}}} syntax; (b) functions of one argument, an
+`items` table of the same properties that are accessible using the {{{PROPERTY}} syntax. Each such spec should have at
+least a `regex` property that matches the name of the category. Capturing groups in this regex can be referenced in
+other properties using {{{1}}} for the first group, {{{2}}} for the second group, etc. (or using keys "1", "2", etc. in
+functions). Property expansion happens recursively if needed (i.e. a property can reference another property, which in
+turn references a third property).
+
+If there is a `language_name` propery, it specifies the language name (and will typically be a reference to a capturing
+group from the `regex` property); if not specified, it defaults to "{{{1}}}" unless the `nolang` property is set, in
+which case there is no language name associated with the category name. The language name must be the canonical name of
+a recognized full language, or an error is thrown; however, if the `allow_etym_lang` property is set, the language name
+may also be the canonical name of an etymology-only language. Based on the language name, the `language_code` and
+`language_object` properties are automatically filled in. If `language_name` is an etymology-only language, additional
+properties `parent_language_name`, `parent_language_code` and `parent_language_object` are set for the parent full
+language of the etymology-only language.
+
+If the `regex` values of multiple category specs match, the first one takes precedence.
+
+Recognized or predefined properties:
+
+`pagename`: Current pagename.
+`regex`: See above.
+`1`, `2`, `3`, ...: See above.
+`language_name`, `language_code`, `language_object`: See above.
+`parent_language_name`, `parent_language_code`, `parent_language_object`: See above.
+`nolang`: See above.
+`allow_etym_lang`: Language names may be etymology-only languages. See above.
+`description`: Override the description (normally taken directly from the pagename).
+`template_name`: Name of template which generates this category.
+`template_sample_call`: Syntax for calling the template. Defaults to "{{{template_name}}}|{{{language_code}}}". Used to
+   display an example template call and the output of this call.
+`template_actual_sample_call`: Syntax for calling the template. Takes precedence over `template_sample_call` when
+   generating example template output (but not when displaying an example template call) and is intended for a template
+   call that uses the |nocat=1 parameter.
+`template_example_output`: Override the text that displays example template output (see `template_sample_call`).
+`additional_template_description`: Extra text to be displayed after the example template output.
+`parents`: Parent categories. Should be a list of elements, each of which is an object containing at least a name= and
+   sort= field (same format as parents= for regular raw categories, except that the name= and sort= field will have
+   {{{PROPERTY}}} references expanded). If no parents are specified, and the pagename is of the form "Requests for FOO
+   by language", the parent will be "Request subcategories by language" with FOO as the sort key. Otherwise, the
+   `language_name` property must exist, and the parent will be "Requests concerning LANGNAME", with the pagename minus
+   any initial "Requests for " as the sort key. Note that this does *NOT* apply if an etymology-only language is
+   associated with the category, in which case `etym_parents` is used instead.
+`etym_parents`: Parent categories for categories with associated etymology-only languages. The format is the same as
+   `parents`. If omitted, there are two parents by default: (1) The pagename (i.e. category name) with the language name
+   replaced by the corresponding parent language name, with the value of `language_name` as the sort key; (2) "Requests
+   concerning LANGNAME", with the pagename minus any initial "Requests for " as the sort key.
+`umbrella`: Parent all-language category. Sort key is based on the language name. This applies *ONLY* if a full language
+   is associated with the category name (i.e. not if `nolang` is set or if `allow_etym_lang` is set and the associated
+   language is an etymology-only language); otherwise there will be no umbrella category.
+`breadcrumb`: Specify the breadcrumb. If `parents` is given, there is no default (i.e. it will end up being the
+   pagename). Otherwise, if the pagename is of the form "Requests for FOO by language", "Requests for FOO in BAR", or
+   "Requests for FOO", it will be FOO. Note that this does *NOT* apply if an etymology-only language is associated with
+   the category, in which case `etym_breadcrumb` is used instead.
+`etym_breadcrumb`: Specify the breadcrumb for categories with associated etymology-only languages. Defaults to the value
+   of `language_name`.
+`not_hidden_category`: Don't hide the category.
+`catfix`: Same as `catfix` in regular labels and raw categories, except that request-specific {{{PROPERTY}}} syntax is
+   expanded.
+`toc_template`, `toc_template_full`: Same as the corresponding fields in regular labels and raw categories, except that
+   request-specific {{{PROPERTY}}} syntax is expanded.
+
+In general, properties can contain references to templates (e.g. {{tl}} and {{para}}), which will be appropriately
+expanded (this expansion happens in the poscatboiler code, not in this module). The major exception is in the
+`template_sample_call` and `template_actual_sample_call` properties, which are surrounded by <pre>...</pre> when
+inserted, so template references are not expanded. Triple-brace property references are still expanded in these
+properties; but beware that if any of those property references contain template references, they won't be expanded.
+(This actually happens in the handlers for 'Request for SCRIPT script for LANG terms'; the sample call references
+{{{script_code}}}, whose definition therefore cannot contain template references. The solution is to define this
+property using a function.)
+]=]
 local requests_categories = {
 	{
-		-- This handles etymology languages.
 		regex = "^Requests concerning (.+)$",
-		description = "Categories with {{{1}}} entries that need the attention of experienced editors.",
-		etym_lang_only = true,
-		parents = {{name = "Requests concerning {{{parent_language_name}}}", sort = "{{{1}}}"}},
-		umbrella = false,
-		breadcrumb = "{{{1}}}",
-		not_hidden_category = true,
-	},
-	{
-		-- This handles regular languages.
-		regex = "^Requests concerning (.+)$",
+		allow_etym_lang = true,
 		description = "Categories with {{{1}}} entries that need the attention of experienced editors.",
 		parents = {{name = "entry maintenance", is_label = true, sort = "requests"}},
+		etym_parents = {{name = "Requests concerning {{{parent_language_name}}}", sort = "{{{1}}}"}},
 		umbrella = "Requests by language",
 		breadcrumb = "Requests",
 		not_hidden_category = true,
 	},
 	{
 		regex = "^Requests for etymologies in (.+) entries$",
+		allow_etym_lang = true,
 		umbrella = "Requests for etymologies by language",
 		template_name = "rfe",
 	},
@@ -641,45 +661,35 @@ local requests_categories = {
 		template_name = "rfquote",
 	},
 	{
-		-- This handles etymology languages.
 		regex = "^Requests for translations into (.+)$",
-		etym_lang_only = true,
-		parents = {
-			{name = "Requests for translations into {{{parent_language_name}}}", sort = "{{{1}}}"},
-			{name = "Requests concerning {{{language_name}}}", sort = "translations"},
-		},
-		umbrella = false,
-		breadcrumb = "{{{1}}}",
-		template_name = "t-needed",
-		catfix = "en",
-	},
-	{
-		-- This handles regular languages.
-		regex = "^Requests for translations into (.+)$",
+		allow_etym_lang = true,
 		umbrella = "Requests for translations by language",
 		template_name = "t-needed",
 		catfix = "en",
 	},
 	{
 		regex = "^Requests for translations of (.+) usage examples$",
+		allow_etym_lang = true,
 		umbrella = "Requests for translations of usage examples by language",
 		breadcrumb = "Translations of usage examples",
 		template_name = "t-needed",
-		template_sample_call = "{{t-needed|{{{language_code}}}|usex=1}}",
-		template_actual_sample_call = "{{t-needed|{{{language_code}}}|usex=1|nocat=1}}",
+		template_sample_call = "{{t-needed|{{{language_code}}}|usex}}",
+		template_actual_sample_call = "{{t-needed|{{{language_code}}}|usex|nocat=1}}",
 		additional_template_description = "The {{tl|ux}}, {{tl|uxi}}, {{tl|ja-usex}} and {{tl|zh-x}} templates automatically add the page to this category if the example is in a foreign language and the translation is missing."
 	},
 	{
 		regex = "^Requests for translations of (.+) quotations$",
+		allow_etym_lang = true,
 		umbrella = "Requests for translations of quotations by language",
 		breadcrumb = "Translations of quotations",
 		template_name = "t-needed",
-		template_sample_call = "{{t-needed|{{{language_code}}}|quote=1}}",
-		template_actual_sample_call = "{{t-needed|{{{language_code}}}|quote=1|nocat=1}}",
-		additional_template_description = "The {{tl|quote}}, {{tl|quote-*}} and {{tl|Q}} templates automatically add the page to this category if the example is in a foreign language and the translation is missing."
+		template_sample_call = "{{t-needed|{{{language_code}}}|quote}}",
+		template_actual_sample_call = "{{t-needed|{{{language_code}}}|quote|nocat=1}}",
+		additional_template_description = "The {{tl|quote}}, and {{tl|Q}} templates automatically add the page to this category if the example is in a foreign language and the translation is missing."
 	},
 	{
 		regex = "^Requests for review of (.+) translations$",
+		allow_etym_lang = true,
 		umbrella = "Requests for review of translations by language",
 		breadcrumb = "Review of translations",
 		template_name = "t-check",
@@ -718,23 +728,12 @@ local requests_categories = {
 		"Hebrew and Persian).",
 	},
 	{
-		-- This handles etymology languages.
 		regex = "^Requests for native script for (.+) terms$",
-		etym_lang_only = true,
-		parents = {
+		allow_etym_lang = true,
+		etym_parents = {
 			{name = "Requests for native script for {{{parent_language_name}}} terms", sort = "{{{1}}}"},
 			{name = "Requests concerning {{{language_name}}}", sort = "native script"},
 		},
-		umbrella = false,
-		breadcrumb = "{{{1}}}",
-		template_name = "rfscript",
-		template_actual_sample_call = "{{rfscript|{{{language_code}}}|nocat=1}}",
-		catfix = false,
-		additional_template_description = "Many templates such as {{tl|l}}, {{tl|m}} and {{tl|t}} automatically place the page in this category when they are missing the term but have been provided with a transliteration."
-	},
-	{
-		-- This handles regular languages.
-		regex = "^Requests for native script for (.+) terms$",
 		umbrella = "Requests for native script by language",
 		template_name = "rfscript",
 		template_actual_sample_call = "{{rfscript|{{{language_code}}}|nocat=1}}",
@@ -760,38 +759,22 @@ local requests_categories = {
 		additional_template_description = "The {{tl|quote}} and {{tl|quote-*}} templates automatically add the page to this category if the quotation itself is missing but the translation is supplied."
 	},
 	{
-		-- This handles etymology languages.
 		regex = "^Requests for (.+) script for (.+) terms$",
 		language_name = "{{{2}}}",
-		etym_lang_only = true,
-		parents = {
+		allow_etym_lang = true,
+		parents = {{name = "Requests for native script for {{{language_name}}} terms", sort = "{{{1}}} script"}},
+		etym_parents = {
 			{name = "Requests for native script for {{{language_name}}} terms", sort = "{{{1}}} script"},
 			{name = "Requests for {{{1}}} script for {{{parent_language_name}}} terms", sort = "{{{language_name}}}"},
 			{name = "Requests concerning {{{language_name}}}", sort = "{{{1}}} script"},
 		},
-		umbrella = false,
+		umbrella = "Requests for {{{1}}} script by language",
 		breadcrumb = "{{{1}}} script",
+		etym_breadcrumb = "{{{1}}} script",
 		template_name = "rfscript",
 		-- NOTE: The following is used in `template_sample_call` and `template_actual_sample_call`, meaning the
 		-- conversion of script name to script code needs to be done using an inline function like this, instead of
 		-- a {{#invoke:...}} template call.
-		script_code = function(items)
-			return script_name_to_code(items["1"])
-		end,
-		template_sample_call = "{{rfscript|{{{language_code}}}|sc={{{script_code}}}}}",
-		template_actual_sample_call = "{{rfscript|{{{language_code}}}|sc={{{script_code}}}|nocat=1}}",
-		catfix = false,
-		additional_template_description = "Many templates such as {{tl|l}}, {{tl|m}} and {{tl|t}} automatically place the page in this category when they are missing the term but have been provided with a transliteration."
-	},
-	{
-		-- This handles regular languages.
-		regex = "^Requests for (.+) script for (.+) terms$",
-		language_name = "{{{2}}}",
-		parents = {{name = "Requests for native script for {{{language_name}}} terms", sort = "{{{1}}} script"}},
-		umbrella = "Requests for {{{1}}} script by language",
-		breadcrumb = "{{{1}}} script",
-		template_name = "rfscript",
-		-- See comment above about this definition.
 		script_code = function(items)
 			return script_name_to_code(items["1"])
 		end,
@@ -1007,12 +990,11 @@ table.insert(raw_handlers, function(data)
 		if not items.nolang then
 			items.language_name = items.language_name or "{{{1}}}"
 			items.language_name = expand_items_value("language_name")
-			if items.etym_lang_only then
-				items.language_object = require("etymology languages").getByCanonicalName(items.language_name)
-				if not items.language_object then
-					return nil
-				end
-				items.language_code = items.language_object:getCode()
+			items.language_object = require("languages").getByCanonicalName(items.language_name, true,
+				items.allow_etym_lang)
+			items.language_code = items.language_object:getCode()
+			items.is_etym_lang = items.language_object:hasType("etymology-only")
+			if items.is_etym_lang then
 				items.parent_language_object = items.language_object:getNonEtymological()
 				-- Reject weird cases where etymology language has no parent.
 				if not items.parent_language_object then
@@ -1027,8 +1009,6 @@ table.insert(raw_handlers, function(data)
 					return nil
 				end
 			else
-				items.language_object = require("languages").getByCanonicalName(items.language_name, true)
-				items.language_code = items.language_object:getCode()
 			end
 		end
 
@@ -1049,8 +1029,14 @@ table.insert(raw_handlers, function(data)
 			items.full_text_about_the_template = items.additional_template_description
 		end
 
-		local parents = items.parents
-		local breadcrumb = expand_items_value("breadcrumb")
+		local parents, breadcrumb
+		if items.is_etym_lang then
+			parents = items.etym_parents
+			breadcrumb = expand_items_value("etym_breadcrumb") or items.language_name
+		else
+			parents = items.parents
+			breadcrumb = expand_items_value("breadcrumb")
+		end
 
 		if parents then
 			for _, parent in ipairs(parents) do
@@ -1065,13 +1051,26 @@ table.insert(raw_handlers, function(data)
 			elseif not items.language_name then
 				error("Internal error: Don't know how to compute parents for non-language-specific category '" .. items.pagename .. "'")
 			else
-				local default_breadcrumb = items.pagename:match("^Requests for (.+) in .*$") or items.pagename:match("^Requests for (.+)$")
-				breadcrumb = breadcrumb or default_breadcrumb
-				parents = {{name = "Requests concerning " .. items.language_name, sort = default_breadcrumb}}
+				local requests_concerning_breadcrumb =
+					items.pagename:match("^Requests for (.+) in .*$") or items.pagename:match("^Requests for (.+)$")
+				local requests_concerning_parent =
+					{name = "Requests concerning " .. items.language_name, sort = requests_concerning_breadcrumb}
+				if items.is_etym_lang then
+					local patutil = require("pattern utilities")
+					local parent_lang_cat = items.pagename:gsub(patutil.pattern_escape(items.language_name),
+						patutil.replacement_escape(items.parent_language_name))
+					parents = {
+						{name = parent_lang_cat, sort = items.language_name},
+						requests_concerning_parent
+					}
+				else
+					breadcrumb = breadcrumb or requests_concerning_breadcrumb
+					parents = {requests_concerning_parent}
+				end
 			end
 		end
 
-		if not items.nolang and items.umbrella ~= false then
+		if not items.nolang and not items.is_etym_lang and items.umbrella ~= false then
 			table.insert(parents, {name = expand_items_value("umbrella"), sort = items.language_name})
 		end
 
@@ -1085,7 +1084,7 @@ table.insert(raw_handlers, function(data)
 			lang = items.parent_language_code or items.language_code,
 			additional = additional,
 			parents = parents,
-			-- If no breadcrumb=, it will default to the category name
+			-- If no breadcrumb= and not an etym-only language, it will default to the category name
 			breadcrumb = breadcrumb,
 			catfix = expand_items_value("catfix"),
 			toc_template = expand_items_value("toc_template"),

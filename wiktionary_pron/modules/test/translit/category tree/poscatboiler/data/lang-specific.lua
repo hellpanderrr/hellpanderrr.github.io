@@ -39,6 +39,7 @@ local langs_with_modules = {
 	["hil"] = true,
 	["id"] = true,
 	["ilo"] = true,
+	["ine-pro"] = true,
 	["ira-pro"] = true,
 	["it"] = true,
 	["ja"] = true,

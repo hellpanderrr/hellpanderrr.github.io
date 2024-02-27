@@ -2204,7 +2204,7 @@ m["gmw"] = {
 m["gmw-afr"] = {
 	"Anglo-Frisian",
 	5329170,
-	"gmw",
+	"gmw-nsg",
 }
 
 m["gmw-ang"] = {
@@ -2245,8 +2245,14 @@ m["gmw-ian"] = {
 m["gmw-lgm"] = {
 	"Low German",
 	25433,
-	"gmw",
+	"gmw-nsg",
 	protoLanguage = "osx",
+}
+
+m["gmw-nsg"] = {
+	"North Sea Germanic",
+	30134,
+	"gmw",
 }
 
 m["grk"] = {
@@ -5323,7 +5329,7 @@ m["sit-mar"] = {
 m["sit-mba"] = {
 	"Macro-Bai",
 	16963847,
-	"sit",
+	"sit-sba",
 	aliases = {"Greater Bai"},
 }
 
@@ -5361,6 +5367,12 @@ m["sit-nax"] = {
 	aliases = {"Naxish"},
 }
 
+m["sit-nba"] = {
+	"Northern Bai",
+	122463830,
+	"sit-bai",
+}
+
 m["sit-new"] = {
 	"Newaric",
 	55625069,
@@ -5385,6 +5397,13 @@ m["sit-rgy"] = {
 	56936,
 	"sit-qia",
 	aliases = {"Jiarongic"},
+}
+
+m["sit-sba"] = {
+	"Sino-Bai",
+	nil,
+	"sit",
+	aliases = {"Greater Bai"},
 }
 
 m["sit-tam"] = {
@@ -6027,7 +6046,7 @@ m["ypk"] = {
 m["zhx"] = {
 	"Sinitic",
 	33857,
-	"sit",
+	"sit-sba",
 	aliases = {"Chinese"},
 	protoLanguage = "och",
 }
@@ -6061,6 +6080,7 @@ m["zhx-pin"] = {
 	"Pinghua",
 	2735715,
 	"zhx",
+	protoLanguage = "ltc",
 }
 
 m["zhx-yue"] = {

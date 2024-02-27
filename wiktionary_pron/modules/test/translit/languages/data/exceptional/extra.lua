@@ -514,6 +514,10 @@ m["crp-mpp"] = {
 m["crp-rsn"] = {
 }
 
+m["crp-slb"] = {
+	otherNames = {"Solombala-English", "Solombala English-Russian Pidgin"},
+}
+
 m["crp-tnw"] = {
 	aliases = {"Tangwanghua"},
 }
@@ -1980,6 +1984,9 @@ m["sit-bok"] = {
 	otherNames = {"Ramo", "Pailibo"},
 }
 
+m["sit-bai-pro"] = {
+}
+
 m["sit-cai"] = {
 }
 
@@ -2075,6 +2082,10 @@ m["tai-swe-pro"] = {
 m["tbq-bdg-pro"] = {
 }
 
+m["tbq-blg"] = {
+	aliases = {"Pai-lang", "Pailang"},
+}
+
 m["tbq-gkh"] = {
 	aliases = {"Gɔkhý", "Gɔkhy", "Gouke"},
 }
@@ -2103,10 +2114,6 @@ m["tbq-mor"] = {
 
 m["tbq-ngo"] = {
 	otherNames = {"Ngachang"},
-}
-
-m["tbq-plg"] = {
-	aliases = {"Bai-lang", "Pailang", "Bailang"},
 }
 
 -- tbq-pro is now etymology-only

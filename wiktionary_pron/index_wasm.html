@@ -2,10 +2,10 @@
 
 <html lang="">
 <head>
-    <title>Online IPA Phonetic Transcription</title>
+    <title>Free Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
     <meta content="Online IPA Latin German Portuguese Phonetics Transcription" name="Keywords"/>
-    <meta content="Rule-base IPA phonetic transcription engine, which uses Wiktionary Lua pronunciation modules."
+    <meta content="Free Online Rule-based IPA phonetic/phonemic transcription engine, which uses Wiktionary Lua pronunciation modules."
           name="description">
     <script src="wasmoon.js" type="text/javascript"></script>
 
@@ -61,6 +61,7 @@
             require('debug/track')
             require('ustring/charsets')
             require('ustring/lower')
+            require('mw-title')
             require('ustring/normalization-data')
         `);
 
@@ -88,7 +89,7 @@
 <body style="font-family: 'Voces', sans-serif">
 
 <br/>
-
+<h1>Online IPA Converter</h1>
 
 <form name="myForm">
     <div>
@@ -99,6 +100,9 @@
         <option value="Latin">Latin</option>
         <option value="German">German</option>
         <option value="Portugese">Portugese</option>
+        <option value="French">French</option>
+        <option value="Ukranian">Ukranian</option>
+
     </select>
     <div>
         Additional options:
@@ -111,6 +115,8 @@
         <option data-option="German">Default</option>
         <option data-option="Portugese">Brazil</option>
         <option data-option="Portugese">Portugal</option>
+        <option data-option="French">Default</option>
+        <option data-option="Ukranian">Default</option>
 
 
     </select>
@@ -123,6 +129,8 @@
         <option data-option="German">Phonemic</option>
         <option data-option="Portugese">Phonetic</option>
         <option data-option="Portugese">Phonemic</option>
+        <option data-option="French">Phonemic</option>
+        <option data-option="Ukranian">Phonetic</option>
     </select>
 
 
@@ -153,6 +161,7 @@
             <input
                     class="btn btn-primary btn-block"
                     disabled="disabled"
+                    autocomplete="off"
                     id="submit"
                     name="submit"
                     title="or Ctrl+Enter while in the text area"
@@ -162,6 +171,7 @@
             <input
                     class="btn btn-primary btn-block"
                     disabled="disabled"
+                    autocomplete="off"
                     id="submit_by_line"
                     name="submit"
                     title="or Ctrl+Enter while in the text area"
@@ -171,6 +181,7 @@
             <input
                     class="btn btn-primary btn-block"
                     disabled="disabled"
+                    autocomplete="off"
                     id="submit_by_col"
                     name="submit"
                     title="or Ctrl+Enter while in the text area"
@@ -189,6 +200,7 @@
     function sanitize(text) {
         return text.replace(/[^\p{L}]/gu, '')
     }
+
     /**
      * Splits the input text into chunks of maximum length.
      *
@@ -231,8 +243,8 @@
 
     function prepareTranscribe() {
         text = document.getElementById('text_to_transcribe').value
-        // textlines = text.split('\n')
-        textlines = splitTextIntoChunks(text, maxChunkLength = 51)
+        textlines = text.split('\n')
+        //textlines = splitTextIntoChunks(text, maxChunkLength = 51)
         div = document.getElementById('result')
         div.innerHTML = ''
         return [div, textlines]
@@ -243,12 +255,16 @@
         // console.time("Elapsed time :");
         for (let idx = 0; idx < arr.length; idx += 1) {
             const cur = arr[idx];
-            await new Promise(resolve => setTimeout(resolve, 1));
+            await new Promise(resolve => setTimeout(resolve, 0.0001));
 
             result.push(await fn(cur, idx, arr));
         }
         // console.timeEnd("Elapsed time :")
         return result;
+    }
+
+    async function wait(ms = 1) {
+        await new Promise(resolve => setTimeout(resolve, ms));
     }
 
     /**
@@ -261,52 +277,63 @@
         try {
             [div, textlines] = prepareTranscribe()
             const {lang, langStyle, langForm} = getLangStyleForm()
+
             async function process_default(line) {
                 separated = line.split(' ')
                 div.insertAdjacentHTML('beforeend', '</br>')
 
                 function process_word(i) {
-                    result = getIpa(i, lang, langStyle, langForm)
-                    result = result.status === 'error'
-                        ? `<span style="color:red">${result.value} </span>`
-                        : `<span>${result.value} </span>`
-                    div.insertAdjacentHTML('beforeend', result)
-
+                    const {status, value} = getIpa(i, lang, langStyle, langForm);
+                    const color = status === 'error' ? 'red' : 'black';
+                    const span = document.createElement('span');
+                    span.style.color = color;
+                    span.appendChild(document.createTextNode(value + ' '));
+                    div.appendChild(span);
                 }
 
-                await asyncMapStrict(separated, process_word)
+                await Promise.all(separated.map(async function (x) {
+                    await wait(1);
+                    await process_word(x)
+                }))
 
 
             }
 
             async function process_line(line) {
-                separated = line.split(' ')
-                result = await asyncMapStrict(separated, (i) => getIpa(i, lang, langStyle, langForm))
-                result = result.map((i) =>
-                    i.status === 'error'
-                        ? `<div style="color:red">${i.value} </div>`
-                        : `<div>${i.value} </div>`
-                )
+                const words = line.split(' ');
+                const results = await Promise.all(words.map(async function (word) {
+                    await wait(1);
+                    return await getIpa(word, lang, langStyle, langForm);
+                }));
 
-                row = div.insertRow(-1)
-                old = separated.map(
-                    (x) => `<div style="font-family: Garamond;">${x} </div>`
-                )
-                glued = result.map(
-                    (k, i) =>
+                const formattedResults = results.map((result) =>
+                    result.status === 'error'
+                        ? `<div style="color:red">${result.value} </div>`
+                        : `<div>${result.value} </div>`
+                );
+
+                const newRow = div.insertRow(-1);
+                const formattedWords = words.map(
+                    (word) => `<div style="font-family: Garamond;">${word} </div>`
+                );
+                const combinedResults = formattedResults.map(
+                    (formattedResult, index) =>
                         '<div style="float:left;margin-left:5px;margin-top:5px;">' +
-                        old[i] +
-                        k +
+                        formattedWords[index] +
+                        formattedResult +
                         '</div>'
-                )
-                glued
+                );
+                combinedResults
                     .reverse()
-                    .map((x) => row.insertAdjacentHTML('afterbegin', x))
+                    .map((r) => newRow.insertAdjacentHTML('afterbegin', r));
             }
 
             async function process_column(line) {
                 separated = line.split(' ')
-                result = await asyncMapStrict(separated, (i) => getIpa(i, lang, langStyle, langForm))
+                result = await Promise.all(separated.map(async function (x) {
+                    await wait(1);
+                    return await getIpa(x, lang, langStyle, langForm)
+                }))
 
                 result = result.map((i) =>
                     i.status === 'error'
@@ -382,13 +409,13 @@
 
     var form = document.getElementById('frm1')
 
-    form.addEventListener('submit', (() => transcribe(mode='default')));
+    form.addEventListener('submit', (() => transcribe(mode = 'default')));
     document
         .getElementById('submit_by_line')
-        .addEventListener('click', (() => transcribe(mode='line')))
+        .addEventListener('click', (() => transcribe(mode = 'line')))
     document
         .getElementById('submit_by_col')
-        .addEventListener('click', (() => transcribe(mode='column')))
+        .addEventListener('click', (() => transcribe(mode = 'column')))
 
     document
         .getElementById('clear_button')
@@ -408,6 +435,7 @@
         i = document.getElementById('text_to_transcribe')
         i.value = ''
     }
+
     /**
      * Retrieves the language, style, and form data from the DOM
      * @returns {Object} An object containing the language, language style, and language form data
@@ -502,6 +530,21 @@
                         break;
                 }
                 break;
+            case 'French':
+                switch (lang_form) {
+                    case 'Phonemic':
+                        command = `(window.fr_ipa.show('${clean_text}')[0])`
+                        console.log(command)
+                        break;
+                }
+
+            case 'Ukranian':
+                switch (lang_form) {
+                    case 'Phonetic':
+                        command = `(window.uk_ipa.pronunciation('${clean_text}',true))`
+                        console.log(command)
+                        break;
+                }
         }
         try {
             ipa_ = eval(command)
@@ -580,6 +623,7 @@
         };
     }
 
+
     const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
 
 
@@ -595,7 +639,7 @@
     var options3 = sel3.querySelectorAll('option');
 
     loadedLanguages = {}
-    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt'}
+    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt','French':'fr','Ukranian':'uk'}
 
     async function giveSelection(selValue) {
         if (!(selValue in loadedLanguages)) {
