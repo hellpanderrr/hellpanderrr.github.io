@@ -15,7 +15,6 @@ FIXME:
     translit so that we can display the transformed Cyrillic in the
     "phonetic respelling" notation of {{ru-IPA}}.
 ]=]
-
 local u = mw.ustring.char
 local explode = require("string utilities").explode_utf8
 local concat = table.concat
@@ -203,7 +202,7 @@ do
 	-- Комон-л’Эванте, where an uppercase `this` follows a lowercase `prev`,
 	-- (since the apostrophe is ignored).
 	local function check_plain(this, prev, check, in_check)
-		if prev and (this == this:ulower() or prev == prev:ulower()) then
+		if prev and (this == ulower(this) or prev == ulower(this)) then
 			if check:match(prev, 1, true) then
 				return in_check
 			end

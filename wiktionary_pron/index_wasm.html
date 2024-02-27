@@ -102,6 +102,7 @@
         <option value="Portugese">Portugese</option>
         <option value="French">French</option>
         <option value="Ukranian">Ukranian</option>
+        <option value="Russian">Russian</option>
 
     </select>
     <div>
@@ -117,6 +118,7 @@
         <option data-option="Portugese">Portugal</option>
         <option data-option="French">Default</option>
         <option data-option="Ukranian">Default</option>
+        <option data-option="Russian">Default</option>
 
 
     </select>
@@ -131,6 +133,7 @@
         <option data-option="Portugese">Phonemic</option>
         <option data-option="French">Phonemic</option>
         <option data-option="Ukranian">Phonetic</option>
+        <option data-option="Russian">Phonetic</option>
     </select>
 
 
@@ -159,9 +162,9 @@
         <input id="clear_storage" type="button">
         <div class="btn-group btn-block" role="group">
             <input
+                    autocomplete="off"
                     class="btn btn-primary btn-block"
                     disabled="disabled"
-                    autocomplete="off"
                     id="submit"
                     name="submit"
                     title="or Ctrl+Enter while in the text area"
@@ -169,9 +172,9 @@
                     value="Show transcription"
             />
             <input
+                    autocomplete="off"
                     class="btn btn-primary btn-block"
                     disabled="disabled"
-                    autocomplete="off"
                     id="submit_by_line"
                     name="submit"
                     title="or Ctrl+Enter while in the text area"
@@ -179,9 +182,9 @@
                     value="Show transcription line-by-line"
             />
             <input
+                    autocomplete="off"
                     class="btn btn-primary btn-block"
                     disabled="disabled"
-                    autocomplete="off"
                     id="submit_by_col"
                     name="submit"
                     title="or Ctrl+Enter while in the text area"
@@ -537,7 +540,7 @@
                         console.log(command)
                         break;
                 }
-
+                break
             case 'Ukranian':
                 switch (lang_form) {
                     case 'Phonetic':
@@ -545,6 +548,15 @@
                         console.log(command)
                         break;
                 }
+                break
+            case 'Russian':
+                switch (lang_form) {
+                    case 'Phonetic':
+                        command = `(window.ru_ipa.ipa_string('${clean_text}'))`
+                        console.log(command)
+                        break;
+                }
+                break
         }
         try {
             ipa_ = eval(command)
@@ -639,7 +651,7 @@
     var options3 = sel3.querySelectorAll('option');
 
     loadedLanguages = {}
-    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt','French':'fr','Ukranian':'uk'}
+    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt', 'French': 'fr', 'Ukranian': 'uk', 'Russian': 'ru'}
 
     async function giveSelection(selValue) {
         if (!(selValue in loadedLanguages)) {
