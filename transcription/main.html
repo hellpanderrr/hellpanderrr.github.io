@@ -1,75 +1,74 @@
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 
 <html lang="">
-    <head>
-        <title>Online IPA Phonetic Transcription</title>
-        <meta charset="UTF-8">
-        <meta name="Keywords" content="Online IPA German Phonetics Transcription немецкая фонетическая транскрипция МФА"/>
-        <meta name="description" content="Multi-lingual IPA phonetic transcription engine. Only German lexicon is currently available. ">
+<head>
+    <title>Online IPA Phonetic Transcription</title>
+    <meta charset="UTF-8">
+    <meta content="Online IPA German Phonetics Transcription немецкая фонетическая транскрипция МФА" name="Keywords"/>
+    <meta content="Multi-lingual IPA phonetic transcription engine. Only German lexicon is currently available. "
+          name="description">
 
-        <script src="./data.js"></script>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
-        <link
+    <script src="./data.js"></script>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <link
             href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap"
             rel="stylesheet"
-        />
+    />
 
-        <style>
-            /* loading dots */
+    <style>
+        /* loading dots */
 
-            .loading:after {
-                content: ' .';
-                animation: dots 0.5s steps(5, end) infinite;
+        .loading:after {
+            content: ' .';
+            animation: dots 0.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%,
+            20% {
+                color: rgb(255, 255, 255);
+                text-shadow: 0.25em 0 0 rgb(255, 255, 255),
+                0.5em 0 0 rgb(255, 255, 255);
             }
-
-            @keyframes dots {
-                0%,
-                20% {
-                    color: rgb(255, 255, 255);
-                    text-shadow:
-                        0.25em 0 0 rgb(255, 255, 255),
-                        0.5em 0 0 rgb(255, 255, 255);
-                }
-                40% {
-                    color: #090909;
-                    text-shadow:
-                        0.25em 0 0 rgb(255, 255, 255),
-                        0.5em 0 0 rgb(255, 255, 255);
-                }
-                60% {
-                    text-shadow:
-                        0.25em 0 0 #000000,
-                        0.5em 0 0 rgb(255, 255, 255);
-                }
-                80%,
-                100% {
-                    text-shadow:
-                        0.25em 0 0 #000000,
-                        0.5em 0 0 #090909;
-                }
+            40% {
+                color: #090909;
+                text-shadow: 0.25em 0 0 rgb(255, 255, 255),
+                0.5em 0 0 rgb(255, 255, 255);
             }
-        </style>
-    </head>
-    <body style="font-family: 'Voces', sans-serif">
-        <input type="file" name="inputfile" id="inputfile" />
-        <div style="width: 300px" id="lexicon_status">
-            Lexicon status:
-            <div id="progress_bar" style="float: right" class="loading">
-                loading
-            </div>
-            <div id="lexicon_count" style="float: right"></div>
-        </div>
-        <br />
-        <form id="frm1" onsubmit="return false">
-            <div class="form-group">
+            60% {
+                text-shadow: 0.25em 0 0 #000000,
+                0.5em 0 0 rgb(255, 255, 255);
+            }
+            80%,
+            100% {
+                text-shadow: 0.25em 0 0 #000000,
+                0.5em 0 0 #090909;
+            }
+        }
+    </style>
+</head>
+<body style="font-family: 'Voces', sans-serif">
+<input id="inputfile" name="inputfile" type="file"/>
+<div id="lexicon_status" style="width: 300px">
+    Lexicon status:
+    <div class="loading" id="progress_bar" style="float: right">
+        loading
+    </div>
+    <div id="lexicon_count" style="float: right"></div>
+</div>
+<br/>
+<form id="frm1" onsubmit="return false">
+    <div class="form-group">
                 <textarea
-                    id="text_to_transcribe"
-                    name="text_to_transcribe"
-                    required=""
-                    autofocus=""
-                    style="
+                        autocomplete="off"
+                        autofocus=""
+                        disabled="disabled"
+                        id="text_to_transcribe"
+                        name="text_to_transcribe"
+                        required=""
+                        style="
                         height: 101px;
                         overflow: auto;
                         resize: vertical;
@@ -78,266 +77,272 @@
                 >
 Hat Herr Müller eine Frau? Ja, er hat eine Frau. Wie</textarea
                 >
-                <input type="button" id="clear_button" />
-                <div class="btn-group btn-block" role="group">
-                    <input
-                        id="submit"
-                        class="btn btn-primary btn-block"
-                        name="submit"
-                        type="submit"
-                        value="Show transcription"
-                        title="or Ctrl+Enter while in the text area"
-                    />
-                    <input
-                        id="submit_by_line"
-                        class="btn btn-primary btn-block"
-                        name="submit"
-                        type="button"
-                        value="Show transcription line-by-line"
-                        title="or Ctrl+Enter while in the text area"
-                    />
-                    <input
-                        id="submit_by_col"
-                        class="btn btn-primary btn-block"
-                        name="submit"
-                        type="button"
-                        value="Show transcription column to column"
-                        title="or Ctrl+Enter while in the text area"
-                    />
-                </div>
-            </div>
-        </form>
-        <table style="overflow: auto; resize: vertical; width: 500px">
-            <tbody id="result"></tbody>
-        </table>
-        <pre id="output"></pre>
-        <script type="text/javascript">
-            function sanitize(text) {
-                return text.replace(/[^\p{L}]/gu, '')
+        <input id="clear_button" type="button"/>
+        <div class="btn-group btn-block" role="group">
+            <input
+                    autocomplete="off"
+                    class="btn btn-primary btn-block"
+                    disabled="disabled"
+                    id="submit"
+                    name="submit"
+                    title="or Ctrl+Enter while in the text area"
+                    type="submit"
+                    value="Show transcription"
+            />
+            <input
+                    autocomplete="off"
+                    class="btn btn-primary btn-block"
+                    disabled="disabled"
+                    id="submit_by_line"
+                    name="submit"
+                    title="or Ctrl+Enter while in the text area"
+                    type="button"
+                    value="Show transcription line-by-line"
+            />
+            <input
+                    autocomplete="off"
+                    class="btn btn-primary btn-block"
+                    disabled="disabled"
+                    id="submit_by_col"
+                    name="submit"
+                    title="or Ctrl+Enter while in the text area"
+                    type="button"
+                    value="Show transcription column to column"
+            />
+        </div>
+    </div>
+</form>
+<table style="overflow: auto; resize: vertical; width: 500px">
+    <tbody id="result"></tbody>
+</table>
+<pre id="output"></pre>
+<script type="text/javascript">
+    function sanitize(text) {
+        return text.replace(/[^\p{L}]/gu, '')
+    }
+
+    function transcribe() {
+        text = document.getElementById('text_to_transcribe').value
+        textlines = text.split('\n')
+        div = document.getElementById('result')
+        div.innerHTML = ''
+
+        function process_line(line) {
+            separated = line.split(' ')
+            result = separated.map((i) => get_ipa(i))
+            result = result.map((i) =>
+                i.status === 'error'
+                    ? `<span style="color:red">${i.value} </span>`
+                    : `<span>${i.value} </span>`
+            )
+            div.insertAdjacentHTML('afterbegin', '</br>')
+            result
+                .reverse()
+                .map((x) => div.insertAdjacentHTML('afterbegin', x))
+        }
+
+        textlines.reverse().map(process_line)
+    }
+
+    function transcribe_by_line() {
+        text = document.getElementById('text_to_transcribe').value
+        textlines = text.split('\n')
+        div = document.getElementById('result')
+        div.innerHTML = ''
+
+        function process_line(line) {
+            separated = line.split(' ')
+            result = separated.map((i) => get_ipa(i))
+            result = result.map((i) =>
+                i.status === 'error'
+                    ? `<div style="color:red">${i.value} </div>`
+                    : `<div>${i.value} </div>`
+            )
+
+            row = div.insertRow(-1)
+            old = separated.map(
+                (x) => `<div style="font-family: Garamond;">${x} </div>`
+            )
+            glued = result.map(
+                (k, i) =>
+                    '<div style="float:left;margin-left:5px;margin-top:5px;">' +
+                    old[i] +
+                    k +
+                    '</div>'
+            )
+            glued
+                .reverse()
+                .map((x) => row.insertAdjacentHTML('afterbegin', x))
+        }
+
+        textlines.map(process_line)
+    }
+
+    function transcribe_by_column() {
+        text = document.getElementById('text_to_transcribe').value
+        textlines = text.split('\n')
+        div = document.getElementById('result')
+        div.innerHTML = ''
+
+        function process_line(line) {
+            separated = line.split(' ')
+            result = separated.map((i) => get_ipa(i))
+            result = result.map((i) =>
+                i.status === 'error'
+                    ? `<td style="color:red">${i.value} </td>`
+                    : `<td>${i.value} </td>`
+            )
+
+            function insert_row(div, cells) {
+                row = div.insertRow(-1)
+                for (cell of cells) {
+                    new_cell = row.insertCell(-1)
+                    new_cell.outerHTML = cell
+                }
             }
 
-            function transcribe() {
-                text = document.getElementById('text_to_transcribe').value
-                textlines = text.split('\n')
-                div = document.getElementById('result')
-                div.innerHTML = ''
+            old = separated.map(
+                (x) => `<td style="font-family: Garamond;">${x} </td>`
+            )
+            result.map((k, i) => insert_row(div, [old[i], k]))
+        }
 
-                function process_line(line) {
-                    separated = line.split(' ')
-                    result = separated.map((i) => get_ipa(i))
-                    result = result.map((i) =>
-                        i.status === 'error'
-                            ? `<span style="color:red">${i.value} </span>`
-                            : `<span>${i.value} </span>`
-                    )
-                    div.insertAdjacentHTML('afterbegin', '</br>')
-                    result
-                        .reverse()
-                        .map((x) => div.insertAdjacentHTML('afterbegin', x))
+        textlines.map(process_line)
+    }
+
+    var form = document.getElementById('frm1')
+
+    form.addEventListener('submit', transcribe)
+    document
+        .getElementById('submit_by_line')
+        .addEventListener('click', transcribe_by_line)
+    document
+        .getElementById('submit_by_col')
+        .addEventListener('click', transcribe_by_column)
+
+    document
+        .getElementById('clear_button')
+        .addEventListener('click', clear_input)
+
+    function clear_input() {
+        i = document.getElementById('text_to_transcribe')
+        i.value = ''
+    }
+
+    function get_ipa(text) {
+        clean_text = sanitize(text)
+        ipa = dict.get(clean_text)
+        if (ipa) {
+            ipa = decodeURIComponent(ipa)
+        }
+        if (!ipa) {
+            ipa = dict.get(clean_text.toLowerCase())
+        }
+        if (!ipa) {
+            ipa = dict.get(clean_text.toLowerCase().replace('ß', 'ss'))
+        }
+        split = text.split(/([\p{L}]+)/gu)
+        index_in_split = split
+            .map((x, n) => x === clean_text && n)
+            .filter(Boolean)[0]
+
+        split[index_in_split] = ipa
+
+        console.log(ipa)
+        if (!ipa) {
+            return new Object({value: text, status: 'error'})
+        }
+        ipa = split.join('')
+        return new Object({value: ipa, status: 'success'})
+    }
+
+    const splitAndAppend = (str, delim, count) => {
+        const arr = str.split(delim)
+        return [...arr.splice(0, count), arr.join(delim)]
+    }
+    let text = ''
+
+    function process_lexicon(text) {
+        progress_bar = document.getElementById('progress_bar')
+        progress_bar.style.display = 'block'
+        Array.from(document.getElementsByClassName('btn')).map((x) =>
+            x.setAttribute('disabled', true)
+        )
+        document.getElementById('lexicon_count').style.display = 'none'
+        split = text.split(/\r?\n/)
+        lines = []
+
+        var chunk = 10000
+        var index = 0
+
+        function doChunk() {
+            var cnt = chunk
+            console.log(index)
+            while (cnt-- && index < split.length) {
+                ;[text, ipa] = splitAndAppend(split[index], ' ', 1)
+                if (!ipa.includes('|')) {
+                    lines.push([text, ipa.split(' ').join('')])
                 }
-
-                textlines.reverse().map(process_line)
+                ++index
             }
-
-            function transcribe_by_line() {
-                text = document.getElementById('text_to_transcribe').value
-                textlines = text.split('\n')
-                div = document.getElementById('result')
-                div.innerHTML = ''
-
-                function process_line(line) {
-                    separated = line.split(' ')
-                    result = separated.map((i) => get_ipa(i))
-                    result = result.map((i) =>
-                        i.status === 'error'
-                            ? `<div style="color:red">${i.value} </div>`
-                            : `<div>${i.value} </div>`
-                    )
-
-                    row = div.insertRow(-1)
-                    old = separated.map(
-                        (x) => `<div style="font-family: Garamond;">${x} </div>`
-                    )
-                    glued = result.map(
-                        (k, i) =>
-                            '<div style="float:left;margin-left:5px;margin-top:5px;">' +
-                            old[i] +
-                            k +
-                            '</div>'
-                    )
-                    glued
-                        .reverse()
-                        .map((x) => row.insertAdjacentHTML('afterbegin', x))
-                }
-
-                textlines.map(process_line)
-            }
-
-            function transcribe_by_column() {
-                text = document.getElementById('text_to_transcribe').value
-                textlines = text.split('\n')
-                div = document.getElementById('result')
-                div.innerHTML = ''
-
-                function process_line(line) {
-                    separated = line.split(' ')
-                    result = separated.map((i) => get_ipa(i))
-                    result = result.map((i) =>
-                        i.status === 'error'
-                            ? `<td style="color:red">${i.value} </td>`
-                            : `<td>${i.value} </td>`
-                    )
-
-                    function insert_row(div, cells) {
-                        row = div.insertRow(-1)
-                        for (cell of cells) {
-                            new_cell = row.insertCell(-1)
-                            new_cell.outerHTML = cell
-                        }
-                    }
-
-                    old = separated.map(
-                        (x) => `<td style="font-family: Garamond;">${x} </td>`
-                    )
-                    result.map((k, i) => insert_row(div, [old[i], k]))
-                }
-
-                textlines.map(process_line)
-            }
-
-            var form = document.getElementById('frm1')
-
-            form.addEventListener('submit', transcribe)
-            document
-                .getElementById('submit_by_line')
-                .addEventListener('click', transcribe_by_line)
-            document
-                .getElementById('submit_by_col')
-                .addEventListener('click', transcribe_by_column)
-
-            document
-                .getElementById('clear_button')
-                .addEventListener('click', clear_input)
-
-            function clear_input() {
-                i = document.getElementById('text_to_transcribe')
-                i.value = ''
-            }
-
-            function get_ipa(text) {
-                clean_text = sanitize(text)
-                ipa = dict.get(clean_text)
-                if (ipa) {
-                    ipa = decodeURIComponent(ipa)
-                }
-                if (!ipa) {
-                    ipa = dict.get(clean_text.toLowerCase())
-                }
-                if (!ipa) {
-                    ipa = dict.get(clean_text.toLowerCase().replace('ß', 'ss'))
-                }
-                split = text.split(/([\p{L}]+)/gu)
-                index_in_split = split
-                    .map((x, n) => x === clean_text && n)
-                    .filter(Boolean)[0]
-
-                split[index_in_split] = ipa
-
-                console.log(ipa)
-                if (!ipa) {
-                    return new Object({ value: text, status: 'error' })
-                }
-                ipa = split.join('')
-                return new Object({ value: ipa, status: 'success' })
-            }
-
-            const splitAndAppend = (str, delim, count) => {
-                const arr = str.split(delim)
-                return [...arr.splice(0, count), arr.join(delim)]
-            }
-            let text = ''
-
-            function process_lexicon(text) {
-                progress_bar = document.getElementById('progress_bar')
-                progress_bar.style.display = 'block'
-                Array.from(document.getElementsByClassName('btn')).map((x) =>
-                    x.setAttribute('disabled', true)
+            if (index < split.length) {
+                // set Timeout for async iteration
+                setTimeout(doChunk, 1)
+            } else {
+                dict = new Map(lines.reverse())
+                console.log('dict created')
+                progress_bar.style.display = 'none'
+                document.getElementById('lexicon_count').style.display =
+                    'block'
+                document.getElementById(
+                    'lexicon_count'
+                ).innerText = `Loaded ${dict.size} entries.`
+                Array.from(document.getElementsByClassName('btn')).map(
+                    (x) => x.removeAttribute('disabled')
                 )
-                document.getElementById('lexicon_count').style.display = 'none'
-                split = text.split(/\r?\n/)
-                lines = []
+            }
+        }
 
-                var chunk = 10000
-                var index = 0
+        return doChunk()
+    }
 
-                function doChunk() {
-                    var cnt = chunk
-                    console.log(index)
-                    while (cnt-- && index < split.length) {
-                        ;[text, ipa] = splitAndAppend(split[index], ' ', 1)
-                        if (!ipa.includes('|')) {
-                            lines.push([text, ipa.split(' ').join('')])
-                        }
-                        ++index
-                    }
-                    if (index < split.length) {
-                        // set Timeout for async iteration
-                        setTimeout(doChunk, 1)
-                    } else {
-                        dict = new Map(lines.reverse())
-                        console.log('dict created')
-                        progress_bar.style.display = 'none'
-                        document.getElementById('lexicon_count').style.display =
-                            'block'
-                        document.getElementById(
-                            'lexicon_count'
-                        ).innerText = `Loaded ${dict.size} entries.`
-                        Array.from(document.getElementsByClassName('btn')).map(
-                            (x) => x.removeAttribute('disabled')
-                        )
-                    }
-                }
+    console.log('started loading')
+    fetch('./data/german_ipa.txt')
+        .then(function (response) {
+            return response
+        })
+        .then(function (data) {
+            return data.text()
+        })
+        .then(function (Normal) {
+            text = Normal
+            console.log('loaded text')
+            dict = process_lexicon(text)
+            console.log('created dict')
+        })
+        .catch(function (err) {
+            console.log('Fetch problem show: ' + err.message)
+        })
 
-                return doChunk()
+    window.addEventListener('load', function () {
+        if (lines_from_js) {
+            lines = lines_from_js.filter((x) => !x[1].includes('|'))
+            dict = new Map(lines)
+            console.log('loaded dict')
+        }
+    })
+
+    document
+        .getElementById('inputfile')
+        .addEventListener('change', function () {
+            var fr = new FileReader()
+            fr.onload = function () {
+                text = fr.result
+                dict = process_lexicon(text)
             }
 
-            console.log('started loading')
-            fetch('./data/german_ipa.txt')
-                .then(function (response) {
-                    return response
-                })
-                .then(function (data) {
-                    return data.text()
-                })
-                .then(function (Normal) {
-                    text = Normal
-                    console.log('loaded text')
-                    dict = process_lexicon(text)
-                    console.log('created dict')
-                })
-                .catch(function (err) {
-                    console.log('Fetch problem show: ' + err.message)
-                })
-
-            window.addEventListener('load', function () {
-                if (lines_from_js) {
-                    lines = lines_from_js.filter((x) => !x[1].includes('|'))
-                    dict = new Map(lines)
-                    console.log('loaded dict')
-                }
-            })
-
-            document
-                .getElementById('inputfile')
-                .addEventListener('change', function () {
-                    var fr = new FileReader()
-                    fr.onload = function () {
-                        text = fr.result
-                        dict = process_lexicon(text)
-                    }
-
-                    fr.readAsText(this.files[0])
-                })
-        </script>
-    </body>
+            fr.readAsText(this.files[0])
+        })
+</script>
+</body>
 </html>
