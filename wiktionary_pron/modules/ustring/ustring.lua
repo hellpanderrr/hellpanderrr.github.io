@@ -459,7 +459,7 @@ local function find( s, cps, rawpat, pattern, init, noAnchor )
 			end
 			return sub( s, cps, captures[n][1], captures[n][2] ), captures[n][2] - captures[n][1] + 1
 		else
-			return captures[n], math.floor( math.log10( captures[n] ) ) + 1
+			return captures[n], math.floor( math.log( captures[n],10 ) ) + 1
 		end
 	end
 

@@ -2,6 +2,8 @@
 
 <html lang="">
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css"/>
+
     <title>Free Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
     <meta content="Online IPA Latin German Portuguese Phonetics Transcription" name="Keywords"/>
@@ -21,58 +23,42 @@
             await factory.mountFile(lua_path, x)
         }
 
-        await mountFile('../wiktionary_pron/modules/test/translit/memoize.lua', 'memoize.lua')
+        await mountFile('../wiktionary_pron/modules/memoize.lua', 'memoize.lua')
         await lua.doString(`
-            function split(text, delim)
-                -- returns an array of fields based on text and delimiter (one character only)
-                local result = {}
-                local magic = "().%+-*?[]^$"
-
-                if delim == nil then
-                    delim = "%s"
-                elseif string.find(delim, magic, 1, true) then
-                    -- escape magic
-                    delim = "%"..delim
-                end
-
-                local pattern = "[^"..delim.."]+"
-                for w in string.gmatch(text, pattern) do
-                    table.insert(result, w)
-                end
-                return result
-            end
           memoize = require('memoize')
-
           function require(path)
-               print('required '..path,'from:', debug.getinfo(2).name)
+              print('required '..path,'from:', debug.getinfo(2).name)
               if select(2,string.gsub(path, "%.", "")) > 0 then
                    new_path = string.gsub(path,"%.", "/",1)
                    print('replacing ', path,'->', new_path)
                    path = new_path
               end
-              local resp = fetch(string.format('../wiktionary_pron/modules/test/translit/%s.lua',path) ):await()
+              local resp = fetch(string.format('../wiktionary_pron/modules/%s.lua',path) ):await()
               local text = resp:text():await()
               local module =  load(text)()
-
               print('loaded '..path)
               return module
           end
-          require = memoize(require)
-            require('debug/track')
-            require('ustring/charsets')
-            require('ustring/lower')
-            require('mw-title')
-            require('ustring/normalization-data')
-        `);
 
+          require = memoize(require)
+          require('debug/track')
+          require('ustring/charsets')
+          require('ustring/lower')
+          require('mw-title')
+          require('ustring/normalization-data')
+        `);
+        console.log(lua)
         window.lua = lua
     </script>
     <script>
         async function loadLanguage(code) {
             const lua = window.lua
+            console.log(lua)
             await lua.doString(`${code} = require("${code}-pron_wasm")`)
             // Get a global lua function as a JS function
             window[code + '_ipa'] = lua.global.get(code)
+
+            // Set a JS function to be a global lua function
         }
     </script>
 
@@ -91,6 +77,8 @@
 <br/>
 <h1>Online IPA Converter</h1>
 
+
+
 <form name="myForm">
     <div>
         Language:
@@ -103,6 +91,8 @@
         <option value="French">French</option>
         <option value="Ukranian">Ukranian</option>
         <option value="Russian">Russian</option>
+        <option value="Italian">Italian</option>
+
 
     </select>
     <div>
@@ -119,6 +109,8 @@
         <option data-option="French">Default</option>
         <option data-option="Ukranian">Default</option>
         <option data-option="Russian">Default</option>
+        <option data-option="Italian">Default</option>
+
 
 
     </select>
@@ -134,6 +126,8 @@
         <option data-option="French">Phonemic</option>
         <option data-option="Ukranian">Phonetic</option>
         <option data-option="Russian">Phonetic</option>
+        <option data-option="Italian">Phonemic</option>
+
     </select>
 
 
@@ -158,8 +152,8 @@
                     [27] Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi.
 
                     </textarea>
-        <input id="clear_button" type="button" value='X'>
-        <input id="clear_storage" type="button">
+        <input id="clear_button" type="button" value='Clear form'>
+        <input id="clear_storage" type="button" value="Clear cache">
         <div class="btn-group btn-block" role="group">
             <input
                     autocomplete="off"
@@ -557,6 +551,14 @@
                         break;
                 }
                 break
+            case 'Italian':
+                switch (lang_form) {
+                    case 'Phonemic':
+                        command = `(window.it_ipa.to_phonemic('${clean_text}','TEST').phonemic)`
+                        console.log(command)
+                        break;
+                }
+                break
         }
         try {
             ipa_ = eval(command)
@@ -651,7 +653,7 @@
     var options3 = sel3.querySelectorAll('option');
 
     loadedLanguages = {}
-    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt', 'French': 'fr', 'Ukranian': 'uk', 'Russian': 'ru'}
+    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt', 'French': 'fr', 'Ukranian': 'uk', 'Russian': 'ru','Italian':'it'}
 
     async function giveSelection(selValue) {
         if (!(selValue in loadedLanguages)) {
