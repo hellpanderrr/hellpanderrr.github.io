@@ -3,13 +3,101 @@
 <html lang="">
 <head>
     <link href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" rel="stylesheet"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Free Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
     <meta content="Online IPA Latin German Portuguese Phonetics Transcription" name="Keywords"/>
     <meta content="Free Online Rule-based IPA phonetic/phonemic transcription engine, which uses Wiktionary Lua pronunciation modules."
           name="description">
     <script src="wasmoon.js" type="text/javascript"></script>
+
+    <style>
+        button:active {
+            background: #e5e5e5;
+            -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+            -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+            box-shadow: inset 0px 0px 5px #c1c1c1;
+            outline: none;
+        }
+
+        hr {
+            opacity: 0.3;
+        }
+
+        body {
+            font-family: 'Voces', sans-serif
+        }
+
+        div#content {
+
+            font-size: 16pt;
+            text-align: center
+        }
+
+        div#form_top {
+
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 800px;
+            align-content: center;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        div#form_bottom {
+
+            display: flex;
+            flex-direction: row;
+            align-content: stretch;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 0px;
+        }
+
+        textarea {
+
+            height: 101px;
+            overflow: auto;
+            resize: vertical;
+            width: 100%;
+            margin-right: 10px;
+            height: 162px;
+
+        }
+
+        table {
+            overflow: auto;
+            resize: vertical;
+            max-width: 1000px;
+            font-size: 20pt;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .input_text {
+            font-family: "EB Garamond";
+        }
+
+        .error {
+            color: red;
+        }
+
+        div#footer{
+            text-align: center;
+        }
+
+        body{
+            padding-top: 0px;
+        }
+
+    </style>
 
     <script type="module">
         const factory = await lb.factory
@@ -49,6 +137,7 @@
         `);
         console.log(lua)
         window.lua = lua
+        document.querySelector("#lang").disabled = false
     </script>
     <script>
         async function loadLanguage(code) {
@@ -69,20 +158,21 @@
             href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap"
             rel="stylesheet"
     />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
 
 
 </head>
-<body style="font-family: 'Voces', sans-serif">
-<div id="content" style="font-size: 16pt; text-align: center">
+<body>
+<div id="content">
     <br/>
-    <h1 style="margin-top: 0px;">Online IPA Converter</h1>
+    <h1>Online IPA Converter</h1>
     <hr>
 
     <form name="myForm">
         <div>
             Language:
         </div>
-        <select autocomplete="off" class="dropdown" id="lang" onchange="giveSelection(this.value)">
+        <select autocomplete="off" class="dropdown"  disabled="true" id="lang" onchange="giveSelection(this.value)">
             <option disabled selected value> -- select an option --</option>
 
 
@@ -109,123 +199,73 @@
 
     <form id="frm1" onsubmit="return false">
         <div class="form-group">
-            <div style="display: flex;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 800px;
-    align-content: center;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;">
+            <div id="form_top">
                 <textarea
                         autofocus=""
                         id="text_to_transcribe"
                         name="text_to_transcribe"
                         required=""
-                        style="
-                        height: 101px;
-                        overflow: auto;
-                        resize: vertical;
-                        width: 500px;
-                    "
                 >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. Gallias et Hispanias provincias, item Germaniam, qua includit Oceanus a Gadibus ad ostium Albis fluminis pacavi. Alpes a regione ea quae proxima est Hadriano mari ad Tuscum pacificavi nulli genti bello per iniuriam inlato. Classis mea per Oceanum ab ostio Rheni ad solis orientis regionem usque ad fines Cimbrorum navigavit, quo neque terra neque mari quisquam Romanus ante id tempus adit. Cimbrique et Charydes et Semnones et eiusdem tractus alii Germanorum populi per legatos amicitiam meam et populi Romani petierunt. Meo iussu et auspicio ducti sunt duo exercitus eodem fere tempore in Aethiopiam et in Arabiam quae appellatur Eudaemon, magnaeque hostium gentis utriusque copiae caesae sunt in acie et complura oppida capta. In Aethiopiam usque ad oppidum Nabata perventum est, cui proxima est Meroe; in Arabiam usque in fines Sabaeorum processit exercitus ad oppidum Mariba.
 
                     [27] Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi.
 
                     </textarea>
-                <button id="clear_button" type="button" value='Clear form'>Clear form</button>
-                <button id="clear_storage" type="button" value="Clear cache">Clear cache</button>
+                <div id="clear_button_group">
+                    <button id="clear_button" type="button">Clear form</button>
+                    <button id="clear_storage" title="Clear website's cached data from browser's local storage"
+                            type="button">Clear cache
+                    </button>
+                </div>
             </div>
-            <div class="btn-group btn-block" role="group" style="
-    display: flex;
-    flex-direction: row;
-    align-content: stretch;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-">
-                <input
+            <div class="btn-group btn-block" id="form_bottom" role="group">
+                <button
                         autocomplete="off"
                         class="btn btn-primary btn-block"
                         disabled="disabled"
                         id="submit"
                         name="submit"
-                        title="or Ctrl+Enter while in the text area"
                         type="button"
-                        value="Show transcription"
-                />
-                <input
+                        value="Show transcription">
+                    Show transcription
+                </button>
+
+                <button
                         autocomplete="off"
                         class="btn btn-primary btn-block"
                         disabled="disabled"
                         id="submit_by_line"
                         name="submit"
-                        title="or Ctrl+Enter while in the text area"
                         type="button"
                         value="Show transcription line-by-line"
-                />
-                <input
+                >Show transcription line-by-line
+                </button>
+                <button
                         autocomplete="off"
                         class="btn btn-primary btn-block"
                         disabled="disabled"
                         id="submit_by_col"
                         name="submit"
-                        title="or Ctrl+Enter while in the text area"
                         type="button"
                         value="Show transcription column to column"
-                />
+                >Show transcription column to column
+                </button>
             </div>
         </div>
     </form>
     <hr>
-    <table style="overflow: auto; resize: vertical; max-width: 1000px; font-size: 20pt;   margin-left: auto;margin-right: auto;">
+    <table>
         <tbody id="result"></tbody>
     </table>
+
+</div>
+<hr>
+<div id="footer">
+    <a style="color: black;" href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron"><i class="fa fa-github" style="font-size:36px"></i></a>
 
 </div>
 <script type="text/javascript">
     function sanitize(text) {
         return text.replace(/[^\p{L}]/gu, '')
-    }
-
-    /**
-     * Splits the input text into chunks of maximum length.
-     *
-     * @param {string} text - The input text to split.
-     * @param {number} maxChunkLength - The maximum length of each chunk.
-     * @returns {string[]} - An array of chunks of the input text.
-     */
-    function splitTextIntoChunks(text, maxChunkLength) {
-        const wordsAndNewlines = text.match(/\S+|\n/g);
-        let chunks = [];
-        let currentChunk = '';
-
-        for (let i = 0; i < wordsAndNewlines.length; i++) {
-            if (wordsAndNewlines[i] === '\n') {
-                if (currentChunk !== '') {
-                    chunks.push(currentChunk);
-                    currentChunk = '';
-                }
-                continue;
-            }
-
-            if ((currentChunk + wordsAndNewlines[i]).length < maxChunkLength) {
-                if (currentChunk !== '') {
-                    currentChunk += ' ';
-                }
-                currentChunk += wordsAndNewlines[i];
-            } else {
-                chunks.push(currentChunk);
-                currentChunk = wordsAndNewlines[i];
-            }
-        }
-
-        if (currentChunk !== '') {
-            chunks.push(currentChunk);
-        }
-
-        return chunks;
     }
 
 
@@ -272,9 +312,8 @@
 
                 function process_word(i) {
                     const {status, value} = getIpa(i, lang, langStyle, langForm);
-                    const color = status === 'error' ? 'red' : 'black';
                     const span = document.createElement('span');
-                    span.style.color = color;
+                    span.className = status === 'error' ? 'error' : '';
                     span.appendChild(document.createTextNode(value + ' '));
                     div.appendChild(span);
                 }
@@ -296,13 +335,13 @@
 
                 const formattedResults = results.map((result) =>
                     result.status === 'error'
-                        ? `<div style="color:red">${result.value} </div>`
-                        : `<div>${result.value} </div>`
+                        ? `<div class="error">${result.value} </div>`
+                        : `<div class="ipa">${result.value} </div>`
                 );
 
                 const newRow = div.insertRow(-1);
                 const formattedWords = words.map(
-                    (word) => `<div style="font-family: Garamond;">${word} </div>`
+                    (word) => `<div class="input_text">${word} </div>`
                 );
                 const combinedResults = formattedResults.map(
                     (formattedResult, index) =>
@@ -325,8 +364,8 @@
 
                 result = result.map((i) =>
                     i.status === 'error'
-                        ? `<td style="color:red">${i.value} </td>`
-                        : `<td>${i.value} </td>`
+                        ? `<td class="error">${i.value} </td>`
+                        : `<td class="ipa">${i.value} </td>`
                 )
 
                 function insert_row(div, cells) {
@@ -338,7 +377,7 @@
                 }
 
                 old = separated.map(
-                    (x) => `<td style="font-family: Garamond;">${x} </td>`
+                    (x) => `<td class="input_text">${x} </td>`
                 )
                 result.map((k, i) => insert_row(div, [old[i], k]))
             }
@@ -397,7 +436,9 @@
 
     var form = document.getElementById('frm1')
 
-    form.addEventListener('submit', (() => transcribe(mode = 'default')));
+    document
+        .getElementById('submit')
+        .addEventListener('click', (() => transcribe(mode = 'default')))
     document
         .getElementById('submit_by_line')
         .addEventListener('click', (() => transcribe(mode = 'line')))
@@ -463,10 +504,10 @@
             case 'Latin':
                 switch (langStyle) {
                     case 'Ecc':
-                        command = langForm === 'Phonetic' ? `(window.la_ipa.convert_words('${cleanText}',true,true,false))` : `(window.la_ipa.convert_words('${cleanText}',false,true,false)`
+                        command = langForm === 'Phonetic' ? `window.la_ipa.convert_words('${cleanText}',true,true,false)` : `window.la_ipa.convert_words('${cleanText}',false,true,false)`
                         break;
                     case 'Classical':
-                        command = langForm === 'Phonetic' ? `(window.la_ipa.convert_words('${cleanText}',true,false,false))` : `(window.la_ipa.convert_words('${cleanText}',false,false,false)`
+                        command = langForm === 'Phonetic' ? `window.la_ipa.convert_words('${cleanText}',true,false,false)` : `window.la_ipa.convert_words('${cleanText}',false,false,false)`
                         break;
                 }
                 break;
@@ -500,13 +541,34 @@
                     command = `(window.it_ipa.to_phonemic('${cleanText}','TEST').phonemic)`
                 }
                 break;
+            case 'Greek':
+                switch (langStyle) {
+                    case '5th BCE Attic':
+                        command = `window.grc_ipa.IPA('${cleanText}','cla').cla.IPA`
+                        break;
+                    case '1st CE Egyptian':
+                        command = `window.grc_ipa.IPA('${cleanText}','koi1').koi1.IPA`
+                        break;
+                    case '4th CE Koine':
+                        command = `window.grc_ipa.IPA('${cleanText}','koi2').koi2.IPA`
+                        break;
+                    case '10th CE Byzantine':
+                        command = `window.grc_ipa.IPA('${cleanText}','byz1').byz1.IPA`
+                        break;
+                    case '15th CE Constantinopolitan':
+                        command = `window.grc_ipa.IPA('${cleanText}','byz2').byz2.IPA`
+                        break;
+                }
+                break;
         }
 
         let ipa = ''
         try {
             ipa = eval(command)
+            console.log(command)
         } catch (err) {
             ipa = ''
+            console.log(err)
         }
 
         const split = text.split(/([\p{L}]+)/gu)
@@ -608,6 +670,12 @@
         French: {styles: ["Default"], forms: ["Phonemic"], langCode: "fr"},
         Russian: {styles: ["Default"], forms: ["Phonetic"], langCode: "ru"},
         Ukrainian: {styles: ["Default"], forms: ["Phonetic"], langCode: "uk"},
+        Greek: {
+            styles: ["5th BCE Attic", '1st CE Egyptian', '4th CE Koine', '10th CE Byzantine', '15th CE Constantinopolitan'],
+            forms: ["Phonetic"],
+            langCode: "grc"
+        },
+
     };
 
     var sel1 = document.querySelector("#lang");
@@ -636,12 +704,7 @@
     var options2 = sel2.querySelectorAll('option');
     var options3 = sel3.querySelectorAll('option');
 
-    var sel1 = document.querySelector('#lang');
-    var sel2 = document.querySelector('#lang_style');
-    var sel3 = document.querySelector('#lang_form');
-
     loadedLanguages = {}
-
 
     async function giveSelection(selValue) {
 
