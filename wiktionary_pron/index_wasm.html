@@ -2,7 +2,7 @@
 
 <html lang="">
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css"/>
+    <link href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" rel="stylesheet"/>
 
     <title>Free Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
@@ -73,69 +73,51 @@
 
 </head>
 <body style="font-family: 'Voces', sans-serif">
+<div id="content" style="font-size: 16pt; text-align: center">
+    <br/>
+    <h1 style="margin-top: 0px;">Online IPA Converter</h1>
+    <hr>
 
-<br/>
-<h1>Online IPA Converter</h1>
-
-
-
-<form name="myForm">
-    <div>
-        Language:
-    </div>
-    <select autocomplete="off" class="dropdown" id="lang" onchange="giveSelection(this.value)">
-        <option disabled selected value> -- select an option --</option>
-        <option value="Latin">Latin</option>
-        <option value="German">German</option>
-        <option value="Portugese">Portugese</option>
-        <option value="French">French</option>
-        <option value="Ukranian">Ukranian</option>
-        <option value="Russian">Russian</option>
-        <option value="Italian">Italian</option>
+    <form name="myForm">
+        <div>
+            Language:
+        </div>
+        <select autocomplete="off" class="dropdown" id="lang" onchange="giveSelection(this.value)">
+            <option disabled selected value> -- select an option --</option>
 
 
-    </select>
-    <div>
-        Additional options:
-    </div>
-    Style:
-    <select autocomplete="off" class="dropdown" disabled="true" id="lang_style">
-        <option disabled selected value> --</option>
-        <option data-option="Latin">Ecc</option>
-        <option data-option="Latin">Classical</option>
-        <option data-option="German">Default</option>
-        <option data-option="Portugese">Brazil</option>
-        <option data-option="Portugese">Portugal</option>
-        <option data-option="French">Default</option>
-        <option data-option="Ukranian">Default</option>
-        <option data-option="Russian">Default</option>
-        <option data-option="Italian">Default</option>
+        </select>
+        <div>
+            Additional options:
+        </div>
+        Style:
+        <select autocomplete="off" class="dropdown" disabled="true" id="lang_style">
+            <option disabled selected value> --</option>
 
 
-
-    </select>
-    Form:
-    <select autocomplete="off" class="dropdown" disabled="true" id="lang_form">
-        <option disabled selected value> --</option>
-        <option data-option="Latin">Phonetic</option>
-        <option data-option="Latin">Phonemic</option>
-        <option data-option="German">Phonetic</option>
-        <option data-option="German">Phonemic</option>
-        <option data-option="Portugese">Phonetic</option>
-        <option data-option="Portugese">Phonemic</option>
-        <option data-option="French">Phonemic</option>
-        <option data-option="Ukranian">Phonetic</option>
-        <option data-option="Russian">Phonetic</option>
-        <option data-option="Italian">Phonemic</option>
-
-    </select>
+        </select>
+        Form:
+        <select autocomplete="off" class="dropdown" disabled="true" id="lang_form">
+            <option disabled selected value> --</option>
 
 
-</form>
+        </select>
 
 
-<form id="frm1" onsubmit="return false">
-    <div class="form-group">
+    </form>
+
+
+    <form id="frm1" onsubmit="return false">
+        <div class="form-group">
+            <div style="display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;">
                 <textarea
                         autofocus=""
                         id="text_to_transcribe"
@@ -152,47 +134,56 @@
                     [27] Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi.
 
                     </textarea>
-        <input id="clear_button" type="button" value='Clear form'>
-        <input id="clear_storage" type="button" value="Clear cache">
-        <div class="btn-group btn-block" role="group">
-            <input
-                    autocomplete="off"
-                    class="btn btn-primary btn-block"
-                    disabled="disabled"
-                    id="submit"
-                    name="submit"
-                    title="or Ctrl+Enter while in the text area"
-                    type="submit"
-                    value="Show transcription"
-            />
-            <input
-                    autocomplete="off"
-                    class="btn btn-primary btn-block"
-                    disabled="disabled"
-                    id="submit_by_line"
-                    name="submit"
-                    title="or Ctrl+Enter while in the text area"
-                    type="button"
-                    value="Show transcription line-by-line"
-            />
-            <input
-                    autocomplete="off"
-                    class="btn btn-primary btn-block"
-                    disabled="disabled"
-                    id="submit_by_col"
-                    name="submit"
-                    title="or Ctrl+Enter while in the text area"
-                    type="button"
-                    value="Show transcription column to column"
-            />
+                <button id="clear_button" type="button" value='Clear form'>Clear form</button>
+                <button id="clear_storage" type="button" value="Clear cache">Clear cache</button>
+            </div>
+            <div class="btn-group btn-block" role="group" style="
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+">
+                <input
+                        autocomplete="off"
+                        class="btn btn-primary btn-block"
+                        disabled="disabled"
+                        id="submit"
+                        name="submit"
+                        title="or Ctrl+Enter while in the text area"
+                        type="button"
+                        value="Show transcription"
+                />
+                <input
+                        autocomplete="off"
+                        class="btn btn-primary btn-block"
+                        disabled="disabled"
+                        id="submit_by_line"
+                        name="submit"
+                        title="or Ctrl+Enter while in the text area"
+                        type="button"
+                        value="Show transcription line-by-line"
+                />
+                <input
+                        autocomplete="off"
+                        class="btn btn-primary btn-block"
+                        disabled="disabled"
+                        id="submit_by_col"
+                        name="submit"
+                        title="or Ctrl+Enter while in the text area"
+                        type="button"
+                        value="Show transcription column to column"
+                />
+            </div>
         </div>
-    </div>
-</form>
+    </form>
+    <hr>
+    <table style="overflow: auto; resize: vertical; max-width: 1000px; font-size: 20pt;   margin-left: auto;margin-right: auto;">
+        <tbody id="result"></tbody>
+    </table>
 
-<table style="overflow: auto; resize: vertical; width: 600px">
-    <tbody id="result"></tbody>
-</table>
-<pre id="output"></pre>
+</div>
 <script type="text/javascript">
     function sanitize(text) {
         return text.replace(/[^\p{L}]/gu, '')
@@ -463,123 +454,72 @@
 
     function get_ipa_no_cache(text, args) {
         console.log('doing actual IPA', text, args)
-        clean_text = sanitize(text)
+        cleanText = sanitize(text)
 
-        const [lang, lang_style, lang_form] = args.split(';')
+        const [lang, langStyle, langForm] = args.split(';')
+        let command = ''
+
         switch (lang) {
             case 'Latin':
-                switch (lang_style) {
+                switch (langStyle) {
                     case 'Ecc':
-                        switch (lang_form) {
-                            case 'Phonetic':
-                                command = `(window.la_ipa.convert_words('${clean_text}',true,true,false))`
-                                break;
-                            case 'Phonemic':
-                                command = `(window.la_ipa.convert_words('${clean_text}',false,true,false))`
-                                break;
-                        }
+                        command = langForm === 'Phonetic' ? `(window.la_ipa.convert_words('${cleanText}',true,true,false))` : `(window.la_ipa.convert_words('${cleanText}',false,true,false)`
                         break;
                     case 'Classical':
-                        switch (lang_form) {
-                            case 'Phonetic':
-                                command = `(window.la_ipa.convert_words('${clean_text}',true,false,false))`
-                                break;
-                            case 'Phonemic':
-                                command = `(window.la_ipa.convert_words('${clean_text}',false,false,false))`
-                                break;
-                        }
+                        command = langForm === 'Phonetic' ? `(window.la_ipa.convert_words('${cleanText}',true,false,false))` : `(window.la_ipa.convert_words('${cleanText}',false,false,false)`
                         break;
                 }
                 break;
             case 'German':
-                switch (lang_form) {
-                    case 'Phonetic':
-                        command = `(window.de_ipa.phonetic('${clean_text}'))`
-                        console.log(command)
-                        break;
-                    case 'Phonemic':
-                        command = `(window.de_ipa.phonemic('${clean_text}'))`
-                        console.log(command)
-                        break;
-                }
+                command = langForm === 'Phonetic' ? `(window.de_ipa.phonetic('${cleanText}'))` : `(window.de_ipa.phonemic('${cleanText}'))`
                 break;
-            case 'Portugese':
-                switch (lang_style) {
-                    case 'Brazil':
-                        switch (lang_form) {
-                            case 'Phonetic':
-                                command = `window.pt_ipa.IPA('${clean_text}',"rio")[0].phonetic`
-                                break;
-                            case 'Phonemic':
-                                command = `window.pt_ipa.IPA('${clean_text}',"rio")[0].phonemic`
-                                break;
-                        }
-                        break;
-                    case 'Portugal':
-                        switch (lang_form) {
-                            case 'Phonetic':
-                                command = `window.pt_ipa.IPA('${clean_text}',"pt")[0].phonetic`
-                                break;
-                            case 'Phonemic':
-                                command = `window.pt_ipa.IPA('${clean_text}',"pt")[0].phonemic`
-                                break;
-                        }
-                        break;
-                }
+            case 'Portuguese':
+                command = langStyle === 'Brazil' ? `window.pt_ipa.IPA('${cleanText}',"rio")[0].${langForm.toLowerCase()}` : `window.pt_ipa.IPA('${cleanText}',"pt")[0].${langForm.toLowerCase()}`
+                break;
+            case 'Spanish':
+                dialect = langStyle === 'Castilian' ? 'distincion-yeismo' : 'seseo-yeismo'
+                command = `window.es_ipa.IPA('${cleanText}','${dialect}', ${langForm === 'Phonetic'}).text`
                 break;
             case 'French':
-                switch (lang_form) {
-                    case 'Phonemic':
-                        command = `(window.fr_ipa.show('${clean_text}')[0])`
-                        console.log(command)
-                        break;
+                if (langForm === 'Phonemic') {
+                    command = `(window.fr_ipa.show('${cleanText}')[0])`
                 }
-                break
-            case 'Ukranian':
-                switch (lang_form) {
-                    case 'Phonetic':
-                        command = `(window.uk_ipa.pronunciation('${clean_text}',true))`
-                        console.log(command)
-                        break;
+                break;
+            case 'Ukrainian':
+                if (langForm === 'Phonetic') {
+                    command = `(window.uk_ipa.pronunciation('${cleanText}',true))`
                 }
-                break
+                break;
             case 'Russian':
-                switch (lang_form) {
-                    case 'Phonetic':
-                        command = `(window.ru_ipa.ipa_string('${clean_text}'))`
-                        console.log(command)
-                        break;
+                if (langForm === 'Phonetic') {
+                    command = `(window.ru_ipa.ipa_string('${cleanText}'))`
                 }
-                break
+                break;
             case 'Italian':
-                switch (lang_form) {
-                    case 'Phonemic':
-                        command = `(window.it_ipa.to_phonemic('${clean_text}','TEST').phonemic)`
-                        console.log(command)
-                        break;
+                if (langForm === 'Phonemic') {
+                    command = `(window.it_ipa.to_phonemic('${cleanText}','TEST').phonemic)`
                 }
-                break
+                break;
         }
+
+        let ipa = ''
         try {
-            ipa_ = eval(command)
+            ipa = eval(command)
         } catch (err) {
-            ipa_ = ''
+            ipa = ''
         }
-        split = text.split(/([\p{L}]+)/gu)
-        index_in_split = split
-            .map((x, n) => x === clean_text && n)
-            .filter(Boolean)[0]
 
-        split[index_in_split] = ipa_
+        const split = text.split(/([\p{L}]+)/gu)
+        const indexInSplit = split.findIndex((x) => x === cleanText)
 
+        split[indexInSplit] = ipa
 
-        if (!ipa_) {
-            return new Object({value: text, status: 'error'})
+        if (!ipa) {
+            return {value: text, status: 'error'}
         }
-        ipa_ = split.join('')
 
-        console.log('Stopped doing actual IPA', text, args)
-        return new Object({value: ipa_, status: 'success'})
+        ipa = split.join('')
+        return {value: ipa, status: 'success'}
     }
 
 
@@ -645,19 +585,69 @@
 
 <script>
 
+    languages = {
+        Latin: {
+            styles: ["Classical", "Ecc"],
+            forms: ["Phonetic", "Phonemic"],
+            langCode: "la",
+        },
+        German: {
+            styles: ["Default"],
+            forms: ["Phonetic", "Phonemic"],
+            langCode: "de",
+        },
+        Portuguese: {
+            styles: ["Brazil", "Portugal"],
+            forms: ["Phonetic", "Phonemic"],
+            langCode: "pt",
+        }, Spanish: {
+            styles: ["Castilian", "Latin_American "],
+            forms: ["Phonetic", "Phonemic"],
+            langCode: "es",
+        },
+        French: {styles: ["Default"], forms: ["Phonemic"], langCode: "fr"},
+        Russian: {styles: ["Default"], forms: ["Phonetic"], langCode: "ru"},
+        Ukrainian: {styles: ["Default"], forms: ["Phonetic"], langCode: "uk"},
+    };
+
+    var sel1 = document.querySelector("#lang");
+    var sel2 = document.querySelector("#lang_style");
+    var sel3 = document.querySelector("#lang_form");
+    Object.entries(languages).map(function (args) {
+        var lang = args[0];
+        var opt = document.createElement("option");
+        opt.value = lang;
+        opt.text = lang;
+        sel1.appendChild(opt);
+
+        for (var i = 0; i < args[1].styles.length; i++) {
+            var opt = document.createElement("option");
+            opt.setAttribute("data-option", lang);
+            opt.text = args[1].styles[i];
+            sel2.appendChild(opt);
+        }
+        for (var i = 0; i < args[1].forms.length; i++) {
+            var opt = document.createElement("option");
+            opt.setAttribute("data-option", lang);
+            opt.text = args[1].forms[i];
+            sel3.appendChild(opt);
+        }
+    });
+    var options2 = sel2.querySelectorAll('option');
+    var options3 = sel3.querySelectorAll('option');
 
     var sel1 = document.querySelector('#lang');
     var sel2 = document.querySelector('#lang_style');
     var sel3 = document.querySelector('#lang_form');
-    var options2 = sel2.querySelectorAll('option');
-    var options3 = sel3.querySelectorAll('option');
 
     loadedLanguages = {}
-    languageMap = {'Latin': 'la', 'German': 'de', 'Portugese': 'pt', 'French': 'fr', 'Ukranian': 'uk', 'Russian': 'ru','Italian':'it'}
+
 
     async function giveSelection(selValue) {
+
+
         if (!(selValue in loadedLanguages)) {
-            const langCode = languageMap[selValue];
+            const langCode = languages[selValue].langCode;
             disableAll();
             await loadLanguage(langCode);
             enableAll();

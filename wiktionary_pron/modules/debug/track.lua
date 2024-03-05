@@ -1,6 +1,6 @@
 return function(key)
 	local frame = mw.getCurrentFrame()
-	if key then
+	if key and false then
 		if type(key) ~= "table" then
 			key = { key }
 		end
@@ -9,7 +9,7 @@ return function(key)
 			pcall(frame.expandTemplate, frame, { title = "tracking/" .. value })
 		end
 	else
-		error("No tracking key supplied to [[Module:debug/track]].")
+		print("No tracking key supplied to [[Module:debug/track]].")
 	end
 	return true
 end
