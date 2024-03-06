@@ -50,7 +50,7 @@ async function loadLanguage(code) {
 }
 
 function sanitize(text) {
-  return text.replace(/[^\p{L}]/gu, "");
+  return text.replace(/[^\p{L}\p{M}]/gu, "");
 }
 
 function prepareTranscribe() {
@@ -371,13 +371,13 @@ function get_ipa_no_cache(text, args) {
   let ipa = "";
   try {
     ipa = eval(command);
-    console.log(command);
+    console.log(command, ipa);
   } catch (err) {
     ipa = "";
     console.log(err);
   }
 
-  const split = text.split(/([\p{L}]+)/gu);
+  const split = text.split(/([\p{L}\p{M}]+)/gu);
   const indexInSplit = split.findIndex((x) => x === cleanText);
 
   split[indexInSplit] = ipa;
@@ -406,7 +406,7 @@ function memoizeLocalStorage(
   if (!fn.name)
     throw new Error("memoizeLocalStorage only accepts non-anonymous functions");
   // Fetch localstorage or init new object
-  const cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
+  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
 
   //executes and caches result
   function executeAndCacheFn(fn, args, argsKey) {
@@ -416,7 +416,6 @@ function memoizeLocalStorage(
       ...cache[fn.name],
       [argsKey]: { expiration: Date.now() + options.ttl, result },
     };
-
     localStorage.setItem(fn.name, JSON.stringify(cache));
   }
 
