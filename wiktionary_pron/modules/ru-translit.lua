@@ -111,7 +111,7 @@ function export.apply_tr_fixes(text, noadj, noshto, forceadj)
 		if not forceadj then
 			local function go(text, case)
 				local pattern = rsub(case, "^(.)(.*)(го[" .. AC .. GR .. "]?)(%-?)$", function(m1, m2, m3, m4)
-					m1 = "%f[%a" .. AC .. GR .. "]([" .. m1:uupper() .. m1 .. "]"
+					m1 = "%f[%a" .. AC .. GR .. "]([" .. uupper(m1) .. m1 .. "]"
 					m2 = m2:gsub("\204[\128\129]", "[" .. AC .. GR .. "]?") .. ")"
 					m3 = m3:gsub("\204[\128\129]", "[" .. AC .. GR .. "]?")
 						:gsub("^г(.*)", "г(%1")
@@ -219,8 +219,8 @@ do
 		-- Remove "j" if preceded by a hushing consonant (ж ч ш щ).
 		if check_plain(this, prev, "жчшщЖЧШЩ", true) then
 			tr = tr:sub(2)
-			if this == this:uupper() then
-				tr = tr:uupper()
+			if this == uupper(this) then
+				tr = uupper(tr)
 			end
 		end
 		insert(output, tr)

@@ -202,7 +202,7 @@ local rsubn = mw.ustring.gsub
 local rmatch = mw.ustring.match
 local rsplit = mw.text.split
 ulower = mw.ustring.lower
-local uupper = mw.ustring.upper
+uupper = mw.ustring.upper
 local usub = mw.ustring.sub
 local ulen = mw.ustring.len
 
@@ -632,11 +632,13 @@ local function ine(x)
 	return x ~= "" and x or nil
 end
 
-local function track(page)
-	local track = loadfile("debug/track.lua")
+function track(page)
+	local track = require("debug/track")
 	track("ru-pron/" .. page)
 	return true
 end
+
+print(track('123'))
 
 -- remove accents that we don't want to appear in the phonetic respelling
 function phon_respelling(text, remove_grave)
@@ -1546,5 +1548,5 @@ function export.ipa_string(text, adj, gem, bracket, pos, zhpal, is_transformed)
 	local ipa_list = export.ipa(text, adj, gem, bracket, pos, zhpal, is_transformed)
 	return table.concat(ipa_list, ", ")
 end
-print(export.ipa_string("компьютер"))
+print(export.ipa_string("счастливым счастье сч"))
 return export
