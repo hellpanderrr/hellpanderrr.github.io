@@ -251,6 +251,20 @@ local function syllabify_word(word)
 	--[[	cVowel means "current vowel", nVowel "next vowel",
 			sBreak "syllable break".							]]--
 	local cVowel, nVowel, sBreak, stress, wordEnd, searching
+
+	local containsVowel = false
+	for i = 1, #word do
+		if is(fetch(word, i), "vowel") then
+			containsVowel = true
+			break
+		end
+	end
+	if not containsVowel then
+		table.insert(syllables, word)
+		word = ''
+	end
+
+
 	while word ~= '' do
 		cVowel, nVowel, sBreak, stress = false, false, false, false
 		
@@ -331,13 +345,17 @@ local function syllabify(IPAs, periods)
 	for _, period in ipairs(periods) do
 		ipa = {}
 		for _, word in ipairs(rsplit(IPAs[period].IPA, ' ')) do
-			word_ipa = syllabify_word(word)
+			if ulen(word) < 2 then
+				word_ipa = word
+			else
+				word_ipa = syllabify_word(word)
+			end
 			if word_ipa then
 				table.insert(ipa, word_ipa)
 			end
 		end
 		IPAs[period].IPA = table.concat(ipa, ' ')
-	end
+		end
 	return IPAs
 end
 
@@ -450,14 +468,13 @@ function export.IPA(term, period)
 	term = rearrangeDiacritics(term)
 	print(8)
 	local IPAs, periods = convert_term(term, period)
-	print(9)
+	print(9, IPAs, periods)
 	IPAs = syllabify(IPAs, periods)
 	print(10)
 	return IPAs
 	--return make_table(IPAs, ambig, periods, ambig_letter_list)
 end
 
---export.IPA('ἁγιότης','cla')
 
 
 function export.example(frame)

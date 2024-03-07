@@ -4,7 +4,7 @@ This module implements the templates {{es-pr}} and {{es-IPA}}.
 Author: Benwing2
 ]=]
 mw = require('mw')
-
+require ('ustring/normalization-data')
 local export = {}
 
 local m_IPA = require("IPA")
