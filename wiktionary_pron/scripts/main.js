@@ -246,8 +246,8 @@ function clear_storage() {
 }
 
 function clear_input() {
-  i = document.getElementById("text_to_transcribe");
-  i.value = "";
+  const form = document.getElementById("text_to_transcribe");
+  form.value = "";
 }
 
 /**
@@ -377,16 +377,11 @@ function get_ipa_no_cache(text, args) {
     console.log(err);
   }
 
-  const split = text.split(/([\p{L}\p{M}]+)/gu);
-  const indexInSplit = split.findIndex((x) => x === cleanText);
-
-  split[indexInSplit] = ipa;
-
   if (!ipa) {
     return { value: text, status: "error" };
   }
 
-  ipa = split.join("");
+  console.log("final ipa ", ipa);
   return { value: ipa, status: "success" };
 }
 
@@ -442,7 +437,7 @@ function memoizeLocalStorage(
   };
 }
 
-const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
+const get_ipa_cache = get_ipa_no_cache;
 
 const languages = {
   Latin: {
