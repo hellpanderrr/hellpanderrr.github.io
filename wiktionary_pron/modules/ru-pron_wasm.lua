@@ -203,6 +203,7 @@ local rmatch = mw.ustring.match
 local rsplit = mw.text.split
 ulower = mw.ustring.lower
 uupper = mw.ustring.upper
+print(uupper('test')) -- ← this print is necessary (testcase "него")
 local usub = mw.ustring.sub
 local ulen = mw.ustring.len
 

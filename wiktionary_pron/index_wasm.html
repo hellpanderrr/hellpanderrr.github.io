@@ -1,32 +1,50 @@
-<meta charset="UTF-8"/>
+<!doctype html>
+
 
 <html lang="">
 <head>
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css"></noscript>
-
-    <link rel="stylesheet" href="">
-
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></noscript>
-
-    <script src="scripts/wasmoon.js" type="text/javascript" defer ></script>
-    <script src="scripts/main.js" type="module" defer ></script>
+    <meta charset="UTF-8"/>
+    <link as="style" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css"
+          onload="this.onload=null;this.rel='stylesheet'"
+          rel="preload">
+    <noscript>
+        <link href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" rel="stylesheet">
+    </noscript>
 
 
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap"></noscript>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300&family=Voces&display=swap"></noscript>
+    <link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          onload="this.onload=null;this.rel='stylesheet'" rel="preload">
+    <noscript>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+              rel="stylesheet">
+    </noscript>
+
+    <script defer src="scripts/wasmoon.js" type="text/javascript"></script>
+    <script defer src="scripts/main.js" type="module"></script>
+
+
+    <link as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'"
+          rel="preload">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+    </noscript>
+
 
     <title>Free Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="Online IPA Latin German Portuguese Phonetics Transcription" name="Keywords"/>
-    <meta content="Free Online Rule-based IPA phonetic/phonemic transcription engine, which uses Wiktionary Lua pronunciation modules."
+    <meta content="Free Online Rule-based IPA phonetic/phonemic transcription engine, which uses Wiktionary Lua pronunciation modules.
+     Latin, German, French, Spanish, Ancient Greek, Polish languages are fully supported. Russian, Ukrainian and Portuguese require vowels' stressing for proper functioning."
           name="description">
 
     <style>
+        @font-face {
+            font-family: "Voces";
+            src: url("fonts/Voces-Regular.ttf") format("truetype");
+        }
+
         button:active {
             background: #e5e5e5;
             -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
@@ -94,6 +112,7 @@
             font-size: 20pt;
             margin-left: auto;
             margin-right: auto;
+            text-align: justify;
         }
 
         .input_text {
@@ -104,16 +123,15 @@
             color: red;
         }
 
-        div#footer{
+        div#footer {
             text-align: center;
         }
 
-        body{
+        body {
             padding-top: 0px;
         }
 
     </style>
-
 
 
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -132,7 +150,7 @@
         <div>
             Language:
         </div>
-        <select autocomplete="off" class="dropdown"  disabled="true" id="lang">
+        <select autocomplete="off" class="dropdown" disabled="true" id="lang">
             <option disabled selected value> -- select an option --</option>
 
 
@@ -143,12 +161,13 @@
         Style:
         <select autocomplete="off" class="dropdown" disabled="true" id="lang_style">
             <option disabled selected value> --</option>
-
+            <option>15th CE Constantinopolitan</option>
 
         </select>
         Form:
         <select autocomplete="off" class="dropdown" disabled="true" id="lang_form">
             <option disabled selected value> --</option>
+            <option>Phonemic</option>
 
 
         </select>
@@ -165,11 +184,7 @@
                         id="text_to_transcribe"
                         name="text_to_transcribe"
                         required=""
-                >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. Gallias et Hispanias provincias, item Germaniam, qua includit Oceanus a Gadibus ad ostium Albis fluminis pacavi. Alpes a regione ea quae proxima est Hadriano mari ad Tuscum pacificavi nulli genti bello per iniuriam inlato. Classis mea per Oceanum ab ostio Rheni ad solis orientis regionem usque ad fines Cimbrorum navigavit, quo neque terra neque mari quisquam Romanus ante id tempus adit. Cimbrique et Charydes et Semnones et eiusdem tractus alii Germanorum populi per legatos amicitiam meam et populi Romani petierunt. Meo iussu et auspicio ducti sunt duo exercitus eodem fere tempore in Aethiopiam et in Arabiam quae appellatur Eudaemon, magnaeque hostium gentis utriusque copiae caesae sunt in acie et complura oppida capta. In Aethiopiam usque ad oppidum Nabata perventum est, cui proxima est Meroe; in Arabiam usque in fines Sabaeorum processit exercitus ad oppidum Mariba.
-
-                    [27] Aegyptum imperio populi Romani adieci. Armeniam maiorem interfecto rege eius Artaxe cum possem facere provinciam malui maiorum nostrorum exemplo regnum id Tigrani regis Artavasdis filio, nepoti autem Tigranis regis, per Ti. Neronem tradere, qui tum mihi privignus erat. Et eandem gentem postea desciscentem et rebellantem domitam per Gaium filium meum regi Ariobarzani regis Medorum Artabazi filio regendam tradidi, et post eius mortem filio eius Artavasdi; quo interfecto Tigranem qui erat ex regio genere Armeniorum oriundus in id regnum misi. Provincias omnis quae trans Hadrianum mare vergunt ad orientem Cyrenasque, iam ex parte magna regibus ea possidentibus, et antea Siciliam et Sardiniam occupatas bello servili reciperavi.
-
-                    </textarea>
+                >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. </textarea>
                 <div id="clear_button_group">
                     <button id="clear_button" type="button">Clear form</button>
                     <button id="clear_storage" title="Clear website's cached data from browser's local storage"
@@ -220,7 +235,8 @@
 </div>
 <hr>
 <div id="footer">
-    <a style="color: black;" href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron"><i class="fa fa-github" style="font-size:36px"></i></a>
+    <a href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" style="color: black;"><i
+            class="fa fa-github" style="font-size:36px"></i></a>
 
 </div>
 
