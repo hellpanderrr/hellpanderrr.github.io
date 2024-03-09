@@ -18,7 +18,6 @@ rsubn = memoize(rsubn)
 local rfind = mw.ustring.find
 rfind = memoize(rfind)
 local rmatch = mw.ustring.match
-rmatch = memoize(rfind)
 
 local rsplit = mw.text.split
 local rgsplit = mw.text.gsplit
@@ -785,7 +784,6 @@ local function decompose(text)
 	})
 	return text
 end
-decompose = memoize(decompose)
 
 -- Decompose the text, canonicalize in various ways, lowercase and split into words, returning each word along with
 -- whether the word was initially capitalized.
