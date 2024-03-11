@@ -1,57 +1,12 @@
-const factory = await lb.factory;
-const lua = await factory.createEngine();
+import "./lua_init.js";
+import {
+  asyncMapStrict,
+  clearStorage,
+  get_ipa_no_cache,
+  wait,
+} from "./utils.js";
 
-// Set a JS function to be a global lua function
-lua.global.set("fetch", (url) => fetch(url));
-
-async function mountFile(file_path, lua_path) {
-  const x = await fetch(file_path).then((data) => data.text());
-  await factory.mountFile(lua_path, x);
-}
-
-await mountFile("../wiktionary_pron/modules/memoize.lua", "memoize.lua");
-
-await lua.doString(`
-          memoize = require('memoize')
-          function require(path, extension)
-              extension = extension or 'lua'
-              print('required '..path,'from:', debug.getinfo(2).name)
-              if select(2,string.gsub(path, "%.", "")) > 0 then
-                   new_path = string.gsub(path,"%.", "/",1)
-                   print('replacing ', path,'->', new_path)
-                   path = new_path
-              end
-              local resp = fetch(string.format('../wiktionary_pron/modules/%s.%s',path,extension) ):await()
-              local text = resp:text():await()
-              local module =  load(text)()
-              print('loaded '..path)
-              return module
-          end
-
-          require = memoize(require)
-          require('debug/track')
-          require('ustring/charsets')
-          require('ustring/lower')
-          require('mw-title')
-          mw = require('mw')
-        `);
-console.log(lua);
-window.lua = lua;
 document.querySelector("#lang").disabled = false;
-
-async function loadLanguage(code) {
-  const lua = window.lua;
-  console.log(lua);
-  await lua.doString(`${code} = require("${code}-pron_wasm")`);
-  // Get a global lua function as a JS function
-  window[code + "_ipa"] = lua.global.get(code);
-
-  // Set a JS function to be a global lua function
-}
-
-function sanitize(text) {
-  return text.replace(/[^\p{L}\p{M}]/gu, "");
-}
 
 function prepareTranscribe() {
   const inputText = document.getElementById("text_to_transcribe").value;
@@ -61,21 +16,74 @@ function prepareTranscribe() {
   return [resultDiv, textLines];
 }
 
-async function asyncMapStrict(arr, fn) {
-  const result = [];
-  // console.time("Elapsed time :");
-  for (let idx = 0; idx < arr.length; idx += 1) {
-    const cur = arr[idx];
-    await new Promise((resolve) => setTimeout(resolve, 0.0001));
+/**
+ * Memoizes the given function in local storage.
+ * @param {Function} fn - The function to memoize.
+ * @param {Object} options - Memoization options.
+ * @param {number} options.ttl - Time to live for cached results in milliseconds.
+ * @param {boolean} options.backgroundRefresh - Whether to refresh the cache in the background.
+ * @throws {Error} Throws an error if the function is anonymous.
+ * @returns {Function} Returns the memoized function.
+ */
+function memoizeLocalStorage(
+  fn,
+  options = { ttl: 100, backgroundRefresh: false },
+) {
+  if (!fn.name)
+    throw new Error("memoizeLocalStorage only accepts non-anonymous functions");
+  // Fetch localstorage or init new object
+  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
 
-    result.push(await fn(cur, idx, arr));
+  //executes and caches result
+  function executeAndCacheFn(fn, args, argsKey) {
+    const result = fn(...args);
+    // reset the cache value
+    cache[fn.name] = {
+      ...cache[fn.name],
+      [argsKey]: { expiration: Date.now() + options.ttl, result },
+    };
+    localStorage.setItem(fn.name, JSON.stringify(cache));
   }
-  // console.timeEnd("Elapsed time :")
-  return result;
+
+  return function () {
+    // Note: JSON.stringify is non-deterministic,
+    // consider something like json-stable-stringify to avoid extra cache misses
+
+    const argsKey = JSON.stringify(arguments);
+
+    if (
+      !cache[fn.name] ||
+      !cache[fn.name][argsKey] ||
+      cache[fn.name][argsKey].expiration >= Date.now()
+    ) {
+      executeAndCacheFn(fn, arguments, argsKey);
+      return cache[fn.name][argsKey].result;
+    } else if (options.backgroundRefresh) {
+      executeAndCacheFn(fn, arguments, argsKey);
+      return cache[fn.name][argsKey].result;
+    }
+    console.log("Using cached", argsKey);
+
+    return cache[fn.name][argsKey].result;
+  };
 }
 
-async function wait(ms = 1) {
-  await new Promise((resolve) => setTimeout(resolve, ms));
+const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
+
+/**
+ * Retrieve the International Phonetic Alphabet (IPA) for the given text in the specified language.
+ *
+ * @param {string} text - The input text for which IPA needs to be retrieved.
+ * @param {string} lang - The language of the input text.
+ * @param {string} lang_style - The style (dialect) of the language.
+ * @param {string} lang_form - The form (phonetic or phonemic) of the transcription.
+ * @returns {string} - The IPA representation of the input text.
+ */
+function getIpa(text, lang, lang_style, lang_form) {
+  // Concatenate the language, style, and form parameters
+  let args = lang + ";" + lang_style + ";" + lang_form;
+  // Call memoized get_ipa_cache function to retrieve the IPA representation
+  return get_ipa_cache(text, args);
 }
 
 /**
@@ -237,13 +245,7 @@ document.getElementById("clear_button").addEventListener("click", clear_input);
 
 document
   .getElementById("clear_storage")
-  .addEventListener("click", clear_storage);
-
-function clear_storage() {
-  const cache = JSON.parse(localStorage.getItem("get_ipa_no_cache") || "{}");
-  cache["get_ipa_no_cache"] = "";
-  localStorage.setItem("get_ipa_no_cache", JSON.stringify(cache));
-}
+  .addEventListener("click", clearStorage);
 
 function clear_input() {
   const form = document.getElementById("text_to_transcribe");
@@ -261,183 +263,6 @@ function getLangStyleForm() {
 
   return { lang, langStyle, langForm };
 }
-
-/**
- * Retrieve the International Phonetic Alphabet (IPA) for the given text in the specified language.
- *
- * @param {string} text - The input text for which IPA needs to be retrieved.
- * @param {string} lang - The language of the input text.
- * @param {string} lang_style - The style (dialect) of the language.
- * @param {string} lang_form - The form (phonetic or phonemic) of the transcription.
- * @returns {string} - The IPA representation of the input text.
- */
-function getIpa(text, lang, lang_style, lang_form) {
-  // Concatenate the language, style, and form parameters
-  let args = lang + ";" + lang_style + ";" + lang_form;
-  // Call memoized get_ipa_cache function to retrieve the IPA representation
-  return get_ipa_cache(text, args);
-}
-
-function get_ipa_no_cache(text, args) {
-  console.log("doing actual IPA", text, args);
-  const cleanText = sanitize(text);
-
-  const [lang, langStyle, langForm] = args.split(";");
-  let command = "";
-
-  switch (lang) {
-    case "Latin":
-      switch (langStyle) {
-        case "Ecc":
-          command =
-            langForm === "Phonetic"
-              ? `window.la_ipa.convert_words('${cleanText}',true,true,false)`
-              : `window.la_ipa.convert_words('${cleanText}',false,true,false)`;
-          break;
-        case "Classical":
-          command =
-            langForm === "Phonetic"
-              ? `window.la_ipa.convert_words('${cleanText}',true,false,false)`
-              : `window.la_ipa.convert_words('${cleanText}',false,false,false)`;
-          break;
-      }
-      break;
-    case "German":
-      command =
-        langForm === "Phonetic"
-          ? `(window.de_ipa.phonetic('${cleanText}'))`
-          : `(window.de_ipa.phonemic('${cleanText}'))`;
-      break;
-    case "Portuguese":
-      command =
-        langStyle === "Brazil"
-          ? `window.pt_ipa.IPA('${cleanText}',"rio")[0].${langForm.toLowerCase()}`
-          : `window.pt_ipa.IPA('${cleanText}',"pt")[0].${langForm.toLowerCase()}`;
-      break;
-    case "Spanish":
-      const dialect =
-        langStyle === "Castilian" ? "distincion-yeismo" : "seseo-yeismo";
-      command = `window.es_ipa.IPA('${cleanText}','${dialect}', ${
-        langForm === "Phonetic"
-      }).text`;
-      break;
-    case "French":
-      if (langForm === "Phonemic") {
-        command = `(window.fr_ipa.show('${cleanText}')[0])`;
-      }
-      break;
-    case "Ukrainian":
-      if (langForm === "Phonetic") {
-        command = `(window.uk_ipa.pronunciation('${cleanText}',true))`;
-      }
-      break;
-    case "Russian":
-      if (langForm === "Phonetic") {
-        command = `(window.ru_ipa.ipa_string('${cleanText}'))`;
-      }
-      break;
-    case "Italian":
-      if (langForm === "Phonemic") {
-        command = `(window.it_ipa.to_phonemic('${cleanText}','TEST').phonemic)`;
-      }
-      break;
-    case "Greek":
-      switch (langStyle) {
-        case "5th BCE Attic":
-          command = `window.grc_ipa.IPA('${cleanText}','cla').cla.IPA`;
-          break;
-        case "1st CE Egyptian":
-          command = `window.grc_ipa.IPA('${cleanText}','koi1').koi1.IPA`;
-          break;
-        case "4th CE Koine":
-          command = `window.grc_ipa.IPA('${cleanText}','koi2').koi2.IPA`;
-          break;
-        case "10th CE Byzantine":
-          command = `window.grc_ipa.IPA('${cleanText}','byz1').byz1.IPA`;
-          break;
-        case "15th CE Constantinopolitan":
-          command = `window.grc_ipa.IPA('${cleanText}','byz2').byz2.IPA`;
-          break;
-      }
-      break;
-
-    case "Polish":
-      if (langForm === "Phonemic") {
-        command = `(window.pl_ipa.convert_to_IPA('${cleanText}'))`;
-      }
-      break;
-  }
-
-  let ipa = "";
-  try {
-    ipa = eval(command);
-    console.log(command, ipa);
-  } catch (err) {
-    ipa = "";
-    console.log(err);
-  }
-
-  if (!ipa) {
-    return { value: text, status: "error" };
-  }
-
-  console.log("final ipa ", ipa);
-  return { value: ipa, status: "success" };
-}
-
-/**
- * Memoizes the given function in local storage.
- * @param {Function} fn - The function to memoize.
- * @param {Object} options - Memoization options.
- * @param {number} options.ttl - Time to live for cached results in milliseconds.
- * @param {boolean} options.backgroundRefresh - Whether to refresh the cache in the background.
- * @throws {Error} Throws an error if the function is anonymous.
- * @returns {Function} Returns the memoized function.
- */
-function memoizeLocalStorage(
-  fn,
-  options = { ttl: 100, backgroundRefresh: false },
-) {
-  if (!fn.name)
-    throw new Error("memoizeLocalStorage only accepts non-anonymous functions");
-  // Fetch localstorage or init new object
-  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
-
-  //executes and caches result
-  function executeAndCacheFn(fn, args, argsKey) {
-    const result = fn(...args);
-    // reset the cache value
-    cache[fn.name] = {
-      ...cache[fn.name],
-      [argsKey]: { expiration: Date.now() + options.ttl, result },
-    };
-    localStorage.setItem(fn.name, JSON.stringify(cache));
-  }
-
-  return function () {
-    // Note: JSON.stringify is non-deterministic,
-    // consider something like json-stable-stringify to avoid extra cache misses
-
-    const argsKey = JSON.stringify(arguments);
-
-    if (
-      !cache[fn.name] ||
-      !cache[fn.name][argsKey] ||
-      cache[fn.name][argsKey].expiration >= Date.now()
-    ) {
-      executeAndCacheFn(fn, arguments, argsKey);
-      return cache[fn.name][argsKey].result;
-    } else if (options.backgroundRefresh) {
-      executeAndCacheFn(fn, arguments, argsKey);
-      return cache[fn.name][argsKey].result;
-    }
-    console.log("Using cached", argsKey);
-
-    return cache[fn.name][argsKey].result;
-  };
-}
-
-const get_ipa_cache = get_ipa_no_cache;
 
 const languages = {
   Latin: {
@@ -532,4 +357,5 @@ async function giveSelection(selValue) {
   }
   sel3.disabled = false;
 }
+
 document.getElementById("lang").addEventListener("change", giveSelection);
