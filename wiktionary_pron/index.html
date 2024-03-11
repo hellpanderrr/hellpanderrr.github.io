@@ -1,15 +1,247 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+
+
+<html lang="">
 <head>
+    <meta charset="UTF-8"/>
+    <link as="style" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css"
+          onload="this.onload=null;this.rel='stylesheet'"
+          rel="preload">
+    <noscript>
+        <link href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" rel="stylesheet">
+    </noscript>
+
+
+    <link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          onload="this.onload=null;this.rel='stylesheet'" rel="preload">
+    <noscript>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+              rel="stylesheet">
+    </noscript>
+
+    <script defer src="scripts/wasmoon.js" type="text/javascript"></script>
+    <script defer src="scripts/main.js" type="module"></script>
+
+
+    <link as="style" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'"
+          rel="preload">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet">
+    </noscript>
+
+
+    <title>Free Online IPA Phonetic Transcription</title>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="Online IPA Latin German Portuguese Phonetics Transcription" name="Keywords"/>
-    <link rel="canonical" href="index_wasm.html" />
+    <meta content="Free Online Rule-based IPA phonetic/phonemic transcription engine, which uses Wiktionary Lua pronunciation modules.
+     Latin, German, French, Spanish, Ancient Greek, Polish languages are fully supported. Russian, Ukrainian and Portuguese require vowels' stressing for proper functioning."
+          name="description">
 
-    <meta http-equiv="refresh" content="0;url=index_wasm.html" />
+    <style>
 
-    <title>Online IPA Phonetic Transcription</title>
+        @font-face {
+            font-family: "Noto Sans";
+            src: url("fonts/NotoSans-Regular.woff2") format("woff2");
+        }
+
+        button:active {
+            background: #e5e5e5;
+            -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+            -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+            box-shadow: inset 0px 0px 5px #c1c1c1;
+            outline: none;
+        }
+
+        hr {
+            opacity: 0.3;
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif
+        }
+
+        div#content {
+
+            font-size: 16pt;
+            text-align: center
+        }
+
+        div#form_top {
+
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 800px;
+            align-content: center;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+
+        div#form_bottom {
+
+            display: flex;
+            flex-direction: row;
+            align-content: stretch;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 0px;
+        }
+
+        textarea {
+
+            height: 101px;
+            overflow: auto;
+            resize: vertical;
+            width: 100%;
+            margin-right: 10px;
+            height: 162px;
+
+        }
+
+        table {
+            overflow: auto;
+            resize: vertical;
+            max-width: 1000px;
+            font-size: 20pt;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: justify;
+        }
+
+        .input_text {
+            font-family: "EB Garamond";
+        }
+
+        .error {
+            color: red;
+        }
+
+        div#footer {
+            text-align: center;
+        }
+
+        body {
+            padding-top: 0px;
+        }
+
+    </style>
+
+
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+
+
 </head>
 <body>
+<div id="content">
+    <br/>
+    <h1>Online IPA Converter</h1>
+    <hr>
+
+    <form name="myForm">
+        <div>
+            Language:
+        </div>
+        <select autocomplete="off" class="dropdown" disabled="true" id="lang">
+            <option disabled selected value> -- select an option --</option>
+
+
+        </select>
+        <div>
+            Additional options:
+        </div>
+        Style:
+        <select autocomplete="off" class="dropdown" disabled="true" id="lang_style">
+            <option disabled selected value> --</option>
+            <option>15th CE Constantinopolitan</option>
+
+        </select>
+        Form:
+        <select autocomplete="off" class="dropdown" disabled="true" id="lang_form">
+            <option disabled selected value> --</option>
+            <option>Phonemic</option>
+
+
+        </select>
+
+
+    </form>
+
+
+    <form id="frm1" onsubmit="return false">
+        <div class="form-group">
+            <div id="form_top">
+                <textarea
+                        autofocus=""
+                        id="text_to_transcribe"
+                        name="text_to_transcribe"
+                        required=""
+                >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. </textarea>
+                <div id="clear_button_group">
+                    <button id="clear_button" type="button">Clear form</button>
+                    <button id="clear_storage" title="Clear website's cached data from browser's local storage"
+                            type="button">Clear cache
+                    </button>
+                </div>
+            </div>
+            <div class="btn-group btn-block" id="form_bottom" role="group">
+                <button
+                        autocomplete="off"
+                        class="btn btn-primary btn-block"
+                        disabled="disabled"
+                        id="submit"
+                        name="submit"
+                        type="button"
+                        value="Show transcription">
+                    Show transcription
+                </button>
+
+                <button
+                        autocomplete="off"
+                        class="btn btn-primary btn-block"
+                        disabled="disabled"
+                        id="submit_by_line"
+                        name="submit"
+                        type="button"
+                        value="Show transcription line-by-line"
+                >Show transcription line-by-line
+                </button>
+                <button
+                        autocomplete="off"
+                        class="btn btn-primary btn-block"
+                        disabled="disabled"
+                        id="submit_by_col"
+                        name="submit"
+                        type="button"
+                        value="Show transcription column to column"
+                >Show transcription column to column
+                </button>
+            </div>
+        </div>
+    </form>
+    <hr>
+    <table>
+        <tbody id="result"></tbody>
+    </table>
+
+</div>
+<hr>
+<div id="footer">
+    <a href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" style="color: black;"><i
+            class="fa fa-github" style="font-size:36px"></i></a>
+
+</div>
+
 
 </body>
+
 </html>
