@@ -3,7 +3,7 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const fs = require("fs");
 
-(async function test() {
+export default async function test() {
   const { LuaFactory } = require("wasmoon");
   const factory = new LuaFactory();
   const lua = await factory.createEngine();
@@ -29,7 +29,6 @@ const fs = require("fs");
           memoize = require('memoize')
           function require(path, extension)
               extension = extension or 'lua'
-              print('required '..path,'from:', debug.getinfo(2).name)
               if select(2,string.gsub(path, "%.", "")) > 0 then
                    new_path = string.gsub(path,"%.", "/",1)
                    print('replacing ', path,'->', new_path)
@@ -38,7 +37,6 @@ const fs = require("fs");
               local resp = fetch(string.format('../..//modules/%s.%s',path,extension) ):await()
               resp = tostring(resp)
               local module =  load(resp)()
-              print('loaded '..path)
               return module
           end
 
@@ -49,16 +47,6 @@ const fs = require("fs");
           require('mw-title')
           mw = require('mw')
         `);
-  global["lua"] = lua;
-
-  async function loadLanguage(code) {
-    const lua = global.lua;
-    await lua.doString(`${code} = require("${code}-pron_wasm")`);
-    // Get a global lua function as a JS function
-    global[code + "_ipa"] = lua.global.get(code);
-
-    // Set a JS function to be a global lua function
-  }
-
-  await loadLanguage("de");
-})();
+  global["window"] = {};
+  global["window"]["lua"] = lua;
+}
