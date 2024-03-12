@@ -15,10 +15,13 @@
         fengari.load('require "mw-language"')()
         fengari.load('libraryUtil = require "libraryUtil"')()
         fengari.load('require "mw-text"')()
-        fengari.load('package.path = "modules/test/translit/?.lua"')()
+        fengari.load('memoize =  require "memoize"')()
+        fengari.load('m_table = require "table"')()
+        fengari.load('m_table.listToSet = require "table.listToSet"')()
+        fengari.load('package.path = "modules/?.lua"')()
         fengari.load('local m_debug = require "debug"')()
-        fengari.load('export_la = require "la-pronunc"')()
-        fengari.load('export_de = require "de-pron"')()
+        fengari.load('export_la = require "la-pron_wasm"')()
+        fengari.load('export_de = require "de-pron_wasm"')()
         <!--        fengari.load('export = require "ru-pron"')()-->
         // fengari.load('export = require "pt-pronunc"')()
 
