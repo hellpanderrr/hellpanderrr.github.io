@@ -46,7 +46,7 @@
             src: url("fonts/NotoSans-Regular.woff2") format("woff2");
         }
 
-        button:active {
+        button:enabled:active {
             background: #e5e5e5;
             -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
             -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
@@ -132,19 +132,114 @@
             padding-top: 0px;
         }
 
+        body.dark_mode textarea {
+            background-color: #1F1B24;
+            color: white;
+        }
+
+        body.dark_mode {
+            background-color: #121212;
+            color: white;
+        }
+
+        body.dark_mode select {
+            color: white;
+            background-image: linear-gradient(to bottom, #1F1B24, #1F1B24);
+        }
+
+        body.dark_mode select:focus {
+            background-color: #1F1B24;
+        }
+
+        body.dark_mode h1 {
+            color: white;
+        }
+
+        body.dark_mode option {
+            color: white;
+            background-image: linear-gradient(to bottom, #1F1B24, #1F1B24);
+        }
+
+        body.dark_mode button {
+            background-color: #CE93D8;
+            color: black;
+        }
+
+        body.dark_mode button[disabled] {
+            background-color: rgba(255, 255, 255, 0.12) !important;
+            color: rgba(255, 255, 255, 0.38);
+        }
+
+        body.dark_mode select[disabled] {
+            background-color: rgba(255, 255, 255, 0.12) !important;
+            color: rgba(255, 255, 255, 0.38);
+        }
+
+        select[disabled] {
+
+            cursor: not-allowed;
+        }
+
+        body.dark_mode i.fa-github {
+            color: white;
+        }
+
+        body.dark_mode i.fa-sun-o {
+            color: yellow;
+        }
+
+        body i.fa-moon-o {
+            color: black;
+        }
+
+        #header {
+            display: flex;
+            flex-direction: row;
+            align-content: flex-start;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        #header > a {
+            font-size: 30px;
+        }
+
     </style>
 
 
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+    <script>
+        function dark() {
+            console.log('setting dark')
+            if (document.body.classList.contains('dark_mode')) {
+                console.log('dark already setting light')
+                light_mode();
+            } else {
+                document.body.classList.add('dark_mode');
+                document.querySelector('#header>a>i').className = 'fa fa-sun-o'
+            }
+        }
 
+        function light_mode() {
+            document.querySelector('#header>a>i').className = 'fa fa-moon-o'
+            document.body.classList.remove('dark_mode');
+        }
+
+    </script>
 
 </head>
 <body>
 <div id="content">
     <br/>
-    <h1>Online IPA Converter</h1>
+    <div id="header">
+        <h1 style="flex: 1;">Online IPA Converter</h1>
+        <a href="#" onclick="dark()">
+            <i class="fa fa-moon-o"></i>
+        </a>
+    </div>
     <hr>
 
     <form name="myForm">
