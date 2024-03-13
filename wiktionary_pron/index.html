@@ -10,6 +10,7 @@
     <noscript>
         <link href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" rel="stylesheet">
     </noscript>
+    <script src="https://cdn.jsdelivr.net/npm/easy-speech/dist/EasySpeech.iife.js"></script>
 
 
     <link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -205,36 +206,47 @@
             font-size: 30px;
         }
 
+        .audio-popup {
+            color: #000;
+            text-align: left;
+            padding: 5px;
+            z-index: 1;
+            position: absolute;
+            top: -15px;
+            margin: 0px;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.5s;
+            font-size: 15px;
+            background-color: #f0f8ff00;
+        }
+
+        .show-popup {
+            visibility: visible;
+            transition: opacity 0.5s;
+        }
+
+
+        .cell {
+            position: relative
+        }
+
     </style>
 
 
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-    <script>
-        function dark() {
-            console.log('setting dark')
-            if (document.body.classList.contains('dark_mode')) {
-                console.log('dark already setting light')
-                light_mode();
-            } else {
-                document.body.classList.add('dark_mode');
-                document.querySelector('#header>a>i').className = 'fa fa-sun-o'
-            }
-        }
 
-        function light_mode() {
-            document.querySelector('#header>a>i').className = 'fa fa-moon-o'
-            document.body.classList.remove('dark_mode');
-        }
-
-    </script>
 
 </head>
 <body>
 <div id="content">
     <br/>
     <div id="header">
+        <p style="visibility: hidden">
+            <i class="fa fa-moon-o"></i>
+        </p>
         <h1 style="flex: 1;">Online IPA Converter</h1>
         <a href="#" onclick="dark()">
             <i class="fa fa-moon-o"></i>
@@ -267,6 +279,12 @@
 
 
         </select>
+        <div>
+            TTS: <select autocomplete="off" class="dropdown" id="tts">
+            <option disabled selected value> --</option>
+
+
+        </select></div>
 
 
     </form>
@@ -286,6 +304,8 @@
                     <button id="clear_storage" title="Clear website's cached data from browser's local storage"
                             type="button">Clear cache
                     </button>
+
+
                 </div>
             </div>
             <div class="btn-group btn-block" id="form_bottom" role="group">
@@ -340,3 +360,61 @@
 </body>
 
 </html>
+<script>
+    function dark() {
+        console.log('setting dark')
+        if (document.body.classList.contains('dark_mode')) {
+            console.log('dark already setting light')
+            light_mode();
+        } else {
+            document.body.classList.add('dark_mode');
+            document.querySelector('#header>a>i').className = 'fa fa-sun-o'
+        }
+    }
+
+
+    function light_mode() {
+        document.querySelector('#header>a>i').className = 'fa fa-moon-o'
+        document.body.classList.remove('dark_mode');
+    }
+
+    audio_els = document.querySelectorAll('.fa-headphones')
+    Array.from(audio_els).map(function (el) {
+        el.addEventListener("click", () => console.log(el.nextSibling.textContent));
+    })
+
+
+    document
+        .getElementById("submit_by_line")
+        .addEventListener("click", tts);
+
+
+</script>
+<script defer type="module">
+    await EasySpeech.init({maxTimeout: 5000, interval: 250})
+        .then(() => console.debug('load complete'))
+        .catch(e => console.error(e))
+
+
+    function populateVoiceList() {
+
+        const voiceSelect = document.querySelector("#tts");
+        const voices = EasySpeech.voices()
+
+        for (let i = 0; i < voices.length; i++) {
+            const option = document.createElement("option");
+            option.textContent = `${voices[i].name} (${voices[i].lang})`;
+
+            if (voices[i].default) {
+                option.textContent += " — DEFAULT";
+            }
+
+            option.setAttribute("data-lang", voices[i].lang);
+            option.setAttribute("data-name", voices[i].name);
+            voiceSelect.appendChild(option);
+        }
+    }
+
+    populateVoiceList()
+
+</script>

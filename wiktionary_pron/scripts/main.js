@@ -5,7 +5,7 @@ import {
   get_ipa_no_cache,
   wait,
 } from "./utils.js";
-
+import { tts } from "./tts.js";
 document.querySelector("#lang").disabled = false;
 
 function prepareTranscribe() {
@@ -137,7 +137,7 @@ async function transcribe(mode) {
       );
       const combinedResults = formattedResults.map(
         (formattedResult, index) =>
-          '<div style="float:left;margin-left:5px;margin-top:5px;">' +
+          '<div class="cell"style="float:left;margin-left:5px;margin-top:5px;"><button class="fa fa-volume-down audio-popup"></button>' +
           formattedWords[index] +
           formattedResult +
           "</div>",
@@ -200,6 +200,7 @@ async function transcribe(mode) {
   } finally {
     console.log("finally");
     enableAll();
+    tts();
   }
 }
 
