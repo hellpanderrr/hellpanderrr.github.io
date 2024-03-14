@@ -9,7 +9,7 @@ async function mountFile(file_path, lua_path) {
   await factory.mountFile(lua_path, x);
 }
 
-await mountFile("../wiktionary_pron/modules/memoize.lua", "memoize.lua");
+await mountFile("../wiktionary_pron/lua_modules/memoize.lua", "memoize.lua");
 
 await lua.doString(`
           memoize = require('memoize')
@@ -21,7 +21,7 @@ await lua.doString(`
                    print('replacing ', path,'->', new_path)
                    path = new_path
               end
-              local resp = fetch(string.format('../wiktionary_pron/modules/%s.%s',path,extension) ):await()
+              local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               local text = resp:text():await()
               local module =  load(text)()
               print('loaded '..path)

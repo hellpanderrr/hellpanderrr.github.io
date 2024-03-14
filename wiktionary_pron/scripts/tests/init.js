@@ -23,7 +23,7 @@ export default async function test() {
     await factory.mountFile(lua_path, x);
   }
 
-  await mountFile("../../modules/memoize.lua", "memoize.lua");
+  await mountFile("../../lua_modules/memoize.lua", "memoize.lua");
 
   await lua.doString(`
           memoize = require('memoize')
@@ -34,7 +34,7 @@ export default async function test() {
                    print('replacing ', path,'->', new_path)
                    path = new_path
               end
-              local resp = fetch(string.format('../..//modules/%s.%s',path,extension) ):await()
+              local resp = fetch(string.format('../../lua_modules/%s.%s',path,extension) ):await()
               resp = tostring(resp)
               local module =  load(resp)()
               return module
