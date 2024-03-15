@@ -178,6 +178,51 @@ async function transcribe(mode) {
       );
     }
 
+    async function processSideBySide(paragraph) {
+      const words = paragraph.split(" ");
+      const results = await Promise.all(
+        words.map(async (word) => {
+          await wait(1);
+          return await getIpa(word, lang, langStyle, langForm);
+        }),
+      );
+
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignContent = "center";
+      container.style.maxWidth = "1000px";
+      container.style.marginLeft = "auto";
+      container.style.marginRight = "auto";
+
+      const leftColumn = document.createElement("div");
+      leftColumn.style.flex = "1";
+
+      const rightColumn = document.createElement("div");
+      rightColumn.style.flex = "1";
+
+      for (let i = 0; i < words.length; i++) {
+        const wordSpan = document.createElement("span");
+        wordSpan.textContent = words[i];
+        wordSpan.classList.add("input_text", "word");
+        wordSpan.style.display = "inline-block";
+
+        const resultSpan = document.createElement("span");
+        resultSpan.textContent = results[i].value;
+        resultSpan.classList.add(
+          results[i].status === "error" ? "error" : "ipa",
+        );
+        resultSpan.style.display = "inline-block";
+
+        leftColumn.appendChild(wordSpan);
+        rightColumn.appendChild(resultSpan);
+      }
+
+      container.appendChild(leftColumn);
+      container.appendChild(rightColumn);
+      resultDiv.appendChild(document.createElement("br"));
+      resultDiv.appendChild(container);
+    }
+
     let selectedProcess;
     switch (mode) {
       case "default":
@@ -188,6 +233,9 @@ async function transcribe(mode) {
         break;
       case "column":
         selectedProcess = processColumn;
+        break;
+      case "sideBySide":
+        selectedProcess = processSideBySide;
         break;
     }
 
@@ -240,7 +288,7 @@ document
   .addEventListener("click", () => transcribe("line"));
 document
   .getElementById("submit_by_col")
-  .addEventListener("click", () => transcribe("column"));
+  .addEventListener("click", () => transcribe("sideBySide"));
 
 document.getElementById("clear_button").addEventListener("click", clear_input);
 
