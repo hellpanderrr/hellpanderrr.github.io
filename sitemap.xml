@@ -2,22 +2,18 @@
     <!--  created with Free Online Sitemap Generator www.xml-sitemaps.com  -->
     <url>
         <loc>https://hellpanderrr.github.io/</loc>
-        <lastmod>2024-02-24T08:47:22+00:00</lastmod>
+        <lastmod>2024-03-11T08:47:22+00:00</lastmod>
         <priority>1.00</priority>
     </url>
     <url>
         <loc>https://hellpanderrr.github.io/transcription/main.html</loc>
-        <lastmod>2024-02-24T08:47:22+00:00</lastmod>
+        <lastmod>2024-02-27T08:47:22+00:00</lastmod>
         <priority>0.80</priority>
     </url>
     <url>
         <loc>https://hellpanderrr.github.io/wiktionary_pron/index.html</loc>
-        <lastmod>2024-02-24T08:47:22+00:00</lastmod>
+        <lastmod>2024-03-15T08:47:22+00:00</lastmod>
         <priority>0.80</priority>
     </url>
-    <url>
-        <loc>https://hellpanderrr.github.io/wiktionary_pron/index_wasm.html</loc>
-        <lastmod>2024-02-24T08:47:22+00:00</lastmod>
-        <priority>0.80</priority>
-    </url>
+
 </urlset>
