@@ -12,7 +12,10 @@ async function asyncMapStrict(arr, fn) {
 }
 
 function sanitize(text) {
-  return text.replace(/[^\p{L}\p{M}]/gu, "");
+  return text.replace(
+    /[^\p{L}\p{M}pbtdʈɖcɟkɡqɢʔmɱnɳɲŋɴʙrʀⱱɾɽɸβfvθðszʃʒʂʐçʝxɣχʁħʕhɦɬɮʋɹɻjɰlɭʎʟʘǀǃǂǁɓɗʄɠʛʼiyɨʉɯuɪʏʊeøɘɵɤoəɛœɜɞʌɔæɐaɶɑɒʍwɥʜʢʡɕʑɺɧ͜͡ˈˌːˑ̆|‖.‿̥̬ʰ̹̜̟̠̩̯̈̽˞̤̰̼ʷʲˠˤ̴̝̞̘̙̪̺̻̃ⁿˡ̋̚˥̌˩́˦̂̄˧᷄̀˨᷅̏᷈-]/gu,
+    "",
+  );
 }
 
 async function wait(ms = 1) {

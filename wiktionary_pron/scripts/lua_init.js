@@ -13,15 +13,22 @@ await mountFile("../wiktionary_pron/lua_modules/memoize.lua", "memoize.lua");
 
 await lua.doString(`
           memoize = require('memoize')
+          t = {}
           function require(path, extension)
               extension = extension or 'lua'
               print('required '..path,'from:', debug.getinfo(2).name)
+              table.insert(t, 'lua_modules'..string.char(92)..path)
               if select(2,string.gsub(path, "%.", "")) > 0 then
                    new_path = string.gsub(path,"%.", "/",1)
                    print('replacing ', path,'->', new_path)
                    path = new_path
               end
-              local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              
+              
+              --local resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              --local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              
               local text = resp:text():await()
               local module =  load(text)()
               print('loaded '..path)
@@ -41,10 +48,10 @@ window.lua = lua;
 async function loadLanguage(code) {
   const lua = window.lua;
   console.log(lua);
-  await lua.doString(`${code} = require("${code}-pron_wasm")`);
+  await lua.doString(`t = {}
+  ${code} = require("${code}-pron_wasm")`);
   // Get a global lua function as a JS function
   window[code + "_ipa"] = lua.global.get(code);
-
   // Set a JS function to be a global lua function
 }
 
