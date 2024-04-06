@@ -26,8 +26,8 @@ await lua.doString(`
               
               
               --local resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              --local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              --local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               
               local text = resp:text():await()
               local module =  load(text)()
