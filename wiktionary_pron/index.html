@@ -121,12 +121,14 @@
             font-family: "EB Garamond";
         }
 
-        span.ipa{
+        span.ipa {
             margin-right: 5px;
         }
-        span.input_text{
+
+        span.input_text {
             margin-left: 5px;
         }
+
         .error {
             color: red;
         }
@@ -192,7 +194,7 @@
         }
 
         body.dark_mode i.fa-sun-o {
-            color: yellow;
+            color: #fefeac;
         }
 
         body i.fa-moon-o {
@@ -237,6 +239,23 @@
             position: relative
         }
 
+        #lang_container {
+
+            position: relative;
+            text-align: center;
+        }
+
+        #loading_text {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 12px;
+            font-family: monospace;
+            max-width: 250px;
+            margin: 0px;
+            padding: 0px;
+        }
+
     </style>
 
 
@@ -264,11 +283,14 @@
         <div>
             Language:
         </div>
-        <select autocomplete="off" class="dropdown" disabled="true" id="lang">
-            <option disabled selected value> -- select an option --</option>
+        <div id="lang_container">
+            <select autocomplete="off" class="dropdown" disabled="true" id="lang">
+                <option disabled selected value> -- select an option --</option>
 
 
-        </select>
+            </select>
+            <p id="loading_text">...</p>
+        </div>
         <div>
             Additional options:
         </div>

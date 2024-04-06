@@ -5,9 +5,25 @@ const lua = await factory.createEngine();
 lua.global.set("fetch", (url) => fetch(url));
 
 async function mountFile(file_path, lua_path) {
-  const x = await fetch(file_path).then((data) => data.text());
-  await factory.mountFile(lua_path, x);
+  const content = await fetch(file_path).then((data) => data.text());
+  await factory.mountFile(lua_path, content);
 }
+
+function updateLoadingText(filePath, fileExtension) {
+  const loadingBar = document.getElementById("loading_text");
+
+  if (!filePath && !fileExtension) {
+    loadingBar.innerHTML = "";
+    loadingBar.style.display = "none";
+  } else {
+    loadingBar.innerHTML = `Loading ${filePath}.${fileExtension}...`;
+    loadingBar.style.display = "block";
+  }
+}
+
+lua.global.set("updateLoadingText", (file_path, extension) =>
+  updateLoadingText(file_path, extension),
+);
 
 await mountFile("../wiktionary_pron/lua_modules/memoize.lua", "memoize.lua");
 
@@ -27,8 +43,9 @@ await lua.doString(`
               
               --local resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               --local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              updateLoadingText(path, extension)
               local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              
+              updateLoadingText("", "")
               local text = resp:text():await()
               local module =  load(text)()
               print('loaded '..path)
