@@ -6,6 +6,7 @@ import {
   wait,
 } from "./utils.js";
 import { tts } from "./tts.js";
+
 document.querySelector("#lang").disabled = false;
 
 function prepareTranscribe() {
@@ -318,27 +319,51 @@ const languages = {
     styles: ["Classical", "Ecc"],
     forms: ["Phonetic", "Phonemic"],
     langCode: "la",
+    ttsCode: "it-IT",
   },
   German: {
     styles: ["Default"],
     forms: ["Phonetic", "Phonemic"],
     langCode: "de",
+    ttsCode: "de-DE",
   },
   Portuguese: {
     styles: ["Brazil", "Portugal"],
     forms: ["Phonetic", "Phonemic"],
     langCode: "pt",
+    ttsCode: "pt-BR",
   },
   Spanish: {
     styles: ["Castilian", "Latin_American "],
     forms: ["Phonetic", "Phonemic"],
     langCode: "es",
+    ttsCode: "es-ES",
   },
-  French: { styles: ["Default"], forms: ["Phonemic"], langCode: "fr" },
-  Russian: { styles: ["Default"], forms: ["Phonetic"], langCode: "ru" },
-  Polish: { styles: ["Default"], forms: ["Phonemic"], langCode: "pl" },
+  French: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "fr",
+    ttsCode: "fr-FR",
+  },
+  Russian: {
+    styles: ["Default"],
+    forms: ["Phonetic"],
+    langCode: "ru",
+    ttsCode: "ru-RU",
+  },
+  Polish: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "pl",
+    ttsCode: "pl-PL",
+  },
 
-  Ukrainian: { styles: ["Default"], forms: ["Phonetic"], langCode: "uk" },
+  Ukrainian: {
+    styles: ["Default"],
+    forms: ["Phonetic"],
+    langCode: "uk",
+    ttsCode: "uk-UA",
+  },
   Greek: {
     styles: [
       "5th BCE Attic",
@@ -349,6 +374,7 @@ const languages = {
     ],
     forms: ["Phonetic"],
     langCode: "grc",
+    ttsCode: "el-GR",
   },
 };
 
@@ -382,14 +408,16 @@ const loadedLanguages = {};
 
 async function giveSelection(selValue) {
   selValue = this.value;
+  const langCode = languages[selValue].langCode;
+  const ttsCode = languages[selValue].ttsCode;
+
   if (!(selValue in loadedLanguages)) {
-    const langCode = languages[selValue].langCode;
     disableAll();
     await loadLanguage(langCode);
     enableAll();
     loadedLanguages[selValue] = true;
   }
-
+  selectTTS(ttsCode);
   sel2.innerHTML = "";
   for (const option of options2) {
     if (option.dataset.option === selValue) {
@@ -405,6 +433,16 @@ async function giveSelection(selValue) {
     }
   }
   sel3.disabled = false;
+}
+
+function selectTTS(language) {
+  const relevantVoices = Array.from(
+    document.querySelector("#tts").options,
+  ).filter((x) => (x.getAttribute("data-lang") || "").includes(language));
+
+  if (relevantVoices.length > 0) {
+    document.querySelector("#tts").value = relevantVoices[0].value;
+  }
 }
 
 document.getElementById("lang").addEventListener("change", giveSelection);
