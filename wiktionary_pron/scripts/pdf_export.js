@@ -35,9 +35,11 @@ async function fetchFonts() {
 
   const [GaramdondBytes, VocesBytes] = await Promise.all([
     fetchAsset(
-      "/wiktionary_pron/wiktionary_pron/fonts/GoudyBookletter1911-Regular.ttf",
+      "https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/GoudyBookletter1911-Regular.ttf",
     ),
-    fetchAsset("/wiktionary_pron/wiktionary_pron/fonts/Voces-Regular.ttf"),
+    fetchAsset(
+      "https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/Voces-Regular.ttf",
+    ),
   ]);
   fonts = [GaramdondBytes, VocesBytes];
   return fonts;
