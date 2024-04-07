@@ -18,6 +18,58 @@ function sanitize(text) {
   );
 }
 
+/**
+ * Memoizes the given function in local storage.
+ * @param {Function} fn - The function to memoize.
+ * @param {Object} options - Memoization options.
+ * @param {number} options.ttl - Time to live for cached results in milliseconds.
+ * @param {boolean} options.backgroundRefresh - Whether to refresh the cache in the background.
+ * @throws {Error} Throws an error if the function is anonymous.
+ * @returns {Function} Returns the memoized function.
+ */
+function memoizeLocalStorage(
+  fn,
+  options = { ttl: 100, backgroundRefresh: false },
+) {
+  if (!fn.name)
+    throw new Error("memoizeLocalStorage only accepts non-anonymous functions");
+  // Fetch localstorage or init new object
+  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
+
+  //executes and caches result
+  function executeAndCacheFn(fn, args, argsKey) {
+    const result = fn(...args);
+    // reset the cache value
+    cache[fn.name] = {
+      ...cache[fn.name],
+      [argsKey]: { expiration: Date.now() + options.ttl, result },
+    };
+    localStorage.setItem(fn.name, JSON.stringify(cache));
+  }
+
+  return function () {
+    // Note: JSON.stringify is non-deterministic,
+    // consider something like json-stable-stringify to avoid extra cache misses
+
+    const argsKey = JSON.stringify(arguments);
+
+    if (
+      !cache[fn.name] ||
+      !cache[fn.name][argsKey] ||
+      cache[fn.name][argsKey].expiration >= Date.now()
+    ) {
+      executeAndCacheFn(fn, arguments, argsKey);
+      return cache[fn.name][argsKey].result;
+    } else if (options.backgroundRefresh) {
+      executeAndCacheFn(fn, arguments, argsKey);
+      return cache[fn.name][argsKey].result;
+    }
+    console.log("Using cached", argsKey);
+
+    return cache[fn.name][argsKey].result;
+  };
+}
+
 async function wait(ms = 1) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -135,4 +187,11 @@ function get_ipa_no_cache(text, args) {
   return { value: ipa, status: "success" };
 }
 
-export { asyncMapStrict, sanitize, clearStorage, wait, get_ipa_no_cache };
+export {
+  asyncMapStrict,
+  sanitize,
+  clearStorage,
+  wait,
+  get_ipa_no_cache,
+  memoizeLocalStorage,
+};

@@ -92,6 +92,10 @@
             align-items: center;
         }
 
+        #lang_style{
+            max-width: 100px;
+
+        }
         h1 {
             margin-top: 0px;
         }
@@ -256,9 +260,10 @@
             padding: 0px;
         }
 
-        #tts{
+        #tts {
             max-width: 350px;
         }
+
 
     </style>
 
@@ -378,8 +383,19 @@
     <hr>
     <table>
         <tbody id="result"></tbody>
-    </table>
 
+    </table>
+    <button
+            autocomplete="off"
+            class="btn btn-primary btn-block"
+            disabled="disabled"
+            id="export_pdf"
+            name="submit"
+            type="button"
+            value=""
+    >Export as PDF
+        <i class="fa fa-file-pdf-o" style="font-size: 30px;color: #c11313;"></i>
+    </button>
 </div>
 <hr>
 <div id="footer">

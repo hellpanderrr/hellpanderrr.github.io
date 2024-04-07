@@ -3,9 +3,11 @@ import {
   asyncMapStrict,
   clearStorage,
   get_ipa_no_cache,
+  memoizeLocalStorage,
   wait,
 } from "./utils.js";
 import { tts } from "./tts.js";
+import { toPdf } from "./pdf_export.js";
 
 document.querySelector("#lang").disabled = false;
 
@@ -15,58 +17,6 @@ function prepareTranscribe() {
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "";
   return [resultDiv, textLines];
-}
-
-/**
- * Memoizes the given function in local storage.
- * @param {Function} fn - The function to memoize.
- * @param {Object} options - Memoization options.
- * @param {number} options.ttl - Time to live for cached results in milliseconds.
- * @param {boolean} options.backgroundRefresh - Whether to refresh the cache in the background.
- * @throws {Error} Throws an error if the function is anonymous.
- * @returns {Function} Returns the memoized function.
- */
-function memoizeLocalStorage(
-  fn,
-  options = { ttl: 100, backgroundRefresh: false },
-) {
-  if (!fn.name)
-    throw new Error("memoizeLocalStorage only accepts non-anonymous functions");
-  // Fetch localstorage or init new object
-  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
-
-  //executes and caches result
-  function executeAndCacheFn(fn, args, argsKey) {
-    const result = fn(...args);
-    // reset the cache value
-    cache[fn.name] = {
-      ...cache[fn.name],
-      [argsKey]: { expiration: Date.now() + options.ttl, result },
-    };
-    localStorage.setItem(fn.name, JSON.stringify(cache));
-  }
-
-  return function () {
-    // Note: JSON.stringify is non-deterministic,
-    // consider something like json-stable-stringify to avoid extra cache misses
-
-    const argsKey = JSON.stringify(arguments);
-
-    if (
-      !cache[fn.name] ||
-      !cache[fn.name][argsKey] ||
-      cache[fn.name][argsKey].expiration >= Date.now()
-    ) {
-      executeAndCacheFn(fn, arguments, argsKey);
-      return cache[fn.name][argsKey].result;
-    } else if (options.backgroundRefresh) {
-      executeAndCacheFn(fn, arguments, argsKey);
-      return cache[fn.name][argsKey].result;
-    }
-    console.log("Using cached", argsKey);
-
-    return cache[fn.name][argsKey].result;
-  };
 }
 
 const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
@@ -92,7 +42,7 @@ function getIpa(text, lang, lang_style, lang_form) {
  * @param {string} mode - The mode for transcribing the text (default, line, column).
  */
 async function transcribe(mode) {
-  disableAll();
+  disableAll([document.querySelector("#export_pdf")]);
   try {
     const [resultDiv, textLines] = prepareTranscribe();
     const { lang, langStyle, langForm } = getLangStyleForm();
@@ -248,7 +198,8 @@ async function transcribe(mode) {
     console.log(err);
   } finally {
     console.log("finally");
-    enableAll();
+    globalThis.transcription_mode = mode;
+    enableAll([document.querySelector("#export_pdf")]);
     tts();
   }
 }
@@ -256,30 +207,32 @@ async function transcribe(mode) {
 /**
  * Disables all form elements on the page
  */
-function disableAll() {
+function disableAll(include_elements = []) {
   // Select all the forms on the page
   const forms = Array.from(document.querySelectorAll("form"));
 
   // Iterate through each form and disable all its elements
   forms.forEach((form) => {
-    Array.from(form.elements).forEach((element) => {
-      element.disabled = true;
-    });
+    Array.from(form.elements)
+      .concat(include_elements)
+      .forEach((element) => {
+        element.disabled = true;
+      });
   });
 }
 
-function enableAll() {
+function enableAll(include_elements = []) {
   // Get all the form elements on the page
   const forms = Array.from(document.querySelectorAll("form"));
   forms.forEach((form) => {
     // Enable all elements in the form
-    Array.from(form.elements).forEach((element) => {
-      element.disabled = false;
-    });
+    Array.from(form.elements)
+      .concat(include_elements)
+      .forEach((element) => {
+        element.disabled = false;
+      });
   });
 }
-
-var form = document.getElementById("frm1");
 
 document
   .getElementById("submit")
@@ -445,4 +398,11 @@ function selectTTS(language) {
   }
 }
 
+const isDarkMode = () => document.body.classList.contains("dark_mode");
+
 document.getElementById("lang").addEventListener("change", giveSelection);
+document
+  .getElementById("export_pdf")
+  .addEventListener("click", () =>
+    toPdf(globalThis.transcription_mode, isDarkMode()),
+  );
