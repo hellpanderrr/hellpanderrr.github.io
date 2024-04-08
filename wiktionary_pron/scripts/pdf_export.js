@@ -97,7 +97,7 @@ async function main(type, darkMode) {
           x = 50;
           y -= 2 * lineHeight;
           if (y < 100) {
-            page = doc.addPage(PageSizes.Letter);
+            page = pdfDoc.addPage(PageSizes.Letter);
             if (darkMode) {
               page.drawRectangle({
                 color: rgb(0.18, 0.18, 0.18),
@@ -231,7 +231,7 @@ async function main(type, darkMode) {
           x = 50;
           y -= 2 * lineHeight;
           if (y < 100) {
-            page = doc.addPage(PageSizes.Letter);
+            page = pdfDoc.addPage(PageSizes.Letter);
             y = 750;
             if (darkMode) {
               page.drawRectangle({
