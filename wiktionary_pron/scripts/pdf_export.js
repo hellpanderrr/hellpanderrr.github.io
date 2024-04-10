@@ -14,10 +14,10 @@ function loadJs(url, code) {
   document.head.appendChild(script);
 }
 
-function toPdf(type, darkMode) {
+function toPdf(layoutType, darkMode) {
   loadJs("https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js", () =>
     loadJs("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js", () =>
-      main(type, darkMode),
+      main(layoutType, darkMode),
     ),
   );
 }
@@ -45,12 +45,12 @@ async function fetchFonts() {
   return fonts;
 }
 
-async function main(type, darkMode) {
+async function main(layoutType, darkMode) {
   const { PageSizes, PDFDocument, rgb } = PDFLib;
 
   console.log(PDFDocument);
 
-  const fillDoc = async (pdfDoc, type, darkMode) => {
+  const fillDoc = async (pdfDoc, layoutType, darkMode) => {
     pdfDoc.registerFontkit(fontkit);
 
     const [GaramdondBytes, VocesBytes] = await fetchFonts();
@@ -58,40 +58,40 @@ async function main(type, darkMode) {
     const Garamdond = await pdfDoc.embedFont(GaramdondBytes);
     const Voces = await pdfDoc.embedFont(VocesBytes);
 
+    function fillPage(page, color = rgb(0.18, 0.18, 0.18)) {
+      const [pageWidth, pageHeight] = [page.getWidth(), page.getHeight()];
+      page.drawRectangle({
+        color: color,
+        width: pageWidth,
+        height: pageHeight + 10,
+      });
+    }
+
     function putDivsLineByLine(divs, pdfDoc, lineHeight, fontSize, darkMode) {
       console.log(darkMode);
       let x = 50;
       let y = 750;
       let page = pdfDoc.addPage(PageSizes.Letter);
       if (darkMode) {
-        page.drawRectangle({
-          color: rgb(0.18, 0.18, 0.18),
-          width: page.getWidth(),
-          height: page.getHeight(),
-        });
+        fillPage(page);
       }
       const [pageWidth, pageHeight] = [page.getWidth(), page.getHeight()];
       divs.forEach((div, index) => {
         const divs = div.querySelectorAll("div");
-        const word = divs[0].textContent;
-        const ipa = divs[1].textContent;
+        const [word, ipa] = [divs[0].textContent, divs[1].textContent];
 
-        function max(array) {
-          return Math.max.apply(Math, array);
-        }
-
-        const wordWidth = max([
+        const wordWidth = Math.max(
           Voces.widthOfTextAtSize(ipa, fontSize),
           Garamdond.widthOfTextAtSize(word, fontSize),
-        ]);
-        const spaceWidth = max([
+        );
+        const spaceWidth = Math.max(
           Voces.widthOfTextAtSize(" ", fontSize),
           Garamdond.widthOfTextAtSize(" ", fontSize),
-        ]);
-        const lineHeight = max([
+        );
+        const lineHeight = Math.max(
           Voces.heightAtSize(fontSize),
           Garamdond.heightAtSize(fontSize),
-        ]);
+        );
 
         if (x + wordWidth > pageWidth - 40) {
           x = 50;
@@ -99,28 +99,25 @@ async function main(type, darkMode) {
           if (y < 100) {
             page = pdfDoc.addPage(PageSizes.Letter);
             if (darkMode) {
-              page.drawRectangle({
-                color: rgb(0.18, 0.18, 0.18),
-                width: page.getWidth(),
-                height: page.getHeight(),
-              });
+              fillPage(page);
             }
             y = 750;
           }
         }
+        const color = darkMode ? rgb(1, 1, 1) : rgb(0, 0, 0);
         page.drawText(word, {
           font: Garamdond,
           x: x,
           y: y,
           size: fontSize,
-          color: darkMode ? rgb(1, 1, 1) : rgb(0, 0, 0),
+          color: color,
         });
         page.drawText(ipa, {
           font: Voces,
           x: x,
           y: y - lineHeight,
           size: fontSize,
-          color: darkMode ? rgb(1, 1, 1) : rgb(0, 0, 0),
+          color: color,
         });
 
         x += wordWidth + 5 + spaceWidth; // Add a small space between words
@@ -134,37 +131,30 @@ async function main(type, darkMode) {
       let xRight = pageWidth / 2 + 20;
       let y = 750;
       if (darkMode) {
-        page.drawRectangle({
-          color: rgb(0.18, 0.18, 0.18),
-          width: page.getWidth(),
-          height: page.getHeight(),
-        });
+        fillPage(page);
       }
       words.forEach((word, index) => {
         const ipa = ipas[index].textContent;
         word = word.textContent;
-
-        function max(array) {
-          return Math.max.apply(Math, array);
-        }
-
-        const wordWidth = max([
-          Voces.widthOfTextAtSize(ipa, fontSize),
-          Garamdond.widthOfTextAtSize(word, fontSize),
-        ]);
-        const spaceWidth = max([
-          Voces.widthOfTextAtSize(" ", fontSize),
-          Garamdond.widthOfTextAtSize(" ", fontSize),
-        ]);
-        const lineHeight = max([
-          Voces.heightAtSize(fontSize),
-          Garamdond.heightAtSize(fontSize),
-        ]);
+        const wordFontSize = fontSize;
+        const ipaFontSize = fontSize - 2;
+        const wordWidth = Math.max(
+          Garamdond.widthOfTextAtSize(word, wordFontSize),
+        );
+        const ipaWidth = Math.max(Voces.widthOfTextAtSize(ipa, ipaFontSize));
+        const spaceWidth = Math.max(
+          Garamdond.widthOfTextAtSize(" ", wordFontSize),
+          Voces.widthOfTextAtSize(" ", ipaFontSize),
+        );
+        const lineHeight = Math.max(
+          Garamdond.heightAtSize(wordFontSize),
+          Voces.heightAtSize(ipaFontSize),
+        );
 
         if (xLeft + wordWidth > pageWidth / 2 - 20) {
           xLeft = 50;
           xRight = pageWidth / 2 + 20;
-          y -= 2 * lineHeight;
+          y -= lineHeight;
           if (y < 50) {
             page = pdfDoc.addPage(PageSizes.Letter);
             y = pageHeight - 50;
@@ -188,12 +178,12 @@ async function main(type, darkMode) {
           font: Voces,
           x: xRight,
           y: y,
-          size: fontSize,
+          size: ipaFontSize,
           color: darkMode ? rgb(1, 1, 1) : rgb(0, 0, 0),
         });
 
-        xLeft += wordWidth + 5 + spaceWidth; // Add a small space between words
-        xRight += wordWidth + 5 + spaceWidth; // Add a small space between words
+        xLeft += wordWidth + spaceWidth; // Add a small space between words
+        xRight += ipaWidth + spaceWidth; // Add a small space between words
       });
     }
 
@@ -204,41 +194,26 @@ async function main(type, darkMode) {
       let page = pdfDoc.addPage(PageSizes.Letter);
       const [pageWidth, pageHeight] = [page.getWidth(), page.getHeight()];
       if (darkMode) {
-        page.drawRectangle({
-          color: rgb(0.18, 0.18, 0.18),
-          width: pageWidth,
-          height: pageHeight,
-        });
+        fillPage(page);
       }
       divs.forEach((div, index) => {
         const ipa = div.textContent;
 
-        function max(array) {
-          return Math.max.apply(Math, array);
-        }
-
-        const wordWidth = max([Voces.widthOfTextAtSize(ipa, fontSize)]);
-        const spaceWidth = max([
-          Voces.widthOfTextAtSize(" ", fontSize),
-          Garamdond.widthOfTextAtSize(" ", fontSize),
-        ]);
-        const lineHeight = max([
+        const wordWidth = Voces.widthOfTextAtSize(ipa, fontSize);
+        const spaceWidth = Voces.widthOfTextAtSize(" ", fontSize);
+        const lineHeight = Math.max(
           Voces.heightAtSize(fontSize),
           Garamdond.heightAtSize(fontSize),
-        ]);
+        );
 
         if (x + wordWidth > pageWidth - 40) {
           x = 50;
-          y -= 2 * lineHeight;
+          y -= lineHeight;
           if (y < 100) {
             page = pdfDoc.addPage(PageSizes.Letter);
             y = 750;
             if (darkMode) {
-              page.drawRectangle({
-                color: rgb(0.18, 0.18, 0.18),
-                width: page.getWidth(),
-                height: page.getHeight(),
-              });
+              fillPage(page);
             }
           }
         }
@@ -255,7 +230,7 @@ async function main(type, darkMode) {
     }
 
     let items;
-    switch (type) {
+    switch (layoutType) {
       case "line":
         items = document.querySelectorAll("div.cell");
         putDivsLineByLine(items, pdfDoc, 50, 15, darkMode);
@@ -272,9 +247,9 @@ async function main(type, darkMode) {
     }
   };
 
-  async function exportPdf(type, darkMode) {
+  async function exportPdf(layoutType, darkMode) {
     const pdfDoc = await PDFDocument.create();
-    await fillDoc(pdfDoc, type, darkMode);
+    await fillDoc(pdfDoc, layoutType, darkMode);
 
     const pdfBytes = await pdfDoc.save();
 
@@ -284,7 +259,7 @@ async function main(type, darkMode) {
       } else {
         const a = document.createElement("a");
         document.body.appendChild(a);
-        var blobObj = new Blob([blob], { type: "application/pdf" });
+        const blobObj = new Blob([blob], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blobObj);
         a.href = url;
         a.download = filename;
@@ -299,7 +274,7 @@ async function main(type, darkMode) {
     await saveFile(pdfBytes, "transcription_" + new Date().toJSON() + ".pdf");
   }
 
-  await exportPdf(type, darkMode);
+  await exportPdf(layoutType, darkMode);
 }
 
 export { toPdf };
