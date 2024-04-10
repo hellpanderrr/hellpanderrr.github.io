@@ -62,10 +62,8 @@ await lua.doString(`
           mw = require('mw')
         `);
 console.log(lua);
-window.lua = lua;
 
 async function loadLanguage(code) {
-  const lua = window.lua;
   console.log(lua);
   await lua.doString(`t = {}
   ${code} = require("${code}-pron_wasm")`);
@@ -73,5 +71,4 @@ async function loadLanguage(code) {
   window[code + "_ipa"] = lua.global.get(code);
   // Set a JS function to be a global lua function
 }
-
-window.loadLanguage = loadLanguage;
+export { loadLanguage };
