@@ -1,4 +1,5 @@
-import "./lua_init.js";
+import { loadLanguage } from "./lua_init.js";
+
 import {
   asyncMapStrict,
   clearStorage,
@@ -13,7 +14,7 @@ document.querySelector("#lang").disabled = false;
 
 function prepareTranscribe() {
   const inputText = document.getElementById("text_to_transcribe").value;
-  const textLines = inputText.split("\n");
+  const textLines = inputText.trim().split("\n");
   const resultDiv = document.getElementById("result");
   resultDiv.innerHTML = "";
   return [resultDiv, textLines];
@@ -53,10 +54,18 @@ async function transcribe(mode) {
 
       async function processWord(word) {
         const { status, value } = await getIpa(word, lang, langStyle, langForm);
+        const div = document.createElement("div");
+        div.className = "cell";
+
         const span = document.createElement("span");
+        const ttsButton = document.createElement("button");
+        ttsButton.className = "fa fa-volume-down audio-popup";
+        div.appendChild(ttsButton);
         span.className = status === "error" ? "error" : "";
+        span.setAttribute("data-word", word);
         span.appendChild(document.createTextNode(value + " "));
-        resultDiv.appendChild(span);
+        div.appendChild(span);
+        resultDiv.appendChild(div);
       }
 
       await Promise.all(
@@ -72,14 +81,15 @@ async function transcribe(mode) {
       const results = await Promise.all(
         words.map(async (word) => {
           await wait(1);
-          return await getIpa(word, lang, langStyle, langForm);
+          const ipa = await getIpa(word, lang, langStyle, langForm);
+          return { word, ipa };
         }),
       );
-
-      const formattedResults = results.map((result) =>
+      window.x = results;
+      const formattedResults = results.map(({ word, ipa }) =>
         result.status === "error"
-          ? `<div class="error">${result.value} </div>`
-          : `<div class="ipa">${result.value} </div>`,
+          ? `<div class="error">${ipa.value} </div>`
+          : `<div class="ipa">${ipa.value} </div>`,
       );
 
       const newRow = resultDiv.insertRow(-1);
@@ -152,20 +162,34 @@ async function transcribe(mode) {
       rightColumn.style.flex = "1";
 
       for (let i = 0; i < words.length; i++) {
+        const wordDiv = document.createElement("div");
+        wordDiv.className = "cell";
         const wordSpan = document.createElement("span");
         wordSpan.textContent = words[i];
         wordSpan.classList.add("input_text", "word");
         wordSpan.style.display = "inline-block";
+        const ttsWordButton = document.createElement("button");
+        ttsWordButton.className = "fa fa-volume-down audio-popup";
+        wordDiv.appendChild(ttsWordButton);
+        wordDiv.appendChild(wordSpan);
 
+        const resultDiv = document.createElement("div");
+        resultDiv.className = "cell";
         const resultSpan = document.createElement("span");
         resultSpan.textContent = results[i].value;
+        resultSpan.setAttribute("data-word", words[i]);
         resultSpan.classList.add(
           results[i].status === "error" ? "error" : "ipa",
         );
         resultSpan.style.display = "inline-block";
+        const ttsResultButton = document.createElement("button");
+        ttsResultButton.className = "fa fa-volume-down audio-popup";
 
-        leftColumn.appendChild(wordSpan);
-        rightColumn.appendChild(resultSpan);
+        resultDiv.appendChild(ttsResultButton);
+        resultDiv.appendChild(resultSpan);
+
+        leftColumn.appendChild(wordDiv);
+        rightColumn.appendChild(resultDiv);
       }
 
       container.appendChild(leftColumn);
@@ -200,7 +224,7 @@ async function transcribe(mode) {
     console.log("finally");
     globalThis.transcription_mode = mode;
     enableAll([document.querySelector("#export_pdf")]);
-    tts();
+    tts(transcription_mode);
   }
 }
 

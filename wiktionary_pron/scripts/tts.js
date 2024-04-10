@@ -1,30 +1,42 @@
-function tts() {
+function tts(transcription_mode) {
   console.log("running tts");
-  const text_els = document.querySelectorAll(".input_text");
+  const text_els =
+    transcription_mode === "line"
+      ? document.querySelectorAll(".input_text")
+      : document.querySelectorAll("#result span");
+
   Array.from(text_els).map(function (el) {
-    let popup;
     let timer;
-    popup = el.previousElementSibling;
+    const popup = el.previousElementSibling;
+
+    function getTextContent(el) {
+      let text;
+      switch (transcription_mode) {
+        case "default":
+          text = el.getAttribute("data-word");
+          break;
+        case "line":
+          text = el.textContent;
+          break;
+        case "sideBySide":
+          text = el.getAttribute("data-word") || el.textContent;
+          break;
+      }
+      return text;
+    }
 
     function getSelectedVoice() {
       const voices = EasySpeech.voices();
-      let voice = voices[0];
-      const selectedOption = document
+      const selectedVoice = document
         .querySelector("#tts")
         .selectedOptions[0].getAttribute("data-name");
-      for (let i = 0; i < voices.length; i++) {
-        if (voices[i].name === selectedOption) {
-          voice = voices[i];
-        }
-      }
 
-      console.log(voice);
-      return voice;
+      return voices.find((v) => v.name === selectedVoice);
     }
 
     popup.addEventListener("click", () =>
       EasySpeech.speak({
-        text: el.textContent,
+        text: getTextContent(el),
         voice: getSelectedVoice(),
         pitch: 1,
         rate: 1,
@@ -64,4 +76,5 @@ function tts() {
     });
   });
 }
+
 export { tts };
