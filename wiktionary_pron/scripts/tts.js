@@ -1,3 +1,26 @@
+await EasySpeech.init({ maxTimeout: 5000, interval: 250 })
+  .then(() => console.debug("load complete"))
+  .catch((e) => console.error(e));
+
+function populateVoiceList() {
+  const voiceSelect = document.querySelector("#tts");
+  const voices = EasySpeech.voices();
+
+  for (let i = 0; i < voices.length; i++) {
+    const option = document.createElement("option");
+    option.textContent = `${voices[i].name} (${voices[i].lang})`;
+
+    if (voices[i].default) {
+      option.textContent += " — DEFAULT";
+    }
+
+    option.setAttribute("data-lang", voices[i].lang);
+    option.setAttribute("data-name", voices[i].name);
+    voiceSelect.appendChild(option);
+  }
+}
+
+populateVoiceList();
 function tts(transcription_mode) {
   console.log("running tts");
   const text_els =
