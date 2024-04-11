@@ -355,61 +355,60 @@ const languages = {
   },
 };
 
-var sel1 = document.querySelector("#lang");
-var sel2 = document.querySelector("#lang_style");
-var sel3 = document.querySelector("#lang_form");
-Object.entries(languages).map(function (args) {
-  var lang = args[0];
-  var opt = document.createElement("option");
-  opt.value = lang;
-  opt.text = lang;
-  sel1.appendChild(opt);
+const langSelect = document.querySelector("#lang");
+const styleSelect = document.querySelector("#lang_style");
+const formSelect = document.querySelector("#lang_form");
 
-  for (var i = 0; i < args[1].styles.length; i++) {
-    var opt = document.createElement("option");
-    opt.setAttribute("data-option", lang);
-    opt.text = args[1].styles[i];
-    sel2.appendChild(opt);
-  }
-  for (var i = 0; i < args[1].forms.length; i++) {
-    var opt = document.createElement("option");
-    opt.setAttribute("data-option", lang);
-    opt.text = args[1].forms[i];
-    sel3.appendChild(opt);
-  }
+Object.entries(languages).forEach(function ([lang, details]) {
+  const langOption = document.createElement("option");
+  langOption.value = lang;
+  langOption.text = lang;
+  langSelect.appendChild(langOption);
+
+  details.styles.forEach(function (style) {
+    const styleOption = document.createElement("option");
+    styleOption.setAttribute("data-option", lang);
+    styleOption.text = style;
+    styleSelect.appendChild(styleOption);
+  });
+
+  details.forms.forEach(function (form) {
+    const formOption = document.createElement("option");
+    formOption.setAttribute("data-option", lang);
+    formOption.text = form;
+    formSelect.appendChild(formOption);
+  });
 });
-var options2 = sel2.querySelectorAll("option");
-var options3 = sel3.querySelectorAll("option");
+
+const styleOptions = styleSelect.querySelectorAll("option");
+const formOptions = formSelect.querySelectorAll("option");
 
 const loadedLanguages = {};
 
-async function giveSelection(selValue) {
-  selValue = this.value;
-  const langCode = languages[selValue].langCode;
-  const ttsCode = languages[selValue].ttsCode;
+async function updateOptionsUponLanguageSelection(event) {
+  const selectedLanguageElement = event.target;
+  const selectedLanguage = selectedLanguageElement.value;
+  const lang = languages[selectedLanguage];
 
-  if (!(selValue in loadedLanguages)) {
+  if (!(selectedLanguage in loadedLanguages)) {
     disableAll();
-    await loadLanguage(langCode);
+    await loadLanguage(lang.langCode);
     enableAll();
-    loadedLanguages[selValue] = true;
+    loadedLanguages[selectedLanguage] = true;
   }
-  selectTTS(ttsCode);
-  sel2.innerHTML = "";
-  for (const option of options2) {
-    if (option.dataset.option === selValue) {
-      sel2.appendChild(option);
-    }
-  }
-  sel2.disabled = false;
 
-  sel3.innerHTML = "";
-  for (const option of options3) {
-    if (option.dataset.option === selValue) {
-      sel3.appendChild(option);
+  selectTTS(lang.ttsCode);
+  function updateSelectOptions(selectedValue, selectElement, options) {
+    selectElement.innerHTML = "";
+    for (const option of options) {
+      if (option.dataset.option === selectedValue) {
+        selectElement.appendChild(option);
+      }
     }
+    selectElement.disabled = false;
   }
-  sel3.disabled = false;
+  updateSelectOptions(selectedLanguage, styleSelect, styleOptions);
+  updateSelectOptions(selectedLanguage, formSelect, formOptions);
 }
 
 function selectTTS(language) {
@@ -424,7 +423,9 @@ function selectTTS(language) {
 
 const isDarkMode = () => document.body.classList.contains("dark_mode");
 
-document.getElementById("lang").addEventListener("change", giveSelection);
+document
+  .getElementById("lang")
+  .addEventListener("change", updateOptionsUponLanguageSelection);
 document
   .getElementById("export_pdf")
   .addEventListener("click", () =>
