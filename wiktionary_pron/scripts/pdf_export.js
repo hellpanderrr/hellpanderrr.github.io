@@ -14,10 +14,10 @@ function loadJs(url, code) {
   document.head.appendChild(script);
 }
 
-function toPdf(layoutType, darkMode) {
-  loadJs("https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.js", () =>
+function toPdf(layoutType, darkMode, transcriptionLang) {
+  loadJs("https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.min.js", () =>
     loadJs("https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js", () =>
-      main(layoutType, darkMode),
+      main(layoutType, darkMode, transcriptionLang),
     ),
   );
 }
@@ -45,7 +45,7 @@ async function fetchFonts() {
   return fonts;
 }
 
-async function main(layoutType, darkMode) {
+async function main(layoutType, darkMode, transcriptionLang) {
   const { PageSizes, PDFDocument, rgb } = PDFLib;
 
   console.log(PDFDocument);
@@ -247,7 +247,7 @@ async function main(layoutType, darkMode) {
     }
   };
 
-  async function exportPdf(layoutType, darkMode) {
+  async function exportPdf(layoutType, darkMode, transcriptionLang) {
     const pdfDoc = await PDFDocument.create();
     await fillDoc(pdfDoc, layoutType, darkMode);
 
@@ -270,11 +270,16 @@ async function main(layoutType, darkMode) {
         }, 0);
       }
     }
+    const darkModeStr = darkMode ? "dark" : "light";
+    const layoutTypeStr = layoutType === "default" ? "" : layoutType;
+    const dateStr = new Date().toJSON();
+    const transcriptionLangStr = transcriptionLang ? transcriptionLang : "";
+    const filename = `transcription_${transcriptionLangStr}_${darkModeStr}_${layoutTypeStr}_${dateStr}.pdf`;
 
-    await saveFile(pdfBytes, "transcription_" + new Date().toJSON() + ".pdf");
+    await saveFile(pdfBytes, filename);
   }
 
-  await exportPdf(layoutType, darkMode);
+  await exportPdf(layoutType, darkMode, transcriptionLang);
 }
 
 export { toPdf };
