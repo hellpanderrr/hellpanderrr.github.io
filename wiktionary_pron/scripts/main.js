@@ -44,15 +44,17 @@ function getIpa(text, lang, lang_style, lang_form) {
  */
 async function transcribe(mode) {
   disableAll([document.querySelector("#export_pdf")]);
+  const [resultDiv, textLines] = prepareTranscribe();
+  const { lang, langStyle, langForm } = getLangStyleForm();
   try {
-    const [resultDiv, textLines] = prepareTranscribe();
-    const { lang, langStyle, langForm } = getLangStyleForm();
-
     async function processDefault(line) {
-      const words = line.split(" ");
-      resultDiv.insertAdjacentHTML("beforeend", "</br>");
+      const words = line.split(" ").concat(["\n"]);
+
+      const container = document.createElement("tr");
+      resultDiv.appendChild(container);
 
       async function processWord(word) {
+        console.log("processing", word);
         const { status, value } = await getIpa(word, lang, langStyle, langForm);
         const div = document.createElement("div");
         div.className = "cell";
@@ -63,9 +65,16 @@ async function transcribe(mode) {
         div.appendChild(ttsButton);
         span.className = status === "error" ? "error" : "";
         span.setAttribute("data-word", word);
+
         span.appendChild(document.createTextNode(value + " "));
+
         div.appendChild(span);
-        resultDiv.appendChild(div);
+        if (word.includes("\n")) {
+          console.log("123123");
+
+          div.appendChild(document.createElement("br"));
+        }
+        container.appendChild(div);
       }
 
       await Promise.all(
@@ -148,7 +157,7 @@ async function transcribe(mode) {
         }),
       );
 
-      const container = document.createElement("div");
+      const container = document.createElement("tr");
       container.style.display = "flex";
       container.style.alignContent = "center";
       container.style.maxWidth = "1000px";
@@ -194,7 +203,6 @@ async function transcribe(mode) {
 
       container.appendChild(leftColumn);
       container.appendChild(rightColumn);
-      resultDiv.appendChild(document.createElement("br"));
       resultDiv.appendChild(container);
     }
 
@@ -222,9 +230,10 @@ async function transcribe(mode) {
     console.log(err);
   } finally {
     console.log("finally");
-    globalThis.transcription_mode = mode;
+    globalThis.transcriptionMode = mode;
+    globalThis.transcriptionLang = lang;
     enableAll([document.querySelector("#export_pdf")]);
-    tts(transcription_mode);
+    tts(transcriptionMode);
   }
 }
 
@@ -429,5 +438,26 @@ document
 document
   .getElementById("export_pdf")
   .addEventListener("click", () =>
-    toPdf(globalThis.transcription_mode, isDarkMode()),
+    toPdf(
+      globalThis.transcriptionMode,
+      isDarkMode(),
+      globalThis.transcriptionLang,
+    ),
   );
+
+function dark() {
+  console.log("setting dark");
+  if (document.body.classList.contains("dark_mode")) {
+    console.log("dark already setting light");
+    light_mode();
+  } else {
+    document.body.classList.add("dark_mode");
+    document.querySelector("#header>a>i").className = "fa fa-sun-o";
+  }
+}
+
+function light_mode() {
+  document.querySelector("#header>a>i").className = "fa fa-moon-o";
+  document.body.classList.remove("dark_mode");
+}
+document.getElementById("dark_mode").addEventListener("click", dark);

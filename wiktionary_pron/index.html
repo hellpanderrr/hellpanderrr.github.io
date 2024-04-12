@@ -10,7 +10,7 @@
     <noscript>
         <link href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.7.1.min.css" rel="stylesheet">
     </noscript>
-    <script src="https://cdn.jsdelivr.net/npm/easy-speech/dist/EasySpeech.iife.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/easy-speech/dist/EasySpeech.iife.min.js"></script>
 
 
     <link as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -92,17 +92,17 @@
             align-items: center;
         }
 
-        #lang_style{
+        #lang_style {
             max-width: 100px;
 
         }
+
         h1 {
             margin-top: 0px;
         }
 
         textarea {
 
-            height: 101px;
             overflow: auto;
             resize: vertical;
             width: 100%;
@@ -122,13 +122,12 @@
         }
 
         .input_text {
-            font-family: "EB Garamond";
+            font-family: "EB Garamond", serif;
         }
 
         span.ipa {
             margin-right: 5px;
         }
-
 
 
         .error {
@@ -140,7 +139,7 @@
         }
 
         body {
-            padding-top: 0px;
+            padding-top: 0;
         }
 
         body.dark_mode textarea {
@@ -242,7 +241,7 @@
             display: inline-block;
             margin-top: 5px;
             margin-left: 5px;
-            float:left;
+            float: left;
         }
 
         #lang_container {
@@ -284,7 +283,7 @@
             <i class="fa fa-moon-o"></i>
         </p>
         <h1 style="flex: 1;">Online IPA Converter</h1>
-        <a href="#" onclick="dark()">
+        <a href="#" id="dark_mode" onclick="dark()">
             <i class="fa fa-moon-o"></i>
         </a>
     </div>
@@ -410,33 +409,3 @@
 </body>
 
 </html>
-<script>
-    function dark() {
-        console.log('setting dark')
-        if (document.body.classList.contains('dark_mode')) {
-            console.log('dark already setting light')
-            light_mode();
-        } else {
-            document.body.classList.add('dark_mode');
-            document.querySelector('#header>a>i').className = 'fa fa-sun-o'
-        }
-    }
-
-
-    function light_mode() {
-        document.querySelector('#header>a>i').className = 'fa fa-moon-o'
-        document.body.classList.remove('dark_mode');
-    }
-
-    audio_els = document.querySelectorAll('.fa-headphones')
-    Array.from(audio_els).map(function (el) {
-        el.addEventListener("click", () => console.log(el.nextSibling.textContent));
-    })
-
-
-    document
-        .getElementById("submit_by_line")
-        .addEventListener("click", tts);
-
-
-</script>
