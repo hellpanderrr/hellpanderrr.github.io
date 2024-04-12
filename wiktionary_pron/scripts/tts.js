@@ -21,10 +21,10 @@ function populateVoiceList() {
 }
 
 populateVoiceList();
-function tts(transcription_mode) {
+function tts(transcriptionMode) {
   console.log("running tts");
   const text_els =
-    transcription_mode === "line"
+    transcriptionMode === "line"
       ? document.querySelectorAll(".input_text")
       : document.querySelectorAll("#result span");
 
@@ -34,7 +34,7 @@ function tts(transcription_mode) {
 
     function getTextContent(el) {
       let text;
-      switch (transcription_mode) {
+      switch (transcriptionMode) {
         case "default":
           text = el.getAttribute("data-word");
           break;
