@@ -65,20 +65,20 @@ function tts(transcriptionMode) {
         rate: 1,
         volume: 1,
         // there are more events, see the API for supported events
-        boundary: (e) => console.debug("boundary reached"),
+        boundary: () => console.debug("boundary reached"),
       }),
     );
 
     el.addEventListener("mouseenter", () => {
       if (popup) {
-        popup.style.opacity = 1;
+        popup.style.opacity = "1";
         popup.classList.add("show-popup");
         popup.addEventListener("mouseenter", () => {
           clearTimeout(timer);
         });
         popup.addEventListener("mouseleave", () => {
           timer = setTimeout(() => {
-            popup.style.opacity = 0;
+            popup.style.opacity = "0";
             setTimeout(() => {
               popup.classList.remove("show-popup");
             }, 500); // Wait for the fade-out animation to complete
@@ -90,7 +90,7 @@ function tts(transcriptionMode) {
     el.addEventListener("mouseleave", () => {
       if (popup) {
         timer = setTimeout(() => {
-          popup.style.opacity = 0;
+          popup.style.opacity = "0";
           setTimeout(() => {
             popup.classList.remove("show-popup");
           }, 500); // Wait for the fade-out animation to complete
