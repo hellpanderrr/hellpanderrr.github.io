@@ -45,7 +45,12 @@ div#form_bottom {
     align-content: stretch;
     flex-wrap: nowrap;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
+}
+
+div#clear_button_group{
+    display: flex;
+    flex-direction: column;
 }
 
 #lang_style {
