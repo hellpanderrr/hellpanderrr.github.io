@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Noto Sans";
-    src: url("fonts/NotoSans-Regular.woff2") format("woff2");
+    src: url("../fonts/NotoSans-Regular.woff2") format("woff2");
 }
 
 button:enabled:active {
