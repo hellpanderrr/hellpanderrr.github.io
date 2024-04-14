@@ -29,7 +29,7 @@ const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
  * @param {string} lang - The language of the input text.
  * @param {string} lang_style - The style (dialect) of the language.
  * @param {string} lang_form - The form (phonetic or phonemic) of the transcription.
- * @returns {string} - The IPA representation of the input text.
+ * @return {object} An object containing the IPA representation and the status of the conversion
  */
 function getIpa(text, lang, lang_style, lang_form) {
   // Concatenate the language, style, and form parameters
@@ -70,8 +70,6 @@ async function transcribe(mode) {
 
         div.appendChild(span);
         if (word.includes("\n")) {
-          console.log("123123");
-
           div.appendChild(document.createElement("br"));
         }
         container.appendChild(div);
@@ -86,16 +84,20 @@ async function transcribe(mode) {
     }
 
     async function processLine(line) {
+      if (line === "") {
+        return;
+      }
       const words = line.split(" ");
+
       const results = await Promise.all(
         words.map(async (word) => {
           await wait(1);
-          const ipa = await getIpa(word, lang, langStyle, langForm);
+          const ipa = getIpa(word, lang, langStyle, langForm);
           return { word, ipa };
         }),
       );
       window.x = results;
-      const formattedResults = results.map(({ word, ipa }) =>
+      const formattedResults = results.map(({ ipa }) =>
         result.status === "error"
           ? `<div class="error">${ipa.value} </div>`
           : `<div class="ipa">${ipa.value} </div>`,
@@ -175,7 +177,7 @@ async function transcribe(mode) {
         wordDiv.className = "cell";
         const wordSpan = document.createElement("span");
         wordSpan.textContent = words[i];
-        wordSpan.classList.add("input_text", "word");
+        wordSpan.classList.add("input_text");
         wordSpan.style.display = "inline-block";
         const ttsWordButton = document.createElement("button");
         ttsWordButton.className = "fa fa-volume-down audio-popup";
@@ -203,6 +205,7 @@ async function transcribe(mode) {
 
       container.appendChild(leftColumn);
       container.appendChild(rightColumn);
+
       resultDiv.appendChild(container);
     }
 
@@ -407,6 +410,7 @@ async function updateOptionsUponLanguageSelection(event) {
   }
 
   selectTTS(lang.ttsCode);
+
   function updateSelectOptions(selectedValue, selectElement, options) {
     selectElement.innerHTML = "";
     for (const option of options) {
@@ -416,6 +420,7 @@ async function updateOptionsUponLanguageSelection(event) {
     }
     selectElement.disabled = false;
   }
+
   updateSelectOptions(selectedLanguage, styleSelect, styleOptions);
   updateSelectOptions(selectedLanguage, formSelect, formOptions);
 }
@@ -435,15 +440,22 @@ const isDarkMode = () => document.body.classList.contains("dark_mode");
 document
   .getElementById("lang")
   .addEventListener("change", updateOptionsUponLanguageSelection);
-document
-  .getElementById("export_pdf")
-  .addEventListener("click", () =>
-    toPdf(
-      globalThis.transcriptionMode,
-      isDarkMode(),
-      globalThis.transcriptionLang,
-    ),
+
+async function pdfExport(e) {
+  const thisElement = e.currentTarget;
+  const link = thisElement.querySelector("i");
+  await thisElement.setAttribute("disabled", "true");
+  const oldClassName = link.className;
+  link.className = "fa fa-spinner fa-spin";
+  await toPdf(
+    globalThis.transcriptionMode,
+    isDarkMode(),
+    globalThis.transcriptionLang,
   );
+  link.className = oldClassName;
+  await thisElement.removeAttribute("disabled");
+}
+document.getElementById("export_pdf").addEventListener("click", pdfExport);
 
 function dark() {
   console.log("setting dark");
@@ -460,4 +472,5 @@ function light_mode() {
   document.querySelector("#header>a>i").className = "fa fa-moon-o";
   document.body.classList.remove("dark_mode");
 }
+
 document.getElementById("dark_mode").addEventListener("click", dark);
