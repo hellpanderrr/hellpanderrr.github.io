@@ -426,9 +426,10 @@ async function updateOptionsUponLanguageSelection(event) {
 }
 
 function selectTTS(language) {
-  const relevantVoices = Array.from(
-    document.querySelector("#tts").options,
-  ).filter((x) => (x.getAttribute("data-lang") || "").includes(language));
+  const voices = Array.from(document.querySelector("#tts").options);
+  const relevantVoices = voices.filter((option) =>
+    (option.getAttribute("data-lang") || "").includes(language),
+  );
 
   if (relevantVoices.length > 0) {
     document.querySelector("#tts").value = relevantVoices[0].value;
@@ -441,36 +442,39 @@ document
   .getElementById("lang")
   .addEventListener("change", updateOptionsUponLanguageSelection);
 
-async function pdfExport(e) {
-  const thisElement = e.currentTarget;
-  const link = thisElement.querySelector("i");
-  await thisElement.setAttribute("disabled", "true");
-  const oldClassName = link.className;
-  link.className = "fa fa-spinner fa-spin";
+async function pdfExport(event) {
+  const buttonElement = event.currentTarget;
+  const iconElement = buttonElement.querySelector("i");
+
+  buttonElement.disabled = true;
+  const oldIconClass = iconElement.className;
+  iconElement.className = "fa fa-spinner fa-spin";
+
   await toPdf(
     globalThis.transcriptionMode,
     isDarkMode(),
     globalThis.transcriptionLang,
   );
-  link.className = oldClassName;
-  await thisElement.removeAttribute("disabled");
+
+  iconElement.className = oldIconClass;
+  buttonElement.disabled = false;
 }
 document.getElementById("export_pdf").addEventListener("click", pdfExport);
 
-function dark() {
+function toggleDarkMode() {
   console.log("setting dark");
   if (document.body.classList.contains("dark_mode")) {
     console.log("dark already setting light");
-    light_mode();
+    toggleLightMode();
   } else {
     document.body.classList.add("dark_mode");
-    document.querySelector("#header>a>i").className = "fa fa-sun-o";
+    document.querySelector("#header > a > i").className = "fa fa-sun-o";
   }
 }
 
-function light_mode() {
+function toggleLightMode() {
   document.querySelector("#header>a>i").className = "fa fa-moon-o";
   document.body.classList.remove("dark_mode");
 }
 
-document.getElementById("dark_mode").addEventListener("click", dark);
+document.getElementById("dark_mode").addEventListener("click", toggleDarkMode);

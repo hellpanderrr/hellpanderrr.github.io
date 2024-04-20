@@ -297,7 +297,6 @@ async function main(layoutType, darkMode, transcriptionLang) {
     };
     const rowsUnpacked = getTableRowsUnpacked();
     const rows = getTableRows();
-    let items;
     switch (layoutType) {
       case "line":
         putDivsLineByLine(rowsUnpacked, pdfDoc, 15, darkMode);
