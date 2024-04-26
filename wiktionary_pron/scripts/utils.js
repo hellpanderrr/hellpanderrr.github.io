@@ -90,17 +90,23 @@ function get_ipa_no_cache(text, args) {
   switch (lang) {
     case "Latin":
       switch (langStyle) {
-        case "Ecc":
+        case "Ecclesiastical":
           command =
             langForm === "Phonetic"
-              ? `window.la_ipa.convert_words('${cleanText}',true,true,false)`
-              : `window.la_ipa.convert_words('${cleanText}',false,true,false)`;
+              ? `window.la_ipa.convert_words("${cleanText}",true,true,false)`
+              : `window.la_ipa.convert_words("${cleanText}",false,true,false)`;
           break;
         case "Classical":
           command =
             langForm === "Phonetic"
-              ? `window.la_ipa.convert_words('${cleanText}',true,false,false)`
-              : `window.la_ipa.convert_words('${cleanText}',false,false,false)`;
+              ? `window.la_ipa.convert_words("${cleanText}",true,false,false)`
+              : `window.la_ipa.convert_words("${cleanText}",false,false,false)`;
+          break;
+        case "Vulgate":
+          command =
+            langForm === "Phonetic"
+              ? `window.la_ipa.convert_words("${cleanText}",true,false,true)`
+              : `window.la_ipa.convert_words("${cleanText}",false,false,true)`;
           break;
       }
       break;

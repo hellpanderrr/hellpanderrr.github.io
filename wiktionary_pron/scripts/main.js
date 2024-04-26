@@ -305,7 +305,7 @@ function getLangStyleForm() {
 
 const languages = {
   Latin: {
-    styles: ["Classical", "Ecc"],
+    styles: ["Classical", "Ecclesiastical", "Vulgate"],
     forms: ["Phonetic", "Phonemic"],
     langCode: "la",
     ttsCode: "it-IT",
@@ -459,6 +459,7 @@ async function pdfExport(event) {
   iconElement.className = oldIconClass;
   buttonElement.disabled = false;
 }
+
 document.getElementById("export_pdf").addEventListener("click", pdfExport);
 
 function toggleDarkMode() {
