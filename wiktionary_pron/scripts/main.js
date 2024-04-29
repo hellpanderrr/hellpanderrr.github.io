@@ -305,7 +305,7 @@ function getLangStyleForm() {
 
 const languages = {
   Latin: {
-    styles: ["Classical", "Ecclesiastical", "Vulgate"],
+    styles: ["Classical", "Ecclesiastical", "Vulgar"],
     forms: ["Phonetic", "Phonemic"],
     langCode: "la",
     ttsCode: "it-IT",
@@ -419,6 +419,7 @@ async function updateOptionsUponLanguageSelection(event) {
       }
     }
     selectElement.disabled = false;
+    selectElement.selectedIndex = 0;
   }
 
   updateSelectOptions(selectedLanguage, styleSelect, styleOptions);
