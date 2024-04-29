@@ -12,10 +12,12 @@ async function asyncMapStrict(arr, fn) {
 }
 
 function sanitize(text) {
-  return text.replace(
-    /[^\p{L}\p{M}'pbtdʈɖcɟkɡqɢʔmɱnɳɲŋɴʙrʀⱱɾɽɸβfvθðszʃʒʂʐçʝxɣχʁħʕhɦɬɮʋɹɻjɰlɭʎʟʘǀǃǂǁɓɗʄɠʛʼiyɨʉɯuɪʏʊeøɘɵɤoəɛœɜɞʌɔæɐaɶɑɒʍwɥʜʢʡɕʑɺɧ͜͡ˈˌːˑ̆|‖.‿̥̬ʰ̹̜̟̠̩̯̈̽˞̤̰̼ʷʲˠˤ̴̝̞̘̙̪̺̻̃ⁿˡ̋̚˥̌˩́˦̂̄˧᷄̀˨᷅̏᷈-]/gu,
-    "",
-  );
+  return text
+    .replace(
+      /[^\p{L}\p{M}'pbtdʈɖcɟkɡqɢʔmɱnɳɲŋɴʙrʀⱱɾɽɸβfvθðszʃʒʂʐçʝxɣχʁħʕhɦɬɮʋɹɻjɰlɭʎʟʘǀǃǂǁɓɗʄɠʛʼiyɨʉɯuɪʏʊeøɘɵɤoəɛœɜɞʌɔæɐaɶɑɒʍwɥʜʢʡɕʑɺɧ͜͡ˈˌːˑ̆|‖.‿̥̬ʰ̹̜̟̠̩̯̈̽˞̤̰̼ʷʲˠˤ̴̝̞̘̙̪̺̻̃ⁿˡ̋̚˥̌˩́˦̂̄˧᷄̀˨᷅̏᷈-]/gu,
+      "",
+    )
+    .normalize("NFKC");
 }
 
 /**
@@ -102,7 +104,7 @@ function get_ipa_no_cache(text, args) {
               ? `window.la_ipa.convert_words("${cleanText}",true,false,false)`
               : `window.la_ipa.convert_words("${cleanText}",false,false,false)`;
           break;
-        case "Vulgate":
+        case "Vulgar":
           command =
             langForm === "Phonetic"
               ? `window.la_ipa.convert_words("${cleanText}",true,false,true)`
