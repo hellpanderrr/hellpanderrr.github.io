@@ -84,7 +84,7 @@ function clearStorage() {
 
 async function macronizeInit(text) {
   const mapping = new Map(
-    JSON.parse(await fetch("./utils/macrons_.json").then((x) => x.text())),
+    JSON.parse(await fetch("./utils/macrons.json").then((x) => x.text())),
   );
 
   function isUpper(x) {
