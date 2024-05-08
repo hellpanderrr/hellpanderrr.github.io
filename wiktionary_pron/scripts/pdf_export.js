@@ -1,30 +1,4 @@
-const loadedScripts = {};
-
-async function loadJs(url, code) {
-  if (loadedScripts[url]) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        code();
-        resolve();
-      }, 0);
-    });
-  }
-  loadedScripts[url] = true;
-
-  return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-
-    script.onload = () => {
-      code();
-      resolve();
-    };
-
-    script.onerror = reject;
-    script.src = url;
-
-    document.head.appendChild(script);
-  });
-}
+import { loadJs } from "./utils.js";
 
 async function toPdf(layoutType, darkMode, transcriptionLang) {
   await loadJs(
@@ -99,6 +73,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
         Voces.heightAtSize(fontSize),
         Garamond.heightAtSize(fontSize),
       );
+
       function nextPageTransition(y, pdfDoc, pageHeight, darkMode) {
         if (y < 50) {
           page = pdfDoc.addPage(PageSizes.Letter);
@@ -109,6 +84,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
         }
         return [y, page];
       }
+
       function newLineTransition(x, y, lineHeight) {
         x = 50;
         y -= 2 * lineHeight;
@@ -171,6 +147,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
         Garamond.heightAtSize(wordFontSize),
         Voces.heightAtSize(ipaFontSize),
       );
+
       function nextPageTransition(y, pdfDoc, pageHeight, darkMode) {
         if (y < 50) {
           page = pdfDoc.addPage(PageSizes.Letter);
@@ -181,6 +158,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
         }
         return [y, page];
       }
+
       function newLineTransition(xLeft, xRight, y, pageWidth) {
         xLeft = 50;
         xRight = pageWidth / 2 + 20;
@@ -245,11 +223,13 @@ async function main(layoutType, darkMode, transcriptionLang) {
         Voces.heightAtSize(fontSize),
         Garamond.heightAtSize(fontSize),
       );
+
       function newLineTransition(x, y, lineHeight) {
         x = 50;
         y -= lineHeight;
         return [x, y];
       }
+
       function nextPageTransition(y, pdfDoc, darkMode) {
         if (y < 50) {
           page = pdfDoc.addPage(PageSizes.Letter);
@@ -260,6 +240,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
         }
         return [y, page];
       }
+
       rows.forEach((row) => {
         const divs = row.querySelectorAll("div.cell");
         divs.forEach((div, index) => {
