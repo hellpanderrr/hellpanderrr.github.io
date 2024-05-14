@@ -1,3 +1,8 @@
+const splitAndAppend = (str, delim, count) => {
+  const arr = str.split(delim);
+  return [...arr.splice(0, count), arr.join(delim)];
+};
+
 async function asyncMapStrict(arr, fn) {
   const result = [];
   // console.time("Elapsed time :");
@@ -157,67 +162,82 @@ function get_ipa_no_cache(text, args) {
       }
       break;
     case "German":
+      if (langForm === "Phonemic") {
+        let dictRecord = globalThis.lexicon.get(
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+        );
+        if (!dictRecord) {
+          dictRecord = globalThis.lexicon.get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+          );
+        }
+        console.log(cleanText, dictRecord);
+        if (dictRecord) {
+          command = 'ipa="' + dictRecord + '";';
+          break;
+        }
+      }
       command =
         langForm === "Phonetic"
-          ? `(window.de_ipa.phonetic('${cleanText}'))`
-          : `(window.de_ipa.phonemic('${cleanText}'))`;
+          ? `(window.de_ipa.phonetic("${cleanText}"))`
+          : `(window.de_ipa.phonemic("${cleanText}"))`;
       break;
     case "Portuguese":
       command =
         langStyle === "Brazil"
-          ? `window.pt_ipa.IPA('${cleanText}',"rio")[0].${langForm.toLowerCase()}`
-          : `window.pt_ipa.IPA('${cleanText}',"pt")[0].${langForm.toLowerCase()}`;
+            ? `window.pt_ipa.IPA("${cleanText}","rio")[0].${langForm.toLowerCase()}`
+            : `window.pt_ipa.IPA("${cleanText}","pt")[0].${langForm.toLowerCase()}`;
       break;
     case "Spanish":
       const dialect =
         langStyle === "Castilian" ? "distincion-yeismo" : "seseo-yeismo";
-      command = `window.es_ipa.IPA('${cleanText}','${dialect}', ${
+      command = `window.es_ipa.IPA("${cleanText}","${dialect}", ${
         langForm === "Phonetic"
       }).text`;
       break;
     case "French":
       if (langForm === "Phonemic") {
-        command = `(window.fr_ipa.show('${cleanText}')[0])`;
+        command = `(window.fr_ipa.show("${cleanText}")[0])`;
       }
       break;
     case "Ukrainian":
       if (langForm === "Phonetic") {
-        command = `(window.uk_ipa.pronunciation('${cleanText}',true))`;
+        command = `(window.uk_ipa.pronunciation("${cleanText}",true))`;
       }
       break;
     case "Russian":
       if (langForm === "Phonetic") {
-        command = `(window.ru_ipa.ipa_string('${cleanText}'))`;
+        command = `(window.ru_ipa.ipa_string("${cleanText}"))`;
       }
       break;
     case "Italian":
       if (langForm === "Phonemic") {
-        command = `(window.it_ipa.to_phonemic('${cleanText}','TEST').phonemic)`;
+        command = `(window.it_ipa.to_phonemic("${cleanText}",'TEST').phonemic)`;
       }
       break;
     case "Greek":
       switch (langStyle) {
         case "5th BCE Attic":
-          command = `window.grc_ipa.IPA('${cleanText}','cla').cla.IPA`;
+          command = `window.grc_ipa.IPA("${cleanText}",'cla').cla.IPA`;
           break;
         case "1st CE Egyptian":
-          command = `window.grc_ipa.IPA('${cleanText}','koi1').koi1.IPA`;
+          command = `window.grc_ipa.IPA("${cleanText}",'koi1').koi1.IPA`;
           break;
         case "4th CE Koine":
-          command = `window.grc_ipa.IPA('${cleanText}','koi2').koi2.IPA`;
+          command = `window.grc_ipa.IPA("${cleanText}",'koi2').koi2.IPA`;
           break;
         case "10th CE Byzantine":
-          command = `window.grc_ipa.IPA('${cleanText}','byz1').byz1.IPA`;
+          command = `window.grc_ipa.IPA("${cleanText}",'byz1').byz1.IPA`;
           break;
         case "15th CE Constantinopolitan":
-          command = `window.grc_ipa.IPA('${cleanText}','byz2').byz2.IPA`;
+          command = `window.grc_ipa.IPA("${cleanText}",'byz2').byz2.IPA`;
           break;
       }
       break;
 
     case "Polish":
       if (langForm === "Phonemic") {
-        command = `(window.pl_ipa.convert_to_IPA('${cleanText}'))`;
+        command = `(window.pl_ipa.convert_to_IPA("${cleanText}"))`;
       }
       break;
   }
@@ -239,6 +259,68 @@ function get_ipa_no_cache(text, args) {
   return { value: ipa, status: "success" };
 }
 
+function createElementFromHTML(htmlString) {
+  var div = document.createElement("div");
+  div.innerHTML = htmlString.trim();
+
+  // Change this to div.childNodes to support multiple top-level nodes.
+  return div.firstChild;
+}
+
+const loadedScripts = {};
+
+async function loadFileFromZip(zipPath, filename) {
+  return new Promise((resolve, reject) => {
+    loadJs("./scripts/jszip.min.js", async () => {
+      await loadJs("./scripts/jszip-utils.min.js", async () => {
+        JSZipUtils.getBinaryContent(zipPath, function (err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+    });
+  })
+    .then(async (data) => {
+      const zip = await JSZip.loadAsync(data);
+      const fileData = await zip.file(filename).async("string");
+      return fileData;
+    })
+    .catch((error) => {
+      console.error(error);
+      return null; // or handle the error as needed
+    });
+}
+
+async function loadJs(url, code) {
+  console.log(loadedScripts);
+  if (loadedScripts[url]) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        code();
+        resolve();
+      }, 0);
+    });
+  }
+  loadedScripts[url] = true;
+
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+
+    script.onload = () => {
+      code();
+      resolve();
+    };
+
+    script.onerror = reject;
+    script.src = url;
+
+    document.head.appendChild(script);
+  });
+}
+
 export {
   asyncMapStrict,
   sanitize,
@@ -247,4 +329,8 @@ export {
   get_ipa_no_cache,
   memoizeLocalStorage,
   macronize,
+  loadJs,
+  splitAndAppend,
+  loadFileFromZip,
+  createElementFromHTML,
 };

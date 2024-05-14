@@ -71,4 +71,5 @@ async function loadLanguage(code) {
   window[code + "_ipa"] = lua.global.get(code);
   // Set a JS function to be a global lua function
 }
-export { loadLanguage };
+
+export { loadLanguage, updateLoadingText };
