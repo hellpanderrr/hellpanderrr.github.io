@@ -1,8 +1,3 @@
-const splitAndAppend = (str, delim, count) => {
-  const arr = str.split(delim);
-  return [...arr.splice(0, count), arr.join(delim)];
-};
-
 async function asyncMapStrict(arr, fn) {
   const result = [];
   // console.time("Elapsed time :");
@@ -164,11 +159,11 @@ function get_ipa_no_cache(text, args) {
     case "German":
       if (langForm === "Phonemic") {
         let dictRecord = globalThis.lexicon.get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
         );
         if (!dictRecord) {
           dictRecord = globalThis.lexicon.get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
           );
         }
         console.log(cleanText, dictRecord);
@@ -330,7 +325,6 @@ export {
   memoizeLocalStorage,
   macronize,
   loadJs,
-  splitAndAppend,
   loadFileFromZip,
   createElementFromHTML,
 };
