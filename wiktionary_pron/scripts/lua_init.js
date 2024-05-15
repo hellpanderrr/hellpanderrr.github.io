@@ -16,7 +16,7 @@ function updateLoadingText(filePath, fileExtension) {
     loadingBar.innerHTML = "";
     loadingBar.style.display = "none";
   } else {
-    loadingBar.innerHTML = `Loading ${filePath}.${fileExtension}...`;
+    loadingBar.innerHTML = `Loading ${filePath}.${fileExtension}`;
     loadingBar.style.display = "block";
   }
 }

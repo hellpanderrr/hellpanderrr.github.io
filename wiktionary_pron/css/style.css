@@ -284,3 +284,24 @@ body i.fa-moon-o {
 #tts {
     max-width: 350px;
 }
+
+#loading_text:after {
+    animation: dots 0.5s linear infinite;
+    content: '';
+    position: absolute;
+}
+
+@keyframes dots {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60% {
+        content: '...';
+    }
+    90%, 100% {
+        content: '';
+    }
+}
