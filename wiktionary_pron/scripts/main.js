@@ -5,20 +5,19 @@ import {
   clearStorage,
   createElementFromHTML,
   get_ipa_no_cache,
-  macronize,
   memoizeLocalStorage,
   wait,
 } from "./utils.js";
 import { tts } from "./tts.js";
 import { toPdf } from "./pdf_export.js";
 import { loadLexicon } from "./lexicon.js";
-
+import { macronize } from "./macronizer.js";
 document.querySelector("#lang").disabled = false;
 
-function prepareTranscribe(lang) {
+async function prepareTranscribe(lang) {
   let inputText = document.getElementById("text_to_transcribe").value;
   if (lang === "Latin") {
-    inputText = macronize(inputText);
+    inputText = await macronize(inputText);
     // document.getElementById("text_to_transcribe").value = inputText;
   }
   const textLines = inputText.trim().split("\n");
@@ -52,7 +51,7 @@ function getIpa(text, lang, lang_style, lang_form) {
 async function transcribe(mode) {
   disableAll([document.querySelector("#export_pdf")]);
   const { lang, langStyle, langForm } = getLangStyleForm();
-  const [resultDiv, textLines] = prepareTranscribe(lang);
+  const [resultDiv, textLines] = await prepareTranscribe(lang);
   try {
     async function processDefault(line) {
       const words = line.split(" ").concat(["\n"]);
@@ -507,6 +506,7 @@ async function updateOptionsUponLanguageSelection(event) {
       globalThis.lexicon = await loadLexicon("German");
       updateLoadingText("", "");
     }
+
     enableAll();
     loadedLanguages[selectedLanguage] = true;
   }
