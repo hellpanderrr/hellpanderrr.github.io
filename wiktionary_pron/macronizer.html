@@ -20,6 +20,11 @@
               rel="stylesheet">
     </noscript>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/macronizer/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/macronizer/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/macronizer/favicon-16x16.png">
+    <link rel="manifest" href="icons/macronizer/site.webmanifest">
+
 
     <style>
         #output {
@@ -35,7 +40,7 @@
 
     </style>
     <script type="module">
-        import {macronize} from "./scripts/utils.js";
+        import {macronize} from "./scripts/macronizer.js";
         import {toPdf} from "./scripts/pdf_export.js";
 
         function fillOutput(text) {
@@ -64,9 +69,9 @@
             document.body.appendChild(hiddenTable)
         }
 
-        function macronizeText() {
+        async function macronizeText() {
             const inputText = document.querySelector('#text_to_macronize').value
-            const macronizedText = macronize(inputText);
+            const macronizedText = await macronize(inputText);
             fillOutput(macronizedText)
         }
 
