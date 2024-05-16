@@ -26,7 +26,7 @@ async function fetchFonts() {
       .then((res) => new Uint8Array(res));
 
   const [GaramondBytes, VocesBytes] = await Promise.all([
-    fetchAsset("/wiktionary_pron/wiktionary_pron/fonts/EBGaramond-Regular.ttf"),
+    fetchAsset("fonts/EBGaramond-Regular.ttf"),
     fetchAsset(
       "https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/Voces-Regular.ttf",
     ),
