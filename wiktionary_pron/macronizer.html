@@ -128,6 +128,11 @@
         }
 
         document.getElementById("dark_mode").addEventListener("click", toggleDarkMode);
+        document.getElementById("clear_button").addEventListener("click", clearInput);
+
+        function clearInput() {
+            document.querySelector('#text_to_macronize').value = ''
+        }
     </script>
 
 
