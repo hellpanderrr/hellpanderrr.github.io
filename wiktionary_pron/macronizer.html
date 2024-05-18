@@ -76,8 +76,12 @@
         }
 
         function demacronize(text) {
-            return text.replace(/ō/g, 'o').replace(/ā/g, 'a').replace(/ū/g, 'u').replace(/ī/g, 'i').replace(/ē/g, 'e').replace(/ȳ/g, 'y')
-                .replace(/Ō/g, 'O').replace(/Ā/g, 'A').replace(/Ū/g, 'U').replace(/Ī/g, 'I').replace(/Ē/g, 'E').replace(/Ȳ/g, 'Y')
+            const macronMap = {
+                'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
+                'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
+            };
+
+            return text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, match => macronMap[match]);
         }
 
         function deMacronizeText() {
