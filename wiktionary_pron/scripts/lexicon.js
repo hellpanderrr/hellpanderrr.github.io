@@ -7,7 +7,7 @@ async function loadLexicon(language) {
   const lexiconFolder = "./utils/";
   const wordPairsList = await loadFileFromZip(
     lexiconFolder + languages[language],
-    "lexicon.txt",
+    "de_lexicon.json",
   );
 
   function process_lexicon(text) {
