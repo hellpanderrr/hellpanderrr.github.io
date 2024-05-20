@@ -508,6 +508,7 @@ async function updateOptionsUponLanguageSelection(event) {
     }
 
     enableAll();
+    window.history.pushState({}, "", `?lang=${selectedLanguage}`);
     loadedLanguages[selectedLanguage] = true;
   }
 
@@ -582,3 +583,22 @@ function toggleLightMode() {
 }
 
 document.getElementById("dark_mode").addEventListener("click", toggleDarkMode);
+
+function triggerLanguageChange() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedLanguage = urlParams.get("lang");
+
+  if (selectedLanguage) {
+    const languageSelect = document.querySelector("#lang");
+    const languageOption = document.querySelector(
+      `#lang option[value="${selectedLanguage}"]`,
+    );
+
+    if (languageOption) {
+      languageSelect.value = selectedLanguage;
+      languageSelect.dispatchEvent(new Event("change"));
+    }
+  }
+}
+
+triggerLanguageChange();
