@@ -270,10 +270,18 @@ async function fetchWithCache(url) {
 
   if (contentType == "application/zip") {
     responseContent = await response.blob();
-    await localforage.setItem(url, responseContent);
+    try {
+      await localforage.setItem(url, responseContent);
+    } catch (err) {
+      console.log(err);
+    }
   } else {
     responseContent = await response.text();
-    await localforage.setItem(url, JSON.stringify(responseContent));
+    try {
+      await localforage.setItem(url, JSON.stringify(responseContent));
+    } catch (err) {
+      console.log(err);
+    }
   }
   responseWithHeaders = new Response(responseContent);
   return responseWithHeaders;
