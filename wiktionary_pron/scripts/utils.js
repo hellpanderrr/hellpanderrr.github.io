@@ -225,7 +225,7 @@ async function loadFileFromZipOrPath(zipPathOrBlob, filename) {
         let data;
         if (!(typeof zipPathOrBlob === "string")) {
           console.log("blob", zipPathOrBlob);
-          data = await zipPathOrBlob.blob();
+          data = zipPathOrBlob;
         } else {
           console.log("path", zipPathOrBlob);
           const response = await fetchWithCache(zipPathOrBlob);
@@ -269,13 +269,13 @@ async function fetchWithCache(url) {
   let responseWithHeaders;
 
   if (contentType == "application/zip") {
-    const responseContent = await response.blob();
+    responseContent = await response.blob();
     await localforage.setItem(url, responseContent);
   } else {
     responseContent = await response.text();
     await localforage.setItem(url, JSON.stringify(responseContent));
   }
-  responseWithHeaders = new Response(responseContent, response);
+  responseWithHeaders = new Response(responseContent);
   return responseWithHeaders;
 }
 

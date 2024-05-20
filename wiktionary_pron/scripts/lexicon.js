@@ -7,8 +7,8 @@ async function loadLexicon(language) {
   const lexiconFolder = "./utils/";
 
   const zipBlob = await fetchWithCache(lexiconFolder + languages[language]);
-
-  const wordPairsList = await loadFileFromZipOrPath(zipBlob, "de_lexicon.json");
+  const blob = await zipBlob.blob();
+  const wordPairsList = await loadFileFromZipOrPath(blob, "de_lexicon.json");
 
   const worker = new Worker("scripts/lexicon_loader_worker.js");
 
