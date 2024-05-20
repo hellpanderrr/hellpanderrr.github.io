@@ -1,8 +1,11 @@
+import { fetchWithCache } from "./utils.js";
+
 const factory = await lb.factory;
 const lua = await factory.createEngine();
 
 // Set a JS function to be a global lua function
-lua.global.set("fetch", (url) => fetch(url));
+
+lua.global.set("fetch", (url) => fetchWithCache(url));
 
 async function mountFile(file_path, lua_path) {
   const content = await fetch(file_path).then((data) => data.text());
@@ -44,7 +47,8 @@ await lua.doString(`
               --local resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               --local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               updateLoadingText(path, extension)
-              local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              --local resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              local resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               
               --local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               updateLoadingText("", "")

@@ -1,19 +1,19 @@
-import { loadFileFromZip } from "./utils.js";
+import { loadFileFromZipOrPath, fetchWithCache } from "./utils.js";
 
 async function loadLexicon(language) {
   const languages = {
     German: "german_lexicon.zip",
   };
   const lexiconFolder = "./utils/";
-  const wordPairsList = await loadFileFromZip(
-    lexiconFolder + languages[language],
-    "de_lexicon.json",
-  );
+
+  const zipBlob = await fetchWithCache(lexiconFolder + languages[language]);
+
+  const wordPairsList = await loadFileFromZipOrPath(zipBlob, "de_lexicon.json");
+
+  const worker = new Worker("scripts/lexicon_loader_worker.js");
 
   function process_lexicon(text) {
     return new Promise((resolve) => {
-      const worker = new Worker("scripts/lexicon_loader_worker.js");
-
       worker.onmessage = function (e) {
         resolve(e.data);
       };
@@ -23,6 +23,7 @@ async function loadLexicon(language) {
   }
 
   const lexicon = await process_lexicon(wordPairsList);
+  worker.terminate();
   return lexicon;
 }
 

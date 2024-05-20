@@ -218,32 +218,68 @@ function createElementFromHTML(htmlString) {
   return div.firstChild;
 }
 
-const loadedScripts = {};
-
-async function loadFileFromZip(zipPath, filename) {
+async function loadFileFromZipOrPath(zipPathOrBlob, filename) {
   return new Promise((resolve, reject) => {
     loadJs("./scripts/jszip.min.js", async () => {
       await loadJs("./scripts/jszip-utils.min.js", async () => {
-        JSZipUtils.getBinaryContent(zipPath, function (err, data) {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(data);
-          }
-        });
+        let data;
+        if (!(typeof zipPathOrBlob === "string")) {
+          console.log("blob", zipPathOrBlob);
+          data = await zipPathOrBlob.blob();
+        } else {
+          console.log("path", zipPathOrBlob);
+          const response = await fetchWithCache(zipPathOrBlob);
+          data = await response.blob();
+        }
+        JSZip.loadAsync(data)
+          .then(async (zip) => {
+            const fileData = await zip.file(filename).async("string");
+            resolve(fileData);
+          })
+          .catch((error) => {
+            console.error(error);
+            reject(error); // or handle the error as needed
+          });
       });
     });
-  })
-    .then(async (data) => {
-      const zip = await JSZip.loadAsync(data);
-      const fileData = await zip.file(filename).async("string");
-      return fileData;
-    })
-    .catch((error) => {
-      console.error(error);
-      return null; // or handle the error as needed
-    });
+  });
 }
+
+async function fetchWithCache(url) {
+  console.log("reading cache", url);
+  const cachedResponse = await localforage.getItem(url);
+  if (cachedResponse) {
+    console.log("reading from cache", url);
+    if (cachedResponse instanceof Blob) {
+      const response = new Response(cachedResponse);
+      response.headers.set("X-From-Cache", "true");
+      console.log("Returned cached blob ", url);
+      return response;
+    }
+    const response = new Response(JSON.parse(cachedResponse));
+    response.headers.set("X-From-Cache", "true");
+    console.log("Returned cached string ", url);
+    return response;
+  }
+  console.log("caching ", url);
+  const response = await fetch(url);
+
+  const contentType = response.headers.get("content-type");
+  let responseContent;
+  let responseWithHeaders;
+
+  if (contentType == "application/zip") {
+    const responseContent = await response.blob();
+    await localforage.setItem(url, responseContent);
+  } else {
+    responseContent = await response.text();
+    await localforage.setItem(url, JSON.stringify(responseContent));
+  }
+  responseWithHeaders = new Response(responseContent, response);
+  return responseWithHeaders;
+}
+
+const loadedScripts = {};
 
 async function loadJs(url, code) {
   console.log(loadedScripts);
@@ -280,6 +316,7 @@ export {
   get_ipa_no_cache,
   memoizeLocalStorage,
   loadJs,
-  loadFileFromZip,
+  loadFileFromZipOrPath,
   createElementFromHTML,
+  fetchWithCache,
 };
