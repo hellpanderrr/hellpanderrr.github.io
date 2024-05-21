@@ -283,7 +283,7 @@ async function fetchWithCache(url) {
       console.log(err);
     }
   }
-  responseWithHeaders = new Response(responseContent);
+  responseWithHeaders = new Response(responseContent, response);
   return responseWithHeaders;
 }
 
