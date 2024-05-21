@@ -497,8 +497,12 @@ async function updateOptionsUponLanguageSelection(event) {
   const selectedLanguageElement = event.target;
   const selectedLanguage = selectedLanguageElement.value;
   const lang = languages[selectedLanguage];
-  window.history.pushState({}, "", `?lang=${selectedLanguage}`);
 
+  try {
+    window.history.pushState({}, "", `?lang=${selectedLanguage}`);
+  } catch (err) {
+    console.log(err);
+  }
   if (!(selectedLanguage in loadedLanguages)) {
     disableAll();
     await loadLanguage(lang.langCode);
