@@ -20,10 +20,10 @@
               rel="stylesheet">
     </noscript>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/macronizer/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="icons/macronizer/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="icons/macronizer/favicon-16x16.png">
-    <link rel="icon" href="icons/macronizer/favicon.ico">
+    <link href="icons/macronizer/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="icons/macronizer/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+    <link href="icons/macronizer/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+    <link href="icons/macronizer/favicon.ico" rel="icon">
 
     <style>
         #output {
@@ -41,18 +41,23 @@
     <script type="module">
         import {macronize} from "./scripts/macronizer.js";
         import {toPdf} from "./scripts/pdf_export.js";
+        import {disableAll, enableAll} from "./scripts/utils.js";
+
+        disableAll()
+        await macronize('')
+        enableAll()
 
         function fillOutput(text) {
             const table = document.querySelector('#output')
             table.innerHTML = text.replace(/\n/g, '<br />');
 
-            if (document.querySelector('#result')){
+            if (document.querySelector('#result')) {
                 document.querySelector('#result').remove()
             }
             // for PDF export function
             const hiddenTable = document.createElement('table')
             hiddenTable.setAttribute('id', 'result')
-            hiddenTable.setAttribute('style','display:none')
+            hiddenTable.setAttribute('style', 'display:none')
             const lines = text.split('\n')
             lines.forEach(line => {
                 const row = document.createElement('tr');
@@ -60,7 +65,7 @@
                 words.forEach(word => {
                     const cell = document.createElement('div');
                     cell.classList.add('cell');
-                    cell.innerHTML = word+'&nbsp;';
+                    cell.innerHTML = word + '&nbsp;';
                     row.appendChild(cell);
                 });
                 hiddenTable.appendChild(row);

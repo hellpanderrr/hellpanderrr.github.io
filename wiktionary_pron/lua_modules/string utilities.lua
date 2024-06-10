@@ -1,9 +1,11 @@
 local gmatch = string.gmatch
-
+local mw = require('mw')
 local module_name = "string_utilities"
 
 local export = {}
+local char = mw.ustring.char
 
+local concat = table.concat
 local format_escapes = {
 	["op"] = "{",
 	["cl"] = "}",
@@ -160,6 +162,70 @@ local function iterate_utf8(text, pos, from_type, init_from_type, init_to_type)
 			return c[to_type]
 		end
 	end
+end
+
+function export.reverse(str)
+    return reverse(gsub(str, "[\194-\244][\128-\191]*", reverse))
+end
+
+do
+    local function err(cp)
+        error("Codepoint " .. cp .. " is out of range: codepoints must be between 0x0 and 0x10FFFF.", 2)
+    end
+
+    local function round(number)
+        if (number - (number % 0.1)) - (number - (number % 1)) < 0.5 then
+            number = number - (number % 1)
+        else
+            number = (number - (number % 1)) + 1
+        end
+        return number
+    end
+
+    local function utf8_char(cp)
+        cp = tonumber(cp)
+
+        if cp < 0 then
+            err("-0x" .. format("%X", -cp + 1))
+        elseif cp < 0x80 then
+            return char(cp)
+        elseif cp < 0x800 then
+            return char(
+                    0xC0 + cp / 0x40,
+                    0x80 + cp % 0x40
+            )
+        elseif cp < 0x10000 then
+            if cp >= 0xD800 and cp < 0xE000 then
+                return "?" -- mw.ustring.char returns "?" for surrogates.
+            end
+            return char(
+                    0xE0 + cp / 0x1000,
+                    0x80 + cp / 0x40 % 0x40,
+                    0x80 + cp % 0x40
+            )
+        elseif cp < 0x110000 then
+            return char(
+                    0xF0 + cp / 0x40000,
+                    0x80 + cp / 0x1000 % 0x40,
+                    0x80 + cp / 0x40 % 0x40,
+                    0x80 + cp % 0x40
+            )
+        end
+        err("0x" .. format("%X", cp))
+    end
+
+    function export.char(cp, ...)
+        if ... == nil then
+            local utf8 = utf8_char(cp)
+            return utf8
+        end
+        local ret = { cp, ... }
+        for i = 1, select("#", cp, ...) do
+            ret[i] = utf8_char(ret[i])
+        end
+        return concat(ret)
+    end
+    u = export.char
 end
 
 --[==[Converts a character position to the equivalent byte position.]==]

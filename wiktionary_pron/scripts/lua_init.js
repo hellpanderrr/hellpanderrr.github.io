@@ -45,17 +45,18 @@ await lua.doString(`
               
               
               updateLoadingText(path, extension)
-              
-              local resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              if resp.status == 404 then
-                  resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+             
+              local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension)):await()
+              if resp.status == 404 then  
+                   resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               end
+             
               if resp.status == 404 then
-                  resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              end
+                   resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
+              end           
               
-              --loca resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
               updateLoadingText("", "")
+              
               local text = resp:text():await()
               local module =  load(text)()
               print('loaded '..path)
@@ -73,6 +74,7 @@ console.log(lua);
 
 async function loadLanguage(code) {
   console.log(lua);
+
   await lua.doString(`t = {}
   ${code} = require("${code}-pron_wasm")`);
   // Get a global lua function as a JS function

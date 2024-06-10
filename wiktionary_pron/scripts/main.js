@@ -7,6 +7,8 @@ import {
   get_ipa_no_cache,
   memoizeLocalStorage,
   wait,
+  enableAll,
+  disableAll,
 } from "./utils.js";
 import { tts } from "./tts.js";
 import { toPdf } from "./pdf_export.js";
@@ -131,14 +133,14 @@ async function transcribe(mode) {
         let values;
         let value;
         value = ipa.value;
-        if (lang === "German") {
+        if (lang === "German" || lang === "Czech") {
           [value, values] = processGermanIpa(value);
         } else {
           values = "";
         }
 
         console.log(values);
-        return result.status === "error"
+        return ipa.status === "error"
           ? `<div class="error">${value} </div>`
           : Boolean(values)
           ? `<div class="ipa" all_values="${values}">${value} </div>`
@@ -236,7 +238,7 @@ async function transcribe(mode) {
         resultDiv.className = "cell";
         let value, values;
 
-        if (lang === "German") {
+        if (lang === "German" || lang === "Czech") {
           [value, values] = processGermanIpa(results[i].value);
         } else {
           value = results[i].value;
@@ -291,7 +293,7 @@ async function transcribe(mode) {
     console.log(err);
   } finally {
     console.log("finally");
-    if (lang === "German") {
+    if (lang === "German" || lang === "Czech") {
       Array.from(document.querySelectorAll(".ipa")).map((x) => {
         if (
           Boolean(x.getAttribute("all_values")) &&
@@ -334,36 +336,6 @@ async function transcribe(mode) {
     enableAll([document.querySelector("#export_pdf")]);
     tts(transcriptionMode);
   }
-}
-
-/**
- * Disables all form elements on the page
- */
-function disableAll(include_elements = []) {
-  // Select all the forms on the page
-  const forms = Array.from(document.querySelectorAll("form"));
-
-  // Iterate through each form and disable all its elements
-  forms.forEach((form) => {
-    Array.from(form.elements)
-      .concat(include_elements)
-      .forEach((element) => {
-        element.disabled = true;
-      });
-  });
-}
-
-function enableAll(include_elements = []) {
-  // Get all the form elements on the page
-  const forms = Array.from(document.querySelectorAll("form"));
-  forms.forEach((form) => {
-    // Enable all elements in the form
-    Array.from(form.elements)
-      .concat(include_elements)
-      .forEach((element) => {
-        element.disabled = false;
-      });
-  });
 }
 
 document
@@ -449,6 +421,13 @@ const languages = {
     langCode: "uk",
     ttsCode: "uk-UA",
   },
+  Czech: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "cs",
+    ttsCode: "cs-CZ",
+  },
+
   Greek: {
     styles: [
       "5th BCE Attic",
@@ -509,6 +488,11 @@ async function updateOptionsUponLanguageSelection(event) {
     if (selectedLanguage === "German") {
       updateLoadingText("German lexicon", "");
       globalThis.lexicon = await loadLexicon("German");
+      updateLoadingText("", "");
+    }
+    if (selectedLanguage === "Czech") {
+      updateLoadingText("Czech lexicon", "");
+      globalThis.lexicon = await loadLexicon("Czech");
       updateLoadingText("", "");
     }
 

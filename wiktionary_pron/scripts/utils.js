@@ -161,6 +161,25 @@ function get_ipa_no_cache(text, args) {
         command = `(window.ru_ipa.ipa_string("${cleanText}"))`;
       }
       break;
+    case "Czech":
+      if (langForm === "Phonemic") {
+        let dictRecord = globalThis.lexicon.get(
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+        );
+        if (!dictRecord) {
+          dictRecord = globalThis.lexicon.get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+          );
+        }
+        console.log(cleanText, dictRecord);
+        if (dictRecord) {
+          command = 'ipa="' + dictRecord + '";';
+          break;
+        }
+
+        command = `(window.cs_ipa.toIPA("${cleanText}"))`;
+      }
+      break;
     case "Italian":
       if (langForm === "Phonemic") {
         command = `(window.it_ipa.to_phonemic("${cleanText}",'TEST').phonemic)`;
@@ -316,6 +335,36 @@ async function loadJs(url, code) {
   });
 }
 
+/**
+ * Disables all form elements on the page
+ */
+function disableAll(include_elements = []) {
+  // Select all the forms on the page
+  const forms = Array.from(document.querySelectorAll("form"));
+
+  // Iterate through each form and disable all its elements
+  forms.forEach((form) => {
+    Array.from(form.elements)
+        .concat(include_elements)
+        .forEach((element) => {
+          element.disabled = true;
+        });
+  });
+}
+
+function enableAll(include_elements = []) {
+  // Get all the form elements on the page
+  const forms = Array.from(document.querySelectorAll("form"));
+  forms.forEach((form) => {
+    // Enable all elements in the form
+    Array.from(form.elements)
+        .concat(include_elements)
+        .forEach((element) => {
+          element.disabled = false;
+        });
+  });
+}
+
 export {
   asyncMapStrict,
   sanitize,
@@ -327,4 +376,6 @@ export {
   loadFileFromZipOrPath,
   createElementFromHTML,
   fetchWithCache,
+  disableAll,
+  enableAll,
 };
