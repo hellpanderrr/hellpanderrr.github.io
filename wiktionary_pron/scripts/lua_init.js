@@ -1,4 +1,4 @@
-import { fetchWithCache } from "./utils.js";
+import { fetchWithCache, fetchWithCacheMultiple } from "./utils.js";
 
 const factory = await lb.factory;
 const lua = await factory.createEngine();
@@ -6,6 +6,7 @@ const lua = await factory.createEngine();
 // Set a JS function to be a global lua function
 
 lua.global.set("fetch", (url) => fetchWithCache(url));
+lua.global.set("fetchMultiple", (url) => fetchWithCacheMultiple(url));
 
 async function mountFile(file_path, lua_path) {
   const content = await fetch(file_path).then((data) => data.text());
@@ -46,14 +47,9 @@ await lua.doString(`
               
               updateLoadingText(path, extension)
              
-              local resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension)):await()
-              if resp.status == 404 then  
-                   resp = fetch(string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/master/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              end
+             resp = fetchMultiple({string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension),string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension), string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension)}):await()
              
-              if resp.status == 404 then
-                   resp = fetch(string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension) ):await()
-              end           
+            
               
               updateLoadingText("", "")
               

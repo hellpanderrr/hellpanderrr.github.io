@@ -164,11 +164,11 @@ function get_ipa_no_cache(text, args) {
     case "Czech":
       if (langForm === "Phonemic") {
         let dictRecord = globalThis.lexicon.get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
         );
         if (!dictRecord) {
           dictRecord = globalThis.lexicon.get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
           );
         }
         console.log(cleanText, dictRecord);
@@ -262,6 +262,63 @@ async function loadFileFromZipOrPath(zipPathOrBlob, filename) {
       });
     });
   });
+}
+
+async function sendParallelRequests(urls) {
+  const promises = urls.map((url) => fetch(url));
+
+  try {
+    const results = await Promise.any(promises);
+    return results;
+  } catch (error) {
+    return null; // Handle errors if no promises resolve successfully
+  }
+}
+
+async function fetchWithCacheMultiple(urls) {
+  const url = urls[0].split("/").slice(-2).join("/");
+
+  console.log("reading cache", url);
+  const cachedResponse = await localforage.getItem(url);
+  if (cachedResponse) {
+    console.log("reading from cache", url);
+    if (cachedResponse instanceof Blob) {
+      const response = new Response(cachedResponse);
+      response.headers.set("X-From-Cache", "true");
+      console.log("Returned cached blob ", url);
+      return response;
+    }
+    const response = new Response(JSON.parse(cachedResponse));
+    response.headers.set("X-From-Cache", "true");
+    console.log("Returned cached string ", url);
+    return response;
+  }
+  console.log("caching ", url);
+
+  // const response = await fetch(url);
+  const response = await sendParallelRequests(urls);
+
+  const contentType = response.headers.get("content-type");
+  let responseContent;
+  let responseWithHeaders;
+
+  if (contentType == "application/zip") {
+    responseContent = await response.blob();
+    try {
+      await localforage.setItem(url, responseContent);
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    responseContent = await response.text();
+    try {
+      await localforage.setItem(url, JSON.stringify(responseContent));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  responseWithHeaders = new Response(responseContent, response);
+  return responseWithHeaders;
 }
 
 async function fetchWithCache(url) {
@@ -358,10 +415,10 @@ function enableAll(include_elements = []) {
   forms.forEach((form) => {
     // Enable all elements in the form
     Array.from(form.elements)
-        .concat(include_elements)
-        .forEach((element) => {
-          element.disabled = false;
-        });
+      .concat(include_elements)
+      .forEach((element) => {
+        element.disabled = false;
+      });
   });
 }
 
@@ -376,6 +433,7 @@ export {
   loadFileFromZipOrPath,
   createElementFromHTML,
   fetchWithCache,
+  fetchWithCacheMultiple,
   disableAll,
   enableAll,
 };
