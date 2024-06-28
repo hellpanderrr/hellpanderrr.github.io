@@ -21,12 +21,59 @@ function populateVoiceList() {
 }
 
 populateVoiceList();
+
+function getSelectedVoice() {
+  const voices = EasySpeech.voices();
+  const selectedVoice = document
+    .querySelector("#tts")
+    .selectedOptions[0].getAttribute("data-name");
+
+  return voices.find((v) => v.name === selectedVoice);
+}
 function tts(transcriptionMode) {
   console.log("running tts");
   const text_els =
     transcriptionMode === "line"
       ? document.querySelectorAll(".input_text")
       : document.querySelectorAll("#result span");
+
+  const lineButtons = document.querySelectorAll(".audio-popup-line");
+
+  const getVolume = () => {
+    return parseFloat(document.querySelector("#tts_volume").value) / 100;
+  };
+  const getSpeed = () => {
+    return parseFloat(document.querySelector("#tts_speed").value) / 100;
+  };
+
+  lineButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      button = e.currentTarget;
+      let lineText = Array.from(
+        button.parentElement.querySelectorAll(".input_text"),
+      )
+        .map((x) => x.textContent)
+        .join(" ");
+      console.log(5555, lineText);
+      if (!lineText) {
+        lineText = Array.from(button.parentElement.querySelectorAll(".ipa"))
+          .map((x) => x.getAttribute("data-word"))
+          .join(" ");
+        console.log(5555, lineText);
+      }
+
+      console.log("Speaking:", lineText);
+      EasySpeech.speak({
+        text: lineText,
+        voice: getSelectedVoice(),
+        pitch: 1,
+        rate: getSpeed(),
+        volume: getVolume(),
+        // there are more events, see the API for supported events
+        boundary: () => console.debug("boundary reached"),
+      });
+    });
+  });
 
   Array.from(text_els).map(function (el) {
     let timer;
@@ -48,22 +95,13 @@ function tts(transcriptionMode) {
       return text;
     }
 
-    function getSelectedVoice() {
-      const voices = EasySpeech.voices();
-      const selectedVoice = document
-        .querySelector("#tts")
-        .selectedOptions[0].getAttribute("data-name");
-
-      return voices.find((v) => v.name === selectedVoice);
-    }
-
     popup.addEventListener("click", () =>
       EasySpeech.speak({
         text: getTextContent(el),
         voice: getSelectedVoice(),
         pitch: 1,
-        rate: 1,
-        volume: 1,
+        rate: getSpeed(),
+        volume: getVolume(),
         // there are more events, see the API for supported events
         boundary: () => console.debug("boundary reached"),
       }),

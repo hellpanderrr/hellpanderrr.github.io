@@ -59,7 +59,13 @@ async function transcribe(mode) {
       const words = line.split(" ").concat(["\n"]);
 
       const container = document.createElement("tr");
+      container.className = "line";
       resultDiv.appendChild(container);
+
+      const ttsButton = document.createElement("button");
+      ttsButton.className = "fa fa-volume-down audio-popup-line";
+
+      container.prepend(ttsButton);
 
       async function processWord(word) {
         console.log("processing", word);
@@ -217,10 +223,10 @@ async function transcribe(mode) {
       container.style.marginRight = "auto";
 
       const leftColumn = document.createElement("div");
-      leftColumn.style.flex = "1";
+      leftColumn.classList.add("left-column");
 
       const rightColumn = document.createElement("div");
-      rightColumn.style.flex = "1";
+      rightColumn.classList.add("right-column");
 
       for (let i = 0; i < words.length; i++) {
         const wordDiv = document.createElement("div");
@@ -260,8 +266,18 @@ async function transcribe(mode) {
         resultDiv.appendChild(resultSpan);
 
         leftColumn.appendChild(wordDiv);
+
         rightColumn.appendChild(resultDiv);
       }
+      const leftTTSButton = document.createElement("button");
+      leftTTSButton.className = "fa fa-volume-down audio-popup-line";
+
+      leftColumn.prepend(leftTTSButton);
+
+      const rightTTSButton = document.createElement("button");
+      rightTTSButton.className = "fa fa-volume-down audio-popup-line";
+
+      rightColumn.prepend(rightTTSButton);
 
       container.appendChild(leftColumn);
       container.appendChild(rightColumn);
@@ -397,7 +413,7 @@ const languages = {
     ttsCode: "es-ES",
   },
   French: {
-    styles: ["Default"],
+    styles: ["Default", "Parisian (experimental)"],
     forms: ["Phonemic"],
     langCode: "fr",
     ttsCode: "fr-FR",
@@ -485,6 +501,12 @@ async function updateOptionsUponLanguageSelection(event) {
   if (!(selectedLanguage in loadedLanguages)) {
     disableAll();
     await loadLanguage(lang.langCode);
+    if (selectedLanguage === "Latin") {
+      updateLoadingText("Macrons list", "");
+      await macronize("");
+      updateLoadingText("", "");
+    }
+
     if (selectedLanguage === "German") {
       updateLoadingText("German lexicon", "");
       globalThis.lexicon = await loadLexicon("German");

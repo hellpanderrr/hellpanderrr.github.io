@@ -77,9 +77,11 @@ async function wait(ms = 1) {
 }
 
 function clearStorage() {
-  const cache = JSON.parse(localStorage.getItem("get_ipa_no_cache") || "{}");
-  cache["get_ipa_no_cache"] = "";
-  localStorage.setItem("get_ipa_no_cache", JSON.stringify(cache));
+  // const cache = JSON.parse(localStorage.getItem("get_ipa_no_cache") || "{}");
+  // cache["get_ipa_no_cache"] = "";
+  // localStorage.setItem("get_ipa_no_cache", JSON.stringify(cache));
+  localStorage.clear();
+  localforage.clear();
 }
 
 function get_ipa_no_cache(text, args) {
@@ -150,6 +152,7 @@ function get_ipa_no_cache(text, args) {
       if (langForm === "Phonemic") {
         command = `(window.fr_ipa.show("${cleanText}")[0])`;
       }
+
       break;
     case "Ukrainian":
       if (langForm === "Phonetic") {
@@ -223,6 +226,14 @@ function get_ipa_no_cache(text, args) {
 
   if (!ipa) {
     return { value: text, status: "error" };
+  }
+
+  if (langStyle === "Parisian (experimental)") {
+    ipa = ipa
+      .replace("ɔ̃̃̃̃̃", "õ")
+      .replace("ɑ̃", "ɔ̃")
+      .replace("œ̃", "ɑ̃")
+      .replace("ɛ̃", "ɑ̃");
   }
 
   console.log("final ipa ", ipa);
@@ -402,10 +413,10 @@ function disableAll(include_elements = []) {
   // Iterate through each form and disable all its elements
   forms.forEach((form) => {
     Array.from(form.elements)
-        .concat(include_elements)
-        .forEach((element) => {
-          element.disabled = true;
-        });
+      .concat(include_elements)
+      .forEach((element) => {
+        element.disabled = true;
+      });
   });
 }
 

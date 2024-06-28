@@ -12,6 +12,10 @@
     src: url("../fonts/EBGaramond-Regular.woff2") format("woff2");
 }
 
+input[type="range"] {
+    padding: revert;
+}
+
 button:enabled:active {
     background: #e5e5e5;
     -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
@@ -22,7 +26,7 @@ button:enabled:active {
 
 .line {
     position: relative;
-
+    padding-left: 10px;
 }
 
 hr {
@@ -145,6 +149,28 @@ body.dark_mode option {
     background-image: linear-gradient(to bottom, #1F1B24, #1F1B24);
 }
 
+body.dark_mode input[type="range"] {
+
+    accent-color: #CE93D8;
+}
+
+body.dark_mode button.audio-popup {
+    color: white;
+    background-color: #CE93D8;
+}
+
+body.dark_mode button.audio-popup-line {
+    color: white;
+    background-color: initial;
+}
+
+body.dark_mode button.audio-popup-line:hover {
+    color: white;
+    background-color: #CE93D8;
+}
+
+
+
 body.dark_mode button {
     background-color: #CE93D8;
     color: black;
@@ -243,16 +269,54 @@ body i.fa-moon-o {
     transition: opacity 0.5s;
 }
 
+.line {
+    transition: background 0.5s;
+    margin-left: 11px;
+
+}
+
+.left-column {
+    flex: 1;
+    position: relative;
+    padding-left: 15px;
+}
+
+.right-column {
+    flex: 1;
+    padding-left: 15px;
+    position: relative;
+}
+
+.line:has(.audio-popup-line:nth-of-type(1):hover) {
+    background: rgba(211, 225, 241, 0.26);
+}
+
+.left-column:has(.audio-popup-line:nth-of-type(1):hover) {
+    background: rgba(211, 225, 241, 0.26);
+}
+
+
+
 .audio-popup-line {
 
     position: absolute;
-    top: 5%;
-    left: -5%;
+
+    left: -3%;
     transition: opacity 0.5s;
-    font-size: 15px;
+    font-size: 25px;
     background-color: #f0f8ff00;
-    opacity: 0;
-    visibility: hidden;
+
+
+    margin-left: 0;
+    padding-left: 0;
+    text-align: center;
+
+    margin: 0;
+    padding-right: 10px;
+    padding-left: 10px;
+
+    height: 100%;
+
 }
 
 .cell {
