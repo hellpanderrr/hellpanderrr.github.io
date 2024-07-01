@@ -47,7 +47,7 @@ await lua.doString(`
               
               updateLoadingText(path, extension)
              
-             resp = fetchMultiple({string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension),string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension), string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.0/wiktionary_pron/lua_modules/%s.%s',path,extension)}):await()
+             resp = fetchMultiple({string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension),string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/0.1.2/wiktionary_pron/lua_modules/%s.%s',path,extension), string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.2/wiktionary_pron/lua_modules/%s.%s',path,extension)}):await()
              
             
               
