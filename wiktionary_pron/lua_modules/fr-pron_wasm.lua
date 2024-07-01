@@ -308,10 +308,6 @@ function export.show(text, pos, noalternatives, pagename, no_test_new_module)
 
 	text = export.canonicalize_pron(text, pagename)
 
-	-- track quote-separator if different numbers of quote symbols
-	if ulen(rsub(text, "[^']", "")) ~= ulen(rsub(pagename, "[^']", "")) then
-		track("quote-separator")
-	end
 
 	-- To simplify checking for word boundaries and liaison markers, we
 	-- add ⁀ at the beginning and end of all words, and remove it at the end.
@@ -843,8 +839,9 @@ function export.show(text, pos, noalternatives, pagename, no_test_new_module)
 			end
 		end
 	end
-
 	return result
 end
+
+print(export.show("c'était,")[0])
 
 return export
