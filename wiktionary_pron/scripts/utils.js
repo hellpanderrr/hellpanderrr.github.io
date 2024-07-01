@@ -13,10 +13,8 @@ async function asyncMapStrict(arr, fn) {
 
 function sanitize(text) {
   return text
-    .replace(
-      /[^\p{L}\p{M}'pbtdʈɖcɟkɡqɢʔmɱnɳɲŋɴʙrʀⱱɾɽɸβfvθðszʃʒʂʐçʝxɣχʁħʕhɦɬɮʋɹɻjɰlɭʎʟʘǀǃǂǁɓɗʄɠʛʼiyɨʉɯuɪʏʊeøɘɵɤoəɛœɜɞʌɔæɐaɶɑɒʍwɥʜʢʡɕʑɺɧ͜͡ˈˌːˑ̆|‖.‿̥̬ʰ̹̜̟̠̩̯̈̽˞̤̰̼ʷʲˠˤ̴̝̞̘̙̪̺̻̃ⁿˡ̋̚˥̌˩́˦̂̄˧᷄̀˨᷅̏᷈-]/gu,
-      "",
-    )
+    .replace(/[^\p{L}\p{M}'’-]/gu, "")
+    .replaceAll("’", "'")
     .normalize("NFKC");
 }
 
@@ -85,8 +83,8 @@ function clearStorage() {
 }
 
 function get_ipa_no_cache(text, args) {
-  console.log("doing actual IPA", text, args);
   const cleanText = sanitize(text);
+  console.log("doing actual IPA", text, cleanText, args);
 
   const [lang, langStyle, langForm] = args.split(";");
   let command = "";
@@ -116,18 +114,20 @@ function get_ipa_no_cache(text, args) {
       break;
     case "German":
       if (langForm === "Phonemic") {
-        let dictRecord = globalThis.lexicon.get(
-          cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-        );
-        if (!dictRecord) {
-          dictRecord = globalThis.lexicon.get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+        if (globalThis.lexicon) {
+          let dictRecord = globalThis.lexicon.get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
-        }
-        console.log(cleanText, dictRecord);
-        if (dictRecord) {
-          command = 'ipa="' + dictRecord + '";';
-          break;
+          if (!dictRecord) {
+            dictRecord = globalThis.lexicon.get(
+                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            );
+          }
+          console.log(cleanText, dictRecord);
+          if (dictRecord) {
+            command = 'ipa="' + dictRecord + '";';
+            break;
+          }
         }
       }
       command =
@@ -150,6 +150,21 @@ function get_ipa_no_cache(text, args) {
       break;
     case "French":
       if (langForm === "Phonemic") {
+        if (globalThis.lexicon) {
+          let dictRecord = globalThis.lexicon.get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          );
+          if (!dictRecord) {
+            dictRecord = globalThis.lexicon.get(
+                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            );
+          }
+          console.log(cleanText, dictRecord);
+          if (dictRecord) {
+            command = 'ipa="' + dictRecord + '";';
+            break;
+          }
+        }
         command = `(window.fr_ipa.show("${cleanText}")[0])`;
       }
 
@@ -166,20 +181,21 @@ function get_ipa_no_cache(text, args) {
       break;
     case "Czech":
       if (langForm === "Phonemic") {
-        let dictRecord = globalThis.lexicon.get(
-          cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-        );
-        if (!dictRecord) {
-          dictRecord = globalThis.lexicon.get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+        if (globalThis.lexicon) {
+          let dictRecord = globalThis.lexicon.get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
+          if (!dictRecord) {
+            dictRecord = globalThis.lexicon.get(
+                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            );
+          }
+          console.log(cleanText, dictRecord);
+          if (dictRecord) {
+            command = 'ipa="' + dictRecord + '";';
+            break;
+          }
         }
-        console.log(cleanText, dictRecord);
-        if (dictRecord) {
-          command = 'ipa="' + dictRecord + '";';
-          break;
-        }
-
         command = `(window.cs_ipa.toIPA("${cleanText}"))`;
       }
       break;
@@ -227,10 +243,11 @@ function get_ipa_no_cache(text, args) {
   if (!ipa) {
     return { value: text, status: "error" };
   }
-
+  console.log("before replace ipa ", ipa);
   if (langStyle === "Parisian (experimental)") {
     ipa = ipa
-      .replace("ɔ̃̃̃̃̃", "õ")
+      .replace("ɔ̃̃̃̃̃̃", "õ")
+      .replace("ɔ̃", "õ")
       .replace("ɑ̃", "ɔ̃")
       .replace("œ̃", "ɑ̃")
       .replace("ɛ̃", "ɑ̃");

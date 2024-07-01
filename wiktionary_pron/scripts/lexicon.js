@@ -4,6 +4,7 @@ async function loadLexicon(language) {
   const languages = {
     German: "german_lexicon.zip",
     Czech: "czech_lexicon.zip",
+    French: "french_lexicon.zip",
   };
   const lexiconFolder = "./utils/";
 

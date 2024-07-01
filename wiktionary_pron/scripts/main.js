@@ -4,16 +4,17 @@ import {
   asyncMapStrict,
   clearStorage,
   createElementFromHTML,
+  disableAll,
+  enableAll,
   get_ipa_no_cache,
   memoizeLocalStorage,
   wait,
-  enableAll,
-  disableAll,
 } from "./utils.js";
 import { tts } from "./tts.js";
 import { toPdf } from "./pdf_export.js";
 import { loadLexicon } from "./lexicon.js";
 import { macronize } from "./macronizer.js";
+
 document.querySelector("#lang").disabled = false;
 
 async function prepareTranscribe(lang) {
@@ -492,29 +493,42 @@ async function updateOptionsUponLanguageSelection(event) {
   const selectedLanguageElement = event.target;
   const selectedLanguage = selectedLanguageElement.value;
   const lang = languages[selectedLanguage];
+  const urlParams = new URLSearchParams(window.location.search);
+  let useDictionary = urlParams.get("dict");
+  if (useDictionary === null) {
+    useDictionary = "true";
+  }
 
   try {
-    window.history.pushState({}, "", `?lang=${selectedLanguage}`);
+    if (urlParams.get("lang") !== selectedLanguage) {
+      window.history.pushState({}, "", `?lang=${selectedLanguage}`);
+    }
   } catch (err) {
     console.log(err);
   }
   if (!(selectedLanguage in loadedLanguages)) {
     disableAll();
     await loadLanguage(lang.langCode);
+    globalThis.lexicon = null;
     if (selectedLanguage === "Latin") {
       updateLoadingText("Macrons list", "");
       await macronize("");
       updateLoadingText("", "");
     }
 
-    if (selectedLanguage === "German") {
+    if (selectedLanguage === "German" && useDictionary === "true") {
       updateLoadingText("German lexicon", "");
       globalThis.lexicon = await loadLexicon("German");
       updateLoadingText("", "");
     }
-    if (selectedLanguage === "Czech") {
+    if (selectedLanguage === "Czech" && useDictionary === "true") {
       updateLoadingText("Czech lexicon", "");
       globalThis.lexicon = await loadLexicon("Czech");
+      updateLoadingText("", "");
+    }
+    if (selectedLanguage === "French" && useDictionary === "true") {
+      updateLoadingText("French lexicon", "");
+      globalThis.lexicon = await loadLexicon("French");
       updateLoadingText("", "");
     }
 
