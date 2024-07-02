@@ -150,14 +150,14 @@ async function transcribe(mode) {
         return ipa.status === "error"
           ? `<div class="error">${value} </div>`
           : Boolean(values)
-          ? `<div class="ipa" all_values="${values}">${value} </div>`
-          : `<div class="ipa">${value} </div>`;
+          ? `<div class="ipa" all_values="${values}">${value}</div>`
+          : `<div class="ipa" content="${value}"></div>`;
       });
 
       const newRow = resultDiv.insertRow(-1);
       newRow.className = "line";
       const formattedWords = words.map(
-        (word) => `<div class="input_text">${word} </div>`,
+        (word) => `<div class="input_text">${word}</div>`,
       );
       const combinedResults = formattedResults.map(
         (formattedResult, index) =>
@@ -626,3 +626,4 @@ function triggerLanguageChange() {
 }
 
 triggerLanguageChange();
+

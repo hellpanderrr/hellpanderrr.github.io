@@ -1,4 +1,9 @@
 self.onmessage = function (e) {
-  dict = new Map(JSON.parse(e.data));
-  self.postMessage(dict);
+  console.time("B");
+
+  json = JSON.parse(e.data);
+  console.timeLog("B");
+  // dict = new Map(Object.entries(json));
+  // console.timeEnd("A");
+  self.postMessage(json);
 };

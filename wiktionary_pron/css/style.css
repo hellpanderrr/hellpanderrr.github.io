@@ -7,6 +7,7 @@
     font-family: "Noto Sans Semibold";
     src: url("../fonts/NotoSans-SemiBold.woff2") format("woff2");
 }
+
 @font-face {
     font-family: "EB Garamond";
     src: url("../fonts/EBGaramond-Regular.woff2") format("woff2");
@@ -170,7 +171,6 @@ body.dark_mode button.audio-popup-line:hover {
 }
 
 
-
 body.dark_mode button {
     background-color: #CE93D8;
     color: black;
@@ -296,7 +296,6 @@ body i.fa-moon-o {
 }
 
 
-
 .audio-popup-line {
 
     position: absolute;
@@ -368,4 +367,23 @@ body i.fa-moon-o {
     90%, 100% {
         content: '';
     }
+}
+
+.ipa::before {
+    content: attr(content);
+}
+
+
+#options_container {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    min-height: 30px;
+    background-color: #f1f1f1;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+    vertical-align: initial;
+    height: initial;
 }
