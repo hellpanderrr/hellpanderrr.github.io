@@ -1,4 +1,4 @@
-import { loadLanguage, updateLoadingText } from "./lua_init.js";
+import { loadLanguage } from "./lua_init.js";
 
 import {
   asyncMapStrict,
@@ -8,6 +8,7 @@ import {
   enableAll,
   get_ipa_no_cache,
   memoizeLocalStorage,
+  updateLoadingText,
   wait,
 } from "./utils.js";
 import { tts } from "./tts.js";
@@ -150,8 +151,8 @@ async function transcribe(mode) {
         return ipa.status === "error"
           ? `<div class="error">${value} </div>`
           : Boolean(values)
-          ? `<div class="ipa" all_values="${values}">${value}</div>`
-          : `<div class="ipa" content="${value}"></div>`;
+          ? `<div class="ipa" all_values="${values}" content="${value}"></div>`
+          : `<div class="ipa" content="${value}" ></div>`;
       });
 
       const newRow = resultDiv.insertRow(-1);
@@ -340,9 +341,11 @@ async function transcribe(mode) {
           }
 
           const new_value = cycle(all_values, c);
-
-          event.target.textContent = new_value;
-
+          if (mode === "line") {
+            event.target.setAttribute("content", new_value);
+          } else {
+            event.target.textContent = new_value;
+          }
           current.setAttribute("all_values", all_values);
         });
       });
@@ -378,7 +381,7 @@ function clear_input() {
 
 /**
  * Retrieves the language, style, and form data from the DOM
- * @returns {Object} An object containing the language, language style, and language form data
+ * @returns {Object} An object containing the language, language style, and language form values.
  */
 function getLangStyleForm() {
   const lang = document.querySelector("#lang").value;
@@ -577,12 +580,41 @@ async function pdfExport(event) {
   buttonElement.disabled = true;
   const oldIconClass = iconElement.className;
   iconElement.className = "fa fa-spinner fa-spin";
+  let lines;
+  const layoutType = globalThis.transcriptionMode;
+  switch (layoutType) {
+    case "line":
+      lines = [...document.querySelectorAll("#result > tr.line")].map((line) =>
+        [...line.querySelectorAll("div.cell")].map((x) => ({
+          text: x.querySelector("div.input_text").textContent,
+          ipa: x.querySelector("div.ipa")
+            ? x.querySelector("div.ipa").getAttribute("content")
+            : "",
+        })),
+      );
+      break;
+    case "sideBySide":
+      lines = [...document.querySelectorAll("#result > tr")].map((x) => ({
+        text: [
+          ...x.querySelectorAll(":scope > div")[0].querySelectorAll("div.cell"),
+        ].map((x) => x.textContent),
+        ipa: [
+          ...x.querySelectorAll(":scope > div")[1].querySelectorAll("div.cell"),
+        ].map((x) => x.textContent),
+      }));
 
-  await toPdf(
-    globalThis.transcriptionMode,
-    isDarkMode(),
-    globalThis.transcriptionLang,
-  );
+      break;
+    case "default":
+      const rows = document.querySelectorAll("#result > tr");
+      lines = Array.from(rows).map((row) =>
+        Array.from(row.querySelectorAll("div.cell")).map(
+          (cell) => cell.textContent,
+        ),
+      );
+      break;
+  }
+
+  await toPdf(lines, layoutType, isDarkMode(), globalThis.transcriptionLang);
 
   iconElement.className = oldIconClass;
   buttonElement.disabled = false;
@@ -627,3 +659,21 @@ function triggerLanguageChange() {
 
 triggerLanguageChange();
 
+function rememberText() {
+  const textArea = document.getElementById("text_to_transcribe");
+  console.log(12345);
+  // Save text to local storage on input
+  textArea.addEventListener("input", function () {
+    console.log("input", textArea.value);
+    localStorage.setItem("inputText", textArea.value);
+  });
+
+  // Retrieve text from local storage on page load
+  console.log("DOMContentLoaded", localStorage.getItem("inputText"));
+  const savedText = localStorage.getItem("inputText");
+  if (savedText) {
+    textArea.value = savedText;
+  }
+}
+
+rememberText();

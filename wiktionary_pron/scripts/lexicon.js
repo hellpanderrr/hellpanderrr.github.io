@@ -1,5 +1,8 @@
-import { loadFileFromZipOrPath, fetchWithCache } from "./utils.js";
-
+import {
+  fetchWithCache,
+  loadFileFromZipOrPath,
+  updateLoadingText,
+} from "./utils.js";
 async function loadLexicon(language) {
   const languages = {
     German: "german_lexicon.zip",
@@ -9,13 +12,16 @@ async function loadLexicon(language) {
   const lexiconFolder = "./utils/";
   console.time("A");
   console.log("Fetching zip");
-
+  updateLoadingText("", "", "Downloading lexicon");
   const zipBlob = await fetchWithCache(lexiconFolder + languages[language]);
+
   console.timeLog("A");
   console.log("Loaded zip");
   const blob = await zipBlob.blob();
   console.timeLog("A");
   console.log("Loaded blob");
+  updateLoadingText("", "", "Loading lexicon");
+
   const wordPairsList = await loadFileFromZipOrPath(blob, "lexicon.json");
   console.timeLog("A");
 

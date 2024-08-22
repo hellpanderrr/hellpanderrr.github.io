@@ -1,13 +1,13 @@
 import { loadJs } from "./utils.js";
 
-async function toPdf(layoutType, darkMode, transcriptionLang) {
+async function toPdf(lines, layoutType, darkMode, transcriptionLang) {
   await loadJs(
     "https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.min.js",
     async () => {
       await loadJs(
         "https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js",
         async () => {
-          await main(layoutType, darkMode, transcriptionLang);
+          await main(lines, layoutType, darkMode, transcriptionLang);
         },
       );
     },
@@ -35,13 +35,13 @@ async function fetchFonts() {
   return fonts;
 }
 
-async function main(layoutType, darkMode, transcriptionLang) {
+async function main(lines, layoutType, darkMode, transcriptionLang) {
   /** @namespace PDFLib **/
   const { PageSizes, PDFDocument, rgb } = PDFLib;
 
   console.log(PDFDocument);
 
-  const fillDoc = async (pdfDoc, layoutType, darkMode) => {
+  const fillDoc = async (lines, pdfDoc, layoutType, darkMode) => {
     pdfDoc.registerFontkit(fontkit);
 
     const [GaramondBytes, VocesBytes] = await fetchFonts();
@@ -92,10 +92,10 @@ async function main(layoutType, darkMode, transcriptionLang) {
       }
 
       const [pageWidth, pageHeight] = [page.getWidth(), page.getHeight()];
-      lines.forEach((divs) => {
-        divs.forEach((div) => {
-          const cell = div.querySelectorAll("div");
-          const [word, ipa] = [cell[0].textContent, cell[1].textContent];
+      lines.forEach((cells) => {
+        cells.forEach((cell) => {
+          const [word, ipa] = [cell["text"], cell["ipa"]];
+          console.log(cell, word, ipa);
           const wordWidth = Math.max(
             Voces.widthOfTextAtSize(ipa, fontSize),
             Garamond.widthOfTextAtSize(word, fontSize),
@@ -128,7 +128,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
       });
     }
 
-    function putDivsSideBySide(lines, pdfDoc, fontSize) {
+    function putDivsSideBySide(linesByColumn, pdfDoc, fontSize) {
       let page = pdfDoc.addPage(PageSizes.Letter);
       const [pageWidth, pageHeight] = [page.getWidth(), page.getHeight()];
       let xLeft = 50;
@@ -166,21 +166,20 @@ async function main(layoutType, darkMode, transcriptionLang) {
         return [xLeft, xRight, y];
       }
 
-      lines.forEach((line, index) => {
-        const columns = line.querySelectorAll(":scope > div");
-
-        const words = columns[0].querySelectorAll("div.cell");
-        const ipas = columns[1].querySelectorAll("div.cell");
+      linesByColumn.forEach((line, index) => {
+        const words = line["text"];
+        const ipas = line["ipa"];
 
         words.forEach((word, index) => {
-          const ipa = ipas[index].textContent;
-          word = word.textContent;
+          const ipa = ipas[index];
 
           const wordWidth = Math.max(
             Garamond.widthOfTextAtSize(word, wordFontSize),
           );
           const ipaWidth = Math.max(Voces.widthOfTextAtSize(ipa, ipaFontSize));
-          const isNewLine = xLeft + wordWidth > pageWidth / 2 - 20;
+          const isNewLine =
+            xLeft + wordWidth > pageWidth / 2 - 20 ||
+            xRight + ipaWidth > pageWidth - 20;
           if (isNewLine) {
             [xLeft, xRight, y] = newLineTransition(xLeft, xRight, y, pageWidth);
             [y, page] = nextPageTransition(y, pdfDoc, pageHeight, darkMode);
@@ -242,9 +241,8 @@ async function main(layoutType, darkMode, transcriptionLang) {
       }
 
       rows.forEach((row) => {
-        const divs = row.querySelectorAll("div.cell");
-        divs.forEach((div, index) => {
-          const ipa = div.textContent;
+        row.forEach((cell, index) => {
+          const ipa = cell;
 
           const wordWidth = Voces.widthOfTextAtSize(ipa, fontSize);
           const isNewLine = x + wordWidth > pageWidth - 40;
@@ -270,28 +268,23 @@ async function main(layoutType, darkMode, transcriptionLang) {
     const getTableRows = () => {
       return document.querySelectorAll("#result > tr");
     };
-    const getTableRowsUnpacked = () => {
-      const rows = getTableRows();
-      return Array.from(rows).map((x) => x.querySelectorAll("div.cell"));
-    };
-    const rowsUnpacked = getTableRowsUnpacked();
-    const rows = getTableRows();
+
     switch (layoutType) {
       case "line":
-        putDivsLineByLine(rowsUnpacked, pdfDoc, 15, darkMode);
+        putDivsLineByLine(lines, pdfDoc, 15, darkMode);
         break;
       case "sideBySide":
-        putDivsSideBySide(rows, pdfDoc, 15, darkMode);
+        putDivsSideBySide(lines, pdfDoc, 15, darkMode);
         break;
       case "default":
-        putDivsDefault(rows, pdfDoc, 15, darkMode);
+        putDivsDefault(lines, pdfDoc, 15, darkMode);
         break;
     }
   };
 
-  async function exportPdf(layoutType, darkMode, transcriptionLang) {
+  async function exportPdf(lines, layoutType, darkMode, transcriptionLang) {
     const pdfDoc = await PDFDocument.create();
-    await fillDoc(pdfDoc, layoutType, darkMode);
+    await fillDoc(lines, pdfDoc, layoutType, darkMode);
 
     const pdfBytes = await pdfDoc.save();
 
@@ -322,7 +315,7 @@ async function main(layoutType, darkMode, transcriptionLang) {
     await saveFile(pdfBytes, filename);
   }
 
-  await exportPdf(layoutType, darkMode, transcriptionLang);
+  await exportPdf(lines, layoutType, darkMode, transcriptionLang);
 }
 
 export { toPdf };

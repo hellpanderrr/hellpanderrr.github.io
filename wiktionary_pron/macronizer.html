@@ -49,28 +49,16 @@
 
         function fillOutput(text) {
             const table = document.querySelector('#output')
-            table.innerHTML = text.replace(/\n/g, '<br />');
-
-            if (document.querySelector('#result')) {
-                document.querySelector('#result').remove()
-            }
-            // for PDF export function
-            const hiddenTable = document.createElement('table')
-            hiddenTable.setAttribute('id', 'result')
-            hiddenTable.setAttribute('style', 'display:none')
+            table.innerHTML = ""
             const lines = text.split('\n')
-            lines.forEach(line => {
-                const row = document.createElement('tr');
-                const words = line.split(' ');
-                words.forEach(word => {
-                    const cell = document.createElement('div');
-                    cell.classList.add('cell');
-                    cell.innerHTML = word + '&nbsp;';
-                    row.appendChild(cell);
-                });
-                hiddenTable.appendChild(row);
-            });
-            document.body.appendChild(hiddenTable)
+            Array.from(lines).map(line => {
+                    const row = document.createElement('tr')
+                    row.innerHTML = line
+                    table.appendChild(row)
+                }
+            )
+
+
         }
 
         async function macronizeText() {
@@ -108,6 +96,10 @@
             iconElement.className = "fa fa-spinner fa-spin";
 
             await toPdf(
+                Array.from(document
+                    .querySelector("#output")
+                    .querySelectorAll("tr"))
+                    .map((x) => x.textContent.split(' ')),
                 "default",
                 isDarkMode(),
                 "latin",

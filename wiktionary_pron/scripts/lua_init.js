@@ -1,4 +1,8 @@
-import { fetchWithCache, fetchWithCacheMultiple } from "./utils.js";
+import {
+  fetchWithCache,
+  fetchWithCacheMultiple,
+  updateLoadingText,
+} from "./utils.js";
 
 const factory = await lb.factory;
 const lua = await factory.createEngine();
@@ -11,18 +15,6 @@ lua.global.set("fetchMultiple", (url) => fetchWithCacheMultiple(url));
 async function mountFile(file_path, lua_path) {
   const content = await fetch(file_path).then((data) => data.text());
   await factory.mountFile(lua_path, content);
-}
-
-function updateLoadingText(filePath, fileExtension) {
-  const loadingBar = document.getElementById("loading_text");
-
-  if (!filePath && !fileExtension) {
-    loadingBar.innerHTML = "";
-    loadingBar.style.display = "none";
-  } else {
-    loadingBar.innerHTML = `Loading ${filePath}.${fileExtension}`;
-    loadingBar.style.display = "block";
-  }
 }
 
 lua.global.set("updateLoadingText", (file_path, extension) =>

@@ -82,6 +82,22 @@ function clearStorage() {
   localforage.clear();
 }
 
+function updateLoadingText(filePath, fileExtension, rawText) {
+  const loadingBar = document.getElementById("loading_text");
+  rawText = rawText || "";
+
+  if (!filePath && !fileExtension && !rawText) {
+    loadingBar.innerHTML = "";
+    loadingBar.style.display = "none";
+  } else if (filePath && fileExtension) {
+    loadingBar.innerHTML = `Loading ${filePath}.${fileExtension}`;
+    loadingBar.style.display = "block";
+  } else if (rawText) {
+    loadingBar.innerHTML = rawText;
+    loadingBar.style.display = "block";
+  }
+}
+
 function get_ipa_no_cache(text, args) {
   const cleanText = sanitize(text);
   console.log("doing actual IPA", text, cleanText, args);
@@ -464,4 +480,5 @@ export {
   fetchWithCacheMultiple,
   disableAll,
   enableAll,
+  updateLoadingText,
 };
