@@ -447,7 +447,12 @@ const languages = {
     langCode: "cs",
     ttsCode: "cs-CZ",
   },
-
+  Armenian: {
+    styles: ["Western", "Eastern"],
+    forms: ["Phonemic", "Phonetic"],
+    langCode: "hy",
+    ttsCode: "hy-AM",
+  },
   Greek: {
     styles: [
       "5th BCE Attic",

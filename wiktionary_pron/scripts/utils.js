@@ -220,6 +220,15 @@ function get_ipa_no_cache(text, args) {
         command = `(window.it_ipa.to_phonemic("${cleanText}",'TEST').phonemic)`;
       }
       break;
+    case "Armenian":
+      const system = langStyle === "Western" ? "west" : "east";
+      if (langForm === "Phonemic") {
+        command = `(window.hy_ipa.phonemic_IPA("${cleanText}","${system}"))`;
+      } else if (langForm === "Phonetic") {
+        command = `(window.hy_ipa.phonetic_IPA("${cleanText}","${system}"))`;
+      }
+      break;
+
     case "Greek":
       switch (langStyle) {
         case "5th BCE Attic":
