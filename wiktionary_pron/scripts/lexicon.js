@@ -37,8 +37,6 @@ async function loadLexicon(language) {
       worker.postMessage(text);
     });
   }
-
-  globalThis.wordPairsList = wordPairsList;
   const lexicon = await process_lexicon(wordPairsList);
   const getMethod = function (key) {
     return this.data[key];

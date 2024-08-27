@@ -54,12 +54,10 @@ function tts(transcriptionMode) {
       )
         .map((x) => x.textContent)
         .join(" ");
-      console.log(5555, lineText);
       if (!lineText) {
         lineText = Array.from(button.parentElement.querySelectorAll(".ipa"))
           .map((x) => x.getAttribute("data-word"))
           .join(" ");
-        console.log(5555, lineText);
       }
 
       console.log("Speaking:", lineText);
