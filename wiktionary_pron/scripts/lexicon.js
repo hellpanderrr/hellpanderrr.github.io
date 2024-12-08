@@ -8,6 +8,7 @@ async function loadLexicon(language) {
     German: "german_lexicon.zip",
     Czech: "czech_lexicon.zip",
     French: "french_lexicon.zip",
+    Lithuanian: "lt_lexicon.zip",
   };
   const lexiconFolder = "./utils/";
   console.time("A");

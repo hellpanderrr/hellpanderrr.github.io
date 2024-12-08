@@ -141,7 +141,7 @@ async function transcribe(mode) {
         let values;
         let value;
         value = ipa.value;
-        if (lang === "German" || lang === "Czech") {
+        if (lang === "German" || lang === "Czech" || lang === "Lithuanian") {
           [value, values] = processGermanIpa(value);
         } else {
           values = "";
@@ -311,7 +311,7 @@ async function transcribe(mode) {
     console.log(err);
   } finally {
     console.log("finally");
-    if (lang === "German" || lang === "Czech") {
+    if (lang === "German" || lang === "Czech" || lang === "Lituanian") {
       Array.from(document.querySelectorAll(".ipa")).map((x) => {
         if (
           Boolean(x.getAttribute("all_values")) &&
@@ -441,6 +441,12 @@ const languages = {
     langCode: "uk",
     ttsCode: "uk-UA",
   },
+  Lithuanian: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "lt",
+    ttsCode: "lt-LT",
+  },
   Czech: {
     styles: ["Default"],
     forms: ["Phonemic"],
@@ -540,6 +546,11 @@ async function updateOptionsUponLanguageSelection(event) {
       updateLoadingText("", "");
     }
 
+    if (selectedLanguage === "Lithuanian" && useDictionary === "true") {
+      updateLoadingText("Lithuanian lexicon", "");
+      globalThis.lexicon = await loadLexicon("Lithuanian");
+      updateLoadingText("", "");
+    }
     enableAll();
     loadedLanguages[selectedLanguage] = true;
   }

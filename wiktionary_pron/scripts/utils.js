@@ -190,6 +190,26 @@ function get_ipa_no_cache(text, args) {
         command = `(window.uk_ipa.pronunciation("${cleanText}",true))`;
       }
       break;
+    case "Lithuanian":
+      if (langForm === "Phonemic") {
+        if (globalThis.lexicon) {
+          let dictRecord = globalThis.lexicon.get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          );
+          if (!dictRecord) {
+            dictRecord = globalThis.lexicon.get(
+                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            );
+          }
+          console.log("Dict lookup", cleanText, dictRecord);
+          if (dictRecord) {
+            command = 'ipa="' + dictRecord + '";';
+            break;
+          }
+        }
+        command = `(window.lt_ipa.toIPA("${cleanText}",true))`;
+      }
+      break;
     case "Russian":
       if (langForm === "Phonetic") {
         command = `(window.ru_ipa.ipa_string("${cleanText}"))`;
