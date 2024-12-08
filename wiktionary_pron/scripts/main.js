@@ -21,7 +21,12 @@ document.querySelector("#lang").disabled = false;
 async function prepareTranscribe(lang) {
   let inputText = document.getElementById("text_to_transcribe").value;
   if (lang === "Latin") {
-    inputText = await macronize(inputText);
+    try {
+      inputText = await macronize(inputText);
+    } catch (e) {
+      console.error(e);
+      console.warn("Failed to macronize text");
+    }
     // document.getElementById("text_to_transcribe").value = inputText;
   }
   const textLines = inputText.trim().split("\n");
@@ -526,7 +531,12 @@ async function updateOptionsUponLanguageSelection(event) {
     globalThis.lexicon = null;
     if (selectedLanguage === "Latin") {
       updateLoadingText("Macrons list", "");
-      await macronize("");
+      try {
+        await macronize("");
+      } catch (err) {
+        console.log(err);
+        console.log("Failed to load macrons list");
+      }
       updateLoadingText("", "");
     }
 

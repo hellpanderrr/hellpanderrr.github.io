@@ -194,11 +194,11 @@ function get_ipa_no_cache(text, args) {
       if (langForm === "Phonemic") {
         if (globalThis.lexicon) {
           let dictRecord = globalThis.lexicon.get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
           if (!dictRecord) {
             dictRecord = globalThis.lexicon.get(
-                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
             );
           }
           console.log("Dict lookup", cleanText, dictRecord);

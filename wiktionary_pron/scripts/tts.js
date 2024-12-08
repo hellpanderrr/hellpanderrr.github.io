@@ -1,6 +1,11 @@
-await EasySpeech.init({ maxTimeout: 5000, interval: 250 })
-  .then(() => console.debug("load complete"))
-  .catch((e) => console.error(e));
+try {
+  await EasySpeech.init({ maxTimeout: 5000, interval: 250 })
+    .then(() => console.debug("load complete"))
+    .catch((e) => console.error(e));
+} catch (e) {
+  console.error(e);
+  console.warn("Failed to initialize EasySpeech");
+}
 
 function populateVoiceList() {
   const voiceSelect = document.querySelector("#tts");
@@ -20,7 +25,12 @@ function populateVoiceList() {
   }
 }
 
-populateVoiceList();
+try {
+  populateVoiceList();
+} catch (e) {
+  console.error(e);
+  console.warn("failed to populate voice list");
+}
 
 function getSelectedVoice() {
   const voices = EasySpeech.voices();
