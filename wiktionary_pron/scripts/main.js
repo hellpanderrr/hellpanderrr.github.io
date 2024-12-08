@@ -472,7 +472,7 @@ const languages = {
       "10th CE Byzantine",
       "15th CE Constantinopolitan",
     ],
-    forms: ["Phonetic"],
+    forms: ["Phonemic"],
     langCode: "grc",
     ttsCode: "el-GR",
   },
