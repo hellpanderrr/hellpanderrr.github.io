@@ -433,6 +433,12 @@ const languages = {
     langCode: "ru",
     ttsCode: "ru-RU",
   },
+  Belorussian: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "be",
+    ttsCode: "be-BY",
+  },
   Polish: {
     styles: ["Default"],
     forms: ["Phonemic"],

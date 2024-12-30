@@ -190,6 +190,12 @@ function get_ipa_no_cache(text, args) {
         command = `(window.uk_ipa.pronunciation("${cleanText}",true))`;
       }
       break;
+    case "Belorussian":
+      if (langForm === "Phonemic") {
+        command = `(window.be_ipa.toIPA("${cleanText}"))`;
+      }
+      break;
+
     case "Lithuanian":
       if (langForm === "Phonemic") {
         if (globalThis.lexicon) {
