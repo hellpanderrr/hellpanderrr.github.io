@@ -195,7 +195,11 @@ function get_ipa_no_cache(text, args) {
         command = `(window.be_ipa.toIPA("${cleanText}"))`;
       }
       break;
-
+    case "Bulgarian":
+      if (langForm === "Phonemic") {
+        command = `(window.bg_ipa.toIPA("${cleanText}"))`;
+      }
+      break;
     case "Lithuanian":
       if (langForm === "Phonemic") {
         if (globalThis.lexicon) {

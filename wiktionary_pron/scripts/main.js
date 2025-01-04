@@ -445,7 +445,12 @@ const languages = {
     langCode: "pl",
     ttsCode: "pl-PL",
   },
-
+  Bulgarian: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "bg",
+    ttsCode: "bg-BG",
+  },
   Ukrainian: {
     styles: ["Default"],
     forms: ["Phonetic"],
