@@ -96,7 +96,7 @@ async function main(lines, layoutType, darkMode, transcriptionLang) {
         cells.forEach((cell) => {
           const [word, ipa] = [
             cell["text"].normalize("NFKC"),
-            cell["ipa"].normalize("NFKC"),
+            cell["ipa"].normalize("NFC"),
           ];
           console.log(cell, word, ipa);
           const wordWidth = Math.max(
@@ -174,7 +174,7 @@ async function main(lines, layoutType, darkMode, transcriptionLang) {
         const ipas = line["ipa"];
 
         words.forEach((word, index) => {
-          const ipa = ipas[index].normalize("NFKC");
+          const ipa = ipas[index].normalize("NFC");
           word = word.normalize("NFKC");
           const wordWidth = Math.max(
             Garamond.widthOfTextAtSize(word, wordFontSize),
@@ -245,7 +245,7 @@ async function main(lines, layoutType, darkMode, transcriptionLang) {
 
       rows.forEach((row) => {
         row.forEach((cell, index) => {
-          const ipa = cell.normalize("NFKC");
+          const ipa = cell.normalize("NFC");
 
           const wordWidth = Voces.widthOfTextAtSize(ipa, fontSize);
           const isNewLine = x + wordWidth > pageWidth - 40;
