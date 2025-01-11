@@ -14,13 +14,6 @@
     <script defer src="scripts/EasySpeech.iife.min.js"></script>
 
 
-    <link as="style" href="css/font-awesome.min.css"
-          onload="this.onload=null;this.rel='stylesheet'" rel="preload">
-    <noscript>
-        <link href="css/font-awesome.min.css"
-              rel="stylesheet">
-    </noscript>
-
     <script src="scripts/wasmoon.min.js"></script>
     <script defer src="scripts/main.js" type="module"></script>
 
@@ -55,11 +48,11 @@
     <br/>
     <div id="header">
         <p style="visibility: hidden">
-            <i class="fa fa-moon-o"></i>
+            <i class="icon icon-moon"></i>
         </p>
         <h1 style="flex: 1;">Online IPA Converter</h1>
         <a href="#" id="dark_mode">
-            <i class="fa fa-moon-o"></i>
+            <i class="icon icon-moon"></i>
         </a>
     </div>
     <hr>
@@ -119,7 +112,7 @@
                         id="text_to_transcribe"
                         name="text_to_transcribe"
                         required=""
-                >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. </textarea>
+                >Periti Schüler sempre practican soigneusement поки międzynarodowe размоўна фонетику kalba různě հնչյունաբանական σύμβολα </textarea>
                 <div id="clear_button_group">
                     <button id="clear_button" type="button">Clear form</button>
                     <button id="clear_storage" title="Clear website's cached data from browser's local storage"
@@ -176,15 +169,33 @@
             id="export_pdf"
             name="submit"
             type="button"
+            title="Export as PDF"
             value=""
-    >Export as PDF
-        <i class="fa fa-file-pdf-o" style="font-size: 30px;color: #c11313;"></i>
+    >Export as
+        <i style="color:#e90101; font-size:30px;" class="icon icon-pdf">
+        </i>
+    </button>
+    <button
+            autocomplete="off"
+            class="btn btn-primary btn-block"
+            disabled="disabled"
+            id="export_csv"
+            name="submit"
+            type="button"
+            title="Export as CSV"
+            value=""
+    >Export as
+        <i style="color:#03731e;font-size:30px;" class="icon icon-csv">
+
+        </i>
     </button>
 </div>
 <hr>
 <div id="footer">
     <a href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" style="color: black;"><i
-            class="fa fa-github" style="font-size:36px"></i></a>
+            style="font-size:36px" class="icon icon-git">
+
+    </i></a>
 
 </div>
 
