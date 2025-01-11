@@ -93,7 +93,7 @@
 
             buttonElement.disabled = true;
             const oldIconClass = iconElement.className;
-            iconElement.className = "fa fa-spinner fa-spin";
+            iconElement.className = "icon icon--spinner";
 
             await toPdf(
                 Array.from(document
@@ -118,12 +118,12 @@
                 toggleLightMode();
             } else {
                 document.body.classList.add("dark_mode");
-                document.querySelector("#header > a > i").className = "fa fa-sun-o";
+                document.querySelector("#header > a > i").className = "icon icon-sun";
             }
         }
 
         function toggleLightMode() {
-            document.querySelector("#header>a>i").className = "fa fa-moon-o";
+            document.querySelector("#header>a>i").className = "icon icon-moon";
             document.body.classList.remove("dark_mode");
         }
 
@@ -155,11 +155,11 @@
     <br/>
     <div id="header">
         <p style="visibility: hidden">
-            <i class="fa fa-moon-o"></i>
+            <i class="icon icon-moon"></i>
         </p>
         <h1 style="flex: 1;">Latin Macronizer</h1>
         <a href="#" id="dark_mode" onclick="toggleDarkMode()">
-            <i class="fa fa-moon-o"></i>
+            <i class="icon icon-moon"></i>
         </a>
     </div>
     <hr>
@@ -223,13 +223,15 @@
             type="button"
             value=""
     >Export as PDF
-        <i class="fa fa-file-pdf-o" style="font-size: 30px;color: #c11313;"></i>
+
+        <i style="color:#e90101; font-size:30px;" class="icon icon-pdf">
+        </i>
     </button>
 </div>
 <hr>
 <div id="footer">
     <a href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" style="color: black;"><i
-            class="fa fa-github" style="font-size:36px"></i></a>
+            class="icon icon-git" style="font-size:36px"></i></a>
 
 </div>
 
