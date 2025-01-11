@@ -13,6 +13,7 @@ import {
 } from "./utils.js";
 import { tts } from "./tts.js";
 import { toPdf } from "./pdf_export.js";
+import { toCsv } from "./csv_export.js";
 import { loadLexicon } from "./lexicon.js";
 import { macronize } from "./macronizer.js";
 
@@ -58,7 +59,10 @@ function getIpa(text, lang, lang_style, lang_form) {
  * @param {string} mode - The mode for transcribing the text (default, line, column).
  */
 async function transcribe(mode) {
-  disableAll([document.querySelector("#export_pdf")]);
+  disableAll([
+    document.querySelector("#export_pdf"),
+    document.querySelector("#export_csv"),
+  ]);
   const { lang, langStyle, langForm } = getLangStyleForm();
   const [resultDiv, textLines] = await prepareTranscribe(lang);
   try {
@@ -358,7 +362,10 @@ async function transcribe(mode) {
 
     globalThis.transcriptionMode = mode;
     globalThis.transcriptionLang = lang;
-    enableAll([document.querySelector("#export_pdf")]);
+    enableAll([
+      document.querySelector("#export_pdf"),
+      document.querySelector("#export_csv"),
+    ]);
     tts(transcriptionMode);
   }
 }
@@ -610,13 +617,14 @@ document
   .getElementById("lang")
   .addEventListener("change", updateOptionsUponLanguageSelection);
 
-async function pdfExport(event) {
+async function csvPdfExport(event, exportFunction) {
   const buttonElement = event.currentTarget;
   const iconElement = buttonElement.querySelector("i");
 
   buttonElement.disabled = true;
   const oldIconClass = iconElement.className;
-  iconElement.className = "fa fa-spinner fa-spin";
+  iconElement.className = "icon icon--spinner";
+
   let lines;
   const layoutType = globalThis.transcriptionMode;
   switch (layoutType) {
@@ -651,13 +659,23 @@ async function pdfExport(event) {
       break;
   }
 
-  await toPdf(lines, layoutType, isDarkMode(), globalThis.transcriptionLang);
+  await exportFunction(
+    lines,
+    layoutType,
+    isDarkMode(),
+    globalThis.transcriptionLang,
+  );
 
   iconElement.className = oldIconClass;
   buttonElement.disabled = false;
 }
 
-document.getElementById("export_pdf").addEventListener("click", pdfExport);
+document
+  .getElementById("export_pdf")
+  .addEventListener("click", (e) => csvPdfExport(e, toPdf));
+document
+  .getElementById("export_csv")
+  .addEventListener("click", (e) => csvPdfExport(e, toCsv));
 
 function toggleDarkMode() {
   console.log("setting dark");
@@ -666,12 +684,12 @@ function toggleDarkMode() {
     toggleLightMode();
   } else {
     document.body.classList.add("dark_mode");
-    document.querySelector("#header > a > i").className = "fa fa-sun-o";
+    document.querySelector("#header > a > i").className = "icon icon-sun";
   }
 }
 
 function toggleLightMode() {
-  document.querySelector("#header>a>i").className = "fa fa-moon-o";
+  document.querySelector("#header>a>i").className = "icon icon-moon";
   document.body.classList.remove("dark_mode");
 }
 
