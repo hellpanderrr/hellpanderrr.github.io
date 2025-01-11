@@ -41,6 +41,7 @@
     <script type="module">
         import {macronize} from "./scripts/macronizer.js";
         import {toPdf} from "./scripts/pdf_export.js";
+        import {toCsv} from "./scripts/csv_export.js";
         import {disableAll, enableAll} from "./scripts/utils.js";
 
         disableAll()
@@ -87,15 +88,15 @@
         document.getElementById("demacronize").addEventListener("click", deMacronizeText);
         const isDarkMode = () => document.body.classList.contains("dark_mode");
 
-        async function pdfExport(event) {
+        async function csvPdfExport(event, exportFunction) {
+
             const buttonElement = event.currentTarget;
             const iconElement = buttonElement.querySelector("i");
 
             buttonElement.disabled = true;
             const oldIconClass = iconElement.className;
             iconElement.className = "icon icon--spinner";
-
-            await toPdf(
+            await exportFunction(
                 Array.from(document
                     .querySelector("#output")
                     .querySelectorAll("tr"))
@@ -107,9 +108,16 @@
 
             iconElement.className = oldIconClass;
             buttonElement.disabled = false;
+
         }
 
-        document.getElementById("export_pdf").addEventListener("click", pdfExport);
+        document
+            .getElementById("export_pdf")
+            .addEventListener("click", (e) => csvPdfExport(e, toPdf));
+        document
+            .getElementById("export_csv")
+            .addEventListener("click", (e) => csvPdfExport(e, toCsv));
+
 
         function toggleDarkMode() {
             console.log("setting dark");
@@ -225,6 +233,18 @@
     >Export as PDF
 
         <i style="color:#e90101; font-size:30px;" class="icon icon-pdf">
+        </i>
+    </button>
+    <button
+            autocomplete="off"
+            class="btn btn-primary btn-block"
+            id="export_csv"
+            name="submit"
+            type="button"
+            value=""
+    >Export as CSV
+
+        <i style="color:#03731e; font-size:30px;" class="icon icon-csv">
         </i>
     </button>
 </div>
