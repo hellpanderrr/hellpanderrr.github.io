@@ -74,7 +74,11 @@ async function transcribe(mode) {
       resultDiv.appendChild(container);
 
       const ttsButton = document.createElement("button");
-      ttsButton.className = "fa fa-volume-down audio-popup-line";
+
+      ttsButton.className = "audio-popup-line";
+      const audioButton = document.createElement("i");
+      audioButton.className = "icon icon-volume";
+      ttsButton.appendChild(audioButton);
 
       container.prepend(ttsButton);
 
@@ -90,7 +94,10 @@ async function transcribe(mode) {
         div.className = "cell";
 
         const ttsButton = document.createElement("button");
-        ttsButton.className = "fa fa-volume-down audio-popup";
+        ttsButton.className = "audio-popup";
+        const audioButton = document.createElement("i");
+        audioButton.className = "icon icon-volume ";
+        ttsButton.appendChild(audioButton);
         div.appendChild(ttsButton);
 
         let spanHTML = "";
@@ -171,7 +178,7 @@ async function transcribe(mode) {
       );
       const combinedResults = formattedResults.map(
         (formattedResult, index) =>
-          '<div class="cell""><button class="fa fa-volume-down audio-popup"></button>' +
+          '<div class="cell""><button class="audio-popup"><i class="icon icon-volume"></i></button>' +
           formattedWords[index] +
           formattedResult +
           "</div>",
@@ -181,7 +188,10 @@ async function transcribe(mode) {
         .map((r) => newRow.insertAdjacentHTML("afterbegin", r));
 
       const ttsButton = document.createElement("button");
-      ttsButton.className = "fa fa-volume-down audio-popup-line";
+      const audioButton = document.createElement("i");
+      ttsButton.className = "audio-popup-line";
+      audioButton.className = "icon icon-volume";
+      ttsButton.appendChild(audioButton);
 
       newRow.prepend(ttsButton);
     }
@@ -247,7 +257,10 @@ async function transcribe(mode) {
         wordSpan.classList.add("input_text");
         wordSpan.style.display = "inline-block";
         const ttsWordButton = document.createElement("button");
-        ttsWordButton.className = "fa fa-volume-down audio-popup";
+        ttsWordButton.className = "audio-popup";
+        const audioButton = document.createElement("i");
+        audioButton.className = "icon icon-volume";
+        ttsWordButton.appendChild(audioButton);
         wordDiv.appendChild(ttsWordButton);
         wordDiv.appendChild(wordSpan);
 
@@ -271,7 +284,10 @@ async function transcribe(mode) {
         }
         const resultSpan = createElementFromHTML(spanHTML);
         const ttsResultButton = document.createElement("button");
-        ttsResultButton.className = "fa fa-volume-down audio-popup";
+        ttsResultButton.className = "audio-popup";
+        const resultAudioButton = document.createElement("i");
+        resultAudioButton.className = "icon icon-volume";
+        ttsResultButton.appendChild(resultAudioButton);
 
         resultDiv.appendChild(ttsResultButton);
         resultDiv.appendChild(resultSpan);
@@ -281,13 +297,19 @@ async function transcribe(mode) {
         rightColumn.appendChild(resultDiv);
       }
       const leftTTSButton = document.createElement("button");
-      leftTTSButton.className = "fa fa-volume-down audio-popup-line";
+      leftTTSButton.className = "audio-popup-line";
+
+      const leftAudioButton = document.createElement("i");
+      leftAudioButton.className = "icon icon-volume";
+      leftTTSButton.appendChild(leftAudioButton);
 
       leftColumn.prepend(leftTTSButton);
 
       const rightTTSButton = document.createElement("button");
-      rightTTSButton.className = "fa fa-volume-down audio-popup-line";
-
+      rightTTSButton.className = "audio-popup-line";
+      const rightAudioButton = document.createElement("i");
+      rightAudioButton.className = "icon icon-volume";
+      rightTTSButton.appendChild(rightAudioButton);
       rightColumn.prepend(rightTTSButton);
 
       container.appendChild(leftColumn);

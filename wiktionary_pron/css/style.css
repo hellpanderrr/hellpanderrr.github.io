@@ -230,11 +230,18 @@ body i.icon-moon {
     position: absolute;
     top: -15px;
     margin: 0px;
+    margin-left: -5px;
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.5s;
     font-size: 13px;
     background-color: #f0f8ff00;
+    max-height: 25px;
+    max-width: 25px;
+}
+
+.audio-popup .icon-volume {
+    vertical-align: super;
 }
 
 .ipa.multiple-values {
@@ -301,27 +308,22 @@ body i.icon-moon {
     background: rgba(211, 225, 241, 0.26);
 }
 
+.right-column:has(.audio-popup-line:nth-of-type(1):hover) {
+    background: rgba(211, 225, 241, 0.26);
+}
+
 
 .audio-popup-line {
-
     position: absolute;
-
     left: -3%;
     transition: opacity 0.5s;
     font-size: 22px;
     background-color: #f0f8ff00;
-
-
-    margin-left: 0;
-    padding-left: 0;
     text-align: center;
-
     margin: 0;
-    padding-right: 10px;
-    padding-left: 10px;
-
+    padding-right: 0px;
+    padding-left: 3px;
     height: 100%;
-
 }
 
 .cell {
@@ -407,7 +409,7 @@ i svg {
     --moon-icon: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C!--%20Uploaded%20to%3A%20SVG%20Repo%2C%20www.svgrepo.com%2C%20Generator%3A%20SVG%20Repo%20Mixer%20Tools%20--%3E%0A%3Csvg%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M3.39703%2011.6315C3.39703%2016.602%207.42647%2020.6315%2012.397%2020.6315C15.6858%2020.6315%2018.5656%2018.8664%2020.1358%2016.23C16.7285%2017.3289%2012.6922%2016.7548%209.98282%2014.0455C7.25201%2011.3146%206.72603%207.28415%207.86703%203.89293C5.20697%205.47927%203.39703%208.38932%203.39703%2011.6315ZM21.187%2013.5851C22.0125%2013.1021%2023.255%2013.6488%2023%2014.5706C21.7144%2019.2187%2017.4543%2022.6315%2012.397%2022.6315C6.3219%2022.6315%201.39703%2017.7066%201.39703%2011.6315C1.39703%206.58874%204.93533%202.25845%209.61528%200.999986C10.5393%200.751502%2011.0645%201.99378%2010.5641%202.80935C8.70026%205.84656%208.83194%2010.0661%2011.397%2012.6312C13.9319%2015.1662%2018.1365%2015.3702%2021.187%2013.5851Z%22%20fill%3D%22%230F0F0F%22%2F%3E%0A%3C%2Fsvg%3E");
     --sun-icon: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C!--%20Uploaded%20to%3A%20SVG%20Repo%2C%20www.svgrepo.com%2C%20Generator%3A%20SVG%20Repo%20Mixer%20Tools%20--%3E%0A%3Csvg%20fill%3D%22%23000000%22%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%2024%2024%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m24%2014.358-3.04-2.965%202.608-3.348-4.114-1.051.584-4.204-4.088%201.142-1.6-3.932-2.965%203.04-3.348-2.608-1.051%204.114-4.204-.584%201.142%204.087-3.932%201.596%203.04%202.966-2.608%203.348%204.114%201.051-.59%204.204%204.087-1.142%201.6%203.932%202.965-3.04%203.348%202.608%201.051-4.114%204.205.59-1.142-4.087zm-9.719%204.302c-.677.238-1.457.376-2.269.376-3.888%200-7.04-3.152-7.04-7.04s3.152-7.04%207.04-7.04c3.073%200%205.686%201.969%206.647%204.714l.015.049c.24.679.378%201.461.378%202.276%200%203.076-1.973%205.691-4.722%206.649l-.049.015z%22%2F%3E%3C%2Fsvg%3E");
     --icon-spinner: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='currentColor' d='M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437A48 48 0 1 0 75 369.1a48 48 0 1 0 67.9 67.9zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1a48 48 0 1 0-67.9 67.9z'/%3E%3C/svg%3E");
-
+    --volume-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20384%20512%22%3E%3C!--!Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A%2F%2Ffontawesome.com%20License%20-%20https%3A%2F%2Ffontawesome.com%2Flicense%2Ffree%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M215%2072L126.1%20161H24c-13.3%200-24%2010.7-24%2024v144c0%2013.3%2010.7%2024%2024%2024h102.1l89%2089c15%2015%2041%204.5%2041-17V89c0-21.5-26-32-41-17zm123.2%20108.1c-11.6-6.3-26.2-2.2-32.6%209.5-6.4%2011.6-2.2%2026.2%209.5%2032.6C328%20229.3%20336%20242.6%20336%20257c0%2014.4-8%2027.7-20.9%2034.8-11.6%206.4-15.8%2021-9.5%2032.6%206.4%2011.7%2021.1%2015.8%2032.6%209.5%2028.2-15.6%2045.8-45%2045.8-76.9s-17.5-61.3-45.8-76.9z%22%2F%3E%3C%2Fsvg%3E")
 }
 
 /* Base icon class with common styles */
@@ -430,6 +432,12 @@ i svg {
 .icon-pdf {
     -webkit-mask-image: var(--pdf-icon);
     mask-image: var(--pdf-icon);
+
+}
+
+.icon-volume {
+    -webkit-mask-image: var(--volume-icon);
+    mask-image: var(--volume-icon);
 
 }
 
