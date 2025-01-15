@@ -12,13 +12,8 @@
         <link href="css/tacit-css-1.7.1.min.css" rel="stylesheet">
     </noscript>
 
+    <script src="scripts/lib/localforage.min.js"></script>
 
-    <link as="style" href="css/font-awesome.min.css"
-          onload="this.onload=null;this.rel='stylesheet'" rel="preload">
-    <noscript>
-        <link href="css/font-awesome.min.css"
-              rel="stylesheet">
-    </noscript>
 
     <link href="icons/macronizer/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
     <link href="icons/macronizer/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
@@ -184,9 +179,10 @@
                 >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. </textarea>
                 <div id="clear_button_group">
                     <button id="clear_button" type="button">Clear form</button>
-
+                    <div style="position: relative"><p id="loading_text"></p></div>
 
                 </div>
+
             </div>
             <div class="btn-group btn-block" id="form_bottom" role="group">
                 <button

@@ -130,12 +130,12 @@ function get_ipa_no_cache(text, args) {
       break;
     case "German":
       if (langForm === "Phonemic") {
-        if (globalThis.lexicon) {
-          let dictRecord = globalThis.lexicon.get(
+        if (globalThis.lexicon["German"]) {
+          let dictRecord = globalThis.lexicon["German"].get(
             cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
           if (!dictRecord) {
-            dictRecord = globalThis.lexicon.get(
+            dictRecord = globalThis.lexicon["German"].get(
               cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
             );
           }
@@ -166,12 +166,12 @@ function get_ipa_no_cache(text, args) {
       break;
     case "French":
       if (langForm === "Phonemic") {
-        if (globalThis.lexicon) {
-          let dictRecord = globalThis.lexicon.get(
+        if (globalThis.lexicon["French"]) {
+          let dictRecord = globalThis.lexicon["French"].get(
             cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
           if (!dictRecord) {
-            dictRecord = globalThis.lexicon.get(
+            dictRecord = globalThis.lexicon["French"].get(
               cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
             );
           }
@@ -202,12 +202,12 @@ function get_ipa_no_cache(text, args) {
       break;
     case "Lithuanian":
       if (langForm === "Phonemic") {
-        if (globalThis.lexicon) {
-          let dictRecord = globalThis.lexicon.get(
+        if (globalThis.lexicon["Lithuanian"]) {
+          let dictRecord = globalThis.lexicon["Lithuanian"].get(
             cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
           if (!dictRecord) {
-            dictRecord = globalThis.lexicon.get(
+            dictRecord = globalThis.lexicon["Lithuanian"].get(
               cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
             );
           }
@@ -227,12 +227,12 @@ function get_ipa_no_cache(text, args) {
       break;
     case "Czech":
       if (langForm === "Phonemic") {
-        if (globalThis.lexicon) {
-          let dictRecord = globalThis.lexicon.get(
+        if (globalThis.lexicon["Czech"]) {
+          let dictRecord = globalThis.lexicon["Czech"].get(
             cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
           if (!dictRecord) {
-            dictRecord = globalThis.lexicon.get(
+            dictRecord = globalThis.lexicon["Czech"].get(
               cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
             );
           }
@@ -322,8 +322,8 @@ function createElementFromHTML(htmlString) {
 
 async function loadFileFromZipOrPath(zipPathOrBlob, filename) {
   return new Promise((resolve, reject) => {
-    loadJs("./scripts/jszip.min.js", async () => {
-      await loadJs("./scripts/jszip-utils.min.js", async () => {
+    loadJs("./scripts/lib/jszip.min.js", async () => {
+      await loadJs("./scripts/lib/jszip-utils.min.js", async () => {
         let data;
         if (!(typeof zipPathOrBlob === "string")) {
           console.log("blob", zipPathOrBlob);
@@ -404,7 +404,10 @@ async function fetchWithCacheMultiple(urls) {
   return responseWithHeaders;
 }
 
-async function fetchWithCache(url) {
+async function fetchWithCache(
+  url,
+  onProgress = (progress) => console.log(`Progress: ${progress.toFixed(2)}%`),
+) {
   console.log("reading cache", url);
   const cachedResponse = await localforage.getItem(url);
   if (cachedResponse) {
@@ -423,27 +426,64 @@ async function fetchWithCache(url) {
   console.log("caching ", url);
   const response = await fetch(url);
 
+  const contentLength = response.headers.get("content-length");
+  const total = contentLength ? parseInt(contentLength, 10) : null;
+  let loaded = 0;
+
+  const reader = response.body.getReader();
+  const stream = new ReadableStream({
+    start(controller) {
+      function read() {
+        reader
+          .read()
+          .then(({ done, value }) => {
+            if (done) {
+              controller.close();
+              return;
+            }
+            loaded += value.length;
+            if (onProgress && total) {
+              onProgress((loaded / total) * 100);
+            }
+            controller.enqueue(value);
+            read();
+          })
+          .catch((error) => {
+            console.error("Stream reading error:", error);
+            controller.error(error);
+          });
+      }
+
+      read();
+    },
+  });
+
+  const newResponse = new Response(stream, {
+    headers: response.headers,
+  });
+
   const contentType = response.headers.get("content-type");
   let responseContent;
-  let responseWithHeaders;
 
   if (contentType == "application/zip") {
-    responseContent = await response.blob();
+    responseContent = await newResponse.blob();
     try {
       await localforage.setItem(url, responseContent);
     } catch (err) {
       console.log(err);
     }
   } else {
-    responseContent = await response.text();
+    responseContent = await newResponse.text();
     try {
       await localforage.setItem(url, JSON.stringify(responseContent));
     } catch (err) {
       console.log(err);
     }
   }
-  responseWithHeaders = new Response(responseContent, response);
-  return responseWithHeaders;
+
+  return new Response(responseContent, {
+    headers: newResponse.headers,
+  });
 }
 
 const loadedScripts = {};

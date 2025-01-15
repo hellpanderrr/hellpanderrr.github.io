@@ -1,10 +1,21 @@
+import { fetchWithCache, updateLoadingText } from "./utils.js";
+
 let macronsList = null;
 
 async function macronize(text) {
   if (!macronsList) {
     macronsList = new Map(
-      JSON.parse(await fetch("./utils/macrons.json").then((x) => x.text())),
+      JSON.parse(
+        await fetchWithCache("./utils/macrons.json", (progress) =>
+          updateLoadingText(
+            "",
+            "",
+            `Downloading macrons list ${progress.toFixed(2)}%`,
+          ),
+        ).then((x) => x.text()),
+      ),
     );
+    updateLoadingText("", "", "");
   }
 
   function isUpper(x) {

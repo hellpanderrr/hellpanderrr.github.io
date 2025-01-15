@@ -3,58 +3,93 @@ import {
   loadFileFromZipOrPath,
   updateLoadingText,
 } from "./utils.js";
+
+const LEXICON_LANGUAGES = {
+  German: "german_lexicon.zip",
+  Czech: "czech_lexicon.zip",
+  French: "french_lexicon.zip",
+  Lithuanian: "lt_lexicon.zip",
+};
+
+const LEXICON_FOLDER = "./utils/";
+
 async function loadLexicon(language) {
-  const languages = {
-    German: "german_lexicon.zip",
-    Czech: "czech_lexicon.zip",
-    French: "french_lexicon.zip",
-    Lithuanian: "lt_lexicon.zip",
-  };
-  const lexiconFolder = "./utils/";
-  console.time("A");
-  console.log("Fetching zip");
-  updateLoadingText("", "", "Downloading lexicon");
-  const zipBlob = await fetchWithCache(lexiconFolder + languages[language]);
-
-  console.timeLog("A");
-  console.log("Loaded zip");
-  const blob = await zipBlob.blob();
-  console.timeLog("A");
-  console.log("Loaded blob");
-  updateLoadingText("", "", "Loading lexicon");
-
-  const wordPairsList = await loadFileFromZipOrPath(blob, "lexicon.json");
-  console.timeLog("A");
-
-  console.log("Loaded lexicon string");
-  const worker = new Worker("scripts/lexicon_loader_worker.js");
-
-  function process_lexicon(text) {
-    return new Promise((resolve) => {
-      worker.onmessage = function (e) {
-        resolve(e.data);
-      };
-
-      worker.postMessage(text);
-    });
+  if (!LEXICON_LANGUAGES[language]) {
+    throw new Error(`Unsupported language: ${language}`);
   }
-  const lexicon = await process_lexicon(wordPairsList);
-  const getMethod = function (key) {
-    return this.data[key];
+
+  console.time("LexiconLoad");
+  let worker;
+
+  try {
+    // Download lexicon zip
+    console.log("Fetching zip");
+    updateLoadingText("", "", "Downloading lexicon");
+    const zipBlob = await fetchWithCache(
+      LEXICON_FOLDER + LEXICON_LANGUAGES[language],
+      (progress) =>
+        updateLoadingText(
+          "",
+          "",
+          `Downloading lexicon ${progress.toFixed(2)}%`,
+        ),
+    );
+
+    // Process blob
+    console.log("Processing zip blob");
+    const blob = await zipBlob.blob();
+    updateLoadingText("", "", "Loading lexicon");
+
+    // Extract lexicon data
+    console.log("Extracting lexicon data");
+    const wordPairsList = await loadFileFromZipOrPath(blob, "lexicon.json");
+
+    // Initialize worker for processing
+    worker = new Worker("scripts/lexicon_loader_worker.js");
+    const lexiconData = await processLexiconWithWorker(worker, wordPairsList);
+
+    // Create lexicon interface
+    const lexiconInterface = createLexiconInterface(lexiconData);
+
+    console.timeEnd("LexiconLoad");
+    console.log("Lexicon loading complete");
+
+    return lexiconInterface;
+  } catch (error) {
+    console.error("Lexicon loading failed:", error);
+    throw error;
+  } finally {
+    if (worker) {
+      worker.terminate();
+    }
+  }
+}
+
+function processLexiconWithWorker(worker, text) {
+  return new Promise((resolve, reject) => {
+    worker.onmessage = (e) => {
+      try {
+        resolve(e.data);
+      } catch (err) {
+        reject(err);
+      }
+    };
+
+    worker.onerror = (error) => {
+      reject(new Error(`Worker error: ${error.message}`));
+    };
+
+    worker.postMessage(text);
+  });
+}
+
+function createLexiconInterface(lexiconData) {
+  return {
+    data: lexiconData,
+    get(key) {
+      return this.data[key];
+    },
   };
-
-  const jsonWithGetMethod = {
-    data: lexicon,
-  };
-
-  // Attach the get method to the object
-  jsonWithGetMethod.get = getMethod;
-  console.timeEnd("A");
-
-  console.log("Loaded lexicon dict");
-
-  worker.terminate();
-  return jsonWithGetMethod;
 }
 
 export { loadLexicon };

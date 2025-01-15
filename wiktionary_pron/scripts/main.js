@@ -547,7 +547,7 @@ const styleOptions = styleSelect.querySelectorAll("option");
 const formOptions = formSelect.querySelectorAll("option");
 
 const loadedLanguages = {};
-
+globalThis.lexicon = {};
 async function updateOptionsUponLanguageSelection(event) {
   const selectedLanguageElement = event.target;
   const selectedLanguage = selectedLanguageElement.value;
@@ -568,7 +568,7 @@ async function updateOptionsUponLanguageSelection(event) {
   if (!(selectedLanguage in loadedLanguages)) {
     disableAll();
     await loadLanguage(lang.langCode);
-    globalThis.lexicon = null;
+
     if (selectedLanguage === "Latin") {
       updateLoadingText("Macrons list", "");
       try {
@@ -582,23 +582,23 @@ async function updateOptionsUponLanguageSelection(event) {
 
     if (selectedLanguage === "German" && useDictionary === "true") {
       updateLoadingText("German lexicon", "");
-      globalThis.lexicon = await loadLexicon("German");
+      globalThis.lexicon["German"] = await loadLexicon("German");
       updateLoadingText("", "");
     }
     if (selectedLanguage === "Czech" && useDictionary === "true") {
       updateLoadingText("Czech lexicon", "");
-      globalThis.lexicon = await loadLexicon("Czech");
+      globalThis.lexicon["Czech"] = await loadLexicon("Czech");
       updateLoadingText("", "");
     }
     if (selectedLanguage === "French" && useDictionary === "true") {
       updateLoadingText("French lexicon", "");
-      globalThis.lexicon = await loadLexicon("French");
+      globalThis.lexicon["French"] = await loadLexicon("French");
       updateLoadingText("", "");
     }
 
     if (selectedLanguage === "Lithuanian" && useDictionary === "true") {
       updateLoadingText("Lithuanian lexicon", "");
-      globalThis.lexicon = await loadLexicon("Lithuanian");
+      globalThis.lexicon["Lithuanian"] = await loadLexicon("Lithuanian");
       updateLoadingText("", "");
     }
     enableAll();
