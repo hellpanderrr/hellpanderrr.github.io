@@ -27,48 +27,124 @@ function sanitize(text) {
  * @throws {Error} Throws an error if the function is anonymous.
  * @returns {Function} Returns the memoized function.
  */
+/**
+ * Memoizes both sync and async functions in localStorage with TTL support
+ * @param {Function} fn - The function to memoize
+ * @param {Object} options - Memoization options
+ * @param {number} options.ttl - Time to live in milliseconds
+ * @param {boolean} options.backgroundRefresh - Whether to refresh cache in background
+ */
 function memoizeLocalStorage(
   fn,
   options = { ttl: 100, backgroundRefresh: false },
 ) {
-  if (!fn.name)
+  if (!fn.name) {
+    console.warn("Warning: memoizeLocalStorage called with anonymous function");
     throw new Error("memoizeLocalStorage only accepts non-anonymous functions");
-  // Fetch localstorage or init new object
-  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
-
-  //executes and caches result
-  function executeAndCacheFn(fn, args, argsKey) {
-    const result = fn(...args);
-    // reset the cache value
-    cache[fn.name] = {
-      ...cache[fn.name],
-      [argsKey]: { expiration: Date.now() + options.ttl, result },
-    };
-    localStorage.setItem(fn.name, JSON.stringify(cache));
   }
 
-  return function () {
-    // Note: JSON.stringify is non-deterministic,
-    // consider something like json-stable-stringify to avoid extra cache misses
+  let cache = JSON.parse(localStorage.getItem(fn.name) || "{}");
+  const debug = options.debug || false;
 
-    const argsKey = JSON.stringify(arguments);
+  function log(...args) {
+    if (debug) console.log(`[Memoize:${fn.name}]`, ...args);
+  }
 
-    if (
-      !cache[fn.name] ||
-      !cache[fn.name][argsKey] ||
-      cache[fn.name][argsKey].expiration >= Date.now()
-    ) {
-      executeAndCacheFn(fn, arguments, argsKey);
-      return cache[fn.name][argsKey].result;
-    } else if (options.backgroundRefresh) {
-      executeAndCacheFn(fn, arguments, argsKey);
-      return cache[fn.name][argsKey].result;
+  async function executeAndCache(args, argsKey) {
+    log("Executing function with args:", args);
+    try {
+      const result = fn(...args);
+      const isPromise = result instanceof Promise;
+
+      const finalResult = isPromise ? await result : result;
+      const cacheEntry = {
+        expiration: Date.now() + options.ttl,
+        result: finalResult,
+        isPromise,
+      };
+
+      cache[fn.name] = {
+        ...cache[fn.name],
+        [argsKey]: cacheEntry,
+      };
+
+      try {
+        localStorage.setItem(fn.name, JSON.stringify(cache));
+        log("Cached result:", finalResult);
+      } catch (e) {
+        console.warn(`Cache storage failed for ${fn.name}:`, e);
+        // Clear old entries if storage fails
+        cache = { [fn.name]: { [argsKey]: cacheEntry } };
+        localStorage.setItem(fn.name, JSON.stringify(cache));
+      }
+
+      return finalResult;
+    } catch (error) {
+      console.error(`Execution failed for ${fn.name}:`, error);
+      throw error;
     }
-    console.log("Using cached", argsKey);
+  }
 
-    return cache[fn.name][argsKey].result;
+  return function memoized(...args) {
+    const argsKey = JSON.stringify(args);
+    const now = Date.now();
+    const currentCache = cache[fn.name]?.[argsKey];
+
+    if (currentCache && currentCache.expiration > now) {
+      log("Cache hit");
+
+      // Background refresh near expiration
+      if (
+        options.backgroundRefresh &&
+        currentCache.expiration - now < options.ttl * 0.2
+      ) {
+        log("Starting background refresh");
+        executeAndCache(args, argsKey).catch((error) =>
+          console.error(`Background refresh failed for ${fn.name}:`, error),
+        );
+      }
+
+      // Return cached result, wrapping in Promise if original was async
+      return currentCache.isPromise
+        ? Promise.resolve(currentCache.result)
+        : currentCache.result;
+    }
+
+    log("Cache miss");
+    return executeAndCache(args, argsKey);
   };
 }
+
+// Utility functions for cache management
+memoizeLocalStorage.clearCache = function (fnName) {
+  if (fnName) {
+    localStorage.removeItem(fnName);
+  } else {
+    Object.keys(localStorage)
+        .filter((key) => localStorage.getItem(key).includes('"expiration":'))
+        .forEach((key) => localStorage.removeItem(key));
+  }
+};
+
+memoizeLocalStorage.getCacheStats = function (fnName) {
+  const cache = JSON.parse(localStorage.getItem(fnName) || "{}");
+  const now = Date.now();
+
+  return {
+    totalEntries: Object.keys(cache[fnName] || {}).length,
+    validEntries: Object.values(cache[fnName] || {}).filter(
+        (entry) => entry.expiration > now,
+    ).length,
+    oldestEntry: Math.min(
+        ...Object.values(cache[fnName] || {}).map((entry) => entry.expiration),
+    ),
+    newestEntry: Math.max(
+        ...Object.values(cache[fnName] || {}).map((entry) => entry.expiration),
+    ),
+  };
+};
+
+export default memoizeLocalStorage;
 
 async function wait(ms = 1) {
   await new Promise((resolve) => setTimeout(resolve, ms));
@@ -545,6 +621,71 @@ function enableAll(include_elements = []) {
   });
 }
 
+async function translateWithFallback(text, sourceLang = "auto", targetLang) {
+  if (!text.match(/\p{L}/u)) {
+    return {
+      text: text, // Return original text
+      source: "no-translation-needed",
+    };
+  }
+  // First attempt: GTX API
+  try {
+    await wait(1); // Rate limiting
+    const gtxUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${targetLang}&dt=t&q=${encodeURIComponent(
+      text,
+    )}`;
+    const gtxResponse = await fetch(gtxUrl);
+
+    if (gtxResponse.ok) {
+      const gtxData = await gtxResponse.json();
+      return {
+        text: gtxData[0][0][0],
+        source: "google-gtx",
+      };
+    }
+  } catch (error) {
+    console.warn("GTX API failed:", error);
+  }
+
+  // Second attempt: Clients5 API
+  try {
+    await wait(1); // Rate limiting
+    const clients5Url = `https://clients5.google.com/translate_a/single?dj=1&dt=t&dt=sp&dt=ld&dt=bd&client=dict-chrome-ex&sl=${sourceLang}&tl=${targetLang}&q=${encodeURIComponent(
+      text,
+    )}`;
+    const clients5Response = await fetch(clients5Url);
+
+    if (clients5Response.ok) {
+      const clients5Data = await clients5Response.json();
+      return {
+        text: clients5Data.sentences[0].trans,
+        source: "google-clients5",
+      };
+    }
+  } catch (error) {
+    console.warn("Clients5 API failed:", error);
+  }
+
+  throw new Error("All translation attempts failed");
+}
+
+const translateWithFallbackWrapper = function (...args) {
+  return translateWithFallback(...args)
+    .then((result) => result)
+    .catch((error) => {
+      console.error("Translation failed:", error);
+      throw error;
+    });
+};
+
+// Now memoize the wrapper function
+const translateWithFallbackCached = memoizeLocalStorage(
+  translateWithFallbackWrapper,
+  {
+    ttl: 24 * 60 * 60 * 1000, // 24 hours
+    backgroundRefresh: true,
+  },
+);
 export {
   asyncMapStrict,
   sanitize,
@@ -560,4 +701,5 @@ export {
   disableAll,
   enableAll,
   updateLoadingText,
+  translateWithFallbackCached,
 };
