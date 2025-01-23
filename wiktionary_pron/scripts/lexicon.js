@@ -83,13 +83,66 @@ function processLexiconWithWorker(worker, text) {
   });
 }
 
+class LargeDictionaryHandler {
+  constructor(data, chunkSize = 100000) {
+    console.log("init LargeDictionaryHandler", chunkSize);
+    this.chunks = this.chunkify(data, chunkSize);
+    console.log("finished init LargeDictionaryHandler", chunkSize);
+
+    this.chunkSize = chunkSize;
+  }
+
+  chunkify(data, chunkSize) {
+    const chunks = [];
+    const entries = Object.entries(data);
+
+    for (let i = 0; i < entries.length; i += chunkSize) {
+      const chunk = Object.fromEntries(entries.slice(i, i + chunkSize));
+      chunks.push(chunk);
+    }
+
+    return chunks;
+  }
+
+  get(key) {
+    for (const chunk of this.chunks) {
+      if (key in chunk) {
+        return chunk[key];
+      }
+    }
+    return undefined;
+  }
+
+  // Search within a specific chunk for better performance
+  getFromChunk(key, chunkIndex) {
+    if (chunkIndex >= 0 && chunkIndex < this.chunks.length) {
+      return this.chunks[chunkIndex][key];
+    }
+    return undefined;
+  }
+
+  // Get the chunk index for a given key
+  findChunkIndex(key) {
+    return this.chunks.findIndex((chunk) => key in chunk);
+  }
+
+  // Iterator for processing all entries safely
+  *entries() {
+    for (const chunk of this.chunks) {
+      for (const [key, value] of Object.entries(chunk)) {
+        yield [key, value];
+      }
+    }
+  }
+}
 function createLexiconInterface(lexiconData) {
+  const handler = new LargeDictionaryHandler(lexiconData);
+
   return {
     data: lexiconData,
     get(key) {
-      return this.data[key];
+      return handler.get(key);
     },
   };
 }
-
 export { loadLexicon };
