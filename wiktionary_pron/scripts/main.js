@@ -8,6 +8,7 @@ import {
   enableAll,
   get_ipa_no_cache,
   memoizeLocalStorage,
+  translateWithFallbackCached,
   updateLoadingText,
   wait,
 } from "./utils.js";
@@ -36,7 +37,11 @@ async function prepareTranscribe(lang) {
   return [resultDiv, textLines];
 }
 
-const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache);
+const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache, {
+  ttl: 7 * 24 * 60 * 60 * 1000, // 7*24 hours
+  backgroundRefresh: true,
+  debug: true,
+});
 
 /**
  * Retrieve the International Phonetic Alphabet (IPA) for the given text in the specified language.
@@ -58,13 +63,14 @@ function getIpa(text, lang, lang_style, lang_form) {
  * Transcribes the text and shows the result in the result div based on the selected presentation mode.
  * @param {string} mode - The mode for transcribing the text (default, line, column).
  */
-async function transcribe(mode) {
+async function transcribe(mode, translate = false) {
   disableAll([
     document.querySelector("#export_pdf"),
     document.querySelector("#export_csv"),
   ]);
   const { lang, langStyle, langForm } = getLangStyleForm();
   const [resultDiv, textLines] = await prepareTranscribe(lang);
+  console.log(textLines);
   try {
     async function processDefault(line) {
       const words = line.split(" ").concat(["\n"]);
@@ -127,7 +133,7 @@ async function transcribe(mode) {
 
     function processGermanIpa(value) {
       let values = "";
-      if (value.includes("/,")) {
+      if (value?.includes("/,")) {
         console.log(value);
         values = value.split("/,");
         values = values.map((value) => value.replace("/", "").replace("/", ""));
@@ -147,7 +153,7 @@ async function transcribe(mode) {
       const results = await Promise.all(
         words.map(async (word) => {
           await wait(1);
-          const ipa = getIpa(word, lang, langStyle, langForm);
+          const ipa = await getIpa(word, lang, langStyle, langForm);
           return { word, ipa };
         }),
       );
@@ -156,6 +162,7 @@ async function transcribe(mode) {
       const formattedResults = results.map(({ ipa }) => {
         let values;
         let value;
+        console.log(ipa.value);
         value = ipa.value;
         if (lang === "German" || lang === "Czech" || lang === "Lithuanian") {
           [value, values] = processGermanIpa(value);
@@ -228,14 +235,31 @@ async function transcribe(mode) {
     }
 
     async function processSideBySide(paragraph) {
-      const words = paragraph.split(" ");
-      const results = await Promise.all(
-        words.map(async (word) => {
-          await wait(1);
-          return await getIpa(word, lang, langStyle, langForm);
-        }),
-      );
-
+      console.log("para", paragraph);
+      let words = paragraph.split(" ");
+      let results;
+      if (!translate) {
+        results = await Promise.all(
+          words.map(async (word) => {
+            await wait(1);
+            return await getIpa(word, lang, langStyle, langForm);
+          }),
+        );
+      } else {
+        const result = await translateWithFallbackCached(
+          paragraph,
+          "auto",
+          "en",
+        );
+        console.log(result);
+        console.log(result.text);
+        console.log(result.source);
+        results = Array.from(result.text.split(" ")).map(function (x) {
+          return { value: x, status: "success" };
+        });
+      }
+      console.log(123, translate);
+      console.log(345, results);
       const container = document.createElement("tr");
       container.style.display = "flex";
       container.style.alignContent = "center";
@@ -249,7 +273,7 @@ async function transcribe(mode) {
       const rightColumn = document.createElement("div");
       rightColumn.classList.add("right-column");
 
-      for (let i = 0; i < words.length; i++) {
+      for (let i = 0; i < Math.max(words.length, results.length); i++) {
         const wordDiv = document.createElement("div");
         wordDiv.className = "cell";
         const wordSpan = document.createElement("span");
@@ -269,13 +293,13 @@ async function transcribe(mode) {
         let value, values;
 
         if (lang === "German" || lang === "Czech") {
-          [value, values] = processGermanIpa(results[i].value);
+          [value, values] = processGermanIpa(results[i]?.value || "");
         } else {
-          value = results[i].value;
+          value = results[i]?.value;
           values = "";
         }
 
-        const spanClass = results[i].status === "error" ? "error" : "ipa";
+        const spanClass = results[i]?.status === "error" ? "error" : "ipa";
         let spanHTML = "";
         if (values) {
           spanHTML = `<span class="${spanClass}" style="display: inline-block" data-word="${words[i]}" all_values="${values}">${value}  </span>`;
@@ -296,21 +320,23 @@ async function transcribe(mode) {
 
         rightColumn.appendChild(resultDiv);
       }
-      const leftTTSButton = document.createElement("button");
-      leftTTSButton.className = "audio-popup-line";
+      if (!(paragraph.trim() === "")) {
+        const leftTTSButton = document.createElement("button");
+        leftTTSButton.className = "audio-popup-line";
 
-      const leftAudioButton = document.createElement("i");
-      leftAudioButton.className = "icon icon-volume";
-      leftTTSButton.appendChild(leftAudioButton);
+        const leftAudioButton = document.createElement("i");
+        leftAudioButton.className = "icon icon-volume";
+        leftTTSButton.appendChild(leftAudioButton);
 
-      leftColumn.prepend(leftTTSButton);
+        leftColumn.prepend(leftTTSButton);
 
-      const rightTTSButton = document.createElement("button");
-      rightTTSButton.className = "audio-popup-line";
-      const rightAudioButton = document.createElement("i");
-      rightAudioButton.className = "icon icon-volume";
-      rightTTSButton.appendChild(rightAudioButton);
-      rightColumn.prepend(rightTTSButton);
+        const rightTTSButton = document.createElement("button");
+        rightTTSButton.className = "audio-popup-line";
+        const rightAudioButton = document.createElement("i");
+        rightAudioButton.className = "icon icon-volume";
+        rightTTSButton.appendChild(rightAudioButton);
+        rightColumn.prepend(rightTTSButton);
+      }
 
       container.appendChild(leftColumn);
       container.appendChild(rightColumn);
@@ -401,6 +427,12 @@ document
 document
   .getElementById("submit_by_col")
   .addEventListener("click", () => transcribe("sideBySide"));
+
+document
+  .getElementById("translate_by_col")
+  .addEventListener("click", async function () {
+    return transcribe("sideBySide", true);
+  });
 
 document.getElementById("clear_button").addEventListener("click", clear_input);
 
@@ -548,6 +580,7 @@ const formOptions = formSelect.querySelectorAll("option");
 
 const loadedLanguages = {};
 globalThis.lexicon = {};
+
 async function updateOptionsUponLanguageSelection(event) {
   const selectedLanguageElement = event.target;
   const selectedLanguage = selectedLanguageElement.value;

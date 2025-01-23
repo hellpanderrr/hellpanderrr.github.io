@@ -481,8 +481,8 @@ async function fetchWithCacheMultiple(urls) {
 }
 
 async function fetchWithCache(
-  url,
-  onProgress = (progress) => console.log(`Progress: ${progress.toFixed(2)}%`),
+    url,
+    onProgress = (progress) => console.log(`Progress: ${progress.toFixed(2)}%`),
 ) {
   console.log("reading cache", url);
   const cachedResponse = await localforage.getItem(url);
@@ -601,10 +601,10 @@ function disableAll(include_elements = []) {
   // Iterate through each form and disable all its elements
   forms.forEach((form) => {
     Array.from(form.elements)
-      .concat(include_elements)
-      .forEach((element) => {
-        element.disabled = true;
-      });
+        .concat(include_elements)
+        .forEach((element) => {
+          element.disabled = true;
+        });
   });
 }
 
@@ -671,20 +671,20 @@ async function translateWithFallback(text, sourceLang = "auto", targetLang) {
 
 const translateWithFallbackWrapper = function (...args) {
   return translateWithFallback(...args)
-    .then((result) => result)
-    .catch((error) => {
-      console.error("Translation failed:", error);
-      throw error;
-    });
+      .then((result) => result)
+      .catch((error) => {
+        console.error("Translation failed:", error);
+        throw error;
+      });
 };
 
 // Now memoize the wrapper function
 const translateWithFallbackCached = memoizeLocalStorage(
-  translateWithFallbackWrapper,
-  {
-    ttl: 24 * 60 * 60 * 1000, // 24 hours
-    backgroundRefresh: true,
-  },
+    translateWithFallbackWrapper,
+    {
+      ttl: 24 * 60 * 60 * 1000, // 24 hours
+      backgroundRefresh: true,
+    },
 );
 export {
   asyncMapStrict,
