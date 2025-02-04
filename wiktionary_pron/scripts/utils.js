@@ -121,8 +121,8 @@ memoizeLocalStorage.clearCache = function (fnName) {
     localStorage.removeItem(fnName);
   } else {
     Object.keys(localStorage)
-        .filter((key) => localStorage.getItem(key).includes('"expiration":'))
-        .forEach((key) => localStorage.removeItem(key));
+      .filter((key) => localStorage.getItem(key).includes('"expiration":'))
+      .forEach((key) => localStorage.removeItem(key));
   }
 };
 
@@ -133,13 +133,13 @@ memoizeLocalStorage.getCacheStats = function (fnName) {
   return {
     totalEntries: Object.keys(cache[fnName] || {}).length,
     validEntries: Object.values(cache[fnName] || {}).filter(
-        (entry) => entry.expiration > now,
+      (entry) => entry.expiration > now,
     ).length,
     oldestEntry: Math.min(
-        ...Object.values(cache[fnName] || {}).map((entry) => entry.expiration),
+      ...Object.values(cache[fnName] || {}).map((entry) => entry.expiration),
     ),
     newestEntry: Math.max(
-        ...Object.values(cache[fnName] || {}).map((entry) => entry.expiration),
+      ...Object.values(cache[fnName] || {}).map((entry) => entry.expiration),
     ),
   };
 };
@@ -481,11 +481,11 @@ async function fetchWithCacheMultiple(urls) {
 }
 
 async function fetchWithCache(
-    url,
-    onProgress = (progress) => console.log(`Progress: ${progress.toFixed(2)}%`),
+  url,
+  onProgress = (progress) => console.log(`Progress: ${progress.toFixed(2)}%`),
 ) {
   console.log("reading cache", url);
-  const cachedResponse = await localforage.getItem(url);
+  let cachedResponse = await localforage.getItem(url);
   if (cachedResponse) {
     console.log("reading from cache", url);
     if (cachedResponse instanceof Blob) {
@@ -503,7 +503,22 @@ async function fetchWithCache(
   const response = await fetch(url);
 
   const contentLength = response.headers.get("content-length");
-  const total = contentLength ? parseInt(contentLength, 10) : null;
+  const contentEncoding = response.headers.get("content-encoding");
+  const isCompressed =
+    contentEncoding === "gzip" ||
+    contentEncoding === "br" ||
+    contentEncoding === "deflate";
+
+  // If the content is compressed, we'll estimate the uncompressed size
+  // Average compression ratio for text/json is roughly 4:1, for binary files about 1.5:1
+  const contentType = response.headers.get("content-type");
+  const compressionRatio =
+    contentType?.includes("text") || contentType?.includes("json") ? 4 : 1.5;
+  const total =
+    isCompressed && contentLength
+      ? parseInt(contentLength, 10) * compressionRatio
+      : parseInt(contentLength, 10);
+
   let loaded = 0;
 
   const reader = response.body.getReader();
@@ -538,7 +553,6 @@ async function fetchWithCache(
     headers: response.headers,
   });
 
-  const contentType = response.headers.get("content-type");
   let responseContent;
 
   if (contentType == "application/zip") {
@@ -601,10 +615,10 @@ function disableAll(include_elements = []) {
   // Iterate through each form and disable all its elements
   forms.forEach((form) => {
     Array.from(form.elements)
-        .concat(include_elements)
-        .forEach((element) => {
-          element.disabled = true;
-        });
+      .concat(include_elements)
+      .forEach((element) => {
+        element.disabled = true;
+      });
   });
 }
 
@@ -680,11 +694,11 @@ const translateWithFallbackWrapper = function (...args) {
 
 // Now memoize the wrapper function
 const translateWithFallbackCached = memoizeLocalStorage(
-    translateWithFallbackWrapper,
-    {
-      ttl: 24 * 60 * 60 * 1000, // 24 hours
-      backgroundRefresh: true,
-    },
+  translateWithFallbackWrapper,
+  {
+    ttl: 24 * 60 * 60 * 1000, // 24 hours
+    backgroundRefresh: true,
+  },
 );
 export {
   asyncMapStrict,
