@@ -1,3 +1,5 @@
+import "./dynamic_meta.js";
+import { languages } from "./languages.js";
 import { loadLanguage } from "./lua_init.js";
 
 import {
@@ -458,99 +460,6 @@ function getLangStyleForm() {
   return { lang, langStyle, langForm };
 }
 
-const languages = {
-  Latin: {
-    styles: ["Classical", "Ecclesiastical", "Vulgar"],
-    forms: ["Phonetic", "Phonemic"],
-    langCode: "la",
-    ttsCode: "it-IT",
-  },
-  German: {
-    styles: ["Default"],
-    forms: ["Phonemic", "Phonetic"],
-    langCode: "de",
-    ttsCode: "de-DE",
-  },
-  Portuguese: {
-    styles: ["Brazil", "Portugal"],
-    forms: ["Phonetic", "Phonemic"],
-    langCode: "pt",
-    ttsCode: "pt-BR",
-  },
-  Spanish: {
-    styles: ["Castilian", "Latin_American "],
-    forms: ["Phonetic", "Phonemic"],
-    langCode: "es",
-    ttsCode: "es-ES",
-  },
-  French: {
-    styles: ["Default", "Parisian (experimental)"],
-    forms: ["Phonemic"],
-    langCode: "fr",
-    ttsCode: "fr-FR",
-  },
-  Russian: {
-    styles: ["Default"],
-    forms: ["Phonetic"],
-    langCode: "ru",
-    ttsCode: "ru-RU",
-  },
-  Belorussian: {
-    styles: ["Default"],
-    forms: ["Phonemic"],
-    langCode: "be",
-    ttsCode: "be-BY",
-  },
-  Polish: {
-    styles: ["Default"],
-    forms: ["Phonemic"],
-    langCode: "pl",
-    ttsCode: "pl-PL",
-  },
-  Bulgarian: {
-    styles: ["Default"],
-    forms: ["Phonemic"],
-    langCode: "bg",
-    ttsCode: "bg-BG",
-  },
-  Ukrainian: {
-    styles: ["Default"],
-    forms: ["Phonetic"],
-    langCode: "uk",
-    ttsCode: "uk-UA",
-  },
-  Lithuanian: {
-    styles: ["Default"],
-    forms: ["Phonemic"],
-    langCode: "lt",
-    ttsCode: "lt-LT",
-  },
-  Czech: {
-    styles: ["Default"],
-    forms: ["Phonemic"],
-    langCode: "cs",
-    ttsCode: "cs-CZ",
-  },
-  Armenian: {
-    styles: ["Western", "Eastern"],
-    forms: ["Phonemic", "Phonetic"],
-    langCode: "hy",
-    ttsCode: "hy-AM",
-  },
-  Greek: {
-    styles: [
-      "5th BCE Attic",
-      "1st CE Egyptian",
-      "4th CE Koine",
-      "10th CE Byzantine",
-      "15th CE Constantinopolitan",
-    ],
-    forms: ["Phonemic"],
-    langCode: "grc",
-    ttsCode: "el-GR",
-  },
-};
-
 const langSelect = document.querySelector("#lang");
 const styleSelect = document.querySelector("#lang_style");
 const formSelect = document.querySelector("#lang_form");
@@ -656,6 +565,9 @@ async function updateOptionsUponLanguageSelection(event) {
   updateSelectOptions(selectedLanguage, formSelect, formOptions);
 
   document.title = `Online ${selectedLanguage} IPA transcription`;
+  const availableStyles = lang.styles.join(", ");
+  const availableForms = lang.forms.map((form) => form.toLowerCase()).join("/");
+  document.head.children.description.content = `Online ${selectedLanguage} to IPA ${availableForms} transcription generator. Dialects: ${availableStyles}`;
 
   console.log("Finished changing language to ", selectedLanguage);
   await processTextParam();
