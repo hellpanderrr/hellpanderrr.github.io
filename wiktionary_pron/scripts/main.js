@@ -20,8 +20,7 @@ import { macronize } from "./macronizer.js";
 
 document.querySelector("#lang").disabled = false;
 
-async function prepareTranscribe(lang) {
-  let inputText = document.getElementById("text_to_transcribe").value;
+async function prepareTranscribe(lang, inputText) {
   if (lang === "Latin") {
     try {
       inputText = await macronize(inputText);
@@ -29,7 +28,6 @@ async function prepareTranscribe(lang) {
       console.error(e);
       console.warn("Failed to macronize text");
     }
-    // document.getElementById("text_to_transcribe").value = inputText;
   }
   const textLines = inputText.trim().split("\n");
   const resultDiv = document.getElementById("result");
@@ -63,13 +61,17 @@ function getIpa(text, lang, lang_style, lang_form) {
  * Transcribes the text and shows the result in the result div based on the selected presentation mode.
  * @param {string} mode - The mode for transcribing the text (default, line, column).
  */
-async function transcribe(mode, translate = false) {
+async function transcribe(mode, translate = false, inputText = null) {
   disableAll([
     document.querySelector("#export_pdf"),
     document.querySelector("#export_csv"),
   ]);
   const { lang, langStyle, langForm } = getLangStyleForm();
-  const [resultDiv, textLines] = await prepareTranscribe(lang);
+  console.log(1111111111111111, lang, langStyle, langForm);
+  const [resultDiv, textLines] = await prepareTranscribe(
+    lang,
+    inputText || document.getElementById("text_to_transcribe").value,
+  );
   console.log(textLines);
   try {
     async function processDefault(line) {
@@ -417,7 +419,6 @@ async function transcribe(mode, translate = false) {
     tts(transcriptionMode);
   }
 }
-
 document
   .getElementById("submit")
   .addEventListener("click", () => transcribe("default"));
@@ -590,7 +591,7 @@ async function updateOptionsUponLanguageSelection(event) {
   if (useDictionary === null) {
     useDictionary = "true";
   }
-
+  console.log("changing language to ", selectedLanguage);
   try {
     if (urlParams.get("lang") !== selectedLanguage) {
       window.history.pushState({}, "", `?lang=${selectedLanguage}`);
@@ -653,6 +654,12 @@ async function updateOptionsUponLanguageSelection(event) {
 
   updateSelectOptions(selectedLanguage, styleSelect, styleOptions);
   updateSelectOptions(selectedLanguage, formSelect, formOptions);
+
+  document.title = `Online ${selectedLanguage} IPA transcription`;
+
+  console.log("Finished changing language to ", selectedLanguage);
+  await processTextParam();
+  rememberText();
 }
 
 function selectTTS(language) {
@@ -772,11 +779,18 @@ triggerLanguageChange();
 function rememberText() {
   const textArea = document.getElementById("text_to_transcribe");
   console.log(12345);
-  // Save text to local storage on input
-  textArea.addEventListener("input", function () {
-    console.log("input", textArea.value);
-    localStorage.setItem("inputText", textArea.value);
-  });
+
+  // Check if the event listener is already added
+  if (!textArea.hasAttribute("data-listener-added")) {
+    // Save text to local storage on input
+    textArea.addEventListener("input", function () {
+      console.log("input", textArea.value);
+      localStorage.setItem("inputText", textArea.value);
+    });
+
+    // Set a flag to indicate that the listener has been added
+    textArea.setAttribute("data-listener-added", "true");
+  }
 
   // Retrieve text from local storage on page load
   console.log("DOMContentLoaded", localStorage.getItem("inputText"));
@@ -785,5 +799,22 @@ function rememberText() {
     textArea.value = savedText;
   }
 }
-
 rememberText();
+
+// Check for 'text' parameter in URL and process it
+
+async function processTextParam() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const textParam = urlParams.get("text");
+  const lang = urlParams.get("lang");
+  console.log(555555555, textParam, lang);
+
+  if (textParam) {
+    const textArea = document.getElementById("text_to_transcribe");
+    textArea.value = textParam;
+
+    textArea.dispatchEvent(new Event("input"));
+
+    await transcribe("line", false, textParam);
+  }
+}
