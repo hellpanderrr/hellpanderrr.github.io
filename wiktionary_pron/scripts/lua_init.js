@@ -28,7 +28,7 @@ await lua.doString(`
           t = {}
           function require(path, extension)
               extension = extension or 'lua'
-              print('required '..path,'from:', debug.getinfo(2).name)
+              print('     required '..path,'from:', debug.getinfo(2).name)
               table.insert(t, 'lua_modules'..string.char(92)..path)
               if select(2,string.gsub(path, "%.", "")) > 0 then
                    new_path = string.gsub(path,"%.", "/",1)
@@ -47,7 +47,7 @@ await lua.doString(`
               
               local text = resp:text():await()
               local module =  load(text)()
-              print('loaded '..path)
+              print('    loaded '..path)
               return module
           end
 

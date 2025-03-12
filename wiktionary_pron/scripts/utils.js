@@ -437,10 +437,10 @@ async function sendParallelRequests(urls) {
 async function fetchWithCacheMultiple(urls) {
   const url = urls[0].split("/").slice(-2).join("/");
 
-  console.log("reading cache", url);
+  console.log("    reading cache", url);
   const cachedResponse = await localforage.getItem(url);
   if (cachedResponse) {
-    console.log("reading from cache", url);
+    console.log("    reading from cache", url);
     if (cachedResponse instanceof Blob) {
       const response = new Response(cachedResponse);
       response.headers.set("X-From-Cache", "true");
@@ -449,10 +449,10 @@ async function fetchWithCacheMultiple(urls) {
     }
     const response = new Response(JSON.parse(cachedResponse));
     response.headers.set("X-From-Cache", "true");
-    console.log("Returned cached string ", url);
+    console.log("    Returned cached string ", url);
     return response;
   }
-  console.log("caching ", url);
+  console.log("    caching ", url);
 
   // const response = await fetch(url);
   const response = await sendParallelRequests(urls);
@@ -484,22 +484,22 @@ async function fetchWithCache(
   url,
   onProgress = (progress) => console.log(`Progress: ${progress.toFixed(2)}%`),
 ) {
-  console.log("reading cache", url);
+  console.log("    reading cache", url);
   let cachedResponse = await localforage.getItem(url);
   if (cachedResponse) {
-    console.log("reading from cache", url);
+    console.log("    reading from cache", url);
     if (cachedResponse instanceof Blob) {
       const response = new Response(cachedResponse);
       response.headers.set("X-From-Cache", "true");
-      console.log("Returned cached blob ", url);
+      console.log("    Returned cached blob ", url);
       return response;
     }
     const response = new Response(JSON.parse(cachedResponse));
     response.headers.set("X-From-Cache", "true");
-    console.log("Returned cached string ", url);
+    console.log("    Returned cached string ", url);
     return response;
   }
-  console.log("caching ", url);
+  console.log("    caching ", url);
   const response = await fetch(url);
 
   const contentLength = response.headers.get("content-length");
@@ -540,7 +540,7 @@ async function fetchWithCache(
             read();
           })
           .catch((error) => {
-            console.error("Stream reading error:", error);
+            console.error("    Stream reading error:", error);
             controller.error(error);
           });
       }
@@ -685,11 +685,11 @@ async function translateWithFallback(text, sourceLang = "auto", targetLang) {
 
 const translateWithFallbackWrapper = function (...args) {
   return translateWithFallback(...args)
-      .then((result) => result)
-      .catch((error) => {
-        console.error("Translation failed:", error);
-        throw error;
-      });
+    .then((result) => result)
+    .catch((error) => {
+      console.error("Translation failed:", error);
+      throw error;
+    });
 };
 
 // Now memoize the wrapper function
