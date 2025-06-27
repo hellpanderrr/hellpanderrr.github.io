@@ -555,7 +555,7 @@ async function fetchWithCache(
 
   let responseContent;
 
-  if (contentType == "application/zip") {
+  if (contentType && contentType.includes("zip")) {
     responseContent = await newResponse.blob();
     try {
       await localforage.setItem(url, responseContent);

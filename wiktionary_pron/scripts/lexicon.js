@@ -57,7 +57,7 @@ async function loadLexicon(language) {
     return lexiconInterface;
   } catch (error) {
     console.error("Lexicon loading failed:", error);
-    throw error;
+    updateLoadingText("", "", "Failed to load lexicon");
   } finally {
     if (worker) {
       worker.terminate();
