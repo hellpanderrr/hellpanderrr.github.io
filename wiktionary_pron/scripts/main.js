@@ -411,7 +411,34 @@ async function transcribe(mode, translate = false, inputText = null) {
         });
       });
     }
+    if (lang === "Ukrainian") {
+      function getStressing(word) {
+        let stressedText = word;
+        if (globalThis.lexicon["Ukrainian"]) {
+          let dictRecord = globalThis.lexicon["Ukrainian"].get(
+            word.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          );
+          if (dictRecord && dictRecord.length >= word.length) {
+            console.log("found", word, dictRecord);
+            stressedText = dictRecord;
+          }
+        }
+        return stressedText;
+      }
 
+      const addStressIfOneSyllable = (word) =>
+        word.match(/[аеиоуєюя]/gi)?.length === 1
+          ? word.replace(/[аеиоуєюяїАЕИІОУЄЮЯ]/, (match) => match + "\u0301")
+          : word;
+      document
+        .querySelectorAll(".input_text")
+        .forEach(
+          (x) =>
+            (x.textContent = getStressing(
+              addStressIfOneSyllable(x.textContent),
+            )),
+        );
+    }
     globalThis.transcriptionMode = mode;
     globalThis.transcriptionLang = lang;
     enableAll([
@@ -421,6 +448,7 @@ async function transcribe(mode, translate = false, inputText = null) {
     tts(transcriptionMode);
   }
 }
+
 document
   .getElementById("submit")
   .addEventListener("click", () => transcribe("default"));
@@ -542,6 +570,11 @@ async function updateOptionsUponLanguageSelection(event) {
     if (selectedLanguage === "Lithuanian" && useDictionary === "true") {
       updateLoadingText("Lithuanian lexicon", "");
       globalThis.lexicon["Lithuanian"] = await loadLexicon("Lithuanian");
+      updateLoadingText("", "");
+    }
+    if (selectedLanguage === "Ukrainian" && useDictionary === "true") {
+      updateLoadingText("Ukrainian lexicon", "");
+      globalThis.lexicon["Ukrainian"] = await loadLexicon("Ukrainian");
       updateLoadingText("", "");
     }
     enableAll();
@@ -711,6 +744,7 @@ function rememberText() {
     textArea.value = savedText;
   }
 }
+
 rememberText();
 
 // Check for 'text' parameter in URL and process it

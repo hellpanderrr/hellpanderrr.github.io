@@ -144,8 +144,6 @@ memoizeLocalStorage.getCacheStats = function (fnName) {
   };
 };
 
-export default memoizeLocalStorage;
-
 async function wait(ms = 1) {
   await new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -263,7 +261,27 @@ function get_ipa_no_cache(text, args) {
       break;
     case "Ukrainian":
       if (langForm === "Phonetic") {
-        command = `(window.uk_ipa.pronunciation("${cleanText}",true))`;
+        let stressedText = cleanText;
+        if (globalThis.lexicon["Ukrainian"]) {
+          let dictRecord = globalThis.lexicon["Ukrainian"].get(
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          );
+          if (dictRecord && dictRecord.length >= cleanText.length) {
+            console.log("found", cleanText, dictRecord);
+            stressedText = dictRecord;
+          }
+        }
+        const addStressIfOneSyllable = (word) =>
+          word.match(/[аеиіоуєюяї]/gi)?.length === 1
+            ? word.replace(
+                /[аеиіоуєюяїАЕИІОУЄЮЯЇ]/,
+                (match) => match + "\u0301",
+              )
+            : word;
+
+        command = `(window.uk_ipa.pronunciation("${addStressIfOneSyllable(
+          stressedText,
+        )}",true))`;
       }
       break;
     case "Belorussian":
@@ -299,6 +317,11 @@ function get_ipa_no_cache(text, args) {
     case "Russian":
       if (langForm === "Phonetic") {
         command = `(window.ru_ipa.ipa_string("${cleanText}"))`;
+      }
+      break;
+    case "Icelandic":
+      if (langForm === "Phonemic") {
+        command = `(window.is_ipa.toIPA("${cleanText}","",""))`;
       }
       break;
     case "Czech":
