@@ -411,15 +411,19 @@ async function transcribe(mode, translate = false, inputText = null) {
         });
       });
     }
-    if (lang === "Ukrainian") {
+    if (lang === "Ukrainian" || lang == "Russian") {
       function getStressing(word) {
         let stressedText = word;
-        if (globalThis.lexicon["Ukrainian"]) {
-          let dictRecord = globalThis.lexicon["Ukrainian"].get(
+        if (globalThis.lexicon[lang]) {
+          let dictRecord = globalThis.lexicon[lang].get(
             word.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
-          if (dictRecord && dictRecord.length >= word.length) {
-            console.log("found", word, dictRecord);
+          if (
+            word.trim().length > 0 &&
+            dictRecord &&
+            dictRecord.length >= word.length
+          ) {
+            console.log(`found  [${word}], [${dictRecord}]`);
             stressedText = dictRecord;
           }
         }
@@ -427,8 +431,8 @@ async function transcribe(mode, translate = false, inputText = null) {
       }
 
       const addStressIfOneSyllable = (word) =>
-        word.match(/[аеиоуєюя]/gi)?.length === 1
-          ? word.replace(/[аеиоуєюяїАЕИІОУЄЮЯ]/, (match) => match + "\u0301")
+        word.match(/[аеиоуєюяэёы]/gi)?.length === 1
+          ? word.replace(/[аеиоуєюяїАЕИІОУЄЮЯЭЁЫ]/, (match) => match + "\u0301")
           : word;
       document
         .querySelectorAll(".input_text")
@@ -550,33 +554,22 @@ async function updateOptionsUponLanguageSelection(event) {
       }
       updateLoadingText("", "");
     }
+    const dictLanguages = [
+      "German",
+      "Czech",
+      "French",
+      "Lithuanian",
+      "Ukrainian",
+      "Russian",
+      "Icelandic",
+    ];
+    if (dictLanguages.includes(selectedLanguage) && useDictionary === "true") {
+      updateLoadingText(`${selectedLanguage} lexicon`, "");
+      globalThis.lexicon[selectedLanguage] =
+        await loadLexicon(selectedLanguage);
+      updateLoadingText("", "");
+    }
 
-    if (selectedLanguage === "German" && useDictionary === "true") {
-      updateLoadingText("German lexicon", "");
-      globalThis.lexicon["German"] = await loadLexicon("German");
-      updateLoadingText("", "");
-    }
-    if (selectedLanguage === "Czech" && useDictionary === "true") {
-      updateLoadingText("Czech lexicon", "");
-      globalThis.lexicon["Czech"] = await loadLexicon("Czech");
-      updateLoadingText("", "");
-    }
-    if (selectedLanguage === "French" && useDictionary === "true") {
-      updateLoadingText("French lexicon", "");
-      globalThis.lexicon["French"] = await loadLexicon("French");
-      updateLoadingText("", "");
-    }
-
-    if (selectedLanguage === "Lithuanian" && useDictionary === "true") {
-      updateLoadingText("Lithuanian lexicon", "");
-      globalThis.lexicon["Lithuanian"] = await loadLexicon("Lithuanian");
-      updateLoadingText("", "");
-    }
-    if (selectedLanguage === "Ukrainian" && useDictionary === "true") {
-      updateLoadingText("Ukrainian lexicon", "");
-      globalThis.lexicon["Ukrainian"] = await loadLexicon("Ukrainian");
-      updateLoadingText("", "");
-    }
     enableAll();
     loadedLanguages[selectedLanguage] = true;
   }

@@ -262,7 +262,7 @@ function get_ipa_no_cache(text, args) {
     case "Ukrainian":
       if (langForm === "Phonetic") {
         let stressedText = cleanText;
-        if (globalThis.lexicon["Ukrainian"]) {
+        if (globalThis.lexicon["Ukrainian"] && cleanText.trim().length > 0) {
           let dictRecord = globalThis.lexicon["Ukrainian"].get(
             cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
           );
@@ -316,11 +316,49 @@ function get_ipa_no_cache(text, args) {
       break;
     case "Russian":
       if (langForm === "Phonetic") {
-        command = `(window.ru_ipa.ipa_string("${cleanText}"))`;
+        let stressedText = cleanText;
+        if (globalThis.lexicon["Russian"]) {
+          let dictRecord = globalThis.lexicon["Russian"].get(
+            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+          );
+          if (
+            dictRecord &&
+            dictRecord.length >= cleanText.length &&
+            cleanText.trim().length > 0
+          ) {
+            console.log("found", cleanText, dictRecord);
+            stressedText = dictRecord;
+          }
+        }
+        const addStressIfOneSyllable = (word) =>
+          word.match(/[аэиуеюяёоы]/gi)?.length === 1
+            ? word.replace(/[аэиуеюяёоАЭИУЕЮЯЁОЫ]/, (match) => match + "\u0301")
+            : word;
+        console.log("final", cleanText, addStressIfOneSyllable(stressedText));
+        command = `(window.ru_ipa.ipa_string("${addStressIfOneSyllable(
+          stressedText,
+        )}"))`;
       }
+
       break;
     case "Icelandic":
       if (langForm === "Phonemic") {
+        if (globalThis.lexicon["Icelandic"]) {
+          let dictRecord = globalThis.lexicon["Icelandic"].get(
+              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+          );
+          if (!dictRecord) {
+            dictRecord = globalThis.lexicon["Icelandic"].get(
+                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+            );
+          }
+          console.log(cleanText, dictRecord);
+          if (dictRecord) {
+            command = 'ipa="' + dictRecord + '";';
+            break;
+          }
+        }
+
         command = `(window.is_ipa.toIPA("${cleanText}","",""))`;
       }
       break;

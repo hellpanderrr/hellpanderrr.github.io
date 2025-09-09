@@ -10,6 +10,8 @@ const LEXICON_LANGUAGES = {
   French: "french_lexicon_v3.zip",
   Lithuanian: "lt_lexicon.zip",
   Ukrainian: "uk_lexicon.zip",
+  Russian: "ru_lexicon.zip",
+  Icelandic: "is_lexicon.zip",
 };
 
 const LEXICON_FOLDER = "./utils/";

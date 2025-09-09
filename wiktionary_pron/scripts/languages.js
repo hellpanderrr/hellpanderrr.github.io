@@ -89,5 +89,11 @@ export const languages = {
     langCode: "grc",
     ttsCode: "el-GR",
   },
+  Icelandic: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "is",
+    ttsCode: "is-IS",
+  },
 };
 export default { languages };
