@@ -172,283 +172,357 @@ function updateLoadingText(filePath, fileExtension, rawText) {
   }
 }
 
+/**
+ * Helper function to encapsulate the repeated lexicon lookup logic.
+ * @param {string} lexiconName - The name of the lexicon (e.g., "German").
+ * @param {string} text - The text to look up.
+ * @returns {string|null} The dictionary record or null if not found.
+ */
+function lookupInLexicon(lexiconName, text) {
+  if (!globalThis.lexicon || !globalThis.lexicon[lexiconName]) {
+    return null;
+  }
+  const lexicon = globalThis.lexicon[lexiconName];
+  const cleanedForLookup = text.replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
+
+  let dictRecord = lexicon.get(cleanedForLookup);
+  if (!dictRecord) {
+    dictRecord = lexicon.get(cleanedForLookup.toLowerCase());
+  }
+
+  console.log(`Lexicon lookup for "${text}" in ${lexiconName}:`, dictRecord);
+  return dictRecord;
+}
+
+/**
+ * A map of language-specific handlers to replace the main switch statement.
+ * Each handler receives a context object and returns the calculated IPA string.
+ */
+const ipaHandlers = {
+  // --- Group 1: Unique/Complex Handlers ---
+
+  Latin: ({ cleanText, langStyle, langForm }) => {
+    const isPhonetic = langForm === "Phonetic";
+    const options = {
+      Ecclesiastical: { ecclesiastical: true, vulgar: false },
+      Classical: { ecclesiastical: false, vulgar: false },
+      Vulgar: { ecclesiastical: false, vulgar: true },
+    };
+    const styleOptions = options[langStyle];
+    if (!styleOptions) return null;
+
+    return window.la_ipa.convert_words(
+      cleanText,
+      isPhonetic,
+      styleOptions.ecclesiastical,
+      styleOptions.vulgar,
+    );
+  },
+
+  Portuguese: ({ cleanText, langStyle, langForm }) => {
+    const region = langStyle === "Brazil" ? "rio" : "pt";
+    const result = window.pt_ipa.IPA(cleanText, region);
+    return result?.[0]?.[langForm.toLowerCase()];
+  },
+
+  Spanish: ({ cleanText, langStyle, langForm }) => {
+    const dialect =
+      langStyle === "Castilian" ? "distincion-yeismo" : "seseo-yeismo";
+    const isPhonetic = langForm === "Phonetic";
+    const result = window.es_ipa.IPA(cleanText, dialect, isPhonetic);
+    return result?.text;
+  },
+
+  Ukrainian: ({ cleanText, langForm }) => {
+    if (langForm !== "Phonetic") return null;
+
+    // --- Stage 1: Check for a definitive version in the dictionary ---
+    if (globalThis.lexicon?.["Ukrainian"] && cleanText.trim().length > 0) {
+      const dictRecord =
+        globalThis.lexicon["Ukrainian"].get(
+          cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
+        ) ||
+        globalThis.lexicon["Ukrainian"].get(
+          cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
+        );
+      if (dictRecord) {
+        console.log("Ukrainian: Found in dictionary:", dictRecord);
+
+        // 1. Split by comma in case there are multiple forms (e.g., "замо́к,за́мок").
+        // 2. Trim whitespace from each resulting word.
+        const stressedForms = dictRecord.split(",").map((word) => word.trim());
+
+        // Generate an IPA for each stressed form provided by the dictionary.
+        const ipas = stressedForms
+          .map((form) => window.uk_ipa.pronunciation(form, true))
+          .filter((ipa) => ipa) // Filter out any unsuccessful IPA generations
+          .map((ipa) => `/${ipa}/`) // Format each successful IPA
+          .join(","); // Join into the final string, e.g., "/ipa1/,/ipa2/"
+
+        return ipas || null;
+      }
+    }
+
+    // --- Stage 2: If not in dictionary, analyze and process ---
+    const VOWEL_REGEX = /[аеиіоуєюяї]/i;
+    const STRESS_MARK = "\u0301";
+    const applyStress = (vowel) => vowel + STRESS_MARK;
+
+    const syllables = cleanText.match(new RegExp(VOWEL_REGEX.source, "gi"));
+    const syllableCount = syllables ? syllables.length : 0;
+
+    // Case A: 0 or 1 syllables. Stress it and return a single IPA.
+    if (syllableCount <= 1) {
+      const stressedText =
+        syllableCount === 1
+          ? cleanText.replace(/[аеиіоуєюяїАЕИІОУЄЮЯЇ]/, applyStress)
+          : cleanText;
+      return window.uk_ipa.pronunciation(stressedText, true);
+    }
+
+    // Case B (Concise): Multi-syllable. Generate all variants using a functional chain.
+    const possibleIPAs = [...cleanText]
+      .map((char, index) => (VOWEL_REGEX.test(char) ? index : -1)) // Get indices of all vowels
+      .filter((index) => index !== -1) // Filter out non-vowel markers
+      .map((index) => {
+        // For each vowel index, create a stressed word and get its IPA
+        const stressedVowel = applyStress(cleanText[index]);
+        const stressedWord =
+          cleanText.slice(0, index) +
+          stressedVowel +
+          cleanText.slice(index + 1);
+        return window.uk_ipa.pronunciation(stressedWord, true);
+      })
+      .filter((ipa) => ipa) // Filter out any unsuccessful IPA generations
+      .map((ipa) => `/${ipa}/`) // Format each successful IPA
+      .join(","); // Join into the final string
+
+    return possibleIPAs || null; // Return the generated string or null if empty
+  },
+  Russian: ({ cleanText, langForm }) => {
+    if (langForm !== "Phonetic") return null;
+
+    // --- Stage 1: Check for definitive versions in the dictionary (Unchanged) ---
+    if (globalThis.lexicon?.["Russian"] && cleanText.trim().length > 0) {
+      const cleanedKey = cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
+
+      const dictRecord =
+        globalThis.lexicon["Russian"].get(cleanedKey) ||
+        globalThis.lexicon["Russian"].get(cleanedKey.toLowerCase());
+
+      function prioritizeStressedIpa(ipaString) {
+        return (
+          ipaString &&
+          Object.values(
+            // Use a Set to efficiently handle identical duplicates from the start
+            Array.from(new Set(ipaString.split(",")))
+              .map((ipa) => ipa.trim().replace(/^\/|\/$/g, "")) // Clean up each IPA string
+              .filter(Boolean) // Remove any empty strings
+              .reduce((best, ipa) => {
+                // Reduce the array to an object of the best versions
+                const base = ipa.replace(/ˈ/g, ""); // The key for grouping is the IPA without stress
+                const existing = best[base];
+                // The new `ipa` is better if no version exists yet, or if the new one is stressed and the old one isn't.
+                if (
+                  !existing ||
+                  (ipa.includes("ˈ") && !existing.includes("ˈ"))
+                ) {
+                  best[base] = ipa;
+                }
+                return best;
+              }, {}),
+          )
+            .map((ipa) => `/${ipa}/`)
+            .join(",")
+        ); // Format the final values back into a string
+      }
+
+      if (dictRecord) {
+        console.log("Russian: Found in dictionary:", dictRecord);
+        const stressedForms = dictRecord.split(",").map((word) => word.trim());
+        const ipas = stressedForms
+          .map((form) => window.ru_ipa.ipa_string(form))
+          .filter((ipa) => ipa)
+          .map((ipa) => `/${ipa}/`)
+          .join(",");
+        return prioritizeStressedIpa(ipas) || null;
+      }
+    }
+
+    // --- Stage 2: Fallback logic for words not in the dictionary  ---
+    const VOWEL_REGEX = /[аэиуеюяёоы]/i; // Russian vowels
+    const STRESS_MARK = "\u0301";
+    const applyStress = (vowel) => vowel + STRESS_MARK;
+
+    const syllables = cleanText.match(new RegExp(VOWEL_REGEX.source, "gi"));
+    const syllableCount = syllables ? syllables.length : 0;
+
+    // Case A: 0 or 1 syllables. Stress it and return a single IPA.
+    if (syllableCount <= 1) {
+      const stressedText =
+        syllableCount === 1
+          ? cleanText.replace(/[аэиуеюяёоАЭИУЕЮЯЁОЫ]/, applyStress) // Russian vowel set
+          : cleanText;
+      const singleIpa = window.ru_ipa.ipa_string(stressedText); // Russian IPA function
+      return singleIpa ? `/${singleIpa}/` : null;
+    }
+
+    // Case B: Multi-syllable. Generate all variants using a functional chain.
+    const possibleIPAs = [...cleanText]
+      .map((char, index) => (VOWEL_REGEX.test(char) ? index : -1))
+      .filter((index) => index !== -1)
+      .map((index) => {
+        const stressedVowel = applyStress(cleanText[index]);
+        const stressedWord =
+          cleanText.slice(0, index) +
+          stressedVowel +
+          cleanText.slice(index + 1);
+        return window.ru_ipa.ipa_string(stressedWord); // Russian IPA function
+      })
+      .filter((ipa) => ipa)
+      .map((ipa) => `/${ipa}/`)
+      .join(",");
+
+    return possibleIPAs || null;
+  },
+
+  Greek: ({ cleanText, langStyle }) => {
+    const styleMap = {
+      "5th BCE Attic": "cla",
+      "1st CE Egyptian": "koi1",
+      "4th CE Koine": "koi2",
+      "10th CE Byzantine": "byz1",
+      "15th CE Constantinopolitan": "byz2",
+    };
+    const styleCode = styleMap[langStyle];
+    if (!styleCode) return null;
+    const result = window.grc_ipa.IPA(cleanText, styleCode);
+    return result?.[styleCode]?.IPA;
+  },
+
+  Armenian: ({ cleanText, langStyle, langForm }) => {
+    const system = langStyle === "Western" ? "west" : "east";
+    const methodMap = { Phonemic: "phonemic_IPA", Phonetic: "phonetic_IPA" };
+    const method = methodMap[langForm];
+    return method ? window.hy_ipa[method](cleanText, system) : null;
+  },
+
+  Italian: ({ cleanText, langForm }) => {
+    if (langForm === "Phonemic") {
+      const result = window.it_ipa.to_phonemic(cleanText, "TEST");
+      return result?.phonemic;
+    }
+    return null;
+  },
+
+  // --- Group 2: Direct Generation for Phonemic form (No Lexicon) ---
+  ...Object.fromEntries(
+    ["Belorussian", "Bulgarian", "Polish"].map((lang) => [
+      lang,
+      ({ cleanText, langForm }) => {
+        if (langForm !== "Phonemic") return null;
+        const generators = {
+          Belorussian: () => window.be_ipa.toIPA(cleanText),
+          Bulgarian: () => window.bg_ipa.toIPA(cleanText),
+          Polish: () => window.pl_ipa.convert_to_IPA(cleanText),
+        };
+        return generators[lang]();
+      },
+    ]),
+  ),
+
+  // --- Group 3: Lexicon Lookup with Generation Fallback ---
+  ...Object.fromEntries(
+    ["German", "French", "Czech", "Lithuanian", "Icelandic"].map((lang) => [
+      lang,
+      ({ cleanText, langForm, langStyle }) => {
+        // langStyle needed for French post-processing
+        let ipa = null;
+
+        // Step 1: Attempt lexicon lookup for Phonemic form
+        if (langForm === "Phonemic") {
+          const dictRecord = lookupInLexicon(lang, cleanText);
+          if (dictRecord) {
+            ipa = dictRecord;
+          }
+        }
+
+        // Step 2: If no record found, use a generator
+        if (ipa === null) {
+          const generators = {
+            German: {
+              Phonemic: () => window.de_ipa.phonemic(cleanText),
+              Phonetic: () => window.de_ipa.phonetic(cleanText),
+            },
+            French: {
+              Phonemic: () => window.fr_ipa.show(cleanText)?.[0],
+            },
+            Czech: {
+              Phonemic: () => window.cs_ipa.toIPA(cleanText),
+            },
+            Lithuanian: {
+              Phonemic: () => window.lt_ipa.toIPA(cleanText, true),
+            },
+            Icelandic: {
+              Phonemic: () => window.is_ipa.toIPA(cleanText, "", ""),
+            },
+          };
+          const langGenerator = generators[lang]?.[langForm];
+          if (langGenerator) {
+            ipa = langGenerator();
+          }
+        }
+
+        // Step 3: Apply language-specific post-processing
+        if (
+          lang === "French" &&
+          langStyle === "Parisian (experimental)" &&
+          ipa
+        ) {
+          ipa = ipa
+            .replace(/ɔ̃̃̃̃̃̃|ɔ̃/g, "õ")
+            .replace(/ɑ̃/g, "ɔ̃")
+            .replace(/œ̃|ɛ̃/g, "ɑ̃");
+        }
+
+        return ipa;
+      },
+    ]),
+  ),
+};
+
+/**
+ * Retrieves the IPA transcription for a given text without using a cache.
+ */
 function get_ipa_no_cache(text, args) {
   const cleanText = sanitize(text);
   console.log("doing actual IPA", text, cleanText, args);
 
   const [lang, langStyle, langForm] = args.split(";");
-  let command = "";
-
-  switch (lang) {
-    case "Latin":
-      switch (langStyle) {
-        case "Ecclesiastical":
-          command =
-            langForm === "Phonetic"
-              ? `window.la_ipa.convert_words("${cleanText}",true,true,false)`
-              : `window.la_ipa.convert_words("${cleanText}",false,true,false)`;
-          break;
-        case "Classical":
-          command =
-            langForm === "Phonetic"
-              ? `window.la_ipa.convert_words("${cleanText}",true,false,false)`
-              : `window.la_ipa.convert_words("${cleanText}",false,false,false)`;
-          break;
-        case "Vulgar":
-          command =
-            langForm === "Phonetic"
-              ? `window.la_ipa.convert_words("${cleanText}",true,false,true)`
-              : `window.la_ipa.convert_words("${cleanText}",false,false,true)`;
-          break;
-      }
-      break;
-    case "German":
-      if (langForm === "Phonemic") {
-        if (globalThis.lexicon["German"]) {
-          let dictRecord = globalThis.lexicon["German"].get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (!dictRecord) {
-            dictRecord = globalThis.lexicon["German"].get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
-            );
-          }
-          console.log(cleanText, dictRecord);
-          if (dictRecord) {
-            command = 'ipa="' + dictRecord + '";';
-            break;
-          }
-        }
-      }
-      command =
-        langForm === "Phonetic"
-          ? `(window.de_ipa.phonetic("${cleanText}"))`
-          : `(window.de_ipa.phonemic("${cleanText}"))`;
-      break;
-    case "Portuguese":
-      command =
-        langStyle === "Brazil"
-          ? `window.pt_ipa.IPA("${cleanText}","rio")[0].${langForm.toLowerCase()}`
-          : `window.pt_ipa.IPA("${cleanText}","pt")[0].${langForm.toLowerCase()}`;
-      break;
-    case "Spanish":
-      const dialect =
-        langStyle === "Castilian" ? "distincion-yeismo" : "seseo-yeismo";
-      command = `window.es_ipa.IPA("${cleanText}","${dialect}", ${
-        langForm === "Phonetic"
-      }).text`;
-      break;
-    case "French":
-      if (langForm === "Phonemic") {
-        if (globalThis.lexicon["French"]) {
-          let dictRecord = globalThis.lexicon["French"].get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (!dictRecord) {
-            dictRecord = globalThis.lexicon["French"].get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
-            );
-          }
-          console.log(cleanText, dictRecord);
-          if (dictRecord) {
-            command = 'ipa="' + dictRecord + '";';
-            break;
-          }
-        }
-        command = `(window.fr_ipa.show("${cleanText}")[0])`;
-      }
-
-      break;
-    case "Ukrainian":
-      if (langForm === "Phonetic") {
-        let stressedText = cleanText;
-        if (globalThis.lexicon["Ukrainian"] && cleanText.trim().length > 0) {
-          let dictRecord = globalThis.lexicon["Ukrainian"].get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (dictRecord && dictRecord.length >= cleanText.length) {
-            console.log("found", cleanText, dictRecord);
-            stressedText = dictRecord;
-          }
-        }
-        const addStressIfOneSyllable = (word) =>
-          word.match(/[аеиіоуєюяї]/gi)?.length === 1
-            ? word.replace(
-                /[аеиіоуєюяїАЕИІОУЄЮЯЇ]/,
-                (match) => match + "\u0301",
-              )
-            : word;
-
-        command = `(window.uk_ipa.pronunciation("${addStressIfOneSyllable(
-          stressedText,
-        )}",true))`;
-      }
-      break;
-    case "Belorussian":
-      if (langForm === "Phonemic") {
-        command = `(window.be_ipa.toIPA("${cleanText}"))`;
-      }
-      break;
-    case "Bulgarian":
-      if (langForm === "Phonemic") {
-        command = `(window.bg_ipa.toIPA("${cleanText}"))`;
-      }
-      break;
-    case "Lithuanian":
-      if (langForm === "Phonemic") {
-        if (globalThis.lexicon["Lithuanian"]) {
-          let dictRecord = globalThis.lexicon["Lithuanian"].get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (!dictRecord) {
-            dictRecord = globalThis.lexicon["Lithuanian"].get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
-            );
-          }
-          console.log("Dict lookup", cleanText, dictRecord);
-          if (dictRecord) {
-            command = 'ipa="' + dictRecord + '";';
-            break;
-          }
-        }
-        command = `(window.lt_ipa.toIPA("${cleanText}",true))`;
-      }
-      break;
-    case "Russian":
-      if (langForm === "Phonetic") {
-        let stressedText = cleanText;
-        if (globalThis.lexicon["Russian"]) {
-          let dictRecord = globalThis.lexicon["Russian"].get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
-          );
-          if (
-            dictRecord &&
-            dictRecord.length >= cleanText.length &&
-            cleanText.trim().length > 0
-          ) {
-            console.log("found", cleanText, dictRecord);
-            stressedText = dictRecord;
-          }
-        }
-        const addStressIfOneSyllable = (word) =>
-          word.match(/[аэиуеюяёоы]/gi)?.length === 1
-            ? word.replace(/[аэиуеюяёоАЭИУЕЮЯЁОЫ]/, (match) => match + "\u0301")
-            : word;
-        console.log("final", cleanText, addStressIfOneSyllable(stressedText));
-        command = `(window.ru_ipa.ipa_string("${addStressIfOneSyllable(
-          stressedText,
-        )}"))`;
-      }
-
-      break;
-    case "Icelandic":
-      if (langForm === "Phonemic") {
-        if (globalThis.lexicon["Icelandic"]) {
-          let dictRecord = globalThis.lexicon["Icelandic"].get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (!dictRecord) {
-            dictRecord = globalThis.lexicon["Icelandic"].get(
-                cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
-            );
-          }
-          console.log(cleanText, dictRecord);
-          if (dictRecord) {
-            command = 'ipa="' + dictRecord + '";';
-            break;
-          }
-        }
-
-        command = `(window.is_ipa.toIPA("${cleanText}","",""))`;
-      }
-      break;
-    case "Czech":
-      if (langForm === "Phonemic") {
-        if (globalThis.lexicon["Czech"]) {
-          let dictRecord = globalThis.lexicon["Czech"].get(
-            cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (!dictRecord) {
-            dictRecord = globalThis.lexicon["Czech"].get(
-              cleanText.replace(/[^\p{Letter}\p{Mark}-]+/gu, "").toLowerCase(),
-            );
-          }
-          console.log(cleanText, dictRecord);
-          if (dictRecord) {
-            command = 'ipa="' + dictRecord + '";';
-            break;
-          }
-        }
-        command = `(window.cs_ipa.toIPA("${cleanText}"))`;
-      }
-      break;
-    case "Italian":
-      if (langForm === "Phonemic") {
-        command = `(window.it_ipa.to_phonemic("${cleanText}",'TEST').phonemic)`;
-      }
-      break;
-    case "Armenian":
-      const system = langStyle === "Western" ? "west" : "east";
-      if (langForm === "Phonemic") {
-        command = `(window.hy_ipa.phonemic_IPA("${cleanText}","${system}"))`;
-      } else if (langForm === "Phonetic") {
-        command = `(window.hy_ipa.phonetic_IPA("${cleanText}","${system}"))`;
-      }
-      break;
-
-    case "Greek":
-      switch (langStyle) {
-        case "5th BCE Attic":
-          command = `window.grc_ipa.IPA("${cleanText}",'cla').cla.IPA`;
-          break;
-        case "1st CE Egyptian":
-          command = `window.grc_ipa.IPA("${cleanText}",'koi1').koi1.IPA`;
-          break;
-        case "4th CE Koine":
-          command = `window.grc_ipa.IPA("${cleanText}",'koi2').koi2.IPA`;
-          break;
-        case "10th CE Byzantine":
-          command = `window.grc_ipa.IPA("${cleanText}",'byz1').byz1.IPA`;
-          break;
-        case "15th CE Constantinopolitan":
-          command = `window.grc_ipa.IPA("${cleanText}",'byz2').byz2.IPA`;
-          break;
-      }
-      break;
-
-    case "Polish":
-      if (langForm === "Phonemic") {
-        command = `(window.pl_ipa.convert_to_IPA("${cleanText}"))`;
-      }
-      break;
-  }
 
   let ipa = "";
   try {
-    ipa = eval(command);
-    console.log(command, ipa);
+    const handler = ipaHandlers[lang];
+    if (handler) {
+      ipa = handler({ cleanText, lang, langStyle, langForm }) || "";
+      console.log(`Handler for "${lang}" returned:`, ipa);
+    } else {
+      console.log(`No handler found for language: "${lang}"`);
+    }
   } catch (err) {
-    ipa = "";
-    console.log(err);
+    ipa = ""; // Ensure ipa is reset on error
+    console.error("Error during IPA conversion:", err);
   }
 
   if (!ipa) {
     return { value: text, status: "error" };
   }
-  console.log("before replace ipa ", ipa);
-  if (langStyle === "Parisian (experimental)") {
-    ipa = ipa
-      .replace("ɔ̃̃̃̃̃̃", "õ")
-      .replace("ɔ̃", "õ")
-      .replace("ɑ̃", "ɔ̃")
-      .replace("œ̃", "ɑ̃")
-      .replace("ɛ̃", "ɑ̃");
-  }
 
+  // The French post-processing has been moved into its specific handler.
+  // The main function is now cleaner.
   console.log("final ipa ", ipa);
   return { value: ipa, status: "success" };
 }
-
 function createElementFromHTML(htmlString) {
   var div = document.createElement("div");
   div.innerHTML = htmlString.trim();
