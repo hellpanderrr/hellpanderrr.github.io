@@ -22,6 +22,7 @@ lua.global.set("updateLoadingText", (file_path, extension) =>
 );
 
 await mountFile("../wiktionary_pron/lua_modules/memoize.lua", "memoize.lua");
+//await mountFile("lua_modules/memoize.lua", "memoize.lua");
 
 await lua.doString(`
           memoize = require('memoize')
@@ -39,7 +40,7 @@ await lua.doString(`
               
               updateLoadingText(path, extension)
              
-             resp = fetchMultiple({string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension),string.format('https://cdn.statically.io/gh/hellpanderrr/hellpanderrr.github.io/0.1.2/wiktionary_pron/lua_modules/%s.%s',path,extension), string.format('https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io@0.1.2/wiktionary_pron/lua_modules/%s.%s',path,extension)}):await()
+             resp = fetch(string.format('../wiktionary_pron/lua_modules/%s.%s',path,extension)):await()
              
             
               
@@ -50,6 +51,8 @@ await lua.doString(`
               print('    loaded '..path)
               return module
           end
+
+
 
           require = memoize(require)
           require('debug/track')
