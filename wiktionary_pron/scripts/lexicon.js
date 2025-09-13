@@ -9,8 +9,8 @@ const LEXICON_LANGUAGES = {
   Czech: "czech_lexicon.zip",
   French: "french_lexicon_v3.zip",
   Lithuanian: "lt_lexicon.zip",
-  Ukrainian: "uk_lexicon.zip",
-  Russian: "ru_lexicon.zip",
+  Ukrainian: "uk_lexicon_v4.zip",
+  Russian: "ru_lexicon_v4.zip",
   Icelandic: "is_lexicon.zip",
 };
 
@@ -29,7 +29,7 @@ class OptimizedV3Lexicon {
     };
   }
 
-  async loadFromBlob(blob) {
+  async loadFromBlob(blob, language) {
     const startTime = performance.now();
 
     try {
@@ -40,7 +40,7 @@ class OptimizedV3Lexicon {
       updateLoadingText("", "", "Parsing lexicon data");
 
       const parseStart = performance.now();
-      await this.parseV3Data(jsonStr);
+      await this.parseV3Data(jsonStr, language);
       this.stats.parseTime = performance.now() - parseStart;
 
       this.calculateMemoryUsage();
@@ -62,21 +62,49 @@ class OptimizedV3Lexicon {
     }
   }
 
-  async parseV3Data(jsonStr) {
+  async parseV3Data(jsonStr, language) {
     const data = JSON.parse(jsonStr);
 
     if (Array.isArray(data)) {
       // V3 format with prefix compression: [[prefix_len, suffix, ipa], ...]
-      console.log("📂 Processing V3 prefix compression format");
+      const isV4Format = language === "Russian" || language === "Ukrainian";
+
+      if (isV4Format) {
+        console.log("📂 Processing V4 prefix/value compression format");
+      } else {
+        console.log("📂 Processing V3 prefix compression format");
+      }
 
       let currentKey = "";
       const totalEntries = data.length;
       const progressInterval = Math.floor(totalEntries / 50); // Update every 2%
+      const STRESS_MARK = "\u0301";
 
       for (let i = 0; i < data.length; i++) {
-        const [prefixLen, suffix, ipa] = data[i];
-        currentKey = currentKey.substring(0, prefixLen) + suffix;
-        this.entries.set(currentKey, ipa);
+        if (isV4Format) {
+          // V4 DECODING LOGIC
+          const [prefixLen, suffix, valueEncoding] = data[i];
+          currentKey = currentKey.substring(0, prefixLen) + suffix;
+
+          let finalValue;
+          if (typeof valueEncoding === "number") {
+            // It's an integer: the index of the stressed vowel.
+            const stressPos = valueEncoding;
+            finalValue =
+              currentKey.slice(0, stressPos + 1) +
+              STRESS_MARK +
+              currentKey.slice(stressPos + 1);
+          } else {
+            // It's a string: an exception (e.g., multi-form). Use it directly.
+            finalValue = valueEncoding;
+          }
+          this.entries.set(currentKey, finalValue);
+        } else {
+          // V3 DECODING LOGIC (original code)
+          const [prefixLen, suffix, ipa] = data[i];
+          currentKey = currentKey.substring(0, prefixLen) + suffix;
+          this.entries.set(currentKey, ipa);
+        }
 
         // Progress update with yielding for responsiveness
         if (i % progressInterval === 0) {
@@ -89,8 +117,8 @@ class OptimizedV3Lexicon {
             )}%)`,
           );
 
-          // Yield control every 4th progress update to prevent blocking
-          if (i % (progressInterval * 4) === 0) {
+          // Yield control every 2nd progress update to prevent blocking
+          if (i % (progressInterval * 2) === 0) {
             await new Promise((resolve) => setTimeout(resolve, 0));
           }
         }
@@ -280,8 +308,13 @@ async function loadLexicon(language) {
   let worker;
 
   try {
-    // Special handling for French optimized format
-    if (language === "French" || language === "German") {
+    // Special handling for optimized format
+    if (
+      language === "French" ||
+      language === "German" ||
+      language === "Ukrainian" ||
+      language === "Russian"
+    ) {
       return await loadOptimizedLexicon(language);
     }
 
@@ -348,7 +381,7 @@ async function loadOptimizedLexicon(language) {
 
     const optimizedLexicon = new OptimizedV3Lexicon();
     optimizedLexicon.stats.downloadTime = downloadTime;
-    const success = await optimizedLexicon.loadFromBlob(blob);
+    const success = await optimizedLexicon.loadFromBlob(blob, language);
 
     if (!success) {
       throw new Error("Failed to load optimized lexicon");
