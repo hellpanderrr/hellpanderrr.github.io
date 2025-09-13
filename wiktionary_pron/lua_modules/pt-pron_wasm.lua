@@ -127,8 +127,11 @@ local C_NOT_H_OR_GLIDE = "[^h" .. glide .. vowel .. wordsep .. "_]" -- consonant
 local C_OR_WORD_BOUNDARY = "[^" .. vowel .. charsep .. "_]" -- consonant or word boundary
 local voiced_cons = "bdglʎmnɲŋrɾʁvzjʒʤ" -- voiced sound
 
+
+-- local table = loadfile("table.lua")()
+local listToSet = m_table.listToSet
 -- Unstressed words with vowel reduction in Brazil and Portugal.
-local unstressed_words = require("table").listToSet({
+local unstressed_words = listToSet({
 	"o", "os", -- definite articles
 	"me", "te", "se", "lhe", "lhes", "nos", "vos", -- unstressed object pronouns
 	-- See https://en.wikipedia.org/wiki/Personal_pronouns_in_Portuguese#Contractions_between_clitic_pronouns
@@ -146,7 +149,7 @@ local unstressed_words = require("table").listToSet({
 })
 
 -- Unstressed words with vowel reduction in Portugal only.
-local unstressed_full_vowel_words_brazil = require("table").listToSet({
+local unstressed_full_vowel_words_brazil = listToSet({
 	"a", "as", -- definite articles
 	-- See https://en.wikipedia.org/wiki/Personal_pronouns_in_Portuguese#Contractions_between_clitic_pronouns
 	"ma", "mas", "ta", "tas", "lha", "lhas", -- object pronouns combined with articles
@@ -157,7 +160,7 @@ local unstressed_full_vowel_words_brazil = require("table").listToSet({
 })
 
 -- Unstressed words without vowel reduction.
-local unstressed_full_vowel_words = require("table").listToSet({
+local unstressed_full_vowel_words = listToSet({
 	"um", "uns", -- single-syllable indefinite articles
 	"meu", "teu", "seu", "meus", "teus", "seus", -- single-syllable possessives
 	"ou", -- coordinating conjunctions
@@ -1840,5 +1843,5 @@ function export.show(frame)
 	return table.concat(lines, "\n") .. "\n<span></span>"
 end
 
-
+print(export.IPA("pessoas", "sbr")[1].phonetic)
 return export
