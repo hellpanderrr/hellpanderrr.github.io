@@ -96,7 +96,13 @@ async function transcribe(mode, translate = false, inputText = null) {
         console.log("processing", word);
         let { status, value } = await getIpa(word, lang, langStyle, langForm);
         let values = "";
-        if (lang === "German") {
+        if (
+          lang === "German" ||
+          lang === "Ukrainian" ||
+          lang === "Czech" ||
+          lang === "Russian" ||
+          lang === "Lituanian"
+        ) {
           [value, values] = processGermanIpa(value);
         }
 
@@ -168,7 +174,13 @@ async function transcribe(mode, translate = false, inputText = null) {
         let value;
         console.log(ipa.value);
         value = ipa.value;
-        if (lang === "German" || lang === "Czech" || lang === "Lithuanian") {
+        if (
+          lang === "German" ||
+          lang === "Czech" ||
+          lang === "Lithuanian" ||
+          lang === "Russian" ||
+          lang === "Ukrainian"
+        ) {
           [value, values] = processGermanIpa(value);
         } else {
           values = "";
@@ -296,7 +308,13 @@ async function transcribe(mode, translate = false, inputText = null) {
         resultDiv.className = "cell";
         let value, values;
 
-        if (lang === "German" || lang === "Czech") {
+        if (
+          lang === "German" ||
+          lang === "Czech" ||
+          lang === "Ukrainian" ||
+          lang === "Lituanian" ||
+          lang === "Russian"
+        ) {
           [value, values] = processGermanIpa(results[i]?.value || "");
         } else {
           value = results[i]?.value;
@@ -372,7 +390,13 @@ async function transcribe(mode, translate = false, inputText = null) {
     console.log(err);
   } finally {
     console.log("finally");
-    if (lang === "German" || lang === "Czech" || lang === "Lituanian") {
+    if (
+      lang === "German" ||
+      lang === "Czech" ||
+      lang === "Lituanian" ||
+      lang === "Russian" ||
+      lang === "Ukrainian"
+    ) {
       Array.from(document.querySelectorAll(".ipa")).map((x) => {
         if (
           Boolean(x.getAttribute("all_values")) &&
@@ -387,21 +411,33 @@ async function transcribe(mode, translate = false, inputText = null) {
           if (all_values === "") {
             return;
           }
-          const c = event.target.textContent;
+          let c = "";
+          if (mode === "line") {
+            c = event.target.getAttribute("content");
+          } else {
+            c = event.target.textContent;
+          }
 
           function cycle(all_values, current) {
-            const split = all_values.split("\n");
-            if (split.length > 1) {
-              const index = split.indexOf(current.trim());
-              if (index === split.length - 1) {
-                return split[0];
-              } else {
-                return split[index + 1];
-              }
+            const options = all_values
+              .split("\n")
+              .map((item) => item.trim()) // Trim every item in the array
+              .filter((item) => item); // Remove any empty strings (from blank lines)
+            if (options.length <= 1) {
+              return current; // Or return options[0] if that's preferred
             }
+            const normalizedCurrent = current.trim().replace(/:/g, "ː");
+
+            const currentIndex = options.indexOf(normalizedCurrent);
+            if (currentIndex === -1) {
+              return options[0];
+            }
+            const nextIndex = (currentIndex + 1) % options.length;
+            return options[nextIndex];
           }
 
           const new_value = cycle(all_values, c);
+
           if (mode === "line") {
             event.target.setAttribute("content", new_value);
           } else {
@@ -411,37 +447,79 @@ async function transcribe(mode, translate = false, inputText = null) {
         });
       });
     }
-    if (lang === "Ukrainian" || lang == "Russian") {
-      function getStressing(word) {
-        let stressedText = word;
-        if (globalThis.lexicon[lang]) {
-          let dictRecord = globalThis.lexicon[lang].get(
-            word.replace(/[^\p{Letter}\p{Mark}-]+/gu, ""),
-          );
-          if (
-            word.trim().length > 0 &&
-            dictRecord &&
-            dictRecord.length >= word.length
-          ) {
-            console.log(`found  [${word}], [${dictRecord}]`);
-            stressedText = dictRecord;
-          }
-        }
-        return stressedText;
-      }
+    if (lang === "Ukrainian" || lang === "Russian") {
+      // Define language-specific vowel rules once
+      const VOWELS = {
+        Russian: /[аэиуеюяёоы]/gi,
+        Ukrainian: /[аеиіоуєюяї]/gi,
+      };
+      const VOWELS_REPLACE = {
+        Russian: /[аэиуеюяёоыАЭИУЕЮЯЁОЫ]/,
+        Ukrainian: /[аеиіоуєюяїАЕИІОУЄЮЯЇ]/,
+      };
+      const STRESS_MARK = "\u0301";
 
-      const addStressIfOneSyllable = (word) =>
-        word.match(/[аеиоуєюяэёы]/gi)?.length === 1
-          ? word.replace(/[аеиоуєюяїАЕИІОУЄЮЯЭЁЫ]/, (match) => match + "\u0301")
-          : word;
-      document
-        .querySelectorAll(".input_text")
-        .forEach(
-          (x) =>
-            (x.textContent = getStressing(
-              addStressIfOneSyllable(x.textContent),
-            )),
+      /**
+       * Applies a stress mark to a vowel, with special handling for
+       * Cyrillic letters like 'і' and 'ё' to ensure correct typography.
+       */
+      const applyStress = (vowel) => {
+        if (vowel === "і") return "ı" + STRESS_MARK; // Use Latin dotless 'ı'
+        if (vowel === "ё" || vowel === "Ё") return vowel; // 'ё' is already stressed
+        return vowel + STRESS_MARK;
+      };
+
+      document.querySelectorAll(".input_text").forEach((element) => {
+        element.textContent = element.textContent.replace(
+          /[\p{Letter}\p{Mark}-]+/gu, // Matches each word
+          (word) => {
+            // --- Stage 1: Check for a STRESSED entry in the dictionary ---
+            if (globalThis.lexicon?.[lang] && word.trim().length > 0) {
+              const dictRecord =
+                globalThis.lexicon[lang].get(word) ||
+                globalThis.lexicon[lang].get(word.toLowerCase());
+
+              if (
+                dictRecord &&
+                !dictRecord.includes(",") &&
+                dictRecord.includes(STRESS_MARK)
+              ) {
+                // The dictionary provides a stressed version. This is the highest authority.
+                // We transfer its stress to the original word to preserve case.
+                const stressIndex = dictRecord.indexOf(STRESS_MARK);
+                const vowelIndex = stressIndex - 1;
+                if (vowelIndex >= 0 && vowelIndex < word.length) {
+                  const vowelToStress = word[vowelIndex];
+                  const stressedVowel = applyStress(vowelToStress);
+                  const finalWord =
+                    word.slice(0, vowelIndex) +
+                    stressedVowel +
+                    word.slice(vowelIndex + 1);
+
+                  console.log(
+                    `found stressed record for [${word}] -> [${finalWord}]`,
+                  );
+                  return finalWord;
+                } // Return the authoritative stressed word and STOP.
+              }
+            }
+
+            // --- Stage 2: Fallback to one-syllable stressing rule ---
+            // This code now runs if:
+            //   a) The word was not in the dictionary.
+            //   b) The word was in the dictionary but had NO stress mark.
+            const vowelRegex = VOWELS[lang];
+            const syllables = word.match(vowelRegex);
+            if (syllables && syllables.length === 1) {
+              return word.replace(VOWELS_REPLACE[lang], (vowel) =>
+                applyStress(vowel),
+              );
+            }
+
+            return word;
+          },
         );
+      });
     }
     globalThis.transcriptionMode = mode;
     globalThis.transcriptionLang = lang;
