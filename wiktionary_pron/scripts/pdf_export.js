@@ -16,7 +16,7 @@ async function toPdf(lines, layoutType, darkMode, transcriptionLang) {
 
 let fonts = [];
 
-async function fetchFonts() {
+async function fetchFonts(transcriptionLang) {
   if (fonts.length) {
     return fonts;
   }
@@ -25,8 +25,12 @@ async function fetchFonts() {
       .then((res) => res.arrayBuffer())
       .then((res) => new Uint8Array(res));
 
+  const textFontUrl =
+    transcriptionLang.indexOf("Armenian") === -1
+      ? "fonts/EBGaramond-Regular.ttf"
+      : "fonts/FreeMono.woff2";
   const [GaramondBytes, VocesBytes] = await Promise.all([
-    fetchAsset("fonts/EBGaramond-Regular.ttf"),
+    fetchAsset(textFontUrl),
     fetchAsset(
       "https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/Voces-Regular.ttf",
     ),
@@ -44,7 +48,7 @@ async function main(lines, layoutType, darkMode, transcriptionLang) {
   const fillDoc = async (lines, pdfDoc, layoutType, darkMode) => {
     pdfDoc.registerFontkit(fontkit);
 
-    const [GaramondBytes, VocesBytes] = await fetchFonts();
+    const [GaramondBytes, VocesBytes] = await fetchFonts(transcriptionLang);
 
     const Garamond = await pdfDoc.embedFont(GaramondBytes);
     const Voces = await pdfDoc.embedFont(VocesBytes);
@@ -113,8 +117,12 @@ async function main(lines, layoutType, darkMode, transcriptionLang) {
             font: Garamond,
             x: x,
             y: y,
-            size: fontSize,
+            size:
+              transcriptionLang.indexOf("Armenian") === -1
+                ? fontSize
+                : fontSize - 2,
             color: color,
+            opacity: transcriptionLang.indexOf("Armenian") === -1 ? 1 : 0.8,
           });
           page.drawText(ipa, {
             font: Voces,
