@@ -176,6 +176,16 @@ body.dark_mode button.audio-popup-line:hover {
     background-color: #CE93D8;
 }
 
+body.dark_mode .audio-popup-selection {
+    background-color: #CE93D8;
+    color: white;
+    border-color: #9C27B0;
+}
+
+body.dark_mode .audio-popup-selection:hover {
+    background-color: #BA68C8;
+}
+
 
 body.dark_mode button {
     background-color: #CE93D8;
@@ -326,6 +336,30 @@ body i.icon-moon {
     height: 100%;
 }
 
+.audio-popup-selection {
+    position: absolute;
+    z-index: 1000;
+    padding: 6px 8px;
+    background-color: #f0f8ff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: opacity 0.3s ease, background-color 0.2s ease;
+    opacity: 0;
+    pointer-events: auto;
+}
+
+.audio-popup-selection:hover {
+    background-color: #e6f3ff;
+}
+
+.audio-popup-selection .icon-volume {
+    margin: 0;
+    vertical-align: middle;
+}
+
 .cell {
     position: relative;
     display: inline-block;
@@ -354,6 +388,12 @@ body i.icon-moon {
 
 #tts {
     max-width: 350px;
+    min-width: 200px;
+}
+
+#tts_switch {
+
+    width: 235px;
 }
 
 #loading_text:after {

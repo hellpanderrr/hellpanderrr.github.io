@@ -14,7 +14,7 @@ import {
   updateLoadingText,
   wait,
 } from "./utils.js";
-import { tts } from "./tts.js";
+import { tts, setLanguageAndFindVoice } from "./tts.js";
 import { toPdf } from "./pdf_export.js";
 import { toCsv } from "./csv_export.js";
 import { loadLexicon } from "./lexicon.js";
@@ -101,7 +101,8 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Ukrainian" ||
           lang === "Czech" ||
           lang === "Russian" ||
-          lang === "Lituanian"
+          lang === "Lituanian" ||
+          lang === "French"
         ) {
           [value, values] = processGermanIpa(value);
         }
@@ -179,7 +180,8 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Czech" ||
           lang === "Lithuanian" ||
           lang === "Russian" ||
-          lang === "Ukrainian"
+          lang === "Ukrainian" ||
+          lang === "French"
         ) {
           [value, values] = processGermanIpa(value);
         } else {
@@ -313,7 +315,8 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Czech" ||
           lang === "Ukrainian" ||
           lang === "Lituanian" ||
-          lang === "Russian"
+          lang === "Russian" ||
+          lang === "French"
         ) {
           [value, values] = processGermanIpa(results[i]?.value || "");
         } else {
@@ -395,7 +398,8 @@ async function transcribe(mode, translate = false, inputText = null) {
       lang === "Czech" ||
       lang === "Lituanian" ||
       lang === "Russian" ||
-      lang === "Ukrainian"
+      lang === "Ukrainian" ||
+      lang === "French"
     ) {
       Array.from(document.querySelectorAll(".ipa")).map((x) => {
         if (
@@ -611,6 +615,23 @@ async function updateOptionsUponLanguageSelection(event) {
     useDictionary = "true";
   }
   console.log("changing language to ", selectedLanguage);
+
+  // Update help button
+  const helpButton = document.getElementById("help_button");
+  if (helpButton) {
+    if (selectedLanguage && selectedLanguage !== "-- select an option --") {
+      helpButton.style.display = "inline-block";
+      helpButton.onclick = () => {
+        const helpUrl = `help/${selectedLanguage
+          .toLowerCase()
+          .replace(/\s+/g, "_")}.html`;
+        window.open(helpUrl, "_blank");
+      };
+    } else {
+      helpButton.style.display = "none";
+    }
+  }
+
   try {
     if (urlParams.get("lang") !== selectedLanguage) {
       window.history.pushState({}, "", `?lang=${selectedLanguage}`);
@@ -652,7 +673,7 @@ async function updateOptionsUponLanguageSelection(event) {
     loadedLanguages[selectedLanguage] = true;
   }
 
-  selectTTS(lang.ttsCode);
+  setLanguageAndFindVoice(lang.ttsCode);
 
   function updateSelectOptions(selectedValue, selectElement, options) {
     selectElement.innerHTML = "";
@@ -676,17 +697,8 @@ async function updateOptionsUponLanguageSelection(event) {
   console.log("Finished changing language to ", selectedLanguage);
   await processTextParam();
   rememberText();
-}
-
-function selectTTS(language) {
-  const voices = Array.from(document.querySelector("#tts").options);
-  const relevantVoices = voices.filter((option) =>
-    (option.getAttribute("data-lang") || "").includes(language),
-  );
-
-  if (relevantVoices.length > 0) {
-    document.querySelector("#tts").value = relevantVoices[0].value;
-  }
+  globalThis.transcriptionLang = selectedLanguage;
+  globalThis.transcriptionLangCode = lang.ttsCode;
 }
 
 const isDarkMode = () => document.body.classList.contains("dark_mode");

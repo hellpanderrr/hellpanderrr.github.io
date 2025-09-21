@@ -60,6 +60,7 @@
 
 
             </select>
+            <!--            <button id="help_button" type="button" title="Help for selected language" style="margin-left: 10px; display: none;">?</button>-->
             <p id="loading_text"></p>
         </div>
         <div>
@@ -79,11 +80,20 @@
 
         </select>
         <div>
+            <div>
+                <span>Voice Engine:</span>
+                <select autocomplete="off" class="dropdown" disabled="true" id="tts_switch">
+                    <option value="browser" selected>Browser built-in</option>
+                    <option value="edge">Expanded (ms-edge-tts)</option>
+                </select>
+            </div>
             TTS: <select autocomplete="off" class="dropdown" disabled="true" id="tts">
-            <option disabled selected value> --</option>
+            <option disabled selected value> -- select an option --</option>
 
 
         </select>
+
+
             <div>
                 Speed: <input class="custom-input" type="range" min="0" max="200" step="10" value="100" id="tts_speed">
                 Volume: <input class="custom-input" type="range" min="0" max="100" step="10" value="100"
@@ -202,10 +212,6 @@
     </i></a>
 
 </div>
-
-<a href="https://hits.seeyoufarm.com" style="display:none;"><img
-        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fhellpanderrr.github.io%2Fwiktionary_pron%2Findex.html&count_bg=%23414141&title_bg=%236E2424&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false"/></a>
-
 
 </body>
 
