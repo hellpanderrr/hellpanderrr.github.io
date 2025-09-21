@@ -234,28 +234,52 @@ class StreamingTTS {
   }
 
   stop() {
-    // 1. Close the socket first to prevent new messages.
+    // 1. Completely and safely dismantle the WebSocket connection.
     if (this.#currentSocket) {
-      this.#currentSocket.onclose = null; // Prevent the onclose handler from running
-      this.#currentSocket.onerror = null; // Prevent the onerror handler
-      this.#currentSocket.close();
+      // Nullify ALL event handlers to prevent any lingering callbacks from firing.
+      this.#currentSocket.onopen = null;
+      this.#currentSocket.onmessage = null;
+      this.#currentSocket.onerror = null;
+      this.#currentSocket.onclose = null;
+
+      // Defensively close the socket only if it's in an active state.
+      try {
+        const state = this.#currentSocket.readyState;
+        if (state === WebSocket.OPEN || state === WebSocket.CONNECTING) {
+          // Use the spec-compliant close method with a normal closure code.
+          this.#currentSocket.close(1000, "client stop");
+        }
+      } catch (e) {
+        // This can happen in rare cases; it's safe to ignore.
+        console.debug("Error while closing WebSocket, ignoring:", e);
+      }
+
       this.#currentSocket = null;
     }
 
-    // 2. Clear the queue to stop any pending appends.
+    // 2. Clear internal state.
     this.#audioQueue = [];
     this.#isAppending = false;
 
-    // 3. Gracefully end the media stream.
-    // This will handle the sourceBuffer and mediaSource correctly.
+    // 3. Gracefully end the MediaSource stream.
     this.#finalizeStream();
 
-    // 4. Reset the audio player.
+    // 4. Fully and safely reset the <audio> element.
     this.#audioPlayer.pause();
-    if (this.#audioPlayer.src.startsWith("blob:")) {
+
+    // Revoke any object URL to prevent memory leaks.
+    if (this.#audioPlayer.src && this.#audioPlayer.src.startsWith("blob:")) {
       URL.revokeObjectURL(this.#audioPlayer.src);
     }
+
+    // Remove the source and call load() to force the element to reset.
     this.#audioPlayer.removeAttribute("src");
+    try {
+      this.#audioPlayer.load();
+    } catch (e) {
+      // This can fail in some browsers/states; it's safe to ignore.
+      console.debug("Error while resetting audio element, ignoring:", e);
+    }
   }
 
   // --- Private Helper Methods ---
