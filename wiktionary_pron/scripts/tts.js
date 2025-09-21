@@ -234,41 +234,56 @@ class StreamingTTS {
   }
 
   stop() {
+    // 1. Close the socket first to prevent new messages.
     if (this.#currentSocket) {
+      this.#currentSocket.onclose = null; // Prevent the onclose handler from running
+      this.#currentSocket.onerror = null; // Prevent the onerror handler
       this.#currentSocket.close();
       this.#currentSocket = null;
     }
-    if (this.#mediaSource && this.#mediaSource.readyState === "open") {
-      try {
-        this.#mediaSource.endOfStream();
-      } catch (e) {
-        /* Ignore */
-      }
-    }
-    this.#audioPlayer.pause();
-    this.#audioPlayer.removeAttribute("src");
+
+    // 2. Clear the queue to stop any pending appends.
     this.#audioQueue = [];
     this.#isAppending = false;
+
+    // 3. Gracefully end the media stream.
+    // This will handle the sourceBuffer and mediaSource correctly.
+    this.#finalizeStream();
+
+    // 4. Reset the audio player.
+    this.#audioPlayer.pause();
+    if (this.#audioPlayer.src.startsWith("blob:")) {
+      URL.revokeObjectURL(this.#audioPlayer.src);
+    }
+    this.#audioPlayer.removeAttribute("src");
   }
 
   // --- Private Helper Methods ---
   #finalizeStream() {
+    // This is the more robust version that prevents Firefox warnings and is generally safer.
+    if (!this.#mediaSource || this.#mediaSource.readyState !== "open") {
+      return;
+    }
+
     const end = () => {
-      if (this.#mediaSource && this.#mediaSource.readyState === "open") {
+      if (this.#mediaSource.readyState === "open") {
         try {
           this.#mediaSource.endOfStream();
         } catch (e) {
-          console.warn("MediaSource already ended.");
+          console.warn(
+            "Error calling endOfStream, stream likely already closed.",
+            e,
+          );
         }
       }
     };
-    if (this.#isAppending || this.#audioQueue.length > 0) {
-      const interval = setInterval(() => {
-        if (!this.#isAppending && this.#audioQueue.length === 0) {
-          clearInterval(interval);
-          end();
-        }
-      }, 50);
+
+    if (this.#sourceBuffer && this.#sourceBuffer.updating) {
+      const onUpdateEnd = () => {
+        this.#sourceBuffer.removeEventListener("updateend", onUpdateEnd);
+        end();
+      };
+      this.#sourceBuffer.addEventListener("updateend", onUpdateEnd);
     } else {
       end();
     }
