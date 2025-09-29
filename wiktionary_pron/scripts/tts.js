@@ -234,41 +234,80 @@ class StreamingTTS {
   }
 
   stop() {
+    // 1. Completely and safely dismantle the WebSocket connection.
     if (this.#currentSocket) {
-      this.#currentSocket.close();
+      // Nullify ALL event handlers to prevent any lingering callbacks from firing.
+      this.#currentSocket.onopen = null;
+      this.#currentSocket.onmessage = null;
+      this.#currentSocket.onerror = null;
+      this.#currentSocket.onclose = null;
+
+      // Defensively close the socket only if it's in an active state.
+      try {
+        const state = this.#currentSocket.readyState;
+        if (state === WebSocket.OPEN || state === WebSocket.CONNECTING) {
+          // Use the spec-compliant close method with a normal closure code.
+          this.#currentSocket.close(1000, "client stop");
+        }
+      } catch (e) {
+        // This can happen in rare cases; it's safe to ignore.
+        console.debug("Error while closing WebSocket, ignoring:", e);
+      }
+
       this.#currentSocket = null;
     }
-    if (this.#mediaSource && this.#mediaSource.readyState === "open") {
-      try {
-        this.#mediaSource.endOfStream();
-      } catch (e) {
-        /* Ignore */
-      }
-    }
-    this.#audioPlayer.pause();
-    this.#audioPlayer.removeAttribute("src");
+
+    // 2. Clear internal state.
     this.#audioQueue = [];
     this.#isAppending = false;
+
+    // 3. Gracefully end the MediaSource stream.
+    this.#finalizeStream();
+
+    // 4. Fully and safely reset the <audio> element.
+    this.#audioPlayer.pause();
+
+    // Revoke any object URL to prevent memory leaks.
+    if (this.#audioPlayer.src && this.#audioPlayer.src.startsWith("blob:")) {
+      URL.revokeObjectURL(this.#audioPlayer.src);
+    }
+
+    // Remove the source and call load() to force the element to reset.
+    this.#audioPlayer.removeAttribute("src");
+    try {
+      this.#audioPlayer.load();
+    } catch (e) {
+      // This can fail in some browsers/states; it's safe to ignore.
+      console.debug("Error while resetting audio element, ignoring:", e);
+    }
   }
 
   // --- Private Helper Methods ---
   #finalizeStream() {
+    // This is the more robust version that prevents Firefox warnings and is generally safer.
+    if (!this.#mediaSource || this.#mediaSource.readyState !== "open") {
+      return;
+    }
+
     const end = () => {
-      if (this.#mediaSource && this.#mediaSource.readyState === "open") {
+      if (this.#mediaSource.readyState === "open") {
         try {
           this.#mediaSource.endOfStream();
         } catch (e) {
-          console.warn("MediaSource already ended.");
+          console.warn(
+            "Error calling endOfStream, stream likely already closed.",
+            e,
+          );
         }
       }
     };
-    if (this.#isAppending || this.#audioQueue.length > 0) {
-      const interval = setInterval(() => {
-        if (!this.#isAppending && this.#audioQueue.length === 0) {
-          clearInterval(interval);
-          end();
-        }
-      }, 50);
+
+    if (this.#sourceBuffer && this.#sourceBuffer.updating) {
+      const onUpdateEnd = () => {
+        this.#sourceBuffer.removeEventListener("updateend", onUpdateEnd);
+        end();
+      };
+      this.#sourceBuffer.addEventListener("updateend", onUpdateEnd);
     } else {
       end();
     }
