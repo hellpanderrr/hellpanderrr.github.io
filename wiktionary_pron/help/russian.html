@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Russian IPA Transcription - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>Russian IPA Transcription - Help</h1>
+
+    <p><a href="../index.html?lang=Russian">← Back to Russian transcription</a></p>
+
+    <h2>About This Implementation</h2>
+
+    <p>This <a href="../index.html?lang=Russian">Russian transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:ru-pron" target="_blank" rel="noopener noreferrer">Wiktionary
+        Russian Pronunciation
+        Module</a> to generate phonetic transcriptions for Russian text.</p>
+
+    <p>Russian requires stressing to properly determine the pronunciation of vowels. The system uses a comprehensive
+        Wiktionary data dump of words to determine stressing, and based on it generate phonetic transcriptions. When a
+        word is not found in the lexicon, it generates transcriptions for all possible stressing variants.</p>
+
+    <h2>Dialects Supported</h2>
+    <ul>
+        <li><strong>Default</strong> - Standard Russian (Moscow pronunciation) patterns</li>
+    </ul>
+
+    <h2>Transcription Forms</h2>
+    <ul>
+        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
+            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said.
+        </li>
+    </ul>
+
+
+    <h2>Technical Information</h2>
+    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:ru-pron" target="_blank"
+                                           rel="noopener noreferrer">Wiktionary
+        Russian pronunciation module</a> with a comprehensive lexicon extracted from Wiktionary data dumps, providing
+        both high accuracy for common words and broad coverage through rule-based generation, but requires proper stress
+        marking for optimal performance.</p>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
+            rel="noopener noreferrer">GitHub
+        repository</a>.</small></p>
+</div>
+</body>
+</html>

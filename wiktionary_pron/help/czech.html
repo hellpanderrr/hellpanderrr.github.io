@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Czech IPA Transcription - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>Czech IPA Transcription - Help</h1>
+
+    <p><a href="../index.html?lang=Czech">← Back to Czech transcription</a></p>
+
+    <h2>About This Implementation</h2>
+
+    <p>This <a href="../index.html?lang=Czech">Czech transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:cs-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
+        Czech Pronunciation
+        Module</a> to generate phonemic transcriptions for Czech text.</p>
+
+    <p>The system uses a comprehensive <a href="https://kaikki.org/dictionary/Czech/index.html" target="_blank"
+                                          rel="noopener noreferrer">Wiktionary
+        data dump</a> as a lexicon to first retrieve transcriptions from the dictionary. When a word is not found in the
+        lexicon, it falls back to generating transcriptions using the pronunciation module's rule-based approach.</p>
+
+    <h2>Dialects Supported</h2>
+    <ul>
+        <li><strong>Default</strong> - Standard Czech pronunciation patterns</li>
+    </ul>
+
+    <h2>Transcription Forms</h2>
+    <ul>
+
+        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
+            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+        </li>
+    </ul>
+
+    <h2>Technical Information</h2>
+    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:cs-pronunciation"
+                                           target="_blank" rel="noopener noreferrer">Wiktionary Czech pronunciation
+        module</a> with a
+        comprehensive lexicon extracted from Wiktionary data dumps, providing both high accuracy for common words and
+        broad coverage through rule-based generation.</p>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
+            rel="noopener noreferrer">GitHub
+        repository</a>.</small></p>
+</div>
+</body>
+</html>
