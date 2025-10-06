@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portuguese IPA Transcription - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>Portuguese IPA Transcription - Help</h1>
+
+    <p><a href="../index.html?lang=Portuguese">← Back to Portuguese transcription</a></p>
+
+    <h2>About This Implementation</h2>
+
+    <p>This <a href="../index.html?lang=Portuguese">Portuguese transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:pt-pronunc" target="_blank">Wiktionary Portuguese Pronunciation
+        Module</a> to generate phonetic/phonemic transcriptions for Portuguese text.</p>
+
+    <p>The system is exceptionally powerful, capable of modeling numerous regional dialects and subtle phonetic
+        variations. However, it requires specific user input for words with ambiguous pronunciation.</p>
+
+    <h2>Dialects Supported in this App</h2>
+    <p>This tool offers two main dialect choices that represent the major varieties of Portuguese.</p>
+    <ul>
+        <li><strong>Brazil</strong>: This option generates a transcription based on the <strong>Rio de Janeiro (<em>Carioca</em>)</strong>
+            accent. This is a widely recognized standard known for its palatalized "chiado" 's' sound.
+        </li>
+        <li><strong>Portugal</strong>: This option generates a transcription based on the <strong>General / Standard
+            European Portuguese</strong> accent, often based on the pronunciation of Lisbon.
+        </li>
+    </ul>
+
+    <h2>Transcription Forms</h2>
+    <p>You can choose between two levels of detail for the IPA transcription, depending on your needs.</p>
+    <ul>
+        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
+            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said. For example, it will
+            show the fricative pronunciation of 'b' between vowels in Portugal, as in <em>saber</em>
+            <code>[sɐˈβeɾ]</code>.
+        </li>
+        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
+            for distinguishing meaning (phonemes). It represents the abstract sound system of the language. For example,
+            <em>saber</em> would be shown as <code>/sɐˈbeɾ/</code>.
+        </li>
+    </ul>
+
+    <hr>
+
+    <h2>Important Note: Why You Might See an Error</h2>
+    <p>This transcription engine is designed to be highly accurate. Because Portuguese spelling is not always perfectly
+        phonetic, the engine will <strong>intentionally produce an error</strong> when it encounters an ambiguous word.
+        This prevents it from guessing and generating an incorrect pronunciation.</p>
+    <p>To fix this, you need to provide a <strong>"respelling"</strong> in the input box to clarify the intended sound.
+        Here are the most common reasons for errors:</p>
+
+    <h3>1. Ambiguous Stressed Vowels ('e' and 'o')</h3>
+    <p>This is the most common cause of errors. In Portuguese, a stressed 'e' or 'o' can be open or closed, but standard
+        spelling often doesn't use an accent mark to show this.</p>
+    <p><strong>Example:</strong> The word <code>governo</code> has stress on the 'e', but the script doesn't know if
+        it's open or closed.</p>
+    <p><strong>Solution:</strong> You must add an accent mark to the vowel in your input to specify the quality.</p>
+    <ul>
+        <li>For a <strong>closed</strong> sound, use a circumflex: <code>gov<strong>ê</strong>rno</code>.</li>
+        <li>For an <strong>open</strong> sound, use an acute accent: <code>f<strong>é</strong>rro</code>.</li>
+    </ul>
+    <blockquote>The script will typically show an error like: <em>"Stressed e or o... must be marked for quality using
+        é/ê or ó/ô"</em></blockquote>
+
+    <h3>2. The Irregular Letter 'x'</h3>
+    <p>The letter 'x' has four possible pronunciations, and the script cannot reliably guess which one to use.</p>
+    <p><strong>Example:</strong> The script will fail on words like <code>exame</code> or <code>táxi</code>.</p>
+    <p><strong>Solution:</strong> Replace the 'x' with its phonetic equivalent in the input.</p>
+    <ul>
+        <li>For the /z/ sound in <em>exame</em>, enter: <code>e<strong>z</strong>ame</code>.</li>
+        <li>For the /ks/ sound in <em>táxi</em>, enter: <code>tá<strong>cs</strong>i</code>.</li>
+        <li>For the /ʃ/ sound in <em>caixa</em>, enter: <code>cai<strong>sh</strong>a</code>.</li>
+    </ul>
+    <blockquote>The script will typically show an error like: <em>"x must be respelled z, sh, cs, ss or similar"</em>
+    </blockquote>
+    <hr>
+
+    <h2>Implementation Details</h2>
+
+
+    <h3>Underlying Dialect Profiles in the Engine</h3>
+    <p>While this app provides two primary options for simplicity, the core engine is capable of modeling eight distinct
+        dialect profiles. The available profiles are:</p>
+    <ul>
+        <li><strong>Brazilian Profiles:</strong>
+            <ul>
+                <li><code>gbr</code>: General Brazilian (a standardized variety).</li>
+                <li><code>rio</code>: <strong>Rio de Janeiro (Carioca)</strong> - The dialect used for the "Brazil"
+                    option in this app.
+                </li>
+                <li><code>sp</code>: São Paulo (Paulistano).</li>
+                <li><code>sbr</code>: Southern Brazil (Gáucho).</li>
+            </ul>
+        </li>
+        <li><strong>European Profiles:</strong>
+            <ul>
+                <li><code>gpt</code>: <strong>General Portuguese</strong> - The dialect used for the "Portugal" option
+                    in this app.
+                </li>
+                <li><code>cpt</code>: Central Portugal.</li>
+                <li><code>spt</code>: Southern Portugal (Alentejo/Algarve).</li>
+                <li><code>npt</code>: Northern Portugal (Porto/Minho).</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Dialectal Differences (Between App Options)</h2>
+    <p>This is a summary of the key differences between the two available options:</p>
+    <ul>
+        <li><strong>Brazil (Rio de Janeiro Accent)</strong>
+            <ul>
+                <li><strong>Coda 's' (Chiado)</strong>: Pronounced <code>[ʃ]</code> or <code>[ʒ]</code> (e.g., <em>pastas</em>
+                    → <code>[ˈpaʃ.tɐʃ]</code>).
+                </li>
+                <li><strong>Unstressed 'e'/'o'</strong>: Raised to <code>[i]</code> and <code>[u]</code> (e.g.,
+                    <em>ele</em> → <code>[ˈe.li]</code>).
+                </li>
+                <li><strong>'t'/'d' before 'i'</strong>: Palatalized to <code>[tʃ]</code> and <code>[dʒ]</code> (e.g.,
+                    <em>dia</em> → <code>[ˈdʒi.ɐ]</code>).
+                </li>
+                <li><strong>Coda 'l'</strong>: Vocalized to <code>[w]</code> (e.g., <em>sol</em> → <code>[sɔw]</code>).
+                </li>
+            </ul>
+        </li>
+        <li><strong>Portugal (General Accent)</strong>
+            <ul>
+                <li><strong>Coda 's' (Chiado)</strong>: Also pronounced <code>[ʃ]</code> or <code>[ʒ]</code>, similar to
+                    Rio (e.g., <em>pastas</em> → <code>[ˈpaʃ.tɐʃ]</code>).
+                </li>
+                <li><strong>Unstressed 'e'</strong>: Reduced to <code>[ɨ]</code> or deleted, not raised to [i] (e.g.,
+                    <em>ele</em> → <code>[ˈel(ɨ)]</code>).
+                </li>
+                <li><strong>'t'/'d' before 'i'</strong>: Not palatalized, remain <code>[t]</code> and <code>[d]</code>
+                    (e.g., <em>dia</em> → <code>[ˈdi.ɐ]</code>).
+                </li>
+                <li><strong>Coda 'l'</strong>: Pronounced as a dark <code>[ɫ]</code> (e.g., <em>sol</em> →
+                    <code>[sɔɫ]</code>).
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank">GitHub
+        repository</a>.</small></p>
+</div>
+</body>
+</html>

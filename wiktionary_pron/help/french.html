@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>French IPA Transcription - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>French IPA Transcription - Help</h1>
+
+    <p><a href="../index.html?lang=French">← Back to French transcription</a></p>
+
+    <h2>About This Implementation</h2>
+
+    <p>This <a href="../index.html?lang=French">French transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:fr-pron" target="_blank">Wiktionary French Pronunciation
+        Module</a> to generate phonemic transcriptions for French text.</p>
+
+    <p>The system uses comprehensive Wiktionary data dumps<a
+            href="https://kaikki.org/frwiktionary/"><sup>[1]</sup></a><a
+            href="https://kaikki.org/dictionary/French/index.html"><sup>[2]</sup></a> as a lexicon to first retrieve
+        transcriptions from the dictionary. When a word is not found in the lexicon, it falls back to generating
+        transcriptions using the pronunciation module's rule-based approach.</p>
+
+    <h2>Dialects Supported</h2>
+    <ul>
+        <li>
+            <strong>Default - Standard French pronunciation</strong>
+            <p>This option generates IPA based on a traditional or conservative standard of French. This pronunciation
+                maintains the historical distinctions between all four of the language's nasal vowels. It is a
+                pronunciation still widely heard in <strong>Belgian French</strong>, <strong>Quebecois French</strong>,
+                and is often used in dictionaries for etymological clarity.</p>
+            <p>This setting preserves the four-vowel system:</p>
+            <ul>
+                <li><em>br<strong>un</strong></em> is pronounced <strong>/bʁœ̃/</strong>.</li>
+                <li><em>br<strong>in</strong></em> is pronounced <strong>/bʁɛ̃/</strong>.</li>
+                <li><em>bl<strong>anc</strong></em> is pronounced <strong>/blɑ̃/</strong>.</li>
+                <li><em>b<strong>on</strong></em> is pronounced <strong>/bɔ̃/</strong>.</li>
+            </ul>
+        </li>
+        <li>
+            <strong>Parisian (experimental) - Parisian French pronunciation patterns</strong>
+            <p>This option implements the major phonological shifts characteristic of modern Parisian and Metropolitan
+                French. It transforms the traditional four-vowel system into a new three-vowel system through a series
+                of mergers and shifts. </p>
+            <p>This setting applies the following crucial changes in a specific order:</p>
+            <ul>
+                <li>
+                    <strong>The "un/in" Merger:</strong> The distinction between <code>/œ̃/</code> (in <em>brun</em>)
+                    and <code>/ɛ̃/</code> (in <em>brin</em>) is completely lost. Both sounds are merged into a single,
+                    open nasal vowel, transcribed as <code>/ɑ̃/</code>.
+                    <ul>
+                        <li><em>brun</em>: <code>/bʁœ̃/</code> → <code>/bʁɑ̃/</code></li>
+                        <li><em>brin</em>: <code>/bʁɛ̃/</code> → <code>/bʁɑ̃/</code></li>
+                        <li><strong>Result: <em>brun</em> and <em>brin</em> become perfect homophones.</strong></li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>The "an/on" Chain Shift:</strong> This is a two-step process where one vowel shifts, and
+                    another moves into its former place. It is <strong>not a simple merger</strong>.
+                    <ol>
+                        <li>First, the original vowel <code>/ɔ̃/</code> (as in <em>b<strong>on</strong></em>) is
+                            modified to <code>/õ/</code>. This is a subtle phonetic shift, often involving a change in
+                            vowel height or rounding, and is represented by a different IPA symbol.
+                        </li>
+                        <li>Then, the original vowel <code>/ɑ̃/</code> (as in <em>bl<strong>anc</strong></em>) shifts to
+                            take the now-vacant phonetic space of the original <code>/ɔ̃/</code>.
+                        </li>
+                    </ol>
+                    <ul>
+                        <li><em>bon</em>: <code>/bɔ̃/</code> → <code>/bõ/</code></li>
+                        <li><em>blanc</em>: <code>/blɑ̃/</code> → <code>/blɔ̃/</code></li>
+                        <li><strong>Result: Crucially, <em>bon</em> and <em>blanc</em> remain distinct.</strong> Their
+                            vowel qualities have shifted, but they have not merged into one sound.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <h2>Transcription Forms</h2>
+    <ul>
+
+        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
+            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+    </ul>
+
+
+    <h2>Technical Information</h2>
+    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:fr-pron" target="_blank">Wiktionary
+        French pronunciation module</a> with a comprehensive lexicon extracted from Wiktionary data dumps, providing
+        both high accuracy for common words and broad coverage through rule-based generation.</p>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank">GitHub
+        repository</a>.</small></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish IPA Transcription - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>Spanish IPA Transcription - Help</h1>
+
+    <p><a href="../index.html?lang=Spanish">← Back to Spanish transcription</a></p>
+
+    <h2>About This Implementation</h2>
+
+    <p>This <a href="../index.html?lang=Spanish">Spanish transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:es-pronunc" target="_blank">Wiktionary Spanish Pronunciation
+        Module</a> to generate phonetic/phonemic transcriptions for Spanish text.</p>
+
+    <p>The system processes Spanish text through a rule-based approach that handles the relatively straightforward
+        Spanish orthography and its consistent pronunciation patterns.</p>
+
+    <h2>Dialects Supported</h2>
+    <p>This tool provides two primary dialect options that cover the most common pronunciation standards in the
+        Spanish-speaking world.</p>
+    <ul>
+        <li><strong>Castilian</strong>: Represents the standard pronunciation of central and northern Spain. This option
+            maps to the technical dialect profile <code>distincion-yeismo</code>.
+        </li>
+        <li><strong>Latin American</strong>: Represents the most widespread pronunciation standard across Latin America.
+            This option maps to the technical dialect profile <code>seseo-yeismo</code>.
+        </li>
+    </ul>
+
+    <h2>Transcription Forms</h2>
+    <p>You can choose between two levels of detail for the IPA transcription.</p>
+    <ul>
+        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
+            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said. For example, it will
+            show the softening of "d" between vowels in <em>lado</em> as <code>[ˈla.ð̞o]</code>.
+        </li>
+        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
+            for distinguishing meaning (phonemes). It represents the abstract sound system of the language. For example,
+            <em>lado</em> would be shown as <code>/ˈla.do/</code>.
+        </li>
+    </ul>
+
+    <h2>Implementation Details</h2>
+    <p>The transcription engine is powered by a sophisticated model based on Wiktionary's Lua modules, which handle the
+        complex rules of Spanish phonology. The system is built on the concept of <strong>isoglosses</strong> (specific
+        pronunciation features) which are combined to form distinct <strong>dialect profiles</strong>.</p>
+
+    <h4>Key Phonological Features (Isoglosses)</h4>
+    <p>The engine models four main points of variation:</p>
+    <ol>
+        <li><strong><code>distinción</code> vs. <code>seseo</code></strong>:
+            <ul>
+                <li><strong><code>distinción</code></strong>: Distinguishes the sound <code>/θ/</code> (like "th" in
+                    <em>think</em>) for letters 'z' and 'c' (before e, i) from the sound <code>/s/</code> for the letter
+                    's'. This is standard in most of Spain.
+                </li>
+                <li><strong><code>seseo</code></strong>: Merges these sounds, pronouncing 'z', 'c' (before e, i), and
+                    's' all as <code>/s/</code>. This is standard in Latin America, the Canary Islands, and Andalusia.
+                </li>
+            </ul>
+        </li>
+        <li><strong><code>lleísmo</code> vs. <code>yeísmo</code></strong>:
+            <ul>
+                <li><strong><code>lleísmo</code></strong>: Distinguishes the sound <code>/ʎ/</code> (similar to "lli" in
+                    <em>million</em>) for the digraph 'll' from the sound <code>/ʝ/</code> for the letter 'y'. This is a
+                    traditional feature, now recessive.
+                </li>
+                <li><strong><code>yeísmo</code></strong>: Merges these sounds, pronouncing both 'll' and 'y' as <code>/ʝ/</code>.
+                    This is the dominant pronunciation in most of the Spanish-speaking world.
+                </li>
+            </ul>
+        </li>
+        <li><strong>Rioplatense (<code>sheísmo</code> / <code>zheísmo</code>)</strong>: A distinct form of
+            <code>yeísmo</code> found in the Río de la Plata region (Argentina, Uruguay), where the merged 'll'/'y'
+            sound is pronounced as a sibilant.
+            <ul>
+                <li><strong><code>sheísmo</code></strong>: Pronounces 'll' and 'y' as <code>/ʃ/</code> (like "sh" in
+                    <em>shoe</em>). Characteristic of Buenos Aires.
+                </li>
+                <li><strong><code>zheísmo</code></strong>: Pronounces 'll' and 'y' as <code>/ʒ/</code> (like the "s" in
+                    <em>measure</em>). Found in other parts of the region.
+                </li>
+            </ul>
+        </li>
+    </ol>
+
+    <h4>Available Dialect Profiles</h4>
+    <p>By combining these features, the engine defines the following six dialects:</p>
+    <ul>
+        <li><code>distincion-yeismo</code>: <strong>(Castilian option)</strong> The standard pronunciation of Spain.
+            Features <code>/θ/</code> and merges 'll'/'y'.
+        </li>
+        <li><code>seseo-yeismo</code>: <strong>(Latin American option)</strong> The most common pronunciation in Latin
+            America. Features <code>/s/</code> for all sibilants and merges 'll'/'y'.
+        </li>
+        <li><code>distincion-lleismo</code>: A traditional, conservative dialect of rural Spain. Features
+            <code>/θ/</code> and distinguishes 'll' <code>/ʎ/</code> from 'y' <code>/ʝ/</code>.
+        </li>
+        <li><code>seseo-lleismo</code>: A dialect found in some Andean regions. Features <code>/s/</code> for all
+            sibilants but distinguishes 'll' <code>/ʎ/</code> from 'y' <code>/ʝ/</code>.
+        </li>
+        <li><code>rioplatense-sheismo</code>: The characteristic dialect of Buenos Aires. Features <code>seseo</code>
+            and pronounces 'll'/'y' as <code>/ʃ/</code>.
+        </li>
+        <li><code>rioplatense-zheismo</code>: The Rioplatense dialect found outside the Buenos Aires area. Features
+            <code>seseo</code> and pronounces 'll'/'y' as <code>/ʒ/</code>.
+        </li>
+    </ul>
+
+    <h2>Dialectal Differences</h2>
+    <p>Here is a summary of the differences between the two main options provided:</p>
+    <ul>
+        <li><strong>Castilian (Standard Peninsular Spanish)</strong>
+            <ul>
+                <li><strong>Distinction (<code>distinción</code>)</strong>: Pronounces 'c' (before e,i) and 'z' as
+                    <code>/θ/</code>.
+                    <ul>
+                        <li><em>caza</em> (hunt) → <code>[ˈka.θa]</code></li>
+                        <li><em>casa</em> (house) → <code>[ˈka.sa]</code></li>
+                    </ul>
+                </li>
+                <li><strong><code>Yeísmo</code></strong>: Pronounces 'll' and 'y' the same, as <code>/ʝ/</code>.
+                    <ul>
+                        <li><em>calló</em> (he fell silent) and <em>cayó</em> (he fell) are pronounced identically.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strong>Latin American (Standard American Spanish)</strong>
+            <ul>
+                <li><strong><code>Seseo</code></strong>: Pronounces 'c' (before e,i), 'z', and 's' all as
+                    <code>/s/</code>.
+                    <ul>
+                        <li><em>caza</em> (hunt) → <code>[ˈka.sa]</code></li>
+                        <li><em>casa</em> (house) → <code>[ˈka.sa]</code></li>
+                    </ul>
+                </li>
+                <li><strong><code>Yeísmo</code></strong>: Pronounces 'll' and 'y' the same, as <code>/ʝ/</code>.
+                    <ul>
+                        <li><em>calló</em> and <em>cayó</em> are pronounced identically.</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Technical Information</h2>
+    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:es-pronunc" target="_blank">Wiktionary
+        Spanish pronunciation module</a>, which provides comprehensive coverage of Spanish phonological rules and
+        dialectal variations.</p>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank">GitHub
+        repository</a>.</small></p>
+</div>
+</body>
+</html>
