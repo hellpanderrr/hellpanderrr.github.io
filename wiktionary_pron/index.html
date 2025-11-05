@@ -21,7 +21,7 @@
     <meta content="Online IPA Latin German French Spanish Portuguese Czech Ancient Greek Polish Armenian Phonetics Transcription"
           name="Keywords"/>
     <meta content="Free Online Rule-based IPA phonetic/phonemic transcription engine, which uses Wiktionary Lua pronunciation modules.
-     Latin, German, French, Spanish, Ancient Greek, Polish, Armenian, Czech, languages are fully supported. Russian, Ukrainian and Portuguese require vowels' stressing for proper functioning."
+     Latin, German, French, Spanish, Ancient Greek, Polish, Armenian, Czech, Russian, Belorussian, Ukrainian, Bulgarian, Icelandic, Lithuanian languages are fully supported. Portuguese require vowels' stressing for proper functioning."
           name="description">
 
     <script src="scripts/lib/localforage.min.js"></script>
@@ -60,7 +60,8 @@
 
 
             </select>
-            <!--            <button id="help_button" type="button" title="Help for selected language" style="margin-left: 10px; display: none;">?</button>-->
+            <button id="help_button" type="button" title="Help for selected language" style="margin-left: 10px;">?
+            </button>
             <p id="loading_text"></p>
         </div>
         <div>
@@ -94,10 +95,11 @@
         </select>
 
 
-            <div>
-                Speed: <input class="custom-input" type="range" min="0" max="200" step="10" value="100" id="tts_speed">
-                Volume: <input class="custom-input" type="range" min="0" max="100" step="10" value="100"
-                               id="tts_volume">
+            <div id="tts_options">
+                <div>Speed: <input class="custom-input" type="range" min="0" max="200" step="10" value="100"
+                                   id="tts_speed"></div>
+                <div>Volume: <input class="custom-input" type="range" min="0" max="100" step="10" value="100"
+                                    id="tts_volume"></div>
 
             </div>
         </div>

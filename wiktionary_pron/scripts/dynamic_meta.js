@@ -1,5 +1,43 @@
 import { languages } from "./languages.js";
 
+const translatedMeta = {
+  // --- Languages with BOTH Phonemic and Phonetic ---
+  Latin:
+    "Online Latin to IPA phonemic/phonetic transcription generator and macronizer. Automatically add macrons and generate phonetic transcription.",
+  German:
+    "Online-Übersetzer und Generator für deutsche IPA-Transkription. Konvertiert Text in phonetische Lautschrift (phonemisch/phonetisch).",
+  Portuguese:
+    "Português para IPA: Gerador e conversor online de transcrição fonética. Transforme texto em português em transcrição fonémica/fonética.",
+  Spanish:
+    "Español a IPA: Traductor y generador de transcripción fonética en línea. Convierte texto en español a transcripción fonémica/fonética.",
+  Armenian:
+    "Հայերենի IPA տառադարձության առցանց գեներատոր։ Փոխակերպեք հայերեն տեքստը ֆոնեմիկ/ֆոնետիկ տառադարձության։",
+
+  // --- Languages with ONLY Phonemic ---
+  French:
+    "Français vers API/IPA : Générateur en ligne de transcription phonétique. Convertisseur de texte français en transcription phonémique.",
+  Polish:
+    "Polski na IPA: Online konwerter i generator transkrypcji fonetycznej. Przekształć tekst na zapis fonemiczny.",
+  Belorussian:
+    "Фанетычная транскрыпцыя беларускай мовы онлайн. Анлайн-генератар для пераўтварэння тэксту ў фанемічную транскрыпцыю IPA.",
+  Bulgarian:
+    "Фонетична транскрипция онлайн. Онлайн генератор за преобразуване на български текст във фонемична транскрипция по IPA.",
+  Lithuanian:
+    "Lietuvių į IPA: Internetinis fonetinės transkripcijos konverteris ir generatorius. Paverskite tekstą į foneminę transkripciją.",
+  Czech:
+    "Online generátor a převodník pro fonetický přepis z češtiny do IPA. Převeďte český text na fonemickou transkripci.",
+  Greek:
+    "Ελληνικά σε IPA: Online μετατροπέας και γεννήτρια φωνητικής μεταγραφής. Μετατρέψτε ελληνικό κείμενο σε φωνημική μεταγραφή.",
+  Icelandic:
+    "Íslenska yfir í IPA: Hljóðritunarbreytir og rafall á netinu. Breyttu texta í hljóðfræðilega umritun.",
+
+  // --- Languages with ONLY Phonetic ---
+  Russian:
+    "Русский в IPA: Онлайн-генератор и конвертер для фонетической транскрипции. Преобразуйте русский текст в фонетическую запись.",
+  Ukrainian:
+    "Українська на IPA: Онлайн-генератор і конвертер для фонетичної транскрипції. Перетворюйте текст на фонетичну транскрипцію.",
+};
+
 const sampleTexts = {
   Latin: `Abecedarium Phoneticum Internationale, saepe notum ob litteras primas nominis Anglici IPA (International Phonetic Alphabet), sive Francogallici API (Alphabet phonétique international), est abecedarium phoneticum, a linguistis Francicis et Britannicis anno 1888 excogitatum, cuius ratio creandi est sonos omnium linguarum eodem orthographiae systemate explicare.`,
   German: `Das Internationale Phonetische Alphabet (kurz IPA) ist ein phonetisches Alphabet und somit eine Sammlung von Zeichen, mit deren Hilfe die Laute aller menschlichen Sprachen nahezu genau beschrieben und notiert werden können. Es wurde von der International Phonetic Association (kurz IPA) entwickelt, kam in seinem ersten Entwurf 1888 heraus und ist die heute am weitesten verbreitete Lautschrift.`,
@@ -22,23 +60,30 @@ Esta transcrição normalmente se aproxima de maneira padrão de pronunciar dete
 Þau grunntákn sem stuðst er við í alþjóðlega hljóðstafrófinu eru stafir og sérmerki. Hægt er að hljóðrita af mismikilli nákvæmni og stöðugt er unnið að því að bæta nákvæmni stafrófsins. Alþjóðlega hljóðfræðifélagið bætir við, fjarlægir og breytir táknum eftir þörf. Núorðið eru stafirnir alls 107, sérmerkin 52 og hljómfallstákn fjögur í stafrófinu.`,
 };
 
-try {
-  const urlParams = new URLSearchParams(window.location.search);
-  const selectedLanguage = urlParams.get("lang");
+function updateMeta(selectedLanguage) {
   if (selectedLanguage) {
     document.title = `Online ${selectedLanguage} IPA transcription`;
     const lang = languages[selectedLanguage];
     if (lang) {
-      const availableStyles = lang.styles.join(", ");
+      let availableStyles = " Dialects: " + lang.styles.join(", ").trim() + ".";
+      if (lang.styles[0] === "Default") {
+        availableStyles = "";
+      }
       const availableForms = lang.forms
         .map((form) => form.toLowerCase())
         .join("/");
-      document.head.children.description.content = `Online ${selectedLanguage} to IPA ${availableForms} transcription generator. Dialects: ${availableStyles}`;
+      document.head.children.description.content = `Online ${selectedLanguage} to IPA ${availableForms} transcription generator.${availableStyles} ${translatedMeta[selectedLanguage]}`;
     }
     document.querySelector("#text_to_transcribe").value =
       sampleTexts[selectedLanguage];
-    console.log("sample text", sampleTexts[selectedLanguage]);
   }
+}
+
+try {
+  const urlParams = new URLSearchParams(window.location.search);
+  const selectedLanguage = urlParams.get("lang");
+  updateMeta(selectedLanguage);
 } catch (err) {
   console.log(err);
 }
+export { updateMeta };

@@ -1,4 +1,4 @@
-import "./dynamic_meta.js";
+import { updateMeta } from "./dynamic_meta.js";
 import { languages } from "./languages.js";
 import { loadLanguage } from "./lua_init.js";
 
@@ -689,11 +689,7 @@ async function updateOptionsUponLanguageSelection(event) {
   updateSelectOptions(selectedLanguage, styleSelect, styleOptions);
   updateSelectOptions(selectedLanguage, formSelect, formOptions);
 
-  document.title = `Online ${selectedLanguage} IPA transcription`;
-  const availableStyles = lang.styles.join(", ");
-  const availableForms = lang.forms.map((form) => form.toLowerCase()).join("/");
-  document.head.children.description.content = `Online ${selectedLanguage} to IPA ${availableForms} transcription generator. Dialects: ${availableStyles}`;
-
+  updateMeta(selectedLanguage);
   console.log("Finished changing language to ", selectedLanguage);
   await processTextParam();
   rememberText();
