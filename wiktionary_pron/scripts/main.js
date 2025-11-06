@@ -781,6 +781,10 @@ function toggleLightMode() {
 
 document.getElementById("dark_mode").addEventListener("click", toggleDarkMode);
 
+function capitalizeFirstLetter(val) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
 function triggerLanguageChange() {
   const urlParams = new URLSearchParams(window.location.search);
   const selectedLanguage = urlParams.get("lang");
@@ -788,11 +792,16 @@ function triggerLanguageChange() {
   if (selectedLanguage) {
     const languageSelect = document.querySelector("#lang");
     const languageOption = document.querySelector(
-      `#lang option[value="${selectedLanguage}"]`,
+      `#lang option[value="${selectedLanguage}"],
+   #lang option[value="${capitalizeFirstLetter(selectedLanguage)}"]`,
     );
 
     if (languageOption) {
-      languageSelect.value = selectedLanguage;
+      console.log(
+        `Selected language ${languageOption.value}, triggering lang change event.`,
+        languageOption,
+      );
+      languageSelect.value = languageOption.value;
       languageSelect.dispatchEvent(new Event("change"));
     }
   }
@@ -802,7 +811,6 @@ triggerLanguageChange();
 
 function rememberText() {
   const textArea = document.getElementById("text_to_transcribe");
-  console.log(12345);
 
   // Check if the event listener is already added
   if (!textArea.hasAttribute("data-listener-added")) {
@@ -832,7 +840,7 @@ async function processTextParam() {
   const urlParams = new URLSearchParams(window.location.search);
   const textParam = urlParams.get("text");
   const lang = urlParams.get("lang");
-  console.log(555555555, textParam, lang);
+  console.log(textParam, lang);
 
   if (textParam) {
     const textArea = document.getElementById("text_to_transcribe");
