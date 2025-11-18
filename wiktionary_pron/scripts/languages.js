@@ -95,5 +95,11 @@ export const languages = {
     langCode: "is",
     ttsCode: "is-IS",
   },
+  Mongolian: {
+    styles: ["Default"],
+    forms: ["Phonemic"],
+    langCode: "mn",
+    ttsCode: "mn-MN",
+  },
 };
 export default { languages };

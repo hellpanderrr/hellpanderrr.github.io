@@ -417,7 +417,7 @@ const ipaHandlers = {
 
   // --- Group 2: Direct Generation for Phonemic form (No Lexicon) ---
   ...Object.fromEntries(
-    ["Belorussian", "Bulgarian", "Polish"].map((lang) => [
+    ["Belorussian", "Bulgarian", "Polish", "Mongolian"].map((lang) => [
       lang,
       ({ cleanText, langForm }) => {
         if (langForm !== "Phonemic") return null;
@@ -425,6 +425,7 @@ const ipaHandlers = {
           Belorussian: () => window.be_ipa.toIPA(cleanText),
           Bulgarian: () => window.bg_ipa.toIPA(cleanText),
           Polish: () => window.pl_ipa.convert_to_IPA(cleanText),
+          Mongolian: () => window.mn_ipa.to_IPA(cleanText),
         };
         return generators[lang]();
       },
