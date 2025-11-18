@@ -617,18 +617,16 @@ async function updateOptionsUponLanguageSelection(event) {
   console.log("changing language to ", selectedLanguage);
 
   // Update help button
-  const helpButton = document.getElementById("help_button");
-  if (helpButton) {
+  const helpButtonLink = document.getElementById("help_button_link");
+  if (helpButtonLink) {
     if (selectedLanguage && selectedLanguage !== "-- select an option --") {
-      helpButton.style.display = "inline-block";
-      helpButton.onclick = () => {
-        const helpUrl = `help/${selectedLanguage
-          .toLowerCase()
-          .replace(/\s+/g, "_")}.html`;
-        window.open(helpUrl, "_blank");
-      };
+      const helpUrl = `help/${selectedLanguage
+        .toLowerCase()
+        .replace(/\s+/g, "_")}.html`;
+      helpButtonLink.style.display = "inline-block";
+      helpButtonLink.href = helpUrl;
     } else {
-      helpButton.style.display = "none";
+      helpButtonLink.style.display = "none";
     }
   }
 

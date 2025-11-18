@@ -222,9 +222,16 @@ body i.icon-moon {
 #help_button {
     color: black;
     padding: 3px 15px 5px 15px;
-    position: absolute;
-    display: none;
 }
+
+#help_button_link {
+    display: inline-block;
+    margin-left: 10px;
+    text-decoration: none;
+    position: absolute;
+
+}
+
 #header {
     display: flex;
     flex-direction: row;
