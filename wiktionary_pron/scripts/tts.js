@@ -364,7 +364,7 @@ class StreamingTTS {
     return list
       .map((voice) => ({
         name: voice.FriendlyName,
-        lang: voice.Locale,
+        lang: voice.Locale.replace(/_/g, "-"), // Normalize locale format from en_US to en-US
         default: false,
         raw: voice,
       }))
@@ -543,9 +543,14 @@ function setLanguageAndFindVoice(language) {
   try {
     if (!voiceSelect) return;
 
+    // Normalize language code format (convert en_US to en-US for consistent matching)
+    const normalizedLanguage = language.replace(/_/g, "-");
+
     // 1. Search the currently active engine first
     const currentVoices = activeEngine.voices();
-    let bestVoice = currentVoices.find((v) => v.lang.startsWith(language));
+    let bestVoice = currentVoices.find((v) =>
+      v.lang.replace(/_/g, "-").startsWith(normalizedLanguage),
+    );
 
     if (bestVoice) {
       console.log(
@@ -561,7 +566,9 @@ function setLanguageAndFindVoice(language) {
     );
     for (const engineName of otherEngineNames) {
       const otherEngine = engines[engineName];
-      bestVoice = otherEngine.voices().find((v) => v.lang.startsWith(language));
+      bestVoice = otherEngine
+        .voices()
+        .find((v) => v.lang.replace(/_/g, "-").startsWith(normalizedLanguage));
 
       if (bestVoice) {
         console.log(
