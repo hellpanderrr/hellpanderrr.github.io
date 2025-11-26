@@ -1,5 +1,25 @@
 #content {
     max-width: 800px;
     margin: auto;
-    text-align: justify;
+    text-align: left;
+}
+
+#help_list {
+    column-count: 2;
+    column-gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+@media (max-width: 500px) {
+    #help_list {
+        column-count: 1;
+        column-gap: 2rem;
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    body {
+        padding: 18px;
+    }
 }
