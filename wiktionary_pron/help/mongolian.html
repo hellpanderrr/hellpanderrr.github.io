@@ -94,47 +94,4 @@
         repository</a>.</small></p>
 </div>
 </body>
-</html>            are merged to <code>/i/</code>.
-</li>
-<li><strong>Diphthong Preservation:</strong> Unlike Inner Mongolian dialects which monophthongize sounds, Halh
-    preserves diphthongs (e.g., <code>ай</code> becomes <code>/ai/</code>, not <code>/ɛː/</code>).
-</li>
-<li><strong>Nasal Assimilation:</strong> The dental nasal <code>н</code> assimilates to the velar nasal <code>/ŋ/</code>
-    before velar consonants (<code>г, к, х</code>) and at the end of words.
-</li>
-<li><strong>Syllable Coda Glides:</strong> The letter <code>в</code> in a syllable coda (end of a syllable) is
-    realized as the glide <code>/w/</code> rather than a fricative.
-</li>
-<li><strong>Palatalization:</strong> Consonants are automatically palatalized in specific contexts, notably the
-    fricative <code>ш</code> becoming <code>/ɕ/</code> before <code>i</code>.
-</li>
-<li><strong>Absence of Stress:</strong> Following Svantesson (2005), word stress is considered non-phonemic in
-    Mongolian. Therefore, no stress marks (<code>ˈ</code>) are generated.
-</li>
-</ul>
-
-<h2>Technical Information</h2>
-<p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:mn-pronunciation"
-                                          target="_blank"
-                                          rel="noopener noreferrer">Wiktionary
-    Mongolian pronunciation module</a>, but has been modified to adhere to the phonological analysis in <em>The
-    Phonology of Mongolian</em> (Svantesson et al., 2005). Key modifications include:</p>
-<ul>
-    <li><strong>Stress Removal:</strong> The logic for generating phonemic stress marks was removed, as stress is
-        non-contrastive in Mongolian.
-    </li>
-    <li><strong>Schwa Generation:</strong> A syllable-aware processing loop was added to correctly reduce
-        non-initial short vowels to <code>/ə/</code> while preserving full vowels in the initial syllable.
-    </li>
-    <li><strong>Dialect Correction:</strong> Vowel mappings were adjusted to reflect Standard Halh (Ulaanbaatar)
-        rather than Chahar/Inner Mongolian (e.g., restoring diphthongs and the initial <code>э/и</code> merger).
-    </li>
-</ul>
-<hr>
-<p><small>For technical issues or suggestions, please visit our <a
-        href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
-        rel="noopener noreferrer">GitHub
-    repository</a>.</small></p>
-</div>
-</body>
-</html>
+</html>           
