@@ -49,6 +49,7 @@
                 <li><em>b<strong>on</strong></em> is pronounced <strong>/bɔ̃/</strong>.</li>
             </ul>
         </li>
+        <br>
         <li>
             <strong>Parisian (experimental) - Parisian French pronunciation patterns</strong>
             <p>This option implements the major phonological shifts characteristic of modern Parisian and Metropolitan
@@ -102,6 +103,487 @@
                                            rel="noopener noreferrer">Wiktionary
         French pronunciation module</a> with a comprehensive lexicon extracted from Wiktionary data dumps, providing
         both high accuracy for common words and broad coverage through rule-based generation.</p>
+
+    <h2>Wiktionary French pronunciation module Pipeline Overview</h2>
+
+
+    <!-- STEP 1 -->
+    <div class="step-container">
+        <h3>1. Initialization & Normalization</h3>
+        <p>The input string is prepared and normalized to remove orthographic variance that does not affect
+            pronunciation.</p>
+        <ul>
+            <li><strong>Boundary Markers:</strong> The symbol <code>⁀</code> is added to the start and end of every word
+                (e.g., <code>⁀mot⁀</code>).
+            </li>
+            <li><strong>Liaison conversion:</strong> All apostrophes (e.g., <em>l'arbre, c'est</em>) are converted to
+                the liaison marker <code>‿</code>.
+            </li>
+            <li><strong>Accent Normalization:</strong>
+                <ul>
+                    <li><strong>Strip:</strong> <code>à</code> &rarr; <code>a</code>, <code>ù</code> &rarr;
+                        <code>u</code>, <code>î</code> &rarr; <code>i</code> (These accents do not change vowel quality
+                        in this system).
+                    </li>
+                    <li><strong>Keep:</strong> <code>â</code> (Posterior A), <code>ô</code> (Closed O), <code>ê</code>
+                        (Open E) are preserved as they alter the phoneme.
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Special Case (Qu'):</strong> The sequence <code>qu'</code> is mapped to <code>k'</code>
+                (preventing false nasalization in <em>qu'on</em>).
+            </li>
+        </ul>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-container">
+        <h3>2. Early Consonant Mutations</h3>
+        <p>Fixing ambiguous consonants based on the following vowel.</p>
+        <h3>2.1. The "Capital E" Protection</h3>
+        <p>The digraphs <code>œu</code> and <code>oeu</code> are converted to a placeholder <code>Eu</code>.</p>
+        <div class="algo-alert">
+            <strong>Why?</strong> This prevents the letter C from softening.
+            <br><em>Example:</em> <em>cœur</em> &rarr; <code>cEu...</code> &rarr; C remains hard /k/ because it is not
+            followed by a lowercase 'e' or 'œ'.
+        </div>
+        <h3>2.2. C and G Logic</h3>
+        <ul>
+            <li><strong>Soft C:</strong> <code>c</code> + <em>e, i, y</em> &rarr; <code>ç</code> (later /s/).</li>
+            <li><strong>Soft G:</strong> <code>g</code> + <em>e, i, y</em> &rarr; <code>j</code> (later /ʒ/).</li>
+            <li><strong>Forced Soft G:</strong> <code>ge</code> + <em>a, o, u</em> &rarr; <code>j</code> (The 'e' is
+                purely orthographic and is deleted).
+            </li>
+            <li><strong>Hardening:</strong>
+                <ul>
+                    <li><code>qu</code> + Vowel &rarr; <code>k</code>.</li>
+                    <li><code>gu</code> + Vowel &rarr; <code>g</code>. (Exception: If diaeresis exists like
+                        <em>aigüe</em>, keep the 'u').
+                    </li>
+                </ul>
+            </li>
+        </ul>
+        <h3>2.3. Consonant Devoicing</h3>
+        <p><strong>Rule:</strong> The letter <code>b</code> is devoiced to <code>p</code> when immediately followed by
+            <strong>s</strong> or <strong>t</strong>.</p>
+        <ul>
+            <li><em>Example:</em> <em>absurde</em> &rarr; <code>apsurde</code> &rarr; <span class="ipa">/ap.syʁd/</span>.
+            </li>
+            <li><em>Example:</em> <em>obtenir</em> &rarr; <code>optenir</code> &rarr; <span
+                    class="ipa">/ɔp.tə.niʁ/</span>.
+            </li>
+        </ul>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-container">
+        <h3>3. Verb Morphology Overrides (pos="v")</h3>
+        <p>Applied strictly when the module input is tagged as a verb.</p>
+        <ul>
+            <li><strong>Final "-ai":</strong> Forces <code>ai</code> &rarr; <code>é</code> (Standard French distinction
+                /e/ vs /ɛ/).
+            </li>
+            <li><strong>Anti-Assibilation (The T-Blocker):</strong>
+                <p>The script inserts a separator <code>_</code> to prevent T from turning into S in specific verb
+                    endings:</p>
+                <ul>
+                    <li><code>ti</code> + <em>ons/ens</em> &rarr; <code>t_i</code> (e.g., <em>portions</em> &rarr; <span
+                            class="ipa">/pɔʁtjɔ̃/</span>).
+                    </li>
+                    <li><code>t</code> + <em>ienne(nt)</em> &rarr; <code>t_ienne</code> (e.g., <em>tiennent</em> &rarr;
+                        <span class="ipa">/tjɛn/</span>, preventing /sjɛn/).
+                    </li>
+                </ul>
+            </li>
+            <li><strong>The "-ent" Ending:</strong>
+                <ul>
+                    <li>Standard: <code>ent</code> &rarr; <code>e</code> (silent/schwa).</li>
+                    <li><strong>Liaison Exception:</strong> If followed by a liaison marker <code>‿</code>, it becomes
+                        <code>ət‿</code>.
+                    </li>
+                    <li><em>Example:</em> <em>parlent-ils</em> &rarr; <span class="ipa">/paʁlət.il/</span>.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- STEP 4 -->
+    <!-- STEP 4 -->
+    <div class="step-container">
+        <h3>4. Orthographic Standardization</h3>
+        <p>Mapping lexical exceptions and fixed spelling patterns.</p>
+        <h3>4.1 Assibilation (T &rarr; S)</h3>
+        <p><strong>Rule:</strong> <code>ti</code> becomes <code>si</code> before <em>on, en, al, el</em>.</p>
+        <p><strong>Exceptions (Blockers):</strong> Assibilation is cancelled if the T is preceded by:</p>
+        <ul>
+            <li><strong>s</strong> (e.g., <em>question</em>)</li>
+            <li><strong>x</strong> (e.g., <em>mixtion</em>)</li>
+            <li><strong>ç</strong> (script safety check)</li>
+        </ul>
+
+        <h3>4.2. Special Prefix/Suffix Logic</h3>
+        <table>
+            <tr>
+                <th>Pattern</th>
+                <th>Logic</th>
+                <th>Example</th>
+            </tr>
+            <tr>
+                <td><strong>eu- / neuro-</strong></td>
+                <td>Force <code>eu</code> to closed <span class="ipa">/ø/</span> even before R.</td>
+                <td><em>Europe</em> &rarr; <span class="ipa">/ø.ʁɔp/</span></td>
+            </tr>
+            <tr>
+                <td><strong>hyper- / super-</strong></td>
+                <td>Force <code>er</code> to open <span class="ipa">/ɛʁ/</span> (preventing /e/).</td>
+                <td><em>supermarché</em> &rarr; <span class="ipa">/sy.pɛʁ.../</span></td>
+            </tr>
+            <tr>
+                <td><strong>trans- / intrans-</strong></td>
+                <td>Force <code>s</code> to voiced <span class="ipa">/z/</span> before vowel.</td>
+                <td><em>intransigeant</em> &rarr; <span class="ipa">/ɛ̃.tʁɑ̃.zi.ʒɑ̃/</span></td>
+            </tr>
+            <tr>
+                <td><strong>(h)ex-</strong></td>
+                <td>Initial <code>ex</code> or <code>in+ex</code> &rarr; <span class="ipa">/gz/</span> (Must be followed
+                    by vowel/h).
+                </td>
+                <td><em>examen</em> &rarr; <span class="ipa">/ɛg.za.mɛ̃/</span></td>
+            </tr>
+            <tr>
+                <td><strong>désh-</strong></td>
+                <td>Force <code>s</code> to voiced <span class="ipa">/z/</span>.</td>
+                <td><em>déshabiller</em> &rarr; <span class="ipa">/de.za.bi.je/</span></td>
+            </tr>
+        </table>
+
+        <h3>4.3. Basic Digraphs</h3>
+        <ul>
+            <li><strong>ph</strong> &rarr; <code>f</code></li>
+            <li><strong>gn</strong> &rarr; <code>ɲ</code></li>
+            <li><strong>psych-</strong> &rarr; <code>psik</code> (e.g., <em>psychologie</em>).</li>
+            <li><strong>ch</strong> &rarr;
+                <ul>
+                    <li>Becomes <code>k</code> before <strong>r, l, n</strong> (e.g., <em>chrétien, chlore</em>).</li>
+                    <li>Becomes <code>ʃ</code> elsewhere.</li>
+                </ul>
+            </li>
+            <li><strong>-ing</strong> &rarr; <span class="ipa">/iŋ/</span> (Loanwords).</li>
+            <li><strong>-emment</strong> &rarr; <span class="ipa">/a.mɑ̃/</span> (Adverbs).</li>
+        </ul>
+        <h3>4.4. Posterior A Shift</h3>
+        <ul>
+            <li><code>as, az</code> (Final) &rarr; <code>â</code> <span class="ipa">/ɑ/</span>.</li>
+            <li><em>Example:</em> <em>pas</em> &rarr; <span class="ipa">/pɑ/</span>, <em>gaz</em> &rarr; <span
+                    class="ipa">/gɑz/</span>.
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- STEP 5 -->
+    <!-- STEP 5 -->
+    <div class="step-container">
+        <h3>5. Vowels, Ligatures, and Nasalization</h3>
+
+        <h3>5.1. Base Mappings</h3>
+        <ul>
+            <li><strong>au, eau</strong> &rarr; <code>O</code> (Closed /o/)</li>
+            <li><strong>eu, œu</strong> &rarr; <code>ø</code> (Closed /ø/)</li>
+            <li><strong>oi</strong> &rarr; <code>wA</code> (Generally <span class="ipa">/wa/</span>).</li>
+            <li><strong>ou</strong> &rarr; <code>U</code> (High back /u/)</li>
+        </ul>
+
+        <h3>5.2. Nasalization Engine</h3>
+        <p><strong>Logic:</strong> The script scans for <code>Vowel + n/m</code> followed by a Consonant or End-of-Word.
+        </p>
+
+        <div class="algo-alert">
+            <strong>The "Coin" Exception:</strong>
+            If the sequence is specifically <code>oi</code> + <code>n</code> (and satisfying nasal conditions), the
+            script overrides the standard output to <strong>/wɛ̃/</strong>.
+            <br><em>Example:</em> <em>point</em> &rarr; <span class="ipa">/pwɛ̃/</span> (Not /pwɑ̃/).
+        </div>
+
+        <ul>
+            <li><strong>a, e</strong> + n/m &rarr; <span class="ipa">/ɑ̃/</span></li>
+            <li><strong>o</strong> + n/m &rarr; <span class="ipa">/ɔ̃/</span></li>
+            <li><strong>i, ɛ, y</strong> + n/m &rarr; <span class="ipa">/ɛ̃/</span> (Includes <em>pain, syndicat</em>).
+            </li>
+            <li><strong>u</strong> + n/m &rarr; <span class="ipa">/œ̃/</span></li>
+        </ul>
+
+        <h3>5.3. Special Consonant Handling in Nasals</h3>
+        <ul>
+            <li><strong>-um:</strong> Maps to <span class="ipa">/ɔm/</span> (e.g., <em>maximum</em>).</li>
+            <li><strong>mb, mp:</strong> The script converts these to <code>mB, mP</code>. The vowel nasalizes due to
+                the M, and the B/P are subsequently deleted.
+                <br><em>Example:</em> <em>plomb</em> &rarr; <span class="ipa">/plɔ̃/</span>.
+            </li>
+        </ul>
+    </div>
+    <!-- STEP 6 -->
+    <!-- STEP 6 -->
+    <div class="step-container">
+        <h3>6. Structural Logic: Y and ILL</h3>
+        <p>Handling the complex context-dependency of Y and the "Liquid L" digraphs.</p>
+
+        <h3>6.1. The Y Hierarchy</h3>
+        <p>The script determines whether <code>y</code> functions as a vowel /i/ or a semi-vowel /j/.</p>
+        <ul>
+            <li><strong>The "Yi" Hiatus:</strong> <code>yi</code> + Vowel &rarr; <code>y.y</code> + Vowel.
+                <br><em>Logic:</em> Forces a syllable split rather than a glide (e.g., <em>yin</em>).
+            </li>
+            <li><strong>Contextual Vowel /i/:</strong>
+                <ul>
+                    <li><strong>Initial Y + Consonant:</strong> &rarr; <span class="ipa">/i/</span> (e.g.,
+                        <em>yttrium</em>).
+                    </li>
+                    <li><strong>Consonant + Y + Consonant:</strong> &rarr; <span class="ipa">/i/</span> (e.g.,
+                        <em>cycle</em>).
+                    </li>
+                    <li><strong>Consonant + Y + Vowel:</strong> Maps to <code>i</code> temporarily to ensure
+                        syllabification, often becoming <span class="ipa">/j/</span> later.
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Standard Glide /j/:</strong> Any other <code>y</code> (especially Initial + Vowel like
+                <em>yeux</em>) becomes <span class="ipa">/j/</span>.
+            </li>
+            <li><strong>Exceptions:</strong>
+                <ul>
+                    <li><code>ay</code> &rarr; <code>ai</code> (e.g., <em>Gamay</em> &rarr; <span
+                            class="ipa">/ga.mɛ/</span>).
+                    </li>
+                    <li><code>éy</code> &rarr; <code>éj</code> (Used in specific respellings).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>6.2. The ILL Logic (Liquid L)</h3>
+        <p>The script processes <code>ill</code> sequences in a strict order of operations:</p>
+        <ol>
+            <li><strong>Consonant + uill:</strong> &rarr; <span class="ipa">/ɥij/</span>.
+                <br><em>Example:</em> <em>cuillère</em> &rarr; <span class="ipa">/kɥi.jɛʁ/</span>.
+            </li>
+            <li><strong>Vowel + ill:</strong> &rarr; <span class="ipa">/j/</span>.
+                <br><em>Example:</em> <em>travailler</em> &rarr; <span class="ipa">/tʁa.va.je/</span> (The L is
+                absorbed).
+            </li>
+            <li><strong>Standard ill:</strong> &rarr; <span class="ipa">/ij/</span>.
+                <br><em>Example:</em> <em>fille</em> &rarr; <span class="ipa">/fij/</span>.
+            </li>
+            <li><strong>Final Vowel + il:</strong> &rarr; <span class="ipa">/j/</span>.
+                <br><em>Example:</em> <em>soleil</em> &rarr; <span class="ipa">/sɔ.lɛj/</span>.
+            </li>
+        </ol>
+    </div>
+
+    <!-- STEP 7 -->
+    <div class="step-container">
+        <h3>7. Word Endings (Deletions)</h3>
+        <p>Removing silent letters at word boundaries (<code>⁀</code>).</p>
+
+        <h3>7.1. Standard List</h3>
+        <p>Delete: <strong>d, g, p, t, s, z</strong>.</p>
+
+        <h3>7.2. Complex Deletions</h3>
+        <ul>
+            <li><strong>x:</strong> Silent only after <code>i, u, ø</code> (e.g., <em>prix, vœux</em>). Pronounced
+                <code>/ks/</code> or <code>/s/</code> otherwise.
+            </li>
+            <li><strong>-nct:</strong> Both C and T are silent (e.g., <em>instinct</em> &rarr; <span class="ipa">/ɛ̃s.tɛ̃/</span>).
+            </li>
+            <li><strong>-r:</strong> Silent in polysyllabic words ending in <code>-er</code> (becomes <span class="ipa">/e/</span>).
+                Pronounced in monosyllables (<em>fer, mer</em>).
+            </li>
+        </ul>
+
+        <h3>7.3. Protections</h3>
+        <ul>
+            <li><strong>-st:</strong> T is kept (e.g., <em>est</em>).</li>
+            <li><strong>-kt:</strong> T is kept (e.g., <em>strict</em>).</li>
+        </ul>
+        <h3>7.4 Special Endings</h3>
+        <ul>
+            <li><strong>-ez:</strong> Treated as <span class="ipa">/e/</span> (e.g., <em>assez</em>).</li>
+            <li><strong>-ied:</strong> Treated as <span class="ipa">/je/</span> (e.g., <em>pied, assieds</em>).</li>
+        </ul>
+    </div>
+
+    <!-- STEP 8 -->
+    <div class="step-container">
+        <h3>8. E-Rules & Syllabification</h3>
+
+        <h3>8.1. E + Double Consonant</h3>
+        <p><strong>Rule:</strong> <code>e</code> + CC &rarr; <code>è</code> + C.</p>
+        <ul>
+            <li>The vowel opens to <span class="ipa">/ɛ/</span> before the double consonant is reduced.</li>
+            <li><em>Example:</em> <em>terre</em> &rarr; <span class="ipa">/tɛʁ/</span>.</li>
+        </ul>
+
+        <h3>8.2. Syllabification Engine</h3>
+        <ul>
+            <li><strong>V.CV:</strong> Break before single consonant.</li>
+            <li><strong>VC.CV:</strong> Break between consonants.</li>
+            <li><strong>Onset Maximization:</strong> If C2 is a liquid (L/R) and C1 is an obstruent, break before C1
+                (e.g., <em>ta.bleau</em>).
+            </li>
+        </ul>
+
+        <h3>8.3. Schwa (ə) Logic</h3>
+        <ul>
+            <li><strong>Word Final:</strong> Deleted (unless monosyllable).</li>
+            <li><strong>Internal (VCəCV):</strong> Deleted, <strong>unless</strong> the resulting consonant cluster is
+                forbidden.
+            </li>
+            <li><strong>Forbidden Clusters:</strong> The script checks a lookup table (e.g., <code>ʁʁ, ɲʁ</code>). If
+                the pair is found, the schwa is preserved.
+            </li>
+        </ul>
+    </div>
+
+    <!-- STEP 9 -->
+    <div class="step-container">
+        <h3>9. Glides and Reversion (Cluster Protection)</h3>
+        <p>Converting high vowels to semi-vowels contextually.</p>
+
+        <h3>9.1. Conversion</h3>
+        <ul>
+            <li><code>i</code> + Vowel &rarr; <span class="ipa">/j/</span></li>
+            <li><code>ou</code> + Vowel &rarr; <span class="ipa">/w/</span></li>
+            <li><code>u</code> + Vowel &rarr; <span class="ipa">/ɥ/</span></li>
+        </ul>
+
+        <h3>9.2. The Reversion Rule (Missing from most guides)</h3>
+        <div class="algo-alert">
+            <strong>Script Safety Check:</strong>
+            If converting a vowel to a glide creates an unpronounceable onset (Consonant + Liquid + Glide), the script
+            <strong>reverts</strong> it to a full vowel.
+        </div>
+        <ul>
+            <li><em>Input:</em> <code>brouette</code> (br + ou + ette).</li>
+            <li><em>Attempt:</em> <span class="ipa">/bʁwɛt/</span> (Cluster /bʁw/ is considered too heavy).</li>
+            <li><em>Reversion:</em> <span class="ipa">/bʁu.ɛt/</span> (Maintains separation).</li>
+        </ul>
+    </div>
+
+    <!-- STEP 10 -->
+    <div class="step-container">
+        <h3>10. Final Harmonization</h3>
+        <p>Final polish of the IPA string.</p>
+        <ul>
+            <li><strong>R standardization:</strong> All rhotic sounds &rarr; <span class="ipa">/ʁ/</span>.</li>
+            <li><strong>Loi de Position (Aperture):</strong>
+                <ul>
+                    <li><strong>O:</strong> <span class="ipa">/o/</span> (closed) only if final or before z. Else <span
+                            class="ipa">/ɔ/</span>.
+                    </li>
+                    <li><strong>EU:</strong> <span class="ipa">/ø/</span> (closed) only if final or before z/t. Else
+                        <span class="ipa">/œ/</span>.
+                    </li>
+                    <li><strong>AU:</strong> Opens to <span class="ipa">/ɔ/</span> before R (e.g., <em>dinosaure</em>).
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Remove hyphens:</strong> Clean up remaining structural artifacts.</li>
+            <li><strong>Diaeresis Removal:</strong> Any remaining internal markers like <code>ï</code> or <code>ë</code>
+                are converted to their standard IPA vowel equivalents (e.g., <code>ï</code> &rarr; <code>i</code>).
+            </li>
+
+        </ul>
+    </div>
+
+    <!-- STEP 11 -->
+    <div class="step-container">
+        <h3>11. Liaison Mutations (Sandhi)</h3>
+        <p>When a silent final consonant becomes pronounced due to liaison (<code>‿</code>), or when vowels clash at
+            boundaries, mutations occur.</p>
+
+        <h3>11.1 Consonant Mutations</h3>
+        <table>
+            <tr>
+                <th>Letter</th>
+                <th>Mutation</th>
+                <th>Example</th>
+                <th>IPA Result</th>
+            </tr>
+            <tr>
+                <td><strong>D</strong></td>
+                <td>Becomes <strong>/t/</strong></td>
+                <td><em>grand‿homme</em></td>
+                <td><span class="ipa">/gʁɑ̃.tɔm/</span></td>
+            </tr>
+            <tr>
+                <td><strong>F</strong></td>
+                <td>Becomes <strong>/v/</strong></td>
+                <td><em>neuf‿heures</em></td>
+                <td><span class="ipa">/nœ.vœʁ/</span></td>
+            </tr>
+            <tr>
+                <td><strong>S, X</strong></td>
+                <td>Becomes <strong>/z/</strong></td>
+                <td><em>beaux‿arts</em></td>
+                <td><span class="ipa">/bo.zaʁ/</span></td>
+            </tr>
+            <tr>
+                <td><strong>I</strong></td>
+                <td>Inserts <strong>/j/</strong></td>
+                <td><em>y a-t-il</em> (i‿a)</td>
+                <td><span class="ipa">/i.ja.t‿il/</span></td>
+            </tr>
+        </table>
+
+        <h3>11.2 The Nasal Bridge</h3>
+        <p>The script distinguishes between words that keep their nasal quality in liaison and those that
+            denasalize.</p>
+        <ul>
+            <li><strong>Group A (Nasal Preserved):</strong> <em>un, on, en, mon, ton, son, bien, rien</em>.
+                <ul>
+                    <li>The script appends a marker to force both nasalization and the consonant.</li>
+                    <li><em>Example:</em> <em>mon‿ami</em> &rarr; <span class="ipa">/mɔ̃.na.mi/</span>.</li>
+                </ul>
+            </li>
+            <li><strong>Group B (Denasalized):</strong> <em>bon, certain</em> (and most other adjectives).
+                <ul>
+                    <li>The script prevents nasalization of the vowel, resulting in an oral vowel + N.</li>
+                    <li><em>Example:</em> <em>bon‿ami</em> &rarr; <span class="ipa">/bɔ.na.mi/</span> (Not /bɔ̃/).</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="step-container">
+        <h3>12. Reference: IPA Symbol Map</h3>
+        <p>A quick reference for the symbols generated by this script.</p>
+        <table>
+            <tr>
+                <th>Sound Class</th>
+                <th>Representation</th>
+                <th>IPA</th>
+            </tr>
+            <tr>
+                <td><strong>Oral Vowels</strong></td>
+                <td>a, â, é, è, i, o, ou, u, eu</td>
+                <td><span class="ipa">/a/, /ɑ/, /e/, /ɛ/, /i/, /ɔ/, /u/, /y/, /œ/</span></td>
+            </tr>
+            <tr>
+                <td><strong>Nasal Vowels</strong></td>
+                <td>an, on, in, un</td>
+                <td><span class="ipa">/ɑ̃/, /ɔ̃/, /ɛ̃/, /œ̃/</span></td>
+            </tr>
+            <tr>
+                <td><strong>Semi-Vowels</strong></td>
+                <td>y, w, ɥ</td>
+                <td><span class="ipa">/j/, /w/, /ɥ/</span></td>
+            </tr>
+            <tr>
+                <td><strong>Consonants</strong></td>
+                <td>ch, gn, r</td>
+                <td><span class="ipa">/ʃ/, /ɲ/, /ʁ/</span></td>
+            </tr>
+        </table>
+    </div>
+
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
