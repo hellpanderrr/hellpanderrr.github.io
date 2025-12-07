@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online French Liaison Inspection Tool</title>
+    <meta content="An interactive tool for inserting liaison markers into French text." name="description">
+    ."
+
+    <script src="./liaison.js"></script>
+    <link as="style" href="../../wiktionary_pron/css/tacit-css-1.7.1.min.css"
+          onload="this.onload=null;this.rel='stylesheet'"
+          rel="preload">
+    <noscript>
+        <link href="../../wiktionary_pron/css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    </noscript>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            white-space: pre-wrap;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 50px;
+            font-family: monospace;
+        }
+
+        .mocha {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .liaison-marker, .omission-marker {
+            position: relative;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+
+        .liaison-marker {
+            background-color: #e3f2fd;
+            /*border: 1px solid #2196f3;*/
+            font-weight: bold;
+        }
+
+        .liaison-marker:hover {
+            background-color: #bbdefb;
+        }
+
+        .omission-marker {
+            padding: 0px 9px;
+
+            background-color: #ffebee;
+            /*border: 1px dashed #f44336;*/
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .omission-marker:hover {
+            background-color: #ffcdd2;
+        }
+
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            white-space: nowrap;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            user-select: none;
+            max-width: initial;
+        }
+
+        .tooltip::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .liaison-marker:hover .tooltip, .omission-marker:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+<p>
+    See test run <a href="french_liaison_test.html">results.</a>
+
+</p>
+<hr>
+<h1>French Liaison Tool</h1>
+
+<div class="container">
+        <textarea id="inputText" placeholder="Enter French text here...">Text (input)                   Expected with liaison          Category / Reason
+--------------------------------|--------------------------|-------------------------------------
+un ami                         | un_ami                   | Determiner + noun          (Obligatory)
+les amis                       | les_amis                 | Article + noun (plural)    (Obligatory)
+des amis                       | des_amis                 | Partitive/article + noun   (Obligatory)
+mon ami                        | mon_ami                  | Possessive + noun          (Obligatory)
+ton ancien ami                 | ton_ancien_ami           | Possessive + adjective     (Obligatory)
+grand homme                    | grand_homme              | Adjective + noun (mute h)  (Obligatory)
+nous avons                     | nous_avons               | Subject pronoun + verb     (Obligatory)
+vous avez                      | vous_avez                | Subject pronoun + verb     (Obligatory)
+ils ont                        | ils_ont                  | Subject pronoun + verb     (Obligatory)
+on arrive                      | on_arrive                | Pronoun on + verb          (Obligatory)
+quand il                       | quand_il                 | Preposition + pronoun      (Obligatory)
+dans un sac                    | dans_un sac              | Preposition + article      (Obligatory)
+chez eux                      | chez_eux                 | Preposition + pronoun       (Obligatory)
+tres occupe                    | tres_occupe              | Adverb + adjective         (Obligatory)
+bien aimable                   | bien_aimable             | Adverb + adjective         (Obligatory)
+tout a fait                    | tout_a fait              | Fixed expression           (Obligatory)
+deux amis                      | deux_amis                | Number (2-6,10) + vowel    (Obligatory)
+trois ans                      | trois_ans                | Number + vowel             (Obligatory)
+six enfants                    | six_enfants              | Number + vowel             (Obligatory)
+dix ans                        | dix_ans                  | Number + vowel             (Obligatory)
+neuf ans                       | neuf_ans                 | Number 9 (f to v sound)    (Obligatory)
+comment allez-vous             | comment_allez-vous       | Fixed interrogative        (Obligatory)
+fait-il                        | fait_il                  | Verb inversion + pronoun   (Obligatory)
+les hommes                     | les_hommes               | Article + mute h           (Obligatory)
+un homme                       | un_homme                 | Determiner + mute h        (Obligatory)
+tres important                 | tres_important           | Adverb tres + vowel        (Obligatory)
+plus important                 | plus_important           | Comparative/adverb + vowel (Obligatory)
+c'est un                       | c'est_un                 | Fixed expression           (Obligatory)
+les Etats-Unis                 | les_Etats-Unis           | Fixed compound             (Obligatory)
+en ete                         | en_ete                   | Preposition en + vowel     (Obligatory)
+bon appétit                   | bon_appétit              | Fixed expression            (Obligatory)
+de temps en temps              | de temps_en temps        | Fixed expression           (Obligatory)
+tout est                       | tout_est                 | tout + vowel               (Obligatory)
+et un ami                      | et un ami                | After "et"                 (Forbidden)
+le heros                       | le heros                 | h aspire                   (Forbidden)
+les haricots                   | les haricots             | h aspire                   (Forbidden)
+la haine                       | la haine                 | h aspire                   (Forbidden)
+les hiboux                    | les hiboux               | h aspire                    (Forbidden)
+les hauts                      | les hauts                | h aspire                   (Forbidden)
+un hamburger                   | un hamburger             | h aspire                   (Forbidden)
+onze heures                    | onze heures              | No latent consonant        (enchainement)
+huit heures                    | huit heures              | Fixed expression           (enchainement)
+Paris est                      | Paris est                | After proper name         (Forbidden)
+Robert arrive                  | Robert arrive            | After proper name         (Forbidden)
+vraiment utile                 | vraiment utile           | After -ment adverb        (Forbidden)
+sujet interessant              | sujet interessant        | After singular noun       (Forbidden)
+les chats adorent              | les chats adorent        | After plural noun + verb  (Forbidden)
+un oui                         | un oui                   | Before "oui"              (Forbidden)
+sommes heureux                 | sommes heureux             | Verb + adjective        (Optional)
+mais il                        | mais il                  | After "mais"             (Optional)
+quatre cents euros             | quatre cents euros       | After plural "cents"     (Optional)
+trop aimable                   | trop aimable             | After "trop"             (Optional)
+parlent souvent                | parlent souvent          | Verb + adverb            (Absent)
+petit garcon                   | petit_garcon             | Adjective + noun         (Absent)
+
+
+</textarea>
+    <button id="processButton">Process Text</button>
+    <div id="result" class="result"></div>
+</div>
+
+<div id="mocha"></div>
+
+<script src="https://unpkg.com/mocha/mocha.js"></script>
+<script src="https://unpkg.com/fr-compromise"></script>
+
+<script>
+    // Your insertLiaisonMarkers function (from test.html)
+
+    // Check if functions loaded
+    window.addEventListener('load', function () {
+        console.log('Page loaded. insertLiaisonMarkers function available:', typeof insertLiaisonMarkers);
+        console.log('insertLiaisonMarkersText function available:', typeof insertLiaisonMarkersText);
+    });
+
+    // Function to escape HTML to prevent XSS, but allow basic formatting
+    function escapeHtml(text) {
+        // Only escape the dangerous characters, not everything
+        return text
+            .replace(/&/g, '&')
+            .replace(/"/g, '"')
+            .replace(/</g, '<')
+            .replace(/>/g, '>');
+    }
+
+    // Function to process text and create interactive markers
+    function createInteractiveResult(liaisonData) {
+        const text = liaisonData.text;
+        const resultContainer = document.getElementById('result');
+
+        // Create markers for liaisons and omissions
+        const processedText = createMarkedText(text, liaisonData.liaisons, liaisonData.omissions);
+        console.log(processedText)
+        resultContainer.innerHTML = processedText;
+    }
+
+    // Function to create marked text with tooltips
+
+
+    // Function to process text and create interactive markers
+    function createMarkedText1(text, liaisons, omissions) {
+        let liaisonCount = 0;
+        let processedText = '';
+        let i = 0;
+
+        while (i < text.length) {
+            const char = text[i];
+
+            // --- CASE 1: LIAISON MARKER ---
+            if (char === '‿') {
+                console.log(char)
+                if (liaisonCount < liaisons.length) {
+                    const l = liaisons[liaisonCount];
+                    const word1 = escapeHtml(l.word1);
+                    const word2 = escapeHtml(l.word2);
+                    const rule = escapeHtml(l.rule);
+                    console.log(l.word1, word2, rule)
+
+                    // Add marker
+                    processedText += `<span class="liaison-marker" title="Liaison: ${word1} + ${word2}\nRule: ${rule}">‿<span class="tooltip">Liaison: ${word1} + ${word2}<br>Rule: ${rule}</span></span>`;
+                    liaisonCount++;
+                }
+                // If we have extra '‿' characters in text but no matching liaison data,
+                // the loop naturally skips adding them to processedText here, effectively removing them.
+                // If you want to keep unmatched '‿', add an 'else' here.
+            }
+
+            // --- CASE 2: REGULAR CHARACTERS & OMISSIONS ---
+            else {
+                let omissionFound = false;
+
+                // Only check for omission if it is a "first space"
+                if (char === ' ' && i > 0 && text[i - 1] !== ' ') {
+                    const beforeWord = getPreviousWord(text, i);
+                    const afterWord = getNextWordAfterSpace(text, i + 1);
+
+                    if (beforeWord && afterWord) {
+                        const omission = omissions.find(om =>
+                            om.word1.toLowerCase() === beforeWord.toLowerCase() &&
+                            om.word2.toLowerCase() === afterWord.toLowerCase()
+                        );
+
+                        if (omission) {
+                            const word1 = escapeHtml(omission.word1);
+                            const word2 = escapeHtml(omission.word2);
+                            const reason = escapeHtml(omission.rule);
+
+                            // Add marker
+                            processedText += `<span class="omission-marker" title="Omission: ${word1} + ${word2}\nReason: ${reason}"><span class="tooltip">Omission: ${word1} + ${word2}<br>Reason: ${reason}</span></span>`;
+                            omissionFound = true;
+                        }
+                    }
+                }
+
+                // If we didn't insert an omission marker, insert the original character (the space or letter)
+                if (!omissionFound) {
+                    processedText += escapeHtml(char);
+                }
+            }
+            i++;
+        }
+
+        return processedText;
+    }
+
+    function normalize(str) {
+        return str ? str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
+    }
+
+    function createInteractiveResult(liaisonData) {
+        const text = liaisonData.text;
+        const resultContainer = document.getElementById('result');
+        const processedText = createMarkedText(text, liaisonData.liaisons, liaisonData.omissions);
+        resultContainer.innerHTML = processedText;
+    }
+
+    function createMarkedText(text, liaisons, omissions) {
+        let liaisonCount = 0;
+        let processedText = '';
+        let i = 0;
+
+        while (i < text.length) {
+            const char = text[i];
+
+            // --- CASE 1: LIAISON MARKER ---
+            if (char === '‿') {
+                let appliedTooltip = false;
+
+                // Check if we have metadata available
+                if (liaisonCount < liaisons.length) {
+                    const l = liaisons[liaisonCount];
+
+                    // 1. Extract the actual words surrounding this specific '‿' in the text
+                    const wordBefore = getWordBeforeIndex(text, i);
+                    const wordAfter = getWordAfterIndex(text, i);
+
+                    // 2. Compare them with the expected metadata
+                    // We normalize to ignore case and accents (e.g. 'Ete' vs 'été')
+                    const isMatch = normalize(wordBefore) === normalize(l.word1) &&
+                        normalize(wordAfter) === normalize(l.word2);
+
+                    if (isMatch) {
+                        const word1 = escapeHtml(l.word1);
+                        const word2 = escapeHtml(l.word2);
+                        const rule = escapeHtml(l.rule);
+
+                        // Add marker with tooltip
+                        processedText += `<span class="liaison-marker" title="Liaison: ${word1} + ${word2}\nRule: ${rule}">‿<span class="tooltip">Liaison: ${word1} + ${word2}<br>Rule: ${rule}</span></span>`;
+
+                        // Only increment if we actually used the metadata
+                        liaisonCount++;
+                        appliedTooltip = true;
+                    }
+                }
+
+                // If it didn't match (e.g., it's a '‿' inside phonetic brackets [vuz‿ɛt]),
+                // just print the character without the tooltip span.
+                if (!appliedTooltip) {
+                    processedText += '‿';
+                }
+            }
+
+            // --- CASE 2: REGULAR CHARACTERS & OMISSIONS ---
+            else {
+                let omissionFound = false;
+
+                // Check for omission at spaces
+                if (char === ' ' && i > 0 && text[i - 1] !== ' ') {
+                    const beforeWord = getWordBeforeIndex(text, i); // Reusing the new helper
+                    const afterWord = getWordAfterIndex(text, i);   // Reusing the new helper
+
+                    if (beforeWord && afterWord) {
+                        const omission = omissions.find(om =>
+                            normalize(om.word1) === normalize(beforeWord) &&
+                            normalize(om.word2) === normalize(afterWord)
+                        );
+
+                        if (omission) {
+                            const word1 = escapeHtml(omission.word1);
+                            const word2 = escapeHtml(omission.word2);
+                            const reason = escapeHtml(omission.rule);
+
+                            // Add marker
+                            processedText += `<span class="omission-marker" title="Omission: ${word1} + ${word2}\nReason: ${reason}"><span class="tooltip">Omission: ${word1} + ${word2}<br>Reason: ${reason}</span></span>`;
+                            omissionFound = true;
+                        }
+                    }
+                }
+
+                if (!omissionFound) {
+                    processedText += escapeHtml(char);
+                }
+            }
+            i++;
+        }
+
+        return processedText;
+    }
+
+    // --- ROBUST HELPER FUNCTIONS ---
+
+    // Get the word immediately preceding a specific index (ignoring the char at index itself)
+    function getWordBeforeIndex(text, index) {
+        let end = index - 1;
+        // Skip whitespace immediately before
+        while (end >= 0 && /\s/.test(text[end])) end--;
+
+        let start = end;
+        // Walk back until we hit a non-word character
+        // Note: We include accented chars in the regex range
+        while (start >= 0 && /[a-zA-Z0-9À-ÿ]/.test(text[start])) {
+            start--;
+        }
+        return text.slice(start + 1, end + 1);
+    }
+
+    // Get the word immediately following a specific index
+    function getWordAfterIndex(text, index) {
+        let start = index + 1;
+        // Skip whitespace immediately after
+        while (start < text.length && /\s/.test(text[start])) start++;
+
+        let end = start;
+        // Walk forward until we hit a non-word character
+        while (end < text.length && /[a-zA-Z0-9À-ÿ]/.test(text[end])) {
+            end++;
+        }
+        return text.slice(start, end);
+    }
+
+
+    // Helper function to extract all word pairs from text for debugging (optional)
+
+
+    function extractWordPairs(text) {
+        const words = text.match(/\b\w+\b/g) || [];
+        const pairs = [];
+        for (let i = 0; i < words.length - 1; i++) {
+            pairs.push([words[i], words[i + 1]]);
+        }
+        // Remove debug logging - uncomment if needed for troubleshooting
+        // console.log('Word pairs in text:', pairs);
+        // console.log('Omissions data:', omissions);
+        return pairs;
+    }
+
+    // Helper function to get the previous word before a position
+    function getPreviousWord(text, position) {
+        let start = position - 1;
+        while (start >= 0 && !/\w/.test(text[start])) {
+            start--;
+        }
+        let end = start;
+        while (end >= 0 && /\w/.test(text[end])) {
+            end--;
+        }
+        return text.slice(end + 1, start + 1);
+    }
+
+    // Helper function to get the next word after a space
+    function getNextWordAfterSpace(text, position) {
+        let start = position;
+        while (start < text.length && !/\w/.test(text[start])) {
+            start++;
+        }
+        let end = start;
+        while (end < text.length && /\w/.test(text[end])) {
+            end++;
+        }
+        return text.slice(start, end);
+    }
+
+    // Add event listener for the process button
+    document.getElementById('processButton').addEventListener('click', function () {
+        console.log('Button clicked!');
+        try {
+            const inputText = document.getElementById('inputText').value;
+            console.log('Input text:', inputText);
+            console.log('Function exists:', typeof insertLiaisonMarkers);
+            const result = insertLiaisonMarkers(inputText);
+            console.log('Result:', result);
+            createInteractiveResult(result);
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('result').textContent = 'Error: ' + error.message;
+        }
+    });
+
+
+</script>
+</body>
+</html>

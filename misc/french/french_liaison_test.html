@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liaison Marker Function Tests</title>
+    <link href="https://unpkg.com/mocha/mocha.css" rel="stylesheet">
+    <script src="liaison.js"></script>
+    <meta content="French liaison rules. A test file for the liaison marker inserting tool" name="description">
+    ."
+
+</head>
+<body>
+
+<div id="mocha">
+    <h1>
+        <b>Use liaison marker inserting tool <a style="text-decoration: underline;" href="french_liaison.html">online in
+            browser.</a></b>
+
+    </h1>
+</div>
+
+<script src="https://unpkg.com/mocha/mocha.js"></script>
+<script src="https://unpkg.com/fr-compromise"></script>
+<script type="module">
+    import {expect} from 'https://unpkg.com/chai';
+
+    const _originalInsertLiaisonMarkers = insertLiaisonMarkers;
+
+    function log(liason) {
+        console.log(JSON.stringify(liason))
+    }
+
+    insertLiaisonMarkers = (text) => log(_originalInsertLiaisonMarkers(text)) || _originalInsertLiaisonMarkers(text).text;
+    mocha.setup('bdd');
+    describe('insertLiaisonMarkers - Full Validation Suite', function () {
+        // =========================================================================
+        // SECTION 1: OBLIGATORY LIAISONS
+        // =========================================================================
+        describe('1. Obligatory Liaisons (Grammatically Required)', function () {
+
+            describe('1.1 Determiner + Noun', function () {
+                it('1.1.1 should insert for indefinite article (un ami)', () => {
+                    expect(insertLiaisonMarkers('un ami')).to.equal('un‿ami');
+                });
+                it('1.1.2 should insert for plural article (les amis)', () => {
+                    expect(insertLiaisonMarkers('les amis')).to.equal('les‿amis');
+                });
+                it('1.1.3 should insert for indefinite plural (des arbres)', () => {
+                    expect(insertLiaisonMarkers('des arbres')).to.equal('des‿arbres');
+                });
+                it('1.1.4 should insert for possessive (mon ami)', () => {
+                    expect(insertLiaisonMarkers('mon ami')).to.equal('mon‿ami');
+                });
+                it('1.1.5 should insert for possessive (ton usine)', () => {
+                    expect(insertLiaisonMarkers('ton usine')).to.equal('ton‿usine');
+                });
+                it('1.1.6 should insert for possessive (son anniversaire)', () => {
+                    expect(insertLiaisonMarkers('son anniversaire')).to.equal('son‿anniversaire');
+                });
+                it('1.1.7 should insert for plural possessive (nos enfants)', () => {
+                    expect(insertLiaisonMarkers('nos enfants')).to.equal('nos‿enfants');
+                });
+                it('1.1.8 should insert for plural possessive (vos idées)', () => {
+                    expect(insertLiaisonMarkers('vos idées')).to.equal('vos‿idées');
+                });
+                it('1.1.9 should insert for plural possessive (leurs hommes)', () => {
+                    expect(insertLiaisonMarkers('leurs hommes')).to.equal('leurs‿hommes');
+                });
+                it('1.1.10 should insert for demonstrative (cet homme)', () => {
+                    expect(insertLiaisonMarkers('cet homme')).to.equal('cet‿homme');
+                });
+                it('1.1.11 should insert for plural demonstrative (ces oiseaux)', () => {
+                    expect(insertLiaisonMarkers('ces oiseaux')).to.equal('ces‿oiseaux');
+                });
+                it('1.1.12 should insert for quantifier (aucun ami)', () => {
+                    expect(insertLiaisonMarkers('aucun ami')).to.equal('aucun‿ami');
+                });
+                it('1.1.13 should insert for quantifier (tout homme)', () => {
+                    expect(insertLiaisonMarkers('tout homme')).to.equal('tout‿homme');
+                });
+                it('1.1.14 should insert for interrogative (quels auteurs)', () => {
+                    expect(insertLiaisonMarkers('quels auteurs')).to.equal('quels‿auteurs');
+                });
+            });
+
+            describe('1.2 Pronoun + Verb', function () {
+                it('1.2.1 should insert for personal pronoun (nous avons)', () => {
+                    expect(insertLiaisonMarkers('nous avons')).to.equal('nous‿avons');
+                });
+                it('1.2.2 should insert for personal pronoun (vous avez)', () => {
+                    expect(insertLiaisonMarkers('vous avez')).to.equal('vous‿avez');
+                });
+                it('1.2.3 should insert for personal pronoun (ils ont)', () => {
+                    expect(insertLiaisonMarkers('ils ont')).to.equal('ils‿ont');
+                });
+                it('1.2.4 should insert for personal pronoun (elles aiment)', () => {
+                    expect(insertLiaisonMarkers('elles aiment')).to.equal('elles‿aiment');
+                });
+                it('1.2.5 should insert for indefinite pronoun (on arrive)', () => {
+                    expect(insertLiaisonMarkers('on arrive')).to.equal('on‿arrive');
+                });
+                it('1.2.6 should insert for pronoun "en" (en avoir)', () => {
+                    expect(insertLiaisonMarkers('en avoir')).to.equal('en‿avoir');
+                });
+                it('1.2.7 should insert for pronoun "tout" (tout est)', () => {
+                    expect(insertLiaisonMarkers('tout est')).to.equal('tout‿est');
+                });
+            });
+
+            describe('1.3 Adjective + Noun (Pre-nominal)', function () {
+                it('1.3.1 should insert for adjective (petit arbre)', () => {
+                    expect(insertLiaisonMarkers('petit arbre')).to.equal('petit‿arbre');
+                });
+                it('1.3.2 should insert for adjective (grand ours)', () => {
+                    expect(insertLiaisonMarkers('grand ours')).to.equal('grand‿ours');
+                });
+                it('1.3.3 should insert for adjective (gros œuvre)', () => {
+                    expect(insertLiaisonMarkers('gros œuvre')).to.equal('gros‿œuvre');
+                });
+                it('1.3.4 should insert for adjective (mauvais état)', () => {
+                    expect(insertLiaisonMarkers('mauvais état')).to.equal('mauvais‿état');
+                });
+                it('1.3.5 should insert for adjective (beaux arts)', () => {
+                    expect(insertLiaisonMarkers('beaux arts')).to.equal('beaux‿arts');
+                });
+                it('1.3.6 should insert for adjective (vieux hommes)', () => {
+                    expect(insertLiaisonMarkers('vieux hommes')).to.equal('vieux‿hommes');
+                });
+                it('1.3.7 should insert for adjective (premiers enfants)', () => {
+                    expect(insertLiaisonMarkers('premiers enfants')).to.equal('premiers‿enfants');
+                });
+            });
+
+            describe('1.4 Numbers + Noun', function () {
+                it('1.4.1 should insert for number (deux heures)', () => {
+                    expect(insertLiaisonMarkers('deux heures')).to.equal('deux‿heures');
+                });
+                it('1.4.2 should insert for number (trois ans)', () => {
+                    expect(insertLiaisonMarkers('trois ans')).to.equal('trois‿ans');
+                });
+                it('1.4.3 should insert for number (six heures)', () => {
+                    expect(insertLiaisonMarkers('six heures')).to.equal('six‿heures');
+                });
+                it('1.4.4 should insert for number (dix ans)', () => {
+                    expect(insertLiaisonMarkers('dix ans')).to.equal('dix‿ans');
+                });
+                it('1.4.5 should insert for number (vingt ans)', () => {
+                    expect(insertLiaisonMarkers('vingt ans')).to.equal('vingt‿ans');
+                });
+                it('1.4.6 should insert for number (cent euros)', () => {
+                    expect(insertLiaisonMarkers('cent euros')).to.equal('cent‿euros');
+                });
+            });
+
+            describe('1.5 Prepositions', function () {
+                it('1.5.1 should insert for monosyllabic preposition (dans un)', () => {
+                    expect(insertLiaisonMarkers('dans un')).to.equal('dans‿un');
+                });
+                it('1.5.2 should insert for monosyllabic preposition (sans argent)', () => {
+                    expect(insertLiaisonMarkers('sans argent')).to.equal('sans‿argent');
+                });
+                it('1.5.3 should insert for monosyllabic preposition (en hiver)', () => {
+                    expect(insertLiaisonMarkers('en hiver')).to.equal('en‿hiver');
+                });
+                it('1.5.4 should insert for monosyllabic preposition (chez elle)', () => {
+                    expect(insertLiaisonMarkers('chez elle')).to.equal('chez‿elle');
+                });
+                it('1.5.5 should insert for monosyllabic preposition (sous une)', () => {
+                    expect(insertLiaisonMarkers('sous une')).to.equal('sous‿une');
+                });
+            });
+
+            describe('1.6 Adverbs (Monosyllabic)', function () {
+                it('1.6.1 should insert for adverb "très" (très utile)', () => {
+                    expect(insertLiaisonMarkers('très utile')).to.equal('très‿utile');
+                });
+                it('1.6.2 should insert for adverb "bien" (bien assez)', () => {
+                    expect(insertLiaisonMarkers('bien assez')).to.equal('bien‿assez');
+                });
+                it('1.6.3 should insert for adverb "plus" (plus important)', () => {
+                    expect(insertLiaisonMarkers('plus important')).to.equal('plus‿important');
+                });
+                it('1.6.4 should insert for adverb "moins" (moins intéressant)', () => {
+                    expect(insertLiaisonMarkers('moins intéressant')).to.equal('moins‿intéressant');
+                });
+                it('1.6.5 should insert for adverb "tout" (tout ému)', () => {
+                    expect(insertLiaisonMarkers('tout ému')).to.equal('tout‿ému');
+                });
+            });
+
+            describe('1.7 Fixed Expressions', function () {
+                it('1.7.1 should insert for "petit à petit"', () => {
+                    expect(insertLiaisonMarkers('petit à petit')).to.equal('petit‿à petit');
+                });
+                it('1.7.2 should insert for "mot à mot"', () => {
+                    expect(insertLiaisonMarkers('mot à mot')).to.equal('mot‿à mot');
+                });
+                it('1.7.3 should insert for "de temps en temps"', () => {
+                    expect(insertLiaisonMarkers('de temps en temps')).to.equal('de temps‿en temps');
+                });
+                it('1.7.4 should insert for "de plus en plus"', () => {
+                    expect(insertLiaisonMarkers('de plus en plus')).to.equal('de plus‿en plus');
+                });
+            });
+
+            describe('1.8 Adverb "Quand"', function () {
+                it('1.8.1 should insert for "quand il"', () => {
+                    expect(insertLiaisonMarkers('quand il')).to.equal('quand‿il');
+                });
+                it('1.8.2 should insert for "quand on"', () => {
+                    expect(insertLiaisonMarkers('quand on')).to.equal('quand‿on');
+                });
+                it('1.8.3 should insert for "quand elle"', () => {
+                    expect(insertLiaisonMarkers('quand elle')).to.equal('quand‿elle');
+                });
+                it('1.8.4 should insert for "quand est-ce"', () => {
+                    expect(insertLiaisonMarkers('quand est-ce')).to.equal('quand‿est-ce');
+                });
+            });
+
+            describe('1.9 Plural Noun + Adjective', function () {
+                it('1.9.1 should insert for plural noun + adjective (enfants intelligents)', () => {
+                    expect(insertLiaisonMarkers('enfants intelligents')).to.equal('enfants‿intelligents');
+                });
+                it('1.9.2 should insert for plural noun + adjective (chiens agressifs)', () => {
+                    expect(insertLiaisonMarkers('chiens agressifs')).to.equal('chiens‿agressifs');
+                });
+                it('1.9.3 should insert for plural noun + adjective (amis anciens)', () => {
+                    expect(insertLiaisonMarkers('amis anciens')).to.equal('amis‿anciens');
+                });
+                it('1.9.4 should insert for plural noun + compound adjective (robes en soie)', () => {
+                    expect(insertLiaisonMarkers('robes en soie')).to.equal('robes‿en soie');
+                });
+                it('1.9.5 should insert for plural invariant noun (les temps anciens)', () => {
+                    expect(insertLiaisonMarkers('les temps anciens')).to.equal('les temps‿anciens');
+                });
+                it('1.9.6 should NOT insert for singular invariant noun (le temps ancien)', () => {
+                    expect(insertLiaisonMarkers('le temps ancien')).to.equal('le temps ancien');
+                });
+                it('1.9.7 should distinguish singular/plural for "corps" (un corps humain vs des corps humains)', () => {
+                    expect(insertLiaisonMarkers('un corps humain')).to.equal('un corps humain');
+                    expect(insertLiaisonMarkers('des corps humains')).to.equal('des corps‿humains');
+                });
+            });
+
+            describe('1.10 Forms of "Être" (Essential)', function () {
+                it('1.10.1 should not insert for "elle est" (vowel end)', () => {
+                    expect(insertLiaisonMarkers('elle est')).to.equal('elle est');
+                });
+                it('1.10.2 should insert for "on est"', () => {
+                    expect(insertLiaisonMarkers('on est')).to.equal('on‿est');
+                });
+                it('1.10.3 should not insert for "c\'était un" (often forbidden)', () => {
+                    expect(insertLiaisonMarkers('c\'était un')).to.equal('c\'était un');
+                });
+                it('1.10.4 should insert for "était-il" (inverted)', () => {
+                    expect(insertLiaisonMarkers('était-il')).to.equal('était-il');
+                });
+            });
+        });
+
+        // =========================================================================
+        // SECTION 2: FORBIDDEN LIAISONS
+        // =========================================================================
+        describe('2. Forbidden Liaisons', function () {
+
+            describe('2.1 H Aspiré', function () {
+                it('2.1.1 should not insert for "héros" (le héros)', () => {
+                    expect(insertLiaisonMarkers('le héros')).to.equal('le héros');
+                });
+                it('2.1.2 should not insert for "haricot" (les haricots)', () => {
+                    expect(insertLiaisonMarkers('les haricots')).to.equal('les haricots');
+                });
+                it('2.1.3 should not insert for "haut" (en haut)', () => {
+                    expect(insertLiaisonMarkers('en haut')).to.equal('en haut');
+                });
+                it('2.1.4 should not insert for "hache" (une hache)', () => {
+                    expect(insertLiaisonMarkers('une hache')).to.equal('une hache');
+                });
+                it('2.1.5 should not insert for "hibou" (les hiboux)', () => {
+                    expect(insertLiaisonMarkers('les hiboux')).to.equal('les hiboux');
+                });
+                it('2.1.6 should not insert for "honte" (la honte)', () => {
+                    expect(insertLiaisonMarkers('la honte')).to.equal('la honte');
+                });
+                it('2.1.7 should not insert for "haine" (cette haine)', () => {
+                    expect(insertLiaisonMarkers('cette haine')).to.equal('cette haine');
+                });
+                it('2.1.8 should not insert for "hamburger" (un hamburger)', () => {
+                    expect(insertLiaisonMarkers('un hamburger')).to.equal('un hamburger');
+                });
+                it('2.1.9 should not insert for "hollandais" (les Hollandais)', () => {
+                    expect(insertLiaisonMarkers('les Hollandais')).to.equal('les Hollandais');
+                });
+                it('2.1.10 should not insert for "hôtel" (un hôtel)', () => {
+                    expect(insertLiaisonMarkers('un hôtel')).to.equal('un hôtel');
+                });
+                it('2.1.11 should not insert for "hérisson" (un hérisson)', () => {
+                    expect(insertLiaisonMarkers('un hérisson')).to.equal('un hérisson');
+                });
+                it('2.1.12 should not insert for "hasard" (au hasard)', () => {
+                    expect(insertLiaisonMarkers('au hasard')).to.equal('au hasard');
+                });
+                it('2.1.13 should not insert for "hélicoptère" (un hélicoptère)', () => {
+                    expect(insertLiaisonMarkers('un hélicoptère')).to.equal('un hélicoptère');
+                });
+                it('2.1.14 should not insert for "hot-dog" (un hot-dog)', () => {
+                    expect(insertLiaisonMarkers('un hot-dog')).to.equal('un hot-dog');
+                });
+                it('2.1.15 should not insert for "hockey" (le hockey)', () => {
+                    expect(insertLiaisonMarkers('le hockey')).to.equal('le hockey');
+                });
+                it('2.1.16 should not insert for "hauteur" (en hauteur)', () => {
+                    expect(insertLiaisonMarkers('en hauteur')).to.equal('en hauteur');
+                });
+            });
+
+            describe('2.2 Conjunction "et"', function () {
+                it('2.2.1 should not insert after "et" (et alors)', () => {
+                    expect(insertLiaisonMarkers('et alors')).to.equal('et alors');
+                });
+                it('2.2.2 should not insert after "et" (et un)', () => {
+                    expect(insertLiaisonMarkers('et un')).to.equal('et un');
+                });
+                it('2.2.3 should not insert after "et" in lists (poires et abricots)', () => {
+                    expect(insertLiaisonMarkers('poires et abricots')).to.equal('poires et abricots');
+                });
+                it('2.2.4 should not insert after "et" with proper names (Paul et Anne)', () => {
+                    expect(insertLiaisonMarkers('Paul et Anne')).to.equal('Paul et Anne');
+                });
+            });
+
+            describe('2.3 Singular Noun', function () {
+                it('2.3.1 should not insert after singular noun + adjective (sujet intéressant)', () => {
+                    expect(insertLiaisonMarkers('sujet intéressant')).to.equal('sujet intéressant');
+                });
+                it('2.3.2 should not insert after singular noun + adjective (loup affamé)', () => {
+                    expect(insertLiaisonMarkers('loup affamé')).to.equal('loup affamé');
+                });
+                it('2.3.3 should not insert after singular noun + adjective (chat adorable)', () => {
+                    expect(insertLiaisonMarkers('chat adorable')).to.equal('chat adorable');
+                });
+                it('2.3.4 should not insert after singular noun + verb (le chien aboie)', () => {
+                    expect(insertLiaisonMarkers('le chien aboie')).to.equal('le chien aboie');
+                });
+            });
+
+            describe('2.4 Proper Names', function () {
+                it('2.4.1 should not insert after first name (Robert est)', () => {
+                    expect(insertLiaisonMarkers('Robert est')).to.equal('Robert est');
+                });
+                it('2.4.2 should not insert after city name (Paris est)', () => {
+                    expect(insertLiaisonMarkers('Paris est')).to.equal('Paris est');
+                });
+                it('2.4.2.1 should not insert after city name (Paris agréable)', () => {
+                    expect(insertLiaisonMarkers('Paris agréable')).to.equal('Paris agréable');
+                });
+                it('2.4.3 should not insert after surname (Dupont arrive)', () => {
+                    expect(insertLiaisonMarkers('Dupont arrive')).to.equal('Dupont arrive');
+                });
+                it('2.4.4 should not insert after full name (James a)', () => {
+                    expect(insertLiaisonMarkers('James a')).to.equal('James a');
+                });
+                it('2.4.5 should not insert with "chez" + proper name (chez Arthur)', () => {
+                    expect(insertLiaisonMarkers('chez Arthur')).to.equal('chez Arthur');
+                });
+            });
+
+            describe('2.5 Special Number & Word Exceptions', function () {
+                it('2.5.1 should not insert before "onze" (les onze)', () => {
+                    expect(insertLiaisonMarkers('les onze')).to.equal('les onze');
+                });
+                it('2.5.2 should not insert before "onze" in context (tous les onze)', () => {
+                    expect(insertLiaisonMarkers('tous les onze')).to.equal('tous les onze');
+                });
+                it('2.5.3 should not insert before "huit" outside time (les huit hommes)', () => {
+                    expect(insertLiaisonMarkers('les huit hommes')).to.equal('les huit hommes');
+                });
+                it('2.5.4 should not insert in compound numbers (cent un euros)', () => {
+                    expect(insertLiaisonMarkers('cent un euros')).to.equal('cent un euros');
+                });
+                it('2.5.5 should not insert before "oui" (un oui)', () => {
+                    expect(insertLiaisonMarkers('un oui')).to.equal('un oui');
+                });
+            });
+
+            describe('2.6 Interrogative Adverbs', function () {
+                it('2.6.1 should not insert after "comment" (comment as-tu)', () => {
+                    expect(insertLiaisonMarkers('comment as-tu')).to.equal('comment as-tu');
+                });
+                it('2.6.2 should not insert after "comment" in questions (comment allez-vous)', () => {
+                    expect(insertLiaisonMarkers('comment allez-vous')).to.equal('comment allez-vous');
+                });
+                it('2.6.3 should not insert after "combien" (combien as-tu)', () => {
+                    expect(insertLiaisonMarkers('combien as-tu')).to.equal('combien as-tu');
+                });
+                it('2.6.4 should not insert after "quand" in questions (quand arrives-tu)', () => {
+                    expect(insertLiaisonMarkers('quand arrives-tu')).to.equal('quand arrives-tu');
+                });
+            });
+
+            describe('2.7 Adverbs ending in -ment & "toujours"', function () {
+                it('2.7.1 should not insert after -ment adverbs (vraiment utile)', () => {
+                    expect(insertLiaisonMarkers('vraiment utile')).to.equal('vraiment utile');
+                });
+                it('2.7.2 should not insert after -ment adverbs (immédiatement après)', () => {
+                    expect(insertLiaisonMarkers('immédiatement après')).to.equal('immédiatement après');
+                });
+                it('2.7.3 should not insert after "toujours" (toujours heureux)', () => {
+                    expect(insertLiaisonMarkers('toujours heureux')).to.equal('toujours heureux');
+                });
+            });
+
+            describe('2.8 Verbs', function () {
+                it('2.8.1 should not insert after verb (voulez un)', () => {
+                    expect(insertLiaisonMarkers('voulez un')).to.equal('voulez un');
+                });
+                it('2.8.2 should not insert after verb (bois une)', () => {
+                    expect(insertLiaisonMarkers('bois une')).to.equal('bois une');
+                });
+                it('2.8.3 should not insert after verb (prends un)', () => {
+                    expect(insertLiaisonMarkers('prends un')).to.equal('prends un');
+                });
+                it('2.8.4 should not insert after "tu" + verb (tu es ici)', () => {
+                    expect(insertLiaisonMarkers('tu es ici')).to.equal('tu es ici');
+                });
+                it('2.8.5 should not insert after verb + en/y (vas-y)', () => {
+                    expect(insertLiaisonMarkers('vas-y')).to.equal('vas-y');
+                });
+            });
+
+            describe('2.9 Inverted Questions', function () {
+                it('2.9.1 should not insert in inversion (ont-ils)', () => {
+                    expect(insertLiaisonMarkers('ont-ils accepté')).to.equal('ont-ils accepté');
+                });
+                it('2.9.2 should not insert in inversion (parlent-elles)', () => {
+                    expect(insertLiaisonMarkers('parlent-elles')).to.equal('parlent-elles');
+                });
+                it('2.9.3 should not insert in inversion (va-t-il)', () => {
+                    expect(insertLiaisonMarkers('va-t-il')).to.equal('va-t-il');
+                });
+            });
+
+            describe('2.10 Miscellaneous Prohibitions', function () {
+                it('2.10.1 should not insert after "selon" (selon elle)', () => {
+                    expect(insertLiaisonMarkers('selon elle')).to.equal('selon elle');
+                });
+                it('2.10.2 should not insert after "quelqu’un" (quelqu’un a)', () => {
+                    expect(insertLiaisonMarkers('quelqu’un a')).to.equal('quelqu’un a');
+                });
+                it('2.10.3 should not insert across major punctuation (Il pleut, on reste)', () => {
+                    expect(insertLiaisonMarkers('Il pleut, on reste')).to.equal('Il pleut, on reste');
+                });
+            });
+        });
+
+        // =========================================================================
+        // SECTION 3: OPTIONAL / STANDARD LIAISONS
+        // =========================================================================
+        describe('3. Standard Register Liaisons (Formal/Optional)', function () {
+
+            describe('3.1 Forms of "Être" and "Avoir"', function () {
+                it('3.1.1 should insert for c\'est (c\'est un)', () => {
+                    expect(insertLiaisonMarkers('c\'est un')).to.equal('c\'est‿un');
+                });
+                it('3.1.2 should insert for il est (il est impossible)', () => {
+                    expect(insertLiaisonMarkers('il est impossible')).to.equal('il est‿impossible');
+                });
+                it('3.1.3 should insert for sont (ils sont allés)', () => {
+                    expect(insertLiaisonMarkers('ils sont allés')).to.equal('ils sont‿allés');
+                });
+                it('3.1.4 should insert for suis (je suis ici)', () => {
+                    expect(insertLiaisonMarkers('je suis ici')).to.equal('je suis‿ici');
+                });
+                it('3.1.5 should insert for c\'est une (c\'est une surprise)', () => {
+                    expect(insertLiaisonMarkers('c\'est une surprise')).to.equal('c\'est‿une surprise');
+                });
+                // 3.1 Forms of "Être" and "Avoir" – additional common case
+                it('3.1.6 should insert liaison for "est une" (elle est une artiste)', () => {
+                    expect(insertLiaisonMarkers('elle est une artiste')).to.equal('elle est‿une artiste');
+                });
+
+                it('3.1.7 should insert liaison for bare "est une" (c’est une bonne idée → est une bonne idée)', () => {
+                    expect(insertLiaisonMarkers('est une bonne idée')).to.equal('est‿une bonne idée');
+                });
+                it('3.1.8 should insert liaison in "il est un" (il est un génie)', () => {
+                    expect(insertLiaisonMarkers('il est un génie')).to.equal('il est‿un génie');
+                });
+            });
+
+            describe('3.2 Modal Verbs + Infinitive', function () {
+                it('3.2.1 should insert for devoir (je dois aller)', () => {
+                    expect(insertLiaisonMarkers('je dois aller')).to.equal('je dois‿aller');
+                });
+                it('3.2.2 should insert for pouvoir (il peut entrer)', () => {
+                    expect(insertLiaisonMarkers('il peut entrer')).to.equal('il peut‿entrer');
+                });
+                it('3.2.3 should insert for vouloir (je veux apprendre)', () => {
+                    expect(insertLiaisonMarkers('je veux apprendre')).to.equal('je veux‿apprendre');
+                });
+                it('3.2.4 should not insert for aller (il va aller)', () => {
+                    expect(insertLiaisonMarkers('il va aller')).to.equal('il va aller');
+                });
+                it('3.2.5 should insert for aller (ils vont aller)', () => {
+                    expect(insertLiaisonMarkers('ils vont aller')).to.equal('ils vont‿aller');
+                });
+            });
+
+            describe('3.3 Conjunctions & Adverbs', function () {
+                it('3.3.1 should insert for "mais" (mais il)', () => {
+                    expect(insertLiaisonMarkers('mais il')).to.equal('mais‿il');
+                });
+                it('3.3.2 should insert for "pas" (pas encore)', () => {
+                    expect(insertLiaisonMarkers('pas encore')).to.equal('pas‿encore');
+                });
+                it('3.3.3 should insert for "pas" (pas assez)', () => {
+                    expect(insertLiaisonMarkers('pas assez')).to.equal('pas‿assez');
+                });
+                it('3.3.4 should insert for "plus" (plus ou moins)', () => {
+                    expect(insertLiaisonMarkers('plus ou moins')).to.equal('plus‿ou moins');
+                });
+                it('3.3.5 should insert for "trop" (trop important)', () => {
+                    expect(insertLiaisonMarkers('trop important')).to.equal('trop‿important');
+                });
+                it('3.3.6 should insert for "fort" (fort agréable)', () => {
+                    expect(insertLiaisonMarkers('fort agréable')).to.equal('fort‿agréable');
+                });
+                it('3.3.7 should insert for "tant" (tant elle)', () => {
+                    expect(insertLiaisonMarkers('tant elle')).to.equal('tant‿elle');
+                });
+                it('3.3.8 should insert for "autant" (autant il)', () => {
+                    expect(insertLiaisonMarkers('autant il')).to.equal('autant‿il');
+                });
+                it('3.3.9 should insert for "comment" in fixed phrase (comment allez-vous)', () => {
+                    expect(insertLiaisonMarkers('comment allez-vous')).to.equal('comment‿allez-vous');
+                });
+            });
+
+            describe('3.4 Preposition + Verb', function () {
+                it('3.4.1 should insert for après (après avoir)', () => {
+                    expect(insertLiaisonMarkers('après avoir')).to.equal('après‿avoir');
+                });
+                it('3.4.2 should insert for sans (sans hésiter)', () => {
+                    expect(insertLiaisonMarkers('sans hésiter')).to.equal('sans‿hésiter');
+                });
+            });
+
+            describe('3.5 Compound Tenses', function () {
+                it('3.5.1 should insert for "nous avons entendu"', () => {
+                    expect(insertLiaisonMarkers('nous avons entendu')).to.equal('nous‿avons‿entendu');
+                });
+                it('3.5.2 should insert for "vous avez eu"', () => {
+                    expect(insertLiaisonMarkers('vous avez eu')).to.equal('vous‿avez eu');
+                });
+                it('3.5.3 should insert for "ils ont écrit"', () => {
+                    expect(insertLiaisonMarkers('ils ont écrit')).to.equal('ils‿ont‿écrit');
+                });
+                it('3.5.4 should insert for "elle est allée"', () => {
+                    expect(insertLiaisonMarkers('elle est allée')).to.equal('elle est‿allée');
+                });
+            });
+        });
+
+        // =========================================================================
+        // SECTION 4: PHONETIC TRANSFORMATIONS & SPECIAL CASES
+        // =========================================================================
+        describe('4. Phonetic Transformations', function () {
+
+            describe('4.1 Standard Consonant Changes (S/X → Z)', function () {
+                it('4.1.1 should transform S to Z sound (les amis)', () => {
+                    expect(insertLiaisonMarkers('les amis')).to.equal('les‿amis');
+                });
+                it('4.1.2 should transform X to Z sound (deux ans)', () => {
+                    expect(insertLiaisonMarkers('deux ans')).to.equal('deux‿ans');
+                });
+            });
+
+            describe('4.2 Consonant Changes (D → T)', function () {
+                it('4.2.1 should transform D to T (grand homme)', () => {
+                    expect(insertLiaisonMarkers('grand homme')).to.equal('grand‿homme');
+                });
+                it('4.2.2 should transform D to T (quand il)', () => {
+                    expect(insertLiaisonMarkers('quand il')).to.equal('quand‿il');
+                });
+                it('4.2.3 should transform D to T in "grand arbre"', () => {
+                    expect(insertLiaisonMarkers('grand arbre')).to.equal('grand‿arbre');
+                });
+                it('4.2.4 should transform D to T in "quand on"', () => {
+                    expect(insertLiaisonMarkers('quand on')).to.equal('quand‿on');
+                });
+                it('4.2.5 should transform D to T in "quand est-ce"', () => {
+                    expect(insertLiaisonMarkers('quand est-ce')).to.equal('quand‿est-ce');
+                });
+            });
+
+            describe('4.3 Consonant Changes (F → V)', function () {
+                it('4.3.1 should transform F to V (neuf ans)', () => {
+                    expect(insertLiaisonMarkers('neuf ans')).to.equal('neuf‿ans');
+                });
+                it('4.3.2 should transform F to V (neuf heures)', () => {
+                    expect(insertLiaisonMarkers('neuf heures')).to.equal('neuf‿heures');
+                });
+            });
+
+            describe('4.4 Consonant Changes (G → K)', function () {
+                it('4.4.1 should transform G to K (long hiver)', () => {
+                    expect(insertLiaisonMarkers('long hiver')).to.equal('long‿hiver');
+                });
+                it('4.4.2 should transform G to K (sang impur)', () => {
+                    expect(insertLiaisonMarkers('sang impur')).to.equal('sang‿impur');
+                });
+            });
+
+            describe('4.5 Nasal Transformations (Denasalization)', function () {
+                it('4.5.1 should denasalize "bon" (bon ami)', () => {
+                    expect(insertLiaisonMarkers('bon ami')).to.equal('bon‿ami');
+                });
+                it('4.5.2 should denasalize "ancien" (ancien élève)', () => {
+                    expect(insertLiaisonMarkers('ancien élève')).to.equal('ancien‿élève');
+                });
+                it('4.5.3 should denasalize "certain" (certain âge)', () => {
+                    expect(insertLiaisonMarkers('certain âge')).to.equal('certain‿âge');
+                });
+                it('4.5.4 should denasalize "moyen" (moyen âge)', () => {
+                    expect(insertLiaisonMarkers('moyen âge')).to.equal('moyen‿âge');
+                });
+                it('4.5.5 should dénasalize "un" (un ami)', () => {
+                    expect(insertLiaisonMarkers('un ami')).to.equal('un‿ami');
+                });
+                it('4.5.6 should dénasalize "un" (un homme)', () => {
+                    expect(insertLiaisonMarkers('un homme')).to.equal('un‿homme');
+                });
+                it('4.5.7 should dénasalize "aucun" (aucun espoir)', () => {
+                    expect(insertLiaisonMarkers('aucun espoir')).to.equal('aucun‿espoir');
+                });
+                it('4.5.8 should dénasalize "chacun" (chacun est)', () => {
+                    expect(insertLiaisonMarkers('chacun est')).to.equal('chacun‿est');
+                });
+            });
+
+            describe('4.6 Nasal Retention (Nasal Vowel + N)', function () {
+                it('4.6.1 should retain nasal "mon" (mon ami)', () => {
+                    expect(insertLiaisonMarkers('mon ami')).to.equal('mon‿ami');
+                });
+                it('4.6.2 should retain nasal "on" (on arrive)', () => {
+                    expect(insertLiaisonMarkers('on arrive')).to.equal('on‿arrive');
+                });
+                it('4.6.3 should retain nasal "en" (en effet)', () => {
+                    expect(insertLiaisonMarkers('en effet')).to.equal('en‿effet');
+                });
+                it('4.6.4 should retain nasal "bien" (bien aimé)', () => {
+                    expect(insertLiaisonMarkers('bien aimé')).to.equal('bien‿aimé');
+                });
+                it('4.6.5 should retain nasal "rien" (rien à faire)', () => {
+                    expect(insertLiaisonMarkers('rien à faire')).to.equal('rien‿à faire');
+                });
+            });
+
+            describe('4.7 Numeric Exceptions', function () {
+                it('4.7.1 should insert for "huit" when followed by "heures/ans"', () => {
+                    expect(insertLiaisonMarkers('huit heures')).to.equal('huit‿heures');
+                });
+                it('4.7.2 should insert for "vingt-et-un" compound (vingt-et-un)', () => {
+                    expect(insertLiaisonMarkers('vingt-et-un')).to.equal('vingt‿et-un');
+                });
+            });
+        });
+
+        // =========================================================================
+        // SECTION 5: PUNCTUATION, FORMATTING & EDGE CASES
+        // =========================================================================
+        describe('5. Formatting and Edge Cases', function () {
+
+            describe('5.1 Spacing and Punctuation', function () {
+                it('5.1.1 should handle multiple spaces', () => {
+                    expect(insertLiaisonMarkers('un  ami')).to.equal('un‿ami');
+                });
+                it('5.1.2 should handle tabs', () => {
+                    expect(insertLiaisonMarkers('un\tami')).to.equal('un‿ami');
+                });
+                it('5.1.3 should not insert across comma (un ami, un frère)', () => {
+                    expect(insertLiaisonMarkers('un ami, un frère')).to.equal('un‿ami, un frère');
+                });
+                it('5.1.4 should not insert across clause break (Vous avez fait ce plat, on...)', () => {
+                    expect(insertLiaisonMarkers('Vous avez fait ce plat, on l a trouvé délicieux')).to.equal('Vous‿avez fait ce plat, on l a trouvé délicieux');
+                });
+                it('5.1.5 should not insert across period (Il est. Il est)', () => {
+                    expect(insertLiaisonMarkers('Il est. Il est')).to.equal('Il est. Il est');
+                });
+                it('5.1.6 should handle parentheses (mon ami (le grand))', () => {
+                    expect(insertLiaisonMarkers('mon ami (le grand)')).to.equal('mon‿ami (le grand)');
+                });
+            });
+
+            describe('5.2 Case Sensitivity', function () {
+                it('5.2.1 should handle Capitalized determiner (Les amis)', () => {
+                    expect(insertLiaisonMarkers('Les amis')).to.equal('Les‿amis');
+                });
+                it('5.2.2 should handle UPPERCASE phrase (LES AMIS)', () => {
+                    expect(insertLiaisonMarkers('LES AMIS')).to.equal('LES‿AMIS');
+                });
+            });
+
+            describe('5.3 Empty and Short Inputs', function () {
+                it('5.3.1 should handle empty string', () => {
+                    expect(insertLiaisonMarkers('')).to.equal('');
+                });
+                it('5.3.2 should handle single word', () => {
+                    expect(insertLiaisonMarkers('Bonjour')).to.equal('Bonjour');
+                });
+                it('5.3.3 should handle plural compound noun (Les arcs-en-ciel)', () => {
+                    expect(insertLiaisonMarkers('Les arcs-en-ciel')).to.equal('Les‿arcs-en-ciel');
+                });
+            });
+
+            describe('5.4 Unknown and Foreign Words', function () {
+                it('5.4.1 should assume no liaison for unknown words (un email)', () => {
+                    expect(insertLiaisonMarkers('un email')).to.equal('un‿email');
+                });
+                it('5.4.2 should not insert for English word "hotel" (un hotel)', () => {
+                    expect(insertLiaisonMarkers('un hotel')).to.equal('un hotel');
+                });
+                it('5.4.3 should not insert for English word "hi-fi" (un hi-fi)', () => {
+                    expect(insertLiaisonMarkers('un hi-fi')).to.equal('un hi-fi');
+                });
+            });
+
+            describe('5.5 Multiple Liaisons', function () {
+                it('5.5.1 should handle multiple liaisons in "un petit enfant"', () => {
+                    expect(insertLiaisonMarkers('un petit enfant')).to.equal('un petit‿enfant');
+                });
+                it('5.5.2 should handle multiple liaisons in "mes anciens amis"', () => {
+                    expect(insertLiaisonMarkers('mes anciens amis')).to.equal('mes‿anciens‿amis');
+                });
+                it('5.5.3 should handle multiple liaisons in "vous avez entendu"', () => {
+                    expect(insertLiaisonMarkers('vous avez entendu')).to.equal('vous‿avez‿entendu');
+                });
+                it('5.5.4 should handle double liaisons (Les États-Unis)', () => {
+                    expect(insertLiaisonMarkers('Les États-Unis')).to.equal('Les‿États‿Unis');
+                });
+            });
+
+            describe('5.6 Abbreviations', function () {
+                it('5.6.1 should handle "etc." (un etc.)', () => {
+                    expect(insertLiaisonMarkers('un etc.')).to.equal('un etc.');
+                });
+                it('5.6.2 should handle "M." (M. Alain)', () => {
+                    expect(insertLiaisonMarkers('M. Alain')).to.equal('M. Alain');
+                });
+                it('5.6.3 should handle "Dr." (Dr. Einstein)', () => {
+                    expect(insertLiaisonMarkers('Dr. Einstein')).to.equal('Dr. Einstein');
+                });
+            });
+        });
+
+        // =========================================================================
+        // SECTION 6: CONTEXTUAL LIAISONS
+        // =========================================================================
+        describe('6. Contextual Liaisons', function () {
+            describe('6.1 Semantic Distinction', function () {
+                it('6.1.1 should insert for "plus" meaning "more" (plus intéressant)', () => {
+                    expect(insertLiaisonMarkers('plus intéressant')).to.equal('plus‿intéressant');
+                });
+                it('6.1.2 should NOT insert for "plus" meaning "no more" (je n\'en veux plus)', () => {
+                    expect(insertLiaisonMarkers('je n\'en veux plus')).to.equal('je n\'en veux plus');
+                });
+                it('6.1.3 should insert for temporal "quand" (quand il vient)', () => {
+                    expect(insertLiaisonMarkers('quand il vient')).to.equal('quand‿il vient');
+                });
+                it('6.1.4 should NOT insert for comparative "quand" (il a plus quand il travaille)', () => {
+                    expect(insertLiaisonMarkers('il a plus quand il travaille')).to.equal('il a plus quand il travaille');
+                });
+                it('6.1.5 should insert for verb + y (vas-y)', () => {
+                    expect(insertLiaisonMarkers('vas-y')).to.equal('vas‿y');
+                });
+            });
+        });
+
+    });
+
+    mocha.run();
+</script>
+
+
+</body>
+</html>
