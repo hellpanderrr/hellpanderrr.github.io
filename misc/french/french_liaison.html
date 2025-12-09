@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <title>Online French Liaison Inspection Tool</title>
     <meta content="An interactive tool for inserting liaison markers into French text." name="description">
-   
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../../icons/misc/french/liaison/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../icons/misc/french/liaison/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../icons/misc/french/liaison/favicon-16x16.png">
+    <link rel="icon" href="../../icons/misc/french/liaison/favicon.ico">
+
+    <script src="https://unpkg.com/fr-compromise"></script>
 
     <script src="./liaison.js"></script>
     <link as="style" href="../../wiktionary_pron/css/tacit-css-1.7.1.min.css"
@@ -203,10 +209,7 @@ petit garcon                   | petit_garcon             | Adjective + noun    
     <div id="result" class="result"></div>
 </div>
 
-<div id="mocha"></div>
 
-<script src="https://unpkg.com/mocha/mocha.js"></script>
-<script src="https://unpkg.com/fr-compromise"></script>
 
 <script>
     // Your insertLiaisonMarkers function (from test.html)
@@ -411,14 +414,14 @@ petit garcon                   | petit_garcon             | Adjective + noun    
 
         let start = end;
         // Walk back until we hit a non-word character
-        // Note: We include accented chars in the regex range
-        while (start >= 0 && /[a-zA-Z0-9À-ÿ]/.test(text[start])) {
+        // FIX: Added ' and ’ to the regex character class
+        while (start >= 0 && /[a-zA-Z0-9À-ÿ'’]/.test(text[start])) {
             start--;
         }
         return text.slice(start + 1, end + 1);
     }
 
-    // Get the word immediately following a specific index
+    // Helper to get the word immediately following a specific index
     function getWordAfterIndex(text, index) {
         let start = index + 1;
         // Skip whitespace immediately after
@@ -426,7 +429,8 @@ petit garcon                   | petit_garcon             | Adjective + noun    
 
         let end = start;
         // Walk forward until we hit a non-word character
-        while (end < text.length && /[a-zA-Z0-9À-ÿ]/.test(text[end])) {
+        // FIX: Added ' and ’ to the regex character class
+        while (end < text.length && /[a-zA-Z0-9À-ÿ'’]/.test(text[end])) {
             end++;
         }
         return text.slice(start, end);
