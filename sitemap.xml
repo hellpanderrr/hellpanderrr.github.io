@@ -168,6 +168,27 @@
     <url>  
         <loc>https://hellpanderrr.github.io/wiktionary_pron/help/icelandic.html</loc>  
         <lastmod>2025-05-17T12:00:00+00:00</lastmod>  
-        <priority>0.60</priority>  
-    </url>  
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hellpanderrr.github.io/wiktionary_pron/?lang=Mongolian</loc>
+        <lastmod>2024-05-17T12:00:00+00:00</lastmod>
+        <priority>0.70</priority>
+    </url>
+    <url>
+        <loc>https://hellpanderrr.github.io/wiktionary_pron/help/mongolian.html</loc>
+        <lastmod>2025-05-17T12:00:00+00:00</lastmod>
+        <priority>0.60</priority>
+    </url>
+    <url>
+        <loc>https://hellpanderrr.github.io/misc/french/french_liaison.html</loc>
+        <lastmod>2024-05-17T12:00:00+00:00</lastmod>
+        <priority>0.70</priority>
+    </url>
+    <url>
+        <loc>https://hellpanderrr.github.io/misc/french/french_liaison_test.html</loc>
+        <lastmod>2024-05-17T12:00:00+00:00</lastmod>
+        <priority>0.70</priority>
+    </url>
+
 </urlset>
