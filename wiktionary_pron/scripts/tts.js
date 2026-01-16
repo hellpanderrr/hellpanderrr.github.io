@@ -44,79 +44,91 @@ class IndexedDBCache {
  * A class that mimics the EasySpeech API but uses the Microsoft Edge
  * streaming TTS service.
  */
+/**
+ * A class that mimics the EasySpeech API but proxies requests through
+ * a Cloudflare Worker to bypass Microsoft Edge CORS/Origin restrictions.
+ */
 class StreamingTTS {
   // --- Private Properties ---
-  #WSS_URL =
-    "wss://speech.platform.bing.com/consumer/speech/synthesize/readaloud/edge/v1";
-  #TRUSTED_CLIENT_TOKEN = "6A5AA1D4EAFF4E9FB37E23D68491D6F4";
-  #VOICES_URL = `https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=${
-    this.#TRUSTED_CLIENT_TOKEN
-  }`;
-  #AUDIO_FORMAT = "audio-24khz-96kbitrate-mono-mp3";
-  #GEC_VERSION = "1-130.0.2849.68";
-  #enableCache = false;
+  #WORKER_BASE = "https://silent-unit-b6ca.hellpanderrr.workers.dev";
+  #WORKER_TTS_URL = `${this.#WORKER_BASE}/tts`;
+  #WORKER_VOICES_URL = `${this.#WORKER_BASE}/voices`;
+
+  #enableCache = true;
   #cache = new IndexedDBCache();
 
   #voices = [];
   #isInitialized = false;
   #audioPlayer = null;
-  #mediaSource = null;
-  #sourceBuffer = null;
-  #audioQueue = [];
-  #isAppending = false;
-  #currentSocket = null;
-  #apiAudioFormat = null;
-  #mimeType = null;
+  #currentAbortController = null;
+  #isPlaying = false;
 
   constructor() {
     this.#audioPlayer = new Audio();
     this.#audioPlayer.id = "streaming-tts-player";
     this.#audioPlayer.style.display = "none";
-    document.body.appendChild(this.#audioPlayer);
-    this.#determineAudioFormat();
-  }
 
-  #determineAudioFormat() {
-    // Prefer MP3 if supported (Chrome, Edge, Safari, etc.)
-    if (MediaSource.isTypeSupported("audio/mpeg")) {
-      console.log("TTS Engine: MP3 is supported. Using MP3 format.");
-      this.#apiAudioFormat = "audio-24khz-96kbitrate-mono-mp3";
-      this.#mimeType = "audio/mpeg";
-    }
-    // Fallback to WebM/Opus for Firefox and other non-MP3 browsers
-    else if (MediaSource.isTypeSupported('audio/webm; codecs="opus"')) {
-      console.log(
-        "TTS Engine: MP3 not supported, but WebM/Opus is. Using Opus format.",
-      );
-      this.#apiAudioFormat = "webm-24khz-16bit-mono-opus";
-      this.#mimeType = 'audio/webm; codecs="opus"';
-    } else {
-      console.error(
-        "TTS Engine: This browser supports neither MP3 nor WebM/Opus in MediaSource. Enhanced TTS will be unavailable.",
-      );
-    }
+    // Handle playback errors (e.g., corrupt audio)
+    this.#audioPlayer.onerror = (e) => {
+      console.error("Audio Player Error:", this.#audioPlayer.error);
+      this.#isPlaying = false;
+    };
+
+    this.#audioPlayer.onended = () => {
+      this.#isPlaying = false;
+      // Revoke URL to prevent memory leaks
+      if (this.#audioPlayer.src) URL.revokeObjectURL(this.#audioPlayer.src);
+    };
+
+    document.body.appendChild(this.#audioPlayer);
   }
 
   // --- Public API Methods ---
+
+  /**
+   * Returns whether audio is currently playing
+   */
+  get isPlaying() {
+    return this.#isPlaying;
+  }
+
   async init() {
-    if (!this.#apiAudioFormat) {
-      return Promise.reject(
-        "No compatible audio format found for this browser.",
-      );
-    }
     if (this.#isInitialized) return true;
     try {
-      const response = await fetch(this.#VOICES_URL);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
+      // 1. Try fetching voices from your Worker (Proxy)
+      // This prevents CORS issues and keeps all traffic through your worker
+      const response = await fetch(this.#WORKER_VOICES_URL);
+      if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
+
       const data = await response.json();
       this.#voices = this.#transformVoiceList(data);
       this.#isInitialized = true;
-      console.debug("StreamingTTS (Edge) loaded successfully.");
+      console.debug("StreamingTTS initialized via Proxy.");
       return true;
-    } catch (error) {
-      console.error("Failed to initialize StreamingTTS:", error);
-      throw error;
+    } catch (proxyError) {
+      console.warn("Proxy voice fetch failed, attempting direct fallback...", proxyError);
+
+      // 2. Fallback: Try Direct Microsoft URL
+      try {
+        const directUrl = "https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4";
+        const response = await fetch(directUrl);
+        if (!response.ok) throw new Error(`Direct error: ${response.status}`);
+        const data = await response.json();
+        this.#voices = this.#transformVoiceList(data);
+        this.#isInitialized = true;
+        return true;
+      } catch (directError) {
+        console.error("All voice fetch methods failed.", directError);
+        // 3. Ultimate Fallback: Hardcoded defaults so the UI doesn't crash
+        this.#voices = [{
+          name: "Microsoft Aria Online (Natural) - English (United States)",
+          lang: "en-US",
+          default: true,
+          raw: {ShortName: "en-US-AriaNeural"}
+        }];
+        this.#isInitialized = true;
+        return true;
+      }
     }
   }
 
@@ -129,266 +141,135 @@ class StreamingTTS {
   }
 
   async speak(config) {
-    if (!this.#apiAudioFormat) {
-      console.error(
-        "Cannot speak: No compatible audio format supported by this browser.",
-      );
-      return;
-    }
     const { text, voice, rate = 1, pitch = 1, volume = 1, boundary } = config;
 
-    if (!this.#isInitialized)
-      return console.error("Speak failed: StreamingTTS not initialized.");
-    if (!text) return console.error("Speak failed: No text provided.");
-    if (!voice || !voice.raw)
-      return console.error("Speak failed: Invalid voice object provided.");
+    if (!this.#isInitialized) return console.error("TTS not initialized.");
+    if (!text) return console.error("No text provided.");
+    if (!voice?.raw?.ShortName) return console.error("Invalid voice object.");
 
-    this.stop();
-    this.#audioPlayer.volume = Math.max(0, Math.min(1, volume));
-
-    try {
-      await this.#setupMediaSource();
-    } catch (e) {
-      console.error("Audio setup failed:", e);
-      this.stop();
-      return;
+    // Warn about missing feature
+    if (boundary) {
+      console.warn("Word boundary events are not supported in HTTP-Proxy mode.");
     }
 
-    this.#audioPlayer
-      .play()
-      .catch((e) => console.warn("Autoplay was prevented:", e));
+    this.stop(); // Stop previous audio
 
-    const secMsGec = await this.#generateSecMsGec(this.#TRUSTED_CLIENT_TOKEN);
-    const connectionId = this.#generateUUID();
+    // Set volume immediately
+    this.#audioPlayer.volume = Math.max(0, Math.min(1, volume));
 
-    const fullUrl = `${this.#WSS_URL}?TrustedClientToken=${
-      this.#TRUSTED_CLIENT_TOKEN
-    }&Sec-MS-GEC=${secMsGec}&ConnectionId=${connectionId}&Sec-MS-GEC-Version=${
-      this.#GEC_VERSION
-    }`;
+    // Generate a shorter, safer cache key
+    // Key format: Voice-Rate-Pitch-Length-First50Chars
+    const safeTextSnippet = text.slice(0, 50).replace(/[^a-z0-9]/gi, '');
+    const cacheKey = `${voice.raw.ShortName}-${rate}-${pitch}-${text.length}-${safeTextSnippet}`;
 
-    const socket = new WebSocket(fullUrl);
-    socket.binaryType = "arraybuffer";
-    this.#currentSocket = socket;
-
-    socket.onopen = () => {
-      const configMessage = `Content-Type:application/json; charset=utf-8\r\nPath:speech.config\r\n\r\n{"context":{"synthesis":{"audio":{"metadataoptions":{"sentenceBoundaryEnabled":"false","wordBoundaryEnabled":"false"},"outputFormat":"${
-        this.#apiAudioFormat
-      }"}}}}`;
-      socket.send(configMessage);
-
-      const ratePercent = ((rate - 1) * 100).toFixed(2);
-      const pitchPercent = ((pitch - 1) * 100).toFixed(2);
-      const ssml = `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${
-        voice.lang
-      }"><voice name="${
-        voice.raw.ShortName
-      }"><prosody rate="${ratePercent}%" pitch="${pitchPercent}%">${text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")}</prosody></voice></speak>`;
-      socket.send(
-        `X-RequestId:${this.#generateUUID()}\r\nContent-Type:application/ssml+xml\r\nPath:ssml\r\n\r\n${ssml}`,
-      );
-    };
-
-    socket.onmessage = (event) => {
-      if (typeof event.data === "string") {
-        if (
-          event.data.includes("Path:turn.start") &&
-          typeof boundary === "function"
-        )
-          boundary({ name: "start" });
-      } else if (event.data instanceof ArrayBuffer) {
-        const headerDelimiter = "Path:audio\r\n";
-        // Optimization: Only check the start of the buffer for the header
-        const dataString = new TextDecoder().decode(event.data.slice(0, 150));
-        const headerIndex = dataString.indexOf(headerDelimiter);
-        if (headerIndex !== -1) {
-          const audioData = event.data.slice(
-            headerIndex + headerDelimiter.length,
-          );
-          if (audioData.byteLength > 0) {
-            this.#audioQueue.push(audioData);
-            this.#appendNextChunk();
-          }
+    // --- Cache Check ---
+    if (this.#enableCache) {
+      try {
+        const cachedBlob = await this.#cache.getAudio(cacheKey);
+        if (cachedBlob && cachedBlob.size > 0) {
+          console.log("TTS: Cache hit");
+          this.#playBlob(cachedBlob);
+          return;
         }
+      } catch (e) {
+        console.warn("Cache read error:", e);
       }
-    };
+    }
 
-    socket.onerror = (error) => {
-      console.error("WebSocket Error:", error);
-      this.stop();
-    };
-    socket.onclose = () => {
-      this.#finalizeStream();
-      if (this.#enableCache && audioChunks.length > 0) {
-        //Use dynamic mimeType for blob creation ---
-        const audioBlob = new Blob(audioChunks, { type: this.#mimeType });
-        console.log(
-          `Saving to cache (${(audioBlob.size / 1024).toFixed(2)} KB)`,
-        );
+    // --- Prepare Network Request ---
+    const rateStr = (Math.round((rate - 1) * 100) >= 0 ? "+" : "") + Math.round((rate - 1) * 100) + "%";
+    const pitchStr = (Math.round((pitch - 1) * 10) >= 0 ? "+" : "") + Math.round((pitch - 1) * 10) + "Hz";
+
+    this.#currentAbortController = new AbortController();
+
+    try {
+      console.log(`TTS: Fetching... (${text.length} chars)`);
+      const response = await fetch(this.#WORKER_TTS_URL, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          text,
+          voice: voice.raw.ShortName,
+          rate: rateStr,
+          pitch: pitchStr,
+          volume: "+0%"
+        }),
+        signal: this.#currentAbortController.signal
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Worker Error ${response.status}: ${errorText}`);
+      }
+
+      const audioBlob = await response.blob();
+
+      // --- CRITICAL CHECK: Ensure audio is not empty ---
+      if (audioBlob.size < 100) { // < 100 bytes is likely just a header or empty
+        throw new Error("Received empty audio from Worker.");
+      }
+
+      if (this.#enableCache) {
         this.#cache.saveAudio(cacheKey, audioBlob);
       }
-    };
+
+      // Check if we were stopped while fetching
+      if (this.#currentAbortController.signal.aborted) return;
+
+      this.#playBlob(audioBlob);
+
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.log("TTS request aborted by user.");
+      } else {
+        console.error("TTS Proxy Error:", error);
+        // Optional: Trigger a UI error callback here if you add one to config
+      }
+    }
   }
 
   stop() {
-    // 1. Completely and safely dismantle the WebSocket connection.
-    if (this.#currentSocket) {
-      // Nullify ALL event handlers to prevent any lingering callbacks from firing.
-      this.#currentSocket.onopen = null;
-      this.#currentSocket.onmessage = null;
-      this.#currentSocket.onerror = null;
-      this.#currentSocket.onclose = null;
-
-      // Defensively close the socket only if it's in an active state.
-      try {
-        const state = this.#currentSocket.readyState;
-        if (state === WebSocket.OPEN || state === WebSocket.CONNECTING) {
-          // Use the spec-compliant close method with a normal closure code.
-          this.#currentSocket.close(1000, "client stop");
-        }
-      } catch (e) {
-        // This can happen in rare cases; it's safe to ignore.
-        console.debug("Error while closing WebSocket, ignoring:", e);
-      }
-
-      this.#currentSocket = null;
+    if (this.#currentAbortController) {
+      this.#currentAbortController.abort();
+      this.#currentAbortController = null;
     }
 
-    // 2. Clear internal state.
-    this.#audioQueue = [];
-    this.#isAppending = false;
-
-    // 3. Gracefully end the MediaSource stream.
-    this.#finalizeStream();
-
-    // 4. Fully and safely reset the <audio> element.
+    this.#isPlaying = false;
     this.#audioPlayer.pause();
+    this.#audioPlayer.currentTime = 0;
 
-    // Revoke any object URL to prevent memory leaks.
     if (this.#audioPlayer.src && this.#audioPlayer.src.startsWith("blob:")) {
       URL.revokeObjectURL(this.#audioPlayer.src);
     }
-
-    // Remove the source and call load() to force the element to reset.
     this.#audioPlayer.removeAttribute("src");
-    try {
-      this.#audioPlayer.load();
-    } catch (e) {
-      // This can fail in some browsers/states; it's safe to ignore.
-      console.debug("Error while resetting audio element, ignoring:", e);
-    }
   }
 
   // --- Private Helper Methods ---
-  #finalizeStream() {
-    // This is the more robust version that prevents Firefox warnings and is generally safer.
-    if (!this.#mediaSource || this.#mediaSource.readyState !== "open") {
-      return;
-    }
 
-    const end = () => {
-      if (this.#mediaSource.readyState === "open") {
-        try {
-          this.#mediaSource.endOfStream();
-        } catch (e) {
-          console.warn(
-            "Error calling endOfStream, stream likely already closed.",
-            e,
-          );
-        }
-      }
-    };
+  #playBlob(blob) {
+    const url = URL.createObjectURL(blob);
+    this.#audioPlayer.src = url;
+    this.#isPlaying = true;
 
-    if (this.#sourceBuffer && this.#sourceBuffer.updating) {
-      const onUpdateEnd = () => {
-        this.#sourceBuffer.removeEventListener("updateend", onUpdateEnd);
-        end();
-      };
-      this.#sourceBuffer.addEventListener("updateend", onUpdateEnd);
-    } else {
-      end();
-    }
-  }
-
-  #setupMediaSource() {
-    this.#mediaSource = new MediaSource();
-    this.#audioPlayer.src = URL.createObjectURL(this.#mediaSource);
-    return new Promise((resolve, reject) => {
-      this.#mediaSource.addEventListener(
-        "sourceopen",
-        () => {
-          try {
-            this.#sourceBuffer = this.#mediaSource.addSourceBuffer(
-              this.#mimeType,
-            );
-            this.#sourceBuffer.addEventListener(
-              "updateend",
-              this.#processAudioQueue.bind(this),
-            );
-            resolve();
-          } catch (e) {
-            reject(e);
-          }
-        },
-        { once: true },
-      );
-    });
-  }
-
-  #processAudioQueue() {
-    this.#isAppending = false;
-    if (this.#audioQueue.length > 0) this.#appendNextChunk();
-  }
-
-  #appendNextChunk() {
-    if (
-      !this.#isAppending &&
-      this.#sourceBuffer &&
-      !this.#sourceBuffer.updating &&
-      this.#audioQueue.length > 0
-    ) {
-      this.#isAppending = true;
-      try {
-        this.#sourceBuffer.appendBuffer(this.#audioQueue.shift());
-      } catch (e) {
-        console.error("Buffer append error:", e);
-        this.#isAppending = false;
-      }
-    }
+    this.#audioPlayer.play()
+        .catch((e) => {
+          console.warn("Autoplay prevented or playback failed:", e);
+          this.#isPlaying = false;
+        });
   }
 
   #transformVoiceList(list) {
-    return list
-      .map((voice) => ({
-        name: voice.FriendlyName,
-        lang: voice.Locale.replace(/_/g, "-"), // Normalize locale format from en_US to en-US
-        default: false,
-        raw: voice,
-      }))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }
-
-  #generateUUID = () =>
-    "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
-      const r = (Math.random() * 16) | 0;
-      return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
-    });
-
-  async #generateSecMsGec(token) {
-    const timestamp = Math.floor(Date.now() / 1000) + 11644473600;
-    const s = (timestamp - (timestamp % 300)) * 10000000;
-    const encodedData = new TextEncoder().encode(`${s}${token}`);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", encodedData);
-    return Array.from(new Uint8Array(hashBuffer))
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("")
-      .toUpperCase();
+    // Use spread syntax to avoid mutating the incoming data if it's reused elsewhere
+    return [...list]
+        .map((voice) => ({
+          name: voice.FriendlyName,
+          lang: voice.Locale.replace(/_/g, "-"),
+          default: false,
+          raw: voice,
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name));
   }
 }
-
 let EdgeTTS;
 try {
   EdgeTTS = new StreamingTTS();
