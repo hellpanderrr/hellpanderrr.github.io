@@ -13,9 +13,9 @@ async function asyncMapStrict(arr, fn) {
 
 function sanitize(text) {
   return text
-    .replace(/[^\p{L}\p{M}'’-]/gu, "")
-    .replaceAll("’", "'")
-    .normalize("NFKC");
+      .replace(/[^\p{L}\p{M}'’-‿]/gu, "")
+      .replaceAll("’", "'")
+      .normalize("NFKC");
 }
 
 /**
