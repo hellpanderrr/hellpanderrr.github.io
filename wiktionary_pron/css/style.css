@@ -111,7 +111,6 @@ span.ipa {
     margin-right: 5px;
 }
 
-
 .error {
     color: red;
 }
@@ -215,7 +214,15 @@ body.dark_mode i.icon-sun {
     color: #fefeac;
 }
 
+body.dark_mode i.icon-home {
+    color: #ffffff;
+}
+
 body i.icon-moon {
+    color: black;
+}
+
+body i.icon-home {
     color: black;
 }
 
@@ -474,6 +481,7 @@ i svg {
     --sun-icon: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%3C!--%20Uploaded%20to%3A%20SVG%20Repo%2C%20www.svgrepo.com%2C%20Generator%3A%20SVG%20Repo%20Mixer%20Tools%20--%3E%0A%3Csvg%20fill%3D%22%23000000%22%20width%3D%22800px%22%20height%3D%22800px%22%20viewBox%3D%220%200%2024%2024%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22m24%2014.358-3.04-2.965%202.608-3.348-4.114-1.051.584-4.204-4.088%201.142-1.6-3.932-2.965%203.04-3.348-2.608-1.051%204.114-4.204-.584%201.142%204.087-3.932%201.596%203.04%202.966-2.608%203.348%204.114%201.051-.59%204.204%204.087-1.142%201.6%203.932%202.965-3.04%203.348%202.608%201.051-4.114%204.205.59-1.142-4.087zm-9.719%204.302c-.677.238-1.457.376-2.269.376-3.888%200-7.04-3.152-7.04-7.04s3.152-7.04%207.04-7.04c3.073%200%205.686%201.969%206.647%204.714l.015.049c.24.679.378%201.461.378%202.276%200%203.076-1.973%205.691-4.722%206.649l-.049.015z%22%2F%3E%3C%2Fsvg%3E");
     --icon-spinner: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='currentColor' d='M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437A48 48 0 1 0 75 369.1a48 48 0 1 0 67.9 67.9zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1a48 48 0 1 0-67.9 67.9z'/%3E%3C/svg%3E");
     --volume-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20384%20512%22%3E%3C!--!Font%20Awesome%20Free%206.7.2%20by%20%40fontawesome%20-%20https%3A%2F%2Ffontawesome.com%20License%20-%20https%3A%2F%2Ffontawesome.com%2Flicense%2Ffree%20Copyright%202025%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M215%2072L126.1%20161H24c-13.3%200-24%2010.7-24%2024v144c0%2013.3%2010.7%2024%2024%2024h102.1l89%2089c15%2015%2041%204.5%2041-17V89c0-21.5-26-32-41-17zm123.2%20108.1c-11.6-6.3-26.2-2.2-32.6%209.5-6.4%2011.6-2.2%2026.2%209.5%2032.6C328%20229.3%20336%20242.6%20336%20257c0%2014.4-8%2027.7-20.9%2034.8-11.6%206.4-15.8%2021-9.5%2032.6%206.4%2011.7%2021.1%2015.8%2032.6%209.5%2028.2-15.6%2045.8-45%2045.8-76.9s-17.5-61.3-45.8-76.9z%22%2F%3E%3C%2Fsvg%3E");
+    --home-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20512%20512%22%3E%3C!--!Font%20Awesome%20Free%20v7.2.0%20by%20%40fontawesome%20-%20https%3A%2F%2Ffontawesome.com%20License%20-%20https%3A%2F%2Ffontawesome.com%2Flicense%2Ffree%20Copyright%202026%20Fonticons%2C%20Inc.--%3E%3Cpath%20d%3D%22M240%206.1c9.1-8.2%2022.9-8.2%2032%200l232%20208c9.9%208.8%2010.7%2024%201.8%2033.9s-24%2010.7-33.9%201.8l-8-7.2%200%20205.3c0%2035.3-28.7%2064-64%2064l-288%200c-35.3%200-64-28.7-64-64l0-205.3-8%207.2c-9.9%208.8-25%208-33.9-1.8s-8-25%201.8-33.9L240%206.1zm16%2050.1L96%20199.7%2096%20448c0%208.8%207.2%2016%2016%2016l48%200%200-104c0-39.8%2032.2-72%2072-72l48%200c39.8%200%2072%2032.2%2072%2072l0%20104%2048%200c8.8%200%2016-7.2%2016-16l0-248.3-160-143.4zM208%20464l96%200%200-104c0-13.3-10.7-24-24-24l-48%200c-13.3%200-24%2010.7-24%2024l0%20104z%22%2F%3E%3C%2Fsvg%3E")
 }
 
 /* Base icon class with common styles */
@@ -490,7 +498,15 @@ i svg {
     mask-size: contain;
     background-color: currentColor;
     margin-left: 0.2em;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0.8;
 }
+
+a .icon:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
 
 /* Individual icon classes */
 .icon-pdf {
@@ -502,6 +518,12 @@ i svg {
 .icon-volume {
     -webkit-mask-image: var(--volume-icon);
     mask-image: var(--volume-icon);
+
+}
+
+.icon-home {
+    -webkit-mask-image: var(--home-icon);
+    mask-image: var(--home-icon);
 
 }
 
