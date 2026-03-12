@@ -28,7 +28,7 @@ class IndexedDBCache {
       const store = transaction.objectStore(this.#storeName);
       const request = store.get(key);
       request.onsuccess = () => resolve(request.result || null);
-      request.onerror = () => resolve(null); // Resolve with null on error
+      request.onerror = () => resolve(null);
     });
   }
 
@@ -40,19 +40,19 @@ class IndexedDBCache {
   }
 }
 
-/**
- * A class that mimics the EasySpeech API but uses the Microsoft Edge
- * streaming TTS service.
- */
-/**
- * A class that mimics the EasySpeech API but proxies requests through
- * a Cloudflare Worker to bypass Microsoft Edge CORS/Origin restrictions.
- */
 class StreamingTTS {
-  // --- Private Properties ---
-  #WORKER_BASE = "https://silent-unit-b6ca.hellpanderrr.workers.dev";
-  #WORKER_TTS_URL = `${this.#WORKER_BASE}/tts`;
-  #WORKER_VOICES_URL = `${this.#WORKER_BASE}/voices`;
+  #workers = [
+    {base: "https://silent-unit-b6ca.hellpanderrr.workers.dev", lastUsed: 0},
+    {base: "https://tts-2.hellpanderrr.workers.dev", lastUsed: 0},
+    {base: "https://tts-3.hellpanderrr.workers.dev", lastUsed: 0},
+    {base: "https://tts-4.hellpanderrr.workers.dev", lastUsed: 0},
+    {base: "https://tts-5.hellpanderrr.workers.dev", lastUsed: 0},
+    {base: "https://tts-6.hellpanderrr.workers.dev", lastUsed: 0}
+
+  ];
+
+  #requestDelayMs = 3000;
+  #lastGlobalRequestTime = 0;
 
   #enableCache = true;
   #cache = new IndexedDBCache();
@@ -68,7 +68,6 @@ class StreamingTTS {
     this.#audioPlayer.id = "streaming-tts-player";
     this.#audioPlayer.style.display = "none";
 
-    // Handle playback errors (e.g., corrupt audio)
     this.#audioPlayer.onerror = (e) => {
       console.error("Audio Player Error:", this.#audioPlayer.error);
       this.#isPlaying = false;
@@ -76,59 +75,63 @@ class StreamingTTS {
 
     this.#audioPlayer.onended = () => {
       this.#isPlaying = false;
-      // Revoke URL to prevent memory leaks
       if (this.#audioPlayer.src) URL.revokeObjectURL(this.#audioPlayer.src);
     };
 
     document.body.appendChild(this.#audioPlayer);
   }
 
-  // --- Public API Methods ---
+  #getBestWorker() {
+    return this.#workers.reduce((best, current) => {
+      return (current.lastUsed < best.lastUsed) ? current : best;
+    });
+  }
 
-  /**
-   * Returns whether audio is currently playing
-   */
   get isPlaying() {
     return this.#isPlaying;
   }
 
   async init() {
     if (this.#isInitialized) return true;
-    try {
-      // 1. Try fetching voices from your Worker (Proxy)
-      // This prevents CORS issues and keeps all traffic through your worker
-      const response = await fetch(this.#WORKER_VOICES_URL);
-      if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
 
-      const data = await response.json();
-      this.#voices = this.#transformVoiceList(data);
-      this.#isInitialized = true;
-      console.debug("StreamingTTS initialized via Proxy.");
-      return true;
-    } catch (proxyError) {
-      console.warn("Proxy voice fetch failed, attempting direct fallback...", proxyError);
+    for (let i = 0; i < this.#workers.length; i++) {
+      const worker = this.#getBestWorker();
+      worker.lastUsed = Date.now();
 
-      // 2. Fallback: Try Direct Microsoft URL
       try {
-        const directUrl = "https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4";
-        const response = await fetch(directUrl);
-        if (!response.ok) throw new Error(`Direct error: ${response.status}`);
+        const response = await fetch(`${worker.base}/voices`);
+        if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
+
         const data = await response.json();
         this.#voices = this.#transformVoiceList(data);
         this.#isInitialized = true;
+        console.debug(`StreamingTTS initialized via Proxy (${worker.base}).`);
         return true;
-      } catch (directError) {
-        console.error("All voice fetch methods failed.", directError);
-        // 3. Ultimate Fallback: Hardcoded defaults so the UI doesn't crash
-        this.#voices = [{
-          name: "Microsoft Aria Online (Natural) - English (United States)",
-          lang: "en-US",
-          default: true,
-          raw: {ShortName: "en-US-AriaNeural"}
-        }];
-        this.#isInitialized = true;
-        return true;
+      } catch (proxyError) {
+        console.warn(`Voice fetch failed for worker ${worker.base}`);
       }
+    }
+
+    console.warn("All proxy workers failed, attempting direct fallback...");
+
+    try {
+      const directUrl = "https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4";
+      const response = await fetch(directUrl);
+      if (!response.ok) throw new Error(`Direct error: ${response.status}`);
+      const data = await response.json();
+      this.#voices = this.#transformVoiceList(data);
+      this.#isInitialized = true;
+      return true;
+    } catch (directError) {
+      console.error("All voice fetch methods failed.", directError);
+      this.#voices = [{
+        name: "Microsoft Aria Online (Natural) - English (United States)",
+        lang: "en-US",
+        default: true,
+        raw: {ShortName: "en-US-AriaNeural"}
+      }];
+      this.#isInitialized = true;
+      return true;
     }
   }
 
@@ -141,28 +144,18 @@ class StreamingTTS {
   }
 
   async speak(config) {
-    const { text, voice, rate = 1, pitch = 1, volume = 1, boundary } = config;
+    const {text, voice, rate = 1, pitch = 1, volume = 1} = config;
 
     if (!this.#isInitialized) return console.error("TTS not initialized.");
     if (!text) return console.error("No text provided.");
     if (!voice?.raw?.ShortName) return console.error("Invalid voice object.");
 
-    // Warn about missing feature
-    if (boundary) {
-      console.warn("Word boundary events are not supported in HTTP-Proxy mode.");
-    }
-
-    this.stop(); // Stop previous audio
-
-    // Set volume immediately
+    this.stop();
     this.#audioPlayer.volume = Math.max(0, Math.min(1, volume));
 
-    // Generate a shorter, safer cache key
-    // Key format: Voice-Rate-Pitch-Length-First50Chars
     const safeTextSnippet = text.slice(0, 50).replace(/[^a-z0-9]/gi, '');
     const cacheKey = `${voice.raw.ShortName}-${rate}-${pitch}-${text.length}-${safeTextSnippet}`;
 
-    // --- Cache Check ---
     if (this.#enableCache) {
       try {
         const cachedBlob = await this.#cache.getAudio(cacheKey);
@@ -176,55 +169,83 @@ class StreamingTTS {
       }
     }
 
-    // --- Prepare Network Request ---
     const rateStr = (Math.round((rate - 1) * 100) >= 0 ? "+" : "") + Math.round((rate - 1) * 100) + "%";
     const pitchStr = (Math.round((pitch - 1) * 10) >= 0 ? "+" : "") + Math.round((pitch - 1) * 10) + "Hz";
 
     this.#currentAbortController = new AbortController();
 
-    try {
-      console.log(`TTS: Fetching... (${text.length} chars)`);
-      const response = await fetch(this.#WORKER_TTS_URL, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          text,
-          voice: voice.raw.ShortName,
-          rate: rateStr,
-          pitch: pitchStr,
-          volume: "+0%"
-        }),
-        signal: this.#currentAbortController.signal
-      });
+    // 1. Global delay execution (happens only ONCE per speak call)
+    const now = Date.now();
+    const timeSinceLastGlobal = now - this.#lastGlobalRequestTime;
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Worker Error ${response.status}: ${errorText}`);
+    if (timeSinceLastGlobal < this.#requestDelayMs) {
+      const waitTime = this.#requestDelayMs - timeSinceLastGlobal;
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+
+    if (this.#currentAbortController.signal.aborted) return;
+
+    // Set timestamp AFTER the delay so next calls wait properly
+    this.#lastGlobalRequestTime = Date.now();
+
+    let attempts = 0;
+    const maxAttempts = this.#workers.length;
+    let audioBlob = null;
+
+    // 2. Worker rotation loop (instant retry on error, NO delays here)
+    while (attempts < maxAttempts) {
+      if (this.#currentAbortController.signal.aborted) return;
+
+      const worker = this.#getBestWorker();
+      worker.lastUsed = Date.now();
+
+      try {
+        const response = await fetch(`${worker.base}/tts`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            text,
+            voice: voice.raw.ShortName,
+            rate: rateStr,
+            pitch: pitchStr,
+            volume: "+0%"
+          }),
+          signal: this.#currentAbortController.signal
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Worker Error ${response.status}: ${errorText}`);
+        }
+
+        const blob = await response.blob();
+        if (blob.size < 100) {
+          throw new Error("Received empty audio from Worker.");
+        }
+
+        audioBlob = blob;
+        break; // Success, exit retry loop
+
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          return;
+        } else {
+          attempts++;
+          console.warn(`Worker ${worker.base} failed. Attempt ${attempts}/${maxAttempts}. Error:`, error.message);
+        }
       }
+    }
 
-      const audioBlob = await response.blob();
-
-      // --- CRITICAL CHECK: Ensure audio is not empty ---
-      if (audioBlob.size < 100) { // < 100 bytes is likely just a header or empty
-        throw new Error("Received empty audio from Worker.");
-      }
-
+    if (audioBlob) {
       if (this.#enableCache) {
         this.#cache.saveAudio(cacheKey, audioBlob);
       }
 
-      // Check if we were stopped while fetching
       if (this.#currentAbortController.signal.aborted) return;
 
       this.#playBlob(audioBlob);
-
-    } catch (error) {
-      if (error.name === 'AbortError') {
-        console.log("TTS request aborted by user.");
-      } else {
-        console.error("TTS Proxy Error:", error);
-        // Optional: Trigger a UI error callback here if you add one to config
-      }
+    } else {
+      console.error("All workers failed.");
     }
   }
 
@@ -244,8 +265,6 @@ class StreamingTTS {
     this.#audioPlayer.removeAttribute("src");
   }
 
-  // --- Private Helper Methods ---
-
   #playBlob(blob) {
     const url = URL.createObjectURL(blob);
     this.#audioPlayer.src = url;
@@ -259,7 +278,6 @@ class StreamingTTS {
   }
 
   #transformVoiceList(list) {
-    // Use spread syntax to avoid mutating the incoming data if it's reused elsewhere
     return [...list]
         .map((voice) => ({
           name: voice.FriendlyName,
@@ -270,6 +288,7 @@ class StreamingTTS {
         .sort((a, b) => a.name.localeCompare(b.name));
   }
 }
+
 let EdgeTTS;
 try {
   EdgeTTS = new StreamingTTS();
@@ -280,17 +299,17 @@ const engines = {
   browser: EasySpeech,
   edge: EdgeTTS,
 };
-let activeEngine = engines.browser; // Default to the standard browser engine
+let activeEngine = engines.browser;
 let activeEngineName = "browser";
 
 function populateVoiceList(langCode) {
   const voiceSelect = document.querySelector("#tts");
   if (!voiceSelect) return;
   const voices = activeEngine
-    .voices()
-    .toSorted((a, b) => a.lang.localeCompare(b.lang));
+      .voices()
+      .toSorted((a, b) => a.lang.localeCompare(b.lang));
 
-  voiceSelect.innerHTML = ""; // Clear existing options
+  voiceSelect.innerHTML = "";
 
   voices.forEach((voice) => {
     const option = document.createElement("option");
@@ -304,7 +323,7 @@ function populateVoiceList(langCode) {
   if (langCode) {
     const voices = Array.from(voiceSelect.options);
     const relevantVoices = voices.filter((option) =>
-      (option.getAttribute("data-lang") || "").includes(langCode),
+        (option.getAttribute("data-lang") || "").includes(langCode),
     );
     if (relevantVoices.length > 0) {
       document.querySelector("#tts").value = relevantVoices[0].value;
@@ -315,8 +334,8 @@ function populateVoiceList(langCode) {
 function getSelectedVoice() {
   const voices = activeEngine.voices();
   const selectedVoiceName = document
-    .querySelector("#tts")
-    ?.selectedOptions[0]?.getAttribute("data-name");
+      .querySelector("#tts")
+      ?.selectedOptions[0]?.getAttribute("data-name");
 
   if (!selectedVoiceName) return voices[0];
 
@@ -324,37 +343,35 @@ function getSelectedVoice() {
 }
 
 function tts(transcriptionMode) {
-  console.log("Attaching TTS listeners");
   const text_els =
-    transcriptionMode === "line"
-      ? document.querySelectorAll(".input_text")
-      : document.querySelectorAll("#result span");
+      transcriptionMode === "line"
+          ? document.querySelectorAll(".input_text")
+          : document.querySelectorAll("#result span");
   const lineButtons = document.querySelectorAll(".audio-popup-line");
   const getVolume = () =>
-    parseFloat(document.querySelector("#tts_volume").value) / 100;
+      parseFloat(document.querySelector("#tts_volume").value) / 100;
   const getSpeed = () =>
-    parseFloat(document.querySelector("#tts_speed").value) / 100;
+      parseFloat(document.querySelector("#tts_speed").value) / 100;
 
   lineButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
       let lineText = Array.from(
-        e.currentTarget.parentElement.querySelectorAll(".input_text"),
+          e.currentTarget.parentElement.querySelectorAll(".input_text"),
       )
-        .map((x) => x.textContent)
-        .join(" ");
+          .map((x) => x.textContent)
+          .join(" ");
       if (!lineText)
         lineText = Array.from(
-          e.currentTarget.parentElement.querySelectorAll(".ipa"),
+            e.currentTarget.parentElement.querySelectorAll(".ipa"),
         )
-          .map((x) => x.getAttribute("data-word"))
-          .join(" ");
+            .map((x) => x.getAttribute("data-word"))
+            .join(" ");
       activeEngine.speak({
         text: lineText,
         voice: getSelectedVoice(),
         pitch: 1,
         rate: getSpeed(),
-        volume: getVolume(),
-        boundary: (e) => console.debug(`${e.name} boundary reached`),
+        volume: getVolume()
       });
     });
   });
@@ -376,14 +393,13 @@ function tts(transcriptionMode) {
       }
     };
     popup.addEventListener("click", () =>
-      activeEngine.speak({
-        text: getTextContent(el),
-        voice: getSelectedVoice(),
-        pitch: 1,
-        rate: getSpeed(),
-        volume: getVolume(),
-        boundary: (e) => console.debug(`${e.name} boundary reached`),
-      }),
+        activeEngine.speak({
+          text: getTextContent(el),
+          voice: getSelectedVoice(),
+          pitch: 1,
+          rate: getSpeed(),
+          volume: getVolume()
+        }),
     );
     el.addEventListener("mouseenter", () => {
       popup.style.opacity = "1";
@@ -409,7 +425,6 @@ function handleEngineChange(event) {
   const selectedEngine = event.target.value;
   if (selectedEngine === activeEngineName) return;
 
-  console.log(`Switching TTS engine to: ${selectedEngine}`);
   activeEngineName = selectedEngine;
   activeEngine = engines[selectedEngine];
 
@@ -424,68 +439,47 @@ function setLanguageAndFindVoice(language) {
   try {
     if (!voiceSelect) return;
 
-    // Normalize language code format (convert en_US to en-US for consistent matching)
     const normalizedLanguage = language.replace(/_/g, "-");
 
-    // 1. Search the currently active engine first
     const currentVoices = activeEngine.voices();
     let bestVoice = currentVoices.find((v) =>
-      v.lang.replace(/_/g, "-").startsWith(normalizedLanguage),
+        v.lang.replace(/_/g, "-").startsWith(normalizedLanguage),
     );
 
     if (bestVoice) {
-      console.log(
-        `Found ${language} voice in current engine ${currentVoices[0]}, ('${activeEngineName}'). ${bestVoice.name}, ${bestVoice.lang}`,
-      );
       voiceSelect.value = bestVoice.name || bestVoice.friendlyName;
-      return; // Found a match, we're done.
+      return;
     }
 
-    // 2. If not found, search other available engines
     const otherEngineNames = availableEngineNames.filter(
-      (name) => name !== activeEngineName,
+        (name) => name !== activeEngineName,
     );
     for (const engineName of otherEngineNames) {
       const otherEngine = engines[engineName];
       bestVoice = otherEngine
-        .voices()
-        .find((v) => v.lang.replace(/_/g, "-").startsWith(normalizedLanguage));
+          .voices()
+          .find((v) => v.lang.replace(/_/g, "-").startsWith(normalizedLanguage));
 
       if (bestVoice) {
-        console.log(
-          `Found better voice in '${engineName}' engine. Switching...`,
-        );
-        // Switch the engine programmatically
         activeEngineName = engineName;
         activeEngine = otherEngine;
-        engineSwitch.value = engineName; // Update the switch UI
+        engineSwitch.value = engineName;
 
-        // Repopulate the voice list and select the found voice
         populateVoiceList();
         voiceSelect.value = bestVoice.name || bestVoice.friendlyName;
         return;
       }
     }
-
-    console.warn(
-      `No voice found for language '${language}' in any available engine.`,
-    );
   } catch (error) {
     console.error("Error setting language and finding voice:", error);
   }
 }
 
-// ============================================================================
-// ==  Part 3: Initialization and Event Handling
-// ============================================================================
-
-// Self-invoking async function to initialize everything
 try {
   (async () => {
     engineSwitch = document.querySelector("#tts_switch");
     voiceSelect = document.querySelector("#tts");
 
-    // Health Check: Initialize both engines in parallel.
     const results = await Promise.allSettled([
       EasySpeech.init({ maxTimeout: 5000, interval: 250 }),
       EdgeTTS.init(),
@@ -496,27 +490,19 @@ try {
     const browserSuccess = availableEngineNames.includes("browser");
     const edgeSuccess = availableEngineNames.includes("edge");
 
-    // Handle case where both engines fail to load
     if (!browserSuccess && !edgeSuccess) {
-      console.error("All TTS engines failed to initialize.");
       engineSwitch.innerHTML = "<option>TTS Unavailable</option>";
-      return; // Stop execution
+      return;
     }
 
-    // Gracefully disable the "Enhanced" option if it fails to load
     if (!edgeSuccess) {
-      console.warn(
-        "Enhanced Edge TTS engine failed to load and will be disabled.",
-      );
       const edgeOption = engineSwitch.options[1];
       edgeOption.disabled = true;
       edgeOption.textContent += " (Unavailable)";
     }
 
     if (!browserSuccess) {
-      console.error("Standard browser TTS engine failed to load.");
       engineSwitch.options[0].disabled = true;
-      // If Edge is available, make it the default
       if (edgeSuccess) {
         engineSwitch.value = "edge";
         activeEngineName = "edge";
@@ -524,10 +510,8 @@ try {
       }
     }
 
-    // If at least one engine is ready, enable the switch and attach the listener
     engineSwitch.addEventListener("change", handleEngineChange);
 
-    // Populate the initial voice list from the default active engine
     populateVoiceList();
 
     if (document.readyState === "loading") {
