@@ -768,15 +768,14 @@ function toggleDarkMode() {
     toggleLightMode();
   } else {
     document.body.classList.add("dark_mode");
-    document.querySelector("#header > a > i").className = "icon icon-sun";
+    document.querySelector("#dark_mode i").className = "icon icon-sun";
   }
 }
 
 function toggleLightMode() {
-  document.querySelector("#header>a>i").className = "icon icon-moon";
+  document.querySelector("#dark_mode i").className = "icon icon-moon";
   document.body.classList.remove("dark_mode");
 }
-
 document.getElementById("dark_mode").addEventListener("click", toggleDarkMode);
 
 function capitalizeFirstLetter(val) {
