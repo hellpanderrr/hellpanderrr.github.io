@@ -40,6 +40,10 @@ class IndexedDBCache {
   }
 }
 
+/**
+ * A class that mimics the EasySpeech API but uses the Microsoft Edge
+ * streaming TTS service via a Cloudflare Worker farm.
+ */
 class StreamingTTS {
   #workers = [
     {base: "https://silent-unit-b6ca.hellpanderrr.workers.dev", lastUsed: 0},
@@ -48,7 +52,6 @@ class StreamingTTS {
     {base: "https://tts-4.hellpanderrr.workers.dev", lastUsed: 0},
     {base: "https://tts-5.hellpanderrr.workers.dev", lastUsed: 0},
     {base: "https://tts-6.hellpanderrr.workers.dev", lastUsed: 0}
-
   ];
 
   #requestDelayMs = 3000;
@@ -94,10 +97,23 @@ class StreamingTTS {
   async init() {
     if (this.#isInitialized) return true;
 
-    for (let i = 0; i < this.#workers.length; i++) {
-      const worker = this.#getBestWorker();
-      worker.lastUsed = Date.now();
+    // 1. Try Direct Microsoft URL FIRST (Usually much faster and doesn't get blocked for /voices)
+    try {
+      const directUrl = "https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4";
+      const response = await fetch(directUrl);
+      if (!response.ok) throw new Error(`Direct error: ${response.status}`);
+      const data = await response.json();
+      this.#voices = this.#transformVoiceList(data);
+      this.#isInitialized = true;
+      console.debug("StreamingTTS initialized via Direct MS URL.");
+      return true;
+    } catch (directError) {
+      console.warn("Direct voice fetch failed, attempting proxy workers...", directError);
+    }
 
+    // 2. Fallback to Proxies if direct fails
+    for (let i = 0; i < this.#workers.length; i++) {
+      const worker = this.#workers[i];
       try {
         const response = await fetch(`${worker.base}/voices`);
         if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
@@ -112,27 +128,16 @@ class StreamingTTS {
       }
     }
 
-    console.warn("All proxy workers failed, attempting direct fallback...");
-
-    try {
-      const directUrl = "https://speech.platform.bing.com/consumer/speech/synthesize/readaloud/voices/list?trustedclienttoken=6A5AA1D4EAFF4E9FB37E23D68491D6F4";
-      const response = await fetch(directUrl);
-      if (!response.ok) throw new Error(`Direct error: ${response.status}`);
-      const data = await response.json();
-      this.#voices = this.#transformVoiceList(data);
-      this.#isInitialized = true;
-      return true;
-    } catch (directError) {
-      console.error("All voice fetch methods failed.", directError);
-      this.#voices = [{
-        name: "Microsoft Aria Online (Natural) - English (United States)",
-        lang: "en-US",
-        default: true,
-        raw: {ShortName: "en-US-AriaNeural"}
-      }];
-      this.#isInitialized = true;
-      return true;
-    }
+    // 3. Ultimate Fallback
+    console.error("All voice fetch methods failed. Using default voice.");
+    this.#voices = [{
+      name: "Microsoft Aria Online (Natural) - English (United States)",
+      lang: "en-US",
+      default: true,
+      raw: {ShortName: "en-US-AriaNeural"}
+    }];
+    this.#isInitialized = true;
+    return true;
   }
 
   voices() {
@@ -192,7 +197,7 @@ class StreamingTTS {
     const maxAttempts = this.#workers.length;
     let audioBlob = null;
 
-    // 2. Worker rotation loop (instant retry on error, NO delays here)
+    // 2. Worker rotation loop
     while (attempts < maxAttempts) {
       if (this.#currentAbortController.signal.aborted) return;
 
@@ -224,7 +229,7 @@ class StreamingTTS {
         }
 
         audioBlob = blob;
-        break; // Success, exit retry loop
+        break;
 
       } catch (error) {
         if (error.name === 'AbortError') {
@@ -240,9 +245,7 @@ class StreamingTTS {
       if (this.#enableCache) {
         this.#cache.saveAudio(cacheKey, audioBlob);
       }
-
       if (this.#currentAbortController.signal.aborted) return;
-
       this.#playBlob(audioBlob);
     } else {
       console.error("All workers failed.");
@@ -295,10 +298,12 @@ try {
 } catch (error) {
   console.log("Failed to load Edge TTS engine: ", error);
 }
+
 const engines = {
   browser: EasySpeech,
   edge: EdgeTTS,
 };
+
 let activeEngine = engines.browser;
 let activeEngineName = "browser";
 
@@ -320,9 +325,10 @@ function populateVoiceList(langCode) {
     option.setAttribute("data-name", displayName);
     voiceSelect.appendChild(option);
   });
+
   if (langCode) {
-    const voices = Array.from(voiceSelect.options);
-    const relevantVoices = voices.filter((option) =>
+    const optionsArray = Array.from(voiceSelect.options);
+    const relevantVoices = optionsArray.filter((option) =>
         (option.getAttribute("data-lang") || "").includes(langCode),
     );
     if (relevantVoices.length > 0) {
@@ -338,7 +344,6 @@ function getSelectedVoice() {
       ?.selectedOptions[0]?.getAttribute("data-name");
 
   if (!selectedVoiceName) return voices[0];
-
   return voices.find((v) => (v.name || v.friendlyName) === selectedVoiceName);
 }
 
@@ -348,24 +353,17 @@ function tts(transcriptionMode) {
           ? document.querySelectorAll(".input_text")
           : document.querySelectorAll("#result span");
   const lineButtons = document.querySelectorAll(".audio-popup-line");
-  const getVolume = () =>
-      parseFloat(document.querySelector("#tts_volume").value) / 100;
-  const getSpeed = () =>
-      parseFloat(document.querySelector("#tts_speed").value) / 100;
+  const getVolume = () => parseFloat(document.querySelector("#tts_volume").value) / 100;
+  const getSpeed = () => parseFloat(document.querySelector("#tts_speed").value) / 100;
 
   lineButtons.forEach((button) => {
     button.addEventListener("click", (e) => {
-      let lineText = Array.from(
-          e.currentTarget.parentElement.querySelectorAll(".input_text"),
-      )
-          .map((x) => x.textContent)
-          .join(" ");
+      let lineText = Array.from(e.currentTarget.parentElement.querySelectorAll(".input_text"))
+          .map((x) => x.textContent).join(" ");
       if (!lineText)
-        lineText = Array.from(
-            e.currentTarget.parentElement.querySelectorAll(".ipa"),
-        )
-            .map((x) => x.getAttribute("data-word"))
-            .join(" ");
+        lineText = Array.from(e.currentTarget.parentElement.querySelectorAll(".ipa"))
+            .map((x) => x.getAttribute("data-word")).join(" ");
+
       activeEngine.speak({
         text: lineText,
         voice: getSelectedVoice(),
@@ -380,6 +378,7 @@ function tts(transcriptionMode) {
     let timer;
     const popup = el.previousElementSibling;
     if (!popup) return;
+
     const getTextContent = (el) => {
       switch (transcriptionMode) {
         case "default":
@@ -392,6 +391,7 @@ function tts(transcriptionMode) {
           return el.textContent;
       }
     };
+
     popup.addEventListener("click", () =>
         activeEngine.speak({
           text: getTextContent(el),
@@ -401,6 +401,7 @@ function tts(transcriptionMode) {
           volume: getVolume()
         }),
     );
+
     el.addEventListener("mouseenter", () => {
       popup.style.opacity = "1";
       popup.classList.add("show-popup");
@@ -412,6 +413,7 @@ function tts(transcriptionMode) {
         }, 3000);
       });
     });
+
     el.addEventListener("mouseleave", () => {
       timer = setTimeout(() => {
         popup.style.opacity = "0";
@@ -438,7 +440,6 @@ let voiceSelect = null;
 function setLanguageAndFindVoice(language) {
   try {
     if (!voiceSelect) return;
-
     const normalizedLanguage = language.replace(/_/g, "-");
 
     const currentVoices = activeEngine.voices();
@@ -451,20 +452,15 @@ function setLanguageAndFindVoice(language) {
       return;
     }
 
-    const otherEngineNames = availableEngineNames.filter(
-        (name) => name !== activeEngineName,
-    );
+    const otherEngineNames = availableEngineNames.filter((name) => name !== activeEngineName);
     for (const engineName of otherEngineNames) {
       const otherEngine = engines[engineName];
-      bestVoice = otherEngine
-          .voices()
-          .find((v) => v.lang.replace(/_/g, "-").startsWith(normalizedLanguage));
+      bestVoice = otherEngine.voices().find((v) => v.lang.replace(/_/g, "-").startsWith(normalizedLanguage));
 
       if (bestVoice) {
         activeEngineName = engineName;
         activeEngine = otherEngine;
         engineSwitch.value = engineName;
-
         populateVoiceList();
         voiceSelect.value = bestVoice.name || bestVoice.friendlyName;
         return;
@@ -475,53 +471,72 @@ function setLanguageAndFindVoice(language) {
   }
 }
 
+// ============================================================================
+// ==  Parallel Initialization (Decoupled)
+// ============================================================================
 try {
-  (async () => {
-    engineSwitch = document.querySelector("#tts_switch");
-    voiceSelect = document.querySelector("#tts");
+  engineSwitch = document.querySelector("#tts_switch");
+  voiceSelect = document.querySelector("#tts");
 
-    const results = await Promise.allSettled([
-      EasySpeech.init({ maxTimeout: 5000, interval: 250 }),
-      EdgeTTS.init(),
-    ]);
-    if (results[0].status === "fulfilled") availableEngineNames.push("browser");
-    if (results[1].status === "fulfilled") availableEngineNames.push("edge");
+  // Indicate that Edge is loading initially
+  if (engineSwitch && engineSwitch.options[1]) {
+    engineSwitch.options[1].disabled = true;
+    engineSwitch.options[1].textContent += " (Loading...)";
+  }
 
-    const browserSuccess = availableEngineNames.includes("browser");
-    const edgeSuccess = availableEngineNames.includes("edge");
+  // 1. Initialize Browser Engine (Fast)
+  EasySpeech.init({maxTimeout: 5000, interval: 250})
+      .then(() => {
+        availableEngineNames.push("browser");
+        if (activeEngineName === "browser") {
+          populateVoiceList(); // Populate immediately
+        }
+      })
+      .catch((error) => {
+        console.error("Standard browser TTS engine failed to load.", error);
+        if (engineSwitch && engineSwitch.options[0]) {
+          engineSwitch.options[0].disabled = true;
+        }
+      });
 
-    if (!browserSuccess && !edgeSuccess) {
-      engineSwitch.innerHTML = "<option>TTS Unavailable</option>";
-      return;
-    }
+  // 2. Initialize Edge Engine in Background
+  EdgeTTS.init()
+      .then(() => {
+        availableEngineNames.push("edge");
+        if (engineSwitch && engineSwitch.options[1]) {
+          engineSwitch.options[1].disabled = false;
+          engineSwitch.options[1].textContent = engineSwitch.options[1].textContent.replace(" (Loading...)", "").replace(" (Unavailable)", "");
+        }
 
-    if (!edgeSuccess) {
-      const edgeOption = engineSwitch.options[1];
-      edgeOption.disabled = true;
-      edgeOption.textContent += " (Unavailable)";
-    }
+        // Auto-switch to Edge if it's supposed to be default or if Browser failed
+        if (!availableEngineNames.includes("browser") || activeEngineName === "edge") {
+          engineSwitch.value = "edge";
+          activeEngineName = "edge";
+          activeEngine = engines.edge;
+          populateVoiceList();
+        }
+      })
+      .catch((error) => {
+        console.error("Enhanced Edge TTS engine failed to load.", error);
+        if (engineSwitch && engineSwitch.options[1]) {
+          engineSwitch.options[1].disabled = true;
+          engineSwitch.options[1].textContent = engineSwitch.options[1].textContent.replace(" (Loading...)", " (Unavailable)");
+        }
+      });
 
-    if (!browserSuccess) {
-      engineSwitch.options[0].disabled = true;
-      if (edgeSuccess) {
-        engineSwitch.value = "edge";
-        activeEngineName = "edge";
-        activeEngine = engines.edge;
-      }
-    }
-
+  // 3. Attach Event Listeners Immediately
+  if (engineSwitch) {
     engineSwitch.addEventListener("change", handleEngineChange);
+  }
 
-    populateVoiceList();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => tts("default"));
+  } else {
+    tts("default");
+  }
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => tts("default"));
-    } else {
-      tts("default");
-    }
-  })();
 } catch (error) {
-  console.error("Error loading TTS engines: ", error);
+  console.error("Error loading TTS setup: ", error);
 }
 
 export { tts, setLanguageAndFindVoice };
