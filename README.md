@@ -1,3 +1,6 @@
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/hellpanderrr/hellpanderrr.github.io)
+
 # hellpanderrr.github.io
 
 A collection of browser-based phonetic and linguistic tools. All processing runs
