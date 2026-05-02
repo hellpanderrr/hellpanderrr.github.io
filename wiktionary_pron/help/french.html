@@ -5,12 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>French IPA Transcription - Help</title>
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="../icons/help/favicon-16x16.png">
     <link rel="icon" href="../icons/help/favicon.ico">
     <link href="help.css" rel="stylesheet">
     <script src="https://unpkg.com/fr-compromise"></script>
+
+    <style>
+        /* Volume icon from style.css */
+        .icon {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            vertical-align: -0.125em;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            background-color: currentColor;
+        }
+
+        .icon-volume {
+            -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20384%20512%22%3E%3Cpath%20d%3D%22M215%2072L126.1%20161H24c-13.3%200-24%2010.7-24%2024v144c0%2013.3%2010.7%2024%2024%2024h102.1l89%2089c15%2015%2041%204.5%2041-17V89c0-21.5-26-32-41-17zm123.2%20108.1c-11.6-6.3-26.2-2.2-32.6%209.5-6.4%2011.6-2.2%2026.2%209.5%2032.6C328%20229.3%20336%20242.6%20336%20257c0%2014.4-8%2027.7-20.9%2034.8-11.6%206.4-15.8%2021-9.5%2032.6%206.4%2011.7%2021.1%2015.8%2032.6%209.5%2028.2-15.6%2045.8-45%2045.8-76.9s-17.5-61.3-45.8-76.9z%22%2F%3E%3C%2Fsvg%3E");
+            mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20384%20512%22%3E%3Cpath%20d%3D%22M215%2072L126.1%20161H24c-13.3%200-24%2010.7-24%2024v144c0%2013.3%2010.7%2024%2024%2024h102.1l89%2089c15%2015%2041%204.5%2041-17V89c0-21.5-26-32-41-17zm123.2%20108.1c-11.6-6.3-26.2-2.2-32.6%209.5-6.4%2011.6-2.2%2026.2%209.5%2032.6C328%20229.3%20336%20242.6%20336%20257c0%2014.4-8%2027.7-20.9%2034.8-11.6%206.4-15.8%2021-9.5%2032.6%206.4%2011.7%2021.1%2015.8%2032.6%209.5%2028.2-15.6%2045.8-45%2045.8-76.9s-17.5-61.3-45.8-76.9z%22%2F%3E%3C%2Fsvg%3E");
+        }
+
+        /* IPA block with audio button above */
+        .ipa-block {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: bottom;
+            margin: 0 2px;
+        }
+
+        .audio-top {
+            border: none;
+            background: #3b82f6;
+            cursor: pointer;
+            padding: 2px 4px;
+            color: white;
+            font-size: 12px;
+            line-height: 1;
+            margin-bottom: 2px;
+            border-radius: 3px;
+        }
+
+        .highlight-green {
+            font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+            font-size: 0.9rem;
+            color: #2a6f3b;
+            background: #daf1e0;
+            border-radius: 3.6px;
+            padding: 0.225rem 0.4rem;
+        }
+    </style>
 
     <script>
         function insertLiaisonMarkers(text) {
@@ -105,10 +158,26 @@
                 and is often used in dictionaries for etymological clarity.</p>
             <p>This setting preserves the four-vowel system:</p>
             <ul>
-                <li><em>br<strong>un</strong></em> is pronounced <strong>/bʁœ̃/</strong>.</li>
-                <li><em>br<strong>in</strong></em> is pronounced <strong>/bʁɛ̃/</strong>.</li>
-                <li><em>bl<strong>anc</strong></em> is pronounced <strong>/blɑ̃/</strong>.</li>
-                <li><em>b<strong>on</strong></em> is pronounced <strong>/bɔ̃/</strong>.</li>
+                <li><em>br<strong>un</strong></em> is pronounced <strong>/bʁœ̃/</strong>
+                    <span class="ipa-block"><button class="audio-top" onclick="playAudio('brun_ca')"
+                                                    title="Canadian French"><i
+                      class="icon icon-volume"></i></button><code class="highlight-green">/bʁœ̃/</code></span>
+                </li>
+                <li><em>br<strong>in</strong></em> is pronounced <strong>/bʁɛ̃/</strong>
+                    <span class="ipa-block"><button class="audio-top" onclick="playAudio('brin_ca')"
+                                                    title="Canadian French"><i
+                      class="icon icon-volume"></i></button><code class="highlight-green">/bʁɛ̃/</code></span>
+                </li>
+                <li><em>bl<strong>anc</strong></em> is pronounced <strong>/blɑ̃/</strong>
+                    <span class="ipa-block"><button class="audio-top" onclick="playAudio('blanc_ca')"
+                                                    title="Canadian French"><i
+                      class="icon icon-volume"></i></button><code class="highlight-green">/blɑ̃/</code></span>
+                </li>
+                <li><em>b<strong>on</strong></em> is pronounced <strong>/bɔ̃/</strong>
+                    <span class="ipa-block"><button class="audio-top" onclick="playAudio('bon_ca')"
+                                                    title="Canadian French"><i
+                      class="icon icon-volume"></i></button><code class="highlight-green">/bɔ̃/</code></span>
+                </li>
             </ul>
         </li>
         <br>
@@ -124,8 +193,24 @@
                     and <code>/ɛ̃/</code> (in <em>brin</em>) is completely lost. Both sounds are merged into a single,
                     open nasal vowel, transcribed as <code>/ɑ̃/</code>.
                     <ul>
-                        <li><em>brun</em>: <code>/bʁœ̃/</code> → <code>/bʁɑ̃/</code></li>
-                        <li><em>brin</em>: <code>/bʁɛ̃/</code> → <code>/bʁɑ̃/</code></li>
+                        <li><em>brun</em>:
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('brun_ca')"
+                                                            title="Canadian (preserved)"><i
+                              class="icon icon-volume"></i></button><code>/bʁœ̃/</code></span>
+                            →
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('brun_fr')"
+                                                            title="Parisian (merged)"><i
+                              class="icon icon-volume"></i></button><code>/bʁɑ̃/</code></span>
+                        </li>
+                        <li><em>brin</em>:
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('brin_ca')"
+                                                            title="Canadian (preserved)"><i
+                              class="icon icon-volume"></i></button><code>/bʁɛ̃/</code></span>
+                            →
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('brin_fr')"
+                                                            title="Parisian (merged)"><i
+                              class="icon icon-volume"></i></button><code>/bʁɑ̃/</code></span>
+                        </li>
                         <li><strong>Result: <em>brun</em> and <em>brin</em> become perfect homophones.</strong></li>
                     </ul>
                 </li>
@@ -142,8 +227,22 @@
                         </li>
                     </ol>
                     <ul>
-                        <li><em>bon</em>: <code>/bɔ̃/</code> → <code>/bõ/</code></li>
-                        <li><em>blanc</em>: <code>/blɑ̃/</code> → <code>/blɔ̃/</code></li>
+                        <li><em>bon</em>:
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('bon_ca')"
+                                                            title="Canadian (preserved)"><i
+                              class="icon icon-volume"></i></button><code>/bɔ̃/</code></span>
+                            →
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('bon_fr')"
+                                                            title="Parisian (shifted)"><i class="icon icon-volume"></i></button><code>/bõ/</code></span>
+                        </li>
+                        <li><em>blanc</em>:
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('blanc_ca')"
+                                                            title="Canadian (preserved)"><i
+                              class="icon icon-volume"></i></button><code>/blɑ̃/</code></span>
+                            →
+                            <span class="ipa-block"><button class="audio-top" onclick="playAudio('blanc_fr')"
+                                                            title="Parisian (shifted)"><i class="icon icon-volume"></i></button><code>/blɔ̃/</code></span>
+                        </li>
                         <li><strong>Result: Crucially, <em>bon</em> and <em>blanc</em> remain distinct.</strong> Their
                             vowel qualities have shifted, but they have not merged into one sound.
                         </li>
@@ -770,5 +869,30 @@
             rel="noopener noreferrer">GitHub
         repository</a>.</small></p>
 </div>
+
+<script>
+    // Audio playback cache
+    const audioCache = {};
+
+    function playAudio(filename) {
+        const audioPath = "../data/audio/" + filename + ".mp3";
+
+        // Check if already cached
+        if (audioCache[filename]) {
+            audioCache[filename].currentTime = 0;
+            audioCache[filename].play().catch(e => console.error("Audio play failed:", e));
+            return;
+        }
+
+        // Create new audio element
+        const audio = new Audio(audioPath);
+        audioCache[filename] = audio;
+
+        audio.play().catch(e => {
+            console.error("Audio play failed:", e);
+            alert("Could not play audio. Please check that the file exists: " + audioPath);
+        });
+    }
+</script>
 </body>
 </html>
