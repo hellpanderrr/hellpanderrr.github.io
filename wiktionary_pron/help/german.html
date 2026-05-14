@@ -20,50 +20,2114 @@
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects & Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>German Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Vowel Length & Quality</a></li>
+                <li><a href="#umlauts">Umlauts (ä, ö, ü)</a></li>
+                <li><a href="#ch-sounds">CH Sounds (ich/ach)</a></li>
+                <li><a href="#s-sounds">S Pronunciation</a></li>
+                <li><a href="#final-devoicing">Final Devoicing (Auslautverhärtung)</a></li>
+                <li><a href="#consonants">Consonant Rules</a></li>
+                <li><a href="#diphthongs">Diphthongs</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#nasals">Nasal Consonants: NG and NK</a></li>
+                <li><a href="#r-pronunciation">R Pronunciation</a></li>
+                <li><a href="#glottal-stops">Glottal Stops</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues & Limitations</a></li>
+            </ul>
+        </li>
+    </ul>
 
+    <h2 id="about">About This Tool</h2>
     <p>This <a href="../?lang=German">German transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:User:Benwing2/de-pron" target="_blank"
-            rel="noopener noreferrer">Wiktionary German
-        Pronunciation Module</a> to generate phonetic/phonemic transcriptions for German text.</p>
+      href="https://en.wiktionary.org/wiki/Module:User:Benwing2/de-pron" target="_blank"
+      rel="noopener noreferrer">Wiktionary German
+        Pronunciation Module</a> to generate phonetic/phonemic transcriptions for German text. IPA (International
+        Phonetic Alphabet) is a standardized system for transcribing speech sounds using symbols based on the Latin
+        alphabet. This tool converts German orthography (spelling) into IPA, helping learners, linguists, and developers
+        understand pronunciation. Phonemic transcription represents the abstract sound system (<a href="#glossary">phonemes</a>),
+        while phonetic transcription shows actual speech variations (<a href="#glossary">allophones</a>).</p>
+
 
     <p>The system uses comprehensive Wiktionary data dumps<a href="https://kaikki.org/frwiktionary/Allemand/index.html"><sup>[1]</sup></a><a
-            href="https://kaikki.org/dictionary/German/"><sup>[2]</sup></a><a
-            href="https://kaikki.org/dewiktionary/Deutsch/index.html"><sup>[3]</sup></a> as a lexicon to first retrieve
+      href="https://kaikki.org/dictionary/German/"><sup>[2]</sup></a><a
+      href="https://kaikki.org/dewiktionary/Deutsch/index.html"><sup>[3]</sup></a> as a lexicon to first retrieve
         <b>phonemic</b> transcriptions from the dictionary (Wiktionary only has phonemic German pronunciations). When a
         word is not found in the lexicon, it falls back to generating transcriptions using the pronunciation module's
         rule-based approach.</p>
 
-    <h2>Dialects Supported</h2>
+    <h2 id="dialects">Dialects & Limitations</h2>
     <ul>
-        <li><strong>Default</strong> - Standard German (Hochdeutsch) pronunciation</li>
+        <li><strong>Supported:</strong> Standard German (Hochdeutsch) pronunciation</li>
+        <li><strong>Not supported:</strong> Regional variants (Bavarian, Swiss German, etc.).</li>
+        <li><strong>Edge cases:</strong> Very recent loanwords, extremely rare compound words, and certain proper names
+            may not be transcribed correctly.
+        </li>
+        <li><strong>Technical limit:</strong> Maximum word length and compound depth restrictions apply.</li>
     </ul>
 
-    <h2>Transcription Forms</h2>
+    <h2 id="forms">Phonemic vs Phonetic</h2>
     <ul>
 
         <li><strong>Phonemic</strong> (with dictionary support): A simplified, broad transcription that shows only the
             sounds that are essential for distinguishing meaning (phonemes). It represents the abstract sound system of
-            the language.
+            the language. Uses Wiktionary lexicon when available, falls back to rules.
         </li>
-        <li><strong>Phonetic</strong> (no dictionary): A detailed, narrow transcription that shows subtle,
+        <li><strong>Phonetic</strong> (without dictionary support): A detailed, narrow transcription that shows subtle,
             non-distinctive variations in pronunciation (allophones). It aims to represent how a word is
-            <em>actually</em> said.
+            <em>actually</em> said. Builds on phonemic output with additional allophonic rules.
+        </li>
+    </ul>
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning (e.g., /p/ vs. /b/ in English "pat" vs.
+            "bat").
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning (e.g., aspirated [pʰ] vs. unaspirated
+            [p]).
+        </dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound where the tongue changes position during articulation (e.g., /aʊ̯/ in "au").</dd>
+
+        <dt>Glottal Stop</dt>
+        <dd>A sound made by closing the glottis, represented as <span class="ipa">ʔ</span>, often at word boundaries.
+        </dd>
+
+        <dt>Aspiration</dt>
+        <dd>A puff of air after voiceless consonants, represented as <span class="ipa">ʰ</span> (e.g., [pʰ]).</dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>A marker (.) showing where syllables divide, affecting vowel length.</dd>
+
+        <dt>Component Boundary</dt>
+        <dd>Markers like ⁀ (between prefixes/components) or ‿ (before suffixes) used internally for processing.</dd>
+
+        <dt>Devoicing</dt>
+        <dd>The process of making voiced consonants voiceless at word ends (e.g., "Tag" → /taːk/).</dd>
+
+        <dt>Schwa</dt>
+        <dd>A neutral vowel sound <span class="ipa">ə</span>, common in unstressed syllables.</dd>
+
+        <dt>Umlaut</dt>
+        <dd>German diacritics (ä, ö, ü) changing vowel quality (e.g., "Haus" /haʊ̯s/ vs. "Häuser" /ˈhɔɪ̯zɐ/).</dd>
+
+        <dt>Geminate</dt>
+        <dd>Doubled consonants, often from assimilation (e.g., "kommen" /ˈkɔmən/ with single m).</dd>
+
+        <dt>Onset</dt>
+        <dd>The initial consonant(s) of a syllable (e.g., "p" in "pat").</dd>
+
+        <dt>Coda</dt>
+        <dd>The final consonant(s) of a syllable (e.g., "t" in "pat").</dd>
+
+        <dt>Nasalization</dt>
+        <dd>Adding nasal quality to vowels, often from nearby nasals (e.g., in French loanwords).</dd>
+
+        <dt>Syllabic Consonant</dt>
+        <dd>A consonant acting as a syllable nucleus (e.g., <span class="ipa">n̩</span> in "anden").</dd>
+
+        <dt>Voicing Assimilation</dt>
+        <dd>Consonants changing voicing to match neighbors (e.g., devoicing in clusters).</dd>
+
+        <dt>NFD</dt>
+        <dd>Unicode Normalization Form Decomposed: Technical process to break down accented characters for processing.
+        </dd>
+
+        <dt>Ach-Laut</dt>
+        <dd>The "ach sound" <span class="ipa">/x/</span>, a voiceless velar fricative occurring after back vowels (a, o,
+            u) and diphthongs (au), e.g., "ach" <span class="ipa">/ax/</span>, "Buch" <span class="ipa">/buːx/</span>,
+            "doch" <span class="ipa">/dɔx/</span>. Distinguished from the Ich-Laut.
+        </dd>
+
+        <dt>Ich-Laut</dt>
+        <dd>The "ich sound" <span class="ipa">/ç/</span>, a voiceless palatal fricative occurring after front vowels (e,
+            i, ä, ö, ü, ei, eu) and consonants, e.g., "ich" <span class="ipa">/ɪç/</span>, "echt" <span class="ipa">/ɛçt/</span>,
+            "durch" <span class="ipa">/dʊʁç/</span>, "König" <span class="ipa">/ˈkøːnɪç/</span>.
+        </dd>
+
+        <dt>Auslautverhärtung</dt>
+        <dd>Final devoicing: The process where voiced consonants (b, d, g, v, z) become voiceless (p, t, k, f, s) at the
+            end of words or syllables. E.g., "Tag" <span class="ipa">/taːk/</span>, "ab" <span class="ipa">/ap/</span>,
+            "Rad" <span class="ipa">/ʁaːt/</span>.
+        </dd>
+
+        <dt>Fugen-s</dt>
+        <dd>Interfix "-s-" inserted between compound components for euphony, e.g., "Wirtschaftswissenschaft" <span
+          class="ipa">/ˈvɪʁʃaftˌvɪsənʃaft/</span> (economics), "Arbeitslosigkeit" <span class="ipa">/ˈaʁbaɪ̯t͡sˌloːzɪçkaɪ̯t/</span>
+            (unemployment).
+        </dd>
+
+        <dt>Tie-Balken</dt>
+        <dd>The combining tie bar (◌͡◌) used in IPA to indicate affricates, showing that two segments form a single
+            phonological unit, e.g., <span class="ipa">/t͡s/</span>, <span class="ipa">/p͡f/</span>, <span class="ipa">/t͡ʃ/</span>.
+        </dd>
+
+        <dt>Doppelpunkt</dt>
+        <dd>The length mark <span class="ipa">/ː/</span> in IPA indicating a long vowel or geminate consonant, e.g.,
+            <span class="ipa">/aː/</span>, <span class="ipa">/iː/</span>, <span class="ipa">/uː/</span> vs. short <span
+              class="ipa">/a/</span>, <span class="ipa">/ɪ/</span>, <span class="ipa">/ʊ/</span>.
+        </dd>
+
+        <dt>Hiatus</dt>
+        <dd>The occurrence of two vowel sounds in adjacent syllables without an intervening consonant, often resolved by
+            inserting a glide (j or w), e.g., "Familie" <span class="ipa">/faˈmiːli̯ə/</span> with glide <span
+              class="ipa">/j/</span>.
+        </dd>
+
+        <dt>Glide (Nonsyllabic)</dt>
+        <dd>A transitional sound between a vowel and another vowel, represented as <span class="ipa">/j/</span>
+            (palatal) or <span class="ipa">/w/</span> (labiovelar), often shown with inverted breve below <span
+              class="ipa">/i̯/</span>, <span class="ipa">/u̯/</span>. E.g., "mein" <span class="ipa">/maɪ̯n/</span>.
+        </dd>
+
+        <dt>Velar Nasal</dt>
+        <dd>The <span class="ipa">/ŋ/</span> sound in "sing" or "Bank", produced with back of tongue against soft
+            palate. In German, occurs in "ng" and "nk" clusters.
+        </dd>
+
+        <dt>Syllabic Nasal</dt>
+        <dd>A nasal consonant serving as syllable nucleus without a vowel, marked with subscript line <span class="ipa">/n̩/</span>,
+            <span class="ipa">/m̩/</span>, <span class="ipa">/ŋ̍/</span>, e.g., "leben" <span
+              class="ipa">/ˈleːbn̩/</span> in rapid speech.
+        </dd>
+
+        <dt>R-Vocalization</dt>
+        <dd>Process where postvocalic <span class="ipa">/r/</span> becomes a vowel-like semivowel <span
+          class="ipa">/ɐ̯/</span> or merges with preceding vowel, e.g., "Vater" <span class="ipa">/ˈfaːtɐ/</span>,
+            "Tier" <span class="ipa">/tiːɐ̯/</span> (phonetic <span class="ipa">[ˈtiːɐ̯]</span>).
+        </dd>
+
+        <dt>Affricate</dt>
+        <dd>A complex consonant beginning as a stop and releasing as a fricative with same place of articulation, e.g.,
+            <span class="ipa">/t͡s/</span> (z), <span class="ipa">/t͡ʃ/</span> (tsch), <span class="ipa">/p͡f/</span>
+            (pf).
+        </dd>
+
+        <dt>Umlaut (Phonological)</dt>
+        <dd>Vowel fronting or raising triggered by suffixes, historically <span class="ipa">*/i/</span>, <span
+          class="ipa">*/j/</span> in following syllable. Orthographic umlauts (ä, ö, ü) mark these mutations: <span
+          class="ipa">/a/</span>→<span class="ipa">/ɛ/</span>, <span class="ipa">/o/</span>→<span class="ipa">/œ/</span>,
+            <span class="ipa">/u/</span>→<span class="ipa">/ʏ/</span>.
+        </dd>
+
+        <dt>Morpheme Boundary</dt>
+        <dd>A position between meaningful units (prefix-root, root-suffix) where phonological rules may apply
+            differently, marked with ⁀ (component) or ‿ (suffix) in internal notation.
+        </dd>
+
+        <dt>Foot Boundary</dt>
+        <dd>A prosodic unit boundary, often marked by punctuation or pauses in running speech, shown as | in some
+            notations.
+        </dd>
+
+        <dt>Unreleased Stop</dt>
+        <dd>A stop consonant where the closure is held without audible release, marked with special symbol <span
+          class="ipa">/p̚/</span>, <span class="ipa">/t̚/</span>, <span class="ipa">/k̚/</span>, common before another
+            stop or in clusters.
+        </dd>
+
+        <dt>Regressive Devoicing</dt>
+        <dd>Assimilation where a voiced consonant becomes voiceless when preceded by a voiceless consonant, marked with
+            ring below <span class="ipa">/b̥/</span>, <span class="ipa">/d̥/</span>, <span class="ipa">/ɡ̊/</span> in
+            phonetic notation.
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This table helps you understand the IPA symbols used in German transcriptions. For each symbol, we provide
+        approximate English equivalents where possible.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/aː/</span></td>
+            <td>Vater</td>
+            <td>"father"</td>
+            <td>Long, like "ah"</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td>alle</td>
+            <td>"cup" (UK)</td>
+            <td>Short, more open</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/eː/</span></td>
+            <td>See</td>
+            <td>"say" (without glide)</td>
+            <td>Pure vowel, no /j/ at end</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>Bett</td>
+            <td>"bed"</td>
+            <td>Short and open</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iː/</span></td>
+            <td>ihn</td>
+            <td>"see" (without glide)</td>
+            <td>Pure long /i/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>bitte</td>
+            <td>"sit"</td>
+            <td>Short and lax</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/oː/</span></td>
+            <td>so</td>
+            <td>"go" (without glide)</td>
+            <td>Pure vowel, no /w/ at end</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>offen</td>
+            <td>"law" (UK)</td>
+            <td>Short and open</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/uː/</span></td>
+            <td>du</td>
+            <td>"food" (without glide)</td>
+            <td>Pure long /u/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td>und</td>
+            <td>"put"</td>
+            <td>Short and lax</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td>wären</td>
+            <td>"bear" (without r-coloring)</td>
+            <td>Rare, only in ä spelling</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/øː/</span></td>
+            <td>schön</td>
+            <td>No English equivalent</td>
+            <td>Lips rounded like /o/, tongue like /e/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/œ/</span></td>
+            <td>öffnen</td>
+            <td>No English equivalent</td>
+            <td>Short version of /øː/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/yː/</span></td>
+            <td>über</td>
+            <td>No English equivalent</td>
+            <td>Lips rounded like /u/, tongue like /i/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʏ/</span></td>
+            <td>fünf</td>
+            <td>No English equivalent</td>
+            <td>Short version of /yː/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ə/</span></td>
+            <td>bitte (final)</td>
+            <td>"about"</td>
+            <td>Schwa, reduced vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɐ/</span></td>
+            <td>besser</td>
+            <td>"sofa"</td>
+            <td>Reduced, slightly r-colored</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/ç/</span></td>
+            <td>ich</td>
+            <td>"huge" (stronger)</td>
+            <td>Ich-Laut, after front vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td>ach</td>
+            <td>Scottish "loch"</td>
+            <td>Ach-Laut, after back vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td>rot</td>
+            <td>French "r"</td>
+            <td>Uvular, not alveolar like English</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɐ̯/</span></td>
+            <td>Vater</td>
+            <td>Schwa with slight r-color</td>
+            <td>R-vocalization in coda</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>Schule</td>
+            <td>"shoe"</td>
+            <td>In sch-, also sp-/st- at morpheme start</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>Journal</td>
+            <td>"measure"</td>
+            <td>Rare, mostly in loanwords</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>Zeit</td>
+            <td>"cats"</td>
+            <td>Affricate, no separate /t/ and /s/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/p͡f/</span></td>
+            <td>Pferd</td>
+            <td>No English equivalent</td>
+            <td>Labial affricate, starts both lips</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>deutsch</td>
+            <td>"church"</td>
+            <td>Voiceless postalveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>Jazz</td>
+            <td>"judge"</td>
+            <td>Rare, loanwords only</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>lang</td>
+            <td>"sing"</td>
+            <td>Velar nasal, never /ŋɡ/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n̩/</span></td>
+            <td>leben</td>
+            <td>"button" (fast speech)</td>
+            <td>Syllabic nasal, acts as vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʔ/</span></td>
+            <td>alle</td>
+            <td>Cockney "bottle"</td>
+            <td>Glottal stop, before initial vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʰ/</span></td>
+            <td>Paar</td>
+            <td>Puff of air after p</td>
+            <td>Aspiration marker, phonetic only</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word</td>
+            <td><span class="ipa">/ˈʃuːlə/</span> (SCHU-le)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˌ</span></td>
+            <td>Secondary stress</td>
+            <td>Weaker emphasis</td>
+            <td><span class="ipa">/ˈvɪʁʃaftˌvɪsənʃaft/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Vowel is long</td>
+            <td><span class="ipa">/aː/</span> vs <span class="ipa">/a/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̩</span></td>
+            <td>Syllabic</td>
+            <td>Consonant is syllable nucleus</td>
+            <td><span class="ipa">/n̩/</span> in "le-ben"</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Glide (part of diphthong)</td>
+            <td><span class="ipa">/aɪ̯/</span>, <span class="ipa">/aʊ̯/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">͡</span></td>
+            <td>Tie bar</td>
+            <td>Affricate (single unit)</td>
+            <td><span class="ipa">/t͡s/</span>, <span class="ipa">/p͡f/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̥</span></td>
+            <td>Voiceless</td>
+            <td>Normally voiced sound devoiced</td>
+            <td><span class="ipa">/b̥/</span> after /p/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̚</span></td>
+            <td>Unreleased</td>
+            <td>Stop held without release</td>
+            <td><span class="ipa">/p̚/</span> before /t/</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Some words have multiple valid pronunciations (e.g.,
+            different stress patterns). Click any transcribed word to see alternative IPA forms if available.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For some languages (including German), words may have multiple valid transcriptions:</p>
+    <ul>
+        <li><strong>Homographs with different stress:</strong> Words spelled the same but stressed differently (e.g.,
+            German verb prefixes)
+        </li>
+        <li><strong>Regional variants:</strong> Different standard pronunciations accepted across German-speaking
+            regions
+        </li>
+        <li><strong>Lexicon vs. generated:</strong> Dictionary lookup and rule-based generation may produce slightly
+            different results
+        </li>
+    </ul>
+    <p>When multiple variants exist, click the word to cycle through them. The currently selected variant will be used
+        for PDF/CSV export.</p>
+
+    <h2>German Pronunciation Guide</h2>
+
+    <p>This guide explains the fundamental rules of German pronunciation. German has a relatively regular
+        spelling-to-sound correspondence compared to English. Understanding these patterns will help you read IPA
+        transcriptions and improve your pronunciation.</p>
+
+    <h3 id="vowels-guide">Vowel Length & Quality</h3>
+    <p>One of the most important aspects of German pronunciation is vowel length. German distinguishes between long and
+        short vowels, and this distinction can change meaning.</p>
+
+    <h4>Long Vowels</h4>
+    <p>Vowels are pronounced long in these contexts:</p>
+    <ul>
+        <li><strong>Open syllables with stress:</strong> The vowel is at the end of a syllable with primary stress.
+            Examples: <em>so</em> <span class="ipa">/zoː/</span>, <em>du</em> <span class="ipa">/duː/</span>,
+            <em>ja</em> <span class="ipa">/jaː/</span></li>
+        <li><strong>Before single consonant:</strong> One consonant after the vowel indicates length. Examples: <em>Vater</em>
+            <span class="ipa">/ˈfaːtɐ/</span>, <em>neben</em> <span class="ipa">/ˈneːbən/</span></li>
+        <li><strong>Before 'h':</strong> The letter 'h' indicates lengthening. Examples: <em>fahren</em> <span
+          class="ipa">/ˈfaːʁən/</span>, <em>sehen</em> <span class="ipa">/ˈzeːən/</span></li>
+        <li><strong>Doubled vowels:</strong> aa, ee, oo are always long. Examples: <em>Saal</em> <span class="ipa">/zaːl/</span>,
+            <em>See</em> <span class="ipa">/zeː/</span></li>
+        <li><strong>'ie' combination:</strong> Always represents a long /iː/. Examples: <em>Liebe</em> <span
+          class="ipa">/ˈliːbə/</span>, <em>sie</em> <span class="ipa">/ziː/</span></li>
+    </ul>
+
+    <h4>Short Vowels</h4>
+    <p>Vowels are pronounced short in these contexts:</p>
+    <ul>
+        <li><strong>Before consonant clusters:</strong> Two or more consonants make the preceding vowel short. Examples:
+            <em>Bett</em> <span class="ipa">/bɛt/</span>, <em>offen</em> <span class="ipa">/ˈɔfən/</span>, <em>fünf</em>
+            <span class="ipa">/fʏnf/</span></li>
+        <li><strong>Geminate consonants:</strong> Doubled consonants (even if simplified in pronunciation) indicate
+            short vowel. Examples: <em>alle</em> <span class="ipa">/ˈalə/</span>, <em>bitte</em> <span class="ipa">/ˈbɪtə/</span>
+        </li>
+        <li><strong>Unstressed syllables:</strong> Reduced to schwa or short quality. Examples: <em>bitte</em> <span
+          class="ipa">/ˈbɪtə/</span>, <em>gesehen</em> <span class="ipa">/ɡəˈzeːən/</span></li>
+    </ul>
+
+    <h4>The Pairing Principle</h4>
+    <p>German vowels come in long-short pairs with slightly different quality:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Long IPA</th>
+            <th>Short IPA</th>
+            <th>Long Example</th>
+            <th>Short Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>a</td>
+            <td><span class="ipa">/aː/</span></td>
+            <td><span class="ipa">/a/</span></td>
+            <td>Vater <span class="ipa">/ˈfaːtɐ/</span></td>
+            <td>alle <span class="ipa">/ˈalə/</span></td>
+        </tr>
+        <tr>
+            <td>e</td>
+            <td><span class="ipa">/eː/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>See <span class="ipa">/zeː/</span></td>
+            <td>Bett <span class="ipa">/bɛt/</span></td>
+        </tr>
+        <tr>
+            <td>i</td>
+            <td><span class="ipa">/iː/</span></td>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>ihn <span class="ipa">/iːn/</span></td>
+            <td>bitte <span class="ipa">/ˈbɪtə/</span></td>
+        </tr>
+        <tr>
+            <td>o</td>
+            <td><span class="ipa">/oː/</span></td>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>so <span class="ipa">/zoː/</span></td>
+            <td>offen <span class="ipa">/ˈɔfən/</span></td>
+        </tr>
+        <tr>
+            <td>u</td>
+            <td><span class="ipa">/uː/</span></td>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td>du <span class="ipa">/duː/</span></td>
+            <td>und <span class="ipa">/ʊnt/</span></td>
+        </tr>
+        <tr>
+            <td>ä</td>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>wären <span class="ipa">/ˈvɛːʁən/</span></td>
+            <td>Hände <span class="ipa">/ˈhɛndə/</span></td>
+        </tr>
+        <tr>
+            <td>ö</td>
+            <td><span class="ipa">/øː/</span></td>
+            <td><span class="ipa">/œ/</span></td>
+            <td>schön <span class="ipa">/ʃøːn/</span></td>
+            <td>öffnen <span class="ipa">/ˈœfnən/</span></td>
+        </tr>
+        <tr>
+            <td>ü</td>
+            <td><span class="ipa">/yː/</span></td>
+            <td><span class="ipa">/ʏ/</span></td>
+            <td>über <span class="ipa">/ˈyːbɐ/</span></td>
+            <td>fünf <span class="ipa">/fʏnf/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Minimal Pairs: When Length Changes Meaning</h4>
+    <p>German uses vowel length to distinguish word meanings. These <strong>minimal pairs</strong> differ by only one
+        sound (long vs short vowel):</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Long Vowel</th>
+            <th>IPA</th>
+            <th>Meaning</th>
+            <th>Short Vowel</th>
+            <th>IPA</th>
+            <th>Meaning</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Staat</td>
+            <td><span class="ipa">/ʃtaːt/</span></td>
+            <td>state</td>
+            <td>Stadt</td>
+            <td><span class="ipa">/ʃtat/</span></td>
+            <td>city</td>
+        </tr>
+        <tr>
+            <td>Beet</td>
+            <td><span class="ipa">/beːt/</span></td>
+            <td>flower bed</td>
+            <td>Bett</td>
+            <td><span class="ipa">/bɛt/</span></td>
+            <td>bed</td>
+        </tr>
+        <tr>
+            <td>Hieb</td>
+            <td><span class="ipa">/hiːp/</span></td>
+            <td>blow, hit</td>
+            <td>hip</td>
+            <td><span class="ipa">/hɪp/</span></td>
+            <td>hip (anatomy)</td>
+        </tr>
+        <tr>
+            <td>Ofen</td>
+            <td><span class="ipa">/ˈoːfən/</span></td>
+            <td>stove, oven</td>
+            <td>offen</td>
+            <td><span class="ipa">/ˈɔfən/</span></td>
+            <td>open</td>
+        </tr>
+        <tr>
+            <td>Hut</td>
+            <td><span class="ipa">/huːt/</span></td>
+            <td>hat</td>
+            <td>Hutt</td>
+            <td><span class="ipa">/hʊt/</span></td>
+            <td>notch (technical)</td>
+        </tr>
+        <tr>
+            <td>wäre</td>
+            <td><span class="ipa">/ˈvɛːʁə/</span></td>
+            <td>would be</td>
+            <td>Werre</td>
+            <td><span class="ipa">/ˈvɛʁə/</span></td>
+            <td>electoral assembly</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note:</strong> Some pairs differ only in vowel quality, not just length. Native speakers rely on these
+        distinctions, so accurate transcription matters for comprehension.</p>
+
+    <h3 id="umlauts">How to Pronounce German Umlauts (ä, ö, ü)</h3>
+    <p>Umlauts represent fronted or rounded vowel sounds that don't exist in English. Understanding them is crucial for
+        correct German pronunciation.</p>
+
+    <h4>Ä (A-Umlaut)</h4>
+    <p>Two variants:</p>
+    <ul>
+        <li><strong>Short ä:</strong> Like English "bed" <span class="ipa">/ɛ/</span> — <em>Hände</em> <span
+          class="ipa">/ˈhɛndə/</span>, <em>fällt</em> <span class="ipa">/fɛlt/</span></li>
+        <li><strong>Long ä:</strong> Similar but extended <span class="ipa">/ɛː/</span> — <em>wären</em> <span
+          class="ipa">/ˈvɛːʁən/</span>, <em>wählen</em> <span class="ipa">/ˈvɛːlən/</span></li>
+    </ul>
+
+    <h4>Ö (O-Umlaut)</h4>
+    <p>Lips rounded, tongue position like 'e'. Start with 'e' and round lips:</p>
+    <ul>
+        <li><strong>Short ö:</strong> <span class="ipa">/œ/</span> — <em>öffnen</em> <span class="ipa">/ˈœfnən/</span>,
+            <em>können</em> <span class="ipa">/ˈkœnən/</span></li>
+        <li><strong>Long ö:</strong> <span class="ipa">/øː/</span> — <em>schön</em> <span class="ipa">/ʃøːn/</span>,
+            <em>Öl</em> <span class="ipa">/øːl/</span></li>
+    </ul>
+
+    <h4>Ü (U-Umlaut)</h4>
+    <p>Lips rounded, tongue position like 'i'. Start with 'i' and round lips:</p>
+    <ul>
+        <li><strong>Short ü:</strong> <span class="ipa">/ʏ/</span> — <em>fünf</em> <span class="ipa">/fʏnf/</span>, <em>müssen</em>
+            <span class="ipa">/ˈmʏsən/</span></li>
+        <li><strong>Long ü:</strong> <span class="ipa">/yː/</span> — <em>über</em> <span class="ipa">/ˈyːbɐ/</span>,
+            <em>Tür</em> <span class="ipa">/tyːɐ̯/</span></li>
+    </ul>
+
+    <h3 id="ch-sounds">The Two CH Sounds in German: Ich-Laut vs Ach-Laut</h3>
+    <p>The letter combination 'ch' has two completely different pronunciations depending on the preceding vowel. This is
+        one of the most distinctive features of German.</p>
+
+    <h4>Ach-Laut (After Back Vowels)</h4>
+    <p>Pronounced as <span class="ipa">/x/</span> — a voiceless velar fricative (like Scottish "loch"):</p>
+    <ul>
+        <li>Occurs after: a, o, u, au</li>
+        <li>Examples: <em>ach</em> <span class="ipa">/ax/</span>, <em>Buch</em> <span class="ipa">/buːx/</span>, <em>doch</em>
+            <span class="ipa">/dɔx/</span>, <em>auch</em> <span class="ipa">/aʊ̯x/</span></li>
+    </ul>
+
+    <h4>Ich-Laut (After Front Vowels)</h4>
+    <p>Pronounced as <span class="ipa">/ç/</span> — a voiceless palatal fricative (like "huge" in English but stronger):
+    </p>
+    <ul>
+        <li>Occurs after: e, i, ä, ö, ü, ei, eu, and consonants</li>
+        <li>Examples: <em>ich</em> <span class="ipa">/ɪç/</span>, <em>echt</em> <span class="ipa">/ɛçt/</span>, <em>durch</em>
+            <span class="ipa">/dʊʁç/</span>, <em>König</em> <span class="ipa">/ˈkøːnɪç/</span></li>
+    </ul>
+
+    <h3 id="s-sounds">S Pronunciation Rules: When S Sounds Like Z or SH</h3>
+    <p>The letter 's' has three different pronunciations in German depending on its position.</p>
+
+    <h4>S as /z/ (Voiced)</h4>
+    <p>Like English 'z' in "zoo":</p>
+    <ul>
+        <li>At the beginning of a word before a vowel: <em>sein</em> <span class="ipa">/zaɪ̯n/</span>, <em>Sonne</em>
+            <span class="ipa">/ˈzɔnə/</span></li>
+        <li>Between vowels (intervocalic): <em>lesen</em> <span class="ipa">/ˈleːzən/</span>, <em>auseinander</em> <span
+          class="ipa">/ˈaʊ̯zaɪ̯ˌnandɐ/</span></li>
+    </ul>
+
+    <h4>S as /s/ (Voiceless)</h4>
+    <p>Like English 's' in "see":</p>
+    <ul>
+        <li>At the end of a word: <em>das</em> <span class="ipa">/das/</span>, <em>ist</em> <span
+          class="ipa">/ɪst/</span></li>
+        <li>Before consonants: <em>abstrakt</em> <span class="ipa">/ˈapstʁakt/</span>, <em>Obst</em> <span class="ipa">/oːpst/</span>
+        </li>
+        <li>In clusters: <em>String</em> <span class="ipa">/ʃtʁɪŋ/</span> (note: 'st' at start often becomes /ʃt/)</li>
+        <li>ß and ss: Always <span class="ipa">/s/</span> — <em>groß</em> <span class="ipa">/ɡʁoːs/</span>,
+            <em>essen</em> <span class="ipa">/ˈɛsən/</span></li>
+    </ul>
+
+    <h4>S as /ʃ/ (SH Sound)</h4>
+    <p>Like English 'sh':</p>
+    <ul>
+        <li>In 'sch' combination: <em>Schule</em> <span class="ipa">/ˈʃuːlə/</span>, <em>deutsch</em> <span class="ipa">/dɔʏ̯tʃ/</span>
+        </li>
+        <li>'s' before 'p' or 't' at morpheme boundary: <em>spielen</em> <span class="ipa">/ˈʃpiːlən/</span>,
+            <em>Straße</em> <span class="ipa">/ˈʃtʁaːsə/</span></li>
+    </ul>
+
+    <h3 id="final-devoicing">Final Devoicing (Auslautverhärtung)</h3>
+    <p>A crucial rule: voiced consonants (b, d, g, v, z) become voiceless (p, t, k, f, s) at the end of words or
+        syllables.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Final Position</th>
+            <th>Intervocalic</th>
+            <th>Example Word</th>
+            <th>IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>b</td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">/b/</span></td>
+            <td>ab</td>
+            <td><span class="ipa">/ap/</span></td>
+        </tr>
+        <tr>
+            <td>d</td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">/d/</span></td>
+            <td>Tag, Rad</td>
+            <td><span class="ipa">/taːk/</span>, <span class="ipa">/ʁaːt/</span></td>
+        </tr>
+        <tr>
+            <td>g</td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>Tag, weg</td>
+            <td><span class="ipa">/taːk/</span>, <span class="ipa">/vɛk/</span></td>
+        </tr>
+        <tr>
+            <td>v</td>
+            <td><span class="ipa">/f/</span></td>
+            <td><span class="ipa">/f/</span> (always)</td>
+            <td>Vater</td>
+            <td><span class="ipa">/ˈfaːtɐ/</span></td>
+        </tr>
+        <tr>
+            <td>z</td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>z.B. (at end)</td>
+            <td><span class="ipa">/t͡s/</span> in Zeit, <span class="ipa">/s/</span> if final</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonants">Consonant Rules</h3>
+    <p>German consonants follow predictable patterns. Understanding these helps avoid common pronunciation mistakes.</p>
+
+    <h4>Plosives (p, t, k, b, d, g)</h4>
+    <p>German plosives are pronounced clearly with full closure:</p>
+    <ul>
+        <li><strong>Voiceless (p, t, k):</strong> Always aspirated at word start / before vowels in phonetic
+            transcription: <em>Paar</em> <span class="ipa">[ˈpʰaːɐ̯]</span>, <em>Tag</em> <span
+              class="ipa">[ˈtʰaːk]</span></li>
+        <li><strong>Voiced (b, d, g):</strong> Become voiceless at word end (final devoicing): <em>ab</em> <span
+          class="ipa">/ap/</span>, <em>Tag</em> <span class="ipa">/taːk/</span></li>
+        <li><strong>After consonants:</strong> Voiceless stops may be unreleased: <em>Obst</em> <span class="ipa">[ˈoːp̚st]</span>
+        </li>
+    </ul>
+
+    <h4>Affricates (Complex Consonants)</h4>
+    <p>German has three affricates — sounds that begin as a stop and release as a fricative:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>pf</td>
+            <td><span class="ipa">/p͡f/</span></td>
+            <td>Pferd <span class="ipa">/ˈp͡feːʁt/</span></td>
+            <td>Like "p" + "f" combined</td>
+        </tr>
+        <tr>
+            <td>z, tz</td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>Zeit <span class="ipa">/t͡saɪ̯t/</span></td>
+            <td>Like "ts" in "cats"</td>
+        </tr>
+        <tr>
+            <td>tsch</td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>deutsch <span class="ipa">/ˈdɔʏ̯t͡ʃ/</span></td>
+            <td>Like "ch" in "match"</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Liquids (l, r)</h4>
+    <ul>
+        <li><strong>l:</strong> Always "light L" (dental) as in "light", never "dark L" as in "cool"</li>
+        <li><strong>r:</strong> Uvular approximant /ʁ/ or trill /ʀ/ (not English alveolar /r/)</li>
+    </ul>
+
+    <h4>Nasals (m, n, ng)</h4>
+    <ul>
+        <li><strong>m:</strong> Bilabial /m/ — <em>Mann</em> <span class="ipa">/man/</span></li>
+        <li><strong>n:</strong> Alveolar /n/ — <em>nein</em> <span class="ipa">/naɪ̯n/</span></li>
+        <li><strong>ng:</strong> Velar /ŋ/ (never /ŋɡ/ as in English "finger") — <em>lang</em> <span
+          class="ipa">/laŋ/</span></li>
+    </ul>
+
+    <h3 id="diphthongs">German Diphthongs: Pronouncing au, ei, eu/äu</h3>
+    <p>Diphthongs are gliding vowel sounds where the tongue moves from one position to another within the same
+        syllable.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Description</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>au</td>
+            <td><span class="ipa">/aʊ̯/</span></td>
+            <td>Like "ow" in "cow"</td>
+            <td>Haus <span class="ipa">/haʊ̯s/</span>, auf <span class="ipa">/aʊ̯f/</span></td>
+        </tr>
+        <tr>
+            <td>ei, ai</td>
+            <td><span class="ipa">/aɪ̯/</span></td>
+            <td>Like "eye"</td>
+            <td>mein <span class="ipa">/maɪ̯n/</span>, Mai <span class="ipa">/maɪ̯/</span></td>
+        </tr>
+        <tr>
+            <td>eu, äu</td>
+            <td><span class="ipa">/ɔʏ̯/</span></td>
+            <td>Like "oy" in "boy" but with rounded lips</td>
+            <td>neu <span class="ipa">/nɔʏ̯/</span>, Häuser <span class="ipa">/ˈhɔʏ̯zɐ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="stress">Stress Patterns in German Words</h3>
+    <p>Word stress in German follows predictable patterns with some exceptions.</p>
+
+    <h4>Primary Stress Rules</h4>
+    <ul>
+        <li><strong>Native words:</strong> Stress on the root syllable, usually first: <em>Tisch</em> <span class="ipa">/tɪʃ/</span>,
+            <em>Schule</em> <span class="ipa">/ˈʃuːlə/</span></li>
+        <li><strong>Compound words:</strong> Primary stress on the first component: <em>Wirtschaft</em> <span
+          class="ipa">/ˈvɪʁʃaft/</span>, <em>Hochhaus</em> <span class="ipa">/ˈhoːxhaʊ̯s/</span></li>
+        <li><strong>Prefixed verbs:</strong> Stress on the prefix (separable) or root (inseparable):
+            <ul>
+                <li>Separable: <em>áufstehen</em> <span class="ipa">/ˈaʊ̯fˌʃteːən/</span> (stress on auf-)</li>
+                <li>Inseparable: <em>besúchen</em> <span class="ipa">/bəˈzuːxən/</span> (stress on -such-)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h4>Secondary Stress in Compounds</h4>
+    <p>Long compound words often have secondary stress on later components:</p>
+    <ul>
+        <li><em>Wirtschaftswissenschaft</em> <span class="ipa">/ˈvɪʁʃaftˌvɪsənʃaft/</span> — tertiary on first,
+            secondary on second, but usually simplified
+        </li>
+        <li><em>Aufenthalt</em> <span class="ipa">/ˈaʊ̯fɛnthalt/</span> — stress on Auf-</li>
+    </ul>
+
+    <h3 id="nasals">Nasal Consonants: NG and NK Sounds</h3>
+    <p>The velar nasal <span class="ipa">/ŋ/</span> (like "ng" in "sing") appears in specific contexts.</p>
+
+    <h4>NG Pronunciation</h4>
+    <ul>
+        <li>Always <span class="ipa">/ŋ/</span> in native words: <em>lang</em> <span class="ipa">/laŋ/</span>,
+            <em>sing</em> <span class="ipa">/zɪŋ/</span></li>
+        <li>Final 'g' in -ig becomes <span class="ipa">/ç/</span> (ich-laut): <em>richtig</em> <span class="ipa">/ˈʁɪçtɪç/</span>,
+            not <span class="ipa">/ˈʁɪçtɪk/</span></li>
+    </ul>
+
+    <h4>NK Pronunciation</h4>
+    <ul>
+        <li>Pronounced as <span class="ipa">/ŋk/</span>: <em>Bank</em> <span class="ipa">/baŋk/</span>, <em>trinken</em>
+            <span class="ipa">/ˈtʁɪŋkən/</span></li>
+    </ul>
+
+    <h3 id="r-pronunciation">R Pronunciation in German</h3>
+    <p>The letter 'r' has multiple realizations depending on position and dialect.</p>
+
+    <h4>Standard Pronunciation (Uvular R)</h4>
+    <ul>
+        <li><strong>Initial and pre-vocalic:</strong> Voiced uvular fricative <span class="ipa">/ʁ/</span> or uvular
+            trill — <em>rot</em> <span class="ipa">/ʁoːt/</span>, <em>reden</em> <span class="ipa">/ˈʁeːdən/</span></li>
+        <li><strong>Post-vocalic (r-vocalization):</strong> Becomes vowel-like <span class="ipa">/ɐ̯/</span> —
+            <em>sehr</em> <span class="ipa">/zeːɐ̯/</span>, <em>Vater</em> <span class="ipa">/ˈfaːtɐ/</span></li>
+        <li><strong>Final -er:</strong> Reduced to schwa with r-quality <span class="ipa">/ɐ/</span> — <em>besser</em>
+            <span class="ipa">/ˈbɛsɐ/</span></li>
+    </ul>
+
+    <h3 id="glottal-stops">Glottal Stops in German</h3>
+    <p>Glottal stops <span class="ipa">/ʔ/</span> are inserted before initial vowels and at morpheme boundaries.</p>
+
+    <h4>Where Glottal Stops Appear</h4>
+    <ul>
+        <li><strong>Word-initial vowels:</strong> <em>alle</em> <span class="ipa">/ˈʔalə/</span>, <em>eins</em> <span
+          class="ipa">/ˈʔaɪ̯ns/</span></li>
+        <li><strong>After prefixes:</strong> <em>an|eignen</em> <span class="ipa">/anˈʔaɪ̯ɡnən/</span>,
+            <em>be|enden</em> <span class="ipa">/bəˈʔɛndən/</span></li>
+        <li><strong>In compounds:</strong> <em>anhand</em> <span class="ipa">/anˈhant/</span> (with glottal stop between
+            an- and -hand)
         </li>
     </ul>
 
 
-    <h2>Technical Information</h2>
-    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:User:Benwing2/de-pron"
-                                           target="_blank" rel="noopener noreferrer">Wiktionary German pronunciation
-        module</a> with a
-        comprehensive lexicon extracted from Wiktionary data dumps, providing both high accuracy for common words and
-        broad coverage through rule-based generation.</p>
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>This section provides a complete mapping of German spelling (orthography) to pronunciation (IPA). These tables
+        reflect the actual rules used by our transcription engine to determine how letters change their sound based on
+        their surrounding context.</p>
+
+    <h3>1. Vowels (Monophthongs)</h3>
+    <p>German vowels change their quality and length based on whether they are in an open syllable (ending in a vowel)
+        or a closed syllable (ending in consonants). An <code>h</code> after a vowel always makes it long.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA (Long)</th>
+            <th>Example (Long)</th>
+            <th>IPA (Short)</th>
+            <th>Example (Short)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>a</strong></td>
+            <td><span class="ipa">/aː/</span></td>
+            <td>Vater <span class="ipa">/ˈfaːtɐ/</span></td>
+            <td><span class="ipa">/a/</span></td>
+            <td>alle <span class="ipa">/ˈalə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/eː/</span></td>
+            <td>See <span class="ipa">/zeː/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>Bett <span class="ipa">/bɛt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>i</strong></td>
+            <td><span class="ipa">/iː/</span></td>
+            <td>ihn <span class="ipa">/iːn/</span></td>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>bitte <span class="ipa">/ˈbɪtə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>o</strong></td>
+            <td><span class="ipa">/oː/</span></td>
+            <td>so <span class="ipa">/zoː/</span></td>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>offen <span class="ipa">/ˈɔfən/</span></td>
+        </tr>
+        <tr>
+            <td><strong>u</strong></td>
+            <td><span class="ipa">/uː/</span></td>
+            <td>du <span class="ipa">/duː/</span></td>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td>und <span class="ipa">/ʊnt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ä</strong></td>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td>wären <span class="ipa">/ˈvɛːʁən/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>Hände <span class="ipa">/ˈhɛndə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ö</strong></td>
+            <td><span class="ipa">/øː/</span></td>
+            <td>schön <span class="ipa">/ʃøːn/</span></td>
+            <td><span class="ipa">/œ/</span></td>
+            <td>öffnen <span class="ipa">/ˈœfnən/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ü</strong></td>
+            <td><span class="ipa">/yː/</span></td>
+            <td>über <span class="ipa">/ˈyːbɐ/</span></td>
+            <td><span class="ipa">/ʏ/</span></td>
+            <td>fünf <span class="ipa">/fʏnf/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Diphthongs & Vocalic R</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context / Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>au</strong></td>
+            <td><span class="ipa">/aʊ̯/</span></td>
+            <td>Always</td>
+            <td>Haus <span class="ipa">/haʊ̯s/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ei, ai</strong></td>
+            <td><span class="ipa">/aɪ̯/</span></td>
+            <td>Always</td>
+            <td>mein <span class="ipa">/maɪ̯n/</span>, Mai <span class="ipa">/maɪ̯/</span></td>
+        </tr>
+        <tr>
+            <td><strong>eu, äu</strong></td>
+            <td><span class="ipa">/ɔʏ̯/</span></td>
+            <td>Always</td>
+            <td>neu <span class="ipa">/nɔʏ̯/</span>, Häuser <span class="ipa">/ˈhɔʏ̯zɐ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ie</strong></td>
+            <td><span class="ipa">/iː/</span></td>
+            <td>Standard German pronunciation</td>
+            <td>Liebe <span class="ipa">/ˈliːbə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>er</strong></td>
+            <td><span class="ipa">/ɐ/</span></td>
+            <td>At the end of a syllable or word</td>
+            <td>besser <span class="ipa">/ˈbɛsɐ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/ə/</span></td>
+            <td>Unstressed, often word-final or in prefixes (ge-, be-)</td>
+            <td>bitte <span class="ipa">/ˈbɪtə/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>3. Complex Consonants & Digraphs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context / Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>sch</strong></td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>Always</td>
+            <td>Schule <span class="ipa">/ˈʃuːlə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>tsch</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>Always</td>
+            <td>deutsch <span class="ipa">/dɔʏ̯t͡ʃ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>dsch</strong></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>Loanwords</td>
+            <td>Dschungel <span class="ipa">/ˈd͡ʒʊŋəl/</span></td>
+        </tr>
+        <tr>
+            <td><strong>z, tz, ts</strong></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>Always</td>
+            <td>Zeit <span class="ipa">/t͡saɪ̯t/</span>, Katze <span class="ipa">/ˈkat͡sə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>qu</strong></td>
+            <td><span class="ipa">/kv/</span></td>
+            <td>Always</td>
+            <td>Qual <span class="ipa">/kvaːl/</span></td>
+        </tr>
+        <tr>
+            <td><strong>chs</strong></td>
+            <td><span class="ipa">/ks/</span></td>
+            <td>When part of the same stem</td>
+            <td>Fuchs <span class="ipa">/fʊks/</span></td>
+        </tr>
+        <tr>
+            <td><strong>pf</strong></td>
+            <td><span class="ipa">/p͡f/</span></td>
+            <td>Always</td>
+            <td>Apfel <span class="ipa">/ˈʔap͡fəl/</span></td>
+        </tr>
+        <tr>
+            <td><strong>dt</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>Always</td>
+            <td>Stadt <span class="ipa">/ʃtat/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ph</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>Greek loanwords</td>
+            <td>Physik <span class="ipa">/fyˈziːk/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ß</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>After long vowels and diphthongs</td>
+            <td>groß <span class="ipa">/ɡʁoːs/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4. Context-Dependent Consonants</h3>
+    <p>These letters change their pronunciation dramatically depending on the surrounding letters or their position in a
+        word.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Condition</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td rowspan="3"><strong>s</strong></td>
+            <td><span class="ipa">/z/</span></td>
+            <td>Before a vowel or between vowels</td>
+            <td>Sonne <span class="ipa">/ˈzɔnə/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>Initial position before <code>p</code> or <code>t</code></td>
+            <td>Spiel <span class="ipa">/ʃpiːl/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span></td>
+            <td>Word-final or before voiceless consonants</td>
+            <td>Haus <span class="ipa">/haʊ̯s/</span></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>ch</strong></td>
+            <td><span class="ipa">/x/</span></td>
+            <td>Ach-Laut: After back vowels (a, o, u, au)</td>
+            <td>Buch <span class="ipa">/buːx/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ç/</span></td>
+            <td>Ich-Laut: After front vowels (e, i, ä, ö, ü), diphthongs (ei, eu), or consonants</td>
+            <td>ich <span class="ipa">/ɪç/</span>, durch <span class="ipa">/dʊʁç/</span></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>ng</strong></td>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>Standard pronunciation</td>
+            <td>lang <span class="ipa">/laŋ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋɡ/</span></td>
+            <td>In some specific loanwords (e.g., before vowels)</td>
+            <td>Tango <span class="ipa">/ˈtaŋɡo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>nk</strong></td>
+            <td><span class="ipa">/ŋk/</span></td>
+            <td>Always</td>
+            <td>Bank <span class="ipa">/baŋk/</span></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>ig</strong></td>
+            <td><span class="ipa">/ɪç/</span></td>
+            <td>At the end of a word or syllable</td>
+            <td>König <span class="ipa">/ˈkøːnɪç/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪɡ/</span></td>
+            <td>When followed by a vowel (e.g., in plural)</td>
+            <td>Könige <span class="ipa">/ˈkøːnɪɡə/</span></td>
+        </tr>
+        <tr>
+            <td rowspan="3"><strong>h</strong></td>
+            <td><span class="ipa">/h/</span></td>
+            <td>At the beginning of a word or syllable</td>
+            <td>Hund <span class="ipa">/hʊnt/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ː/</span></td>
+            <td>After a vowel (Dehnungs-h), makes the vowel long</td>
+            <td>fahren <span class="ipa">/ˈfaːʁən/</span></td>
+        </tr>
+        <tr>
+            <td><em>Silent</em></td>
+            <td>In clusters like <code>th, rh, gh</code></td>
+            <td>Theater <span class="ipa">/teˈaːtɐ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>5. The Letter "Y" (Foreign & Loanwords)</h3>
+    <p>The letter <strong>y</strong> has complex rules since it mostly appears in words of foreign origin. The
+        transcription engine handles it based on its environment.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Position / Rule</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Initial position, followed by a vowel</td>
+            <td><span class="ipa">/j/</span></td>
+            <td>Yoga <span class="ipa">/ˈjoːɡa/</span></td>
+        </tr>
+        <tr>
+            <td>Word-final or suffix, after a consonant</td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Hobby <span class="ipa">/ˈhɔbi/</span></td>
+        </tr>
+        <tr>
+            <td>As part of a diphthong (ay, oy, ey)</td>
+            <td><span class="ipa">/aɪ̯/, /ɔɪ̯/</span></td>
+            <td>Bayern <span class="ipa">/ˈbaɪ̯ɐn/</span>, Meyer <span class="ipa">/ˈmaɪ̯ɐ/</span></td>
+        </tr>
+        <tr>
+            <td>Between consonants or stressed</td>
+            <td><span class="ipa">/y/, /ʏ/</span></td>
+            <td>symmetrisch <span class="ipa">/zʏˈmeːtʁɪʃ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>6. Final Devoicing (Auslautverhärtung)</h3>
+    <p>Voiced consonants automatically become unvoiced (hardened) when they appear at the end of a syllable or word, or
+        before a voiceless consonant.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Underlying Sound</th>
+            <th>Changes to (IPA)</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>b</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td>ab <span class="ipa">/ap/</span>, Herbst <span class="ipa">/hɛʁpst/</span></td>
+        </tr>
+        <tr>
+            <td><strong>d</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>Rad <span class="ipa">/ʁaːt/</span>, Mädchen <span class="ipa">/ˈmɛːtçən/</span></td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Tag <span class="ipa">/taːk/</span>, sagt <span class="ipa">/zaːkt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>v</strong></td>
+            <td><span class="ipa">/v/</span></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>motivisch <span class="ipa">/moˈtiːvɪʃ/</span> → Motiv <span class="ipa">/moˈtiːf/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>7. French & Italian Sounds (Loanwords)</h3>
+    <p>The system also recognizes specific graphemes from commonly integrated French and Italian loanwords.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Language Origin</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>cci / cce</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>Italian</td>
+            <td>Cappuccino <span class="ipa">/kapʊˈt͡ʃiːno/</span></td>
+        </tr>
+        <tr>
+            <td><strong>c / cc</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Italian/English (before a/o/u)</td>
+            <td>Broccoli <span class="ipa">/ˈbʁɔkoli/</span></td>
+        </tr>
+        <tr>
+            <td><strong>en / an</strong></td>
+            <td><span class="ipa">/ã/</span></td>
+            <td>French (Nasal)</td>
+            <td>Restaurant <span class="ipa">/ʁɛstoˈʁɑ̃ː/</span></td>
+        </tr>
+        <tr>
+            <td><strong>on</strong></td>
+            <td><span class="ipa">/õ/</span></td>
+            <td>French (Nasal)</td>
+            <td>Chanson <span class="ipa">/ʃɑ̃ˈsɔ̃/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <ol>
+        <li><strong>Canonicalization and Splitting:</strong> Text is decomposed into Unicode NFD form, spaces are
+            normalized, punctuation is handled, and text is split into words.
+        </li>
+        <li><strong>Component Analysis:</strong> Words are analyzed for automatic prefix and suffix recognition.</li>
+        <li><strong>Stress Assignment:</strong> Default primary and secondary stresses are assigned to appropriate
+            syllables, with special handling for compound words and affixes.
+        </li>
+    </ol>
+
+    <h3>Additional Key Processes</h3>
+
+    <h4>Lexicon Lookup</h4>
+    <p>Before rule-based processing, the system checks comprehensive Wiktionary data dumps (Kaikki.org) for exact word
+        matches. Supports ~700,000+ common German words with pre-existing phonemic IPA transcriptions. If found, uses
+        the dictionary entry for accuracy; otherwise, falls back to rule-based generation.</p>
+
+    <h4>Unicode Decomposition</h4>
+    <p>Decomposes ä/ö/ü/ç to base + diaeresis/cedilla for processing.</p>
+
+    <h4>Internal Notation (Intermediate Forms)</h4>
+    <p>The processing pipeline uses intermediate symbols that are <strong>not</strong> part of final IPA output. These
+        markers help track word structure during rule application:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Purpose</th>
+            <th>Stage</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">⁀</span></td>
+            <td>Component boundary</td>
+            <td>Separates compound components/prefixes</td>
+            <td>After component analysis</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">‿</span></td>
+            <td>Suffix boundary</td>
+            <td>Marks morpheme boundary before suffixes</td>
+            <td>After component analysis</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʃʃ</span></td>
+            <td>Geminate fricative</td>
+            <td>Intermediate form of /ʃ/, later reduced</td>
+            <td>Early symbol conversion</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʧʧ</span></td>
+            <td>Geminate affricate</td>
+            <td>Intermediate form of /t͡ʃ/, later reduced</td>
+            <td>Early symbol conversion</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ŋŋ</span></td>
+            <td>Geminate nasal</td>
+            <td>Intermediate form of /ŋ/, later reduced</td>
+            <td>Nasal generation</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Important:</strong> These symbols appear in intermediate processing tables shown in documentation but are
+        <em>never</em> present in final IPA output. The "Geminate Elimination" stage removes duplicate consonants, and
+        boundary markers are stripped before output.</p>
+
+    <h4>2. Nasal Consonant Generation</h4>
+    <p>Generates velar nasal <span class="ipa">ŋ</span> from 'ng' and 'nk'.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ngu + V → ŋgu</td>
+            <td>ngu + a</td>
+            <td><span class="ipa">ŋgu</span></td>
+            <td>Preserve g in ungu</td>
+        </tr>
+        <tr>
+            <td>ng + V + stress → ŋ.g</td>
+            <td>sing + en</td>
+            <td><span class="ipa">zɪŋ.ən</span></td>
+            <td>Separate g if stressed</td>
+        </tr>
+        <tr>
+            <td>ng → ŋŋ</td>
+            <td>lang</td>
+            <td><span class="ipa">laŋŋ</span></td>
+            <td>Velar nasal</td>
+        </tr>
+        <tr>
+            <td>nk → ŋk</td>
+            <td>sink</td>
+            <td><span class="ipa">zɪŋk</span></td>
+            <td>Velar nasal before k</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>3. 'c' Handling</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>cci → ʧʧ</td>
+            <td>acci</td>
+            <td><span class="ipa">aʧʧi</span></td>
+        </tr>
+        <tr>
+            <td>ck → kk</td>
+            <td>back</td>
+            <td><span class="ipa">bakk</span></td>
+        </tr>
+        <tr>
+            <td>c + non-h → ʦ</td>
+            <td>cent</td>
+            <td><span class="ipa">ʦɛnt</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>4. 'y' Processing</h4>
+    <p>Complex rules for 'y' based on position and context.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Example</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Initial y + V</td>
+            <td>y + a</td>
+            <td><span class="ipa">j</span></td>
+        </tr>
+        <tr>
+            <td>Initial y + C</td>
+            <td>y + p</td>
+            <td><span class="ipa">ʏ</span></td>
+        </tr>
+        <tr>
+            <td>Final y after C</td>
+            <td>by</td>
+            <td><span class="ipa">ɪ</span></td>
+        </tr>
+        <tr>
+            <td>y after C (other)</td>
+            <td>typ</td>
+            <td><span class="ipa">ʏ</span></td>
+        </tr>
+        <tr>
+            <td>ay/oy (no following vowel)</td>
+            <td>ay</td>
+            <td><span class="ipa">aɪ̯</span></td>
+        </tr>
+        <tr>
+            <td>ay/oy (with following vowel/stress)</td>
+            <td>ayer</td>
+            <td><span class="ipa">aɪ̯</span></td>
+        </tr>
+        <tr>
+            <td>ey (no following vowel)</td>
+            <td>ey</td>
+            <td><span class="ipa">aɪ̯</span></td>
+        </tr>
+        <tr>
+            <td>ey (with following vowel/stress)</td>
+            <td>eyer</td>
+            <td><span class="ipa">aɪ̯</span></td>
+        </tr>
+        <tr>
+            <td>y after V</td>
+            <td>boya</td>
+            <td><span class="ipa">j</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>5. Diphthong Formation</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Digraph</th>
+            <th>Output</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>äu/eu</td>
+            <td><span class="ipa">ɔɪ̯</span></td>
+            <td>euro → <span class="ipa">ɔɪ̯ʁo</span></td>
+        </tr>
+        <tr>
+            <td>au</td>
+            <td><span class="ipa">aʊ̯</span></td>
+            <td>haus → <span class="ipa">haʊ̯s</span></td>
+        </tr>
+        <tr>
+            <td>ai/ei</td>
+            <td><span class="ipa">aɪ̯</span></td>
+            <td>ei → <span class="ipa">aɪ̯</span></td>
+        </tr>
+        <tr>
+            <td>ie</td>
+            <td><span class="ipa">iː</span></td>
+            <td>liebe → <span class="ipa">liːbə</span></td>
+        </tr>
+        <tr>
+            <td>Doubled vowels</td>
+            <td><span class="ipa">ː</span></td>
+            <td>aa → <span class="ipa">aː</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>6. Consonant Clusters with 'h'</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Cluster</th>
+            <th>Output</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ph/th/kh etc.</td>
+            <td>Remove h</td>
+            <td>phone → <span class="ipa">foːnə</span></td>
+        </tr>
+        <tr>
+            <td>ch (ach-laut)</td>
+            <td><span class="ipa">x</span></td>
+            <td>ach → <span class="ipa">ax</span></td>
+        </tr>
+        <tr>
+            <td>ch (ich-laut)</td>
+            <td><span class="ipa">ç</span></td>
+            <td>ich → <span class="ipa">ɪç</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>7. 'h' Handling</h4>
+    <p>'h' indicates lengthening or is pronounced.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>h between vowels (stressed)</td>
+            <td>Preserved as <span class="ipa">h</span></td>
+        </tr>
+        <tr>
+            <td>h between vowels (unstressed)</td>
+            <td>Lengthens vowel</td>
+        </tr>
+        <tr>
+            <td>h after vowel</td>
+            <td>ː before stress marks</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>8. French/English Sounds</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>e + I/U</td>
+            <td><span class="ipa">ɛɪ̯/ɛʊ̯</span></td>
+        </tr>
+        <tr>
+            <td>ẽ/ö̃</td>
+            <td><span class="ipa">ɛ̃/œ̃</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>9. 's' Processing</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>s after vowels/voiced</td>
+            <td><span class="ipa">z</span></td>
+        </tr>
+        <tr>
+            <td>bs/ds before stress</td>
+            <td><span class="ipa">bz/dz</span></td>
+        </tr>
+        <tr>
+            <td>⁀s([pt])</td>
+            <td><span class="ipa">⁀ʃ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>10. Hiatus 'i'/'u'</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>C + i/u + V</td>
+            <td><span class="ipa">C i̯/u̯ V</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>11. Syllable Division</h4>
+    <p>Divides words into syllables, adjusting for onsets.</p>
+
+    <h4>12. 'e' to Schwa</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>e in open syllables before r + stress</td>
+            <td><span class="ipa">ə</span></td>
+        </tr>
+        <tr>
+            <td>e after stress with specific clusters</td>
+            <td><span class="ipa">ə</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>13. Vowel Shortening</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>i before g/gn</td>
+            <td><span class="ipa">ɪ</span></td>
+        </tr>
+        <tr>
+            <td>u before m/s</td>
+            <td><span class="ipa">ʊ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>14. Vowel Lengthening and Quality</h4>
+    <p>Complex rules: stressed open → long, unstressed open → close, before C → short open.</p>
+
+    <h4>15. Syllable-final 'er'</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>er</td>
+            <td><span class="ipa">ɐ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>16. Geminate Elimination</h4>
+    <p>Removes duplicate consonants.</p>
+
+    <h4>17. Devoicing</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Final voiced C</td>
+            <td>Voiceless</td>
+        </tr>
+        <tr>
+            <td>ɪg</td>
+            <td><span class="ipa">ɪç</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>18. Glottal Stops</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Vowel boundaries</td>
+            <td><span class="ipa">ʔ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>19. Final Conversions</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>I</td>
+            <td><span class="ipa">ɪ̯</span></td>
+        </tr>
+        <tr>
+            <td>U</td>
+            <td><span class="ipa">ʊ̯</span></td>
+        </tr>
+        <tr>
+            <td>ʧʧ</td>
+            <td><span class="ipa">t͡ʃ</span></td>
+        </tr>
+        <tr>
+            <td>pf</td>
+            <td><span class="ipa">p͡f</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Phonetic Transcription Process</h3>
+
+    <p>The phonetic transcription (<code>apply_phonetic_rules</code>) adds allophonic details to the phonemic output.
+    </p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Glottal stops at word start</td>
+            <td>⁀⁀a → ⁀⁀ʔa</td>
+            <td>Mandatory glottal stop before initial vowel</td>
+        </tr>
+        <tr>
+            <td>Unreleased stops</td>
+            <td>p before b → p̚</td>
+            <td>Unreleased before homorganic voiced</td>
+        </tr>
+        <tr>
+            <td>Syllabic nasals</td>
+            <td>ən → n̩</td>
+            <td>ə + nasal becomes syllabic</td>
+        </tr>
+        <tr>
+            <td>R-vocalization</td>
+            <td>Vːʁ → Vɐ̯</td>
+            <td>Coda r becomes semivowel</td>
+        </tr>
+        <tr>
+            <td>Aspiration</td>
+            <td>p/t/k before V/ʁ/l → pʰ/tʰ/kʰ</td>
+            <td>Voiceless stops aspirated before vowels/resonants</td>
+        </tr>
+        <tr>
+            <td>Regressive devoicing</td>
+            <td>bdg after unvoiced → b̥ d̥ g̊</td>
+            <td>Voiced consonants devoiced after unvoiced</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Example Transformations</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Transformation</th>
+            <th>IPA Result</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>sch</td>
+            <td>Digraph conversion</td>
+            <td><span class="ipa">ʃʃ</span></td>
+        </tr>
+        <tr>
+            <td>au</td>
+            <td>Diphthong formation</td>
+            <td><span class="ipa">aʊ̯</span></td>
+        </tr>
+        <tr>
+            <td>ng</td>
+            <td>Nasal generation</td>
+            <td><span class="ipa">ŋ</span></td>
+        </tr>
+        <tr>
+            <td>ie</td>
+            <td>Diphthong/long vowel</td>
+            <td><span class="ipa">iː</span></td>
+        </tr>
+        <tr>
+            <td>ch (after a/o/u)</td>
+            <td>Ach-laut</td>
+            <td><span class="ipa">x</span></td>
+        </tr>
+        <tr>
+            <td>ch (after e/i)</td>
+            <td>Ich-laut</td>
+            <td><span class="ipa">ç</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="issues">Common Issues & Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may be incorrect:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Abenteuer</td>
+            <td>/apˈbɛntɔɪ̯ɐ/</td>
+            <td>/ˈaːbəntɔɪ̯ɐ/</td>
+            <td>False prefix detection (ab-)</td>
+            <td>Check Wiktionary; report if incorrect</td>
+        </tr>
+        <tr>
+            <td>anhand</td>
+            <td>/ˈanhant/</td>
+            <td>/anˈhant/</td>
+            <td>Missing glottal stop between components</td>
+            <td>Use phonetic mode; check stress position</td>
+        </tr>
+        <tr>
+            <td>Ingrid</td>
+            <td>/ˈɪŋɡʁiːt/</td>
+            <td>/ˈɪŋɡʁɪt/</td>
+            <td>Vowel length rule (long in open syllable)</td>
+            <td>Verify with Wiktionary; known limitation</td>
+        </tr>
+        <tr>
+            <td>Abakus</td>
+            <td>/ˈapakʊs/</td>
+            <td>/ˈabakʊs/</td>
+            <td>False prefix detection</td>
+            <td>Foreign words may need manual correction</td>
+        </tr>
+        <tr>
+            <td>Animation</td>
+            <td>/ˈanimat͡si̯oːn/</td>
+            <td>/animaˈt͡si̯oːn/</td>
+            <td>False prefix detection (an-)</td>
+            <td>Check Wiktionary for stress pattern</td>
+        </tr>
+        <tr>
+            <td>Familie</td>
+            <td>/faˈmiːliːə/</td>
+            <td>/faˈmiːli̯ə/</td>
+            <td>Wrong syllable division (li-ə vs li̯ə)</td>
+            <td>Known bug; check phonetic mode output</td>
+        </tr>
+        <tr>
+            <td>Uhudler</td>
+            <td>/ˈuːudlɐ/</td>
+            <td>/ˈuːhudlɐ/</td>
+            <td>h treated as vowel lengthening marker</td>
+            <td>Proper names may need verification</td>
+        </tr>
+        <tr>
+            <td>Yves</td>
+            <td>/yːf/</td>
+            <td>/iːf/</td>
+            <td>Y interpreted as German /y/ not French /i/</td>
+            <td>Foreign names often transcribed incorrectly</td>
+        </tr>
+        <tr>
+            <td>Myanmar</td>
+            <td>/ˈmyːanmaːʁ/</td>
+            <td>/ˈmi̯anmaːʁ/</td>
+            <td>y in hiatus position</td>
+            <td>Foreign place names; verify externally</td>
+        </tr>
+        <tr>
+            <td>Adlatus</td>
+            <td>/ˈadlaːtʊs/</td>
+            <td>/ˈatlaːtʊs/</td>
+            <td>Syllable division (dl vs tl)</td>
+            <td>Latin loans; check Wiktionary</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
-            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
-            rel="noopener noreferrer">GitHub
+      href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
+      rel="noopener noreferrer">GitHub
         repository</a>.</small></p>
 </div>
 </body>
