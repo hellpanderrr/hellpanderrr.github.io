@@ -20,40 +20,1706 @@
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
-
-    <p>This <a href="../?lang=Greek">Ancient Greek transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:grc-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
-        Ancient Greek
-        Pronunciation Module</a> to generate phonemic transcriptions for Ancient Greek text.</p>
-
-    <p>The system processes Ancient Greek text through a rule-based approach that handles various historical
-        pronunciation patterns from different periods and regions.</p>
-
-    <h2>Dialects Supported</h2>
+    <h2>Table of Contents</h2>
     <ul>
-        <li><strong>5th BCE Attic</strong> - Classical Attic Greek pronunciation (5th century BCE)</li>
-        <li><strong>1st CE Egyptian</strong> - Hellenistic Greek pronunciation in Egypt (1st century CE)</li>
-        <li><strong>4th CE Koine</strong> - Koine Greek pronunciation (4th century CE)</li>
-        <li><strong>10th CE Byzantine</strong> - Byzantine Greek pronunciation (10th century CE)</li>
-        <li><strong>15th CE Constantinopolitan</strong> - Late Byzantine pronunciation (15th century CE)</li>
-    </ul>
-
-    <h2>Transcription Forms</h2>
-    <ul>
-
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Historical Periods & Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Ancient Greek Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Vowel Length & Quality</a></li>
+                <li><a href="#breathing">Breathing Marks</a></li>
+                <li><a href="#accents">Accents & Pitch</a></li>
+                <li><a href="#iota-subscript">Iota Subscript</a></li>
+                <li><a href="#diphthongs">Diphthongs</a></li>
+                <li><a href="#consonant-rules">Consonant Rules</a></li>
+                <li><a href="#stops">Stop Consonants & Aspiration</a></li>
+                <li><a href="#gamma-nasal">Gamma Nasal (γ before velars)</a></li>
+                <li><a href="#sigma-rules">Sigma Rules</a></li>
+                <li><a href="#rho-rules">Rho Rules</a></li>
+                <li><a href="#diastole">Diastole & Disambiguation</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues & Limitations</a></li>
+            </ul>
         </li>
     </ul>
 
+    <h2 id="about">About This Tool</h2>
+    <p>This <a href="../?lang=Greek">Ancient Greek transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:grc-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
+        Ancient Greek Pronunciation Module</a> to generate phonemic transcriptions for Ancient Greek text. IPA
+        (International Phonetic Alphabet) is a standardized system for transcribing speech sounds using symbols based on
+        the Latin alphabet. This tool converts Ancient Greek orthography (spelling) into IPA, helping learners,
+        linguists, and developers understand pronunciation across different historical periods.</p>
 
-    <h2>Technical Information</h2>
-    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:grc-pronunciation"
-                                              target="_blank" rel="noopener noreferrer">Wiktionary Ancient Greek
-        pronunciation module</a>, which
-        provides comprehensive coverage of Ancient Greek phonological rules and historical pronunciation variants across
-        different periods.</p>
+    <p>Unlike most other languages in this tool, Ancient Greek transcription is <strong>entirely rule-based</strong>
+        — there is no lexicon. All pronunciations are derived from the character data and conditional phonological rules
+        in the Wiktionary module. The system processes every combination of base letter, breathing mark, accent, iota
+        subscript, and length marking to produce accurate IPA output for each historical period.</p>
+
+    <h2 id="dialects">Historical Periods & Limitations</h2>
+    <p>The tool supports five historical pronunciation systems, reflecting the evolution of Greek phonology from
+        Classical to late Byzantine times:</p>
+    <ul>
+        <li><strong>5th century BCE — Attic:</strong> Classical Attic Greek pronunciation with pitch accent, aspirated
+            stops (pʰ, tʰ, kʰ), distinct vowel qualities (η = <span class="ipa">/ɛː/</span>, ω = <span class="ipa">/ɔː/</span>,
+            υ = <span class="ipa">/y/</span>), and diphthongal pronunciations (αι = <span class="ipa">/ai̯/</span>,
+            ει = <span class="ipa">/eː/</span>, οι = <span class="ipa">/oi/</span>)
+        </li>
+        <li><strong>1st century CE — Egyptian:</strong> Early Hellenistic/Koine pronunciation in Egypt; loss of vowel
+            length distinction, beginning of fricativization (β → <span class="ipa">/β/</span>), aspirated stops
+            weakening
+        </li>
+        <li><strong>4th century CE — Koine:</strong> Later Koine Greek; full fricativization of voiced stops
+            (β → <span class="ipa">/β/</span>, δ → <span class="ipa">/ð/</span>, γ → <span class="ipa">/ɣ/</span>),
+            η → <span class="ipa">/i/</span>, diphthong monophthongization (αι → <span class="ipa">/ɛ/</span>,
+            ει/οι → <span class="ipa">/i/</span>)
+        </li>
+        <li><strong>10th century CE — Byzantine:</strong> Middle Byzantine; φ → <span class="ipa">/f/</span>,
+            χ → <span class="ipa">/x/</span>, αυ/ευ fricativization (<span class="ipa">/av, ev/</span>),
+            υ → <span class="ipa">/i/</span> (iotacism)
+        </li>
+        <li><strong>15th century CE — Constantinopolitan:</strong> Late Byzantine / early Modern Greek ancestor;
+            geminate simplification (λλ → λ, νν → ν), full voicing assimilation, Modern Greek phonology largely
+            established
+        </li>
+    </ul>
+
+    <h3>Limitations</h3>
+    <ul>
+        <li><strong>Ambiguous vowel length:</strong> The letters α, ι, υ can be either long or short. When no macron
+            (ᾱ) or breve (ᾰ) is provided, the system assumes short by default and shows a warning.
+        </li>
+        <li><strong>No lexicon fallback:</strong> Since the system is purely rule-based, there is no dictionary of
+            pre-verified transcriptions to catch edge cases.
+        </li>
+        <li><strong>Dialectal forms:</strong> Only the five standard historical periods are supported. Doric, Aeolic,
+            or other dialect-specific pronunciations are not modeled.
+        </li>
+        <li><strong>Technical limit:</strong> Maximum input length restrictions apply.</li>
+    </ul>
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic:</strong> A simplified, broad transcription that shows only the sounds that are essential
+            for distinguishing meaning (phonemes). It represents the abstract sound system of the language for each
+            historical period. This is the primary output mode.
+        </li>
+    </ul>
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning (e.g., <span class="ipa">/p/</span>
+            vs. <span class="ipa">/b/</span>).
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning (e.g., aspirated <span class="ipa">[pʰ]</span>
+            vs. unaspirated <span class="ipa">[p]</span>).
+        </dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound where the tongue changes position during articulation. Ancient Greek has diphthongs
+            with ι-offglide (αι, ει, οι, υι) and υ-offglide (αυ, ευ, ηυ, ου).
+        </dd>
+
+        <dt>Iota Subscript</dt>
+        <dd>A small iota written below long vowels (ᾳ, ῃ, ῳ) indicating a historical offglide. In Classical
+            pronunciation, it was articulated as <span class="ipa">/i̯/</span>; in later periods it became silent.
+        </dd>
+
+        <dt>Breathing Mark</dt>
+        <dd>A diacritic placed on initial vowels: smooth breathing (̓) indicates no /h/; rough breathing (̔) indicates
+            /h/ before the vowel in Classical Greek.
+        </dd>
+
+        <dt>Pitch Accent</dt>
+        <dd>The Classical Greek accent system where syllables were pronounced with higher pitch (acute), lower pitch
+            (grave), or rising-falling pitch (circumflex), rather than stress.
+        </dd>
+
+        <dt>Aspiration</dt>
+        <dd>A puff of air after consonants, represented as <span class="ipa">ʰ</span>. In Classical Greek, φ, θ, χ
+            were aspirated stops (<span class="ipa">/pʰ, tʰ, kʰ/</span>); in later periods they became fricatives.
+        </dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>A marker (.) showing where syllables divide, affecting vowel length and accent placement.</dd>
+
+        <dt>Devoicing</dt>
+        <dd>The process of making voiced sounds voiceless. In Greek, sigma becomes <span class="ipa">/z/</span> before
+            voiced consonants (regressive voicing assimilation).
+        </dd>
+
+        <dt>Schwa</dt>
+        <dd>A neutral vowel sound <span class="ipa">ə</span>. Not used in Ancient Greek transcription.</dd>
+
+        <dt>Geminate</dt>
+        <dd>Doubled consonants (e.g., λλ, νν, κκ). In the 15th century CE period, geminates are simplified to single
+            consonants.
+        </dd>
+
+        <dt>Onset</dt>
+        <dd>The initial consonant(s) of a syllable (e.g., "π" in "πατήρ").</dd>
+
+        <dt>Coda</dt>
+        <dd>The final consonant(s) of a syllable (e.g., "ν" in "πάν").</dd>
+
+        <dt>Iotacism</dt>
+        <dd>The historical merger of several vowels and diphthongs (η, υ, ει, οι, υι) into <span class="ipa">/i/</span>,
+            a defining feature of post-Classical Greek.
+        </dd>
+
+        <dt>Fricativization</dt>
+        <dd>The process where stops become fricatives: β <span class="ipa">/b/</span> → <span class="ipa">/β/</span>
+            → <span class="ipa">/v/</span>, δ <span class="ipa">/d/</span> → <span class="ipa">/ð/</span>,
+            φ <span class="ipa">/pʰ/</span> → <span class="ipa">/ɸ/</span> → <span class="ipa">/f/</span>.
+        </dd>
+
+        <dt>Monophthongization</dt>
+        <dd>The process where diphthongs become single vowels: αι <span class="ipa">/ai̯/</span> → <span class="ipa">/ɛ/</span>
+            → <span class="ipa">/e/</span>, ει <span class="ipa">/eː/</span> → <span class="ipa">/i/</span>.
+        </dd>
+
+        <dt>Offglide</dt>
+        <dd>The second element of a diphthong, typically ι or υ, represented with inverted breve below
+            <span class="ipa">/i̯/</span>, <span class="ipa">/u̯/</span> in IPA.
+        </dd>
+
+        <dt>Diastole</dt>
+        <dd>A punctuation mark (,) used to distinguish words that would otherwise be ambiguous (e.g., ὅ,τι "whatever"
+            vs. ὅτι "that").
+        </dd>
+
+        <dt>Properispomenon</dt>
+        <dd>A word with a circumflex on the penultimate syllable (e.g., πρᾶγμα).</dd>
+
+        <dt>Paroxytone</dt>
+        <dd>A word with an acute on the penultimate syllable (e.g., λόγος).</dd>
+
+        <dt>Oxytone</dt>
+        <dd>A word with an acute on the final syllable (e.g., θεός).</dd>
+
+        <dt>Barytone</dt>
+        <dd>A word with the accent on a syllable before the penultimate (e.g., ἄνθρωπος — proparoxytone) or a word
+            with a grave on the final syllable.
+        </dd>
+
+        <dt>Syllable Weight</dt>
+        <dd>A syllable is "heavy" if it contains a long vowel, diphthong, or ends in a consonant; "light" if it
+            contains a short vowel followed by another vowel or by a single consonant that begins the next syllable.
+            Weight determines accent placement.
+        </dd>
+
+        <dt>Diaeresis</dt>
+        <dd>Two dots (¨) placed over the second vowel to indicate that two adjacent vowels are pronounced separately,
+            not as a diphthong (e.g., ἀϋτή "shout" vs. αὐτή "she").
+        </dd>
+
+        <dt>NFD</dt>
+        <dd>Unicode Normalization Form Decomposed: Technical process to break down accented characters into base letter
+            + combining diacritics for processing.
+        </dd>
+
+        <dt>Tie Bar</dt>
+        <dd>The combining tie bar (◌͡◌) used in IPA to indicate affricates, showing that two segments form a single
+            phonological unit.
+        </dd>
+
+        <dt>Length Mark</dt>
+        <dd>The IPA length mark <span class="ipa">ː</span> indicating a long vowel (e.g., <span class="ipa">/ɛː/</span>
+            vs. <span class="ipa">/ɛ/</span>). Also: macron (ᾱ) and breve (ᾰ) in Greek orthography.
+        </dd>
+
+        <dt>Combining Macron / Breve</dt>
+        <dd>Diacritics used to mark vowel length: macron (◌̄) = long, breve (◌̆) = short. Applied to α, ι, υ which
+            have ambiguous inherent length.
+        </dd>
+
+        <dt>Palatalization</dt>
+        <dd>Consonants moving their articulation toward the palate before front vowels. In Koine+, γ/κ/χ before front
+            vowels become palatal (<span class="ipa">/ʝ, c, ç/</span>).
+        </dd>
+
+        <dt>Voicing Assimilation</dt>
+        <dd>Sigma becoming <span class="ipa">/z/</span> before voiced consonants (e.g., εἰς βασιλέα = <span
+                class="ipa">/eːz basileːa/</span>).
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This table helps you understand the IPA symbols used in Ancient Greek transcriptions. For each symbol, we
+        provide approximate English equivalents where possible.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Greek Letter</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td>α (short)</td>
+            <td>"father" (short)</td>
+            <td>Short alpha</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/aː/</span></td>
+            <td>α (long), ᾱ</td>
+            <td>"father" (long)</td>
+            <td>Long alpha, marked with macron</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>ε, η (Cla)</td>
+            <td>"bed"</td>
+            <td>Short open e; η in Classical is also <span class="ipa">/ɛː/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td>η (Cla)</td>
+            <td>"bed" (long)</td>
+            <td>Long open e, Classical only</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/e/</span></td>
+            <td>η (byz2)</td>
+            <td>"say" (without glide)</td>
+            <td>Close e in late periods</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/eː/</span></td>
+            <td>ει (Cla)</td>
+            <td>"see" (without glide)</td>
+            <td>Long close e, Classical</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span></td>
+            <td>ι, ει (Koi+), οι (Koi+), η (Koi+), υ (byz2)</td>
+            <td>"see"</td>
+            <td>After iotacism, many sounds merge to /i/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iː/</span></td>
+            <td>ι (long), ῑ</td>
+            <td>"see" (long)</td>
+            <td>Long iota</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>ο, ω (Cla)</td>
+            <td>"law" (UK)</td>
+            <td>Short open o; ω in Classical is <span class="ipa">/ɔː/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔː/</span></td>
+            <td>ω (Cla)</td>
+            <td>"law" (UK, long)</td>
+            <td>Long open o, Classical only</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td>ω (Koi+)</td>
+            <td>"go" (without glide)</td>
+            <td>Close o in later periods</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/uː/</span></td>
+            <td>ου</td>
+            <td>"food"</td>
+            <td>Long close back rounded; already /uː/ in Classical</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td>ου (short), ου</td>
+            <td>"food"</td>
+            <td>Close back rounded</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/y/</span></td>
+            <td>υ (Cla–byz1)</td>
+            <td>No English equivalent</td>
+            <td>Lips rounded like /u/, tongue like /i/; French "tu"</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/yː/</span></td>
+            <td>υ (long), ῡ (Cla–byz1)</td>
+            <td>No English equivalent</td>
+            <td>Long rounded front vowel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Greek Letter</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/p/</span></td>
+            <td>π</td>
+            <td>"spy"</td>
+            <td>Voiceless bilabial stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/b/</span></td>
+            <td>β (Cla–koi1)</td>
+            <td>"bat"</td>
+            <td>Voiced bilabial stop (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/β/</span></td>
+            <td>β (koi2)</td>
+            <td>Spanish "b" between vowels</td>
+            <td>Voiced bilabial fricative (Koine)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/v/</span></td>
+            <td>β (byz1+)</td>
+            <td>"van"</td>
+            <td>Voiced labiodental fricative (Byzantine+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t/</span></td>
+            <td>τ</td>
+            <td>"stop"</td>
+            <td>Voiceless alveolar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d/</span></td>
+            <td>δ (Cla–koi1)</td>
+            <td>"dog"</td>
+            <td>Voiced alveolar stop (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ð/</span></td>
+            <td>δ (koi2+)</td>
+            <td>"this"</td>
+            <td>Voiced dental fricative (Koine+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/k/</span></td>
+            <td>κ</td>
+            <td>"sky"</td>
+            <td>Voiceless velar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>γ (Cla–koi1)</td>
+            <td>"go"</td>
+            <td>Voiced velar stop (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɣ/</span></td>
+            <td>γ (koi2+)</td>
+            <td>No English equivalent</td>
+            <td>Voiced velar fricative (Koine+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>γ before κ/γ/χ/ξ</td>
+            <td>"sing"</td>
+            <td>Velar nasal (all periods)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span></td>
+            <td>σ, ς</td>
+            <td>"see"</td>
+            <td>Voiceless alveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/z/</span></td>
+            <td>ζ (koi1+), σ before voiced</td>
+            <td>"zoo"</td>
+            <td>Voiced alveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/zd/</span></td>
+            <td>ζ (Cla)</td>
+            <td>"dogs" (fast)</td>
+            <td>Affricate, Classical Attic pronunciation</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/m/</span></td>
+            <td>μ</td>
+            <td>"man"</td>
+            <td>Bilabial nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n/</span></td>
+            <td>ν</td>
+            <td>"no"</td>
+            <td>Alveolar nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l/</span></td>
+            <td>λ</td>
+            <td>"light"</td>
+            <td>Lateral approximant</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td>ρ</td>
+            <td>Scottish "r" (trill)</td>
+            <td>Alveolar trill (not English approximant)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r̥/</span></td>
+            <td>ῥ, ρρ (Cla)</td>
+            <td>No English equivalent</td>
+            <td>Voiceless alveolar trill (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/h/</span></td>
+            <td>rough breathing (̔)</td>
+            <td>"hat"</td>
+            <td>Voiceless glottal fricative (Classical initial only)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td>φ (Cla)</td>
+            <td>"pin" (aspirated)</td>
+            <td>Aspirated voiceless bilabial stop (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td>θ (Cla)</td>
+            <td>"tin" (aspirated)</td>
+            <td>Aspirated voiceless alveolar stop (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td>χ (Cla)</td>
+            <td>"kin" (aspirated)</td>
+            <td>Aspirated voiceless velar stop (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɸ/</span></td>
+            <td>φ (koi2)</td>
+            <td>No English equivalent</td>
+            <td>Voiceless bilabial fricative (Koine)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/f/</span></td>
+            <td>φ (byz1+)</td>
+            <td>"fan"</td>
+            <td>Voiceless labiodental fricative (Byzantine+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/θ/</span></td>
+            <td>θ (koi2+)</td>
+            <td>"thin"</td>
+            <td>Voiceless dental fricative (Koine+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td>χ (koi2+)</td>
+            <td>Scottish "loch"</td>
+            <td>Voiceless velar fricative (Koine+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ç/</span></td>
+            <td>χ before front V (koi2+)</td>
+            <td>"huge" (stronger)</td>
+            <td>Voiceless palatal fricative before front vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ks/</span></td>
+            <td>ξ</td>
+            <td>"ax"</td>
+            <td>Voiceless velar + alveolar fricative cluster</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ps/</span></td>
+            <td>ψ</td>
+            <td>"lapse"</td>
+            <td>Voiceless bilabial + alveolar fricative cluster</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/w/</span></td>
+            <td>ϝ (Cla)</td>
+            <td>"wet"</td>
+            <td>Voiced labial-velar approximant (digamma, Classical only)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/c/</span></td>
+            <td>κ before front V (koi2+)</td>
+            <td>No English equivalent</td>
+            <td>Voiceless palatal stop before front vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td>γ before front V (koi2+)</td>
+            <td>No English equivalent</td>
+            <td>Voiced palatal fricative before front vowels</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word (post-Classical)</td>
+            <td><span class="ipa">/ˈlo.ɣos/</span> (λόγος, Koi2+)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̂</span></td>
+            <td>High tone / falling</td>
+            <td>Classical pitch: circumflex (rising-falling on long syllable)</td>
+            <td><span class="ipa">/prâːŋ.ma/</span> (πρᾶγμα)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">́</span></td>
+            <td>Rising tone</td>
+            <td>Classical pitch: acute (high pitch, or rising on long syllable)</td>
+            <td><span class="ipa">/ló.gos/</span> (λόγος)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̀</span></td>
+            <td>Low tone</td>
+            <td>Classical pitch: grave (low pitch, typically on final syllable)</td>
+            <td><span class="ipa">/lò.gos/</span> (in context)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Vowel is long</td>
+            <td><span class="ipa">/ɛː/</span> vs <span class="ipa">/ɛ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Offglide (part of diphthong)</td>
+            <td><span class="ipa">/ai̯/</span> in αι (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʰ</span></td>
+            <td>Aspiration</td>
+            <td>Puff of air after consonant</td>
+            <td><span class="ipa">/pʰ/</span> for φ (Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̥</span></td>
+            <td>Voiceless</td>
+            <td>Normally voiced sound devoiced</td>
+            <td><span class="ipa">/r̥/</span> for ῥ (Classical)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Multiple historical periods:</strong> The output shows pronunciations for all selected historical
+            periods side by side, letting you compare how pronunciation evolved over time.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For Ancient Greek, words inherently have multiple valid transcriptions across historical periods:</p>
+    <ul>
+        <li><strong>Period variants:</strong> The same word is pronounced differently in each historical period (e.g.,
+            φιλοσοφία has five different IPA representations)
+        </li>
+        <li><strong>Ambiguous vowels:</strong> When α, ι, υ lack length markers, the system assumes short and warns
+            the user; adding macrons/breves changes the output
+        </li>
+    </ul>
+    <p>When multiple variants exist, click the word to cycle through them. The currently selected variant will be used
+        for PDF/CSV export.</p>
+
+    <h2>Ancient Greek Pronunciation Guide</h2>
+
+    <p>This guide explains the fundamental rules of Ancient Greek pronunciation across its historical periods. Greek
+        orthography is highly regular — each combination of letter + diacritics maps to a predictable sound — but the
+        system is complex due to breathing marks, accents, length distinctions, and dramatic sound changes over
+        time.</p>
+
+    <h3 id="vowels-guide">Vowel Length & Quality</h3>
+    <p>Ancient Greek has seven vowel letters, but the length distinction is crucial for Classical pronunciation and
+        accent placement.</p>
+
+    <h4>Fixed-Length Vowels</h4>
+    <p>Four vowels have inherent, unambiguous length:</p>
+    <ul>
+        <li><strong>Epsilon (ε):</strong> Always short <span class="ipa">/e/</span> — <em>λέγω</em> <span class="ipa">/lé.ɡɔː/</span></li>
+        <li><strong>Eta (η):</strong> Always long — <span class="ipa">/ɛː/</span> in Classical, <span class="ipa">/i/</span> by Koine — <em>θήρ</em> <span class="ipa">/tʰɛ̌ːr/</span> (Cla) → <span class="ipa">/θir/</span> (Koi+)</li>
+        <li><strong>Omicron (ο):</strong> Always short <span class="ipa">/o/</span> — <em>λόγος</em> <span class="ipa">/ló.ɡos/</span></li>
+        <li><strong>Omega (ω):</strong> Always long — <span class="ipa">/ɔː/</span> in Classical, <span class="ipa">/o/</span> by Koine — <em>λόγω</em> <span class="ipa">/ló.ɡɔː/</span> (Cla)</li>
+    </ul>
+
+    <h4>Ambiguous-Length Vowels</h4>
+    <p>Three vowels can be either long or short. When they lack explicit length marks (macron/breve), the system
+        assumes short and displays a warning:</p>
+    <ul>
+        <li><strong>Alpha (α):</strong> Short <span class="ipa">/a/</span> or long <span class="ipa">/aː/</span> — <em>ἄγω</em> <span class="ipa">/á.ɡɔː/</span> (short) vs. <em>ἄγω</em> with ᾱ = <span class="ipa">/áː.ɡɔː/</span> (long)</li>
+        <li><strong>Iota (ι):</strong> Short <span class="ipa">/i/</span> or long <span class="ipa">/iː/</span> — <em>τίνω</em> with short ι vs. long ῑ</li>
+        <li><strong>Upsilon (υ):</strong> Short <span class="ipa">/y/</span> or long <span class="ipa">/yː/</span> in Classical — <em>φύσις</em> <span class="ipa">/pʰý.sis/</span></li>
+    </ul>
+
+    <h4>Inferring Length from Accent</h4>
+    <p>The system can infer vowel length from accent placement when explicit marks are absent:</p>
+    <ul>
+        <li><strong>Circumflex on penult:</strong> Implies long penult, short ultima (e.g., πρᾶγμα)</li>
+        <li><strong>Acute on penult with ambiguous lengths:</strong> Implies short penult, long ultima</li>
+        <li><strong>Accent on antepenult:</strong> Implies short ultima (accent can only fall on antepenult if ultima is short)</li>
+    </ul>
+
+    <h3 id="breathing">Breathing Marks</h3>
+    <p>Every initial vowel or diphthong in Greek carries a breathing mark. This is one of the most distinctive features
+        of Greek orthography.</p>
+
+    <h4>Smooth Breathing ( ̓ )</h4>
+    <p>No /h/ sound. The vowel is pronounced as written:</p>
+    <ul>
+        <li><em>ἄνθρωπος</em> <span class="ipa">/án.tʰrɔː.pos/</span> (Cla) — no /h/ before α</li>
+        <li><em>ἐκ</em> <span class="ipa">/ek/</span> (Cla) — no /h/ before ε</li>
+    </ul>
+
+    <h4>Rough Breathing ( ̔ )</h4>
+    <p>Adds <span class="ipa">/h/</span> before the vowel in Classical Greek. Weakens in later periods:</p>
+    <ul>
+        <li><strong>Classical:</strong> <em>ἡμέρα</em> <span class="ipa">/hɛː.mé.ra/</span> — /h/ clearly pronounced</li>
+        <li><strong>Egyptian Koine:</strong> <span class="ipa">/(h)e̝ˈme.ra/</span> — /h/ optional, η → e̝</li>
+        <li><strong>Koine+:</strong> <span class="ipa">/iˈme.ra/</span> — /h/ dropped, η → i</li>
+    </ul>
+
+    <h4>Rho with Breathing</h4>
+    <ul>
+        <li><strong>ῥ (rough breathing on rho):</strong> Produces voiceless <span class="ipa">/r̥/</span> in Classical — <em>ῥήτωρ</em> <span class="ipa">/r̥ɛ̌ː.tɔːr/</span></li>
+        <li><strong>ῤ (smooth breathing on rho):</strong> No effect; treated as plain /r/</li>
+        <li><strong>Double rho (ρρ):</strong> Word-initial or intervocalic ρρ = voiceless <span class="ipa">/r̥/</span> in Classical</li>
+    </ul>
+
+    <h3 id="accents">Accents & Pitch</h3>
+    <p>Greek accentuation changed dramatically between Classical and post-Classical periods.</p>
+
+    <h4>Classical: Pitch Accent</h4>
+    <p>In Classical Greek, accents indicated pitch (tone), not stress (loudness):</p>
+    <ul>
+        <li><strong>Acute (ά):</strong> High pitch on the syllable. On long syllables, realized as a rising tone <span class="ipa">/ǎː/</span>.</li>
+        <li><strong>Grave (ὰ):</strong> Low pitch. Typically appears on final syllables in connected speech (replacing acute in context).</li>
+        <li><strong>Circumflex (ᾶ):</strong> Rising-falling pitch on a long syllable. Only occurs on long vowels or diphthongs. Represented as <span class="ipa">/âː/</span>.</li>
+    </ul>
+
+    <h4>Post-Classical: Stress Accent</h4>
+    <p>From the Koine period onward, all three accents merge into a single stress accent <span class="ipa">ˈ</span>:</p>
+    <ul>
+        <li><em>λόγος</em>: Classical <span class="ipa">/ló.ɡos/</span> (high pitch on first syllable) → Koine <span class="ipa">/ˈlo.ɣos/</span> (stress on first syllable)</li>
+        <li><em>θεός</em>: Classical <span class="ipa">/tʰe.ós/</span> → Koine <span class="ipa">/θeˈos/</span></li>
+    </ul>
+
+    <h4>Restrictions on Accent Placement</h4>
+    <ul>
+        <li><strong>Three-syllable rule:</strong> Accent can fall on one of the last three syllables (ultima, penult,
+            antepenult)
+        </li>
+        <li><strong>Antepenult rule:</strong> Acute on antepenult only if the ultima is short</li>
+        <li><strong>Circumflex rule:</strong> Circumflex only on long vowels, and only if the following syllable is short
+            (or it's the final syllable)
+        </li>
+    </ul>
+
+    <h3 id="iota-subscript">Iota Subscript</h3>
+    <p>The iota subscript (ᾳ, ῃ, ῳ) is a small ι written beneath long vowels. Its pronunciation changed over time:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical (Cla)</th>
+            <th>Egyptian (koi1)</th>
+            <th>Koine+ (koi2+)</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ᾳ (alpha + iota)</td>
+            <td><span class="ipa">/aːi̯/</span></td>
+            <td><span class="ipa">/a/</span> (silent)</td>
+            <td><span class="ipa">/a/</span> (silent)</td>
+            <td>Ἀθηνᾷ</td>
+        </tr>
+        <tr>
+            <td>ῃ (eta + iota)</td>
+            <td><span class="ipa">/ɛːi̯/</span></td>
+            <td><span class="ipa">/e̝/</span> (silent)</td>
+            <td><span class="ipa">/i/</span></td>
+            <td>τιμῇ</td>
+        </tr>
+        <tr>
+            <td>ῳ (omega + iota)</td>
+            <td><span class="ipa">/ɔːi̯/</span></td>
+            <td><span class="ipa">/o/</span> (silent)</td>
+            <td><span class="ipa">/o/</span> (silent)</td>
+            <td>λόγῳ <span class="ipa">/ló.ɡɔːi̯/</span> (Cla) → <span class="ipa">/ˈlo.ɡo/</span> (Koi1+)</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note:</strong> In Egyptian (koi1) and later periods, iota subscript is typically silent and the vowel is
+        pronounced alone.</p>
+
+    <h3 id="diphthongs">Diphthongs</h3>
+    <p>Ancient Greek diphthongs undergo dramatic monophthongization across historical periods:</p>
+
+    <h4>Diphthongs with ι-Offglide</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical (5th BCE)</th>
+            <th>Egyptian (1st CE)</th>
+            <th>Koine (4th CE)</th>
+            <th>Byzantine (10th+)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>αι</strong></td>
+            <td><span class="ipa">/ai̯/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td><span class="ipa">/e/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ει</strong></td>
+            <td><span class="ipa">/eː/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><span class="ipa">/i/</span></td>
+        </tr>
+        <tr>
+            <td><strong>οι</strong></td>
+            <td><span class="ipa">/oi̯/</span></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><span class="ipa">/i/</span></td>
+        </tr>
+        <tr>
+            <td><strong>υι</strong></td>
+            <td><span class="ipa">/yi̯/</span></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><span class="ipa">/i/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Diphthongs with υ-Offglide</h4>
+    <p>These diphthongs underwent progressive fricativization of the offglide. In Egyptian (koi1), the offglide is
+        still an approximant (<span class="ipa">w</span>); from Koine onward it becomes a fricative, with voicing
+        conditioned by the following sound:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical (5th BCE)</th>
+            <th>Egyptian (1st CE)</th>
+            <th>Koine (4th CE)</th>
+            <th>Byzantine (10th+)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>αυ</strong></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td><span class="ipa">/aw/</span> ~ <span class="ipa">/aʍ/</span></td>
+            <td><span class="ipa">/aβ/</span> ~ <span class="ipa">/aɸ/</span></td>
+            <td><span class="ipa">/av/</span> ~ <span class="ipa">/af/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ευ</strong></td>
+            <td><span class="ipa">/eu̯/</span></td>
+            <td><span class="ipa">/ew/</span> ~ <span class="ipa">/eʍ/</span></td>
+            <td><span class="ipa">/eβ/</span> ~ <span class="ipa">/eɸ/</span></td>
+            <td><span class="ipa">/ev/</span> ~ <span class="ipa">/ef/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ηυ</strong></td>
+            <td><span class="ipa">/ɛːu̯/</span></td>
+            <td><span class="ipa">/e̝w/</span> ~ <span class="ipa">/e̝ʍ/</span></td>
+            <td><span class="ipa">/iβ/</span> ~ <span class="ipa">/iɸ/</span></td>
+            <td><span class="ipa">/iv/</span> ~ <span class="ipa">/if/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ου</strong></td>
+            <td><span class="ipa">/uː/</span></td>
+            <td><span class="ipa">/u/</span></td>
+            <td><span class="ipa">/u/</span></td>
+            <td><span class="ipa">/u/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Voicing rule:</strong> The offglide is voiceless (<span class="ipa">ʍ, ɸ, f</span>) before voiceless
+        consonants and voiced (<span class="ipa">w, β, v</span>) before voiced consonants or vowels.
+        Examples: <em>αὐτός</em> <span class="ipa">/aʍˈtos/</span> (koi1), <span class="ipa">/aɸˈtos/</span> (koi2),
+        <span class="ipa">/afˈtos/</span> (byz2). ου was already <span class="ipa">/uː/</span> in Classical.</p>
+
+    <h3 id="consonant-rules">Consonant Rules</h3>
+    <p>Greek consonants undergo systematic sound changes across periods.</p>
+
+    <h4>Voiced Stops → Fricatives</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Classical</th>
+            <th>Egyptian</th>
+            <th>Koine</th>
+            <th>Byzantine+</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>β (beta)</td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">/β/</span></td>
+            <td><span class="ipa">/v/</span></td>
+        </tr>
+        <tr>
+            <td>δ (delta)</td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">/ð/</span></td>
+            <td><span class="ipa">/ð/</span></td>
+        </tr>
+        <tr>
+            <td>γ (gamma)</td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/ɣ/</span></td>
+            <td><span class="ipa">/ɣ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Exception:</strong> β stays <span class="ipa">/b/</span> after μ in all periods (e.g., <em>ἄμβροτος</em>).
+        δ stays <span class="ipa">/d/</span> after ν (e.g., <em>ἀνδρός</em>).</p>
+
+    <h4>Aspirated Stops → Fricatives</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Classical</th>
+            <th>Egyptian</th>
+            <th>Koine</th>
+            <th>Byzantine+</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>φ (phi)</td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">/ɸ/</span></td>
+            <td><span class="ipa">/f/</span></td>
+        </tr>
+        <tr>
+            <td>θ (theta)</td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">/θ/</span></td>
+            <td><span class="ipa">/θ/</span></td>
+        </tr>
+        <tr>
+            <td>χ (chi)</td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">/x/</span></td>
+            <td><span class="ipa">/x/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="stops">Stop Consonants & Aspiration</h3>
+    <p>In Classical Greek, the stop system has three series distinguished by aspiration:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Place</th>
+            <th>Voiceless</th>
+            <th>Voiced</th>
+            <th>Aspirated</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Labial</td>
+            <td><span class="ipa">/p/</span> (π)</td>
+            <td><span class="ipa">/b/</span> (β)</td>
+            <td><span class="ipa">/pʰ/</span> (φ)</td>
+        </tr>
+        <tr>
+            <td>Dental</td>
+            <td><span class="ipa">/t/</span> (τ)</td>
+            <td><span class="ipa">/d/</span> (δ)</td>
+            <td><span class="ipa">/tʰ/</span> (θ)</td>
+        </tr>
+        <tr>
+            <td>Velar</td>
+            <td><span class="ipa">/k/</span> (κ)</td>
+            <td><span class="ipa">/ɡ/</span> (γ)</td>
+            <td><span class="ipa">/kʰ/</span> (χ)</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note:</strong> In later periods, the aspirated series (φ, θ, χ) becomes fricatives, and the voiced series
+        (β, δ, γ) also becomes fricatives. Only the voiceless stops (π, τ, κ) remain stops in all periods.</p>
+
+    <h3 id="gamma-nasal">Gamma Nasal (γ before velars)</h3>
+    <p>The letter gamma has a special nasal pronunciation before velar consonants in all periods:</p>
+    <ul>
+        <li><strong>γγ:</strong> <span class="ipa">/ŋɡ/</span> — <em>ἄγγελος</em> <span class="ipa">/áŋ.ɡe.los/</span> (Cla)</li>
+        <li><strong>γγ before front V:</strong> <span class="ipa">/ɲɟ/</span> — <em>ἄγγελος</em> <span class="ipa">/ˈaɲ.ɟe.los/</span> (Koi2+)</li>
+        <li><strong>γκ:</strong> <span class="ipa">/ŋk/</span> — <em>ἄγκυρα</em> <span class="ipa">/áŋ.ky.ra/</span> (Cla)</li>
+        <li><strong>γκ before front V:</strong> <span class="ipa">/ɲɟ/</span> — <em>ἄγκυρα</em> <span class="ipa">/ˈaɲ.ɟy.ra/</span> (Koi2+)</li>
+        <li><strong>γχ:</strong> <span class="ipa">/ŋkʰ/</span> (Cla) → <span class="ipa">/ŋx/</span> (Koi+) — <em>ἄγχω</em></li>
+        <li><strong>γξ:</strong> <span class="ipa">/ŋks/</span> — <em>σφίγξ</em> <span class="ipa">/spʰíŋks/</span> (Cla)</li>
+    </ul>
+
+    <h4>Gamma before Front Vowels (Palatalization)</h4>
+    <p>In Koine and later periods, velar consonants before front vowels (ε, ι, η, ει, οι, υ) become palatal:</p>
+    <ul>
+        <li><strong>γ:</strong> <span class="ipa">/ʝ/</span> (voiced palatal fricative) — <em>γῆ</em> <span class="ipa">/ˈʝi/</span> (Koi2+)</li>
+        <li><strong>κ:</strong> <span class="ipa">/c/</span> (voiceless palatal stop) — <em>κήρ</em> <span class="ipa">/cir/</span> (Koi2+)</li>
+        <li><strong>χ:</strong> <span class="ipa">/ç/</span> (voiceless palatal fricative) — <em>χείρ</em> <span class="ipa">/çir/</span> (Koi2+)</li>
+    </ul>
+
+    <h3 id="sigma-rules">Sigma Rules</h3>
+    <p>Sigma has voicing assimilation before voiced consonants:</p>
+    <ul>
+        <li><strong>Before voiced consonants:</strong> σ → <span class="ipa">/z/</span> — <em>εἰς βασιλέα</em> <span class="ipa">/eːz.ba.si.léː.a/</span> (Cla)</li>
+        <li><strong>Elsewhere:</strong> σ = <span class="ipa">/s/</span> — <em>σοφός</em> <span class="ipa">/so.pʰós/</span> (Cla)</li>
+        <li><strong>σσ:</strong> Geminate in early periods, simplified to single <span class="ipa">/s/</span> in 15th CE</li>
+    </ul>
+
+    <h3 id="rho-rules">Rho Rules</h3>
+    <ul>
+        <li><strong>Word-initial ρ:</strong> Always voiceless <span class="ipa">/r̥/</span> in Classical — <em>ῥήτωρ</em> <span class="ipa">/r̥ɛ̌ː.tɔːr/</span></li>
+        <li><strong>ῥ anywhere:</strong> Voiceless <span class="ipa">/r̥/</span> in Classical</li>
+        <li><strong>ρρ (double rho):</strong> Voiceless <span class="ipa">/r̥/</span> in Classical when word-initial or between vowels; simplified to single /r/ in 15th CE</li>
+        <li><strong>Intervocalic ρ:</strong> Voiced <span class="ipa">/r/</span> in all periods</li>
+    </ul>
+
+    <h3 id="diastole">Diastole & Disambiguation</h3>
+    <p>The diastole (comma-like mark) is used to distinguish words that would otherwise be ambiguous:</p>
+    <ul>
+        <li><strong>ὅ,τι</strong> ("whatever") — with diastole, pronounced <span class="ipa">/hót.ti/</span> (Cla), two words</li>
+        <li><strong>ὅτι</strong> ("that") — without diastole, pronounced <span class="ipa">/hó.ti/</span> (Cla), one conjunction</li>
+    </ul>
+    <p>The tool recognizes the diastole and adjusts syllabification accordingly.</p>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>This section provides a complete mapping of Ancient Greek orthography to pronunciation (IPA). These tables
+        reflect the actual rules used by our transcription engine. Each mapping depends on the historical period selected.</p>
+
+    <h3>1. Vowels (Monophthongs)</h3>
+    <p>Greek vowels change their quality based on the historical period. The inherent length of ε, η, ο, ω is always
+        unambiguous; α, ι, υ require explicit macron/breve for certainty.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Classical IPA</th>
+            <th>Koine IPA</th>
+            <th>Byzantine+ IPA</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>α</strong></td>
+            <td><span class="ipa">/a/</span> or <span class="ipa">/aː/</span></td>
+            <td><span class="ipa">/a/</span></td>
+            <td><span class="ipa">/a/</span></td>
+            <td>Length ambiguous without macron/breve</td>
+        </tr>
+        <tr>
+            <td><strong>ε</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>Always short</td>
+        </tr>
+        <tr>
+            <td><strong>η</strong></td>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Always long → merges with /i/ via iotacism</td>
+        </tr>
+        <tr>
+            <td><strong>ι</strong></td>
+            <td><span class="ipa">/i/</span> or <span class="ipa">/iː/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Length ambiguous without macron/breve</td>
+        </tr>
+        <tr>
+            <td><strong>ο</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><span class="ipa">/o/</span></td>
+            <td>Always short</td>
+        </tr>
+        <tr>
+            <td><strong>υ</strong></td>
+            <td><span class="ipa">/y/</span> or <span class="ipa">/yː/</span></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Rounded front vowel → /i/ via iotacism</td>
+        </tr>
+        <tr>
+            <td><strong>ω</strong></td>
+            <td><span class="ipa">/ɔː/</span></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><span class="ipa">/o/</span></td>
+            <td>Always long; quality shifts to close /o/</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Diphthongs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical</th>
+            <th>Koine+</th>
+            <th>Context / Rule</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>αι</strong></td>
+            <td><span class="ipa">/ai̯/</span></td>
+            <td><span class="ipa">/ɛ/</span> → <span class="ipa">/e/</span></td>
+            <td>Monophthongized by 1st CE</td>
+        </tr>
+        <tr>
+            <td><strong>ει</strong></td>
+            <td><span class="ipa">/eː/</span></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Merges with /i/ early</td>
+        </tr>
+        <tr>
+            <td><strong>οι</strong></td>
+            <td><span class="ipa">/oi̯/</span></td>
+            <td><span class="ipa">/y/</span> → <span class="ipa">/i/</span></td>
+            <td>Front rounded → /i/</td>
+        </tr>
+        <tr>
+            <td><strong>υι</strong></td>
+            <td><span class="ipa">/yi̯/</span></td>
+            <td><span class="ipa">/y/</span> → <span class="ipa">/i/</span></td>
+            <td>Rare; monophthongized</td>
+        </tr>
+        <tr>
+            <td><strong>αυ</strong></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td><span class="ipa">/af, av/</span></td>
+            <td>Offglide fricativizes; voiceless before voiceless C</td>
+        </tr>
+        <tr>
+            <td><strong>ευ</strong></td>
+            <td><span class="ipa">/eu̯/</span></td>
+            <td><span class="ipa">/ef, ev/</span></td>
+            <td>Same pattern as αυ</td>
+        </tr>
+        <tr>
+            <td><strong>ηυ</strong></td>
+            <td><span class="ipa">/ɛːu̯/</span></td>
+            <td><span class="ipa">/if, iv/</span></td>
+            <td>η → /i/ + offglide fricativization</td>
+        </tr>
+        <tr>
+            <td><strong>ου</strong></td>
+            <td><span class="ipa">/uː/</span></td>
+            <td><span class="ipa">/u/</span></td>
+            <td>Already /uː/ in Classical; simple vowel in all periods</td>
+        </tr>
+        <tr>
+            <td><strong>ᾳ, ῃ, ῳ</strong></td>
+            <td><span class="ipa">/aːi̯, ɛːi̯, ɔːi̯/</span></td>
+            <td><span class="ipa">/a, i, o/</span></td>
+            <td>Iota subscript silent in later periods</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>3. Consonants</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Classical</th>
+            <th>Koine+</th>
+            <th>Context / Rule</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>π</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td>Always voiceless stop</td>
+        </tr>
+        <tr>
+            <td><strong>β</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">/β/</span> → <span class="ipa">/v/</span></td>
+            <td>After μ stays /b/ in all periods</td>
+        </tr>
+        <tr>
+            <td><strong>φ</strong></td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">/ɸ/</span> → <span class="ipa">/f/</span></td>
+            <td>Aspirated stop → fricative</td>
+        </tr>
+        <tr>
+            <td><strong>τ</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>Always voiceless stop</td>
+        </tr>
+        <tr>
+            <td><strong>δ</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">/ð/</span></td>
+            <td>After ν stays /d/ in all periods</td>
+        </tr>
+        <tr>
+            <td><strong>θ</strong></td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">/θ/</span></td>
+            <td>Aspirated stop → fricative</td>
+        </tr>
+        <tr>
+            <td><strong>κ</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Before front V in Koi+: <span class="ipa">/c/</span></td>
+        </tr>
+        <tr>
+            <td><strong>γ</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/ɣ/</span></td>
+            <td>Before velars: <span class="ipa">/ŋ/</span>; before front V: <span class="ipa">/ʝ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>χ</strong></td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">/x/</span></td>
+            <td>Before front V: <span class="ipa">/ç/</span></td>
+        </tr>
+        <tr>
+            <td><strong>μ</strong></td>
+            <td><span class="ipa">/m/</span></td>
+            <td><span class="ipa">/m/</span></td>
+            <td>Always bilabial nasal</td>
+        </tr>
+        <tr>
+            <td><strong>ν</strong></td>
+            <td><span class="ipa">/n/</span></td>
+            <td><span class="ipa">/n/</span></td>
+            <td>Before velars: <span class="ipa">/ŋ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>λ</strong></td>
+            <td><span class="ipa">/l/</span></td>
+            <td><span class="ipa">/l/</span></td>
+            <td>Always lateral</td>
+        </tr>
+        <tr>
+            <td><strong>ρ</strong></td>
+            <td><span class="ipa">/r/</span> or <span class="ipa">/r̥/</span></td>
+            <td><span class="ipa">/r/</span></td>
+            <td>Initial/ῥ: voiceless trill in Classical</td>
+        </tr>
+        <tr>
+            <td><strong>σ</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>Before voiced C: <span class="ipa">/z/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ζ</strong></td>
+            <td><span class="ipa">/zd/</span></td>
+            <td><span class="ipa">/z/</span></td>
+            <td>Classical affricate → simple fricative</td>
+        </tr>
+        <tr>
+            <td><strong>ξ</strong></td>
+            <td><span class="ipa">/ks/</span></td>
+            <td><span class="ipa">/ks/</span></td>
+            <td>Always /ks/</td>
+        </tr>
+        <tr>
+            <td><strong>ψ</strong></td>
+            <td><span class="ipa">/ps/</span></td>
+            <td><span class="ipa">/ps/</span></td>
+            <td>Always /ps/</td>
+        </tr>
+        <tr>
+            <td><strong>ϝ</strong></td>
+            <td><span class="ipa">/w/</span></td>
+            <td><em>Silent</em></td>
+            <td>Digamma; only in Classical (archaic)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4. Breathing Marks on Initial Vowels</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Mark</th>
+            <th>Classical</th>
+            <th>Egyptian</th>
+            <th>Koine+</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>Smooth ( ̓ )</strong></td>
+            <td>No /h/</td>
+            <td>No /h/</td>
+            <td>No /h/</td>
+        </tr>
+        <tr>
+            <td><strong>Rough ( ̔ )</strong></td>
+            <td><span class="ipa">/h/</span></td>
+            <td><span class="ipa">/(h)/</span> (optional)</td>
+            <td>Silent</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>5. Accents</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Accent</th>
+            <th>Classical</th>
+            <th>Koine+</th>
+            <th>Restrictions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>Acute (ά)</strong></td>
+            <td>High pitch <span class="ipa">/á/</span>; rising on long V <span class="ipa">/ǎː/</span></td>
+            <td>Stress <span class="ipa">/ˈa/</span></td>
+            <td>On last 3 syllables; antepenult only if ultima short</td>
+        </tr>
+        <tr>
+            <td><strong>Grave (ὰ)</strong></td>
+            <td>Low pitch <span class="ipa">/à/</span></td>
+            <td>Stress <span class="ipa">/ˈa/</span></td>
+            <td>Final syllable only (in connected speech)</td>
+        </tr>
+        <tr>
+            <td><strong>Circumflex (ᾶ)</strong></td>
+            <td>Falling <span class="ipa">/âː/</span></td>
+            <td>Stress <span class="ipa">/ˈa/</span></td>
+            <td>Only on long V/diphthong; penult only if ultima short</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>6. Geminate Consonants (15th CE Simplification)</h3>
+    <p>In the 15th century CE period, all geminate (doubled) consonants are simplified to single consonants:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Geminate</th>
+            <th>Earlier Periods</th>
+            <th>15th CE</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>λλ</td>
+            <td><span class="ipa">/ll/</span></td>
+            <td><span class="ipa">/l/</span></td>
+            <td>ἄλλος</td>
+        </tr>
+        <tr>
+            <td>νν</td>
+            <td><span class="ipa">/nn/</span></td>
+            <td><span class="ipa">/n/</span></td>
+            <td>γέννα</td>
+        </tr>
+        <tr>
+            <td>κκ</td>
+            <td><span class="ipa">/kk/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Ἰταλλία → Ἰταλία</td>
+        </tr>
+        <tr>
+            <td>ττ/σσ</td>
+            <td><span class="ipa">/tt/</span> / <span class="ipa">/ss/</span></td>
+            <td><span class="ipa">/t/</span> / <span class="ipa">/s/</span></td>
+            <td>Attic ττ vs. Koine σσ</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The Ancient Greek module is <strong>entirely rule-based</strong> with no lexicon. All pronunciations are derived
+        from the character-level data table and conditional phonological rules in the Wiktionary module.</p>
+
+    <h3>Pipeline Overview</h3>
+    <ol>
+        <li><strong>Lowercase:</strong> Input is converted to lowercase Greek</li>
+        <li><strong>Standardize diacritics:</strong> Precomposed characters (e.g., ἄ = alpha + smooth + acute) are
+            decomposed to base letter + combining diacritics via NFD
+        </li>
+        <li><strong>Mark implied length:</strong> Accent placement infers vowel length for ambiguous α, ι, υ (see
+            <a href="#vowels-guide">Vowel Length</a>)
+        </li>
+        <li><strong>Validate:</strong> Rejects macrons/breves on inherently-short vowels (ε, ο, η, ω)</li>
+        <li><strong>Ambiguous vowel detection:</strong> For Classical period, identifies α/ι/υ lacking length markers
+            and generates editor warnings
+        </li>
+        <li><strong>Normalize orthography:</strong> Final sigma (ς) → medial (σ); rho with smooth breathing (ῤ) →
+            plain ρ; diacritics reordered to pronunciation order
+        </li>
+        <li><strong>Convert to IPA:</strong> Character-by-character lookup in the data table with conditional rules;
+            runs for each selected period
+        </li>
+        <li><strong>Syllabify:</strong> Inserts syllable breaks (.) using onset-maximization rules</li>
+        <li><strong>Format output:</strong> Produces HTML with period-specific pronunciations</li>
+    </ol>
+
+    <h3>Data-Driven Architecture</h3>
+    <p>Every Greek character (in all diacritic combinations) has an entry in the data table (<code>grc-pronunciation/data.lua</code>,
+        ~970 lines). Each entry contains a sub-table keyed by period code, with conditional rules for context-sensitive
+        allophonic variations.</p>
+
+    <h4>Period Codes</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Label</th>
+            <th>Inline Display</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>cla</code></td>
+            <td>5th BCE Attic</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><code>koi1</code></td>
+            <td>1st CE Egyptian</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td><code>koi2</code></td>
+            <td>4th CE Koine</td>
+            <td>Yes</td>
+        </tr>
+        <tr>
+            <td><code>byz1</code></td>
+            <td>10th CE Byzantine</td>
+            <td>No</td>
+        </tr>
+        <tr>
+            <td><code>byz2</code></td>
+            <td>15th CE Constantinopolitan</td>
+            <td>Yes</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Conditional Rule Engine</h3>
+    <p>The <code>check()</code> / <code>decode()</code> functions implement a recursive condition evaluator. Conditions
+        use a compact syntax:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Syntax</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>=</code></td>
+            <td>Character identity</td>
+            <td><code>-1=μ</code> = "preceding character is μ"</td>
+        </tr>
+        <tr>
+            <td><code>.</code></td>
+            <td>Character class lookup</td>
+            <td><code>1.voiced</code> = "next character is in the 'voiced' class"</td>
+        </tr>
+        <tr>
+            <td><code>~</code></td>
+            <td>Function call</td>
+            <td><code>~preFront</code> = "call the preFront function"</td>
+        </tr>
+        <tr>
+            <td><code>+</code></td>
+            <td>Logical AND</td>
+            <td><code>1.voiced+1.stop</code> = "next char is both voiced AND a stop"</td>
+        </tr>
+        <tr>
+            <td><code>/</code></td>
+            <td>Logical OR</td>
+            <td><code>1=ρ/1=ῥ/-1=ρ</code> = "next is ρ or ῥ, or previous is ρ"</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Key Allophonic Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Condition</th>
+            <th>Output</th>
+            <th>Periods</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Gamma nasalization</td>
+            <td>γ before κ/γ/χ/ξ</td>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>All</td>
+        </tr>
+        <tr>
+            <td>Gamma palatalization</td>
+            <td>γ before front vowels</td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td>koi2+</td>
+        </tr>
+        <tr>
+            <td>γγ/γκ palatalization</td>
+            <td>γγ, γκ before front vowels</td>
+            <td><span class="ipa">/ɲɟ/</span></td>
+            <td>koi2+</td>
+        </tr>
+        <tr>
+            <td>Kappa palatalization</td>
+            <td>κ before front vowels</td>
+            <td><span class="ipa">/c/</span></td>
+            <td>koi2+</td>
+        </tr>
+        <tr>
+            <td>Chi palatalization</td>
+            <td>χ before front vowels</td>
+            <td><span class="ipa">/ç/</span></td>
+            <td>koi2+</td>
+        </tr>
+        <tr>
+            <td>Sigma voicing</td>
+            <td>σ before voiced consonant</td>
+            <td><span class="ipa">/z/</span></td>
+            <td>All</td>
+        </tr>
+        <tr>
+            <td>Rho voicelessness</td>
+            <td>Word-initial ρ or ῥ</td>
+            <td><span class="ipa">/r̥/</span></td>
+            <td>Cla</td>
+        </tr>
+        <tr>
+            <td>Kappa voicing</td>
+            <td>κ before voiced stop</td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>All</td>
+        </tr>
+        <tr>
+            <td>αυ/ευ voicing</td>
+            <td>Before voiceless consonant</td>
+            <td><span class="ipa">/ɸ, f/</span></td>
+            <td>koi2+</td>
+        </tr>
+        <tr>
+            <td>Geminate deletion</td>
+            <td>Doubled consonants</td>
+            <td>Single consonant</td>
+            <td>byz2</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Syllabification</h3>
+    <p>The syllabifier uses onset-maximization: consonants prefer to begin the next syllable rather than close the
+        previous one. Special handling for:</p>
+    <ul>
+        <li><strong>Liquids (ρ, λ, ν):</strong> Can form complex onsets with preceding obstruents</li>
+        <li><strong>Aspirated stops (Classical):</strong> The <span class="ipa">ʰ</span> marker is kept with its
+            consonant during syllabification
+        </li>
+        <li><strong>Stress marks:</strong> Repositioned to the onset of the stressed syllable</li>
+    </ul>
+
+    <h3>Example Transformations</h3>
+    <p><strong>Note:</strong> Classical output uses pitch marks on vowels (á = high, ǎ = rising, â = falling) rather
+        than stress marks (ˈ). Post-Classical periods use stress marks.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Classical (5th BCE)</th>
+            <th>Koine (4th CE)</th>
+            <th>Byzantine (15th CE)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>φιλοσοφία</td>
+            <td><span class="ipa">/pʰi.lo.so.pʰí.a/</span></td>
+            <td><span class="ipa">/ɸi.lo.soˈɸi.a/</span></td>
+            <td><span class="ipa">/fi.lo.soˈfi.a/</span></td>
+        </tr>
+        <tr>
+            <td>ἄνθρωπος</td>
+            <td><span class="ipa">/án.tʰrɔː.pos/</span></td>
+            <td><span class="ipa">/ˈan.θro.pos/</span></td>
+            <td><span class="ipa">/ˈan.θro.pos/</span></td>
+        </tr>
+        <tr>
+            <td>λόγος</td>
+            <td><span class="ipa">/ló.ɡos/</span></td>
+            <td><span class="ipa">/ˈlo.ɣos/</span></td>
+            <td><span class="ipa">/ˈlo.ɣos/</span></td>
+        </tr>
+        <tr>
+            <td>ψυχή</td>
+            <td><span class="ipa">/psy.kʰɛ̌ː/</span></td>
+            <td><span class="ipa">/psyˈçi/</span></td>
+            <td><span class="ipa">/psiˈçi/</span></td>
+        </tr>
+        <tr>
+            <td>γῆ</td>
+            <td><span class="ipa">/ɡɛ̂ː/</span></td>
+            <td><span class="ipa">/ʝi/</span></td>
+            <td><span class="ipa">/ʝi/</span></td>
+        </tr>
+        <tr>
+            <td>ῥήτωρ</td>
+            <td><span class="ipa">/r̥ɛ̌ː.tɔːr/</span></td>
+            <td><span class="ipa">/ˈri.tor/</span></td>
+            <td><span class="ipa">/ˈri.tor/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="issues">Common Issues & Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may behave unexpectedly:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Issue</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>α, ι, υ without macron/breve</td>
+            <td>System assumes short; warning displayed</td>
+            <td>Ambiguous vowel length</td>
+            <td>Add macron (ᾱ/ῑ/ῡ) or breve (ᾰ/ῐ/ῠ) to disambiguate</td>
+        </tr>
+        <tr>
+            <td>ε, ο with macron/breve</td>
+            <td>Error: "invalid length mark"</td>
+            <td>ε and ο are inherently short; η and ω are inherently long</td>
+            <td>Remove the macron/breve; use η/ω for long vowels</td>
+        </tr>
+        <tr>
+            <td>Dialectal forms (Doric, Aeolic)</td>
+            <td>Transcription uses Attic/Koine rules</td>
+            <td>Only five standard periods are modeled</td>
+            <td>Verify with specialized dialect resources</td>
+        </tr>
+        <tr>
+            <td>Words with digamma (ϝ)</td>
+            <td>May not be recognized in all contexts</td>
+            <td>Digamma is archaic and rarely used in standard texts</td>
+            <td>Verify Classical pronunciation manually</td>
+        </tr>
+        <tr>
+            <td>σσ vs. ττ variation</td>
+            <td>Both forms transcribed identically</td>
+            <td>Attic ττ and Koine σσ are dialectal variants of the same sound</td>
+            <td>No action needed; pronunciation is the same</td>
+        </tr>
+        <tr>
+            <td>Enclitics and proclitics</td>
+            <td>Accent behavior may differ from standalone form</td>
+            <td>Enclitics lose their accent in connected speech</td>
+            <td>Input the full phrase for accurate accent placement</td>
+        </tr>
+        </tbody>
+    </table>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
