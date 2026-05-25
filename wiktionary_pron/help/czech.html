@@ -20,42 +20,1520 @@
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
-
-    <p>This <a href="../?lang=Czech">Czech transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:cs-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
-        Czech Pronunciation
-        Module</a> to generate phonemic transcriptions for Czech text.</p>
-
-    <p>The system uses a comprehensive <a href="https://kaikki.org/dictionary/Czech/index.html" target="_blank"
-                                          rel="noopener noreferrer">Wiktionary
-        data dump</a> as a lexicon to first retrieve transcriptions from the dictionary. When a word is not found in the
-        lexicon, it falls back to generating transcriptions using the pronunciation module's rule-based approach.</p>
-
-    <h2>Dialects Supported</h2>
+    <h2>Table of Contents</h2>
     <ul>
-        <li><strong>Default</strong> - Standard Czech pronunciation patterns</li>
-    </ul>
-
-    <h2>Transcription Forms</h2>
-    <ul>
-
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Czech Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Vowel Length &amp; Quality</a></li>
+                <li><a href="#soft-consonants">Soft Consonants (ď, ť, ň) &amp; ě</a></li>
+                <li><a href="#r-zhackem">The Ř Sound (Raised Alveolar Trill)</a></li>
+                <li><a href="#ch-h-sounds">CH and H Sounds</a></li>
+                <li><a href="#voicing">Voicing Assimilation</a></li>
+                <li><a href="#final-devoicing">Final Devoicing</a></li>
+                <li><a href="#diphthongs">Diphthongs (ou, au, eu)</a></li>
+                <li><a href="#syllabic-sonorants">Syllabic Consonants (m, n, r, l)</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#vowel-merger">Y/Ý Merger with I/Í</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
         </li>
     </ul>
 
-    <h2>Technical Information</h2>
-    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:cs-pronunciation"
-                                           target="_blank" rel="noopener noreferrer">Wiktionary Czech pronunciation
-        module</a> with a
-        comprehensive lexicon extracted from Wiktionary data dumps, providing both high accuracy for common words and
-        broad coverage through rule-based generation.</p>
+    <h2 id="about">About This Tool</h2>
+    <p>This <a href="../?lang=Czech">Czech transcription app</a> uses a modified version of the <a
+      href="https://en.wiktionary.org/wiki/Module:cs-pronunciation" target="_blank"
+      rel="noopener noreferrer">Wiktionary Czech Pronunciation Module</a> running inside the browser via <a href="https://github.com/ceifa/wasmoon" target="_blank" rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 WebAssembly). It converts standard Czech orthography into the International Phonetic Alphabet (IPA).</p>
+
+    <p>The system uses a comprehensive <a href="https://kaikki.org/dictionary/Czech/index.html" target="_blank"
+                                          rel="noopener noreferrer">Wiktionary
+        data dump</a> as a lexicon to first retrieve <b>phonemic</b> transcriptions from the dictionary. When a word is not found in the
+        lexicon, it falls back to generating transcriptions using the pronunciation module's rule-based approach. This combined strategy provides both high accuracy for common words and broad coverage through rule-based generation.</p>
+
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+    <ul>
+        <li><strong>Supported:</strong> Standard Czech (<em>spisovná čeština</em>) pronunciation, based on the Bohemian standard.</li>
+        <li><strong>Not supported:</strong> Regional variants (Moravian, Silesian, Common Czech / <em>obecná čeština</em> reductions like <em>ej</em> for <em>é</em>).</li>
+        <li><strong>Edge cases:</strong> Very recent loanwords, extremely rare compound words, and certain proper names may not be found in the lexicon. The rule-based fallback handles most of these, but some foreign words may produce approximate results.</li>
+    </ul>
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic</strong> (with dictionary support): A simplified, broad transcription that shows only the
+            sounds that are essential for distinguishing meaning (phonemes). It represents the abstract sound system of
+            the language. Uses Wiktionary lexicon when available, falls back to rules.
+        </li>
+    </ul>
+    <p><strong>Note:</strong> Unlike German, the Czech module currently supports only phonemic transcription. No phonetic (narrow) transcription with allophonic detail is available.</p>
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning (e.g., /p/ vs. /b/ in Czech <em>pas</em> vs.
+            <em>bas</em>).
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning (e.g., aspirated [pʰ] vs. unaspirated
+            [p]).</dd>
+
+        <dt>Affricate</dt>
+        <dd>A complex consonant beginning as a stop and releasing as a fricative with same place of articulation, e.g.,
+            <span class="ipa">/t͡s/</span> (c), <span class="ipa">/t͡ʃ/</span> (č), <span class="ipa">/d͡z/</span> (dz), <span class="ipa">/d͡ʒ/</span> (dž).</dd>
+
+        <dt>Voicing Assimilation</dt>
+        <dd>A phonological process where a consonant changes its voicing to match the following consonant. In Czech, this is regressive: the voicing of the last obstruent in a cluster determines the voicing of the entire cluster. E.g., <em>odpad</em> <span class="ipa">/ˈotpat/</span> — the <em>d</em> devoices before <em>p</em>.</dd>
+
+        <dt>Final Devoicing</dt>
+        <dd>The process where voiced obstruents become voiceless at the end of a word, e.g., <em>led</em> <span class="ipa">/lɛt/</span>, <em>mříž</em> <span class="ipa">/mr̝iːʃ/</span>.</dd>
+
+        <dt>Raised Alveolar Trill (Ř)</dt>
+        <dd>A unique Czech sound <span class="ipa">/r̝/</span> — an alveolar trill with simultaneous frication. It has a voiceless variant <span class="ipa">/r̝̊/</span> that appears adjacent to voiceless consonants. Written as <em>ř</em> in Czech orthography.</dd>
+
+        <dt>Syllabic Consonant</dt>
+        <dd>A consonant acting as a syllable nucleus (without a vowel), marked with subscript mark <span class="ipa">/n̩/</span>, <span class="ipa">/r̩/</span>, <span class="ipa">/l̩/</span>, <span class="ipa">/m̩/</span>. E.g., <em>prsten</em> <span class="ipa">/ˈpr̩stɛn/</span>.</dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound where the tongue changes position during articulation. Czech has three: <span class="ipa">/ou̯/</span>, <span class="ipa">/au̯/</span>, <span class="ipa">/ɛu̯/</span>.</dd>
+
+        <dt>Palatalization</dt>
+        <dd>The modification of consonant articulation by raising the tongue towards the hard palate. In Czech, consonants d, t, n are palatalized before <em>ě</em>, <em>i</em>, and <em>í</em>.</dd>
+
+        <dt>Glottal Stop</dt>
+        <dd>A sound made by closing the glottis, represented as <span class="ipa">ʔ</span>. Inserted in Czech between the prepositions <em>v</em>/<em>z</em> and a following word-initial vowel.</dd>
+
+        <dt>Sonorant</dt>
+        <dd>A consonant produced with continuous airflow (m, n, ɲ, r, l, j). Sonorants do not participate in voicing assimilation.</dd>
+
+        <dt>Obstruent</dt>
+        <dd>A consonant produced by obstructing airflow (stops, fricatives, affricates). Obstruents are subject to voicing assimilation in Czech.</dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>A marker (.) showing where syllables divide, affecting pronunciation and stress assignment.</dd>
+
+        <dt>Geminate</dt>
+        <dd>A doubled consonant sound. Czech simplifies geminates in pronunciation: <em>oddych</em> has /d/, not /dd/.</dd>
+
+        <dt>Tie Bar</dt>
+        <dd>The combining tie bar (◌͡◌) used in IPA to indicate affricates, showing that two segments form a single
+            phonological unit, e.g., <span class="ipa">/t͡s/</span>, <span class="ipa">/t͡ʃ/</span>.</dd>
+
+        <dt>Length Mark</dt>
+        <dd>The mark <span class="ipa">ː</span> in IPA indicating a long vowel, e.g., <span class="ipa">/aː/</span>,
+            <span class="ipa">/iː/</span>, <span class="ipa">/uː/</span> vs. short <span class="ipa">/a/</span>, <span class="ipa">/ɪ/</span>, <span class="ipa">/u/</span>.</dd>
+
+        <dt>Nonsyllabic Mark</dt>
+        <dd>The inverted breve below <span class="ipa">̯</span> indicating that a vowel in a diphthong is not the syllable nucleus, e.g., <span class="ipa">/ou̯/</span>, <span class="ipa">/au̯/</span>.</dd>
+
+        <dt>Nasal Assimilation</dt>
+        <dd>When <em>n</em> precedes a velar stop (k, g), it assimilates to the velar nasal <span class="ipa">/ŋ/</span>, e.g., <em>banka</em> <span class="ipa">/ˈbaŋka/</span>.</dd>
+
+        <dt>Onset</dt>
+        <dd>The initial consonant(s) of a syllable (e.g., "p" in "pat"). Czech allows complex onsets like /pr/, /str/, /sk/.</dd>
+
+        <dt>Coda</dt>
+        <dd>The final consonant(s) of a syllable (e.g., "t" in "pat"). Czech codas are subject to final devoicing.</dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This table helps you understand the IPA symbols used in Czech transcriptions. For each symbol, we provide
+        approximate English equivalents where possible.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <p>Czech has 5 short vowels, 5 long vowels, and 3 diphthongs. Vowel length is phonemic — it distinguishes meaning.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td>pas</td>
+            <td>"father" (short)</td>
+            <td>Short open central vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/aː/</span></td>
+            <td>pás</td>
+            <td>"father" (long)</td>
+            <td>Long, written as <em>á</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>den</td>
+            <td>"bed"</td>
+            <td>Short open-mid front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td>réva</td>
+            <td>"bear" (without r)</td>
+            <td>Long, written as <em>é</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>byl</td>
+            <td>"sit"</td>
+            <td>Short, written as <em>i</em> or <em>y</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iː/</span></td>
+            <td>bílý</td>
+            <td>"see" (without glide)</td>
+            <td>Long, written as <em>í</em> or <em>ý</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td>rok</td>
+            <td>"or" (short)</td>
+            <td>Short close-mid back rounded</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/oː/</span></td>
+            <td>móda</td>
+            <td>"go" (without glide)</td>
+            <td>Long, written as <em>ó</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td>ruka</td>
+            <td>"put"</td>
+            <td>Short close back rounded</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/uː/</span></td>
+            <td>růst</td>
+            <td>"food" (without glide)</td>
+            <td>Long, written as <em>ů</em> or <em>ú</em></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/r̝/</span></td>
+            <td>řeka</td>
+            <td>No English equivalent</td>
+            <td>Raised alveolar trill — unique Czech sound, trill + frication</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r̝̊/</span></td>
+            <td>příklad (after p)</td>
+            <td>No English equivalent</td>
+            <td>Voiceless raised trill, appears next to voiceless consonants</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td>rok</td>
+            <td>Spanish "r" (rolled)</td>
+            <td>Alveolar trill</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/c/</span></td>
+            <td>ťam</td>
+            <td>No English equivalent</td>
+            <td>Voiceless palatal stop, written as <em>ť</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɟ/</span></td>
+            <td>ďábel</td>
+            <td>"dune" (softer)</td>
+            <td>Voiced palatal stop, written as <em>ď</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td>ňadra</td>
+            <td>"canyon" (first n)</td>
+            <td>Palatal nasal, written as <em>ň</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>šest</td>
+            <td>"shoe"</td>
+            <td>Voiceless postalveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>život</td>
+            <td>"measure"</td>
+            <td>Voiced postalveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>cena</td>
+            <td>"cats"</td>
+            <td>Voiceless alveolar affricate, written as <em>c</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>čas</td>
+            <td>"church"</td>
+            <td>Voiceless postalveolar affricate, written as <em>č</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td>odzbrojit</td>
+            <td>"adze"</td>
+            <td>Voiced alveolar affricate, rare</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>džbán</td>
+            <td>"judge"</td>
+            <td>Voiced postalveolar affricate, rare</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td>chata</td>
+            <td>Scottish "loch"</td>
+            <td>Voiceless velar fricative, written as <em>ch</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɦ/</span></td>
+            <td>hora</td>
+            <td>"behind" (breathy)</td>
+            <td>Voiced glottal fricative, written as <em>h</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>banka</td>
+            <td>"sing"</td>
+            <td>Velar nasal (allophonic, before k/g)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʔ/</span></td>
+            <td>v autě</td>
+            <td>Cockney "bottle"</td>
+            <td>Glottal stop, inserted between preposition v/z and a following vowel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word (always on first syllable)</td>
+            <td><span class="ipa">/ˈpr̩stɛn/</span> (ring)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Vowel is long</td>
+            <td><span class="ipa">/aː/</span> vs <span class="ipa">/a/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̩</span></td>
+            <td>Syllabic</td>
+            <td>Consonant is syllable nucleus</td>
+            <td><span class="ipa">/r̩/</span> in <em>prsten</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Glide (part of diphthong)</td>
+            <td><span class="ipa">/ou̯/</span>, <span class="ipa">/au̯/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">͡</span></td>
+            <td>Tie bar</td>
+            <td>Affricate (single unit)</td>
+            <td><span class="ipa">/t͡s/</span>, <span class="ipa">/t͡ʃ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̝</span></td>
+            <td>Raised</td>
+            <td>Trill with frication (ř sound)</td>
+            <td><span class="ipa">/r̝/</span>, voiceless <span class="ipa">/r̝̊/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̥</span></td>
+            <td>Voiceless</td>
+            <td>Normally voiced sound devoiced</td>
+            <td><span class="ipa">/r̝̊/</span> next to voiceless consonants</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Some words have multiple valid pronunciations (e.g.,
+            different pronunciations listed in the Wiktionary lexicon). Click any transcribed word to see alternative IPA forms if available.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation using the Czech (<em>cs-CZ</em>) voice (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For some Czech words, the system produces multiple valid transcriptions:</p>
+    <ul>
+        <li><strong>Lexicon entries with variants:</strong> Some words in the Wiktionary data dump have more than one
+            listed pronunciation (e.g., words where both a colloquial and standard form exist).
+        </li>
+        <li><strong>Lexicon vs. generated:</strong> Dictionary lookup and rule-based generation may produce slightly
+            different results. The lexicon form is preferred when available.
+        </li>
+    </ul>
+    <p>When multiple variants exist, click the word to cycle through them. The currently selected variant will be used
+        for PDF/CSV export.</p>
+
+    <h2>Czech Pronunciation Guide</h2>
+
+    <p>This guide explains the fundamental rules of Czech pronunciation. Czech has a highly regular
+        spelling-to-sound correspondence — one of the most phonetic languages in Europe. Once you learn the rules,
+        you can reliably predict pronunciation from spelling.</p>
+
+    <h3 id="vowels-guide">Vowel Length &amp; Quality</h3>
+    <p>Czech has 5 vowel qualities, each with a short and long version. Vowel length is phonemic — it distinguishes
+        meaning.</p>
+
+    <h4>Short Vowels</h4>
+    <ul>
+        <li><strong>a</strong> <span class="ipa">/a/</span> — open central, like "father": <em>pas</em> <span class="ipa">/pas/</span></li>
+        <li><strong>e</strong> <span class="ipa">/ɛ/</span> — open-mid front, like "bed": <em>den</em> <span class="ipa">/dɛn/</span></li>
+        <li><strong>i/y</strong> <span class="ipa">/ɪ/</span> — near-close front, like "sit": <em>byl</em> <span class="ipa">/bɪl/</span></li>
+        <li><strong>o</strong> <span class="ipa">/o/</span> — close-mid back rounded, like "or": <em>rok</em> <span class="ipa">/rok/</span></li>
+        <li><strong>u</strong> <span class="ipa">/u/</span> — close back rounded, like "put": <em>ruka</em> <span class="ipa">/ruka/</span></li>
+    </ul>
+
+    <h4>Long Vowels</h4>
+    <p>Long vowels are written with an acute accent (á, é, í, ó, ú) or a ring (ů). They are approximately twice as
+        long as short vowels and are distinct phonemes:</p>
+    <ul>
+        <li><strong>á</strong> <span class="ipa">/aː/</span> — <em>pás</em> (belt) vs. <em>pas</em> (passport)</li>
+        <li><strong>é</strong> <span class="ipa">/ɛː/</span> — rare, mostly in loanwords: <em>réva</em> (vine)</li>
+        <li><strong>í/ý</strong> <span class="ipa">/iː/</span> — <em>bílý</em> (white) vs. <em>byl</em> (was)</li>
+        <li><strong>ó</strong> <span class="ipa">/oː/</span> — rare, mostly in loanwords: <em>móda</em> (fashion)</li>
+        <li><strong>ú/ů</strong> <span class="ipa">/uː/</span> — <em>růst</em> (growth) vs. <em>ruský</em> (Russian)</li>
+    </ul>
+
+    <h4>Minimal Pairs: When Length Changes Meaning</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Short</th>
+            <th>IPA</th>
+            <th>Meaning</th>
+            <th>Long</th>
+            <th>IPA</th>
+            <th>Meaning</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>pas</td>
+            <td><span class="ipa">/pas/</span></td>
+            <td>passport</td>
+            <td>pás</td>
+            <td><span class="ipa">/paːs/</span></td>
+            <td>belt</td>
+        </tr>
+        <tr>
+            <td>dal</td>
+            <td><span class="ipa">/dal/</span></td>
+            <td>gave</td>
+            <td>dál</td>
+            <td><span class="ipa">/daːl/</span></td>
+            <td>farther</td>
+        </tr>
+        <tr>
+            <td>dráha</td>
+            <td><span class="ipa">/ˈdraːɦa/</span></td>
+            <td>track</td>
+            <td>drahá</td>
+            <td><span class="ipa">/draɦaː/</span></td>
+            <td>expensive (fem.)</td>
+        </tr>
+        <tr>
+            <td>být</td>
+            <td><span class="ipa">/biːt/</span></td>
+            <td>to be</td>
+            <td>byt</td>
+            <td><span class="ipa">/bɪt/</span></td>
+            <td>apartment</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="soft-consonants">Soft Consonants (ď, ť, ň) &amp; ě</h3>
+    <p>The letters <em>ď</em>, <em>ť</em>, and <em>ň</em> represent palatal consonants — articulated with the tongue
+        raised toward the hard palate.</p>
+
+    <h4>The Soft Consonants</h4>
+    <ul>
+        <li><strong>ď</strong> <span class="ipa">/ɟ/</span> — voiced palatal stop, like a "soft d": <em>ďábel</em> <span class="ipa">/ˈɟaːbɛl/</span></li>
+        <li><strong>ť</strong> <span class="ipa">/c/</span> — voiceless palatal stop, like a "soft t": <em>ťukat</em> <span class="ipa">/ˈcukat/</span></li>
+        <li><strong>ň</strong> <span class="ipa">/ɲ/</span> — palatal nasal, like "ny" in "canyon": <em>kůň</em> <span class="ipa">/kuːɲ/</span></li>
+    </ul>
+
+    <h4>The Letter ě</h4>
+    <p>The letter <em>ě</em> is not a separate vowel — it signals that the preceding consonant is palatalized:</p>
+    <ul>
+        <li><strong>dě, tě, ně</strong> — the consonant becomes palatal: <em>děti</em> <span class="ipa">/ˈɟɛcɪ/</span> (children), <em>tělo</em> <span class="ipa">/ˈcɛlo/</span> (body), <em>něco</em> <span class="ipa">/ˈɲɛtso/</span> (something)</li>
+        <li><strong>mě</strong> — special case, pronounced <span class="ipa">/mɲɛ/</span>: <em>město</em> <span class="ipa">/ˈmɲɛsto/</span> (city), <em>jmění</em> <span class="ipa">/ˈjm̩ɲɛɲiː/</span> (property)</li>
+        <li><strong>bě, pě, vě</strong> — pronounced with <span class="ipa">/jɛ/</span>: <em>běh</em> <span class="ipa">/bjɛx/</span> (run), <em>věc</em> <span class="ipa">/vjɛt͡s/</span> (thing)</li>
+    </ul>
+
+    <h3 id="r-zhackem">The Ř Sound (Raised Alveolar Trill)</h3>
+    <p>The letter <em>ř</em> represents a sound unique to Czech — a raised alveolar trill <span class="ipa">/r̝/</span>,
+        which is an alveolar trill produced with simultaneous frication (a "buzzing r").</p>
+
+    <h4>Pronunciation</h4>
+    <ul>
+        <li><strong>Voiced ř</strong> <span class="ipa">/r̝/</span>: Between vowels or next to voiced consonants.
+            Try saying "r" and "zh" simultaneously: <em>řeka</em> <span class="ipa">/ˈr̝ɛka/</span> (river),
+            <em>moře</em> <span class="ipa">/ˈmor̝ɛ/</span> (sea).</li>
+        <li><strong>Voiceless ř</strong> <span class="ipa">/r̝̊/</span>: Next to voiceless consonants (p, t, k, f, s,
+            š, ch, c, č). The voicing is removed: <em>příklad</em> <span class="ipa">/ˈpr̝̊iːklat/</span> (example),
+            <em>tři</em> <span class="ipa">/tr̝̊ɪ/</span> (three).</li>
+    </ul>
+
+    <h4>When Does ř Devoice?</h4>
+    <p>The rule is simple: <em>ř</em> becomes voiceless <span class="ipa">/r̝̊/</span> when it stands next to a
+        voiceless consonant (p, t, k, f, s, š, ch, c, č). In all other positions, it stays voiced.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Result</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Before a voiceless consonant</td>
+            <td><span class="ipa">/r̝̊/</span></td>
+            <td>tři <span class="ipa">/tr̝̊ɪ/</span>, přes <span class="ipa">/pr̝̊ɛs/</span></td>
+        </tr>
+        <tr>
+            <td>After a voiceless consonant</td>
+            <td><span class="ipa">/r̝̊/</span></td>
+            <td>příklad <span class="ipa">/ˈpr̝̊iːklat/</span></td>
+        </tr>
+        <tr>
+            <td>Between vowels or next to voiced consonants</td>
+            <td><span class="ipa">/r̝/</span></td>
+            <td>řeka <span class="ipa">/ˈr̝ɛka/</span>, dřevo <span class="ipa">/ˈdr̝ɛvo/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="ch-h-sounds">CH and H Sounds</h3>
+    <p>Czech distinguishes two sounds that are often confused by learners:</p>
+    <ul>
+        <li><strong>h</strong> <span class="ipa">/ɦ/</span> — <em>voiced</em> glottal fricative. A breathy, voiced "h",
+            like the English "h" but with vocal cord vibration: <em>hora</em> <span class="ipa">/ˈɦora/</span> (mountain),
+            <em>aha</em> <span class="ipa">/ˈaɦa/</span></li>
+        <li><strong>ch</strong> <span class="ipa">/x/</span> — <em>voiceless</em> velar fricative, like Scottish "loch"
+            or German "Bach": <em>chata</em> <span class="ipa">/ˈxata/</span> (cottage), <em>smích</em> <span class="ipa">/smiːx/</span> (laughter)</li>
+    </ul>
+    <p>These two are separate phonemes in Czech and distinguish meaning: <em>hrad</em> <span class="ipa">/ɦrat/</span>
+        (castle) vs. <em>chlad</em> <span class="ipa">/xlat/</span> (cold).</p>
+
+    <h3 id="voicing">Voicing Assimilation</h3>
+    <p>One of the most important Czech pronunciation rules: when two obstruents (stops, fricatives, affricates) stand
+        next to each other, the <em>first</em> one changes its voicing to match the <em>second</em> one. This is
+        called <strong>regressive assimilation</strong>.</p>
+
+    <h4>Voiced–Voiceless Pairs</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Voiceless</th>
+            <th>Voiced</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>p</td><td>b</td></tr>
+        <tr><td>t</td><td>d</td></tr>
+        <tr><td>ť <span class="ipa">/c/</span></td><td>ď <span class="ipa">/ɟ/</span></td></tr>
+        <tr><td>k</td><td>ɡ</td></tr>
+        <tr><td>f</td><td>v</td></tr>
+        <tr><td>s</td><td>z</td></tr>
+        <tr><td>š <span class="ipa">/ʃ/</span></td><td>ž <span class="ipa">/ʒ/</span></td></tr>
+        <tr><td>ch <span class="ipa">/x/</span></td><td>h <span class="ipa">/ɦ/</span></td></tr>
+        <tr><td>c <span class="ipa">/t͡s/</span></td><td><span class="ipa">/d͡z/</span></td></tr>
+        <tr><td>č <span class="ipa">/t͡ʃ/</span></td><td>dž <span class="ipa">/d͡ʒ/</span></td></tr>
+        <tr><td>ř̊ <span class="ipa">/r̝̊/</span></td><td>ř <span class="ipa">/r̝/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>How It Works</h4>
+    <ul>
+        <li><strong>Regressive direction:</strong> The last obstruent in a cluster determines the voicing of all
+            preceding obstruents. E.g., <em>odpad</em> → the <em>d</em> assimilates to <em>p</em>: <span class="ipa">/ˈotpat/</span></li>
+        <li><strong>Sonorants do not participate:</strong> m, n, ɲ, r, l, j are transparent — they don't trigger
+            and don't change: <em>vzorek</em> <span class="ipa">/ˈvor̝ɛk/</span></li>
+        <li><strong>v and ř do not trigger assimilation:</strong> The consonants <em>v</em> and <em>ř</em> are
+            "weak" — they don't cause preceding consonants to change voicing.</li>
+    </ul>
+
+    <h4>Examples</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Underlying</th>
+            <th>Assimilated IPA</th>
+            <th>Explanation</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>odpad</td>
+            <td>/odpad/</td>
+            <td><span class="ipa">/ˈotpat/</span></td>
+            <td>d→t before p (assim.); final d→t (devoicing)</td>
+        </tr>
+        <tr>
+            <td>bez tebe</td>
+            <td>/bɛz tɛbɛ/</td>
+            <td><span class="ipa">/bɛs tɛbɛ/</span></td>
+            <td>z→s before t (two words)</td>
+        </tr>
+        <tr>
+            <td>lézt</td>
+            <td>/lɛːzt/</td>
+            <td><span class="ipa">/lɛːst/</span></td>
+            <td>z→s before t (final devoicing)</td>
+        </tr>
+        <tr>
+            <td>kde</td>
+            <td>/gdɛ/</td>
+            <td><span class="ipa">/gdɛ/</span></td>
+            <td>No change — d is voiced, so k→ɡ</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="final-devoicing">Final Devoicing</h3>
+    <p>At the end of a word (before a word boundary), voiced obstruents become voiceless. This happens
+        <em>after</em> voicing assimilation.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Word-final IPA</th>
+            <th>Intervocalic IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>b</td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">/b/</span></td>
+            <td>led <span class="ipa">/lɛt/</span> (ice)</td>
+        </tr>
+        <tr>
+            <td>d</td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">/d/</span></td>
+            <td>med <span class="ipa">/mɛt/</span> (honey)</td>
+        </tr>
+        <tr>
+            <td>ď</td>
+            <td><span class="ipa">/c/</span></td>
+            <td><span class="ipa">/ɟ/</span></td>
+            <td>loď <span class="ipa">/ˈloc/</span> (ship — ď devoices to /c/)</td>
+        </tr>
+        <tr>
+            <td>g</td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>hřib <span class="ipa">/ɦr̝ɪp/</span> (boletus)</td>
+        </tr>
+        <tr>
+            <td>z</td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/z/</span></td>
+            <td>les <span class="ipa">/lɛs/</span> (forest)</td>
+        </tr>
+        <tr>
+            <td>ž</td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>myš <span class="ipa">/mɪʃ/</span> (mouse)</td>
+        </tr>
+        <tr>
+            <td>h</td>
+            <td><span class="ipa">/x/</span></td>
+            <td><span class="ipa">/ɦ/</span></td>
+            <td>sníh <span class="ipa">/sɲiːx/</span> (snow)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diphthongs">Diphthongs (ou, au, eu)</h3>
+    <p>Czech has exactly three diphthongs — gliding vowel sounds where the tongue moves during articulation.
+        Unlike most European languages, Czech diphthongs are relatively rare and predictable.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Description</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ou</td>
+            <td><span class="ipa">/ou̯/</span></td>
+            <td>Like "ow" in "show"</td>
+            <td>doufat <span class="ipa">/ˈdou̯fat/</span> (to hope), použít <span class="ipa">/ˈpou̯ʒiːt/</span> (to use)</td>
+        </tr>
+        <tr>
+            <td>au</td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td>Like "ow" in "cow"</td>
+            <td>pauza <span class="ipa">/ˈpau̯za/</span> (pause), auto <span class="ipa">/ˈau̯to/</span></td>
+        </tr>
+        <tr>
+            <td>eu</td>
+            <td><span class="ipa">/ɛu̯/</span></td>
+            <td>Like "ay" + "oo" quickly</td>
+            <td>euro <span class="ipa">/ˈɛu̯ro/</span>, pseudonym <span class="ipa">/ˈpsɛu̯donɪm/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note:</strong> The combination <em>ou</em> is the most common Czech diphthong. The combinations
+        <em>au</em> and <em>eu</em> appear mostly in loanwords. Other vowel sequences (like <em>ea</em>, <em>ia</em>)
+        are not diphthongs — they belong to separate syllables.</p>
+
+    <h3 id="syllabic-sonorants">Syllabic Consonants (m, n, r, l)</h3>
+    <p>In certain positions, the consonants m, n, r, and l can function as the nucleus of a syllable — replacing a
+        vowel. This is marked with a syllabic mark <span class="ipa">̩</span> below the consonant.</p>
+
+    <h4>When Does This Happen?</h4>
+    <ul>
+        <li><strong>Between a consonant and an obstruent</strong> (stop, fricative, affricate):
+            <em>prsten</em> <span class="ipa">/ˈpr̩stɛn/</span> (ring), <em>vlk</em> <span class="ipa">/vl̩k/</span> (wolf)</li>
+        <li><strong>Word-finally after an obstruent:</strong>
+            <em>sedm</em> <span class="ipa">/ˈsɛdm̩/</span> (seven), <em>podzim</em> <span class="ipa">/ˈpodzim̩/</span> (autumn, in some analyses)</li>
+    </ul>
+
+    <h4>Common Examples</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Word</th>
+            <th>IPA</th>
+            <th>Syllabic Consonant</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>prsten</td>
+            <td><span class="ipa">/ˈpr̩stɛn/</span></td>
+            <td><span class="ipa">/r̩/</span></td>
+        </tr>
+        <tr>
+            <td>vlk</td>
+            <td><span class="ipa">/vl̩k/</span></td>
+            <td><span class="ipa">/l̩/</span></td>
+        </tr>
+        <tr>
+            <td>sedm</td>
+            <td><span class="ipa">/ˈsɛdm̩/</span></td>
+            <td><span class="ipa">/m̩/</span></td>
+        </tr>
+        <tr>
+            <td>osm</td>
+            <td><span class="ipa">/ˈosm̩/</span></td>
+            <td><span class="ipa">/m̩/</span></td>
+        </tr>
+        <tr>
+            <td>trh</td>
+            <td><span class="ipa">/tr̩ɦ/</span></td>
+            <td><span class="ipa">/r̩/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note:</strong> Syllabic <em>ɲ</em> and <em>j</em> do not occur — only m, n, r, and l can be syllabic.</p>
+
+    <h3 id="stress">Stress Patterns</h3>
+    <p>Czech stress is <strong>fixed on the first syllable</strong> of each word. This is much simpler than
+        languages like English or Russian, where stress is unpredictable.</p>
+
+    <h4>Basic Rules</h4>
+    <ul>
+        <li><strong>Simple words:</strong> Stress on the first syllable: <em>mléko</em> <span class="ipa">/ˈmlɛːko/</span>,
+            <em>počítač</em> <span class="ipa">/ˈpot͡ʃiːtat͡ʃ/</span></li>
+        <li><strong>Compound words:</strong> Each component keeps its own first-syllable stress, but the primary stress
+            falls on the first syllable of the whole word.</li>
+        <li><strong>Prefixes:</strong> The stress stays on the prefix: <em>nej-</em> in <em>nejlepší</em> <span class="ipa">/ˈnɛjlɛpʃiː/</span>
+            (best).</li>
+    </ul>
+
+    <h4>No Stress Shift</h4>
+    <p>Unlike Russian or Polish, Czech stress never moves to a different syllable. It is always on the first
+        syllable regardless of word length, prefixes, or suffixes.</p>
+
+    <h3 id="vowel-merger">Y/Ý Merger with I/Í</h3>
+    <p>In modern Czech, the letters <em>y/ý</em> and <em>i/í</em> represent the <strong>exact same sounds</strong>:</p>
+    <ul>
+        <li><strong>y, ý</strong> = <span class="ipa">/ɪ/</span>, <span class="ipa">/iː/</span></li>
+        <li><strong>i, í</strong> = <span class="ipa">/ɪ/</span>, <span class="ipa">/iː/</span></li>
+    </ul>
+    <p>The distinction between <em>y</em> and <em>i</em> is purely orthographic — it reflects historical pronunciation
+        differences that no longer exist in standard Czech. The spelling rules are:</p>
+    <ul>
+        <li><strong>After h, ch, b, m, p, f, v, s, z:</strong> Written as <em>y/ý</em> (mnemonic: "h ch b m p f v s z")</li>
+        <li><strong>After d, t, n:</strong> Written as <em>i/í</em> (these trigger palatalization), or <em>y/ý</em>
+            in certain traditional spellings (e.g., <em>byl</em>, <em>syn</em>)</li>
+        <li><strong>After other consonants:</strong> Written as <em>i/í</em></li>
+    </ul>
+    <p>The y/i distinction is important for spelling but has <strong>no effect on pronunciation</strong> in standard Czech.</p>
+
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>This section provides a complete mapping of Czech spelling (orthography) to pronunciation (IPA). These tables
+        reflect the actual rules used by our transcription engine.</p>
+
+    <h3>1. Vowels (Monophthongs)</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA (Short)</th>
+            <th>Example (Short)</th>
+            <th>IPA (Long)</th>
+            <th>Example (Long)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>a</strong></td>
+            <td><span class="ipa">/a/</span></td>
+            <td>pas <span class="ipa">/pas/</span></td>
+            <td><span class="ipa">/aː/</span></td>
+            <td>pás <span class="ipa">/paːs/</span></td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>den <span class="ipa">/dɛn/</span></td>
+            <td><span class="ipa">/ɛː/</span></td>
+            <td>réva <span class="ipa">/ˈrɛːva/</span></td>
+        </tr>
+        <tr>
+            <td><strong>i / y</strong></td>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>byl <span class="ipa">/bɪl/</span></td>
+            <td><span class="ipa">/iː/</span></td>
+            <td>bílý <span class="ipa">/ˈbiːliː/</span></td>
+        </tr>
+        <tr>
+            <td><strong>o</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td>rok <span class="ipa">/rok/</span></td>
+            <td><span class="ipa">/oː/</span></td>
+            <td>móda <span class="ipa">/ˈmoːda/</span></td>
+        </tr>
+        <tr>
+            <td><strong>u</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td>ruka <span class="ipa">/ˈruka/</span></td>
+            <td><span class="ipa">/uː/</span></td>
+            <td>růst <span class="ipa">/ruːst/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Diphthongs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context / Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ou</strong></td>
+            <td><span class="ipa">/ou̯/</span></td>
+            <td>Always</td>
+            <td>doufat <span class="ipa">/ˈdou̯fat/</span></td>
+        </tr>
+        <tr>
+            <td><strong>au</strong></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td>Always</td>
+            <td>pauza <span class="ipa">/ˈpau̯za/</span></td>
+        </tr>
+        <tr>
+            <td><strong>eu</strong></td>
+            <td><span class="ipa">/ɛu̯/</span></td>
+            <td>Always</td>
+            <td>euro <span class="ipa">/ˈɛu̯ro/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>3. Simple Consonants (One-to-One)</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>b</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td>balit <span class="ipa">/ˈbalɪt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>d</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td>dům <span class="ipa">/duːm/</span></td>
+        </tr>
+        <tr>
+            <td><strong>f</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>fakt <span class="ipa">/fakt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>garáž <span class="ipa">/ˈɡaraːʃ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>l</strong></td>
+            <td><span class="ipa">/l/</span></td>
+            <td>les <span class="ipa">/lɛs/</span></td>
+        </tr>
+        <tr>
+            <td><strong>m</strong></td>
+            <td><span class="ipa">/m/</span></td>
+            <td>město <span class="ipa">/ˈmɲɛsto/</span></td>
+        </tr>
+        <tr>
+            <td><strong>n</strong></td>
+            <td><span class="ipa">/n/</span></td>
+            <td>nos <span class="ipa">/nos/</span></td>
+        </tr>
+        <tr>
+            <td><strong>p</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td>pivo <span class="ipa">/ˈpɪvo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>r</strong></td>
+            <td><span class="ipa">/r/</span></td>
+            <td>rok <span class="ipa">/rok/</span></td>
+        </tr>
+        <tr>
+            <td><strong>s</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>sen <span class="ipa">/sɛn/</span></td>
+        </tr>
+        <tr>
+            <td><strong>t</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>tok <span class="ipa">/tok/</span></td>
+        </tr>
+        <tr>
+            <td><strong>v</strong></td>
+            <td><span class="ipa">/v/</span></td>
+            <td>vidět <span class="ipa">/ˈvɪɟɛt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>z</strong></td>
+            <td><span class="ipa">/z/</span></td>
+            <td>zima <span class="ipa">/ˈzɪma/</span></td>
+        </tr>
+        <tr>
+            <td><strong>j</strong></td>
+            <td><span class="ipa">/j/</span></td>
+            <td>jen <span class="ipa">/jɛn/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4. Complex Consonants &amp; Digraphs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context / Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>c</strong></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>Always</td>
+            <td>cena <span class="ipa">/ˈt͡sɛna/</span></td>
+        </tr>
+        <tr>
+            <td><strong>č</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>Always</td>
+            <td>čas <span class="ipa">/t͡ʃas/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ch</strong></td>
+            <td><span class="ipa">/x/</span></td>
+            <td>Always (single phoneme)</td>
+            <td>chata <span class="ipa">/ˈxata/</span></td>
+        </tr>
+        <tr>
+            <td><strong>š</strong></td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>Always</td>
+            <td>šest <span class="ipa">/ʃɛst/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ž</strong></td>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>Always</td>
+            <td>žena <span class="ipa">/ˈʒɛna/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ď</strong></td>
+            <td><span class="ipa">/ɟ/</span></td>
+            <td>Always</td>
+            <td>ďábel <span class="ipa">/ˈɟaːbɛl/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ť</strong></td>
+            <td><span class="ipa">/c/</span></td>
+            <td>Always</td>
+            <td>ťukat <span class="ipa">/ˈcukat/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ň</strong></td>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td>Always</td>
+            <td>kůň <span class="ipa">/kuːɲ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ř</strong></td>
+            <td><span class="ipa">/r̝/</span></td>
+            <td>Always (voiceless <span class="ipa">/r̝̊/</span> near voiceless cons.)</td>
+            <td>řeka <span class="ipa">/ˈr̝ɛka/</span>, tři <span class="ipa">/tr̝̊ɪ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>h</strong></td>
+            <td><span class="ipa">/ɦ/</span></td>
+            <td>Always</td>
+            <td>hora <span class="ipa">/ˈɦora/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>5. Context-Dependent Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Condition</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td rowspan="2"><strong>ě</strong></td>
+            <td><span class="ipa">/jɛ/</span></td>
+            <td>After b, p, m, v, f</td>
+            <td>věc <span class="ipa">/vjɛt͡s/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɲɛ/</span> or palatalization</td>
+            <td>After d, t, n (palatalizes preceding consonant)</td>
+            <td>děti <span class="ipa">/ˈɟɛcɪ/</span>, město <span class="ipa">/ˈmɲɛsto/</span></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>w</strong></td>
+            <td><span class="ipa">/v/</span></td>
+            <td>Always</td>
+            <td>Wagner <span class="ipa">/ˈvagnɛr/</span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><em>Only in loanwords and proper names</em></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>x</strong></td>
+            <td><span class="ipa">/ks/</span></td>
+            <td>Always</td>
+            <td>taxi <span class="ipa">/ˈtaksɪ/</span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><em>Only in loanwords</em></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><strong>q</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Always</td>
+            <td>quasi <span class="ipa">/ˈkuasɪ/</span></td>
+        </tr>
+        <tr>
+            <td colspan="3"><em>Only in loanwords (very rare)</em></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>6. Special Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ex- before vowel</td>
+            <td>exaktní</td>
+            <td><span class="ipa">/ˈɛɡzaktɲiː/</span></td>
+            <td>ex → egz; ni → ɲi (palatalization)</td>
+        </tr>
+        <tr>
+            <td>exh-</td>
+            <td>exhibice</td>
+            <td><span class="ipa">/ˈɛɡzɦɪbɪt͡sɛ/</span></td>
+            <td>exh → egzh</td>
+        </tr>
+        <tr>
+            <td>i/y + vowel (word-initial)</td>
+            <td>iámbický</td>
+            <td><span class="ipa">/ˈjaːmbɪt͡skiː/</span></td>
+            <td>i → j before vowel</td>
+        </tr>
+        <tr>
+            <td>i/y + vowel (mid-word)</td>
+            <td>piáno</td>
+            <td><span class="ipa">/ˈpɪjaːno/</span></td>
+            <td>Interpolated /j/</td>
+        </tr>
+        <tr>
+            <td>v/z before consonant</td>
+            <td>v Praze</td>
+            <td><span class="ipa">/ˈfprazɛ/</span></td>
+            <td>v→f before p; v elides; z stays voiced</td>
+        </tr>
+        <tr>
+            <td>v/z before vowel</td>
+            <td>v autě</td>
+            <td><span class="ipa">/ˈfʔau̯cɛ/</span></td>
+            <td>v→f before ʔ; glottal stop inserted; tě→cɛ</td>
+        </tr>
+        <tr>
+            <td>n before k/g</td>
+            <td>banka</td>
+            <td><span class="ipa">/ˈbaŋka/</span></td>
+            <td>n → ŋ (nasal assimilation)</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The Czech transcription engine is implemented as a Lua module (<code>cs-pron_wasm.lua</code>), a modified
+        version of the <a href="https://en.wiktionary.org/wiki/Module:cs-pronunciation" target="_blank"
+            rel="noopener noreferrer">Wiktionary Czech Pronunciation Module</a>. It runs in the browser via
+        <a href="https://github.com/ceifa/wasmoon" target="_blank" rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 WebAssembly).</p>
+
+    <h3>Processing Pipeline</h3>
+    <p>Text goes through the following stages in order:</p>
+
+    <h4>1. Preprocessing</h4>
+    <ul>
+        <li>Text is lowercased.</li>
+        <li>Commas and dashes are converted to IPA foot boundaries <span class="ipa">|</span>.</li>
+        <li>Punctuation (?, !) in the middle of sentences is treated as foot boundaries.</li>
+        <li>Spaces are normalized; word boundaries <code>#</code> and foot boundaries <code>##</code> are inserted.</li>
+        <li>Hyphens are converted to spaces (treating hyphenated words as separate words).</li>
+        <li>Doubled <em>n</em>s (<em>nn</em>) are simplified to single <em>n</em>.</li>
+    </ul>
+
+    <h4>2. Palatalization</h4>
+    <p>Before <em>ě</em>, <em>i</em>, and <em>í</em>, the consonants d, t, n are converted to their palatal
+        equivalents using Unicode combining caron:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>dě, tě, ně</td>
+            <td>ď+e, ť+e, ň+e</td>
+            <td>děti → ďeti → <span class="ipa">/ˈɟɛcɪ/</span></td>
+        </tr>
+        <tr>
+            <td>di, ti, ni (also í)</td>
+            <td>ďi, ťi, ňi</td>
+            <td>titul → ťitul → <span class="ipa">/ˈcɪtul/</span></td>
+        </tr>
+        <tr>
+            <td>mě</td>
+            <td>m+ň+e</td>
+            <td>město → mňesto → <span class="ipa">/ˈmɲɛsto/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>3. Special Prefixes</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Input</th>
+            <th>Output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ex- before vowel</td>
+            <td>exaktní</td>
+            <td>egzaktní → <span class="ipa">/ˈɛɡzaktɲiː/</span></td>
+        </tr>
+        <tr>
+            <td>exh-</td>
+            <td>exhibice</td>
+            <td>egzhibice → <span class="ipa">/ˈɛɡzɦɪbɪt͡sɛ/</span></td>
+        </tr>
+        <tr>
+            <td>i/y + vowel (word-initial)</td>
+            <td>iámbický</td>
+            <td>jámbický → <span class="ipa">/ˈjaːmbɪt͡skiː/</span></td>
+        </tr>
+        <tr>
+            <td>i/y + vowel (mid-word)</td>
+            <td>piáno</td>
+            <td>piáno → pi+j+áno → <span class="ipa">/ˈpɪjaːno/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>4. Character Substitution</h4>
+    <p>Each Czech letter (or digraph) is replaced with its IPA equivalent using a lookup table. This is the core
+        orthography-to-phoneme conversion:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>IPA</th>
+            <th>Input</th>
+            <th>IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>á</td><td><span class="ipa">aː</span></td><td>c</td><td><span class="ipa">t͡s</span></td></tr>
+        <tr><td>č</td><td><span class="ipa">t͡ʃ</span></td><td>ď</td><td><span class="ipa">ɟ</span></td></tr>
+        <tr><td>e</td><td><span class="ipa">ɛ</span></td><td>é</td><td><span class="ipa">ɛː</span></td></tr>
+        <tr><td>ě</td><td><span class="ipa">jɛ</span></td><td>g</td><td><span class="ipa">ɡ</span></td></tr>
+        <tr><td>h</td><td><span class="ipa">ɦ</span></td><td>i</td><td><span class="ipa">ɪ</span></td></tr>
+        <tr><td>í</td><td><span class="ipa">iː</span></td><td>ň</td><td><span class="ipa">ɲ</span></td></tr>
+        <tr><td>ó</td><td><span class="ipa">oː</span></td><td>q</td><td><span class="ipa">k</span></td></tr>
+        <tr><td>ř</td><td><span class="ipa">r̝</span></td><td>š</td><td><span class="ipa">ʃ</span></td></tr>
+        <tr><td>ť</td><td><span class="ipa">c</span></td><td>ú</td><td><span class="ipa">uː</span></td></tr>
+        <tr><td>ů</td><td><span class="ipa">uː</span></td><td>w</td><td><span class="ipa">v</span></td></tr>
+        <tr><td>x</td><td><span class="ipa">ks</span></td><td>y</td><td><span class="ipa">ɪ</span></td></tr>
+        <tr><td>ý</td><td><span class="ipa">iː</span></td><td>ž</td><td><span class="ipa">ʒ</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>5. Multiple-to-Single Encoding</h4>
+    <p>Multi-character IPA symbols (affricates, ř) are temporarily encoded as single characters to simplify
+        pattern matching during voicing assimilation and other rules:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Encoded As</th>
+            <th>Reason</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">t͡s</span></td><td>ʦ</td><td>Single-char for pattern matching</td></tr>
+        <tr><td><span class="ipa">t͡ʃ</span></td><td>ʧ</td><td>Single-char for pattern matching</td></tr>
+        <tr><td><span class="ipa">d͡z</span></td><td>ʣ</td><td>Single-char for pattern matching</td></tr>
+        <tr><td><span class="ipa">d͡ʒ</span></td><td>ʤ</td><td>Single-char for pattern matching</td></tr>
+        <tr><td><span class="ipa">r̝</span></td><td>ř</td><td>Single-char for pattern matching</td></tr>
+        <tr><td><span class="ipa">r̝̊</span></td><td>ṙ</td><td>Single-char for pattern matching</td></tr>
+        </tbody>
+    </table>
+
+    <h4>6. Consonantal Prepositions</h4>
+    <p>The prepositions <em>v</em> and <em>z</em> are handled specially at word boundaries:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Before a vowel</td>
+            <td>Glottal stop <span class="ipa">ʔ</span> is inserted</td>
+            <td>v autě → fʔau̯cɛ</td>
+        </tr>
+        <tr>
+            <td>Before a consonant</td>
+            <td>The preposition consonant elides</td>
+            <td>v Praze → fprazɛ (v→f, elides; z stays voiced)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>7. Voicing Assimilation</h4>
+    <p>Regressive assimilation: the last obstruent in a cluster determines the voicing of all preceding obstruents.
+        Sonorants (m, n, ɲ, r, l, j) are transparent. The consonants v and ř do not trigger assimilation.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Rule</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>odpad</td>
+            <td>otpat</td>
+            <td>d→t before p; final cluster devoices</td>
+        </tr>
+        <tr>
+            <td>kde</td>
+            <td>gdɛ</td>
+            <td>k→ɡ before voiced d</td>
+        </tr>
+        <tr>
+            <td>vzorek</td>
+            <td>vor̝ɛk</td>
+            <td>z stays voiced (v doesn't trigger); r̝ stays voiced</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Special case:</strong> <em>smus</em> → <em>zmus</em> (exception to prevent incorrect devoicing).</p>
+
+    <h4>8. Final Devoicing</h4>
+    <p>All voiced obstruents at word boundaries (#) become voiceless. This happens <em>after</em> voicing assimilation.</p>
+
+    <h4>9. Ř Devoicing</h4>
+    <p>The ř (r̝) becomes voiceless (r̝̊) when adjacent to any voiceless obstruent (except r̝̊ itself).</p>
+
+    <h4>10. Syllabic Consonants</h4>
+    <p>Sonorants m, n, r, l (but not ɲ or j) become syllabic when:</p>
+    <ul>
+        <li>Positioned between a consonant and an obstruent: <em>prsten</em> → pr̩stɛn</li>
+        <li>At word end after an obstruent: <em>sedm</em> → sɛdm̩</li>
+    </ul>
+
+    <h4>11. Nasal Assimilation</h4>
+    <p><em>n</em> before <em>k</em> or <em>g</em> becomes <span class="ipa">/ŋ/</span>: <em>banka</em> → baŋka.</p>
+
+    <h4>12. Stress Assignment</h4>
+    <p>If the transcription has no spaces and no existing stress mark, primary stress <span class="ipa">ˈ</span> is
+        automatically prepended (first syllable).</p>
+
+    <h4>13. Decoding &amp; Geminate Elimination</h4>
+    <p>The temporary single-character encodings are converted back to proper IPA multi-character sequences.
+        Then doubled (geminate) consonants are simplified to single consonants (e.g., <em>tt</em> → <em>t</em>,
+        <em>tt͡s</em> → <em>t͡s</em>). Finally, <code>#</code> word boundary markers are removed.</p>
+
+    <h3>Example Transformation</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Key Steps</th>
+            <th>Final IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>příklad</td>
+            <td>p → p; ř → r̝; í → iː; k → k; l → l; a → a; d → d; ř devoices before voiceless cluster → r̝̊; stress added</td>
+            <td><span class="ipa">/ˈpr̝̊iːklat/</span></td>
+        </tr>
+        <tr>
+            <td>město</td>
+            <td>mě → mɲɛ; s → s; t → t; o → o; stress added</td>
+            <td><span class="ipa">/ˈmɲɛsto/</span></td>
+        </tr>
+        <tr>
+            <td>odpad</td>
+            <td>o → o; d → d; p → p; a → a; d → d; d→t before p (assim.); final d→t (devoicing); stress added</td>
+            <td><span class="ipa">/ˈotpat/</span></td>
+        </tr>
+        <tr>
+            <td>prsten</td>
+            <td>p → p; r → r; s → s; t → t; e → ɛ; n → n; r becomes syllabic (between cons. and obstr.); stress added</td>
+            <td><span class="ipa">/ˈpr̩stɛn/</span></td>
+        </tr>
+        <tr>
+            <td>banka</td>
+            <td>b → b; a → a; n → n; k → k; a → a; n→ŋ before k (nasal assim.); stress added</td>
+            <td><span class="ipa">/ˈbaŋka/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Lexicon Architecture</h3>
+    <p>Before rule-based processing, the system looks up words in a Wiktionary data dump (339KB, V3 prefix-compressed
+        format). The lexicon is loaded from <code>czech_lexicon.zip</code> via a Web Worker and wrapped in a
+        <code>LargeDictionaryHandler</code> for efficient chunked lookup.</p>
+    <ul>
+        <li>If a word is found in the lexicon, its phonemic transcription is used directly.</li>
+        <li>If not found, the Lua module generates a transcription using the rules described above.</li>
+        <li>Some words have multiple pronunciations in the lexicon — these appear as click-to-cycle variants.</li>
+    </ul>
+
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may be incorrect:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>obecný</td>
+            <td><span class="ipa">/ˈobɛtsniː/</span></td>
+            <td><span class="ipa">/ˈobɛtsniː/</span></td>
+            <td>—</td>
+            <td>Correctly generated by rules</td>
+        </tr>
+        <tr>
+            <td>exhibice</td>
+            <td><span class="ipa">/ˈɛɡzɦɪbɪt͡sɛ/</span></td>
+            <td><span class="ipa">/ˈɛɡzɦɪbɪt͡sɛ/</span></td>
+            <td>—</td>
+            <td>Correctly handles ex- prefix</td>
+        </tr>
+        <tr>
+            <td>quasi</td>
+            <td><span class="ipa">/ˈkuasɪ/</span></td>
+            <td><span class="ipa">/ˈkuasɪ/</span></td>
+            <td>—</td>
+            <td>Correctly maps q → k</td>
+        </tr>
+        <tr>
+            <td>Very rare loanwords</td>
+            <td>Approximate</td>
+            <td>Varies</td>
+            <td>Not in lexicon; rule-based fallback may not handle unusual letter combinations</td>
+            <td>Check Wiktionary; report if incorrect</td>
+        </tr>
+        <tr>
+            <td>Dialectal spellings</td>
+            <td>Standard IPA</td>
+            <td>May differ</td>
+            <td>Module uses standard Czech only</td>
+            <td>Use standard spelling for best results</td>
+        </tr>
+        <tr>
+            <td>Proper names (rare)</td>
+            <td>Approximate</td>
+            <td>Varies</td>
+            <td>Some names not in lexicon; foreign names may need special rules</td>
+            <td>Verify with native speaker or Wiktionary</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>General Limitations</h3>
+    <ul>
+        <li><strong>Phonemic only:</strong> The Czech module produces broad phonemic transcription, not narrow phonetic
+            transcription with allophonic detail (aspiration, exact vowel quality in context, etc.).</li>
+        <li><strong>Standard Czech only:</strong> Regional variants (Moravian, Silesian, Common Czech / <em>obecná
+            čeština</em>) are not supported.</li>
+        <li><strong>No compound word splitting:</strong> Very long compound words may not be split correctly into
+            components for stress assignment.</li>
+        <li><strong>Foreign proper names:</strong> Names from non-Slavic languages may produce approximate results
+            since the rules are optimized for Czech orthography.</li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
-            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
-            rel="noopener noreferrer">GitHub
+      href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
+      rel="noopener noreferrer">GitHub
         repository</a>.</small></p>
 </div>
 </body>
