@@ -20,42 +20,1424 @@
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
-
-    <p>This <a href="../?lang=Latin">Latin transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:la-pronunc" target="_blank" rel="noopener noreferrer">Wiktionary
-        Latin Pronunciation
-        Module</a> to generate phonetic/phonemic transcriptions for Latin text.</p>
-
-    <p>The system processes Latin text through a rule-based approach that applies Classical Latin pronunciation
-        patterns. It automatically handles macronization (adding long vowel marks) to ensure accurate pronunciation.</p>
-
-    <h2>Dialects Supported</h2>
+    <h2>Table of Contents</h2>
     <ul>
-        <li><strong>Classical</strong> - Traditional Classical Latin pronunciation as reconstructed by scholars</li>
-        <li><strong>Ecclesiastical</strong> - Church Latin pronunciation used in religious contexts</li>
-        <li><strong>Vulgar</strong> - Late Latin/Vulgar Latin pronunciation patterns</li>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+                <li><a href="#macrons">Automatic Macronization</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+            </ul>
+        </li>
+        <li><strong>Latin Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Vowel Length &amp; Quality</a></li>
+                <li><a href="#diphthongs">Diphthongs</a></li>
+                <li><a href="#consonants-guide">Consonant Rules</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#dialect-differences">Classical vs Ecclesiastical</a></li>
+                <li><a href="#greek">Greek Loanwords</a></li>
+            </ul>
+        </li>
+        <li><strong>Comprehensive Spelling-to-IPA Mapping</strong>
+            <ul>
+                <li><a href="#mapping-vowels">Vowels</a></li>
+                <li><a href="#mapping-diphthongs">Diphthongs</a></li>
+                <li><a href="#mapping-consonants">Consonants</a></li>
+                <li><a href="#mapping-context">Context-Dependent Rules</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
     </ul>
 
-    <h2>Transcription Forms</h2>
+
+    <h2 id="about">About This Tool</h2>
+
+    <p>This <a href="../?lang=Latin">Latin transcription app</a> generates IPA (International Phonetic Alphabet)
+        transcriptions for Latin text. It uses the <a
+                href="https://en.wiktionary.org/wiki/Module:la-pronunc" target="_blank"
+                rel="noopener noreferrer">Wiktionary Latin Pronunciation Module</a><sup>[1]</sup> as its transcription
+        engine, running in the browser via <a href="https://github.com/ceifa/wasmoon" target="_blank"
+                                              rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 in WebAssembly).</p>
+
+    <p>The system supports three historical pronunciations of Latin — <b>Classical</b>, <b>Ecclesiastical</b>, and
+        <b>Vulgar</b> — and produces both <b>phonemic</b> (broad) and <b>phonetic</b> (narrow) transcriptions.
+        A unique feature is <b>automatic macronization</b>: long vowel marks (ā, ē, ī, ō, ū) are added from a
+        predefined dictionary before transcription to ensure accurate vowel length.</p>
+
+    <p>Unlike most other languages in this tool, Latin is <b>purely rule-based</b> — no lexicon or stress dictionary
+        is used. All transcriptions are generated deterministically from the spelling and dialect rules.</p>
+
+    <p><sup>[1]</sup> The Wiktionary module covers Classical Latin phonology as reconstructed by modern scholars,
+        with extensions for Ecclesiastical and Vulgar Latin pronunciation patterns.</p>
+
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <p>The tool offers two transcription depth levels:</p>
     <ul>
-        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
-            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said.
-        </li>
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
-        </li>
+        <li><strong>Phonemic</strong>: Shows only the sounds that distinguish meaning. Vowel length is marked
+            (in Classical), but allophonic details (like nasalized vowels, dental articulation, or
+            assimilation) are not shown. Output uses <span class="ipa">/slashes/</span>.</li>
+        <li><strong>Phonetic</strong>: A narrow transcription showing how Latin was (or is) actually pronounced.
+            Includes allophonic variation: nasalized vowels before <em>m/n + s/f</em>, dental articulation of
+            <em>t, d, n</em>, voicing assimilation, and dialect-specific vowel quality changes.
+            Output uses <span class="ipa">[brackets]</span>.</li>
     </ul>
 
 
-    <h2>Technical Information</h2>
-    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:la-pronunc" target="_blank"
-                                              rel="noopener noreferrer">Wiktionary
-        Latin pronunciation module</a>, which provides comprehensive coverage of Latin phonological rules and historical
-        pronunciation variants.</p>
-    <p>Macrons are added based on the predefined <a
-            href="https://raw.githubusercontent.com/hellpanderrr/hellpanderrr.github.io/refs/heads/main/wiktionary_pron/utils/macrons.json">dictionary</a>.
-    </p>
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+
+    <h3>Classical Latin</h3>
+    <p>The reconstructed pronunciation of educated Roman speech (roughly 1st century BCE – 2nd century CE),
+        as determined by modern philological and linguistic evidence.</p>
+    <ul>
+        <li><strong>Supported:</strong> Full vowel length distinction, diphthongs <em>ae, oe, au, eu</em>,
+            labiovelar <em>qu</em> = <span class="ipa">/kʷ/</span>, <em>v</em> = <span class="ipa">/u̯/</span>,
+            <em>c, g</em> always velar, aspirates <em>ph, th, ch</em>.</li>
+        <li><strong>Not supported:</strong> Regional or temporal variation within Classical Latin itself
+            (e.g., early vs late Republican pronunciation).</li>
+    </ul>
+
+    <h3>Ecclesiastical Latin</h3>
+    <p>The pronunciation used in the Roman Catholic Church and Italian-influenced Latin tradition.
+        Reflects the natural evolution of Latin through Romance (especially Italian) phonology.</p>
+    <ul>
+        <li><strong>Supported:</strong> <em>c</em> → <span class="ipa">/t͡ʃ/</span> before <em>e, i</em>;
+            <em>g</em> → <span class="ipa">/d͡ʒ/</span> before <em>e, i</em>; <em>ae, oe</em> →
+            <span class="ipa">/eː/</span>; <em>v</em> = <span class="ipa">/v/</span>;
+            <em>h</em> silent; <em>ti</em> + vowel → <span class="ipa">/t͡si/</span>;
+            <em>s</em> voicing between vowels.</li>
+        <li><strong>Not supported:</strong> Variation across different national traditions
+            (French, German, Spanish Ecclesiastical Latin).</li>
+    </ul>
+
+    <h3>Vulgar Latin</h3>
+    <p>The colloquial pronunciation of Late Latin (roughly 3rd–6th century CE), reflecting the
+        transition to Romance languages.</p>
+    <ul>
+        <li><strong>Supported:</strong> Merger of vowel length (long/short distinctions lost),
+            phonetic vowel lengthening under stress, unstressed vowel reduction
+            (<span class="ipa">/ɔ/</span> → <span class="ipa">/o/</span>,
+            <span class="ipa">/ɛ/</span> → <span class="ipa">/e/</span>). When combined with
+            Ecclesiastical mode, the Ecclesiastical consonant changes also apply.</li>
+        <li><strong>Edge cases:</strong> Vulgar Latin is less well attested than Classical; the module
+            approximates based on known Romance developments.</li>
+    </ul>
+
+    <h3>General Limitations</h3>
+    <ul>
+        <li><strong>Reconstructed pronunciation:</strong> No native speakers exist; Classical pronunciation
+            is based on scholarly reconstruction from orthographic, metrical, and comparative evidence.</li>
+        <li><strong>Automatic macronization:</strong> The macron dictionary is not exhaustive. Words
+            without macrons will be transcribed with default (short) vowel length, which may be incorrect.</li>
+        <li><strong>No lexicon:</strong> All transcription is rule-based; there is no stress dictionary to
+            override the automatic stress rules.</li>
+    </ul>
+
+
+    <h2 id="macrons">Automatic Macronization</h2>
+    <p>Latin spelling does not mark vowel length, but vowel length is phonemic in Classical Latin.
+        Before transcription, the system automatically adds macrons (ā, ē, ī, ō, ū) to known words using
+        a <a href="https://raw.githubusercontent.com/hellpanderrr/hellpanderrr.github.io/refs/heads/main/wiktionary_pron/utils/macrons.json"
+             target="_blank" rel="noopener noreferrer">predefined dictionary</a>.</p>
+
+    <h3>How It Works</h3>
+    <ul>
+        <li>Each word is looked up in the macron dictionary (a JSON map from unmacronized to macronized forms).</li>
+        <li>If found, the macronized form replaces the original. If not found, the word is used as-is.</li>
+        <li>Original capitalization is preserved.</li>
+        <li>This preprocessing happens <em>before</em> the IPA rules are applied.</li>
+    </ul>
+
+    <h3>Limitations</h3>
+    <ul>
+        <li>Proper names, rare words, and newly coined terms may not be in the dictionary.</li>
+        <li>If a word has ambiguous vowel length (short in some forms, long in others), only one form
+            may be listed.</li>
+        <li>In Ecclesiastical and Vulgar modes, macrons are stripped after preprocessing since vowel
+            length is not phonemic in those dialects.</li>
+    </ul>
+
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound that distinguishes meaning. E.g., <span class="ipa">/a/</span> vs
+            <span class="ipa">/aː/</span> in Classical Latin distinguish <em>a</em> (short) from <em>ā</em> (long).</dd>
+
+        <dt>Allophone</dt>
+        <dd>A predictable variant of a phoneme. E.g., <span class="ipa">[t̪]</span> (dental) is an allophone of
+            <span class="ipa">/t/</span> before <span class="ipa">/d/</span> in Classical Latin.</dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound. Classical Latin has five: <span class="ipa">/ae̯/</span>,
+            <span class="ipa">/oe̯/</span>, <span class="ipa">/ei̯/</span>, <span class="ipa">/au̯/</span>,
+            <span class="ipa">/eu̯/</span>. In Ecclesiastical Latin, <em>ae</em> and <em>oe</em> are
+            monophthongized to <span class="ipa">/e/</span> (length stripped in Ecclesiastical).</dd>
+
+        <dt>Labiovelar</dt>
+        <dd>A consonant pronounced with simultaneous velar and lip rounding. In Classical Latin,
+            <em>qu</em> = <span class="ipa">/kʷ/</span> and <em>gu</em> (before vowel) = <span class="ipa">/ɡʷ/</span>.</dd>
+
+        <dt>Aspirate</dt>
+        <dd>A consonant followed by a burst of breath. Greek-origin consonants <em>ph, th, ch</em> are
+            aspirated in Classical Latin: <span class="ipa">/pʰ/</span>, <span class="ipa">/tʰ/</span>,
+            <span class="ipa">/kʰ/</span>. In Ecclesiastical, they are deaspirated.</dd>
+
+        <dt>Palatalization</dt>
+        <dd>When a velar consonant shifts to a palatal/alveolar position before front vowels.
+            In Ecclesiastical Latin, <em>c</em> → <span class="ipa">/t͡ʃ/</span> and <em>g</em> →
+            <span class="ipa">/d͡ʒ/</span> before <em>e, i</em>.</dd>
+
+        <dt>Macron</dt>
+        <dd>A bar over a vowel (ā, ē, ī, ō, ū) indicating it is long. Used in modern Latin pedagogy
+            and by this tool to mark vowel length.</dd>
+
+        <dt>Geminate</dt>
+        <dd>A doubled consonant, pronounced longer than a single consonant. E.g., <em>annus</em> has
+            geminate <em>nn</em>. In phonetic transcription, geminates are shown as
+            <span class="ipa">[nː]</span>.</dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>A marker (.) showing where syllables divide. E.g., <em>a-mi-cus</em>. Affects stress
+            assignment and consonant cluster behavior.</dd>
+
+        <dt>Nasalization</dt>
+        <dd>When a vowel is pronounced with airflow through the nose. In Classical phonetic transcription,
+            vowels before word-final <em>m</em> or before <em>ns/nf/ms/mf</em> are nasalized.</dd>
+
+        <dt>Lenition</dt>
+        <dd>Consonant weakening. In Vulgar Latin, intervocalic stops may weaken (e.g., <span class="ipa">/ɡ/</span> →
+            <span class="ipa">/ɣ/</span>).</dd>
+
+        <dt>Deaspiration</dt>
+        <dd>Loss of the aspiration feature from a consonant. In Ecclesiastical Latin, Greek-origin
+            aspirates <em>ph, th, ch</em> lose their aspiration: <span class="ipa">/pʰ/</span> →
+            <span class="ipa">/p/</span>, etc.</dd>
+
+        <dt>Monophthongization</dt>
+        <dd>When a diphthong (two-part vowel) becomes a single vowel. In Ecclesiastical Latin,
+            <em>ae</em> and <em>oe</em> → <span class="ipa">/e/</span> (length mark stripped).</dd>
+    </dl>
+
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This section lists the IPA symbols used in Latin transcriptions, with examples from Latin words.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <p>Classical Latin distinguishes 10 vowels (5 short + 5 long). Ecclesiastical and Vulgar do not
+        distinguish length.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td>aqua</td>
+            <td>"father" (short)</td>
+            <td>Short open central vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/aː/</span></td>
+            <td>ācer</td>
+            <td>"father" (longer)</td>
+            <td>Long open central vowel (Classical only)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>pes</td>
+            <td>"bed"</td>
+            <td>Short open-mid front vowel (allophonic in Classical phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/e/</span></td>
+            <td>deus</td>
+            <td>"café"</td>
+            <td>Short close-mid front vowel (phonemic); tense allophone before vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/eː/</span></td>
+            <td>ēst</td>
+            <td>"café" (longer)</td>
+            <td>Long close-mid front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>fidēs</td>
+            <td>"bit"</td>
+            <td>Short near-close front vowel (allophonic in Classical phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span></td>
+            <td>vir</td>
+            <td>"see" (short)</td>
+            <td>Short close front vowel (phonemic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iː/</span></td>
+            <td>vīcus</td>
+            <td>"see"</td>
+            <td>Long close front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>nox</td>
+            <td>"caught"</td>
+            <td>Short open-mid back vowel (allophonic in Classical phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td>rosa</td>
+            <td>"go" (without glide)</td>
+            <td>Short close-mid back vowel (phonemic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/oː/</span></td>
+            <td>rōsa</td>
+            <td>"go" (longer)</td>
+            <td>Long close-mid back vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td>sum</td>
+            <td>"put"</td>
+            <td>Short near-close back vowel (allophonic in Classical phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td>curro</td>
+            <td>"flute" (short)</td>
+            <td>Short close back vowel (phonemic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/uː/</span></td>
+            <td>mūrus</td>
+            <td>"flute"</td>
+            <td>Long close back vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/y/</span></td>
+            <td>lyra</td>
+            <td>French "tu" (rounded i)</td>
+            <td>Close front rounded vowel (Greek upsilon, Classical only)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/yː/</span></td>
+            <td>ȳmnus</td>
+            <td>French "tu" (longer)</td>
+            <td>Long close front rounded vowel (Classical only; merges with /iː/ in Ecclesiastical)</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/p/</span></td>
+            <td>pons</td>
+            <td>"pen"</td>
+            <td>Voiceless bilabial stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/b/</span></td>
+            <td>bonus</td>
+            <td>"bad"</td>
+            <td>Voiced bilabial stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t/</span></td>
+            <td>tellus</td>
+            <td>"top"</td>
+            <td>Voiceless dental stop (dental before d in phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d/</span></td>
+            <td>deus</td>
+            <td>"dog"</td>
+            <td>Voiced dental stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/k/</span></td>
+            <td>casa</td>
+            <td>"cat"</td>
+            <td>Voiceless velar stop (always, in Classical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>gallus</td>
+            <td>"go"</td>
+            <td>Voiced velar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/kʷ/</span></td>
+            <td>quod</td>
+            <td>"queen"</td>
+            <td>Labiovelar stop (Classical only)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/f/</span></td>
+            <td>fīlius</td>
+            <td>"far"</td>
+            <td>Voiceless labiodental fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span></td>
+            <td>sal</td>
+            <td>"see"</td>
+            <td>Voiceless alveolar fricative (partially voiced <span class="ipa">[s̬]</span> between vowels in Ecclesiastical phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/z/</span></td>
+            <td>zōna</td>
+            <td>"zoo"</td>
+            <td>Voiced alveolar fricative (Greek zeta)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>sciō</td>
+            <td>"she"</td>
+            <td>Voiceless postalveolar fricative (Ecclesiastical: <em>sc</em> before e/i)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>centum</td>
+            <td>"church"</td>
+            <td>Voiceless postalveolar affricate (Ecclesiastical: <em>c</em> before e/i)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>genus</td>
+            <td>"judge"</td>
+            <td>Voiced postalveolar affricate (Ecclesiastical: <em>g</em> before e/i)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>ratio</td>
+            <td>"cats"</td>
+            <td>Voiceless alveolar affricate (Ecclesiastical: <em>ti</em> + vowel)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td>zōna</td>
+            <td>"adze"</td>
+            <td>Voiced alveolar affricate (Ecclesiastical: single <em>z</em>)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/m/</span></td>
+            <td>māter</td>
+            <td>"man"</td>
+            <td>Bilabial nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n/</span></td>
+            <td>nōmen</td>
+            <td>"no"</td>
+            <td>Alveolar nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɲɲ/</span></td>
+            <td>agnus</td>
+            <td>"canyon" (geminate)</td>
+            <td>Geminate palatal nasal (<em>gn</em> in Ecclesiastical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>ancora</td>
+            <td>"sing"</td>
+            <td>Velar nasal (allophonic, before k/g in phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l/</span></td>
+            <td>lūna</td>
+            <td>"let"</td>
+            <td>Lateral approximant (velarized <span class="ipa">/ɫ̪/</span> in Classical phonetic)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td>rēx</td>
+            <td>Spanish "rr" (rolled)</td>
+            <td>Alveolar trill</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u̯/</span></td>
+            <td>vir</td>
+            <td>"wet"</td>
+            <td>Labial-velar approximant (Classical: <em>v</em>, written as /u̯/ in module output)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/v/</span></td>
+            <td>vir</td>
+            <td>"very"</td>
+            <td>Labiodental fricative (Ecclesiastical: <em>v</em>)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td>iam</td>
+            <td>"yes"</td>
+            <td>Palatal approximant (from <em>i</em> before vowel)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/h/</span></td>
+            <td>hortus</td>
+            <td>"hat"</td>
+            <td>Voiceless glottal fricative (Classical only; silent in Ecclesiastical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td>philosophia</td>
+            <td>"pin" + breath</td>
+            <td>Aspirated bilabial stop (Classical only; → /f/ in Ecclesiastical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td>theātrum</td>
+            <td>"top" + breath</td>
+            <td>Aspirated dental stop (Classical only; → /t/ in Ecclesiastical)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td>chorus</td>
+            <td>"cat" + breath</td>
+            <td>Aspirated velar stop (Classical only; → /k/ in Ecclesiastical)</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word</td>
+            <td><span class="ipa">/ˈa.mi.kus/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Vowel or consonant is long</td>
+            <td><span class="ipa">/aː/</span> vs <span class="ipa">/a/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˑ</span></td>
+            <td>Half-long</td>
+            <td>Slightly lengthened</td>
+            <td><span class="ipa">/ɛ̃ˑ/</span> — nasalized half-long vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̃</span></td>
+            <td>Nasalized</td>
+            <td>Vowel with nasal airflow</td>
+            <td><span class="ipa">/ɛ̃/</span> — before word-final <em>m</em></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̪</span></td>
+            <td>Dental</td>
+            <td>Consonant is dental (not alveolar)</td>
+            <td><span class="ipa">/t̪/</span>, <span class="ipa">/d̪/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Glide (part of diphthong)</td>
+            <td><span class="ipa">/ae̯/</span>, <span class="ipa">/au̯/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʰ</span></td>
+            <td>Aspirated</td>
+            <td>Consonant + breath burst</td>
+            <td><span class="ipa">/pʰ/</span>, <span class="ipa">/tʰ/</span>, <span class="ipa">/kʰ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">͡</span></td>
+            <td>Tie bar</td>
+            <td>Affricate (single unit)</td>
+            <td><span class="ipa">/t͡ʃ/</span>, <span class="ipa">/d͡ʒ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="pronunciation-guide">Latin Pronunciation Guide</h2>
+
+    <h3 id="vowels-guide">Vowel Length &amp; Quality</h3>
+    <p>Classical Latin has 5 vowel qualities, each with a short and long version. Vowel length is phonemic —
+        it distinguishes meaning. Ecclesiastical and Vulgar Latin do not distinguish vowel length.</p>
+
+    <h4>Short Vowels (Classical)</h4>
+    <ul>
+        <li><strong>a</strong> <span class="ipa">/a/</span> — open central, like "father": <em>aqua</em> <span class="ipa">/ˈa.kʷa/</span></li>
+        <li><strong>e</strong> <span class="ipa">/e/</span> — close-mid front, like "café": <em>deus</em> <span class="ipa">/ˈde.us/</span></li>
+        <li><strong>i</strong> <span class="ipa">/i/</span> — close front, like "see" (short): <em>vir</em> <span class="ipa">/u̯ir/</span></li>
+        <li><strong>o</strong> <span class="ipa">/o/</span> — close-mid back, like "go" (without glide): <em>rosa</em> <span class="ipa">/ˈro.sa/</span></li>
+        <li><strong>u</strong> <span class="ipa">/u/</span> — close back, like "flute" (short): <em>curro</em> <span class="ipa">/ˈkur.ro/</span></li>
+    </ul>
+
+    <h4>Long Vowels (Classical)</h4>
+    <p>Long vowels are written with a macron (ā, ē, ī, ō, ū) in this tool. They are distinct phonemes:</p>
+    <ul>
+        <li><strong>ā</strong> <span class="ipa">/aː/</span> — <em>ācer</em> (sharp) vs. <em>acer</em> (maple)</li>
+        <li><strong>ē</strong> <span class="ipa">/eː/</span> — <em>ēst</em> (eats) vs. <em>est</em> (is)</li>
+        <li><strong>ī</strong> <span class="ipa">/iː/</span> — <em>vīcus</em> (village) vs. <em>vicus</em></li>
+        <li><strong>ō</strong> <span class="ipa">/oː/</span> — <em>rōsa</em> (rose) vs. <em>rosa</em> (dew)</li>
+        <li><strong>ū</strong> <span class="ipa">/uː/</span> — <em>mūrus</em> (wall) vs. <em>murus</em></li>
+    </ul>
+
+    <h4>Allophonic Variation (Classical Phonetic)</h4>
+    <p>In narrow phonetic transcription, short vowels have lax allophones in closed syllables:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Phoneme</th>
+            <th>Tense (before vowel)</th>
+            <th>Lax (elsewhere)</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>/e/</td>
+            <td><span class="ipa">[e]</span></td>
+            <td><span class="ipa">[ɛ]</span></td>
+            <td><em>deus</em> <span class="ipa">[ˈde.us]</span> vs <em>pes</em> <span class="ipa">[pɛs]</span></td>
+        </tr>
+        <tr>
+            <td>/i/</td>
+            <td><span class="ipa">[i]</span></td>
+            <td><span class="ipa">[ɪ]</span></td>
+            <td><em>fidēs</em> <span class="ipa">[ˈfɪ.deːs]</span></td>
+        </tr>
+        <tr>
+            <td>/o/</td>
+            <td><span class="ipa">[o]</span></td>
+            <td><span class="ipa">[ɔ]</span></td>
+            <td><em>rosa</em> <span class="ipa">[ˈrɔ.sa]</span></td>
+        </tr>
+        <tr>
+            <td>/u/</td>
+            <td><span class="ipa">[u]</span></td>
+            <td><span class="ipa">[ʊ]</span></td>
+            <td><em>sum</em> <span class="ipa">[sʊ̃ˑ]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Ecclesiastical Vowel Changes</h4>
+    <ul>
+        <li><strong>No length distinction:</strong> All vowel length marks are removed.</li>
+        <li><strong>Stressed vowels lengthened:</strong> The stressed vowel gets phonetically lengthened.</li>
+        <li><strong>Open e/o under stress:</strong> <span class="ipa">/e/</span> → <span class="ipa">[ɛ]</span>,
+            <span class="ipa">/o/</span> → <span class="ipa">[ɔ]</span> in stressed syllables.</li>
+        <li><strong>y → i:</strong> Greek upsilon merges with <em>i</em>.</li>
+        <li><strong>Short vowel before yod:</strong> A short vowel before <em>j</em> (consonantal i)
+            gets lengthened: <em>ai</em> → <em>āi</em>, <em>ei</em> → <em>ēi</em>, etc.
+            Greek <em>y</em> + <em>j</em> → <em>ȳ</em> (yod absorbed).</li>
+    </ul>
+
+
+    <h3 id="diphthongs">Diphthongs</h3>
+    <p>Classical Latin has five diphthongs. In Ecclesiastical Latin, <em>ae</em> and <em>oe</em> are
+        monophthongized to <span class="ipa">/e/</span> (length mark stripped).</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical IPA</th>
+            <th>Ecclesiastical IPA</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ae</strong></td>
+            <td><span class="ipa">/ae̯/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>aeternus, Caesar</td>
+        </tr>
+        <tr>
+            <td><strong>oe</strong></td>
+            <td><span class="ipa">/oe̯/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>poena, coelum</td>
+        </tr>
+        <tr>
+            <td><strong>au</strong></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td>aurum, causa</td>
+        </tr>
+        <tr>
+            <td><strong>eu</strong></td>
+            <td><span class="ipa">/eu̯/</span></td>
+            <td><span class="ipa">/eu̯/</span></td>
+            <td>eurus (rare in native words)</td>
+        </tr>
+        <tr>
+            <td><strong>ei</strong></td>
+            <td colspan="2"><span class="ipa">/e.i/</span> (always hiatus, never diphthong)</td>
+            <td>deinde <span class="ipa">/deˈin.de/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Hiatus vs Diphthong</h4>
+    <p>Some vowel sequences that look like diphthongs are actually two separate syllables (hiatus):</p>
+    <ul>
+        <li><strong>aë, oë</strong> (with diaeresis) — forced hiatus: <em>aë</em> → <span class="ipa">/a.e/</span></li>
+        <li><strong>e + u/m</strong> at word end — hiatus: <em>deum</em> → <span class="ipa">/ˈde.um/</span>, <em>eum</em> → <span class="ipa">/ˈe.um/</span></li>
+        <li><strong>ei</strong> — forced hiatus: <em>deinde</em> → <span class="ipa">/deˈin.de/</span></li>
+        <li><strong>u</strong> between vowels — becomes <span class="ipa">/u̯/</span> (consonantal), not hiatus</li>
+    </ul>
+
+
+    <h3 id="consonants-guide">Consonant Rules</h3>
+
+    <h4>C and G Before Front Vowels (Ecclesiastical)</h4>
+    <p>In Ecclesiastical Latin, <em>c</em> and <em>g</em> are palatalized before the front vowels
+        <em>e, i</em> (including long variants ē, ī and the diphthong ae/oe which become /e/):</p>
+    <ul>
+        <li><strong>c</strong> → <span class="ipa">/t͡ʃ/</span> before e, ē, i, ī, ae, oe:
+            <em>centum</em> <span class="ipa">/ˈt͡ʃen.tum/</span>, <em>cīvis</em> <span class="ipa">/ˈt͡ʃi.vis/</span></li>
+        <li><strong>g</strong> → <span class="ipa">/d͡ʒ/</span> before e, ē, i, ī, ae, oe:
+            <em>genus</em> <span class="ipa">/ˈd͡ʒe.nus/</span>, <em>gīgās</em> <span class="ipa">/ˈd͡ʒi.ɡas/</span></li>
+        <li><strong>sc</strong> → <span class="ipa">/ʃ/</span> before e, i: <em>sciō</em> <span class="ipa">/ˈʃi.o/</span></li>
+        <li><strong>gn</strong> → <span class="ipa">/ɲɲ/</span>: <em>agnus</em> <span class="ipa">/ˈaɲ.ɲus/</span></li>
+    </ul>
+    <p>In Classical Latin, <em>c</em> and <em>g</em> are always velar (<span class="ipa">/k/</span>,
+        <span class="ipa">/ɡ/</span>) regardless of the following vowel.</p>
+
+    <h4>T + I + Vowel (Ecclesiastical)</h4>
+    <p>In Ecclesiastical Latin, <em>ti</em> before a vowel becomes <span class="ipa">/t͡si/</span>:</p>
+    <ul>
+        <li><em>ratio</em> → <span class="ipa">/ˈrat.t͡si.o/</span></li>
+        <li><em>nātiō</em> → <span class="ipa">/ˈnat.t͡si.o/</span></li>
+    </ul>
+    <p>Exception: after <em>s</em> or <em>t</em>, no palatalization: <em>ostium</em> stays as
+        <span class="ipa">/ˈos.ti.um/</span>.</p>
+
+    <h4>V in Classical vs Ecclesiastical</h4>
+    <ul>
+        <li><strong>Classical:</strong> <em>v</em> = <span class="ipa">/u̯/</span> (non-syllabic labial-velar approximant):
+            <em>vir</em> <span class="ipa">/u̯ir/</span>, <em>vinum</em> <span class="ipa">/ˈu̯i.num/</span></li>
+        <li><strong>Ecclesiastical:</strong> <em>v</em> = <span class="ipa">/v/</span> (labiodental fricative):
+            <em>vir</em> <span class="ipa">/vir/</span>, <em>vinum</em> <span class="ipa">/ˈvi.num/</span></li>
+    </ul>
+
+    <h4>H (Classical Only)</h4>
+    <p>In Classical Latin, <em>h</em> is pronounced <span class="ipa">/h/</span> (a voiceless glottal fricative).
+        In Ecclesiastical Latin, <em>h</em> is completely silent.</p>
+
+    <h4>Aspirates (Greek Origin)</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical</th>
+            <th>Ecclesiastical</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ph</td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>philosophia</td>
+        </tr>
+        <tr>
+            <td>th</td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>theātrum</td>
+        </tr>
+        <tr>
+            <td>ch</td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>chorus</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Z (Greek Zeta)</h4>
+    <ul>
+        <li><strong>Classical:</strong> <em>z</em> = <span class="ipa">/z/</span>, geminate <em>zz</em> = <span class="ipa">/zz/</span>
+            (intervocalic <em>z</em> is automatically doubled for correct syllable weight)</li>
+        <li><strong>Ecclesiastical:</strong> <em>z</em> = <span class="ipa">/d͡z/</span>, <em>zz</em> = <span class="ipa">/d.d͡z/</span></li>
+    </ul>
+
+
+    <h3 id="stress">Stress Patterns</h3>
+    <p>Latin stress follows the <strong>penultimate rule</strong>:</p>
+
+    <h4>The Penultimate Rule</h4>
+    <ul>
+        <li><strong>Polysyllabic words (3+ syllables):</strong> Stress falls on the penultimate (second-to-last)
+            syllable <em>if</em> it is "heavy" (ends in a long vowel or consonant coda). If the penultimate is
+            "light" (ends in a short vowel), stress falls on the antepenultimate (third-to-last) syllable.
+            <ul>
+                <li><em>a-mi-cus</em> → stress on <em>a</em> (penult <em>mi</em> is light): <span class="ipa">/ˈa.mi.kus/</span></li>
+                <li><em>com-pu-to</em> → stress on <em>com</em> (penult <em>pu</em> is light): <span class="ipa">/ˈkom.pu.to/</span></li>
+                <li><em>in-so-les</em> → stress on <em>in</em> (penult <em>so</em> is light): <span class="ipa">/ˈin.so.les/</span></li>
+                <li><em>aeter-nus</em> → stress on <em>ter</em> (penult has consonant coda = heavy): <span class="ipa">/ae̯ˈter.nus/</span></li>
+            </ul>
+        </li>
+        <li><strong>Disyllabic words (2 syllables):</strong> Stress always on the first syllable (penultimate = first):
+            <em>pa-ter</em> → <span class="ipa">/ˈpa.ter/</span></li>
+        <li><strong>Monosyllabic words:</strong> No stress marker displayed (but internally marked for phonetic rules).</li>
+    </ul>
+
+    <h4>Prefixes</h4>
+    <p>Some prefixes (ab-, ad-, circum-, con-, dis-, ex-, in-, inter-, ob-, per-, sub-, subter-, super-, trans-)
+        cause the following <em>i</em> + vowel to become consonantal <em>j</em>. The stress rules still apply
+        to the full word.</p>
+
+
+    <h3 id="dialect-differences">Classical vs Ecclesiastical — Key Differences</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Classical</th>
+            <th>Ecclesiastical</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>c before e, i</td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+        </tr>
+        <tr>
+            <td>g before e, i</td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+        </tr>
+        <tr>
+            <td>v</td>
+            <td><span class="ipa">/u̯/</span></td>
+            <td><span class="ipa">/v/</span></td>
+        </tr>
+        <tr>
+            <td>h</td>
+            <td><span class="ipa">/h/</span></td>
+            <td>silent</td>
+        </tr>
+        <tr>
+            <td>ae</td>
+            <td><span class="ipa">/ae̯/</span></td>
+            <td><span class="ipa">/e/</span></td>
+        </tr>
+        <tr>
+            <td>oe</td>
+            <td><span class="ipa">/oe̯/</span></td>
+            <td><span class="ipa">/e/</span></td>
+        </tr>
+        <tr>
+            <td>ph, th, ch</td>
+            <td><span class="ipa">/pʰ, tʰ, kʰ/</span></td>
+            <td><span class="ipa">/f, t, k/</span></td>
+        </tr>
+        <tr>
+            <td>ti + vowel</td>
+            <td><span class="ipa">/ti/</span></td>
+            <td><span class="ipa">/t͡si/</span></td>
+        </tr>
+        <tr>
+            <td>gn</td>
+            <td><span class="ipa">/ɡn/</span></td>
+            <td><span class="ipa">/ɲɲ/</span></td>
+        </tr>
+        <tr>
+            <td>sc before e, i</td>
+            <td><span class="ipa">/sk/</span></td>
+            <td><span class="ipa">/ʃ/</span></td>
+        </tr>
+        <tr>
+            <td>z</td>
+            <td><span class="ipa">/z/</span></td>
+            <td><span class="ipa">/d͡z/</span></td>
+        </tr>
+        <tr>
+            <td>s between vowels</td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/s/</span> (→ <span class="ipa">[s̬]</span> phonetically)</td>
+        </tr>
+        <tr>
+            <td>Vowel length</td>
+            <td>phonemic</td>
+            <td>not distinguished</td>
+        </tr>
+        <tr>
+            <td>qu</td>
+            <td><span class="ipa">/kʷ/</span></td>
+            <td><span class="ipa">/kw/</span></td>
+        </tr>
+        <tr>
+            <td>y / ȳ</td>
+            <td><span class="ipa">/y, yː/</span></td>
+            <td><span class="ipa">/i, iː/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h3 id="greek">Greek Loanwords</h3>
+    <p>Latin borrowed many words from Greek, and the module handles several Greek-specific features:</p>
+    <ul>
+        <li><strong>Aspirates:</strong> <em>ph, th, ch</em> represent Greek φ, θ, χ. In Classical Latin they are
+            aspirated stops; in Ecclesiastical they are deaspirated.</li>
+        <li><strong>Upsilon:</strong> Greek υ is written as <em>y</em> in Latin. Classical:
+            <span class="ipa">/y/</span>; Ecclesiastical: <span class="ipa">/i/</span>.</li>
+        <li><strong>Zeta:</strong> Greek ζ is written as <em>z</em>. Intervocalic <em>z</em> is doubled to <em>zz</em>
+            for correct syllable weight (Greek zeta was likely a geminate).</li>
+        <li><strong>Kappa:</strong> In Ecclesiastical, Greek <em>k</em> before front vowels is protected from
+            palatalization (stays <span class="ipa">/k/</span>, not <span class="ipa">/t͡ʃ/</span>).</li>
+        <li><strong>Rho:</strong> <em>rh</em> = <span class="ipa">/r/</span> (same as single <em>r</em>; the <em>h</em>
+            is historical).</li>
+    </ul>
+
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+
+    <h3 id="mapping-vowels">Vowels</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA (Short)</th>
+            <th>IPA (Long)</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>a</strong></td>
+            <td><span class="ipa">/a/</span></td>
+            <td><span class="ipa">/aː/</span></td>
+            <td>aqua / aqua (long: ācer)</td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><span class="ipa">/eː/</span></td>
+            <td>deus / ēst</td>
+        </tr>
+        <tr>
+            <td><strong>i</strong></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><span class="ipa">/iː/</span></td>
+            <td>vir / vīcus</td>
+        </tr>
+        <tr>
+            <td><strong>o</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><span class="ipa">/oː/</span></td>
+            <td>rosa / rōsa</td>
+        </tr>
+        <tr>
+            <td><strong>u</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td><span class="ipa">/uː/</span></td>
+            <td>curro / mūrus</td>
+        </tr>
+        <tr>
+            <td><strong>y</strong></td>
+            <td><span class="ipa">/y/</span> (Class.) / <span class="ipa">/i/</span> (Eccl.)</td>
+            <td><span class="ipa">/yː/</span> (Class.) / <span class="ipa">/iː/</span> (Eccl.)</td>
+            <td>lyra / ȳmnus</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-diphthongs">Diphthongs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Classical</th>
+            <th>Ecclesiastical</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ae</strong></td>
+            <td><span class="ipa">/ae̯/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>aeternus, Caesar</td>
+        </tr>
+        <tr>
+            <td><strong>oe</strong></td>
+            <td><span class="ipa">/oe̯/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>poena, coelum</td>
+        </tr>
+        <tr>
+            <td><strong>au</strong></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td>aurum, causa</td>
+        </tr>
+        <tr>
+            <td><strong>eu</strong></td>
+            <td><span class="ipa">/eu̯/</span></td>
+            <td><span class="ipa">/eu̯/</span></td>
+            <td>eurus</td>
+        </tr>
+        <tr>
+            <td><strong>ei</strong></td>
+            <td colspan="2"><span class="ipa">/e.i/</span> (always hiatus)</td>
+            <td>deinde <span class="ipa">/deˈin.de/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-consonants">Consonants</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>b</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td>bonus</td>
+        </tr>
+        <tr>
+            <td><strong>c</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>casa (always velar in Classical)</td>
+        </tr>
+        <tr>
+            <td><strong>d</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td>deus</td>
+        </tr>
+        <tr>
+            <td><strong>f</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>fīlius</td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>gallus (always velar in Classical)</td>
+        </tr>
+        <tr>
+            <td><strong>h</strong></td>
+            <td><span class="ipa">/h/</span></td>
+            <td>hortus (silent in Ecclesiastical)</td>
+        </tr>
+        <tr>
+            <td><strong>k</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>kalendae (rare, mostly abbreviations)</td>
+        </tr>
+        <tr>
+            <td><strong>l</strong></td>
+            <td><span class="ipa">/l/</span></td>
+            <td>lūna</td>
+        </tr>
+        <tr>
+            <td><strong>m</strong></td>
+            <td><span class="ipa">/m/</span></td>
+            <td>māter</td>
+        </tr>
+        <tr>
+            <td><strong>n</strong></td>
+            <td><span class="ipa">/n/</span></td>
+            <td>nōmen</td>
+        </tr>
+        <tr>
+            <td><strong>p</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td>pons</td>
+        </tr>
+        <tr>
+            <td><strong>qu</strong></td>
+            <td><span class="ipa">/kʷ/</span> (Class.) / <span class="ipa">/kw/</span> (Eccl.)</td>
+            <td>quod</td>
+        </tr>
+        <tr>
+            <td><strong>r</strong></td>
+            <td><span class="ipa">/r/</span></td>
+            <td>rēx</td>
+        </tr>
+        <tr>
+            <td><strong>s</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>sal</td>
+        </tr>
+        <tr>
+            <td><strong>t</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>tellus</td>
+        </tr>
+        <tr>
+            <td><strong>v</strong></td>
+            <td><span class="ipa">/u̯/</span> (Class.) / <span class="ipa">/v/</span> (Eccl.)</td>
+            <td>vir</td>
+        </tr>
+        <tr>
+            <td><strong>x</strong></td>
+            <td><span class="ipa">/ks/</span></td>
+            <td>nox</td>
+        </tr>
+        <tr>
+            <td><strong>z</strong></td>
+            <td><span class="ipa">/z/</span> (Class.) / <span class="ipa">/d͡z/</span> (Eccl.)</td>
+            <td>zōna</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-context">Context-Dependent Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Condition</th>
+            <th>Classical IPA</th>
+            <th>Ecclesiastical IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>c</strong></td>
+            <td>before e, ē, i, ī</td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>centum: <span class="ipa">/k/</span> vs <span class="ipa">/t͡ʃ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td>before e, ē, i, ī</td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>genus: <span class="ipa">/ɡ/</span> vs <span class="ipa">/d͡ʒ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>sc</strong></td>
+            <td>before e, i</td>
+            <td><span class="ipa">/sk/</span></td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>sciō: <span class="ipa">/sk/</span> vs <span class="ipa">/ʃ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>gn</strong></td>
+            <td>anywhere</td>
+            <td><span class="ipa">/ɡn/</span></td>
+            <td><span class="ipa">/ɲɲ/</span></td>
+            <td>agnus: <span class="ipa">/ɡn/</span> vs <span class="ipa">/ɲɲ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ti</strong></td>
+            <td>before vowel (not after s/t)</td>
+            <td><span class="ipa">/ti/</span></td>
+            <td><span class="ipa">/t͡si/</span></td>
+            <td>ratio: <span class="ipa">/ti/</span> vs <span class="ipa">/t͡si/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ph</strong></td>
+            <td>anywhere</td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>philosophia</td>
+        </tr>
+        <tr>
+            <td><strong>th</strong></td>
+            <td>anywhere</td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>theātrum</td>
+        </tr>
+        <tr>
+            <td><strong>ch</strong></td>
+            <td>anywhere</td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>chorus</td>
+        </tr>
+        <tr>
+            <td><strong>ngu</strong></td>
+            <td>before vowel</td>
+            <td><span class="ipa">/ŋɡʷ/</span></td>
+            <td><span class="ipa">/ŋɡw/</span></td>
+            <td>sanguis</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The Latin transcription engine is implemented as a Lua module (<code>la-pron_wasm.lua</code>), based on the
+        <a href="https://en.wiktionary.org/wiki/Module:la-pronunc" target="_blank"
+           rel="noopener noreferrer">Wiktionary Latin Pronunciation Module</a>. It runs in the browser via
+        <a href="https://github.com/ceifa/wasmoon" target="_blank" rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 WebAssembly).</p>
+
+    <h3>Processing Pipeline</h3>
+    <p>Text goes through the following stages:</p>
+
+    <h4>1. Macronization (JavaScript Preprocessing)</h4>
+    <p>Before the Lua module is invoked, the JavaScript layer calls <code>macronize()</code> which looks up each word
+        in <code>macrons.json</code> and adds long vowel marks (ā, ē, ī, ō, ū) to known words.</p>
+
+    <h4>2. Canonicalization</h4>
+    <ul>
+        <li>Text is lowercased.</li>
+        <li>Punctuation is stripped (except <code>;</code> which triggers hiatus variants).</li>
+        <li>Ligatures expanded: <code>æ</code> → <code>ae</code>, <code>œ</code> → <code>oe</code>.</li>
+        <li>Character validation — only <code>a-z</code>, macron/breve vowels, <code>ë</code>, punctuation,
+            apostrophe, underscore, and space are allowed.</li>
+    </ul>
+
+    <h4>3. Dual-Length Detection</h4>
+    <p>If the input contains macron-breve sequences (e.g., <code>ā̆</code>), two variants are generated:
+        one with the long vowel and one with the short vowel.</p>
+
+    <h4>4. Orthographic Normalization (per word)</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Step</th>
+            <th>Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>w → v</td>
+            <td>Normalize to v</td>
+            <td>w → v</td>
+        </tr>
+        <tr>
+            <td>qu → qv</td>
+            <td>Normalize labiovelar</td>
+            <td>quod → qvod</td>
+        </tr>
+        <tr>
+            <td>i + vowel → j</td>
+            <td>Word-initial or after prefix</td>
+            <td>iam → jam</td>
+        </tr>
+        <tr>
+            <td>u + vowel → v</td>
+            <td>Word-initial</td>
+            <td>uult → vult</td>
+        </tr>
+        <tr>
+            <td>Intervocalic i/u</td>
+            <td>u → v; i after long vowel → j; i after short vowel → jj</td>
+            <td>maius → majus (long a); peius → pejjus (short e)</td>
+        </tr>
+        <tr>
+            <td>v → u</td>
+            <td>Syllable-finally or word-finally</td>
+            <td>sylv → sylu</td>
+        </tr>
+        <tr>
+            <td>z → zz</td>
+            <td>Between vowels (for syllable weight)</td>
+            <td>zōna → zzōna</td>
+        </tr>
+        <tr>
+            <td>aë, oë</td>
+            <td>Forced hiatus</td>
+            <td>aë → a.e</td>
+        </tr>
+        <tr>
+            <td>eu/em at word end</td>
+            <td>Forced hiatus</td>
+            <td>deum → ˈde.um</td>
+        </tr>
+        <tr>
+            <td>ei → e.i</td>
+            <td>Forced hiatus</td>
+            <td>deinde → de.inde</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>5. IPA Conversion</h4>
+    <p>Each letter/multigraph is converted to its IPA equivalent using dialect-specific lookup tables.
+        In Ecclesiastical mode, additional rules apply: palatalization of c/g, ti+vowel → tsi,
+        z → dz, deaspiration, gn → ɲ.</p>
+
+    <h4>6. Syllabification</h4>
+    <p>Words are split into syllables using onset/coda validity tables. Valid onsets include single consonants,
+        obstruent+liquid clusters, and s+obstruent(+liquid) clusters. Valid codas include single consonants and
+        clusters like s+stop, l+stop, r+stop, n+stop.</p>
+
+    <h4>7. Stress Assignment</h4>
+    <p>The Latin penultimate rule is applied: stress falls on the penultimate syllable if it is heavy
+        (long vowel or consonant coda), otherwise on the antepenultimate.</p>
+
+    <h4>8. Post-Processing</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Step</th>
+            <th>Condition</th>
+            <th>Effect</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Strip vowel length</td>
+            <td>Ecclesiastical/Vulgar</td>
+            <td>All ː removed</td>
+        </tr>
+        <tr>
+            <td>Lax vowel allophones</td>
+            <td>Classical phonetic</td>
+            <td>e→ɛ, i→ɪ, o→ɔ, u→ʊ in closed syllables</td>
+        </tr>
+        <tr>
+            <td>Lengthen stressed vowel</td>
+            <td>Ecclesiastical/Vulgar phonetic</td>
+            <td>Stressed vowel gets ː</td>
+        </tr>
+        <tr>
+            <td>Open e/o under stress</td>
+            <td>Ecclesiastical phonetic</td>
+            <td>e→ɛ, o→ɔ in stressed syllable</td>
+        </tr>
+        <tr>
+            <td>Atonic vowel merger</td>
+            <td>Vulgar (phonetic)</td>
+            <td>ɔ→o, ɛ→e in unstressed syllables (applies to lax allophones from Classical-style phonetic rules)</td>
+        </tr>
+        <tr>
+            <td>Nasalized vowels</td>
+            <td>Classical phonetic</td>
+            <td>Vowel + word-final m → nasalized; vowel before ns/nf → nasalized</td>
+        </tr>
+        <tr>
+            <td>Voicing assimilation</td>
+            <td>Classical phonetic</td>
+            <td>Regressive voicing in clusters</td>
+        </tr>
+        <tr>
+            <td>S voicing</td>
+            <td>Ecclesiastical phonetic</td>
+            <td>Partial voicing between vowels (<span class="ipa">[s̬]</span>); full voicing before voiced consonants (<span class="ipa">[z]</span>)</td>
+        </tr>
+        <tr>
+            <td>Dental articulation</td>
+            <td>Phonetic (both dialects)</td>
+            <td>t, d unconditionally dental (<span class="ipa">/t̪, d̪/</span>); n dental before t/d</td>
+        </tr>
+        <tr>
+            <td>Geminate → long</td>
+            <td>Phonetic</td>
+            <td>ss → sː, tt → tː, etc.</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Issue</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Words without macrons</td>
+            <td>Incorrect vowel length</td>
+            <td>Word not in macron dictionary</td>
+            <td>Add macrons manually to input text</td>
+        </tr>
+        <tr>
+            <td>Rare/proper names</td>
+            <td>Approximate pronunciation</td>
+            <td>Not in macron dictionary; rule-based fallback may not know vowel length</td>
+            <td>Check classical dictionaries for vowel quantities</td>
+        </tr>
+        <tr>
+            <td>Ambiguous i/j</td>
+            <td>Wrong consonant/vowel choice</td>
+            <td>The i→j rules are heuristic and may misidentify consonantal i</td>
+            <td>Use underscore to force hiatus: <code>a_ius</code></td>
+        </tr>
+        <tr>
+            <td>Compound words</td>
+            <td>Wrong stress placement</td>
+            <td>Syllabification may not handle all compound boundaries correctly</td>
+            <td>Add explicit stress with apostrophe: <code>aˈmicus</code></td>
+        </tr>
+        <tr>
+            <td>Hiatus vs diphthong</td>
+            <td>Wrong syllable count</td>
+            <td>Some vowel sequences are ambiguous (e.g., <em>deus</em> = 2 or 3 syllables?)</td>
+            <td>Use diaeresis or semicolon: <code>de;us</code></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>General Limitations</h3>
+    <ul>
+        <li><strong>Purely rule-based:</strong> No lexicon or stress dictionary. All output is deterministic from spelling.</li>
+        <li><strong>Macron dictionary not exhaustive:</strong> Unmacronized words get default (short) vowel length.</li>
+        <li><strong>Classical reconstruction:</strong> No native speakers; pronunciation is based on scholarly consensus.</li>
+        <li><strong>Ecclesiastical variation:</strong> Only the Italian-influenced tradition is supported; French, German, and Spanish Ecclesiastical Latin have different pronunciations.</li>
+        <li><strong>Vulgar Latin approximation:</strong> Less well attested than Classical; the module approximates based on known Romance developments.</li>
+    </ul>
+
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
             href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
