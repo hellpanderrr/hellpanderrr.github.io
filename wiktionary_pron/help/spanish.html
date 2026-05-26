@@ -20,29 +20,67 @@
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
-
-    <p>This <a href="../?lang=Spanish">Spanish transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:es-pronunc" target="_blank" rel="noopener noreferrer">Wiktionary
-        Spanish Pronunciation
-        Module</a> to generate phonetic/phonemic transcriptions for Spanish text.</p>
-
-    <p>The system processes Spanish text through a rule-based approach that handles the relatively straightforward
-        Spanish orthography and its consistent pronunciation patterns.</p>
-
-    <h2>Dialects Supported</h2>
-    <p>This tool provides two primary dialect options that cover the most common pronunciation standards in the
-        Spanish-speaking world.</p>
+    <h2>Table of Contents</h2>
     <ul>
-        <li><strong>Castilian</strong>: Represents the standard pronunciation of central and northern Spain. This option
-            maps to the technical dialect profile <code>distincion-yeismo</code>.
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+                <li><a href="#respelling">Respelling Input</a></li>
+            </ul>
         </li>
-        <li><strong>Latin American</strong>: Represents the most widespread pronunciation standard across Latin America.
-            This option maps to the technical dialect profile <code>seseo-yeismo</code>.
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><a href="#respelling">Respelling Input</a></li>
+        <li><strong>Spanish Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Vowels &amp; Diphthongs</a></li>
+                <li><a href="#consonants-guide">Consonant Rules</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#dialect-differences">Dialectal Differences</a></li>
+            </ul>
+        </li>
+        <li><strong>Comprehensive Spelling-to-IPA Mapping</strong>
+            <ul>
+                <li><a href="#mapping-vowels">Vowels &amp; Diphthongs</a></li>
+                <li><a href="#mapping-consonants">Consonants</a></li>
+                <li><a href="#mapping-context">Context-Dependent Rules</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
         </li>
     </ul>
 
-    <h2>Transcription Forms</h2>
+
+    <h2 id="about">About This Tool</h2>
+
+    <p>This <a href="../?lang=Spanish">Spanish transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:es-pronunc" target="_blank" rel="noopener noreferrer">Wiktionary
+        Spanish Pronunciation Module</a> to generate phonetic/phonemic transcriptions for Spanish text.</p>
+
+    <p>The system processes Spanish text through a rule-based approach that handles the relatively straightforward
+        Spanish orthography and its consistent pronunciation patterns. Unlike most other languages in this tool,
+        Spanish is <b>purely rule-based</b> — no lexicon or stress dictionary is used.</p>
+
+    <p>The engine is built on the concept of <strong>isoglosses</strong> (specific pronunciation features) which are
+        combined to form distinct <strong>dialect profiles</strong>, allowing it to model the full range of Spanish
+        pronunciation variation across the Spanish-speaking world.</p>
+
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
     <p>You can choose between two levels of detail for the IPA transcription.</p>
     <ul>
         <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
@@ -55,12 +93,20 @@
         </li>
     </ul>
 
-    <h2>Implementation Details</h2>
-    <p>The transcription engine is powered by a sophisticated model based on Wiktionary's Lua modules, which handle the
-        complex rules of Spanish phonology. The system is built on the concept of <strong>isoglosses</strong> (specific
-        pronunciation features) which are combined to form distinct <strong>dialect profiles</strong>.</p>
 
-    <h4>Key Phonological Features (Isoglosses)</h4>
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+    <p>This tool provides two primary dialect options that cover the most common pronunciation standards in the
+        Spanish-speaking world.</p>
+    <ul>
+        <li><strong>Castilian</strong>: Represents the standard pronunciation of central and northern Spain. This option
+            maps to the technical dialect profile <code>distincion-yeismo</code>.
+        </li>
+        <li><strong>Latin American</strong>: Represents the most widespread pronunciation standard across Latin America.
+            This option maps to the technical dialect profile <code>seseo-yeismo</code>.
+        </li>
+    </ul>
+
+    <h3>Key Phonological Features (Isoglosses)</h3>
     <p>The engine models four main points of variation:</p>
     <ol>
         <li><strong><code>distinción</code> vs. <code>seseo</code></strong>:
@@ -99,7 +145,7 @@
         </li>
     </ol>
 
-    <h4>Available Dialect Profiles</h4>
+    <h3>Available Dialect Profiles</h3>
     <p>By combining these features, the engine defines the following six dialects:</p>
     <ul>
         <li><code>distincion-yeismo</code>: <strong>(Castilian option)</strong> The standard pronunciation of Spain.
@@ -122,7 +168,684 @@
         </li>
     </ul>
 
-    <h2>Dialectal Differences</h2>
+    <h3>General Limitations</h3>
+    <ul>
+        <li><strong>Purely rule-based:</strong> No lexicon or stress dictionary. All output is deterministic from spelling.</li>
+        <li><strong>Standard dialects only:</strong> The two main options (Castilian, Latin American) cover the most common standards.
+            Regional variation within Latin America is not modeled.</li>
+        <li><strong>Respelling input:</strong> The module is designed for respelling input (standard Spanish spelling).
+            Non-standard spellings, slang, or code-switching may produce unexpected results.</li>
+    </ul>
+
+    <h2 id="respelling">Respelling Input</h2>
+    <p>The module accepts standard Spanish spelling as input and produces IPA transcription automatically.
+        However, for words with unusual pronunciation or when you need to override the default behavior,
+        you can use respelling conventions.</p>
+
+    <h3>Written Accents</h3>
+    <p>Use standard Spanish written accents to mark stress:</p>
+    <ul>
+        <li><strong>Acute accent</strong> (á, é, í, ó, ú): Marks primary stress on the accented syllable.
+            E.g., <em>café</em> → stress on second syllable.</li>
+        <li><strong>Diaeresis</strong> (ü): Indicates that <em>u</em> is pronounced in <em>güe/güi</em>.
+            E.g., <em>pingüino</em> → /pin.ˈɡwi.no/.</li>
+    </ul>
+
+    <h3>Special Letter Combinations</h3>
+    <p>The module recognizes these standard Spanish digraphs and letter rules:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Result</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ch</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>mucho</td>
+        </tr>
+        <tr>
+            <td><strong>ll</strong></td>
+            <td><span class="ipa">/ʝ/</span> (yeismo) / <span class="ipa">/ʎ/</span> (lleismo)</td>
+            <td>calle</td>
+        </tr>
+        <tr>
+            <td><strong>qu</strong></td>
+            <td><span class="ipa">/k/</span> (silent u)</td>
+            <td>que, qui</td>
+        </tr>
+        <tr>
+            <td><strong>gu</strong></td>
+            <td><span class="ipa">/ɡ/</span> (silent u before e/i)</td>
+            <td>guerra, guia</td>
+        </tr>
+        <tr>
+            <td><strong>gü</strong></td>
+            <td><span class="ipa">/ɡw/</span> (u pronounced)</td>
+            <td>pingüino</td>
+        </tr>
+        <tr>
+            <td><strong>ñ</strong></td>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td>año</td>
+        </tr>
+        <tr>
+            <td><strong>rr</strong></td>
+            <td><span class="ipa">/r/</span> (trill)</td>
+            <td>perro</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Default Stress Rules</h3>
+    <p>When no written accent is present, stress is assigned automatically:</p>
+    <ul>
+        <li><strong>Words ending in vowel, n, or s:</strong> Stress on the penultimate syllable.
+            <em>casa</em> → <span class="ipa">/ˈka.sa/</span>, <em>cantán</em> → <span class="ipa">/kan.ˈtan/</span></li>
+        <li><strong>Words ending in other consonants:</strong> Stress on the final syllable.
+            <em>correr</em> → <span class="ipa">/ko.ˈreɾ/</span>, <em>ciudad</em> → <span class="ipa">/θjuˈdad/</span> (Castilian) / <span class="ipa">/sjuˈdad/</span> (Latin American)</li>
+    </ul>
+
+    <h3>Special Cases</h3>
+    <ul>
+        <li><strong>-mente suffix:</strong> Adverbs get dual stress — secondary on stem, primary on <em>-mente</em>.
+            <em>rápidamente</em> → <span class="ipa">/ˌra.pi.da.ˈmen.te/</span></li>
+        <li><strong>Unstressed function words:</strong> Common monosyllables (el, la, que, de, a, por, en, con, etc.)
+            are typically unstressed.</li>
+        <li><strong>Word-initial ps-/pt-:</strong> The <em>p</em> is dropped: <em>psicología</em> → <span class="ipa">/si.ko.lo.ˈxi.a/</span></li>
+        <li><strong>Word-initial x-:</strong> Pronounced as <span class="ipa">/s/</span>: <em>xenofobia</em> → <span class="ipa">/se.noˈfo.bja/</span></li>
+    </ul>
+
+    <h3>Loanword Handling</h3>
+    <p>The module handles several types of loanwords:</p>
+    <ul>
+        <li><strong>English loanwords with <em>sh</em>:</strong> Pronounced as <span class="ipa">/ʃ/</span>:
+            <em>show</em> → <span class="ipa">/ˈʃow/</span></li>
+        <li><strong>German/Dutch names with <em>w</em>:</strong> Pronounced as <span class="ipa">/w/</span> (consonantal):
+            <em>Wagner</em> → <span class="ipa">/waɡ.ˈneɾ/</span></li>
+        <li><strong>Words with <em>k</em>:</strong> Pronounced as <span class="ipa">/k/</span>:
+            <em>kilo</em> → <span class="ipa">/ˈki.lo/</span></li>
+        <li><strong>Words with <em>w</em>:</strong> Pronounced as <span class="ipa">/w/</span> (consonantal):
+            <em>whisky</em> → <span class="ipa">/ˈwis.ki/</span></li>
+    </ul>
+
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound that distinguishes meaning. E.g., <span class="ipa">/b/</span> vs
+            <span class="ipa">/p/</span> distinguish <em>barco</em> from <em>parco</em>.</dd>
+
+        <dt>Allophone</dt>
+        <dd>A predictable variant of a phoneme. E.g., <span class="ipa">[β]</span> (fricative) is an allophone of
+            <span class="ipa">/b/</span> between vowels.</dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound within a single syllable. Spanish has rising diphthongs (<em>ia, ie, ua</em>, etc.)
+            and falling diphthongs (<em>ai, ei, ou</em>, etc.).</dd>
+
+        <dt>Hiatus</dt>
+        <dd>Two adjacent vowels pronounced in separate syllables. E.g., <em>po-ema</em>, <em>ra-íz</em>.</dd>
+
+        <dt>Isogloss</dt>
+        <dd>A boundary line on a map separating areas with different linguistic features. In this tool, isoglosses
+            define pronunciation differences (distinción/seseo, yeísmo/lleísmo, etc.).</dd>
+
+        <dt>Distinción</dt>
+        <dd>The pronunciation feature that distinguishes <span class="ipa">/θ/</span> (for c/z) from <span class="ipa">/s/</span>
+            (for s). Standard in most of Spain.</dd>
+
+        <dt>Seseo</dt>
+        <dd>The pronunciation feature that merges c/z and s all as <span class="ipa">/s/</span>. Standard in Latin America.</dd>
+
+        <dt>Yeísmo</dt>
+        <dd>The merger of <em>ll</em> and <em>y</em> into a single sound (<span class="ipa">/ʝ/</span>).
+            Dominant in most of the Spanish-speaking world.</dd>
+
+        <dt>Lleísmo</dt>
+        <dd>The preservation of <em>ll</em> as <span class="ipa">/ʎ/</span>, distinct from <em>y</em> as <span class="ipa">/ʝ/</span>.
+            Traditional, now recessive.</dd>
+
+        <dt>Sheísmo / Zheísmo</dt>
+        <dd>Rioplatense pronunciations of merged <em>ll</em>/<em>y</em>: <span class="ipa">/ʃ/</span> (Buenos Aires)
+            or <span class="ipa">/ʒ/</span> (elsewhere in Argentina/Uruguay).</dd>
+
+        <dt>Approximant</dt>
+        <dd>A consonant produced with the vocal tract narrowed but not enough to create friction. In Spanish phonetic
+            transcription, <span class="ipa">/b, d, g/</span> become approximants <span class="ipa">[β̞, ð̞, ɣ̞]</span>
+            between vowels.</dd>
+
+        <dt>Nasal Assimilation</dt>
+        <dd>When <span class="ipa">/n/</span> changes its place of articulation to match the following consonant.
+            E.g., <em>invierno</em> → <span class="ipa">[ĩmˈbjeɾno]</span>.</dd>
+
+        <dt>Geminate</dt>
+        <dd>A doubled consonant, pronounced longer than a single consonant. E.g., <em>ennoblecer</em> has
+            geminate <em>nn</em>.</dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>A marker (.) showing where syllables divide. E.g., <em>ca-sa</em>, <em>co-rrer</em>. Affects
+            stress assignment and consonant cluster behavior.</dd>
+
+        <dt>Onset</dt>
+        <dd>The consonant(s) at the beginning of a syllable, before the vowel. E.g., in <em>planta</em>,
+            <em>pl</em> is the onset of the first syllable.</dd>
+
+        <dt>Coda</dt>
+        <dd>The consonant(s) at the end of a syllable, after the vowel. E.g., in <em>stante</em>,
+            <em>nt</em> is the coda of the first syllable.</dd>
+
+        <dt>Voiced Fricative / Approximant</dt>
+        <dd>A consonant produced with voiced airflow through a narrow channel. In Spanish phonetic transcription,
+            <span class="ipa">/b, d, g/</span> become fricatives <span class="ipa">[β, ð, ɣ]</span> between vowels,
+            further realized as approximants <span class="ipa">[β̞, ð̞, ɣ̞]</span>.</dd>
+
+        <dt>Place of Articulation</dt>
+        <dd>Where in the vocal tract a consonant is produced. Spanish nasals assimilate in place:
+            bilabial (m), dental (n̪), palatal (ɲ), velar (ŋ).</dd>
+
+        <dt>Affricate</dt>
+        <dd>A consonant that begins as a stop and releases as a fricative. E.g., <em>ch</em> in <em>mucho</em>
+            is <span class="ipa">/t͡ʃ/</span> — a stop <span class="ipa">/t/</span> releasing into
+            fricative <span class="ipa">/ʃ/</span>.</dd>
+
+        <dt>Lateral</dt>
+        <dd>A consonant in which airflow passes around the sides of the tongue. <span class="ipa">/l/</span> is
+            the only lateral in Spanish. In phonetic transcription, <span class="ipa">/l/</span> assimilates
+            in place before coronal consonants.</dd>
+
+        <dt>Tap vs Trill</dt>
+        <dd>Two types of <em>r</em> sounds in Spanish. The tap <span class="ipa">/ɾ/</span> (single <em>r</em>
+            between vowels) is a single brief contact. The trill <span class="ipa">/r/</span> (<em>rr</em> or
+            word-initial <em>r</em>) involves multiple contacts.</dd>
+
+        <dt>Sonorant</dt>
+        <dd>A voiced sound produced without significant obstruction. In Spanish: nasals (m, n, ɲ), lateral (l),
+            and taps/trills (ɾ, r). Sonorants do not trigger voicing assimilation of preceding stops.</dd>
+
+        <dt>Obstruent</dt>
+        <dd>A sound produced with significant obstruction. In Spanish: stops (p, t, k, b, d, g), fricatives
+            (f, s, θ, x), and affricate (t͡ʃ). Voiceless stops are voiced before obstruents.</dd>
+    </dl>
+
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <p>Spanish has 5 vowel phonemes. In phonetic transcription, vowels may be nasalized before nasals.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td>casa</td>
+            <td>"father"</td>
+            <td>Open central vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/e/</span></td>
+            <td>mesa</td>
+            <td>"bed" (tenser)</td>
+            <td>Close-mid front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span></td>
+            <td>vida</td>
+            <td>"see"</td>
+            <td>Close front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td>todo</td>
+            <td>"go" (without glide)</td>
+            <td>Close-mid back rounded vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td>luna</td>
+            <td>"flute"</td>
+            <td>Close back rounded vowel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/p/</span></td>
+            <td>peso</td>
+            <td>"pen"</td>
+            <td>Voiceless bilabial stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/b/</span></td>
+            <td>barco</td>
+            <td>"bad"</td>
+            <td>Voiced bilabial stop (→ <span class="ipa">[β]</span> between vowels)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t/</span></td>
+            <td>todo</td>
+            <td>"top"</td>
+            <td>Voiceless dental stop <span class="ipa">[t̪]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d/</span></td>
+            <td>dedo</td>
+            <td>"day"</td>
+            <td>Voiced dental stop (→ <span class="ipa">[ð̞]</span> between vowels)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/k/</span></td>
+            <td>casa</td>
+            <td>"cat"</td>
+            <td>Voiceless velar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>gato</td>
+            <td>"go"</td>
+            <td>Voiced velar stop (→ <span class="ipa">[ɣ̞]</span> between vowels)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/f/</span></td>
+            <td>foto</td>
+            <td>"far"</td>
+            <td>Voiceless labiodental fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span></td>
+            <td>casa</td>
+            <td>"see"</td>
+            <td>Voiceless alveolar fricative (→ <span class="ipa">[z]</span> before voiced consonants)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/θ/</span></td>
+            <td>caza</td>
+            <td>"think"</td>
+            <td>Voiceless dental fricative (Castilian only, for c/z)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td>gente</td>
+            <td>Scottish "loch"</td>
+            <td>Voiceless velar fricative (from g before e/i, and j)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>mucho</td>
+            <td>"church"</td>
+            <td>Voiceless postalveolar affricate (written <em>ch</em>)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td>yo</td>
+            <td>"yes" (with friction)</td>
+            <td>Voiced palatal fricative (yeísmo: ll/y)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʎ/</span></td>
+            <td>calle</td>
+            <td>"million" (lli)</td>
+            <td>Palatal lateral (lleísmo only)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>show</td>
+            <td>"shoe"</td>
+            <td>Voiceless postalveolar fricative (from <em>sh</em>, Rioplatense ll/y)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/m/</span></td>
+            <td>mesa</td>
+            <td>"man"</td>
+            <td>Bilabial nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n/</span></td>
+            <td>noche</td>
+            <td>"no"</td>
+            <td>Alveolar nasal (assimilates to following consonant)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td>año</td>
+            <td>"canyon" (ny)</td>
+            <td>Palatal nasal (written <em>ñ</em>)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l/</span></td>
+            <td>luna</td>
+            <td>"let"</td>
+            <td>Lateral approximant</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɾ/</span></td>
+            <td>pero</td>
+            <td>"better" (tt)</td>
+            <td>Alveolar tap (single <em>r</em> between vowels)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td>perro</td>
+            <td>Spanish "rr" (rolled)</td>
+            <td>Alveolar trill (written <em>rr</em>, or <em>r</em> word-initially)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/w/</span></td>
+            <td>hueso</td>
+            <td>"wet"</td>
+            <td>Labial-velar approximant (from <em>u</em> in diphthong)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td>hierba</td>
+            <td>"yes"</td>
+            <td>Palatal approximant (from <em>i</em> in diphthong)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/w̝/</span></td>
+            <td>hueso</td>
+            <td>"wet" (with raising)</td>
+            <td>Raised labiovelar approximant (from <em>hu-</em> before vowel)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word</td>
+            <td><span class="ipa">/ˈka.sa/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˌ</span></td>
+            <td>Secondary stress</td>
+            <td>Lesser emphasis (in compound words like <em>-mente</em>)</td>
+            <td><span class="ipa">/ˌfe.ɾo.ˈmen.te/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">õ</span></td>
+            <td>Nasalized</td>
+            <td>Vowel with nasal airflow (before m/n/ñ)</td>
+            <td><span class="ipa">[ˈkõ.n̪o]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">β̞</span></td>
+            <td>Lowered</td>
+            <td>Approximant realization of voiced fricatives</td>
+            <td><span class="ipa">[β̞, ð̞, ɣ̞]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ai̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Glide (part of diphthong)</td>
+            <td><span class="ipa">[ˈai̯]</span>, <span class="ipa">[ˈau̯]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">t̪</span></td>
+            <td>Dental</td>
+            <td>Consonant is dental (not alveolar)</td>
+            <td><span class="ipa">[t̪, d̪]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Some words have multiple valid pronunciations
+            (e.g., regional variants). Click any transcribed word to see alternative IPA forms if available.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation using the Spanish (<em>es-ES</em>) voice (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For some Spanish words, the system produces multiple valid transcriptions:</p>
+    <ul>
+        <li><strong>Dialect variants:</strong> Words with <em>c/z</em> or <em>ll/y</em> will show different
+            pronunciations depending on the dialect selected. For example, <em>cerveza</em> has
+            <span class="ipa">/seɾˈbe.sa/</span> (Latin American) and <span class="ipa">/θeɾˈbe.θa/</span> (Castilian).
+        </li>
+        <li><strong>Stress ambiguity:</strong> Some words may have ambiguous stress patterns that produce
+            multiple valid results.
+        </li>
+    </ul>
+    <p>When multiple variants exist, click the word to cycle through them. The currently selected variant will be used
+        for PDF/CSV export.</p>
+
+
+    <h2 id="pronunciation-guide">Spanish Pronunciation Guide</h2>
+
+    <h3 id="vowels-guide">Vowels &amp; Diphthongs</h3>
+    <p>Spanish has exactly 5 vowel phonemes: <span class="ipa">/a, e, i, o, u/</span>. Unlike English, Spanish
+        vowels are very consistent — each letter always represents the same sound.</p>
+
+    <h4>Vowel Quality</h4>
+    <ul>
+        <li><strong>a</strong> <span class="ipa">/a/</span> — open central, like "father": <em>casa</em> <span class="ipa">/ˈka.sa/</span></li>
+        <li><strong>e</strong> <span class="ipa">/e/</span> — close-mid front, like "café": <em>mesa</em> <span class="ipa">/ˈme.sa/</span></li>
+        <li><strong>i</strong> <span class="ipa">/i/</span> — close front, like "see": <em>vida</em> <span class="ipa">/ˈbi.da/</span></li>
+        <li><strong>o</strong> <span class="ipa">/o/</span> — close-mid back, like "go" (without glide): <em>todo</em> <span class="ipa">/ˈto.do/</span></li>
+        <li><strong>u</strong> <span class="ipa">/u/</span> — close back, like "flute": <em>luna</em> <span class="ipa">/ˈlu.na/</span></li>
+    </ul>
+
+    <h4>Diphthongs</h4>
+    <p>Spanish diphthongs occur when an unstressed <em>i</em> or <em>u</em> combines with another vowel in the
+        same syllable:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Rising (i-)</td>
+            <td>ia, ie, io, iu</td>
+            <td><span class="ipa">/ja, je, jo, ju/</span></td>
+            <td>hierba <span class="ipa">/ˈʝeɾ.ba/</span>, siete <span class="ipa">/ˈsje.te/</span></td>
+        </tr>
+        <tr>
+            <td>Rising (u-)</td>
+            <td>ua, ue, ui, uo</td>
+            <td><span class="ipa">/wa, we, wi, wo/</span></td>
+            <td>cuatro <span class="ipa">/ˈkwa.tɾo/</span>, bueno <span class="ipa">/ˈbwe.no/</span></td>
+        </tr>
+        <tr>
+            <td>Falling</td>
+            <td>ai, ei, oi, au, eu, ou</td>
+            <td><span class="ipa">/ai, ei, oi, au, eu, ou/</span></td>
+            <td>aire <span class="ipa">/ˈai.ɾe/</span>, causa <span class="ipa">/ˈkau.sa/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Hiatus (Separate Syllables)</h4>
+    <p>When two vowels appear together but belong to different syllables, it is a hiatus:</p>
+    <ul>
+        <li><strong>a, e, o</strong> + <strong>a, e, o</strong>: always hiatus — <em>poema</em> <span class="ipa">/po.ˈe.ma/</span></li>
+        <li><strong>Any vowel + stressed vowel</strong>: hiatus — <em>raíz</em> <span class="ipa">/ra.ˈis/</span></li>
+        <li><strong>ii, uu</strong>: always hiatus — <em>antiincendios</em></li>
+        <li><strong>Unstressed i/u + same type</strong>: hiatus — <em>chiita</em></li>
+    </ul>
+
+
+    <h3 id="consonants-guide">Consonant Rules</h3>
+
+    <h4>B and V (Identical in Spanish)</h4>
+    <p>Spanish does not distinguish <em>b</em> and <em>v</em> at the phonemic level — both represent <span class="ipa">/b/</span>.
+        In phonetic transcription, <span class="ipa">/b/</span> becomes the approximant <span class="ipa">[β̞]</span>
+        between vowels.</p>
+    <ul>
+        <li><em>barco</em> <span class="ipa">/ˈbaɾ.ko/</span> → phonetic: <span class="ipa">[ˈbaɾ.ko]</span></li>
+        <li><em>vaca</em> <span class="ipa">/ˈba.ka/</span> → phonetic: <span class="ipa">[ˈba.ka]</span></li>
+    </ul>
+
+    <h4>C, Z, and S (Distinción vs Seseo)</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Castilian (distinción)</th>
+            <th>Latin American (seseo)</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>c</strong> before e, i</td>
+            <td><span class="ipa">/θ/</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>cerveza</td>
+        </tr>
+        <tr>
+            <td><strong>z</strong></td>
+            <td><span class="ipa">/θ/</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>zapato</td>
+        </tr>
+        <tr>
+            <td><strong>s</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>casa</td>
+        </tr>
+        <tr>
+            <td><strong>c</strong> before a, o, u</td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>casa, comer</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>LL and Y (Yeísmo vs Lleísmo)</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Yeísmo (most speakers)</th>
+            <th>Lleísmo (traditional)</th>
+            <th>Rioplatense</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ll</strong></td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʎ/</span></td>
+            <td><span class="ipa">/ʃ/</span> or <span class="ipa">/ʒ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>y</strong> (consonantal)</td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʃ/</span> or <span class="ipa">/ʒ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>In phonetic transcription, <span class="ipa">/ʝ/</span> is realized as <span class="ipa">[ɟ͡ʝ]</span>
+        (voiced palatal affricate).</p>
+
+    <h4>G before E/I</h4>
+    <ul>
+        <li><strong>g</strong> before e, i → <span class="ipa">/x/</span> (like <em>j</em>): <em>gente</em> <span class="ipa">/ˈxen.te/</span></li>
+        <li><strong>gu</strong> before e, i → <span class="ipa">/ɡ/</span> (silent u): <em>guerra</em> <span class="ipa">/ˈɡe.ra/</span></li>
+        <li><strong>gü</strong> before e, i → <span class="ipa">/ɡw/</span> (u pronounced): <em>pingüino</em> <span class="ipa">/pin.ˈɡwi.no/</span></li>
+    </ul>
+
+    <h4>QU</h4>
+    <p><em>qu</em> before e/i → <span class="ipa">/k/</span> (silent u): <em>que</em> <span class="ipa">/ke/</span>,
+        <em>quien</em> <span class="ipa">/ˈkjen/</span></p>
+
+    <h4>R and RR</h4>
+    <ul>
+        <li><strong>rr</strong> → alveolar trill <span class="ipa">/r/</span>: <em>perro</em> <span class="ipa">/ˈpe.ro/</span></li>
+        <li><strong>r</strong> word-initially, after l/n/s/z/θ → trill <span class="ipa">/r/</span>: <em>rojo</em>, <em>honra</em>, <em>Israel</em></li>
+        <li><strong>r</strong> elsewhere → alveolar tap <span class="ipa">/ɾ/</span>: <em>pero</em> <span class="ipa">/ˈpe.ɾo/</span></li>
+    </ul>
+
+    <h4>H (Silent)</h4>
+    <p><em>h</em> is always silent in standard Spanish: <em>hacer</em> <span class="ipa">/a.ˈθeɾ/</span> (Castilian),
+        <em>hola</em> <span class="ipa">/ˈo.la/</span>.</p>
+
+    <h4>CH</h4>
+    <p><em>ch</em> → <span class="ipa">/t͡ʃ/</span>: <em>mucho</em> <span class="ipa">/ˈmu.t͡ʃo/</span></p>
+
+    <h4>Ñ</h4>
+    <p><em>ñ</em> → <span class="ipa">/ɲ/</span>: <em>año</em> <span class="ipa">/ˈa.ɲo/</span></p>
+
+    <h4>X</h4>
+    <ul>
+        <li>Word-initial <em>x</em> → <span class="ipa">/s/</span>: <em>xenofobia</em> <span class="ipa">/se.noˈfo.bja/</span></li>
+        <li>Elsewhere <em>x</em> → <span class="ipa">/ks/</span>: <em>exacto</em> <span class="ipa">/eɡ.ˈsaɡ.to/</span></li>
+    </ul>
+
+
+    <h3 id="stress">Stress Patterns</h3>
+    <p>Spanish stress follows predictable rules based on the final letter:</p>
+
+    <h4>Default Stress Rules</h4>
+    <ul>
+        <li><strong>Words ending in vowel, n, or s:</strong> Stress on the penultimate (second-to-last) syllable.
+            <em>ca-sa</em> <span class="ipa">/ˈka.sa/</span>, <em>can-tan</em> <span class="ipa">/kan.ˈtan/</span>,
+            <em>á-rbo-les</em> <span class="ipa">/ˈaɾ.bo.les/</span></li>
+        <li><strong>Words ending in consonant (other than n or s):</strong> Stress on the last syllable.
+            <em>co-rrer</em> <span class="ipa">/ko.ˈɾeɾ/</span>, <em>ciu-dad</em> <span class="ipa">/θjuˈdad/</span></li>
+    </ul>
+
+    <h4>Written Accents</h4>
+    <p>When a word breaks the default stress rules, a written accent (acute accent) marks the stressed syllable:
+        <em>café</em> <span class="ipa">/ka.ˈfe/</span>, <em>teléfono</em> <span class="ipa">/te.ˈle.fo.no/</span>,
+        <em>rápido</em> <span class="ipa">/ˈra.pi.do/</span>.</p>
+
+    <h4>-mente Suffix</h4>
+    <p>Adverbs ending in <em>-mente</em> have two stresses: secondary on the stem, primary on <em>-mente</em>:
+        <em>rápidamente</em> <span class="ipa">/ˌra.pi.da.ˈmen.te/</span>.</p>
+
+    <h4>Unstressed Function Words</h4>
+    <p>Common monosyllabic function words are typically unstressed: <em>el, la, los, las, un, me, te, se, lo, le,
+        que, de, a, por, en, con</em>.</p>
+
+
+    <h3 id="dialect-differences">Dialectal Differences</h3>
     <p>Here is a summary of the differences between the two main options provided:</p>
     <ul>
         <li><strong>Castilian (Standard Peninsular Spanish)</strong>
@@ -159,11 +882,990 @@
         </li>
     </ul>
 
-    <h2>Technical Information</h2>
-    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:es-pronunc" target="_blank"
-                                              rel="noopener noreferrer">Wiktionary
-        Spanish pronunciation module</a>, which provides comprehensive coverage of Spanish phonological rules and
-        dialectal variations.</p>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+
+    <h3 id="mapping-vowels">Vowels &amp; Diphthongs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>a</strong></td>
+            <td><span class="ipa">/a/</span></td>
+            <td>Always</td>
+            <td>casa <span class="ipa">/ˈka.sa/</span></td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>Always</td>
+            <td>mesa <span class="ipa">/ˈme.sa/</span></td>
+        </tr>
+        <tr>
+            <td><strong>i</strong></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Always</td>
+            <td>vida <span class="ipa">/ˈbi.da/</span></td>
+        </tr>
+        <tr>
+            <td><strong>o</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td>Always</td>
+            <td>todo <span class="ipa">/ˈto.do/</span></td>
+        </tr>
+        <tr>
+            <td><strong>u</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td>Always (except after g/q)</td>
+            <td>luna <span class="ipa">/ˈlu.na/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ia, ie, io, iu</strong></td>
+            <td><span class="ipa">/ja, je, jo, ju/</span></td>
+            <td>Rising diphthong</td>
+            <td>hierba <span class="ipa">/ˈʝeɾ.ba/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ua, ue, ui, uo</strong></td>
+            <td><span class="ipa">/wa, we, wi, wo/</span></td>
+            <td>Rising diphthong</td>
+            <td>hueso <span class="ipa">/ˈw̝e.so/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ai, ei, oi</strong></td>
+            <td><span class="ipa">/ai, ei, oi/</span></td>
+            <td>Falling diphthong</td>
+            <td>aire <span class="ipa">/ˈai.ɾe/</span></td>
+        </tr>
+        <tr>
+            <td><strong>au, eu, ou</strong></td>
+            <td><span class="ipa">/au, eu, ou/</span></td>
+            <td>Falling diphthong</td>
+            <td>causa <span class="ipa">/ˈkau.sa/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-consonants">Consonants</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>b, v</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td>Always (no distinction)</td>
+            <td>barco, vaca</td>
+        </tr>
+        <tr>
+            <td><strong>c</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Before a, o, u</td>
+            <td>casa, comer</td>
+        </tr>
+        <tr>
+            <td><strong>c</strong></td>
+            <td><span class="ipa">/θ/</span> (Cast.) / <span class="ipa">/s/</span> (LatAm)</td>
+            <td>Before e, i</td>
+            <td>cerveza</td>
+        </tr>
+        <tr>
+            <td><strong>ch</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>Always</td>
+            <td>mucho</td>
+        </tr>
+        <tr>
+            <td><strong>d</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td>Always (→ <span class="ipa">[ð̞]</span> between vowels)</td>
+            <td>dedo</td>
+        </tr>
+        <tr>
+            <td><strong>f</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>Always</td>
+            <td>foto</td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>Before a, o, u</td>
+            <td>gato, gota</td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td><span class="ipa">/x/</span></td>
+            <td>Before e, i</td>
+            <td>gente, gigante</td>
+        </tr>
+        <tr>
+            <td><strong>gu</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>Before e, i (silent u)</td>
+            <td>guerra <span class="ipa">/ˈɡe.ra/</span></td>
+        </tr>
+        <tr>
+            <td><strong>gü</strong></td>
+            <td><span class="ipa">/ɡw/</span></td>
+            <td>Before e, i (u pronounced)</td>
+            <td>pingüino <span class="ipa">/pin.ˈɡwi.no/</span></td>
+        </tr>
+        <tr>
+            <td><strong>h</strong></td>
+            <td>(silent)</td>
+            <td>Always</td>
+            <td>hacer <span class="ipa">/a.ˈseɾ/</span> (LatAm) / <span class="ipa">/a.ˈθeɾ/</span> (Cast.)</td>
+        </tr>
+        <tr>
+            <td><strong>j</strong></td>
+            <td><span class="ipa">/x/</span></td>
+            <td>Always</td>
+            <td>jugar <span class="ipa">/xuˈɡaɾ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>k</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Always (loanwords)</td>
+            <td>kilo</td>
+        </tr>
+        <tr>
+            <td><strong>l</strong></td>
+            <td><span class="ipa">/l/</span></td>
+            <td>Always</td>
+            <td>luna</td>
+        </tr>
+        <tr>
+            <td><strong>ll</strong></td>
+            <td><span class="ipa">/ʝ/</span> (yeísmo) / <span class="ipa">/ʎ/</span> (lleísmo)</td>
+            <td>Always</td>
+            <td>calle</td>
+        </tr>
+        <tr>
+            <td><strong>m</strong></td>
+            <td><span class="ipa">/m/</span></td>
+            <td>Always</td>
+            <td>mesa</td>
+        </tr>
+        <tr>
+            <td><strong>n</strong></td>
+            <td><span class="ipa">/n/</span></td>
+            <td>Always (assimilates to following consonant)</td>
+            <td>noche</td>
+        </tr>
+        <tr>
+            <td><strong>ñ</strong></td>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td>Always</td>
+            <td>año</td>
+        </tr>
+        <tr>
+            <td><strong>p</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td>Always</td>
+            <td>peso</td>
+        </tr>
+        <tr>
+            <td><strong>qu</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Before e, i (silent u)</td>
+            <td>que <span class="ipa">/ke/</span></td>
+        </tr>
+        <tr>
+            <td><strong>r</strong></td>
+            <td><span class="ipa">/ɾ/</span></td>
+            <td>Between vowels</td>
+            <td>pero <span class="ipa">/ˈpe.ɾo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>r</strong></td>
+            <td><span class="ipa">/r/</span></td>
+            <td>Word-initial, after l/n/s/z</td>
+            <td>rojo, honra</td>
+        </tr>
+        <tr>
+            <td><strong>rr</strong></td>
+            <td><span class="ipa">/r/</span></td>
+            <td>Always (trill)</td>
+            <td>perro <span class="ipa">/ˈpe.ro/</span></td>
+        </tr>
+        <tr>
+            <td><strong>s</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>Always</td>
+            <td>casa</td>
+        </tr>
+        <tr>
+            <td><strong>t</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>Always</td>
+            <td>todo</td>
+        </tr>
+        <tr>
+            <td><strong>w</strong></td>
+            <td><span class="ipa">/w/</span> or <span class="ipa">/b/</span></td>
+            <td>Loanwords</td>
+            <td>windows</td>
+        </tr>
+        <tr>
+            <td><strong>x</strong></td>
+            <td><span class="ipa">/ks/</span></td>
+            <td>Usually</td>
+            <td>exacto <span class="ipa">/eɡ.ˈsaɡ.to/</span></td>
+        </tr>
+        <tr>
+            <td><strong>x</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>Word-initial</td>
+            <td>xenofobia</td>
+        </tr>
+        <tr>
+            <td><strong>y</strong></td>
+            <td><span class="ipa">/ʝ/</span> / <span class="ipa">/ʃ/</span> / <span class="ipa">/ʒ/</span></td>
+            <td>Consonantal (before vowel)</td>
+            <td>yo, playa</td>
+        </tr>
+        <tr>
+            <td><strong>y</strong></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Word-final (after vowel)</td>
+            <td>muy <span class="ipa">/ˈmui/</span>, hay <span class="ipa">/ˈai/</span></td>
+        </tr>
+        <tr>
+            <td><strong>z</strong></td>
+            <td><span class="ipa">/θ/</span> (Cast.) / <span class="ipa">/s/</span> (LatAm)</td>
+            <td>Always</td>
+            <td>zapato</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-context">Context-Dependent Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Input</th>
+            <th>Output</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Word-initial ps-, pt-</td>
+            <td>psicologia</td>
+            <td><span class="ipa">/si.ko.lo.ˈxi.a/</span></td>
+            <td>p is dropped</td>
+        </tr>
+        <tr>
+            <td>n before b/p/m</td>
+            <td>inmigración</td>
+            <td><span class="ipa">/im.mi.ˈɡɾa.sjon/</span> (phonemic)</td>
+            <td>n → m (labial assimilation); nasalization is phonetic only</td>
+        </tr>
+        <tr>
+            <td>Voiced fricatives between vowels</td>
+            <td>lado</td>
+            <td><span class="ipa">[ˈla.ð̞o]</span></td>
+            <td>d → ð̞ (approximant)</td>
+        </tr>
+        <tr>
+            <td>Nasal assimilation</td>
+            <td>conferencia</td>
+            <td><span class="ipa">[kõɱ.fe.ˈɾẽn.sja]</span> (LatAm phonetic)</td>
+            <td>n → ɱ before f</td>
+        </tr>
+        <tr>
+            <td>Nasal assimilation (velar)</td>
+            <td>congreso</td>
+            <td><span class="ipa">/kon.ˈɡɾe.so/</span> → phonetic: <span class="ipa">[kõŋ.ˈɡɾe.so]</span></td>
+            <td>n → ŋ before k/g (velar)</td>
+        </tr>
+        <tr>
+            <td>Nasal assimilation (palatal)</td>
+            <td>ancho</td>
+            <td><span class="ipa">/ˈan.t͡ʃo/</span> → phonetic: <span class="ipa">[ˈãnʲ.t͡ʃo]</span></td>
+            <td>n → nʲ before t͡ʃ</td>
+        </tr>
+        <tr>
+            <td>Lateral assimilation</td>
+            <td>alto</td>
+            <td><span class="ipa">/ˈal.to/</span> → phonetic: <span class="ipa">[ˈal̪.t̪o]</span></td>
+            <td>l → l̪ before dental t/d</td>
+        </tr>
+        <tr>
+            <td>S voicing before voiced consonants</td>
+            <td>desde</td>
+            <td><span class="ipa">/ˈdes.de/</span> → phonetic: <span class="ipa">[ˈdez.ð̞e]</span></td>
+            <td>s → z before voiced consonant</td>
+        </tr>
+        <tr>
+            <td>Voiceless stop voicing</td>
+            <td>absoluto</td>
+            <td><span class="ipa">/ab.so.ˈlu.to/</span> (voicing applies in both phonemic and phonetic)</td>
+            <td>p → b before s (obstruent, in main pipeline)</td>
+        </tr>
+        <tr>
+            <td>Word-initial x</td>
+            <td>xilófono</td>
+            <td><span class="ipa">/si.ˈlo.fo.no/</span></td>
+            <td>x → s (before any vowel)</td>
+        </tr>
+        <tr>
+            <td>Word-initial hi-</td>
+            <td>hierba</td>
+            <td><span class="ipa">/ˈʝeɾ.ba/</span> (yeismo) / <span class="ipa">/ˈjeɾ.ba/</span> (Rioplatense)</td>
+            <td>hi → ʝ (yeismo) or j (Rioplatense, NOT affected by sheismo)</td>
+        </tr>
+        <tr>
+            <td>Word-initial hu-</td>
+            <td>hueso</td>
+            <td><span class="ipa">/ˈw̝e.so/</span></td>
+            <td>hu → w̝ (raised labiovelar approximant)</td>
+        </tr>
+        <tr>
+            <td>Geminate preservation</td>
+            <td>ennoblecer</td>
+            <td><span class="ipa">/en.no.bleˈθeɾ/</span></td>
+            <td>nn preserved as geminate (not reduced)</td>
+        </tr>
+        <tr>
+            <td>cc → k</td>
+            <td>broccoli</td>
+            <td><span class="ipa">/bɾo.ˈko.li/</span></td>
+            <td>cc reduced to single k</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The Spanish transcription engine is implemented as a Lua module (<code>es-pron_wasm.lua</code>), based on the
+        <a href="https://en.wiktionary.org/wiki/Module:es-pronunc" target="_blank"
+           rel="noopener noreferrer">Wiktionary Spanish Pronunciation Module</a>. It runs in the browser via
+        <a href="https://github.com/ceifa/wasmoon" target="_blank" rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 WebAssembly).</p>
+
+    <h3>Processing Pipeline</h3>
+    <p>Text goes through the following stages:</p>
+
+    <h4>1. Canonicalization</h4>
+    <ul>
+        <li>Text is lowercased.</li>
+        <li>Unicode decomposed (NFD) except ñ and ü.</li>
+        <li>Punctuation converted to IPA foot boundaries.</li>
+        <li>Spaces normalized; word boundaries <code>#</code> added.</li>
+        <li>Common function words (el, la, que, de, etc.) marked as unstressed.</li>
+    </ul>
+
+    <h4>2. Letter Combination Handling</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Step</th>
+            <th>Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ch → ĉ</td>
+            <td>Digraph for affricate</td>
+            <td>mucho → muĉo</td>
+        </tr>
+        <tr>
+            <td>sh → ʃ</td>
+            <td>Postalveolar fricative</td>
+            <td>show → ʃow</td>
+        </tr>
+        <tr>
+            <td>Word-initial ps/pt</td>
+            <td>p is dropped</td>
+            <td>psicologia → sicologia</td>
+        </tr>
+        <tr>
+            <td>Word-initial x</td>
+            <td>→ s</td>
+            <td>xenofobia → senofobia</td>
+        </tr>
+        <tr>
+            <td>c before e/i</td>
+            <td>→ θ (distinción) or z (seseo)</td>
+            <td>cerveza → θerveza or zerveza</td>
+        </tr>
+        <tr>
+            <td>g before e/i</td>
+            <td>→ x</td>
+            <td>gente → xente</td>
+        </tr>
+        <tr>
+            <td>qu/gu before e/i</td>
+            <td>u is silent</td>
+            <td>que → ke, guerra → gerra</td>
+        </tr>
+        <tr>
+            <td>z → θ or z</td>
+            <td>Dialect-dependent</td>
+            <td>zapato → θapato or zapato</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>3. Consonant Mapping</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>c</td><td><span class="ipa">k</span></td></tr>
+        <tr><td>j</td><td><span class="ipa">x</span></td></tr>
+        <tr><td>ñ</td><td><span class="ipa">ɲ</span></td></tr>
+        <tr><td>r</td><td><span class="ipa">ɾ</span></td></tr>
+        <tr><td>v</td><td><span class="ipa">b</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>4. Special Consonant Rules</h4>
+    <ul>
+        <li><strong>ll</strong> → <span class="ipa">ʎ</span> (lleísmo) or <span class="ipa">ɟ</span> (yeísmo, internal symbol)</li>
+        <li><strong>rr</strong> → <span class="ipa">r</span> (trill)</li>
+        <li><strong>r</strong> word-initially, after l/n/s/z → trill</li>
+        <li><strong>Double consonants</strong> reduced to single (except nn, bb)</li>
+        <li><strong>Voiceless stops</strong> voiced before obstruents/nasals (p→b, t→d, k→g)</li>
+        <li><strong>n before b/p/m</strong> → m (labial assimilation)</li>
+        <li><strong>h</strong> deleted (silent)</li>
+    </ul>
+
+    <h4>5. Internal Notation</h4>
+    <p>The module uses several internal symbols during processing, converted to final IPA at the end:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Purpose</th>
+            <th>Final IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>ĉ</code></td>
+            <td>C-circumflex</td>
+            <td>Internal placeholder for ch affricate</td>
+            <td><span class="ipa">t͡ʃ</span></td>
+        </tr>
+        <tr>
+            <td><code>ɟ</code></td>
+            <td>Dotless j with stroke</td>
+            <td>Internal placeholder for ll/y (yeismo)</td>
+            <td><span class="ipa">ʝ</span> (phonemic) / <span class="ipa">ɟ͡ʝ</span> (phonetic)</td>
+        </tr>
+        <tr>
+            <td><code>TEMP_W</code></td>
+            <td>Temporary W</td>
+            <td>Placeholder for hu- diphthong</td>
+            <td><span class="ipa">w̝</span></td>
+        </tr>
+        <tr>
+            <td><code>N</code></td>
+            <td>Uppercase N</td>
+            <td>Preserves geminate nn during consonant reduction</td>
+            <td><span class="ipa">n.n</span></td>
+        </tr>
+        <tr>
+            <td><code>B</code></td>
+            <td>Uppercase B</td>
+            <td>Preserves geminate bb during consonant reduction</td>
+            <td><span class="ipa">b.b</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>6. Glide Formation &amp; Syllabification</h4>
+    <ul>
+        <li>Intervocalic i → j, u → w (including across h: <em>marihuana</em> → <em>marixwana</em>)</li>
+        <li>i + vowel → j + vowel (rising diphthong)</li>
+        <li>u + vowel → w + vowel (rising diphthong)</li>
+        <li>Syllabified using onset/coda validity rules</li>
+    </ul>
+
+    <h4>7. Syllabification Rules</h4>
+    <p>Consonant clusters between vowels are split according to these rules:</p>
+    <ul>
+        <li><strong>Stop + liquid clusters</strong> (pl, pr, bl, br, fl, fr, kl, kr, gl, gr, tl, tr): kept together as onset</li>
+        <li><strong>Digraphs</strong> (ch, sh, ph, th, dh, fh, kh, gh): kept together (but <em>bh</em> is split)</li>
+        <li><strong>ll, rr, tz</strong>: kept together</li>
+        <li><strong>Word-final tl</strong>: divided from previous vowel (<em>nahuatl</em> → na.hua.tl)</li>
+        <li><strong>All other clusters</strong>: divided before the last consonant</li>
+    </ul>
+
+    <h4>8. Hiatus Rules</h4>
+    <p>Two vowels in the same syllable are split into separate syllables (hiatus) when:</p>
+    <ul>
+        <li>Both are <strong>a, e, or o</strong>: <em>poema</em> → po.e.ma</li>
+        <li>Either is a <strong>stressed vowel</strong>: <em>raíz</em> → ra.íz</li>
+        <li>Both are <strong>i</strong> or both are <strong>u</strong>: <em>antiincendios</em> → an.ti.in.cen.di.os</li>
+        <li>Unstressed <strong>i/u</strong> followed by another <strong>i/u</strong> of the same type</li>
+    </ul>
+
+    <h4>9. Stress Assignment</h4>
+    <ul>
+        <li>Explicit accent marks (á, é, í, ó, ú) take priority</li>
+        <li>Default: penultimate if word ends in vowel/n/s; otherwise final</li>
+        <li>-mente words get dual stress (primary + secondary)</li>
+    </ul>
+
+    <h4>10. Post-Processing</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Step</th>
+            <th>Condition</th>
+            <th>Effect</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Rioplatense</td>
+            <td>rioplatense dialect</td>
+            <td>ɟ → ʃ (sheismo) or ʒ (zheismo)</td>
+        </tr>
+        <tr>
+            <td>Vowel nasalization</td>
+            <td>Phonetic mode</td>
+            <td>Vowels nasalized before m/n/ñ in same syllable</td>
+        </tr>
+        <tr>
+            <td>Fricative voicing</td>
+            <td>Phonetic mode</td>
+            <td>s → z, θ → θ̬ before voiced consonants and ɾ/r; f → v before voiced consonants (NOT before ɾ/r)</td>
+        </tr>
+        <tr>
+            <td>Stop vs fricative</td>
+            <td>Phonetic mode</td>
+            <td>b/d/ʝ/g → β/ð/ʝ/ɣ between vowels; restored after nasals</td>
+        </tr>
+        <tr>
+            <td>Nasal assimilation</td>
+            <td>Phonetic mode</td>
+            <td>n assimilates to place of following consonant</td>
+        </tr>
+        <tr>
+            <td>Lateral assimilation</td>
+            <td>Phonetic mode</td>
+            <td>l assimilates before coronal consonants</td>
+        </tr>
+        <tr>
+            <td>Dental articulation</td>
+            <td>Phonetic mode</td>
+            <td>t, d → t̪, d̪ (always dental)</td>
+        </tr>
+        <tr>
+            <td>Approximant marking</td>
+            <td>Phonetic mode</td>
+            <td>β, ð, ɣ → β̞, ð̞, ɣ̞ (lowered)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>11. Example Transformations</h4>
+    <p>Here are complete examples showing how the module processes words from input to final IPA:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Key Steps</th>
+            <th>Final IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>cerveza (LatAm)</td>
+            <td>c → θ → z (seseo); e → e; v → b; z → θ → z → s (seseo); stress on penult</td>
+            <td><span class="ipa">/seɾ.ˈbe.sa/</span></td>
+        </tr>
+        <tr>
+            <td>cerveza (Cast.)</td>
+            <td>c before e → θ (distinción); e → e; v → b; z → θ; stress on penult</td>
+            <td><span class="ipa">/θeɾ.ˈbe.θa/</span></td>
+        </tr>
+        <tr>
+            <td>calle (yeismo)</td>
+            <td>c → k; ll → ɟ (yeismo internal); stress on penult</td>
+            <td><span class="ipa">/ˈka.ʝe/</span></td>
+        </tr>
+        <tr>
+            <td>calle (sheismo)</td>
+            <td>c → k; ll → ɟ → ʃ (Rioplatense); stress on penult</td>
+            <td><span class="ipa">/ˈka.ʃe/</span></td>
+        </tr>
+        <tr>
+            <td>exacto</td>
+            <td>x → ks; e → e; c → k; t → t; o → o; k → ɡ before s (voicing); stress on final</td>
+            <td><span class="ipa">/eɡ.ˈsaɡ.to/</span></td>
+        </tr>
+        <tr>
+            <td>psicologia</td>
+            <td>Word-initial p dropped; s → s; i → i; c → k; stress on penult</td>
+            <td><span class="ipa">/si.ko.lo.ˈxi.a/</span></td>
+        </tr>
+        <tr>
+            <td>gente</td>
+            <td>g before e → x; e → e; n → n; t → t; e → e; stress on penult</td>
+            <td><span class="ipa">/ˈxen.te/</span></td>
+        </tr>
+        <tr>
+            <td>hueso</td>
+            <td>h deleted; u + e → we (diphthong); s → s; o → o; stress on penult</td>
+            <td><span class="ipa">/ˈw̝e.so/</span></td>
+        </tr>
+        <tr>
+            <td>perro</td>
+            <td>p → p; rr → r (trill); e → e; o → o; stress on penult</td>
+            <td><span class="ipa">/ˈpe.ro/</span></td>
+        </tr>
+        <tr>
+            <td>lado (phonetic)</td>
+            <td>l → l; a → a; d → ð̞ (approximant between vowels); o → o; stress on penult</td>
+            <td><span class="ipa">[ˈla.ð̞o]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Detailed Phonetic Rules</h3>
+    <p>When Phonetic mode is selected, the following allophonic rules are applied in order:</p>
+
+    <h4>Fricative Voicing Before Voiced Consonants</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Phoneme</th>
+            <th>Before voiced consonant</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/θ/</span></td>
+            <td><span class="ipa">[θ̬]</span></td>
+            <td><em>juzgar</em> → <span class="ipa">[xuθ̬ˈɣ̞aɾ]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">[z]</span></td>
+            <td><em>desde</em> → <span class="ipa">[ˈd̪ez.ð̞e]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/f/</span></td>
+            <td><span class="ipa">[v]</span></td>
+            <td><em>afganés</em> → <span class="ipa">[avˈɣ̞a.nes]</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note:</strong> Voiced consonants that trigger θ and s voicing: m, n, ɲ, b, d, ʝ, g, ʎ, w, ɾ, r.
+        For f, voicing only applies before m, n, ɲ, b, d, ʝ, g, ʎ, w (NOT before ɾ, r).</p>
+
+    <h4>Stop vs Fricative Allophones of /b, d, g/</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Phoneme</th>
+            <th>Default (between vowels)</th>
+            <th>After nasal/lateral</th>
+            <th>Word-initial</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">[β̞]</span></td>
+            <td><span class="ipa">[b]</span> after m, n, ɲ</td>
+            <td><span class="ipa">[b]</span></td>
+            <td><em>vaca</em> → <span class="ipa">[ˈba.ka]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">[ð̞]</span></td>
+            <td><span class="ipa">[d]</span> after l, ʎ, m, n, ɲ</td>
+            <td><span class="ipa">[d]</span></td>
+            <td><em>lado</em> → <span class="ipa">[ˈla.ð̞o]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">[ʝ]</span></td>
+            <td><span class="ipa">[ɟ]</span> after l, ʎ, m, n, ɲ</td>
+            <td><span class="ipa">[ɟ]</span></td>
+            <td><em>yo</em> → <span class="ipa">[ˈɟ͡ʝo]</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">[ɣ̞]</span></td>
+            <td><span class="ipa">[ɡ]</span> after m, n, ɲ</td>
+            <td><span class="ipa">[ɡ]</span></td>
+            <td><em>agua</em> → <span class="ipa">[ˈa.ɣ̞wa]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Nasal Place Assimilation</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Following consonant</th>
+            <th>Nasal realization</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>f, v</td>
+            <td><span class="ipa">[ɱ]</span> (labiodental)</td>
+            <td><em>invierno</em> → <span class="ipa">[ĩmˈbjeɾ.no]</span></td>
+        </tr>
+        <tr>
+            <td>t, d</td>
+            <td><span class="ipa">[n̪]</span> (dentialveolar)</td>
+            <td><em>entender</em> → <span class="ipa">[ẽn̪.t̪ẽn̪.ˈd̪eɾ]</span></td>
+        </tr>
+        <tr>
+            <td>θ</td>
+            <td><span class="ipa">[n̟]</span> (dental)</td>
+            <td><em>concierto</em> → <span class="ipa">[kõn̟.ˈθjeɾ.t̪o]</span> (Castilian)</td>
+        </tr>
+        <tr>
+            <td>t͡ʃ, ʃ, ʒ</td>
+            <td><span class="ipa">[nʲ]</span> (alveolopalatal)</td>
+            <td><em>ancho</em> → <span class="ipa">[ˈãnʲ.t͡ʃo]</span></td>
+        </tr>
+        <tr>
+            <td>ʝ, ʎ</td>
+            <td><span class="ipa">[ɲ]</span> (palatal)</td>
+            <td><em>conllevar</em> → <span class="ipa">[kõɲ.ʎeˈβ̞aɾ]</span></td>
+        </tr>
+        <tr>
+            <td>k, x, ɡ</td>
+            <td><span class="ipa">[ŋ]</span> (velar)</td>
+            <td><em>congreso</em> → <span class="ipa">/kon.ˈɡɾe.so/</span> (phonemic) → <span class="ipa">[kõŋ.ˈɡɾe.so]</span> (phonetic)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Lateral Place Assimilation</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Following consonant</th>
+            <th>Lateral realization</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>t, d</td>
+            <td><span class="ipa">[l̪]</span> (dental)</td>
+            <td><em>alto</em> → <span class="ipa">[ˈal̪.t̪o]</span></td>
+        </tr>
+        <tr>
+            <td>θ</td>
+            <td><span class="ipa">[l̟]</span> (dental)</td>
+            <td><em>colza</em> → <span class="ipa">[ˈkol̟.θa]</span> (Castilian phonetic)</td>
+        </tr>
+        <tr>
+            <td>t͡ʃ, ʃ</td>
+            <td><span class="ipa">[lʲ]</span> (alveolopalatal)</td>
+            <td><em>melchor</em> → <span class="ipa">[ˈmelʲ.t͡ʃoɾ]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Vowel Nasalization</h4>
+    <p>In phonetic mode, vowels are nasalized when followed by a nasal (m, n, ɲ) in the same syllable:</p>
+    <ul>
+        <li><em>canto</em> → <span class="ipa">[ˈkãn̪.t̪o]</span></li>
+        <li><em>conmigo</em> → <span class="ipa">[kõm.ˈmi.ɣ̞o]</span></li>
+        <li><em>enseñar</em> → <span class="ipa">[ẽn.se.ˈɲaɾ]</span></li>
+    </ul>
+
+    <h4>Non-syllabic Diacritic on Offglides</h4>
+    <p>In diphthongs and triphthongs, the non-head vowel receives the non-syllabic mark <span class="ipa">̯</span>:</p>
+    <ul>
+        <li>Rising: <em>hierba</em> → <span class="ipa">[ˈɟ͡ʝeɾ.β̞a]</span></li>
+        <li>Falling: <em>causa</em> → <span class="ipa">[ˈkau̯.sa]</span></li>
+        <li>Triphthong: <em>Paraguay</em> → <span class="ipa">[pa.ɾaˈɣ̞wai̯]</span></li>
+    </ul>
+
+    <h4>Dental Articulation</h4>
+    <p>In phonetic mode, <span class="ipa">/t/</span> and <span class="ipa">/d/</span> are always dental
+        <span class="ipa">[t̪]</span> and <span class="ipa">[d̪]</span>, not alveolar as in English.</p>
+
+    <h4>Approximant Realization</h4>
+    <p>In phonetic mode, <span class="ipa">[β, ð, ɣ]</span> are further marked as lowered approximants
+        <span class="ipa">[β̞, ð̞, ɣ̞]</span>. These are produced with the vocal tract narrowed but not enough
+        to create friction — closer to a glide than a true fricative.</p>
+
+
+    <h3>Respelling Conventions</h3>
+    <p>The module accepts respelling input with special conventions for overriding default pronunciation:</p>
+
+    <h4>Explicit Stress Marks</h4>
+    <ul>
+        <li><strong>Acute accent (á, é, í, ó, ú):</strong> Marks primary stress on the accented vowel. Takes priority over default stress rules. E.g., <em>café</em> → stress on final syllable.</li>
+        <li><strong>Grave accent (à, è, ì, ò, ù):</strong> Marks secondary stress. E.g., in compound words or with <em>-mente</em> suffix.</li>
+        <li><strong>Circumflex (â, ê, î, ô, û):</strong> Marks explicitly unstressed words/prefixes. Used internally for function words (el, la, que, de, etc.).</li>
+    </ul>
+
+    <h4>Y as Consonant or Vowel</h4>
+    <ul>
+        <li><strong>Y before a vowel:</strong> Treated as consonant <span class="ipa">/ʝ/</span> (or <span class="ipa">/ʃ/</span>, <span class="ipa">/ʒ/</span> in Rioplatense). E.g., <em>yo</em>, <em>playa</em>.</li>
+        <li><strong>Y at word end after vowel:</strong> Treated as <span class="ipa">/i/</span>. E.g., <em>muy</em> → <span class="ipa">/ˈmui/</span>, <em>hay</em> → <span class="ipa">/ˈai/</span>.</li>
+        <li><strong>-ay, -ey, -oy, -uy at word end:</strong> The <em>y</em> is stressed (not a diphthong). E.g., <em>muy</em> has stress on <em>u</em>, not <em>y</em>.</li>
+    </ul>
+
+    <h4>Silent H Handling</h4>
+    <p>The letter <em>h</em> is always silent in Spanish and is deleted during processing. However, <em>h</em> plays a role in syllabification: <em>VhV</em> sequences are NOT broken into separate syllables. E.g., <em>prohibir</em> → prohi.bir (not pro.hi.bir).</p>
+
+    <h4>Dialect-Specific Output</h4>
+    <p>The module produces different output depending on the selected dialect. Key differences:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Castilian</th>
+            <th>Latin American</th>
+            <th>Rioplatense</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>c before e/i</td>
+            <td><span class="ipa">/θ/</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/s/</span></td>
+        </tr>
+        <tr>
+            <td>z</td>
+            <td><span class="ipa">/θ/</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">/s/</span></td>
+        </tr>
+        <tr>
+            <td>ll</td>
+            <td><span class="ipa">/ʝ/</span> (yeísmo) or <span class="ipa">/ʎ/</span> (lleísmo)</td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʃ/</span> or <span class="ipa">/ʒ/</span></td>
+        </tr>
+        <tr>
+            <td>y (consonantal)</td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʃ/</span> or <span class="ipa">/ʒ/</span></td>
+        </tr>
+        <tr>
+            <td>hi- (word-initial)</td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/ʝ/</span></td>
+            <td><span class="ipa">/j/</span> (NOT <span class="ipa">/ʃ/</span> or <span class="ipa">/ʝ/</span>)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Raw Phonemic/Phonetic Input</h4>
+    <p>Users can bypass the respelling system using the <code>raw:</code> prefix:</p>
+    <ul>
+        <li><code>raw:/phonemic/</code> — provides a raw phonemic pronunciation</li>
+        <li><code>raw:[phonetic]</code> — provides a raw phonetic pronunciation</li>
+        <li><code>raw:/phonemic/ [phonetic]</code> — provides both</li>
+    </ul>
+
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Issue</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Foreign proper names</td>
+            <td>Approximate pronunciation</td>
+            <td>Spanish phonotactics applied to non-Spanish words</td>
+            <td>Use respelling if needed</td>
+        </tr>
+        <tr>
+            <td>Ambiguous stress</td>
+            <td>Wrong stress placement</td>
+            <td>Default stress rules may not match the word's actual stress</td>
+            <td>Add written accent to input: <em>café</em></td>
+        </tr>
+        <tr>
+            <td>Loanwords with unusual spellings</td>
+            <td>Unexpected output</td>
+            <td>Rule engine optimized for standard Spanish spelling</td>
+            <td>Use respelling</td>
+        </tr>
+        <tr>
+            <td>German/Dutch names with <em>w</em></td>
+            <td><em>w</em> pronounced as <span class="ipa">/b/</span></td>
+            <td>Module converts <em>w</em> → <em>v</em> → <span class="ipa">/b/</span></td>
+            <td>Use respelling: <em>washington</em> → <em>güashington</em></td>
+        </tr>
+        <tr>
+            <td>Words with <em>cc</em></td>
+            <td><em>cc</em> reduced to single <span class="ipa">/k/</span></td>
+            <td>Module reduces doubled consonants</td>
+            <td>Expected behavior; <em>broccoli</em> → <span class="ipa">/ˈbɾo.ko.li/</span></td>
+        </tr>
+        <tr>
+            <td>Words with silent <em>h</em></td>
+            <td><em>h</em> always silent</td>
+            <td>Module deletes all <em>h</em></td>
+            <td>Expected behavior; <em>hola</em> → <span class="ipa">/ˈo.la/</span></td>
+        </tr>
+        <tr>
+            <td>Dialect-specific <em>ll/y</em></td>
+            <td>Different output for different dialects</td>
+            <td>Module produces <span class="ipa">/ʝ/</span>, <span class="ipa">/ʎ/</span>,
+                <span class="ipa">/ʃ/</span>, or <span class="ipa">/ʒ/</span> depending on dialect</td>
+            <td>Select the dialect that matches your target pronunciation</td>
+        </tr>
+        <tr>
+            <td>Dialect-specific <em>c/z</em></td>
+            <td>Different output for different dialects</td>
+            <td>Module produces <span class="ipa">/θ/</span> (Castilian) or <span class="ipa">/s/</span>
+                (Latin American)</td>
+            <td>Select the dialect that matches your target pronunciation</td>
+        </tr>
+        <tr>
+            <td>Rioplatense <em>hi-</em> vs <em>ll-/y-</em></td>
+            <td>Initial <em>hi-</em> not affected by sheismo/zheismo</td>
+            <td>Module distinguishes word-initial <em>hi-</em> from <em>ll/y</em></td>
+            <td>Expected behavior; <em>hierba</em> → <span class="ipa">/ˈʝeɾ.ba/</span> (not <span class="ipa">/ˈʃeɾ.ba/</span>)</td>
+        </tr>
+        </tbody>
+    </table>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
