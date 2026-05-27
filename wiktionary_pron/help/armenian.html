@@ -21,38 +21,2170 @@
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+    <!-- ===================== TABLE OF CONTENTS ===================== -->
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><strong>How to Read IPA Symbols</strong>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Armenian Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#voicing-swap">The Voicing Swap (Western vs Eastern)</a></li>
+                <li><a href="#aspiration">Aspiration</a></li>
+                <li><a href="#vowels-guide">Vowels</a></li>
+                <li><a href="#word-initial">Word-Initial ե and ո</a></li>
+                <li><a href="#consonant-classes">Consonant Classes</a></li>
+                <li><a href="#assimilation">Voicing &amp; Devoicing Assimilation</a></li>
+                <li><a href="#schwa-insertion">Schwa Insertion</a></li>
+                <li><a href="#gemination">Gemination</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#hiatus">Hiatus &amp; Glide Insertion</a></li>
+                <li><a href="#palatalization">Eastern Palatalization of -ությ-</a></li>
+            </ul>
+        </li>
+        <li><strong>Spelling-to-IPA Mapping</strong>
+            <ul>
+                <li><a href="#mapping-vowels">1. Vowels</a></li>
+                <li><a href="#mapping-consonants-eastern">2. Eastern Armenian Consonants</a></li>
+                <li><a href="#mapping-consonants-western">3. Western Armenian Consonants</a></li>
+                <li><a href="#mapping-dialect-table">4. Full Dialect Comparison</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <!-- ===================== ABOUT ===================== -->
+    <h2 id="about">About This Tool</h2>
 
     <p>This <a href="../?lang=Armenian">Armenian transcription app</a> uses the <a
             href="https://en.wiktionary.org/wiki/Module:hy-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
-        Armenian
-        Pronunciation Module</a> to generate phonetic/phonemic transcriptions for Armenian text.</p>
+        Armenian Pronunciation Module</a> to generate phonetic and phonemic IPA transcriptions for Armenian text.</p>
 
-    <p>The system processes Armenian text through a rule-based approach that handles both Western and Eastern Armenian
-        pronunciation patterns.</p>
+    <p>The system is entirely <strong>rule-based</strong> — it does not use a lexicon. All transcriptions are generated
+        algorithmically from the Armenian spelling, applying the phonological rules of the selected dialect. This means
+        it works on any Armenian text, including neologisms and rare words, but it cannot handle words whose pronunciation
+        deviates from the standard spelling rules (e.g., some loanwords).</p>
 
-    <h2>Dialects Supported</h2>
+    <p>The implementation covers the two major modern Armenian dialects: <strong>Eastern Armenian</strong> (based on the
+        Yerevan standard) and <strong>Western Armenian</strong> (based on the Istanbul/Beirut standard). Each dialect
+        produces both phonemic and phonetic transcriptions.</p>
+
+    <!-- ===================== DIALECTS ===================== -->
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+
+    <h4>Supported Dialects</h4>
     <ul>
-        <li><strong>Western</strong> - Western Armenian pronunciation patterns</li>
-        <li><strong>Eastern</strong> - Eastern Armenian pronunciation patterns</li>
+        <li><strong>Eastern Armenian</strong> — The standard dialect of the Republic of Armenia. Based on the Yerevan
+            prestige norm.
+        </li>
+        <li><strong>Western Armenian</strong> — The historical diaspora standard, traditionally based on the Istanbul
+            Armenian norm. Used in Lebanon, Syria, and many diaspora communities.
+        </li>
     </ul>
 
-    <h2>Transcription Forms</h2>
+    <h4>Limitations</h4>
     <ul>
-        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
-            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said.
+        <li><strong>Rule-based only:</strong> No lexicon lookup. Words with irregular pronunciation (especially some
+            loanwords from Russian, French, Turkish) may not be transcribed correctly.
         </li>
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+        <li><strong>Classical Armenian (Grabar)</strong> is not supported — only modern Eastern and Western.</li>
+        <li><strong>Colloquial/regional variants</strong> within each dialect (e.g., Gyumri dialect, Karabakh dialect)
+            are not modeled.
+        </li>
+        <li><strong>Code-switching</strong> and mixed-language text are not handled.</li>
+    </ul>
+
+    <!-- ===================== FORMS ===================== -->
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic</strong> (broad, <span class="ipa">/.../</span>): Shows only the sounds that distinguish
+            meaning. Uses the simplest possible symbols. For example, in Eastern Armenian, <em>բ</em> is always
+            <span class="ipa">/b/</span> regardless of its exact pronunciation in context.
+        </li>
+        <li><strong>Phonetic</strong> (narrow, <span class="ipa">[...]</span>): Shows how a word is <em>actually
+            pronounced</em>, including allophonic variations, assimilation, aspiration, and glide insertion. For
+            example, in Western Armenian phonetic, <em>բ</em> is realized as <span class="ipa">[pʰ]</span> (aspirated
+            voiceless).
         </li>
     </ul>
 
+    <!-- ===================== GLOSSARY ===================== -->
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
 
-    <h2>Technical Information</h2>
-    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:hy-pron" target="_blank"
-                                              rel="noopener noreferrer">Wiktionary
-        Armenian pronunciation module</a>, which provides comprehensive coverage of Armenian phonological rules and
-        dialectal variations for both Western and Eastern Armenian.</p>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>A sound that can change the meaning of a word when substituted for another. Represented with slashes:
+            <span class="ipa">/b/</span>, <span class="ipa">/p/</span>.
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A predictable variant of a phoneme that occurs in a specific context. Represented with square brackets:
+            <span class="ipa">[pʰ]</span> is an allophone of <span class="ipa">/p/</span> in Western Armenian.
+        </dd>
+
+        <dt>Voicing</dt>
+        <dd>Vibration of the vocal cords. Compare voiced <span class="ipa">/b/</span> (vocal cords vibrate) with
+            voiceless <span class="ipa">/p/</span> (no vibration).
+        </dd>
+
+        <dt>Aspiration</dt>
+        <dd>A burst of air after a stop consonant. Transcribed with a superscript <span class="ipa">ʰ</span>:
+            <span class="ipa">/pʰ/</span> vs <span class="ipa">/p/</span>. Eastern Armenian <em>փ</em> is aspirated
+            <span class="ipa">/pʰ/</span>, while <em>պ</em> is unaspirated <span class="ipa">/p/</span>.
+        </dd>
+
+        <dt>Voicing Swap</dt>
+        <dd>The systematic exchange of voicing values between the Armenian stop series. In Western Armenian,
+            historically voiced letters (բ, գ, դ, ձ, ջ) became voiceless, and historically voiceless letters (պ, կ,
+            տ, ծ, ճ) became voiced.
+        </dd>
+
+        <dt>Regressive Assimilation</dt>
+        <dd>A sound changes to match a following sound. In Armenian, voiced obstruents devoice before voiceless ones:
+            e.g., <em>բ + թ</em> → <span class="ipa">pʰtʰ</span>.
+        </dd>
+
+        <dt>Schwa</dt>
+        <dd>A mid-central vowel <span class="ipa">/ə/</span>, represented by Armenian <em>ը</em>. Also inserted
+            prothetically in Western Armenian before certain consonant clusters.
+        </dd>
+
+        <dt>Prothetic Schwa</dt>
+        <dd>A schwa inserted before a word-initial consonant cluster. In Western Armenian, words beginning with
+            <em>sp-</em>, <em>st-</em>, <em>sk-</em>, etc. may receive a prothetic <span class="ipa">ə</span>.
+        </dd>
+
+        <dt>Gemination</dt>
+        <dd>Lengthening of a consonant, shown with <span class="ipa">ː</span>. Armenian orthographic doubling (e.g.,
+            <em>բբ</em>) is phonetically realized as a long consonant <span class="ipa">[bː]</span>.
+        </dd>
+
+        <dt>Affricate</dt>
+        <dd>A consonant that begins as a stop and releases as a fricative. Armenian has six affricates:
+            <span class="ipa">/t͡s/</span>, <span class="ipa">/d͡z/</span>, <span class="ipa">/t͡ʃ/</span>,
+            <span class="ipa">/d͡ʒ/</span> and their aspirated counterparts.
+        </dd>
+
+        <dt>Fricative</dt>
+        <dd>A consonant produced by forcing air through a narrow channel. Armenian fricatives include:
+            <span class="ipa">/s/</span>, <span class="ipa">/z/</span>, <span class="ipa">/ʃ/</span>,
+            <span class="ipa">/ʒ/</span>, <span class="ipa">/f/</span>, <span class="ipa">/v/</span>,
+            <span class="ipa">/χ/</span>, <span class="ipa">/ʁ/</span>, <span class="ipa">/h/</span>.
+        </dd>
+
+        <dt>Hiatus</dt>
+        <dd>Two adjacent vowels in separate syllables. In phonetic transcription, an optional glide
+            <span class="ipa">[j]</span> may be inserted between them.
+        </dd>
+
+        <dt>Glide</dt>
+        <dd>A sound that functions as a transition between a vowel and a consonant or between two vowels. The palatal
+            glide <span class="ipa">[j]</span> is optionally inserted in hiatus contexts.
+        </dd>
+
+        <dt>Trill</dt>
+        <dd>A consonant produced by rapid vibration of the tongue tip. Armenian <em>ռ</em> is an alveolar trill
+            <span class="ipa">/r/</span>, while <em>ր</em> is a tap <span class="ipa">/ɾ/</span>.
+        </dd>
+
+        <dt>Tap (Flap)</dt>
+        <dd>A single quick contact of the tongue against the alveolar ridge. Armenian <em>ր</em> is a tap
+            <span class="ipa">/ɾ/</span>. In phonetic transcription, geminate <em>rr</em> is realized as
+            <span class="ipa">[ɹː]</span> since a long trill is phonetically impractical.
+        </dd>
+
+        <dt>Uvular</dt>
+        <dd>A sound produced at the back of the throat (uvula). Armenian <em>ղ</em> is a voiced uvular fricative
+            <span class="ipa">/ʁ/</span>, and <em>խ</em> is a voiceless uvular fricative <span class="ipa">/χ/</span>.
+        </dd>
+
+        <dt>Velar Nasal</dt>
+        <dd>The <em>ng</em> sound <span class="ipa">/ŋ/</span>. In Armenian phonetic transcription, <em>ն</em> before
+            <span class="ipa">/ɡ/</span> or <span class="ipa">/k/</span> is realized as <span class="ipa">[ŋ]</span>.
+        </dd>
+
+        <dt>Digraph</dt>
+        <dd>Two letters representing a single sound. The main Armenian digraph is <em>ու</em> =
+            <span class="ipa">/u/</span>. Western Armenian also has <em>էօ</em> = <span class="ipa">/œ/</span>.
+        </dd>
+
+        <dt>Ligature</dt>
+        <dd>A combination of two or more letters joined into a single glyph. Armenian <em>և</em> is a ligature
+            pronounced <span class="ipa">/ev/</span>.
+        </dd>
+
+        <dt>Extrasyllabic</dt>
+        <dd>A sound that does not belong to any syllable. The final <em>-ք</em> in ancient Armenian plurals is treated
+            as extrasyllabic, marked internally with a middle dot (·) to prevent voicing assimilation rules from
+            applying to it.
+        </dd>
+    </dl>
+
+    <!-- ===================== IPA SYMBOLS ===================== -->
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+
+    <p>Below are the IPA symbols used in Armenian transcription. Each symbol is shown with an Armenian example and an
+        English approximation where possible.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Armenian Letter</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/ɑ/</span></td>
+            <td>ա</td>
+            <td>f<strong>a</strong>ther</td>
+            <td>Open back unrounded vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/e/</span></td>
+            <td>ե, է</td>
+            <td>b<strong>e</strong>d (but longer)</td>
+            <td>Close-mid front unrounded</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ə/</span></td>
+            <td>ը</td>
+            <td><strong>a</strong>bout</td>
+            <td>Mid-central vowel (schwa)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span></td>
+            <td>ի</td>
+            <td>mach<strong>i</strong>ne</td>
+            <td>Close front unrounded</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td>ո, օ</td>
+            <td>g<strong>o</strong> (but without the glide)</td>
+            <td>Close-mid back rounded</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td>ու</td>
+            <td>r<strong>u</strong>le</td>
+            <td>Close back rounded; digraph</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/œ/</span></td>
+            <td>էօ</td>
+            <td>French <em>peu</em></td>
+            <td>Western Armenian only; digraph</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʏ/</span></td>
+            <td>յու</td>
+            <td>German <em>Hütte</em></td>
+            <td>Western Armenian; in specific contexts</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Armenian Letter(s)</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td>փ (E), փ / բ (W phonetic)</td>
+            <td><strong>p</strong>in (with aspiration)</td>
+            <td>Aspirated voiceless bilabial stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td>թ (E), թ / դ (W phonetic)</td>
+            <td><strong>t</strong>in (with aspiration)</td>
+            <td>Aspirated voiceless alveolar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td>ք (E), ք / գ (W phonetic)</td>
+            <td><strong>k</strong>in (with aspiration)</td>
+            <td>Aspirated voiceless velar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>ծ (E), ձ (W)</td>
+            <td>ca<strong>ts</strong></td>
+            <td>Voiceless alveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡sʰ/</span></td>
+            <td>ց</td>
+            <td>bi<strong>ts</strong> (with aspiration)</td>
+            <td>Aspirated voiceless alveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td>ձ (E), ծ (W)</td>
+            <td>a<strong>dz</strong>e</td>
+            <td>Voiced alveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>ճ (E), ջ (W)</td>
+            <td><strong>ch</strong>urch (without aspiration)</td>
+            <td>Voiceless postalveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ʃʰ/</span></td>
+            <td>չ</td>
+            <td><strong>ch</strong>urch (with aspiration)</td>
+            <td>Aspirated voiceless postalveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>ջ (E), ճ (W)</td>
+            <td><strong>j</strong>udge</td>
+            <td>Voiced postalveolar affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>շ</td>
+            <td><strong>sh</strong>e</td>
+            <td>Voiceless postalveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>ժ</td>
+            <td>vi<strong>s</strong>ion</td>
+            <td>Voiced postalveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/χ/</span></td>
+            <td>խ</td>
+            <td>Scottish lo<strong>ch</strong></td>
+            <td>Voiceless uvular fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td>ղ</td>
+            <td>French <em>rouge</em></td>
+            <td>Voiced uvular fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɾ/</span></td>
+            <td>ր</td>
+            <td>American English be<strong>tt</strong>er (tap)</td>
+            <td>Alveolar tap</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td>ռ</td>
+            <td>Spanish <em>rr</em> (trill)</td>
+            <td>Alveolar trill</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>ն before ɡ/k</td>
+            <td>si<strong>ng</strong></td>
+            <td>Velar nasal (allophone of /n/)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td>յ</td>
+            <td><strong>y</strong>es</td>
+            <td>Palatal approximant</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ˈ</td>
+            <td>Primary stress</td>
+            <td>Stress placed on the following syllable</td>
+            <td><span class="ipa">baˈɾi</span></td>
+        </tr>
+        <tr>
+            <td>ː</td>
+            <td>Length mark</td>
+            <td>Consonant is long (geminate)</td>
+            <td><span class="ipa">[bː]</span> from orthographic <em>բբ</em></td>
+        </tr>
+        <tr>
+            <td>̚</td>
+            <td>Unreleased stop</td>
+            <td>Stop consonant without audible release</td>
+            <td><span class="ipa">[t̚t͡s]</span> in geminate affricates</td>
+        </tr>
+        <tr>
+            <td>ʰ</td>
+            <td>Superscript h</td>
+            <td>Aspiration (burst of air)</td>
+            <td><span class="ipa">/pʰ/</span>, <span class="ipa">/tʰ/</span>, <span class="ipa">/kʰ/</span></td>
+        </tr>
+        <tr>
+            <td>͡</td>
+            <td>Tie bar</td>
+            <td>Links two symbols into a single affricate</td>
+            <td><span class="ipa">/t͡s/</span>, <span class="ipa">/d͡ʒ/</span></td>
+        </tr>
+        <tr>
+            <td>́</td>
+            <td>Combining acute</td>
+            <td>Stress mark in phonetic transcription (placed on the vowel)</td>
+            <td><span class="ipa">[baɾ́i]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words</strong> to cycle through multiple pronunciation variants (if available).</li>
+        <li><strong>Audio playback</strong>: Click the speaker icon <i class="icon icon-volume"></i> to hear the
+            pronunciation.
+        </li>
+        <li><strong>Export</strong>: Use the PDF or CSV export buttons to download the transcription.</li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>Some words may have more than one valid pronunciation. The tool shows all known variants:</p>
+    <ul>
+        <li><strong>Homographs</strong> — words spelled the same but pronounced differently (e.g., different stress
+            patterns).
+        </li>
+        <li><strong>Dialect variants</strong> — Eastern vs Western pronunciation of the same word.</li>
+        <li><strong>Phonemic vs Phonetic</strong> — broad vs narrow transcription of the same word.</li>
+    </ul>
+
+    <!-- ===================== PRONUNCIATION GUIDE ===================== -->
+    <h2>Armenian Pronunciation Guide</h2>
+
+    <p>This section explains the key pronunciation rules for Armenian, focusing on the differences between Eastern and
+        Western dialects.</p>
+
+    <h3 id="voicing-swap">The Voicing Swap (Western vs Eastern)</h3>
+
+    <p>The most important dialect difference in Armenian is the <strong>voicing swap</strong> of the stop and affricate
+        consonants. The same letters have opposite voicing values in the two dialects:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Eastern IPA</th>
+            <th>Western IPA</th>
+            <th>Direction</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>բ</strong></td>
+            <td><span class="ipa">/b/</span> (voiced)</td>
+            <td><span class="ipa">/p/</span> (voiceless)</td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>պ</strong></td>
+            <td><span class="ipa">/p/</span> (voiceless)</td>
+            <td><span class="ipa">/b/</span> (voiced)</td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>դ</strong></td>
+            <td><span class="ipa">/d/</span> (voiced)</td>
+            <td><span class="ipa">/t/</span> (voiceless)</td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>տ</strong></td>
+            <td><span class="ipa">/t/</span> (voiceless)</td>
+            <td><span class="ipa">/d/</span> (voiced)</td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>գ</strong></td>
+            <td><span class="ipa">/ɡ/</span> (voiced)</td>
+            <td><span class="ipa">/k/</span> (voiceless)</td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>կ</strong></td>
+            <td><span class="ipa">/k/</span> (voiceless)</td>
+            <td><span class="ipa">/ɡ/</span> (voiced)</td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>ձ</strong></td>
+            <td><span class="ipa">/d͡z/</span> (voiced)</td>
+            <td><span class="ipa">/t͡s/</span> (voiceless)</td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>ծ</strong></td>
+            <td><span class="ipa">/t͡s/</span> (voiceless)</td>
+            <td><span class="ipa">/d͡z/</span> (voiced)</td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>ջ</strong></td>
+            <td><span class="ipa">/d͡ʒ/</span> (voiced)</td>
+            <td><span class="ipa">/t͡ʃ/</span> (voiceless)</td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>ճ</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span> (voiceless)</td>
+            <td><span class="ipa">/d͡ʒ/</span> (voiced)</td>
+            <td>voiceless → voiced</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>In practice, this means that an Eastern Armenian speaker reading <em>բ</em> produces
+        <span class="ipa">[b]</span>, while a Western Armenian speaker produces <span class="ipa">[p]</span> — a
+        completely different sound from the same letter.</p>
+
+    <h4>Post-Sibilant Exception</h4>
+    <p>In Western Armenian phonetic transcription, the letters <em>պ</em>, <em>տ</em>, and <em>կ</em>
+        <strong>do not voice</strong> when they follow the sibilants <em>ս</em> or <em>շ</em>. They remain
+        voiceless even though they would normally be voiced in Western:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Sequence</th>
+            <th>Western Phonetic</th>
+            <th>Expected (without rule)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><em>սպ</em></td>
+            <td><span class="ipa">[sp]</span></td>
+            <td>*<span class="ipa">[sb]</span></td>
+        </tr>
+        <tr>
+            <td><em>ստ</em></td>
+            <td><span class="ipa">[st]</span></td>
+            <td>*<span class="ipa">[sd]</span></td>
+        </tr>
+        <tr>
+            <td><em>սկ</em></td>
+            <td><span class="ipa">[sk]</span></td>
+            <td>*<span class="ipa">[sɡ]</span></td>
+        </tr>
+        <tr>
+            <td><em>շպ</em></td>
+            <td><span class="ipa">[ʃp]</span></td>
+            <td>*<span class="ipa">[ʃb]</span></td>
+        </tr>
+        <tr>
+            <td><em>շտ</em></td>
+            <td><span class="ipa">[ʃt]</span></td>
+            <td>*<span class="ipa">[ʃd]</span></td>
+        </tr>
+        <tr>
+            <td><em>շկ</em></td>
+            <td><span class="ipa">[ʃk]</span></td>
+            <td>*<span class="ipa">[ʃɡ]</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>This rule only applies in phonetic mode. In phonemic mode, the standard voicing values apply regardless of
+        preceding sibilants.</p>
+
+    <h3 id="aspiration">Aspiration</h3>
+
+    <p>Armenian has a three-way distinction among stops and affricates: <strong>voiced</strong>,
+        <strong>voiceless unaspirated</strong>, and <strong>voiceless aspirated</strong>.</p>
+
+    <h4>Eastern Armenian Aspiration</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Labial</th>
+            <th>Alveolar</th>
+            <th>Velar</th>
+            <th>Affricate (alv.)</th>
+            <th>Affricate (post-alv.)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Voiced</td>
+            <td><span class="ipa">/b/</span> բ</td>
+            <td><span class="ipa">/d/</span> դ</td>
+            <td><span class="ipa">/ɡ/</span> գ</td>
+            <td><span class="ipa">/d͡z/</span> ձ</td>
+            <td><span class="ipa">/d͡ʒ/</span> ջ</td>
+        </tr>
+        <tr>
+            <td>Voiceless unaspirated</td>
+            <td><span class="ipa">/p/</span> պ</td>
+            <td><span class="ipa">/t/</span> տ</td>
+            <td><span class="ipa">/k/</span> կ</td>
+            <td><span class="ipa">/t͡s/</span> ծ</td>
+            <td><span class="ipa">/t͡ʃ/</span> ճ</td>
+        </tr>
+        <tr>
+            <td>Voiceless aspirated</td>
+            <td><span class="ipa">/pʰ/</span> փ</td>
+            <td><span class="ipa">/tʰ/</span> թ</td>
+            <td><span class="ipa">/kʰ/</span> ք</td>
+            <td><span class="ipa">/t͡sʰ/</span> ց</td>
+            <td><span class="ipa">/t͡ʃʰ/</span> չ</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Western Armenian Aspiration</h4>
+    <p>In Western Armenian, the aspiration contrast is <strong>neutralized in phonemic transcription</strong> — the
+        formerly aspirated letters (փ, թ, ք, ց, չ) are phonemically <span class="ipa">/p/</span>,
+        <span class="ipa">/t/</span>, <span class="ipa">/k/</span>, <span class="ipa">/t͡s/</span>,
+        <span class="ipa">/t͡ʃ/</span> (unlike Eastern where they are <span class="ipa">/pʰ/</span> etc.).</p>
+
+    <p>However, in <strong>phonetic transcription</strong>, Western Armenian aspirates are still shown as aspirated:
+        <span class="ipa">[pʰ]</span>, <span class="ipa">[tʰ]</span>, <span class="ipa">[kʰ]</span>, etc. The
+        formerly voiced letters (բ, դ, գ, ձ, ջ) are phonetically aspirated in Western:
+        <span class="ipa">[pʰ]</span>, <span class="ipa">[tʰ]</span>, <span class="ipa">[kʰ]</span>,
+        <span class="ipa">[t͡sʰ]</span>, <span class="ipa">[t͡ʃʰ]</span>.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Eastern Phonemic</th>
+            <th>Eastern Phonetic</th>
+            <th>Western Phonemic</th>
+            <th>Western Phonetic</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>բ</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">[b]</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>պ</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[p]</span></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">[b]</span></td>
+        </tr>
+        <tr>
+            <td><strong>փ</strong></td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>դ</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">[d]</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>տ</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[t]</span></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">[d]</span></td>
+        </tr>
+        <tr>
+            <td><strong>թ</strong></td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>գ</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">[ɡ]</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>կ</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[k]</span></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">[ɡ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ք</strong></td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="vowels-guide">Vowels</h3>
+
+    <h4>The Armenian Vowel Inventory</h4>
+    <p>Both dialects share the same basic vowel system. The main digraph is <em>ու</em> =
+        <span class="ipa">/u/</span>.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ա</strong></td>
+            <td><span class="ipa">/ɑ/</span></td>
+            <td><em>արև</em> <span class="ipa">/ɑɾev/</span> "sun"</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>ե</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>մեկ</em> <span class="ipa">/mek/</span> "one"</td>
+            <td>Word-initially → <span class="ipa">/je/</span></td>
+        </tr>
+        <tr>
+            <td><strong>է</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>էջ</em> <span class="ipa">/et͡ʃ/</span> (E) "page"</td>
+            <td>Same sound as ե in modern pronunciation</td>
+        </tr>
+        <tr>
+            <td><strong>ը</strong></td>
+            <td><span class="ipa">/ə/</span></td>
+            <td><em>ընկեր</em> <span class="ipa">/ənkeɾ/</span> "friend"</td>
+            <td>Schwa; rare in word-initial position in modern text</td>
+        </tr>
+        <tr>
+            <td><strong>ի</strong></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><em>իմ</em> <span class="ipa">/im/</span> "my"</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><strong>ո</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>որդի</em> <span class="ipa">/voɾdi/</span> "son"</td>
+            <td>Word-initially → <span class="ipa">/vo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ու</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td><em>ուր</em> <span class="ipa">/uɾ/</span> "where"</td>
+            <td>Digraph</td>
+        </tr>
+        <tr>
+            <td><strong>օ</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>օր</em> <span class="ipa">/oɾ/</span> "day"</td>
+            <td>Same sound as ո; used word-initially and in emphasis</td>
+        </tr>
+        <tr>
+            <td><strong>էօ</strong></td>
+            <td><span class="ipa">/œ/</span></td>
+            <td colspan="2">Western Armenian only; front rounded vowel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Vowel Digraphs and the Ligature և</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Sequence</th>
+            <th>IPA</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ու</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td>Standard digraph in both dialects</td>
+        </tr>
+        <tr>
+            <td><strong>էօ</strong></td>
+            <td><span class="ipa">/œ/</span></td>
+            <td>Western Armenian only</td>
+        </tr>
+        <tr>
+            <td><strong>և</strong></td>
+            <td><span class="ipa">/ev/</span></td>
+            <td>Ligature; a single glyph representing two sounds</td>
+        </tr>
+        <tr>
+            <td><strong>յու</strong></td>
+            <td><span class="ipa">/ʏ/</span></td>
+            <td>Western Armenian; in specific non-initial, non-post-vowel contexts</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="word-initial">Word-Initial ե and ո</h3>
+
+    <p>Two Armenian vowels have special behavior at the beginning of a word:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Word-Initial</th>
+            <th>Elsewhere</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ե</strong></td>
+            <td><span class="ipa">/je/</span></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>ես</em> <span class="ipa">/jes/</span> "I", but <em>բեր</em> <span class="ipa">/beɾ/</span> (W)
+            </td>
+        </tr>
+        <tr>
+            <td><strong>ո</strong></td>
+            <td><span class="ipa">/vo/</span></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>որդի</em> <span class="ipa">/voɾdi/</span> (E) "son"</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p><strong>Exception:</strong> When word-initial <em>ո</em> is followed by <em>վ</em>, the result is
+        <span class="ipa">/ov/</span>, not <span class="ipa">/vov/</span>. For example, <em>ով</em> =
+        <span class="ipa">/ov/</span> "who".</p>
+
+    <h3 id="consonant-classes">Consonant Classes</h3>
+
+    <h4>Stops (Plosives)</h4>
+    <p>Armenian has a rich stop system with three series at three places of articulation:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Place</th>
+            <th>Voiced</th>
+            <th>Voiceless Unaspirated</th>
+            <th>Voiceless Aspirated</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Labial</td>
+            <td><span class="ipa">/b/</span> բ (E)</td>
+            <td><span class="ipa">/p/</span> պ (E)</td>
+            <td><span class="ipa">/pʰ/</span> փ</td>
+        </tr>
+        <tr>
+            <td>Alveolar</td>
+            <td><span class="ipa">/d/</span> դ (E)</td>
+            <td><span class="ipa">/t/</span> տ (E)</td>
+            <td><span class="ipa">/tʰ/</span> թ</td>
+        </tr>
+        <tr>
+            <td>Velar</td>
+            <td><span class="ipa">/ɡ/</span> գ (E)</td>
+            <td><span class="ipa">/k/</span> կ (E)</td>
+            <td><span class="ipa">/kʰ/</span> ք</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Affricates</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Place</th>
+            <th>Voiced</th>
+            <th>Voiceless Unaspirated</th>
+            <th>Voiceless Aspirated</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Alveolar</td>
+            <td><span class="ipa">/d͡z/</span> ձ (E)</td>
+            <td><span class="ipa">/t͡s/</span> ծ (E)</td>
+            <td><span class="ipa">/t͡sʰ/</span> ց</td>
+        </tr>
+        <tr>
+            <td>Postalveolar</td>
+            <td><span class="ipa">/d͡ʒ/</span> ջ (E)</td>
+            <td><span class="ipa">/t͡ʃ/</span> ճ (E)</td>
+            <td><span class="ipa">/t͡ʃʰ/</span> չ</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Fricatives</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Voiced</th>
+            <th>Voiceless</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/z/</span> զ</td>
+            <td><span class="ipa">/s/</span> ս</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʒ/</span> ժ</td>
+            <td><span class="ipa">/ʃ/</span> շ</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/v/</span> վ, ւ</td>
+            <td><span class="ipa">/f/</span> ֆ</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʁ/</span> ղ</td>
+            <td><span class="ipa">/χ/</span> խ</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><span class="ipa">/h/</span> հ</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Nasals, Liquids, and Approximants</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Letter</th>
+            <th>IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Nasal</td>
+            <td>մ</td>
+            <td><span class="ipa">/m/</span></td>
+        </tr>
+        <tr>
+            <td>Nasal</td>
+            <td>ն</td>
+            <td><span class="ipa">/n/</span> (→ <span class="ipa">[ŋ]</span> before velars in phonetic)</td>
+        </tr>
+        <tr>
+            <td>Lateral</td>
+            <td>լ</td>
+            <td><span class="ipa">/l/</span></td>
+        </tr>
+        <tr>
+            <td>Tap</td>
+            <td>ր</td>
+            <td><span class="ipa">/ɾ/</span></td>
+        </tr>
+        <tr>
+            <td>Trill</td>
+            <td>ռ</td>
+            <td><span class="ipa">/r/</span></td>
+        </tr>
+        <tr>
+            <td>Approximant</td>
+            <td>յ</td>
+            <td><span class="ipa">/j/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="assimilation">Voicing &amp; Devoicing Assimilation</h3>
+
+    <p>Armenian has extensive voicing assimilation rules, where the voicing of one consonant changes to match a
+        neighboring consonant.</p>
+
+    <h4>Regressive Voicing Assimilation (Both Dialects)</h4>
+    <p>A voiced fricative becomes voiceless before a voiceless consonant:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Phonemic</th>
+            <th>Phonetic</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ղ</strong> <span class="ipa">/ʁ/</span></td>
+            <td>→ <span class="ipa">/χ/</span> before <span class="ipa">/p t k s ʃ/</span></td>
+            <td>→ <span class="ipa">[χ]</span> before <span class="ipa">[p t k s ʃ t͡s t͡ʃ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>վ</strong> <span class="ipa">/v/</span></td>
+            <td>→ <span class="ipa">/f/</span> before <span class="ipa">/p t k s ʃ/</span></td>
+            <td>→ <span class="ipa">[f]</span> before <span class="ipa">[p t k s ʃ t͡s t͡ʃ]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Western Armenian Voicing Assimilation</h4>
+    <p>In Western Armenian (phonemic), voiced obstruents become voiceless before voiceless stops:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Voiced</th>
+            <th>Before Voiceless</th>
+            <th>Example (phonemic)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/b/</span></td>
+            <td>→ <span class="ipa">/p/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d/</span></td>
+            <td>→ <span class="ipa">/t/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>→ <span class="ipa">/k/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td>→ <span class="ipa">/t͡s/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>→ <span class="ipa">/t͡ʃ/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/z/</span></td>
+            <td>→ <span class="ipa">/s/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>→ <span class="ipa">/ʃ/</span></td>
+            <td>Before <span class="ipa">/p t k/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Voiced Consonant Devoicing Before Aspirated Consonants (Both Dialects)</h4>
+    <p>In phonetic transcription, voiced obstruents are devoiced before aspirated consonants. This is a comprehensive
+        set of rules that applies to all voiced stops and affricates:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Before</th>
+            <th>b →</th>
+            <th>d →</th>
+            <th>ɡ →</th>
+            <th>d͡z →</th>
+            <th>d͡ʒ →</th>
+            <th>v →</th>
+            <th>ʒ →</th>
+            <th>z →</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">pʰ</span></td>
+            <td><span class="ipa">pʰː</span></td>
+            <td><span class="ipa">tʰpʰ</span></td>
+            <td><span class="ipa">kʰpʰ</span></td>
+            <td><span class="ipa">t͡sʰpʰ</span></td>
+            <td><span class="ipa">t͡ʃʰpʰ</span></td>
+            <td><span class="ipa">fpʰ</span></td>
+            <td><span class="ipa">ʃpʰ</span></td>
+            <td><span class="ipa">spʰ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">tʰ</span></td>
+            <td><span class="ipa">pʰtʰ</span></td>
+            <td><span class="ipa">tʰː</span></td>
+            <td><span class="ipa">kʰtʰ</span></td>
+            <td><span class="ipa">t͡sʰtʰ</span></td>
+            <td><span class="ipa">t͡ʃʰtʰ</span></td>
+            <td><span class="ipa">ftʰ</span></td>
+            <td><span class="ipa">ʃtʰ</span></td>
+            <td><span class="ipa">stʰ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">kʰ</span></td>
+            <td><span class="ipa">pʰkʰ</span></td>
+            <td><span class="ipa">tkʰ</span></td>
+            <td><span class="ipa">kʰː</span></td>
+            <td><span class="ipa">t͡sʰkʰ</span></td>
+            <td><span class="ipa">t͡ʃʰkʰ</span></td>
+            <td><span class="ipa">fkʰ</span></td>
+            <td><span class="ipa">ʃkʰ</span></td>
+            <td><span class="ipa">skʰ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">t͡sʰ</span></td>
+            <td><span class="ipa">pʰt͡sʰ</span></td>
+            <td><span class="ipa">tʰt͡sʰ</span></td>
+            <td><span class="ipa">kʰt͡sʰ</span></td>
+            <td><span class="ipa">t͡sʰː</span></td>
+            <td><span class="ipa">t͡ʃʰt͡sʰ</span></td>
+            <td><span class="ipa">ft͡sʰ</span></td>
+            <td><span class="ipa">ʃt͡sʰ</span></td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">t͡ʃʰ</span></td>
+            <td><span class="ipa">pʰt͡ʃʰ</span></td>
+            <td><span class="ipa">tʰt͡ʃʰ</span></td>
+            <td><span class="ipa">kʰt͡ʃʰ</span></td>
+            <td><span class="ipa">t͡sʰt͡ʃʰ</span></td>
+            <td><span class="ipa">t͡ʃʰː</span></td>
+            <td><span class="ipa">ft͡ʃʰ</span></td>
+            <td><span class="ipa">ʃt͡ʃʰ</span></td>
+            <td>—</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>For example, <em>բփ</em> (E: <span class="ipa">/bpʰ/</span>) is realized phonetically as
+        <span class="ipa">[pʰː]</span>, and <em>դթ</em> (E: <span class="ipa">/dtʰ/</span>) as
+        <span class="ipa">[tʰː]</span>.</p>
+
+    <h4>Aspirated Stop Assimilation (Both Dialects)</h4>
+    <p>When a voiceless unaspirated stop precedes its aspirated counterpart, the result is a long aspirated stop:</p>
+    <ul>
+        <li><span class="ipa">ppʰ → pʰː</span></li>
+        <li><span class="ipa">ttʰ → tʰː</span></li>
+        <li><span class="ipa">kkʰ → kʰː</span> (note: the module has a trailing space bug that may prevent this rule from firing in all positions)</li>
+    </ul>
+
+    <h4>Western Phonetic: Additional Assimilation Rules</h4>
+    <p>In Western phonetic mode, additional rules apply:</p>
+    <ul>
+        <li><strong>χ before voiced obstruents:</strong> <span class="ipa">/χ/</span> devoices the following
+            consonant: <span class="ipa">χb → χp</span>, <span class="ipa">χd → χt</span>,
+            <span class="ipa">χɡ → χk</span>, <span class="ipa">χd͡z → χt͡s</span>,
+            <span class="ipa">χd͡ʒ → χt͡ʃ</span>.
+        </li>
+        <li><strong>Aspirated before voiced:</strong> An aspirated stop before a voiced obstruent becomes aspirated +
+            voiceless: <span class="ipa">pʰb → pʰp</span>, <span class="ipa">tʰd → tʰt</span>,
+            <span class="ipa">kʰɡ → kʰk</span>, etc.
+        </li>
+    </ul>
+
+    <h3 id="schwa-insertion">Schwa Insertion</h3>
+
+    <h4>Western Prothetic Schwa</h4>
+    <p>In Western Armenian, words beginning with a consonant cluster of <span class="ipa">s/ʃ/z</span> + stop may
+        receive a prothetic <span class="ipa">/ə/</span> at the beginning. For example, a word spelled with initial
+        <em>sp-</em>, <em>st-</em>, <em>sk-</em>, etc. may be pronounced <span class="ipa">[əsp...]</span>,
+        <span class="ipa">[əst...]</span>, <span class="ipa">[əsk...]</span>.</p>
+
+    <h4>Western Causative Schwa</h4>
+    <p>The causative suffix <em>-ցնել</em> always receives an inserted schwa: <span class="ipa">/t͡sənel/</span>
+        (phonemic) or <span class="ipa">[t͡sʰənel]</span> (phonetic).</p>
+
+    <h3 id="gemination">Gemination</h3>
+
+    <p>Armenian orthographic consonant doubling is realized phonetically as a long consonant. Additionally,
+        sequences of a voiceless unaspirated stop followed by its aspirated counterpart merge into a single
+        long aspirated consonant in phonetic transcription:</p>
+
+    <h4>Orthographic Doubling</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Phonemic</th>
+            <th>Phonetic</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><em>բբ</em></td>
+            <td><span class="ipa">/bb/</span></td>
+            <td><span class="ipa">[bː]</span></td>
+            <td>Long stop</td>
+        </tr>
+        <tr>
+            <td><em>rr</em> (րր)</td>
+            <td><span class="ipa">/ɾɾ/</span></td>
+            <td><span class="ipa">[ɹː]</span></td>
+            <td>Geminate tap → approximant (trill cannot be long)</td>
+        </tr>
+        <tr>
+            <td><em>tt͡s</em> (affricate geminate)</td>
+            <td>—</td>
+            <td><span class="ipa">[t̚t͡s]</span></td>
+            <td>Unreleased stop closure before affricate</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Aspirated Stop Assimilation (Phonetic)</h4>
+    <p>When a voiceless unaspirated stop is followed by its aspirated counterpart, the sequence merges into a single
+        long aspirated consonant:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Sequence</th>
+            <th>Phonetic Result</th>
+            <th>Example Context</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ppʰ</span></td>
+            <td><span class="ipa">pʰː</span></td>
+            <td>պ + փ in close proximity</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ttʰ</span></td>
+            <td><span class="ipa">tʰː</span></td>
+            <td>տ + թ in close proximity</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">kkʰ</span></td>
+            <td><span class="ipa">kʰː</span></td>
+            <td>կ + ք in close proximity</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="stress">Stress Patterns</h3>
+
+    <h4>Phonemic Stress</h4>
+    <ul>
+        <li><strong>Monosyllabic words:</strong> No stress mark is added.</li>
+        <li><strong>Explicit stress mark (՛):</strong> If the Armenian stress diacritic <em>՛</em> is present, stress
+            is placed on that syllable.
+        </li>
+        <li><strong>Default rule:</strong> Stress falls on the <strong>last non-schwa vowel</strong> in the word. If
+            the last non-schwa vowel is followed by a trailing schwa <span class="ipa">/ə/</span>, both are included
+            in the stressed syllable.
+        </li>
+    </ul>
+
+    <h4>Phonetic Stress</h4>
+    <p>In phonetic transcription, stress is marked with a <strong>combining acute accent</strong> (́) placed directly
+        on the stressed vowel, rather than with the IPA stress mark <span class="ipa">ˈ</span>.</p>
+
+    <h3 id="hiatus">Hiatus &amp; Glide Insertion</h3>
+
+    <p>In phonetic transcription, when two vowels appear in hiatus (adjacent vowels in separate syllables), an optional
+        palatal glide <span class="ipa">[j]</span> may be inserted between them:</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Sequence</th>
+            <th>Phonetic Realization</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>i + vowel</td>
+            <td><span class="ipa">i(j)V</span></td>
+        </tr>
+        <tr>
+            <td>vowel + i</td>
+            <td><span class="ipa">V(j)i</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>This applies to all vowel combinations where <em>i</em> is adjacent to another vowel: <span class="ipa">iɑ</span>, <span class="ipa">ie</span>, <span class="ipa">io</span>, <span class="ipa">iu</span>, <span class="ipa">ɑi</span>, <span class="ipa">ei</span>, <span class="ipa">oi</span>, <span class="ipa">ui</span>.</p>
+
+    <h3 id="palatalization">Eastern Palatalization of -ությ-</h3>
+
+    <p>In Eastern Armenian, the sequence <em>-ությ-</em> (especially common in the suffix <em>-ություն</em>) undergoes
+        palatalization in phonetic transcription:</p>
+    <ul>
+        <li><strong>Phonetic:</strong> <span class="ipa">utʰj → ut͡sʰj</span> (the aspirated stop
+            <span class="ipa">[tʰ]</span> becomes the aspirated affricate <span class="ipa">[t͡sʰ]</span> before <span class="ipa">[j]</span>)
+        </li>
+        <li><strong>Phonemic:</strong> <span class="ipa">/utʰj/</span> (not palatalized — the module's phonemic
+            palatalization rule runs after the digraph <em>ու</em> has already been processed, so it does not match)
+        </li>
+    </ul>
+    <p>This palatalization is considered non-standard by some strict prescriptivists but is widely used in practice.
+        It does <strong>not</strong> apply in Western Armenian.</p>
+
+    <!-- ===================== SPELLING-TO-IPA MAPPING ===================== -->
+    <h2 id="comprehensive-mapping">Spelling-to-IPA Mapping</h2>
+
+    <p>Reference tables mapping Armenian letters to their IPA values. For letters that differ between dialects, both
+        values are shown.</p>
+
+    <h3 id="mapping-vowels">1. Vowels</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA</th>
+            <th>Context / Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ա</strong></td>
+            <td><span class="ipa">/ɑ/</span></td>
+            <td>Always</td>
+            <td><em>արև</em> <span class="ipa">/ɑɾev/</span> "sun"</td>
+        </tr>
+        <tr>
+            <td><strong>ե</strong></td>
+            <td><span class="ipa">/je/</span></td>
+            <td>Word-initially</td>
+            <td><em>ես</em> <span class="ipa">/jes/</span> "I"</td>
+        </tr>
+        <tr>
+            <td><strong>ե</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>Elsewhere</td>
+            <td><em>բեր</em> <span class="ipa">/beɾ/</span> (W) "bring"</td>
+        </tr>
+        <tr>
+            <td><strong>է</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td>Always</td>
+            <td><em>էջ</em> <span class="ipa">/et͡ʃ/</span> (E) "page"</td>
+        </tr>
+        <tr>
+            <td><strong>ը</strong></td>
+            <td><span class="ipa">/ə/</span></td>
+            <td>Always</td>
+            <td><em>ընկեր</em> <span class="ipa">/ənkeɾ/</span> "friend"</td>
+        </tr>
+        <tr>
+            <td><strong>ի</strong></td>
+            <td><span class="ipa">/i/</span></td>
+            <td>Always</td>
+            <td><em>իմ</em> <span class="ipa">/im/</span> "my"</td>
+        </tr>
+        <tr>
+            <td><strong>ո</strong></td>
+            <td><span class="ipa">/vo/</span></td>
+            <td>Word-initially</td>
+            <td><em>որդի</em> <span class="ipa">/voɾdi/</span> (E) "son"</td>
+        </tr>
+        <tr>
+            <td><strong>ո</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td>Elsewhere</td>
+            <td><em>մոր</em> <span class="ipa">/moɾ/</span> (E) "mother's"</td>
+        </tr>
+        <tr>
+            <td><strong>ու</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td>Digraph</td>
+            <td><em>ուր</em> <span class="ipa">/uɾ/</span> "where"</td>
+        </tr>
+        <tr>
+            <td><strong>օ</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td>Always</td>
+            <td><em>օր</em> <span class="ipa">/oɾ/</span> "day"</td>
+        </tr>
+        <tr>
+            <td><strong>էօ</strong></td>
+            <td><span class="ipa">/œ/</span></td>
+            <td>Western Armenian only</td>
+            <td>—</td>
+        </tr>
+        <tr>
+            <td><strong>և</strong></td>
+            <td><span class="ipa">/ev/</span></td>
+            <td>Ligature</td>
+            <td><em>և</em> <span class="ipa">/ev/</span> "and"</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-consonants-eastern">2. Eastern Armenian Consonants</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>IPA</th>
+            <th>Type</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>բ</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td>Voiced stop</td>
+            <td><em>բարի</em> <span class="ipa">/bɑɾi/</span> "good"</td>
+        </tr>
+        <tr>
+            <td><strong>պ</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td>Voiceless unaspirated stop</td>
+            <td><em>պապ</em> <span class="ipa">/pɑp/</span> "grandfather"</td>
+        </tr>
+        <tr>
+            <td><strong>փ</strong></td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td>Voiceless aspirated stop</td>
+            <td><em>փող</em> <span class="ipa">/pʰoʁ/</span> "money"</td>
+        </tr>
+        <tr>
+            <td><strong>դ</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td>Voiced stop</td>
+            <td><em>դու</em> <span class="ipa">/du/</span> "you"</td>
+        </tr>
+        <tr>
+            <td><strong>տ</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td>Voiceless unaspirated stop</td>
+            <td><em>տուն</em> <span class="ipa">/tun/</span> "house"</td>
+        </tr>
+        <tr>
+            <td><strong>թ</strong></td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td>Voiceless aspirated stop</td>
+            <td><em>թե</em> <span class="ipa">/tʰe/</span> "that"</td>
+        </tr>
+        <tr>
+            <td><strong>գ</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>Voiced stop</td>
+            <td><em>գալ</em> <span class="ipa">/ɡɑl/</span> "to come"</td>
+        </tr>
+        <tr>
+            <td><strong>կ</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td>Voiceless unaspirated stop</td>
+            <td><em>կատու</em> <span class="ipa">/kɑtu/</span> "cat"</td>
+        </tr>
+        <tr>
+            <td><strong>ք</strong></td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td>Voiceless aspirated stop</td>
+            <td><em>քաղ</em> <span class="ipa">/kʰɑʁ/</span> "city"</td>
+        </tr>
+        <tr>
+            <td><strong>ձ</strong></td>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td>Voiced affricate</td>
+            <td><em>ձու</em> <span class="ipa">/d͡zu/</span> "egg"</td>
+        </tr>
+        <tr>
+            <td><strong>ծ</strong></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td>Voiceless unaspirated affricate</td>
+            <td><em>ծառ</em> <span class="ipa">/t͡sɑr/</span> "tree"</td>
+        </tr>
+        <tr>
+            <td><strong>ց</strong></td>
+            <td><span class="ipa">/t͡sʰ/</span></td>
+            <td>Voiceless aspirated affricate</td>
+            <td><em>ցոր</em> <span class="ipa">/t͡sʰoɾ/</span> "wheat"</td>
+        </tr>
+        <tr>
+            <td><strong>ջ</strong></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td>Voiced affricate</td>
+            <td><em>ջուր</em> <span class="ipa">/d͡ʒuɾ/</span> "water"</td>
+        </tr>
+        <tr>
+            <td><strong>ճ</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td>Voiceless unaspirated affricate</td>
+            <td><em>ճան</em> <span class="ipa">/t͡ʃɑn/</span> "road"</td>
+        </tr>
+        <tr>
+            <td><strong>չ</strong></td>
+            <td><span class="ipa">/t͡ʃʰ/</span></td>
+            <td>Voiceless aspirated affricate</td>
+            <td><em>չէ</em> <span class="ipa">/t͡ʃʰe/</span> "no"</td>
+        </tr>
+        <tr>
+            <td><strong>զ</strong></td>
+            <td><span class="ipa">/z/</span></td>
+            <td>Voiced fricative</td>
+            <td><em>զարդ</em> <span class="ipa">/zɑɾd/</span> "ornament"</td>
+        </tr>
+        <tr>
+            <td><strong>ս</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td>Voiceless fricative</td>
+            <td><em>սիր</em> <span class="ipa">/siɾ/</span> "love"</td>
+        </tr>
+        <tr>
+            <td><strong>ժ</strong></td>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td>Voiced fricative</td>
+            <td><em>ժամ</em> <span class="ipa">/ʒɑm/</span> "hour"</td>
+        </tr>
+        <tr>
+            <td><strong>շ</strong></td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>Voiceless fricative</td>
+            <td><em>շուն</em> <span class="ipa">/ʃun/</span> "dog"</td>
+        </tr>
+        <tr>
+            <td><strong>վ</strong></td>
+            <td><span class="ipa">/v/</span></td>
+            <td>Voiced fricative</td>
+            <td><em>վեր</em> <span class="ipa">/veɾ/</span> "above"</td>
+        </tr>
+        <tr>
+            <td><strong>ւ</strong></td>
+            <td><span class="ipa">/v/</span></td>
+            <td>Voiced fricative</td>
+            <td><em>ւեր</em> <span class="ipa">/veɾ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ֆ</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td>Voiceless fricative</td>
+            <td><em>ֆուտ</em> <span class="ipa">/fut/</span></td>
+        </tr>
+        <tr>
+            <td><strong>խ</strong></td>
+            <td><span class="ipa">/χ/</span></td>
+            <td>Voiceless uvular fricative</td>
+            <td><em>խաչ</em> <span class="ipa">/χɑt͡ʃʰ/</span> "cross"</td>
+        </tr>
+        <tr>
+            <td><strong>ղ</strong></td>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td>Voiced uvular fricative</td>
+            <td><em>ղեկ</em> <span class="ipa">/ʁek/</span> "steering wheel"</td>
+        </tr>
+        <tr>
+            <td><strong>հ</strong></td>
+            <td><span class="ipa">/h/</span></td>
+            <td>Voiceless glottal fricative</td>
+            <td><em>հայ</em> <span class="ipa">/hɑj/</span> "Armenian"</td>
+        </tr>
+        <tr>
+            <td><strong>մ</strong></td>
+            <td><span class="ipa">/m/</span></td>
+            <td>Nasal</td>
+            <td><em>մայր</em> <span class="ipa">/mɑjɾ/</span> "mother"</td>
+        </tr>
+        <tr>
+            <td><strong>ն</strong></td>
+            <td><span class="ipa">/n/</span></td>
+            <td>Nasal</td>
+            <td><em>նա</em> <span class="ipa">/nɑ/</span> "he/she"</td>
+        </tr>
+        <tr>
+            <td><strong>լ</strong></td>
+            <td><span class="ipa">/l/</span></td>
+            <td>Lateral</td>
+            <td><em>լույ</em> <span class="ipa">/luj/</span> "light"</td>
+        </tr>
+        <tr>
+            <td><strong>ր</strong></td>
+            <td><span class="ipa">/ɾ/</span></td>
+            <td>Tap</td>
+            <td><em>րոպ</em> <span class="ipa">/ɾop/</span> "minute"</td>
+        </tr>
+        <tr>
+            <td><strong>ռ</strong></td>
+            <td><span class="ipa">/r/</span></td>
+            <td>Trill</td>
+            <td><em>ռադ</em> <span class="ipa">/rɑd/</span></td>
+        </tr>
+        <tr>
+            <td><strong>յ</strong></td>
+            <td><span class="ipa">/j/</span></td>
+            <td>Approximant</td>
+            <td><em>յար</em> <span class="ipa">/jɑɾ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-consonants-western">3. Western Armenian Consonants (Differences from Eastern)</h3>
+
+    <p>The following table shows only the consonants whose IPA value differs from Eastern Armenian. All other consonants
+        (զ, ժ, ս, շ, վ, ւ, ֆ, խ, ղ, հ, մ, ն, լ, ր, ռ, յ) have the same IPA values in both dialects.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Eastern IPA</th>
+            <th>Western Phonemic</th>
+            <th>Western Phonetic</th>
+            <th>Direction of Swap</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>բ</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>պ</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">[b]</span></td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>դ</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>տ</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">[d]</span></td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>գ</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>կ</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">[ɡ]</span></td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>ձ</strong></td>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><span class="ipa">[t͡sʰ]</span></td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>ծ</strong></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td><span class="ipa">[d͡z]</span></td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>ջ</strong></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td><span class="ipa">[t͡ʃʰ]</span></td>
+            <td>voiced → voiceless</td>
+        </tr>
+        <tr>
+            <td><strong>ճ</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td><span class="ipa">[d͡ʒ]</span></td>
+            <td>voiceless → voiced</td>
+        </tr>
+        <tr>
+            <td><strong>թ</strong></td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+            <td>aspirated → plain (phonemic)</td>
+        </tr>
+        <tr>
+            <td><strong>փ</strong></td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+            <td>aspirated → plain (phonemic)</td>
+        </tr>
+        <tr>
+            <td><strong>ք</strong></td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+            <td>aspirated → plain (phonemic)</td>
+        </tr>
+        <tr>
+            <td><strong>ց</strong></td>
+            <td><span class="ipa">/t͡sʰ/</span></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><span class="ipa">[t͡sʰ]</span></td>
+            <td>aspirated → plain (phonemic)</td>
+        </tr>
+        <tr>
+            <td><strong>չ</strong></td>
+            <td><span class="ipa">/t͡ʃʰ/</span></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td><span class="ipa">[t͡ʃʰ]</span></td>
+            <td>aspirated → plain (phonemic)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="mapping-dialect-table">4. Full Dialect Comparison (Quick Reference)</h3>
+
+    <p>Side-by-side comparison of all Armenian consonants in Eastern and Western dialects.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th rowspan="2">Letter</th>
+            <th colspan="2">Eastern Armenian</th>
+            <th colspan="2">Western Armenian</th>
+        </tr>
+        <tr>
+            <th>Phonemic</th>
+            <th>Phonetic</th>
+            <th>Phonemic</th>
+            <th>Phonetic</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>բ</strong></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">[b]</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>պ</strong></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[p]</span></td>
+            <td><span class="ipa">/b/</span></td>
+            <td><span class="ipa">[b]</span></td>
+        </tr>
+        <tr>
+            <td><strong>փ</strong></td>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+            <td><span class="ipa">/p/</span></td>
+            <td><span class="ipa">[pʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>դ</strong></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">[d]</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>տ</strong></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[t]</span></td>
+            <td><span class="ipa">/d/</span></td>
+            <td><span class="ipa">[d]</span></td>
+        </tr>
+        <tr>
+            <td><strong>թ</strong></td>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+            <td><span class="ipa">/t/</span></td>
+            <td><span class="ipa">[tʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>գ</strong></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">[ɡ]</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>կ</strong></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[k]</span></td>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><span class="ipa">[ɡ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ք</strong></td>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+            <td><span class="ipa">/k/</span></td>
+            <td><span class="ipa">[kʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ձ</strong></td>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td><span class="ipa">[d͡z]</span></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><span class="ipa">[t͡sʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ծ</strong></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><span class="ipa">[t͡s]</span></td>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td><span class="ipa">[d͡z]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ց</strong></td>
+            <td><span class="ipa">/t͡sʰ/</span></td>
+            <td><span class="ipa">[t͡sʰ]</span></td>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><span class="ipa">[t͡sʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ջ</strong></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td><span class="ipa">[d͡ʒ]</span></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td><span class="ipa">[t͡ʃʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ճ</strong></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td><span class="ipa">[t͡ʃ]</span></td>
+            <td><span class="ipa">/d͡ʒ/</span></td>
+            <td><span class="ipa">[d͡ʒ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>չ</strong></td>
+            <td><span class="ipa">/t͡ʃʰ/</span></td>
+            <td><span class="ipa">[t͡ʃʰ]</span></td>
+            <td><span class="ipa">/t͡ʃ/</span></td>
+            <td><span class="ipa">[t͡ʃʰ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>զ</strong></td>
+            <td><span class="ipa">/z/</span></td>
+            <td><span class="ipa">[z]</span></td>
+            <td><span class="ipa">/z/</span></td>
+            <td><span class="ipa">[z]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ս</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">[s]</span></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><span class="ipa">[s]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ժ</strong></td>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td><span class="ipa">[ʒ]</span></td>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td><span class="ipa">[ʒ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>շ</strong></td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td><span class="ipa">[ʃ]</span></td>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td><span class="ipa">[ʃ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>վ, ւ</strong></td>
+            <td><span class="ipa">/v/</span></td>
+            <td><span class="ipa">[v]</span></td>
+            <td><span class="ipa">/v/</span></td>
+            <td><span class="ipa">[v]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ֆ</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td><span class="ipa">[f]</span></td>
+            <td><span class="ipa">/f/</span></td>
+            <td><span class="ipa">[f]</span></td>
+        </tr>
+        <tr>
+            <td><strong>խ</strong></td>
+            <td><span class="ipa">/χ/</span></td>
+            <td><span class="ipa">[χ]</span></td>
+            <td><span class="ipa">/χ/</span></td>
+            <td><span class="ipa">[χ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ղ</strong></td>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td><span class="ipa">[ʁ]</span></td>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td><span class="ipa">[ʁ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>հ</strong></td>
+            <td><span class="ipa">/h/</span></td>
+            <td><span class="ipa">[h]</span></td>
+            <td><span class="ipa">/h/</span></td>
+            <td><span class="ipa">[h]</span></td>
+        </tr>
+        <tr>
+            <td><strong>մ</strong></td>
+            <td><span class="ipa">/m/</span></td>
+            <td><span class="ipa">[m]</span></td>
+            <td><span class="ipa">/m/</span></td>
+            <td><span class="ipa">[m]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ն</strong></td>
+            <td><span class="ipa">/n/</span></td>
+            <td><span class="ipa">[n]</span> → <span class="ipa">[ŋ]</span> before velars</td>
+            <td><span class="ipa">/n/</span></td>
+            <td><span class="ipa">[n]</span> → <span class="ipa">[ŋ]</span> before velars</td>
+        </tr>
+        <tr>
+            <td><strong>լ</strong></td>
+            <td><span class="ipa">/l/</span></td>
+            <td><span class="ipa">[l]</span></td>
+            <td><span class="ipa">/l/</span></td>
+            <td><span class="ipa">[l]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ր</strong></td>
+            <td><span class="ipa">/ɾ/</span></td>
+            <td><span class="ipa">[ɾ]</span></td>
+            <td><span class="ipa">/ɾ/</span></td>
+            <td><span class="ipa">[ɾ]</span></td>
+        </tr>
+        <tr>
+            <td><strong>ռ</strong></td>
+            <td><span class="ipa">/r/</span></td>
+            <td><span class="ipa">[r]</span></td>
+            <td><span class="ipa">/r/</span></td>
+            <td><span class="ipa">[r]</span></td>
+        </tr>
+        <tr>
+            <td><strong>յ</strong></td>
+            <td><span class="ipa">/j/</span></td>
+            <td><span class="ipa">[j]</span></td>
+            <td><span class="ipa">/j/</span></td>
+            <td><span class="ipa">[j]</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- ===================== IMPLEMENTATION DETAILS ===================== -->
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The Armenian transcription is implemented as a <strong>purely rule-based system</strong> with no lexicon lookup.
+        The pipeline is:</p>
+
+    <ol>
+        <li><strong>Lowercase &amp; Unicode processing</strong> — Input is lowercased and the Armenian stress diacritic
+            <em>՛</em> is detected.
+        </li>
+        <li><strong>Digraph substitution</strong> — Multi-character sequences (<em>ու</em>, <em>էօ</em>, <em>յու</em>)
+            are replaced with single IPA symbols before the character-by-character mapping. Note: <em>և</em> (U+0587)
+            is a single Unicode ligature and is processed as a regular character, not as a digraph.
+        </li>
+        <li><strong>Word-initial rules</strong> — <em>ե</em> → <span class="ipa">je</span>, <em>ո</em> →
+            <span class="ipa">vo</span> (with exception for <em>ով</em>).
+        </li>
+        <li><strong>Character-by-character substitution</strong> — Each Armenian character is replaced with its IPA
+            equivalent based on the selected dialect.
+        </li>
+        <li><strong>Context-dependent rules</strong> — Voicing assimilation, devoicing, nasal assimilation, schwa
+            insertion, etc.
+        </li>
+        <li><strong>Stress assignment</strong> — Stress is placed on the last non-schwa vowel (or on the explicitly
+            marked syllable).
+        </li>
+        <li><strong>Phonetic post-processing</strong> — Additional rules for phonetic mode: glide insertion, geminate
+            realization, aspirated+voiced assimilation, prothetic schwa.
+        </li>
+    </ol>
+
+    <h3>Key Differences from Lexicon-Based Languages</h3>
+    <ul>
+        <li><strong>No lexicon file:</strong> Unlike German, French, or Russian, Armenian has no precompiled lexicon. All
+            transcriptions are generated from rules alone.
+        </li>
+        <li><strong>Dialect as parameter:</strong> The same module handles both Eastern and Western Armenian via the
+            <code>system</code> parameter (<code>"east"</code> or <code>"west"</code>).
+        </li>
+        <li><strong>Four output modes:</strong> <code>phonemic_IPA(word, system)</code> and
+            <code>phonetic_IPA(word, system)</code> for each dialect.
+        </li>
+        <li><strong>Middle dot marker:</strong> The extrasyllabic final <em>-ք</em> in ancient plurals is internally
+            marked with a middle dot (·) to suppress voicing assimilation rules, then stripped from the output.
+        </li>
+    </ul>
+
+    <h3>Wiktionary Template Parameters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>E</code></td>
+            <td>boolean (default true)</td>
+            <td>Show Eastern Armenian</td>
+        </tr>
+        <tr>
+            <td><code>W</code></td>
+            <td>boolean (default true)</td>
+            <td>Show Western Armenian</td>
+        </tr>
+        <tr>
+            <td><code>1</code></td>
+            <td>string</td>
+            <td>Primary pronunciation (both dialects)</td>
+        </tr>
+        <tr>
+            <td><code>2</code></td>
+            <td>string</td>
+            <td>Second pronunciation (both dialects)</td>
+        </tr>
+        <tr>
+            <td><code>e</code></td>
+            <td>string</td>
+            <td>Eastern-specific pronunciation</td>
+        </tr>
+        <tr>
+            <td><code>e2</code></td>
+            <td>string</td>
+            <td>Second Eastern-specific pronunciation</td>
+        </tr>
+        <tr>
+            <td><code>w</code></td>
+            <td>string</td>
+            <td>Western-specific pronunciation</td>
+        </tr>
+        <tr>
+            <td><code>w2</code></td>
+            <td>string</td>
+            <td>Second Western-specific pronunciation</td>
+        </tr>
+        <tr>
+            <td><code>coll</code></td>
+            <td>string</td>
+            <td>Eastern colloquial pronunciation</td>
+        </tr>
+        <tr>
+            <td><code>collw</code></td>
+            <td>string</td>
+            <td>Western colloquial pronunciation</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- ===================== ISSUES ===================== -->
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Issues</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Issue</th>
+            <th>Description</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Loanwords</td>
+            <td>Words borrowed from Russian, French, Turkish, etc. may not follow standard Armenian phonological rules
+                                        and could be transcribed incorrectly.
+            </td>
+            <td>Check Wiktionary for the correct pronunciation.</td>
+        </tr>
+        <tr>
+            <td>No lexicon fallback</td>
+            <td>Unlike German or French, there is no lexicon to catch exceptions. All output is purely rule-based.</td>
+            <td>Verify unusual words manually.</td>
+        </tr>
+        <tr>
+            <td>Western phonemic aspiration</td>
+            <td>In Western phonemic, formerly aspirated letters (փ, թ, ք, ց, չ) are transcribed as plain voiceless
+                                        <span class="ipa">/p t k t͡s t͡ʃ/</span>, which may look unusual to speakers.
+            </td>
+            <td>This is correct per the phonemic system. Use phonetic mode for the surface pronunciation.</td>
+        </tr>
+        <tr>
+            <td>Stress default</td>
+            <td>When no explicit stress mark is present, stress defaults to the last non-schwa vowel. Some words may
+                                        have irregular stress not captured by this rule.
+            </td>
+            <td>Verify stress against a dictionary for important words.</td>
+        </tr>
+        <tr>
+            <td>Geminate affricate rendering</td>
+            <td>Geminate affricates are rendered with an unreleased stop closure (<span class="ipa">[t̚t͡s]</span>),
+                                        which may appear unusual.
+            </td>
+            <td>This is the standard phonetic realization in Armenian.</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">kkʰ</span> assimilation bug</td>
+            <td>The module rule for <span class="ipa">kkʰ → kʰː</span> has a trailing space in the source code,
+                so it only matches when followed by whitespace, not word-medially or word-finally.
+            </td>
+            <td>This is a known bug in the Wiktionary module. Only affects words with the sequence կ followed immediately by ք.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Commented-Out Rules (Not Active)</h3>
+    <p>The module source contains several commented-out colloquial rules that are <strong>not active</strong> in the
+        current implementation:</p>
+    <ul>
+        <li><strong>Russian-influenced palatalization:</strong> <span class="ipa">tj → t͡sj</span>,
+            <span class="ipa">tʰj → t͡sʰj</span>, <span class="ipa">dj → d͡zj</span> — marked as "COLLOQUIAL, NOT
+            STANDARD".
+        </li>
+        <li><strong>Trilling of tap:</strong> <span class="ipa">ɾt → rt</span> — also marked as colloquial.</li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
