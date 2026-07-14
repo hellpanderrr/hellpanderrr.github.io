@@ -488,10 +488,10 @@ export class Tokenization {
                 if (entries.length > 0 && new Set(loweredAccenteds).size === 1) {
                     accented = [loweredAccenteds[0]];
                     accentedSources = [{
-                        accented: loweredAccenteds[0],
-                        lemma: entries[0].lemma,
-                        tag: entries[0].tag
-                    }];
+                            accented: loweredAccenteds[0],
+                            lemma: entries[0].lemma,
+                            tag: entries[0].tag
+                        }];
                 }
                 else if (entries.length > 0) {
                     // Multiple candidates: rank exactly like Python candidates.sort() on

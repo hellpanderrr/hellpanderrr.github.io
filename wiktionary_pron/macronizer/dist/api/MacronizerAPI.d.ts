@@ -4,6 +4,7 @@
  * Imports compiled TypeScript modules from dist/ and exposes a clean interface
  */
 import type { Statistics } from '../core/Macronizer.js';
+import type { AccentedSource } from '../core/Token.js';
 import type { MorpheusAnalysis } from '../analysis/MorpheusAnalyzer.js';
 /** JSON-serialized token shape returned by MacronizerAPI.process() */
 export interface ApiToken {
@@ -18,6 +19,10 @@ export interface ApiToken {
     startIndex?: number;
     endIndex?: number;
     accented?: string[];
+    accentedSources?: AccentedSource[];
+    hasenclitic?: boolean;
+    isenclitic?: boolean;
+    startssentence?: boolean;
 }
 /** Return type of MacronizerAPI.process() */
 export interface ApiResult {
@@ -43,6 +48,7 @@ export declare class MacronizerAPI {
      */
     loadWordlist(_mode: 'indexeddb' | 'memory', onProgress?: (progress: any) => void): Promise<void>;
     isWordlistLoaded(): boolean;
+    getWordlistEntryCount(): number;
     getWordlistMode(): string;
     clearWordlistCache(): Promise<void>;
 }

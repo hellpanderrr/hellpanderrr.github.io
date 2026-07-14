@@ -101,6 +101,7 @@ export declare class Macronizer {
      */
     loadWordlist(onProgress?: (progress: any) => void): Promise<void>;
     isWordlistLoaded(): boolean;
+    getWordlistEntryCount(): number;
     getWordlistMode(): string;
     clearWordlistCache(): Promise<void>;
 }

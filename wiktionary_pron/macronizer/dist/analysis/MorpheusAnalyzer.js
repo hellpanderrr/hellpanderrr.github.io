@@ -32,7 +32,7 @@ const ITALIAN = 262144; // 0o1000000
  * WebAssembly wrapper for Morpheus morphological analyzer
  */
 export class MorpheusAnalyzer {
-    constructor(wasmPath = '/wiktionary_pron/macronizer/wasm/cruncher.js', debug = false) {
+    constructor(wasmPath = '/wasm/cruncher.js', debug = false) {
         Object.defineProperty(this, "wasmModule", {
             enumerable: true,
             configurable: true,

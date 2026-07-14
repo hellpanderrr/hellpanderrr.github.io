@@ -14,6 +14,9 @@ export declare class EndingPatternEngine {
     /** Raw Python tag_to_endings: exact 9-char LDT tag → ORDERED accented endings
      *  (underscore/caret notation), straight from endings.json. */
     private rawEndings;
+    /** All endings with quantity marks stripped, for O(len) suffix lookup in hasPattern(). */
+    private plainEndings;
+    private maxEndingLength;
     constructor();
     /**
      * Python: tag_to_endings.get(tag, []) — exact-tag lookup, list order preserved.

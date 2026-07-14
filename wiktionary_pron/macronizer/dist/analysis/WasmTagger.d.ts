@@ -5,7 +5,6 @@
  */
 export interface WasmTaggerOptions {
     wasmPath?: string;
-    modelPath?: string;
     modelUrl?: string;
     memorySize?: number;
     enableCache?: boolean;
@@ -23,7 +22,6 @@ export declare class WasmTagger {
     private tagger;
     private modelLoaded;
     private cache;
-    private readonly modelPath;
     private readonly wasmPath;
     private readonly wasmDir;
     private readonly modelUrl;

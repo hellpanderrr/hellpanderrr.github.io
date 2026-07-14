@@ -7,7 +7,7 @@
  *   - wordform_to_corpus_lemmas: wordform (ORIGINAL case) → [corpus lemmas]
  *   - word_lemma_freq:           (wordform, lemma) → treebank frequency
  *   - lemma_frequency:           lemma → corpus frequency
- * These are exported to src/wiktionary_pron/macronizer/data/lemma-data.json by
+ * These are exported to src/data/lemma-data.json by
  * native/build/export-lemma-data.py as:
  *   { "corpus": { wordform: [[lemma, freq], ...] },   // order preserved
  *     "lemmaFrequency": { lemma: freq } }
@@ -48,7 +48,7 @@ export class LemmaEngine {
         if (!json) {
             const paths = [
                 new URL('../data/lemma-data.json', import.meta.url).href,
-                '/wiktionary_pron/macronizer/data/lemma-data.json',
+                '/data/lemma-data.json',
                 '/src/data/lemma-data.json'
             ];
             for (const path of paths) {

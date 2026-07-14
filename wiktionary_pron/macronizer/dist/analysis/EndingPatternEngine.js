@@ -53,7 +53,7 @@ export class EndingPatternEngine {
         // Try to load ending patterns from JSON
         const paths = [
             new URL('../data/endings.json', import.meta.url).href,
-            '/wiktionary_pron/macronizer/data/endings.json',
+            '/data/endings.json',
             '/src/data/endings.json'
         ];
         let found = false;

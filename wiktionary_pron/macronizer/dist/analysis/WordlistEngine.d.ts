@@ -90,6 +90,11 @@ export declare class WordlistEngine {
     /**
      * Load wordlist from URL (fetch + parse)
      */
+    /**
+     * Load wordlist from URL. A `.gz` URL is decompressed in the browser
+     * (32MB of text ships as ~4MB); it falls back to the uncompressed file
+     * if the .gz is missing or the browser cannot gunzip.
+     */
     loadFromUrl(url: string, onProgress?: (count: number) => void): Promise<void>;
     /**
      * Check if loaded

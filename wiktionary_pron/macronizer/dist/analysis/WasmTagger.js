@@ -34,12 +34,6 @@ export class WasmTagger {
             writable: true,
             value: void 0
         });
-        Object.defineProperty(this, "modelPath", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
         Object.defineProperty(this, "wasmPath", {
             enumerable: true,
             configurable: true,
@@ -76,11 +70,10 @@ export class WasmTagger {
             writable: true,
             value: void 0
         });
-        this.modelPath = options.modelPath || '/wiktionary_pron/macronizer/wasm/rftagger-ldt.model';
         const effectiveWasmPath = options.wasmPath || '../wasm/rftagger.js';
         this.wasmPath = effectiveWasmPath;
         this.wasmDir = effectiveWasmPath.substring(0, effectiveWasmPath.lastIndexOf('/') + 1);
-        this.modelUrl = options.modelUrl || '/wiktionary_pron/macronizer/wasm/rftagger-ldt.model';
+        this.modelUrl = options.modelUrl || '/wasm/rftagger-ldt.model';
         this.cache = new Map();
         this.useSentences = true;
         this.beamSize = 0.001;
@@ -113,7 +106,7 @@ export class WasmTagger {
         if (globalRFTagger && typeof globalRFTagger === 'function') {
             return await globalRFTagger({
                 printErr: () => { },
-                locateFile: (path) => resolveAssetUrl(path, '/wiktionary_pron/macronizer/wasm/' + path)
+                locateFile: (path) => resolveAssetUrl(path, path.endsWith('.model') ? this.modelUrl : this.wasmDir + path)
             });
         }
         try {
@@ -126,7 +119,7 @@ export class WasmTagger {
                             return resolveAssetUrl(path, this.wasmDir + path);
                         }
                         if (path.endsWith('.model')) {
-                            return resolveAssetUrl(path, '/wiktionary_pron/macronizer/wasm/rftagger-ldt.model');
+                            return resolveAssetUrl(path, this.modelUrl);
                         }
                         return path;
                     }

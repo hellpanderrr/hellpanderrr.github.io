@@ -4,6 +4,16 @@
  * Immutable token with POS tagging and macronization capabilities
  */
 import type { MorpheusAnalysis } from '../analysis/MorpheusAnalyzer';
+/**
+ * Provenance for one entry of `accented`: which wordlist row produced it.
+ * Purely informational (the UI shows lemma + grammar per reading); the
+ * macronization itself only ever reads `accented`.
+ */
+export interface AccentedSource {
+    accented: string;
+    lemma: string;
+    tag: string;
+}
 export interface TokenOptions {
     text?: string;
     tag?: string;
@@ -12,6 +22,7 @@ export interface TokenOptions {
     macronizedText?: string;
     originalText?: string;
     accented?: string[];
+    accentedSources?: AccentedSource[];
     isAmbiguous?: boolean;
     isUnknown?: boolean;
     morpheusAnalyzed?: boolean;
@@ -36,6 +47,7 @@ export declare class Token {
     readonly macronizedText?: string;
     readonly originalText: string;
     readonly accented?: string[];
+    readonly accentedSources?: AccentedSource[];
     readonly isAmbiguous?: boolean;
     readonly isUnknown?: boolean;
     readonly morpheusAnalyzed?: boolean;
