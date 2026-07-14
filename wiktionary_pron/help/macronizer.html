@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latin Macronizer - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../icons/help/favicon-16x16.png">
+    <link rel="icon" href="../icons/help/favicon.ico">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>Latin Macronizer - Help</h1>
+
+    <p style="display: flex; justify-content: space-between; align-items: center;">
+        <span><a href="../macronizer.html">← Back to the macronizer</a></span>
+        <span><a href="index.html">↑ All Languages</a></span>
+    </p>
+
+    <h2>What it does</h2>
+
+    <p>Latin was written without marking vowel length, but length is what makes the language scan and,
+        often, what tells two words apart: <i>malum</i> (an evil) and <i>mālum</i> (an apple),
+        <i>liber</i> (free) and <i>līber</i> (a book). This tool reads your Latin and adds the
+        <strong>macrons</strong> — the bars over long vowels.</p>
+
+    <p>It is not a dictionary lookup. The same spelling can be several different words, so the tool has
+        to work out which one you meant from the sentence around it: <i>rosa</i> is nominative
+        <i>rosa</i> or ablative <i>rosā</i> depending on the grammar. That is why it needs a part-of-speech
+        tagger, and why it sometimes gets it wrong — see <a href="#reading">reading the output</a>.</p>
+
+    <h2>How it works</h2>
+
+    <p>Everything runs inside your browser; your text is never sent to a server. Your text passes through
+        four stages:</p>
+
+    <ul>
+        <li><strong>Tokenizing</strong> — the text is split into words, and enclitics
+            (<i>-que</i>, <i>-ve</i>, <i>-ne</i>) are separated off, so <i>virumque</i> is understood as
+            <i>virum</i> + <i>-que</i>.
+        </li>
+        <li><strong>POS tagging</strong> — <a href="https://www.cis.uni-muenchen.de/~schmid/tools/RFTagger/"
+            target="_blank" rel="noopener noreferrer">RFTagger</a>, trained on the Latin Dependency
+            Treebank, decides each word's part of speech, case, number, gender, tense and so on from
+            its context.
+        </li>
+        <li><strong>Lookup</strong> — the tagged form is looked up in a wordlist of about 812,000
+            Latin word-forms with their vowel lengths.
+        </li>
+        <li><strong>Morphological analysis</strong> — words that aren't in the wordlist go to
+            <a href="https://github.com/PerseusDL/morpheus" target="_blank" rel="noopener noreferrer">Morpheus</a>,
+            the Perseus project's Latin analyser, which works the form out from stems and endings.
+        </li>
+    </ul>
+
+    <h2 id="reading">Reading the output</h2>
+
+    <p>Most words come back as plain macronized text. Two kinds are highlighted, and both are
+        invitations to check the tool's work:</p>
+
+    <ul>
+        <li><strong>Yellow</strong> — the word has <strong>more than one possible reading</strong>, and
+            the tool picked the one it thought fit the sentence. <strong>Click the word</strong> (or focus
+            it with Tab and press Enter) to cycle through the alternatives; the text updates, and so do the
+            Copy and export buttons. If the tool guessed <i>Galliā</i> where you wanted <i>Gallia</i>,
+            this is how you fix it.
+        </li>
+        <li><strong>Red</strong> — the word is <strong>not in the wordlist</strong>. Morpheus is asked
+            to analyse it from its stem and ending; if even Morpheus doesn't recognise it, the vowel
+            lengths are <em>guessed</em> from the word's ending and the part of speech the tagger
+            predicted. That guess can be confidently wrong — invent a word like <i>accaemem</i> and you
+            will still get <i>accaēmem</i>, because <i>-emem</i> looks like an ending whose <i>e</i> is
+            long. Treat red words with more suspicion than the rest; proper names and rare or late words
+            end up here.
+        </li>
+    </ul>
+
+    <p>Hover a word (or tap it on a phone) to open its analysis: the RFTagger tag decoded into plain
+        features, the lemma, whether it was found in the wordlist, and every reading Morpheus found.
+        The reading currently shown in the text is highlighted among the candidates.</p>
+
+    <h2>The options</h2>
+
+    <ul>
+        <li><strong>Mark long vowels</strong> — the macrons themselves. Turn it off and the tool will
+            still tag and analyse, but leave the spelling alone.
+        </li>
+        <li><strong>Also mark <i>māius</i> etc.</strong> — a handful of words (<i>maius</i>, <i>eius</i>,
+            <i>cuius</i>…) whose first vowel is long by position before consonantal <i>i</i>. Editors
+            disagree about marking these, so it is a choice.
+        </li>
+        <li><strong><i>u</i> → <i>v</i></strong> and <strong><i>i</i> → <i>j</i></strong> — classical
+            orthography. Latin wrote <i>VNVS</i> and <i>IACTVS</i>; modern editions vary between
+            <i>unus</i>/<i>vnus</i> and <i>iactus</i>/<i>jactus</i>. These convert consonantal <i>u</i>
+            and <i>i</i> where the analysis says they are consonants — so <i>cum</i> stays <i>cum</i>.
+        </li>
+        <li><strong>Scan as</strong> — if your text is verse, choosing its metre (dactylic hexameter,
+            elegiac distichs, hendecasyllable, iambic trimeter + dimeter) lets the tool prefer the
+            vowel lengths that make the line scan, which resolves many ambiguities that prose cannot.
+            The feet it found are shown at the end of each line. Leave it on <strong>Prose</strong> for
+            ordinary text.
+        </li>
+        <li><strong>De-macronize</strong> — shows the text below with all macrons stripped out
+            (the input box is left as it is). Useful for checking an already-macronized text.
+        </li>
+    </ul>
+
+    <h2>The one-time download</h2>
+
+    <p>Because the whole pipeline runs locally, the browser must first fetch the tagger model, the
+        Morpheus database and the wordlist. They are served gzipped, so the download is about
+        <strong>10 MB</strong> (65 MB once unpacked in your browser). This happens once: the files
+        are then stored in your browser, so later visits start in a few seconds and work offline.
+        <strong>Clear cache</strong> at the bottom of the page deletes them; the next visit will
+        download them again.</p>
+
+    <h2>Accuracy</h2>
+
+    <p>Expect a small number of mistakes in ordinary prose, and more in verse, in poetry with unusual
+        word order, and around proper names. The highlighted words are where the tool is least certain
+        — if a text matters, read those and cycle the ones that are wrong. It is a good corrector, not
+        an oracle.</p>
+
+    <h2>Credits</h2>
+
+    <p>This is a WebAssembly port of Johan Winge's
+        <a href="https://github.com/johanwinge/latin-macronizer" target="_blank" rel="noopener noreferrer">Latin
+            macronizer</a>, whose design and data it follows closely; the method is described in his
+        thesis <i>Automatic annotation of Latin vowel length</i> (Uppsala, 2015). It builds on
+        <a href="https://www.cis.uni-muenchen.de/~schmid/tools/RFTagger/" target="_blank" rel="noopener noreferrer">RFTagger</a>
+        (Schmid &amp; Laws), the
+        <a href="https://github.com/PerseusDL/morpheus" target="_blank" rel="noopener noreferrer">Morpheus</a>
+        analyser and the
+        <a href="https://perseusdl.github.io/treebank_data/" target="_blank" rel="noopener noreferrer">Latin
+            Dependency Treebank</a>. The browser port lives at
+        <a href="https://github.com/hellpanderrr/latin-macronizer-wasm" target="_blank" rel="noopener noreferrer">latin-macronizer-wasm</a>.</p>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+            href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
+            rel="noopener noreferrer">GitHub
+        repository</a>.</small></p>
+</div>
+
+
+</body>
+</html>

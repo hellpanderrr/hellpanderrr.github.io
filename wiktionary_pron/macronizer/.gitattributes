@@ -1,0 +1,5 @@
+# Engine assets are served byte-for-byte to the browser: no EOL conversion.
+* -text
+*.gz binary
+*.wasm binary
+*.data binary

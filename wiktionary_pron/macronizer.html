@@ -1,7 +1,5 @@
 <!doctype html>
-
-
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="UTF-8"/>
 
@@ -12,244 +10,1510 @@
         <link href="css/tacit-css-1.7.1.min.css" rel="stylesheet">
     </noscript>
 
-    <script src="scripts/lib/localforage.min.js"></script>
-
-
     <link href="icons/macronizer/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
     <link href="icons/macronizer/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
     <link href="icons/macronizer/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
     <link href="icons/macronizer/favicon.ico" rel="icon">
 
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+
     <style>
-        #output {
+        /* =====================================================================
+           ONE COLUMN. Every block — input, options, buttons, result, meta —
+           starts at the same left edge and ends at the same right edge. The old
+           layout mixed a centred chrome with left-aligned content and gave the
+           textarea its own inset, so no two consecutive blocks lined up.
+           ===================================================================== */
+        #content { max-width: 780px; margin: 0 auto; }
+        #header { align-items: center; }
+        #header > h1 { margin-left: 14px; padding-left: 0; font-size: 28px; }
+        #header #home { display: inline-flex; align-items: center; }
+        #content > *, #result, #export_buttons, .wordlist-section { text-align: left; }
 
-            text-align: justify;
-            margin-left: auto;
-            margin-right: auto;
-            max-width: 55%;
-            font-size: 20pt;
-            font-family: "EB Garamond", serif;
-        }
+        /* One type system: Garamond for the Latin, Noto Sans for everything else
+           (buttons and selects were falling back to system-ui). */
+        button, select, option, input, textarea, .btn { font-family: 'Noto Sans', sans-serif; }
+        #text_to_macronize, .macron-line { font-family: 'EB Garamond', serif; }
 
+        /* ----- Input ----- */
+        /* style.css uses `div#form_top` / `div#form_bottom` (specificity 0,1,1), so a plain
+           #id selector here loses and the old flex-centred layout survives. Match it. */
+        #frm1 { margin-bottom: 0; }
+        div#form_top { display: block; max-width: none; margin-bottom: 10px; }
+        #text_to_macronize { width: 100%; box-sizing: border-box; font-size: 18px; margin: 0; }
+        /* style.css: `div#clear_button_group { flex-direction: column }` — again 0,1,1 */
+        div#clear_button_group { display: flex; flex-direction: row; justify-content: flex-end; margin: 2px 0 0; }
+        #clear_button { padding: 2px 0; }
 
+        /* ----- Options: every control the same height, size and rhythm -----
+           They were a mix of oversized checkbox labels on one row and a lone select on
+           another. Now: one wrapping row, one 15px label style, one 32px control height,
+           each option a <label> so the whole chip is a click target. */
+        .options { margin: 0 0 14px; text-align: left; }
+        .options-row { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px 10px;
+                       align-items: stretch; margin: 0; }
+        .option-group { display: inline-flex; align-items: center; gap: 8px; height: 32px;
+                        padding: 0 12px; margin: 0; white-space: nowrap; cursor: pointer;
+                        border: 1px solid #e0e0e0; border-radius: 16px; background: #fafafa; }
+        .option-group:hover { border-color: #9C27B0; }
+        .option-group span, .option-group label { font-size: 15px; margin: 0; cursor: pointer; }
+        .options input[type="checkbox"] { width: 16px; height: 16px; margin: 0; flex: 0 0 auto;
+                                         accent-color: #6a1b9a; }
+        body.dark_mode .options input[type="checkbox"] { accent-color: #CE93D8; }
+        /* the checked options should read as "on" at a glance */
+        .option-group:has(input:checked) { background: #f3e5f5; border-color: #9C27B0; color: #6a1b9a; }
+        .option-select { padding-right: 6px; }
+        .option-select label { color: #888; }
+        .options select { margin: 0; height: 24px; padding: 0 4px; font-size: 15px;
+                          border: none; background: transparent; }
+
+        body.dark_mode .option-group { background: #1a1620; border-color: #332c3a; }
+        body.dark_mode .option-group:hover { border-color: #CE93D8; }
+        body.dark_mode .option-group:has(input:checked) { background: #2e2436; border-color: #CE93D8; color: #CE93D8; }
+        body.dark_mode .option-select label { color: #999; }
+        body.dark_mode .options select { color: #e0e0e0; }
+        body.dark_mode .options select option { background: #1F1B24; }
+
+        /* ----- Results: word-cell system (app idiom) ----- */
+        /* resize:vertical is inherited from tacit's table rules and draws a pointless
+           drag-grip in the corner of the results — kill it. */
+        #result_table { width: 100%; border-collapse: collapse; margin-top: 8px; resize: none; }
+        /* tacit gives <tr> an 11px left margin — it pushed the result text off the column edge */
+        tr.line { display: block; text-align: left; padding: 2px 0; margin: 0; background: transparent; border: none; }
+        tr.line td { display: block; border: none; padding: 2px 0; overflow: visible; }
+        .macron-line { font-size: 20px; line-height: 1.9; }
+        .macron-line .ipa { cursor: default; margin-right: 0; }
+        .macron-line .ipa.multiple-values { cursor: pointer; font-family: inherit; font-weight: bold; }
+        .macron-line .ambig::before { background: #fff3cd; padding: 0 3px; border-radius: 3px; }
+        .macron-line .unknown::before { background: #f8d7da; padding: 0 3px; border-radius: 3px; }
+        .macron-line .ambig, .macron-line .unknown { cursor: help; }
+        .verse-foot { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px;
+                      color: #6a1b9a; background: #f3e5f5; padding: 1px 8px; border-radius: 4px;
+                      margin-left: 12px; white-space: nowrap; vertical-align: middle; }
+        /* ----- Word detail popup (hover) ----- */
+        /* fixed, not absolute: an absolutely-positioned popup adds to the document height,
+           which makes the page grow/shrink (and the scrollbar appear/disappear) as it opens
+           and closes — the content jumps under the cursor. Fixed takes it out of that flow. */
+        .word-popup { position: fixed; background: white; border: 1px solid #ccc; border-radius: 5px;
+                      padding: 10px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10000;
+                      max-width: 380px; font-family: 'Noto Sans', sans-serif; font-size: 13px;
+                      line-height: 1.45; text-align: left; }
+        .word-popup h4 { margin: 0 0 8px 0; font-size: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .word-popup table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 0; }
+        .word-popup td { padding: 2px 6px; border: none; overflow: visible; display: table-cell; }
+        .word-popup tr { display: table-row; border: none; margin: 0; }
+        .word-popup td:first-child { color: #666; font-weight: 500; white-space: nowrap; vertical-align: top; }
+        .popup-section { margin-bottom: 9px; }
+        .popup-section:last-child { margin-bottom: 0; }
+        .popup-section-title { font-weight: 600; font-size: 11px; color: #888; text-transform: uppercase;
+                               letter-spacing: 0.5px; border-bottom: 1px solid #e0e0e0; padding-bottom: 3px; margin-bottom: 5px; }
+        .word-popup .candidate { display: inline-block; margin: 2px 4px 2px 0; padding: 2px 8px;
+                                 background: #f3e5f5; color: #6a1b9a; border-radius: 3px; font-size: 12px; }
+        .word-popup .tag-desc { color: #888; font-style: italic; font-size: 11px; }
+        .word-popup .popup-note { margin-top: 6px; font-size: 11px; line-height: 1.4; color: #888; }
+        body.dark_mode .word-popup .popup-note { color: #9d9d9d; }
+
+        /* Readings table: spelling | lemma | grammar — each row is one wordlist entry,
+           so the lemma can differ from the token's single best-frequency lemma. */
+        .word-popup table.readings { width: 100%; margin: 2px 0 0; }
+        .word-popup table.readings td { padding: 3px 6px; vertical-align: top; font-size: 12px; }
+        .word-popup table.readings .r-form { white-space: nowrap; font-weight: 600; color: #6a1b9a; }
+        .word-popup table.readings .r-lemma { white-space: nowrap; font-style: italic; color: #555; }
+        .word-popup table.readings .r-gram { color: #888; font-size: 11px; }
+        .word-popup table.readings tr.active { background: #f3e5f5; }
+        .word-popup table.readings tr.active .r-form { color: #4a1069; }
+        body.dark_mode .word-popup table.readings .r-form { color: #CE93D8; }
+        body.dark_mode .word-popup table.readings .r-lemma { color: #bbb; }
+        body.dark_mode .word-popup table.readings .r-gram { color: #999; }
+        body.dark_mode .word-popup table.readings tr.active { background: #3a2f42; }
+        .word-popup .popup-cycle { display: block; margin: 8px 0 0; padding: 5px 10px; width: 100%;
+                                   background: transparent; border: 1px solid #9C27B0; border-radius: 4px;
+                                   color: #6a1b9a; font-size: 12px; cursor: pointer; }
+        .word-popup .popup-cycle:hover { background: #f3e5f5; }
+        body.dark_mode .word-popup .popup-cycle { border-color: #CE93D8; color: #CE93D8; }
+        body.dark_mode .word-popup .popup-cycle:hover { background: #3a2f42; }
+
+        /* ----- Legend: the highlight colours are the whole point — name them ----- */
+        /* The result follows the button directly — no rule, no gulf of whitespace. */
+        #result { margin-top: 18px; padding-top: 0; border-top: none; }
+        .result-heading { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+                          color: #6f6f6f; margin: 0 0 8px; }
+        body.dark_mode #result { border-color: #2a2430; }
+        body.dark_mode .result-heading { color: #aaa; }
+
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden;
+                   clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+        .legend { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 6px 20px;
+                  font-size: 13px; color: #666; margin-bottom: 4px; }
+        .legend span { white-space: nowrap; }
+        .legend i { font-style: normal; padding: 0 6px; border-radius: 3px; margin-right: 5px; }
+        .legend .sw-ambig { background: #fff3cd; }
+        .legend .sw-unknown { background: #f8d7da; }
+        body.dark_mode .legend { color: #aaa; }
+        body.dark_mode .legend .sw-ambig { background: #5c4a10; }
+        body.dark_mode .legend .sw-unknown { background: #5c2020; }
+
+        .stats { margin-top: 12px; font-size: 13px; color: #6f6f6f; text-align: left; }
+        .loading { display: none; text-align: left; padding: 18px 0; font-size: 14px; color: #666; }
+        .loading.show { display: block; }
+        body.dark_mode .loading { color: #aaa; }
+        #error { color: red; padding: 10px; margin-top: 10px; }
+
+        /* ----- Wordlist: ONE quiet status line, not five stacked centred rows ----- */
+        .wordlist-section { margin-top: 32px; padding-top: 10px; border-top: 1px solid #eee;
+                            font-size: 12px; color: #999; display: flex; flex-wrap: wrap;
+                            align-items: center; gap: 8px 14px; }
+        .wordlist-section .btn { font-size: 12px; padding: 4px 10px; width: auto; margin: 0; }
+        #wlPrompt { font-size: 13px; color: #6a1b9a; }
+        #wlButtons { display: flex; gap: 8px; align-items: center; }
+        #wlProgress { flex: 1 1 220px; min-width: 180px; }
+        #wlProgressBar { background: #9C27B0; width: 0%; height: 8px; border-radius: 4px; transition: width 0.3s; }
+        #wlInfo { font-size: 12px; color: #6f6f6f; margin: 0; margin-left: auto; }
+        body.dark_mode .wordlist-section { border-color: #2a2430; }
+
+        /* Clear cache is rare and destructive: a quiet red link, not a button competing
+           with the exports for attention. */
+        .wordlist-section #clearCache { background: none; border: none; padding: 0; color: #c62828;
+                                        text-decoration: underline; font-size: 12px; box-shadow: none; }
+        .wordlist-section #clearCache:hover:not(:disabled) { background: none; color: #8e1f1f; }
+        .wordlist-section #clearCache:disabled { color: #ccc; text-decoration: none; }
+        body.dark_mode .wordlist-section #clearCache { background: none; color: #ef9a9a; }
+        body.dark_mode .wordlist-section #clearCache:disabled { color: #5a4a4a; }
+
+        /* ----- First-visit notice: the assets are big, say so before the wait ----- */
+        #firstRun { margin: 0 0 22px; padding: 14px 18px; border: 1px solid #9C27B0;
+                    border-radius: 6px; background: #f8f0fb; font-size: 14px; text-align: left; }
+        #firstRun p { margin: 6px 0 10px; color: #444; }
+        #firstRunTitle { font-weight: bold; color: #6a1b9a; }
+        #firstRunStatus { font-size: 13px; color: #6a1b9a; }
+        #firstRun.done { border-color: #4CAF50; background: #f1f8f2; }
+        #firstRun.done #firstRunTitle, #firstRun.done #firstRunStatus { color: #2e7d32; }
+
+        #procProgress { width: 100%; margin: 10px 0 0; background: #eee; border-radius: 4px; overflow: hidden; }
+        #procProgressBar { background: #9C27B0; width: 0%; height: 8px; border-radius: 4px; transition: width 0.2s; }
+
+        .credits { font-size: 12px; color: #6f6f6f; margin: 6px 0 0; }
+        .credits a { color: #6a1b9a; }
+
+        /* ----- Button hierarchy: exactly one primary action (Macronize) ----- */
+        /* The shared .btn-primary is grey in light mode (it only turns purple in dark), so the
+           main action read as *disabled* next to any outlined button. Give it a real accent fill
+           here — local to this page, so index.html's buttons are untouched. */
+        .btn.btn-primary { background: #6a1b9a; border: 1px solid #6a1b9a; color: #fff; }
+        .btn.btn-primary:hover:not(:disabled) { background: #58157f; border-color: #58157f; }
+        .btn.btn-primary:disabled { background: #d9c7e2; border-color: #d9c7e2; color: #fff; }
+        body.dark_mode .btn.btn-primary { background: #CE93D8; border-color: #CE93D8; color: #1F1B24; }
+        body.dark_mode .btn.btn-primary:hover:not(:disabled) { background: #BA68C8; border-color: #BA68C8; }
+        body.dark_mode .btn.btn-primary:disabled { background: #4a3a52; border-color: #4a3a52; color: #8d8195; }
+
+        .btn.btn-secondary { background: transparent; border: 1px solid #9C27B0; color: #6a1b9a; }
+        .btn.btn-secondary:hover:not(:disabled) { background: #f3e5f5; }
+        body.dark_mode .btn.btn-secondary { background: transparent; border-color: #CE93D8; color: #CE93D8; }
+        body.dark_mode .btn.btn-secondary:hover:not(:disabled) { background: #3a2f42; }
+
+        .btn.btn-danger { background: transparent; border: 1px solid #c62828; color: #c62828; }
+        .btn.btn-danger:hover:not(:disabled) { background: #fdecec; }
+        body.dark_mode .btn.btn-danger { background: transparent; border-color: #ef9a9a; color: #ef9a9a; }
+        body.dark_mode .btn.btn-danger:hover:not(:disabled) { background: #3a2222; }
+
+        /* "Clear form" is not an action worth a filled button — make it a quiet link */
+        #clear_button_group { display: flex; align-items: flex-start; }
+        #clear_button { background: none; border: none; color: #888; font-size: 13px; white-space: nowrap;
+                        padding: 4px 8px; cursor: pointer; text-decoration: underline; box-shadow: none; }
+        #clear_button:hover { color: #6a1b9a; }
+        body.dark_mode #clear_button { color: #999; }
+        body.dark_mode #clear_button:hover { color: #CE93D8; }
+
+        /* Button rows sit on the column's left edge and size to their content —
+           btn-block was stretching them into full-width slabs. */
+        div#form_bottom, #export_buttons { display: flex; flex-wrap: wrap; justify-content: flex-start;
+                                          gap: 10px; width: auto; }
+        div#form_bottom .btn, #export_buttons .btn { width: auto; flex: 0 0 auto; margin: 0;
+                                                     padding: 8px 18px; font-size: 15px; }
+
+        /* ----- Hints: name the jargon in place ----- */
+        .hint { font-size: 12px; color: #6f6f6f; text-align: left; margin: 8px 0 0; }
+        .hint a, .help-link { color: #6a1b9a; }
+        body.dark_mode .hint { color: #999; }
+        body.dark_mode .hint a, body.dark_mode .help-link { color: #CE93D8; }
+        #header .help-link { font-size: 14px; text-decoration: none; margin-right: 14px; }
+
+        /* ----- Word cells are real controls: focusable, and they say so ----- */
+        .macron-line .ipa:focus-visible { outline: 2px solid #9C27B0; outline-offset: 2px; border-radius: 3px; }
+        body.dark_mode .macron-line .ipa:focus-visible { outline-color: #CE93D8; }
+
+        /* Currently-shown candidate, so cycling has a visible position */
+        .word-popup .candidate.active { background: #6a1b9a; color: #fff; font-weight: bold; }
+        body.dark_mode .word-popup .candidate.active { background: #CE93D8; color: #1F1B24; }
+
+        /* On phones the floating popup covers the text it describes — dock it instead */
+        .word-popup.sheet { position: fixed; left: 0 !important; right: 0; bottom: 0; top: auto !important;
+                            max-width: none; max-height: 60vh; overflow-y: auto;
+                            border-radius: 10px 10px 0 0; border-bottom: none;
+                            box-shadow: 0 -3px 14px rgba(0,0,0,0.25); padding-bottom: 16px; }
+        .word-popup .popup-close { display: none; }
+        .word-popup.sheet .popup-close { display: block; position: absolute; top: 6px; right: 10px;
+                                         background: none; border: none; font-size: 22px; line-height: 1;
+                                         color: #888; cursor: pointer; padding: 2px 6px; }
+
+        /* ----- Dark mode (app palette: #121212 page / #1F1B24 surface / #CE93D8 accent) ----- */
+        /* Lets the browser paint native controls (checkboxes, select) dark instead of
+           stark white — no custom checkbox markup needed. */
+        body.dark_mode { color-scheme: dark; }
+        body.dark_mode .stats { color: #999; }
+        body.dark_mode #wlPrompt { color: #CE93D8; }
+        body.dark_mode .verse-foot { background: #1F1B24; color: #CE93D8; }
+        body.dark_mode .macron-line .ambig::before { background: #5c4a10; }
+        body.dark_mode .macron-line .unknown::before { background: #5c2020; }
+        body.dark_mode #wlProgressBar { background: #CE93D8; }
+        body.dark_mode #wlInfo { color: #aaa; }
+        body.dark_mode #firstRun { background: #1F1B24; border-color: #9C27B0; }
+        body.dark_mode #firstRun p { color: #ccc; }
+        body.dark_mode #firstRunTitle, body.dark_mode #firstRunStatus { color: #CE93D8; }
+        body.dark_mode #firstRun.done { background: #1b241d; border-color: #4CAF50; }
+        body.dark_mode #firstRun.done #firstRunTitle, body.dark_mode #firstRun.done #firstRunStatus { color: #81C784; }
+        body.dark_mode #procProgress { background: #2a2430; }
+        body.dark_mode #procProgressBar { background: #CE93D8; }
+        body.dark_mode .credits { color: #999; }
+        body.dark_mode .credits a { color: #CE93D8; }
+        body.dark_mode .word-popup { background: #1F1B24; color: #e0e0e0; border-color: #9C27B0; box-shadow: none; }
+        body.dark_mode .word-popup h4 { border-color: #3a2f42; }
+        body.dark_mode .word-popup td:first-child { color: #aaa; }
+        body.dark_mode .popup-section-title { color: #aaa; border-color: #3a2f42; }
+        body.dark_mode .word-popup .candidate { background: #3a2f42; color: #CE93D8; }
     </style>
-    <script type="module">
-        import {macronize} from "./scripts/macronizer.js";
-        import {toPdf} from "./scripts/pdf_export.js";
-        import {toCsv} from "./scripts/csv_export.js";
-        import {disableAll, enableAll} from "./scripts/utils.js";
-
-        disableAll()
-        await macronize('')
-        enableAll()
-
-        function fillOutput(text) {
-            const table = document.querySelector('#output')
-            table.innerHTML = ""
-            const lines = text.split('\n')
-            Array.from(lines).map(line => {
-                    const row = document.createElement('tr')
-                    row.innerHTML = line
-                    table.appendChild(row)
-                }
-            )
-
-
-        }
-
-        async function macronizeText() {
-            const inputText = document.querySelector('#text_to_macronize').value
-            const macronizedText = await macronize(inputText);
-            fillOutput(macronizedText)
-        }
-
-        function demacronize(text) {
-            const macronMap = {
-                'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
-                'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
-            };
-
-            return text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, match => macronMap[match]);
-        }
-
-        function deMacronizeText() {
-            const inputText = document.querySelector('#text_to_macronize').value
-            const demacronizedText = demacronize(inputText)
-            fillOutput(demacronizedText)
-
-        }
-
-        document.getElementById("macronize").addEventListener("click", macronizeText);
-        document.getElementById("demacronize").addEventListener("click", deMacronizeText);
-        const isDarkMode = () => document.body.classList.contains("dark_mode");
-
-        async function csvPdfExport(event, exportFunction) {
-
-            const buttonElement = event.currentTarget;
-            const iconElement = buttonElement.querySelector("i");
-
-            buttonElement.disabled = true;
-            const oldIconClass = iconElement.className;
-            iconElement.className = "icon icon--spinner";
-            await exportFunction(
-                Array.from(document
-                    .querySelector("#output")
-                    .querySelectorAll("tr"))
-                    .map((x) => x.textContent.split(' ')),
-                "default",
-                isDarkMode(),
-                "latin",
-            );
-
-            iconElement.className = oldIconClass;
-            buttonElement.disabled = false;
-
-        }
-
-        document
-            .getElementById("export_pdf")
-            .addEventListener("click", (e) => csvPdfExport(e, toPdf));
-        document
-            .getElementById("export_csv")
-            .addEventListener("click", (e) => csvPdfExport(e, toCsv));
-
-
-        function toggleDarkMode() {
-            console.log("setting dark");
-            if (document.body.classList.contains("dark_mode")) {
-                console.log("dark already setting light");
-                toggleLightMode();
-            } else {
-                document.body.classList.add("dark_mode");
-                document.querySelector("#header > a > i").className = "icon icon-sun";
-            }
-        }
-
-        function toggleLightMode() {
-            document.querySelector("#header>a>i").className = "icon icon-moon";
-            document.body.classList.remove("dark_mode");
-        }
-
-        document.getElementById("dark_mode").addEventListener("click", toggleDarkMode);
-        document.getElementById("clear_button").addEventListener("click", clearInput);
-
-        function clearInput() {
-            document.querySelector('#text_to_macronize').value = ''
-        }
-    </script>
-
 
     <title>Latin Macronizer</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="" name="Keywords"/>
-    <meta content="Adding macrons to latin texts, based on predefined dictionary of unambiguous macronized words."
+    <meta content="Latin macronizer — full pipeline with RFTagger POS tagging, Morpheus morphological analysis, and verse scansion."
           name="description">
-
-
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="css/style.css" rel="stylesheet" type="text/css">
-
-
 </head>
 <body>
 <div id="content">
     <br/>
     <div id="header">
-        <p style="visibility: hidden">
-            <i class="icon icon-moon"></i>
-        </p>
-        <h1 style="flex: 1;">Latin Macronizer</h1>
-        <a href="#" id="dark_mode" onclick="toggleDarkMode()">
+        <a href="../" id="home" title="Home">
+            <i class="icon icon-home"></i>
+        </a>
+        <h1 style="flex: 1; text-align: left;">Latin Macronizer</h1>
+        <a href="help/macronizer.html" class="help-link" title="What is this? How do I read the output?">Help</a>
+        <a href="#" id="dark_mode">
             <i class="icon icon-moon"></i>
         </a>
     </div>
     <hr>
 
+    <div id="firstRun" style="display:none;">
+        <div id="firstRunTitle">Setting up — one-time download</div>
+        <p>
+            The macronizer runs entirely in your browser: it needs the POS-tagger model, the Morpheus
+            morphology engine and an 812,000-form wordlist — about <strong>10&nbsp;MB</strong> to
+            download (65&nbsp;MB once unpacked). This happens <strong>once</strong>; afterwards it is
+            stored in your browser, so every later visit starts in a few seconds and works offline.
+            <a href="help/macronizer.html">What is this tool?</a>
+        </p>
+        <div id="firstRunStatus">Starting…</div>
+    </div>
 
     <form id="frm1" onsubmit="return false">
         <div class="form-group">
+
+            <!-- Options first: they decide what Macronize will do, so they belong before the text. -->
+            <div class="options">
+                <div class="options-row">
+                    <label class="option-group" for="macronize">
+                        <input type="checkbox" id="macronize" checked>
+                        <span>Mark long vowels</span>
+                    </label>
+                    <label class="option-group" for="alsomaius">
+                        <input type="checkbox" id="alsomaius">
+                        <span>Also mark <i>māius</i> etc.</span>
+                    </label>
+                    <label class="option-group" for="utov">
+                        <input type="checkbox" id="utov">
+                        <span><i>u</i> → <i>v</i></span>
+                    </label>
+                    <label class="option-group" for="itoj">
+                        <input type="checkbox" id="itoj">
+                        <span><i>i</i> → <i>j</i></span>
+                    </label>
+                    <span class="option-group option-select">
+                        <label for="scan">Scan as</label>
+                        <select id="scan" class="dropdown">
+                            <option value="prose">Prose (no scansion)</option>
+                            <option value="dactylichexameter">Dactylic hexameter</option>
+                            <option value="elegiacdistichs">Elegiac distichs</option>
+                            <option value="hendecasyllable">Hendecasyllable</option>
+                            <option value="iambic">Iambic trimeter + dimeter</option>
+                        </select>
+                    </span>
+                </div>
+                <p class="hint">
+                    <strong>Scan as</strong> fits the vowel lengths to a verse metre — leave it on Prose
+                    for ordinary text. <a href="help/macronizer.html">More about the options</a>.
+                </p>
+            </div>
+
             <div id="form_top">
                 <textarea
-                        autofocus=""
-                        id="text_to_macronize"
-                        name="text_to_macronize"
-                        required=""
-                >Omnium provinciarum populi Romani quibus finitimae fuerunt gentes quae non parerent imperio nostro fines auxi. </textarea>
+                    autofocus=""
+                    id="text_to_macronize"
+                    name="text_to_macronize"
+                    rows="6"
+                    required=""
+                >Gallia est omnis divisa in partes tres, quarum unam incolunt Belgae, aliam Aquitani, tertiam qui ipsorum lingua Celtae, nostra Galli appellantur.</textarea>
                 <div id="clear_button_group">
                     <button id="clear_button" type="button">Clear form</button>
-                    <div style="position: relative"><p id="loading_text"></p></div>
-
                 </div>
-
             </div>
-            <div class="btn-group btn-block" id="form_bottom" role="group">
-                <button
-                        autocomplete="off"
-                        class="btn btn-primary btn-block"
-                        id="macronize"
-                        name="macronize"
-                        type="button"
-                >
-                    Macronize
-                </button>
-                <button
-                        autocomplete="off"
-                        class="btn btn-primary btn-block"
-                        id="demacronize"
-                        name="demacronize"
-                        type="button"
-                >
-                    De-macronize
-                </button>
 
+            <div class="btn-group btn-block" id="form_bottom" role="group">
+                <button autocomplete="off" class="btn btn-primary btn-block"
+                        id="macronize_btn" name="macronize" type="button" disabled>Macronize</button>
+                <button autocomplete="off" class="btn btn-secondary btn-block"
+                        id="demacronize" name="demacronize" type="button"
+                        title="Show the text below with all macrons stripped out">De-macronize</button>
             </div>
         </div>
     </form>
-    <hr>
-    <table>
-        <tbody id="output">
-        <tr>
-            <td>
-                <div class="cell">
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 
-    <button
-            autocomplete="off"
-            class="btn btn-primary btn-block"
-            id="export_pdf"
-            name="submit"
-            type="button"
-            value=""
-    >Export as PDF
+    <div id="loading" class="loading" style="display:none">
+        <div id="loadingText">Processing…</div>
+        <div id="procProgress"><div id="procProgressBar"></div></div>
+    </div>
 
-        <i style="color:#e90101; font-size:30px;" class="icon icon-pdf">
-        </i>
-    </button>
-    <button
-            autocomplete="off"
-            class="btn btn-primary btn-block"
-            id="export_csv"
-            name="submit"
-            type="button"
-            value=""
-    >Export as CSV
+    <div id="result" style="display: none;">
+        <h2 class="result-heading">Macronized</h2>
+        <div class="legend" id="legend"></div>
+        <table id="result_table">
+            <caption class="sr-only">Macronized text. Highlighted words have more than one possible
+                reading; activate a word to see its analysis and cycle through the alternatives.</caption>
+            <tbody id="resultText"></tbody>
+        </table>
+        <div class="stats" id="stats" aria-live="polite"></div>
+    </div>
 
-        <i style="color:#03731e; font-size:30px;" class="icon icon-csv">
-        </i>
-    </button>
+    <div id="error" style="display: none;"></div>
+
+    <div class="btn-group btn-block" id="export_buttons" role="group" style="margin-top:15px; display:none;">
+        <button autocomplete="off" class="btn btn-primary btn-block" id="copy_btn" type="button" disabled>
+            Copy text
+        </button>
+        <button autocomplete="off" class="btn btn-secondary btn-block" id="export_pdf" type="button" disabled>
+            Export as PDF <i style="color:#e90101; font-size:30px;" class="icon icon-pdf"></i>
+        </button>
+        <button autocomplete="off" class="btn btn-secondary btn-block" id="export_csv" type="button" disabled>
+            Export as CSV <i style="color:#03731e; font-size:30px;" class="icon icon-csv"></i>
+        </button>
+    </div>
+
+    <div class="wordlist-section">
+        <div id="wlPrompt" style="display: none;">
+            Load the wordlist to start (3.8&nbsp;MB download, ~812k entries)
+        </div>
+        <div id="wlButtons">
+            <button id="loadIndexedDB" class="btn" disabled>Load into IndexedDB</button>
+            <button id="loadMemory" class="btn" disabled>Load into memory</button>
+            <button id="clearCache" class="btn btn-danger" disabled
+                    title="Deletes the downloaded language data from your browser">Clear cache</button>
+        </div>
+        <div id="wlProgress" style="display:none;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:3px;">
+                <span id="wlStatus">Downloading...</span>
+                <span id="wlPercent">0%</span>
+            </div>
+            <div style="background:#ddd; border-radius:4px; height:8px; overflow:hidden;">
+                <div id="wlProgressBar" style="width:0%; height:100%; transition:width 0.3s;"></div>
+            </div>
+        </div>
+        <p id="wlInfo">
+            <span id="wlModeDisplay">Wordlist: <strong>IndexedDB</strong></span>
+            <span id="wlEntryCount"> | <em>not loaded</em></span>
+        </p>
+    </div>
 </div>
 <hr>
 <div id="footer">
-    <a href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" style="color: black;"><i
-            class="icon icon-git" style="font-size:36px"></i></a>
-
+    <a href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" style="color: black;">
+        <i class="icon icon-git" style="font-size:36px"></i>
+    </a>
+    <p class="credits">
+        Macronizer engine:
+        <a href="https://github.com/hellpanderrr/latin-macronizer-wasm" target="_blank" rel="noopener noreferrer">latin-macronizer-wasm</a>
+        — a WebAssembly port of the
+        <a href="https://github.com/johanwinge/latin-macronizer" target="_blank" rel="noopener noreferrer">Latin macronizer</a>
+        by Johan Winge.
+    </p>
 </div>
 
 <img style="display: none;"
-     src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fhellpanderrr.github.io%2F&label=&icon=github&color=%23198754&message=&style=flat&tz=UTC">
+     src="https://hitscounter.dev/api/hit?url=https%3A%2F%2Fhellpanderrr.github.io%2Fwiktionary_pron%2Fmacronizer.html&label=&icon=github&color=%23198754&message=&style=flat&tz=UTC">
+
+<script>
+    // File cache: blob URLs for cached WASM/data/model files
+    window.__fileCacheUrls = {};
+
+    // locateFile: serves /wiktionary_pron/macronizer/wasm/ paths
+    window.Module = window.Module || {};
+    window.Module.locateFile = function(path) {
+        if (window.__fileCacheUrls[path]) return window.__fileCacheUrls[path];
+        if (path.endsWith('.wasm') || path.endsWith('.data') || path.endsWith('.model'))
+            return '/wiktionary_pron/macronizer/wasm/' + path;
+        return path;
+    };
+    window.Morpheus = window.Morpheus || {};
+    window.Morpheus.locateFile = window.Module.locateFile;
+
+    var HEAVY_FILES = ['rftagger.wasm', 'rftagger-ldt.model', 'cruncher.wasm', 'cruncher.data'];
+    // v3: assets are now fetched gzipped (~10MB instead of 66MB) and gunzipped in the
+    // browser. The DECOMPRESSED blob is what gets cached, so return visits are unchanged.
+    var WASM_CACHE = 'wasm-files-v3';
+
+    // A server may serve .gz with Content-Encoding: gzip, in which case the browser has
+    // already decompressed it — gunzipping again would fail. Check the gzip magic number.
+    function looksGzipped(buf) {
+        var b = new Uint8Array(buf, 0, Math.min(2, buf.byteLength));
+        return b.length > 1 && b[0] === 0x1f && b[1] === 0x8b;
+    }
+
+    async function fetchAsset(path) {
+        var canGunzip = typeof DecompressionStream === 'function';
+        if (canGunzip) {
+            try {
+                var gz = await fetch(path + '.gz');
+                if (gz.ok) {
+                    var raw = await gz.arrayBuffer();
+                    if (!looksGzipped(raw)) return new Blob([raw]);
+                    var stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream('gzip'));
+                    return await new Response(stream).blob();
+                }
+            } catch (e) { /* fall through to the uncompressed file */ }
+        }
+        var plain = await fetch(path);
+        if (!plain.ok) throw new Error('Failed to fetch ' + path + ': ' + plain.status);
+        return await plain.blob();
+    }
+
+    // First visit = assets not yet stored. Say so up front: it's a ~50MB one-time download.
+    window.__ASSETS_READY_KEY = 'macronizer_assets_ready';
+    window.__firstRun = !localStorage.getItem(window.__ASSETS_READY_KEY);
+    window.__setupStatus = function (msg) {
+        var el = document.getElementById('firstRunStatus');
+        if (el && window.__firstRun) el.textContent = msg;
+    };
+    if (window.__firstRun) {
+        document.getElementById('firstRun').style.display = 'block';
+    }
+
+    var FILE_LABELS = {
+        'rftagger.wasm': 'POS tagger',
+        'rftagger-ldt.model': 'tagger model (2 MB)',
+        'cruncher.wasm': 'morphology engine',
+        'cruncher.data': 'morphology database (5 MB)'
+    };
+
+    window.__wasmReady = new Promise(function (resolve) {
+        (async function () {
+            var cache;
+            try {
+                var cacheKeys = await caches.keys();
+                for (var ck of cacheKeys) {
+                    if (ck.indexOf('wasm-files-') === 0 && ck !== WASM_CACHE)
+                        await caches.delete(ck);
+                }
+                cache = await caches.open(WASM_CACHE);
+            } catch (e) { cache = null; }
+
+            for (var i = 0; i < HEAVY_FILES.length; i++) {
+                var f = HEAVY_FILES[i];
+                var path = '/wiktionary_pron/macronizer/wasm/' + f;
+                if (cache) {
+                    var cached = await cache.match(path);
+                    if (cached) {
+                        window.__fileCacheUrls[f] = URL.createObjectURL(await cached.blob());
+                        continue;
+                    }
+                }
+                try {
+                    window.__setupStatus('Downloading ' + (FILE_LABELS[f] || f) +
+                        ' — ' + (i + 1) + ' of ' + HEAVY_FILES.length + '…');
+                    var blob = await fetchAsset(path);   // fetches path + '.gz' and gunzips
+                    window.__fileCacheUrls[f] = URL.createObjectURL(blob);
+                    if (cache) cache.put(path, new Response(blob));
+                } catch (e) { console.warn('Failed to cache ' + path, e); }
+            }
+
+            await Promise.all([
+                new Promise(function (r) { var s = document.createElement('script'); s.src = '/wiktionary_pron/macronizer/wasm/rftagger.js'; s.onload = r; document.head.appendChild(s); }),
+                new Promise(function (r) { var s = document.createElement('script'); s.src = '/wiktionary_pron/macronizer/wasm/cruncher.js'; s.onload = r; document.head.appendChild(s); })
+            ]);
+            resolve();
+        })();
+    });
+</script>
+
+<script type="module">
+    import { MacronizerAPI } from './macronizer/dist/api/MacronizerAPI.js';
+    import { decodeLdtTagToFeatures, underscoreToUnicode } from './macronizer/dist/utils/latin.js';
+
+    // Orthography options of the last run — wordlist forms use classical j/v and
+    // must be converted back to i/u unless the user enabled those conversions
+    let lastOrtho = { utov: false, itoj: false };
+    function applyOrtho(c) {
+        if (!lastOrtho.itoj) c = c.replace(/j/g, 'i').replace(/J/g, 'I');
+        if (!lastOrtho.utov) c = c.replace(/v/g, 'u').replace(/V/g, 'U');
+        return c;
+    }
+
+    // wordlist form → text form used for cycling: a_ → ā, breve/ambiguity markers stripped
+    function candidateToDisplay(c) {
+        return applyOrtho(underscoreToUnicode(c).replace(/[\^+_]/g, ''));
+    }
+
+    // wordlist form → popup form: also render breves (a^ → ă) so candidates that
+    // differ only in vowel shortness stay distinguishable (me^mo^rem vs me^morem)
+    const BREVE_MAP = { a:'ă', e:'ĕ', i:'ĭ', o:'ŏ', u:'ŭ', A:'Ă', E:'Ĕ', I:'Ĭ', O:'Ŏ', U:'Ŭ' };
+    function candidateToPopup(c) {
+        return applyOrtho(underscoreToUnicode(c)
+            .replace(/([a-zA-ZāēīōūȳĀĒĪŌŪȲ])\^/g, (m, v) => BREVE_MAP[v] || (v + '̆'))
+            .replace(/[+_]/g, ''));
+    }
+
+    await window.__wasmReady;
+
+    const api = new MacronizerAPI();
+    let initialized = false;
+
+    function finishFirstRun() {
+        if (!window.__firstRun) return;
+        localStorage.setItem(window.__ASSETS_READY_KEY, '1');
+        const box = document.getElementById('firstRun');
+        box.classList.add('done');
+        document.getElementById('firstRunTitle').textContent = 'Ready — stored in your browser';
+        document.getElementById('firstRunStatus').textContent =
+            'Nothing to download next time: later visits start in a few seconds, offline.';
+        setTimeout(() => { box.style.display = 'none'; }, 6000);
+    }
+
+    async function init() {
+        showWlProgress('Initializing...', 0);
+        window.__setupStatus('Preparing the wordlist…');
+        try {
+            await api.initialize((percent, message) => {
+                showWlProgress(message, percent);
+                window.__setupStatus(message + ' (' + Math.round(percent) + '%)');
+            });
+            initialized = true;
+            finishFirstRun();
+            // If wordlist loaded during init, hide the load machinery entirely
+            if (api.isWordlistLoaded()) {
+                document.getElementById('wlPrompt').style.display = 'none';
+                document.getElementById('loadIndexedDB').style.display = 'none';
+                document.getElementById('loadMemory').style.display = 'none';
+                document.getElementById('macronize_btn').disabled = false;
+                document.getElementById('clearCache').disabled = false;
+            } else {
+                document.getElementById('wlPrompt').style.display = 'block';
+                document.getElementById('macronize_btn').disabled = true;
+                document.getElementById('loadIndexedDB').disabled = false;
+                document.getElementById('loadMemory').disabled = false;
+            }
+            updateWlInfo();
+            hideWlProgress();
+        } catch (err) {
+            showError('Failed to initialize: ' + err.message);
+            window.__setupStatus('Setup failed — reload the page to try again.');
+            hideWlProgress();
+        }
+    }
+
+    let currentResult = null;
+
+    async function macronizeText() {
+        if (!initialized) { showError('Please wait for initialization...'); return; }
+        if (!api.isWordlistLoaded()) { showError('Load the wordlist first — click one of the buttons above.'); return; }
+
+        // Strip macrons/breves from input — the pipeline expects unmarked text
+        // (macronized words would otherwise be torn apart and sent to Morpheus as unknowns)
+        const text = document.getElementById('text_to_macronize').value
+            .normalize('NFD').replace(/[̄̆]/g, '').normalize('NFC');
+        if (!text.trim()) { showError('Please enter some text'); return; }
+
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('result').style.display = 'none';
+        document.getElementById('error').style.display = 'none';
+
+        lastOrtho = {
+            utov: document.getElementById('utov').checked,
+            itoj: document.getElementById('itoj').checked
+        };
+        const options = {
+            macronize: document.getElementById('macronize').checked,
+            alsomaius: document.getElementById('alsomaius').checked,
+            scan: document.getElementById('scan').value,
+            performutov: document.getElementById('utov').checked,
+            performitoj: document.getElementById('itoj').checked
+        };
+
+        const btn = document.getElementById('macronize_btn');
+        btn.disabled = true;
+        try {
+            const chunks = chunkText(text);
+            const result = await processChunks(chunks, options);
+            currentResult = result;
+            displayResult(result);
+            document.getElementById('export_pdf').disabled = false;
+            document.getElementById('export_csv').disabled = false;
+        } catch (err) {
+            showError(err.message);
+        } finally {
+            btn.disabled = false;
+            document.getElementById('loading').style.display = 'none';
+            setProcProgress(0);
+        }
+    }
+
+    /**
+     * Split input into line-aligned chunks (~1500 chars) so the pipeline runs in
+     * bites the main thread can recover between — otherwise a long text freezes
+     * the UI for the whole run with no progress feedback.
+     */
+    function chunkText(text, maxChars = 1500) {
+        const lines = text.split('\n');
+        const chunks = [];
+        let cur = [];
+        let len = 0;
+        for (const line of lines) {
+            if (cur.length && len + line.length > maxChars) {
+                chunks.push(cur.join('\n'));
+                cur = [];
+                len = 0;
+            }
+            cur.push(line);
+            len += line.length + 1;
+        }
+        if (cur.length) chunks.push(cur.join('\n'));
+        return chunks;
+    }
+
+    function setProcProgress(pct) {
+        document.getElementById('procProgressBar').style.width = Math.min(Math.max(pct, 0), 100) + '%';
+    }
+
+    // Let the browser paint (and process clicks) between chunks
+    const yieldToBrowser = () => new Promise(r => requestAnimationFrame(() => setTimeout(r, 0)));
+
+    async function processChunks(chunks, options) {
+        const merged = {
+            original: '', macronized: '', tokens: [], scannedFeet: [],
+            statistics: { totalWords: 0, knownWords: 0, unknownWords: 0, ambiguousForms: 0 },
+            confidence: 0, processingTime: 0
+        };
+        let confidenceWeight = 0;
+
+        for (let i = 0; i < chunks.length; i++) {
+            document.getElementById('loadingText').textContent =
+                chunks.length > 1 ? `Processing… chunk ${i + 1} of ${chunks.length}` : 'Processing…';
+            setProcProgress(i / chunks.length * 100);
+            await yieldToBrowser();
+
+            const r = await api.process(chunks[i], options);
+
+            if (i > 0) {
+                merged.original += '\n';
+                merged.macronized += '\n';
+                merged.tokens.push({ text: '\n', tag: '', lemma: '' });
+            }
+            merged.original += r.original;
+            merged.macronized += r.macronized;
+            merged.tokens.push(...(r.tokens || []));
+            merged.scannedFeet.push(...(r.scannedFeet || []));
+            const s = r.statistics || {};
+            merged.statistics.totalWords += s.totalWords || 0;
+            merged.statistics.knownWords += s.knownWords || 0;
+            merged.statistics.unknownWords += s.unknownWords || 0;
+            merged.statistics.ambiguousForms += s.ambiguousForms || 0;
+            merged.confidence += (r.confidence || 0) * (s.totalWords || 0);
+            confidenceWeight += s.totalWords || 0;
+            merged.processingTime += r.processingTime || 0;
+        }
+
+        merged.confidence = confidenceWeight ? merged.confidence / confidenceWeight : 0;
+        setProcProgress(100);
+        return merged;
+    }
+
+    /**
+     * The wordlist holds both "Gallia" and "gallia"; offering the lowercase form as a
+     * "reading" of a capitalised word is just wrong (and duplicates the entry once the
+     * quantity marks match). Force every candidate to the case of the word in the text.
+     */
+    function matchCase(original, candidate) {
+        if (!original || !candidate) return candidate;
+        const first = original[0];
+        const isUpper = first === first.toUpperCase() && first !== first.toLowerCase();
+        return isUpper
+            ? candidate[0].toUpperCase() + candidate.slice(1)
+            : candidate[0].toLowerCase() + candidate.slice(1);
+    }
+
+    /** Compact grammar for one reading: "noun · sg · fem · abl" */
+    const SHORT = {
+        singular: 'sg', plural: 'pl', masculine: 'masc', feminine: 'fem', neuter: 'neut',
+        nominative: 'nom', genitive: 'gen', dative: 'dat', accusative: 'acc',
+        ablative: 'abl', vocative: 'voc', locative: 'loc',
+        present: 'pres', imperfect: 'impf', perfect: 'perf', pluperfect: 'plup',
+        future: 'fut', 'future perfect': 'futperf',
+        indicative: 'ind', subjunctive: 'subj', infinitive: 'inf', imperative: 'imp',
+        participle: 'part', gerund: 'ger', gerundive: 'gerv', supine: 'sup',
+        active: 'act', passive: 'pass', comparative: 'comp', superlative: 'superl',
+        '1st person': '1st', '2nd person': '2nd', '3rd person': '3rd'
+    };
+    function grammarSummary(tag) {
+        const feats = decodeLdtTagToFeatures(tag);
+        if (!feats.length) return '—';
+        return feats.map(f => SHORT[f.value] || f.value).join(' · ');
+    }
+
+    // Build rich popup HTML for a token (table layout)
+    function buildPopupHtml(token, displayText, encliticText) {
+        // popup shows breved forms so quantity-only differences stay visible
+        const candidates = [...new Set((token.accented || []).map(candidateToPopup))];
+
+        const flags = [];
+        if (token.isAmbiguous) flags.push('Ambiguous');
+        if (token.isUnknown) flags.push('Unknown');
+        if (token.startssentence) flags.push('Starts sentence');
+        if (encliticText) flags.push('Enclitic -' + encliticText);
+
+        let candidatesHtml = '';
+        if (candidates.length > 0) {
+            // Pair each chip (breve-marked, so quantity-only variants stay distinct) with the
+            // plain form actually rendered in the text, so we can mark the one on screen now.
+            const sources = token.accentedSources || [];
+            const seen = new Set();
+            const pairs = [];
+            (token.accented || []).forEach((c, i) => {
+                const shown = matchCase(token.text, candidateToPopup(c)) + (encliticText || '');
+                if (seen.has(shown)) return;
+                seen.add(shown);
+                // each reading carries the lemma + tag of the wordlist row it came from,
+                // which is NOT the token's single best-frequency lemma
+                const src = sources[i] && sources[i].accented === c ? sources[i]
+                          : sources.find(s => s.accented === c);
+                pairs.push({
+                    shown,
+                    plain: matchCase(token.text, candidateToDisplay(c)) + (encliticText || ''),
+                    lemma: src && src.lemma ? src.lemma : null,
+                    tag: src && src.tag ? src.tag : null
+                });
+            });
+            const spellings = new Set(pairs.map(p => p.plain));
+            const canCycle = spellings.size > 1;
+            const title = pairs.length > spellings.size
+                ? `Possible readings (${pairs.length}) — ${spellings.size} distinct spellings`
+                : 'Possible readings';
+            candidatesHtml = `<div class="popup-section"><div class="popup-section-title">${title}</div>` +
+                '<table class="readings">';
+            pairs.forEach((p, idx) => {
+                const active = p.plain === displayText ? ' class="active"' : '';
+                candidatesHtml += `<tr${active}>` +
+                    `<td class="r-form">${idx+1}. ${esc(p.shown)}</td>` +
+                    `<td class="r-lemma">${p.lemma ? esc(p.lemma) : '—'}</td>` +
+                    `<td class="r-gram">${p.tag ? esc(grammarSummary(p.tag)) : '—'}</td>` +
+                    '</tr>';
+            });
+            candidatesHtml += '</table>';
+            // Breves are an analysis detail: only long vowels get written, so several readings
+            // can collapse to one spelling. Without saying so, "4 readings but 2 when I cycle"
+            // just looks broken.
+            if (pairs.length > spellings.size) candidatesHtml +=
+                '<div class="popup-note">The breve (˘) marks a short vowel. It is never written in ' +
+                'the output, so readings that differ only in a short vowel share one spelling — ' +
+                'cycling moves between the ' + spellings.size + ' spellings, and every reading with ' +
+                'the current spelling is highlighted.</div>';
+            // An explicit button: on a phone the docked popup covers the word itself, so
+            // "click the word to cycle" is not an instruction the reader can follow.
+            if (canCycle) candidatesHtml +=
+                '<button type="button" class="popup-cycle">Next spelling →</button>';
+            candidatesHtml += '</div>';
+        }
+
+        let morpheusHtml = '';
+        const analyses = token.morpheusResults && token.morpheusResults.analyses || [];
+        if (analyses.length > 0) {
+            morpheusHtml = '<div class="popup-section"><div class="popup-section-title">Morpheus analyses</div><table>';
+            analyses.slice(0, 8).forEach((a, idx) => {
+                const fi = a.formInfo || {};
+                const feats = [fi.partOfSpeech, fi.case, fi.number, fi.gender, fi.tense, fi.mood, fi.voice]
+                    .filter(Boolean).join(', ');
+                morpheusHtml += `<tr><td>${idx+1}. ${esc(a.lemma || '—')}</td><td>${esc(a.accented || '—')}${feats ? '<br><span class="tag-desc">' + esc(feats) + '</span>' : ''}</td></tr>`;
+            });
+            if (analyses.length > 8) morpheusHtml += `<tr><td></td><td>… and ${analyses.length - 8} more</td></tr>`;
+            morpheusHtml += '</table></div>';
+        }
+
+        const tagFeats = token.tag ? decodeLdtTagToFeatures(token.tag) : [];
+        const tagHtml = token.tag
+            ? '<div class="popup-section"><div class="popup-section-title">RFTagger</div><table>' +
+              `<tr><td>Tag:</td><td><code>${esc(token.tag)}</code></td></tr>` +
+              tagFeats.map(f => `<tr><td>${esc(f.feature)}:</td><td>${esc(f.value)}</td></tr>`).join('') +
+              '</table></div>'
+            : '';
+
+        return '<button type="button" class="popup-close" aria-label="Close">&times;</button>' +
+            `<h4>${esc(token.text)}${encliticText ? esc(encliticText) : ''} → ${esc(displayText)}</h4>` +
+            tagHtml +
+            '<div class="popup-section"><div class="popup-section-title">Details</div><table>' +
+            // The token-level lemma is a frequency guess used to RANK the readings — it is not
+            // the lemma of any particular reading (those are in the readings table below).
+            `<tr><td title="The most frequent lemma for this spelling. Used to rank the readings below.">` +
+            `Assumed lemma:</td><td>${esc(token.lemma && token.lemma !== '-' ? token.lemma : '—')}</td></tr>` +
+            `<tr><td>Wordlist:</td><td>${token.isUnknown ? 'Not found' : 'Found'}</td></tr>` +
+            // Morpheus IS run on every unknown word (Macronizer.ensureAnalyzed); when it finds
+            // nothing the flag simply never gets set. "Not analyzed" read as "we didn't try".
+            (token.isUnknown
+                ? `<tr><td>Morpheus:</td><td>${token.morpheusAnalyzed
+                      ? 'Analyzed'
+                      : 'No analysis found'}</td></tr>` +
+                  (token.morpheusAnalyzed
+                      ? ''
+                      : '<tr><td>Vowel lengths:</td><td>Guessed from the word ending</td></tr>')
+                : '') +
+            (flags.length ? `<tr><td>Flags:</td><td>${flags.join(', ')}</td></tr>` : '') +
+            '</table></div>' + candidatesHtml + morpheusHtml;
+    }
+
+    // Singleton hover popup — stays open while the mouse is over it (selectable)
+    const popupEl = document.createElement('div');
+    popupEl.className = 'word-popup';
+    popupEl.style.display = 'none';
+    document.body.appendChild(popupEl);
+    let hideTimer = null;
+    let popupSpan = null;      // which word the popup currently describes
+    let popupPinned = false;   // opened deliberately (tap/click/keyboard) — hover can't dismiss it
+    popupEl.addEventListener('mouseenter', () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } });
+    popupEl.addEventListener('mouseleave', () => scheduleHidePopup());
+    popupEl.addEventListener('click', (e) => {
+        // Cycling re-renders the popup, detaching the very node that was clicked — the
+        // outside-click listener below would then no longer recognise it as "inside" and
+        // would dismiss the popup. Keep the event from reaching it.
+        e.stopPropagation();
+        if (e.target.closest('.popup-close')) {
+            const span = popupSpan;
+            hidePopup();
+            if (span) span.focus();
+        } else if (e.target.closest('.popup-cycle')) {
+            if (popupSpan && popupSpan.__cycle) popupSpan.__cycle();
+        }
+    });
+
+    // Touch devices have no hover: tap opens the popup, a second tap cycles the word.
+    const isTouch = () => window.matchMedia('(pointer: coarse)').matches;
+    const useSheet = () => isTouch() || window.innerWidth < 560;
+    const popupIsOpenFor = (span) => popupEl.style.display === 'block' && popupSpan === span;
+
+    function showPopupFor(span, pin = false) {
+        if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+        popupSpan = span;
+        if (pin) popupPinned = true;
+        popupEl.innerHTML = span.__popupHtml;
+        popupEl.style.display = 'block';
+
+        if (useSheet()) {
+            popupEl.classList.add('sheet');
+            // drop any inline clamp left over from a floating popup — the sheet's CSS owns these
+            popupEl.style.maxHeight = '';
+            popupEl.style.overflowY = '';
+            popupEl.style.top = '';
+            popupEl.style.left = '';
+            return;
+        }
+        popupEl.classList.remove('sheet');
+
+        positionPopup(span);
+    }
+
+    // Viewport coordinates — the popup is position:fixed, so no scroll offsets here.
+    function positionPopup(span) {
+        const MARGIN = 8;   // breathing room against the viewport edges
+        const GAP = 4;      // between the word and the popup
+
+        // Measure the popup at its natural height, not the previous call's clamp.
+        popupEl.style.maxHeight = 'none';
+        const rect = span.getBoundingClientRect();
+        const pw = popupEl.offsetWidth;
+        const ph = popupEl.offsetHeight;
+
+        let left = rect.left;
+        const maxLeft = document.documentElement.clientWidth - pw - MARGIN;
+        if (left > maxLeft) left = Math.max(MARGIN, maxLeft);
+
+        const spaceBelow = window.innerHeight - rect.bottom - GAP - MARGIN;
+        const spaceAbove = rect.top - GAP - MARGIN;
+
+        // Put it wherever it fits; if it fits nowhere, take the roomier side and let the
+        // popup scroll inside itself. Because it is position:fixed, the PAGE cannot scroll
+        // to reveal an overflowing popup — so it must never exceed the viewport.
+        let top, maxHeight;
+        if (ph <= spaceBelow) {
+            top = rect.bottom + GAP;
+            maxHeight = spaceBelow;
+        } else if (ph <= spaceAbove) {
+            top = rect.top - ph - GAP;
+            maxHeight = spaceAbove;
+        } else if (spaceBelow >= spaceAbove) {
+            top = rect.bottom + GAP;
+            maxHeight = spaceBelow;
+        } else {
+            maxHeight = spaceAbove;
+            top = rect.top - maxHeight - GAP;
+        }
+
+        maxHeight = Math.max(120, maxHeight);           // never squash it to nothing
+        top = Math.min(Math.max(top, MARGIN), window.innerHeight - MARGIN - Math.min(ph, maxHeight));
+
+        popupEl.style.left = left + 'px';
+        popupEl.style.top = top + 'px';
+        popupEl.style.maxHeight = maxHeight + 'px';
+        popupEl.style.overflowY = ph > maxHeight ? 'auto' : 'visible';
+    }
+
+    // Keep a pinned popup glued to its word while the page scrolls
+    window.addEventListener('scroll', () => {
+        if (popupEl.style.display !== 'block' || !popupSpan) return;
+        if (popupEl.classList.contains('sheet')) return;   // docked: nothing to follow
+        positionPopup(popupSpan);
+    }, { passive: true });
+
+    function hidePopup() {
+        if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+        popupEl.style.display = 'none';
+        popupEl.classList.remove('sheet');
+        popupSpan = null;
+        popupPinned = false;
+    }
+
+    // Hover-out only closes a popup that hover opened; a pinned one waits to be dismissed.
+    function scheduleHidePopup() {
+        if (popupPinned) return;
+        if (hideTimer) clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => { hidePopup(); }, 250);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popupEl.style.display === 'block') {
+            const span = popupSpan;
+            hidePopup();
+            if (span) span.focus();
+        }
+    });
+    // A docked sheet should close when you tap elsewhere
+    document.addEventListener('click', (e) => {
+        if (popupEl.style.display !== 'block') return;
+        if (popupEl.contains(e.target) || (e.target.closest && e.target.closest('.macron-line .ipa'))) return;
+        hidePopup();
+    });
+
+    function displayResult(result) {
+        const taggedTokens = result.tokens || [];
+        let currentLineTokens = [];
+        const linesOfTokens = [currentLineTokens];
+
+        for (let i = 0; i < taggedTokens.length; i++) {
+            const token = taggedTokens[i];
+            if (token.text && token.text.includes('\n')) {
+                const parts = token.text.split('\n');
+                for (let p = 0; p < parts.length - 1; p++) {
+                    if (parts[p]) currentLineTokens.push({ ...token, text: parts[p] });
+                    currentLineTokens = [];
+                    linesOfTokens.push(currentLineTokens);
+                }
+                if (parts[parts.length - 1])
+                    currentLineTokens.push({ ...token, text: parts[parts.length - 1] });
+            } else {
+                currentLineTokens.push(token);
+            }
+        }
+
+        const scannedFeet = result.scannedFeet || [];
+        const tbody = document.getElementById('resultText');
+        tbody.innerHTML = '';
+
+        for (let lineIdx = 0; lineIdx < linesOfTokens.length; lineIdx++) {
+            const lineTokens = linesOfTokens[lineIdx];
+            const tr = document.createElement('tr');
+            tr.className = 'line';
+            const td = document.createElement('td');
+            td.className = 'macron-line';
+
+            const tokenDisplay = t => ((t.macronizedText || t.text).replace(/[\^+_]/g, '')) || t.text;
+
+            for (let ti = 0; ti < lineTokens.length; ti++) {
+                const token = lineTokens[ti];
+                const isWord = token.text && /^[a-zA-ZÀ-ɏ]/.test(token.text);
+                if (!isWord) {
+                    td.appendChild(document.createTextNode(token.text || ''));
+                    continue;
+                }
+
+                // Merge enclitic (-que/-ve/-ne) with its bearer into one word span
+                let encliticText = null;
+                if (token.hasenclitic && lineTokens[ti + 1] && lineTokens[ti + 1].isenclitic) {
+                    encliticText = tokenDisplay(lineTokens[ti + 1]);
+                    ti++; // consume the enclitic token
+                }
+
+                const stemDisplay = tokenDisplay(token);
+                const displayText = encliticText ? stemDisplay + encliticText : stemDisplay;
+                const span = document.createElement('span');
+                span.className = 'ipa';
+                span.setAttribute('content', displayText);
+
+                const candidates = [...new Set(
+                    (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c)))
+                )].map(c => encliticText ? c + encliticText : c);
+                span.__popupHtml = buildPopupHtml(token, displayText, encliticText);
+
+                // Every word is inspectable, so every word is reachable by keyboard.
+                span.tabIndex = 0;
+                span.setAttribute('role', 'button');
+                const describe = () => {
+                    const n = candidates.length;
+                    span.setAttribute('aria-label',
+                        span.getAttribute('content') +
+                        (n > 1 ? ` — ${n} possible readings, activate to cycle` : '') +
+                        (token.isUnknown ? ' — not in wordlist' : ''));
+                };
+                describe();
+
+                const cycle = () => {
+                    if (candidates.length < 2) return;
+                    const cur = span.getAttribute('content');
+                    const next = candidates[(candidates.indexOf(cur) + 1) % candidates.length];
+                    span.setAttribute('content', next);
+                    span.__popupHtml = buildPopupHtml(token, next, encliticText);
+                    describe();
+                    if (popupIsOpenFor(span)) showPopupFor(span, true);
+                };
+                span.__cycle = cycle;   // the popup's "Next reading" button drives this
+
+                if (candidates.length > 1) span.classList.add('multiple-values');
+
+                span.addEventListener('click', () => {
+                    // First interaction reveals the analysis; once it's open, clicking cycles.
+                    // On a mouse the popup is already open from hover, so a click cycles straight
+                    // away; on touch (no hover) the first tap is what opens it.
+                    if (!popupIsOpenFor(span)) { showPopupFor(span, true); return; }
+                    popupPinned = true;
+                    cycle();
+                });
+                span.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycle(); }
+                });
+                // Only *keyboard* focus opens the popup — a tap also fires focus, and that would
+                // make the first tap count as "already open" and cycle the word immediately.
+                span.addEventListener('focus', () => {
+                    if (span.matches(':focus-visible')) showPopupFor(span, true);
+                });
+                span.addEventListener('blur', () => { popupPinned = false; scheduleHidePopup(); });
+                span.addEventListener('mouseenter', () => { if (!isTouch()) showPopupFor(span); });
+                span.addEventListener('mouseleave', () => scheduleHidePopup());
+
+                // Yellow means exactly "you can cycle this" — otherwise the legend lies.
+                if (candidates.length > 1) span.classList.add('ambig');
+                if (token.isUnknown) span.classList.add('unknown');
+                td.appendChild(span);
+            }
+
+            const foot = scannedFeet[lineIdx];
+            if (foot) {
+                const footSpan = document.createElement('span');
+                footSpan.className = 'verse-foot';
+                footSpan.textContent = foot;
+                td.appendChild(footSpan);
+            }
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+        }
+
+        // Count what is actually on screen, so the numbers can never contradict the highlights.
+        // (result.statistics counts "known" as lemma-or-ending-pattern match, a different notion
+        // from "in the wordlist" — it reported unknowns that were nowhere marked in the text.)
+        const wordSpans = tbody.querySelectorAll('.ipa');
+        const nWords = wordSpans.length;
+        const nAmbig = tbody.querySelectorAll('.ipa.multiple-values').length;
+        const nUnknown = tbody.querySelectorAll('.ipa.unknown').length;
+
+        const legend = document.getElementById('legend');
+        legend.innerHTML =
+            (nAmbig ? '<span><i class="sw-ambig">ā</i>more than one reading — click or press Enter to cycle</span>' : '') +
+            (nUnknown ? '<span><i class="sw-unknown">ā</i>not in the wordlist — vowel lengths guessed from the ending</span>' : '');
+        legend.style.display = (nAmbig || nUnknown) ? 'flex' : 'none';
+
+        const parts = [`${nWords} ${nWords === 1 ? 'word' : 'words'}`];
+        if (nAmbig) parts.push(`${nAmbig} with alternative readings`);
+        if (nUnknown) parts.push(`${nUnknown} not in the wordlist`);
+        const stats = document.getElementById('stats');
+        stats.textContent = parts.join(' · ');
+        stats.title = `Processed in ${result.processingTime.toFixed(0)} ms`;
+
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('export_buttons').style.display = '';
+        document.getElementById('copy_btn').disabled = false;
+    }
+
+    function esc(text) {
+        var d = document.createElement('div');
+        d.textContent = text;
+        return d.innerHTML;
+    }
+
+    // Reconstruct plain macronized text from the rendered cells (reflects cycled choices)
+    function resultToPlainText() {
+        const lines = [];
+        for (const tr of document.querySelectorAll('#resultText tr.line')) {
+            let line = '';
+            const td = tr.querySelector('td');
+            if (!td) { lines.push(''); continue; }
+            for (const node of td.childNodes) {
+                if (node.nodeType === Node.TEXT_NODE) line += node.textContent;
+                else if (node.classList && node.classList.contains('ipa')) line += node.getAttribute('content');
+            }
+            lines.push(line);
+        }
+        return lines.join('\n');
+    }
+
+    async function copyResult() {
+        const text = resultToPlainText();
+        try {
+            await navigator.clipboard.writeText(text);
+            const btn = document.getElementById('copy_btn');
+            const old = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => { btn.textContent = old; }, 1500);
+        } catch (e) {
+            showError('Copy failed: ' + e.message);
+        }
+    }
+
+    // --- Demacronize ---
+
+    function demacronize(text) {
+        const map = {
+            'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
+            'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
+        };
+        return text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, m => map[m]);
+    }
+
+    function deMacronizeText() {
+        const text = document.getElementById('text_to_macronize').value;
+        const out = demacronize(text);
+        displayPlainOutput(out);
+    }
+
+    function displayPlainOutput(text) {
+        currentResult = null;
+        document.getElementById('export_buttons').style.display = '';
+        document.getElementById('export_pdf').disabled = false;
+        document.getElementById('export_csv').disabled = true;
+        document.getElementById('copy_btn').disabled = false;
+        const tbody = document.getElementById('resultText');
+        tbody.innerHTML = '';
+        for (const line of text.split('\n')) {
+            const tr = document.createElement('tr');
+            tr.className = 'line';
+            const td = document.createElement('td');
+            td.className = 'macron-line';
+            td.textContent = line;
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+        }
+        document.getElementById('stats').innerHTML = '';
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('error').style.display = 'none';
+    }
+
+    // --- Dark mode ---
+
+    function toggleDarkMode() {
+        if (document.body.classList.contains('dark_mode')) {
+            toggleLightMode();
+        } else {
+            document.body.classList.add('dark_mode');
+            document.querySelector('#header > a > i').className = 'icon icon-sun';
+            localStorage.setItem('macronizer-dark-mode', 'true');
+        }
+    }
+
+    function toggleLightMode() {
+        document.querySelector('#header > a > i').className = 'icon icon-moon';
+        document.body.classList.remove('dark_mode');
+        localStorage.setItem('macronizer-dark-mode', 'false');
+    }
+
+    if (localStorage.getItem('macronizer-dark-mode') === 'true') {
+        document.body.classList.add('dark_mode');
+        document.querySelector('#header > a > i').className = 'icon icon-sun';
+    }
+
+    // --- Clear ---
+
+    function clearInput() {
+        document.getElementById('text_to_macronize').value = '';
+        saveForm();
+    }
+
+    // --- Export helpers ---
+
+    function isDarkMode() { return document.body.classList.contains('dark_mode'); }
+
+    async function csvPdfExport(event, exportFunction) {
+        const btn = event.currentTarget;
+        const icon = btn.querySelector('i');
+        btn.disabled = true;
+        const oldClass = icon.className;
+        icon.className = 'icon icon--spinner';
+        try {
+            const lines = resultToPlainText().split('\n').map(l => [{ text: l }]);
+            await exportFunction(lines, isDarkMode());
+        } finally {
+            icon.className = oldClass;
+            btn.disabled = false;
+        }
+    }
+
+    async function toPdf(lines, darkMode) {
+        await loadJs('https://unpkg.com/@pdf-lib/fontkit/dist/fontkit.umd.min.js', async () => {
+            await loadJs('https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js', async () => {
+                const { PDFDocument, rgb, PageSizes } = PDFLib;
+                const pdfDoc = await PDFDocument.create();
+                pdfDoc.registerFontkit(fontkit);
+
+                const garamondUrl = 'https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/EBGaramond-Regular.ttf';
+                const garamondBytes = await fetch(garamondUrl).then(r => r.arrayBuffer());
+                const garamond = await pdfDoc.embedFont(new Uint8Array(garamondBytes));
+
+                const page = pdfDoc.addPage(PageSizes.Letter);
+                const [pw, ph] = [page.getWidth(), page.getHeight()];
+                if (darkMode) {
+                    page.drawRectangle({ color: rgb(0.07, 0.07, 0.07), width: pw + 10, height: ph + 10 });
+                }
+                const color = darkMode ? rgb(1, 1, 1) : rgb(0, 0, 0);
+                let y = ph - 50, x = 50, fontSize = 14;
+
+                for (const row of lines) {
+                    const text = row.map(c => c.macronized || c.text).join(' ');
+                    const words = text.split(' ');
+                    for (const word of words) {
+                        const w = garamond.widthOfTextAtSize(word, fontSize);
+                        if (x + w > pw - 40) { x = 50; y -= fontSize * 1.6; }
+                        if (y < 50) continue;
+                        page.drawText(word, { font: garamond, x, y, size: fontSize, color });
+                        x += w + garamond.widthOfTextAtSize(' ', fontSize);
+                    }
+                    x = 50;
+                    y -= fontSize * 2;
+                }
+
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'macronizer_' + new Date().toJSON().slice(0, 10) + '.pdf';
+                a.click();
+                setTimeout(() => URL.revokeObjectURL(a.href), 0);
+            });
+        });
+    }
+
+    async function toCsv(lines) {
+        const rows = [];
+        if (currentResult) {
+            rows.push('"text","macronized","tag","lemma"');
+            for (const t of currentResult.tokens) {
+                if (!t.text || !/^[a-zA-ZÀ-ɏ]/.test(t.text)) continue;
+                rows.push(`"${t.text}","${t.macronizedText || t.text}","${t.tag || ''}","${t.lemma || ''}"`);
+            }
+        } else {
+            rows.push('"text"');
+            for (const l of resultToPlainText().split('\n')) {
+                rows.push(`"${l}"`);
+            }
+        }
+        const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'macronizer_' + new Date().toJSON().slice(0, 10) + '.csv';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 0);
+    }
+
+    // --- Wordlist UI ---
+
+    function updateWlInfo() {
+        const mode = api.getWordlistMode();
+        document.getElementById('wlModeDisplay').innerHTML = 'Wordlist: <strong>' + (mode === 'indexeddb' ? 'IndexedDB' : 'Memory') + '</strong>';
+        document.getElementById('wlEntryCount').innerHTML = api.isWordlistLoaded() ? ' | <strong>' + api.getWordlistEntryCount().toLocaleString() + '</strong> entries' : ' | <em>not loaded</em>';
+    }
+
+    function showWlProgress(message, percent) {
+        document.getElementById('wlProgress').style.display = 'block';
+        if (percent != null) {
+            document.getElementById('wlProgressBar').style.width = Math.min(Math.max(percent, 0), 100) + '%';
+            document.getElementById('wlPercent').textContent = Math.round(percent) + '%';
+        }
+        if (message) document.getElementById('wlStatus').textContent = message;
+    }
+
+    function hideWlProgress() {
+        document.getElementById('wlProgress').style.display = 'none';
+    }
+
+    function setLoadButtonsEnabled(enabled) {
+        document.getElementById('loadIndexedDB').disabled = !enabled;
+        document.getElementById('loadMemory').disabled = !enabled;
+        document.getElementById('clearCache').disabled = !enabled;
+    }
+
+    async function loadWordlist(mode) {
+        if (!initialized) { showError('Macronizer not initialized yet.'); return; }
+        setLoadButtonsEnabled(false);
+        document.getElementById('macronize_btn').disabled = true;
+        document.getElementById('wlPrompt').style.display = 'none';
+        showWlProgress('Downloading wordlist...', 0);
+        try {
+            await api.loadWordlist(mode, (progress) => {
+                if (progress.phase === 'download') {
+                    const kb = Math.round(progress.current / 1024);
+                    const totalKb = Math.round(progress.total / 1024);
+                    const pct = progress.total > 0 ? Math.round(progress.current / progress.total * 50) : 0;
+                    showWlProgress('Downloading: ' + kb + 'KB / ' + totalKb + 'KB', pct);
+                } else if (progress.phase === 'parse') {
+                    showWlProgress('Parsing: ' + progress.current.toLocaleString() + ' entries', 55);
+                } else if (progress.phase === 'store') {
+                    const pct = 55 + Math.round(progress.current / progress.total * 40);
+                    showWlProgress('Storing: ' + progress.current.toLocaleString() + ' / ' + progress.total.toLocaleString() + ' entries', pct);
+                }
+            });
+            showWlProgress('Done!', 100);
+            finishFirstRun();
+            updateWlInfo();
+            document.getElementById('macronize_btn').disabled = false;
+            document.getElementById('clearCache').disabled = false;
+            document.getElementById('loadIndexedDB').style.display = 'none';
+            document.getElementById('loadMemory').style.display = 'none';
+            setTimeout(hideWlProgress, 2000);
+        } catch (err) {
+            showError('Failed to load wordlist: ' + err.message);
+            setLoadButtonsEnabled(true);
+            document.getElementById('wlPrompt').style.display = 'block';
+            hideWlProgress();
+        }
+    }
+
+    async function handleClearCache() {
+        if (!confirm('Delete the downloaded language data (about 65 MB: wordlist, tagger model, ' +
+                     'morphology database)?\n\nThe next visit will have to download all of it again.')) return;
+        setLoadButtonsEnabled(false);
+        try {
+            await api.clearWordlistCache();
+            try {
+                const keys = await caches.keys();
+                await Promise.all(keys.filter(k => k.startsWith('wasm-files-')).map(k => caches.delete(k)));
+            } catch (e) {}
+            // Assets are gone: the next visit is a first visit again, so show the notice.
+            localStorage.removeItem(window.__ASSETS_READY_KEY);
+            document.getElementById('macronize_btn').disabled = true;
+            document.getElementById('wlPrompt').style.display = 'block';
+            // loadWordlist() hides these on success — bring them back, or there's no way to reload
+            document.getElementById('loadIndexedDB').style.display = '';
+            document.getElementById('loadMemory').style.display = '';
+            document.getElementById('loadIndexedDB').disabled = false;
+            document.getElementById('loadMemory').disabled = false;
+            document.getElementById('clearCache').disabled = true;
+            updateWlInfo();
+        } catch (err) {
+            showError('Failed to clear cache: ' + err.message);
+            setLoadButtonsEnabled(true);
+        }
+    }
+
+    function showError(msg) {
+        document.getElementById('error').textContent = msg;
+        document.getElementById('error').style.display = 'block';
+    }
+
+    // --- Event listeners ---
+
+    document.getElementById('macronize_btn').addEventListener('click', macronizeText);
+    document.getElementById('demacronize').addEventListener('click', deMacronizeText);
+    document.getElementById('dark_mode').addEventListener('click', toggleDarkMode);
+    document.getElementById('clear_button').addEventListener('click', clearInput);
+    document.getElementById('loadIndexedDB').addEventListener('click', () => loadWordlist('indexeddb'));
+    document.getElementById('loadMemory').addEventListener('click', () => loadWordlist('memory'));
+    document.getElementById('clearCache').addEventListener('click', handleClearCache);
+    document.getElementById('export_pdf').addEventListener('click', (e) => csvPdfExport(e, toPdf));
+    document.getElementById('export_csv').addEventListener('click', (e) => csvPdfExport(e, toCsv));
+    document.getElementById('copy_btn').addEventListener('click', copyResult);
+
+    document.getElementById('text_to_macronize').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.ctrlKey) macronizeText();
+    });
+
+    // --- JS loader from wiktionary_pron utils ---
+
+    const loadedScripts = {};
+    async function loadJs(url, code) {
+        if (loadedScripts[url]) { return new Promise(r => { setTimeout(() => { code(); r(); }, 0); }); }
+        loadedScripts[url] = true;
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.onload = () => { code(); resolve(); };
+            script.onerror = reject;
+            script.src = url;
+            document.head.appendChild(script);
+        });
+    }
+
+    // --- Persist form state across reloads ---
+
+    const FORM_KEY = 'macronizer_form';
+    const CHECKBOXES = ['macronize', 'alsomaius', 'utov', 'itoj'];
+
+    function saveForm() {
+        const state = { text: document.getElementById('text_to_macronize').value, scan: document.getElementById('scan').value };
+        CHECKBOXES.forEach(id => { state[id] = document.getElementById(id).checked; });
+        try { localStorage.setItem(FORM_KEY, JSON.stringify(state)); } catch (e) { /* quota / private mode */ }
+    }
+
+    function restoreForm() {
+        let state;
+        try { state = JSON.parse(localStorage.getItem(FORM_KEY) || 'null'); } catch (e) { return; }
+        if (!state) return;
+        if (typeof state.text === 'string') document.getElementById('text_to_macronize').value = state.text;
+        if (state.scan) document.getElementById('scan').value = state.scan;
+        CHECKBOXES.forEach(id => {
+            if (typeof state[id] === 'boolean') document.getElementById(id).checked = state[id];
+        });
+    }
+
+    restoreForm();
+    document.getElementById('text_to_macronize').addEventListener('input', saveForm);
+    document.getElementById('scan').addEventListener('change', saveForm);
+    CHECKBOXES.forEach(id => document.getElementById(id).addEventListener('change', saveForm));
+
+    // --- Start ---
+
+    init();
+</script>
+
+</body>
+</html>
