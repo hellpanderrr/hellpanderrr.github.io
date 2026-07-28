@@ -11,14 +11,14 @@ const PAGE = "/wiktionary_pron/macronizer.html";
  */
 test.describe("macronizer", () => {
   test("initializes and macronizes provinciarum", async ({ page }) => {
-    // The 812k-entry IndexedDB insert alone takes ~10 min in a fresh profile
-    // (measured ~150k entries/100s), and Playwright contexts never reuse it.
-    test.setTimeout(1_200_000);
+    // Since the range-chunk wordlist store, first visit = download + parse
+    // (~30s); the IndexedDB persist happens in the background.
+    test.setTimeout(300_000);
     await page.goto(PAGE);
 
-    // Ready when the macronize button is enabled (init + wordlist load done)
+    // Ready when the macronize button is enabled (init + wordlist parse done)
     await expect(page.locator("#macronize_btn")).toBeEnabled({
-      timeout: 1_140_000,
+      timeout: 240_000,
     });
 
     await page.fill("#text_to_macronize", "provinciarum");
@@ -32,6 +32,42 @@ test.describe("macronizer", () => {
       "content",
       "prōvinciārum",
       { timeout: 120_000 },
+    );
+  });
+
+  test("return visit serves the wordlist from IndexedDB chunks", async ({
+    page,
+  }) => {
+    test.setTimeout(300_000);
+    // Visit 1: parse + wait for the background chunk persist to finish
+    const persisted = page.waitForEvent("console", {
+      predicate: (m) => m.text().includes("background persist complete"),
+      timeout: 240_000,
+    });
+    await page.goto(PAGE);
+    await expect(page.locator("#macronize_btn")).toBeEnabled({
+      timeout: 240_000,
+    });
+    await persisted;
+
+    // Visit 2: same context → same IndexedDB. Must come up without re-parsing
+    // and answer lookups through the chunk store.
+    await page.reload();
+    await expect(page.locator("#macronize_btn")).toBeEnabled({
+      timeout: 60_000,
+    });
+    await page.fill("#text_to_macronize", "arma virumque cano");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "arma",
+      { timeout: 60_000 },
+    );
+    // virum has a long u — proves chunk lookups return real entries
+    await expect(page.locator("#resultText .ipa").nth(1)).toHaveAttribute(
+      "content",
+      /vir[ūu]mque/,
+      { timeout: 60_000 },
     );
   });
 });

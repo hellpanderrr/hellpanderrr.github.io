@@ -22,7 +22,31 @@ export declare class WordlistEngine {
     private nextSeq;
     private readonly DB_NAME;
     private readonly DB_VERSION;
-    private readonly STORE_NAME;
+    /** ~800 chunk records covering the whole wordlist, keyed by firstWord */
+    private readonly CHUNK_STORE;
+    /** Row-per-entry store for Morpheus-analyzed unknown words (small, grows
+     * incrementally — the chunk layout is immutable after load) */
+    private readonly EXTRA_STORE;
+    /** Single meta record: schema/data version + entry count */
+    private readonly META_STORE;
+    /** Bump when the packing logic changes incompatibly. */
+    private readonly SCHEMA_VERSION;
+    /** Bump when macrons.txt content changes, so returning visitors reload
+     * instead of keeping a stale dictionary forever. */
+    private readonly DATA_VERSION;
+    /** Entries per chunk. 1000 keeps a chunk ~100KB — one get() per unseen
+     * wordform neighborhood, small enough to clone cheaply. */
+    private readonly CHUNK_SIZE;
+    /** Sorted chunk keys, loaded once per session (~800 strings). */
+    private chunkKeys;
+    /** Fetched chunks by firstWord — bounded by chunk count (~800); cleared in
+     * clearEntriesCache() together with the per-word cache. */
+    private chunksCache;
+    /** Full in-memory groups map, present only in the session that parsed the
+     * file. Serves lookups instantly while chunks persist in the background. */
+    private memGroups;
+    /** Resolves when the background chunk persist finishes (tests await this). */
+    private persistPromise;
     /** Cache of Morpheus analyses by normalized wordform (for UI display) */
     private morpheusCache;
     /** In-memory cache for getAllEntries — eliminates redundant IndexedDB cursor
@@ -33,8 +57,11 @@ export declare class WordlistEngine {
      * Initialize IndexedDB database
      */
     init(): Promise<void>;
+    private idbGet;
     /**
-     * Check if database is populated
+     * Check if database is populated with the current schema+data version.
+     * A stale version (schema change or updated macrons.txt) reads as empty,
+     * which makes the caller re-download and overwrite.
      */
     isPopulated(): Promise<boolean>;
     /**
@@ -53,20 +80,33 @@ export declare class WordlistEngine {
      * Returns entries with accentedUnderscore populated
      */
     getAllEntries(wordform: string): Promise<WordlistEntry[]>;
+    /** Binary search the sorted chunk keys for the chunk that could contain
+     * `word` (greatest firstWord <= word), fetch it, and read the group. */
+    private lookupInChunks;
+    private lookupInExtras;
     /**
      * Normalize tag format (convert dots to dashes for consistency with RFTagger)
      */
     private normalizeTag;
     /**
-     * Add single entry to wordlist
+     * Add single entry (Morpheus-analyzed unknown word). Goes to the extras
+     * store — the chunk layout is immutable after the bulk load, and extras
+     * only ever exist for words the wordlist file doesn't contain.
      */
     addEntry(entry: WordlistEntry): Promise<void>;
+    /** Normalize a parsed file entry once, before grouping. */
+    private normalizeEntry;
+    /** Group entries by wordform, preserving file order within each group —
+     * the same order the old (wordform, seq) index cursor produced. */
+    private buildGroups;
     /**
-     * Batch add entries (for file loading)
+     * Batch add entries (for file loading). Packs the wordlist into ~800
+     * sorted range chunks instead of 812k individual rows — measured ~20x
+     * faster to persist, and lookups become one direct get() per chunk.
      */
     addEntries(entries: WordlistEntry[], onProgress?: (count: number) => void): Promise<void>;
     /**
-     * Clear all entries
+     * Clear all stores
      */
     clear(): Promise<void>;
     /**
@@ -87,6 +127,9 @@ export declare class WordlistEngine {
      * e.g. "a\te--------\ta\ta_"
      */
     loadFromText(text: string, onProgress?: (count: number) => void): Promise<void>;
+    /** Await the background chunk persist (no-op if none is running). Lets
+     * tests and shutdown paths ensure durability before closing the page. */
+    flush(): Promise<void>;
     /**
      * Load wordlist from URL (fetch + parse)
      */

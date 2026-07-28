@@ -17,7 +17,7 @@ npm test           # unit + IPA engine tests (Mocha, ~3s)
 npm run test:unit  # pure JS helpers: sanitize, memoizeLocalStorage, V3/V4 lexicon decode
 npm run test:ipa   # wasmoon Lua engine: exact-IPA tests + golden files (15 languages)
 npm run test:e2e   # Playwright browser tests, excludes macronizer (~5 min: includes Russian lexicon load)
-npm run test:e2e:macronizer  # macronizer smoke test — first-run wordlist load takes ~10+ min
+npm run test:e2e:macronizer  # macronizer smoke tests (~30s; covers first-visit and return-visit wordlist paths)
 npx playwright test -g "Latin"   # run a single e2e test
 ```
 

@@ -44,11 +44,13 @@ export class WordlistEngine {
             writable: true,
             value: 0
         });
+        // v4: range-chunk schema (v3 was row-per-entry). New name = old DBs are
+        // simply abandoned; the browser reclaims them eventually.
         Object.defineProperty(this, "DB_NAME", {
             enumerable: true,
             configurable: true,
             writable: true,
-            value: 'MacronizerDB_v3'
+            value: 'MacronizerDB_v4'
         });
         Object.defineProperty(this, "DB_VERSION", {
             enumerable: true,
@@ -56,11 +58,80 @@ export class WordlistEngine {
             writable: true,
             value: 1
         });
-        Object.defineProperty(this, "STORE_NAME", {
+        /** ~800 chunk records covering the whole wordlist, keyed by firstWord */
+        Object.defineProperty(this, "CHUNK_STORE", {
             enumerable: true,
             configurable: true,
             writable: true,
-            value: 'wordlist'
+            value: 'chunks'
+        });
+        /** Row-per-entry store for Morpheus-analyzed unknown words (small, grows
+         * incrementally — the chunk layout is immutable after load) */
+        Object.defineProperty(this, "EXTRA_STORE", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'extra'
+        });
+        /** Single meta record: schema/data version + entry count */
+        Object.defineProperty(this, "META_STORE", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 'meta'
+        });
+        /** Bump when the packing logic changes incompatibly. */
+        Object.defineProperty(this, "SCHEMA_VERSION", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 1
+        });
+        /** Bump when macrons.txt content changes, so returning visitors reload
+         * instead of keeping a stale dictionary forever. */
+        Object.defineProperty(this, "DATA_VERSION", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 1
+        });
+        /** Entries per chunk. 1000 keeps a chunk ~100KB — one get() per unseen
+         * wordform neighborhood, small enough to clone cheaply. */
+        Object.defineProperty(this, "CHUNK_SIZE", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 1000
+        });
+        /** Sorted chunk keys, loaded once per session (~800 strings). */
+        Object.defineProperty(this, "chunkKeys", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null
+        });
+        /** Fetched chunks by firstWord — bounded by chunk count (~800); cleared in
+         * clearEntriesCache() together with the per-word cache. */
+        Object.defineProperty(this, "chunksCache", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: new Map()
+        });
+        /** Full in-memory groups map, present only in the session that parsed the
+         * file. Serves lookups instantly while chunks persist in the background. */
+        Object.defineProperty(this, "memGroups", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null
+        });
+        /** Resolves when the background chunk persist finishes (tests await this). */
+        Object.defineProperty(this, "persistPromise", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null
         });
         /** Cache of Morpheus analyses by normalized wordform (for UI display) */
         Object.defineProperty(this, "morpheusCache", {
@@ -92,39 +163,55 @@ export class WordlistEngine {
             };
             request.onupgradeneeded = (event) => {
                 const db = event.target.result;
-                if (!db.objectStoreNames.contains(this.STORE_NAME)) {
-                    // Primary key = file-order sequence number. This preserves the exact
-                    // macrons.txt row order (Python iterates rows in file order) and keeps
-                    // duplicate (wordform, tag, lemma) rows that a composite key would drop.
-                    const store = db.createObjectStore(this.STORE_NAME, {
-                        keyPath: 'seq'
-                    });
-                    // Cursor over this index yields (wordform, seq) order = file order per wordform
-                    store.createIndex('wordform', 'wordform', { unique: false });
+                if (!db.objectStoreNames.contains(this.CHUNK_STORE)) {
+                    db.createObjectStore(this.CHUNK_STORE, { keyPath: 'firstWord' });
+                }
+                if (!db.objectStoreNames.contains(this.EXTRA_STORE)) {
+                    // Same shape as the old v3 row store: seq preserves insertion order
+                    const extra = db.createObjectStore(this.EXTRA_STORE, { keyPath: 'seq' });
+                    extra.createIndex('wordform', 'wordform', { unique: false });
+                }
+                if (!db.objectStoreNames.contains(this.META_STORE)) {
+                    db.createObjectStore(this.META_STORE, { keyPath: 'key' });
                 }
             };
         });
     }
+    idbGet(storeName, key) {
+        return new Promise((resolve, reject) => {
+            const tx = this.db.transaction([storeName], 'readonly');
+            const req = tx.objectStore(storeName).get(key);
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
+        });
+    }
     /**
-     * Check if database is populated
+     * Check if database is populated with the current schema+data version.
+     * A stale version (schema change or updated macrons.txt) reads as empty,
+     * which makes the caller re-download and overwrite.
      */
     async isPopulated() {
         if (!this.db)
             await this.init();
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([this.STORE_NAME], 'readonly');
-            const store = transaction.objectStore(this.STORE_NAME);
-            const countRequest = store.count();
-            countRequest.onsuccess = () => {
-                this.entryCount = countRequest.result;
-                // Seed the sequence counter past existing rows (rows are numbered 0..n-1
-                // at load; later Morpheus additions append from here)
-                if (this.entryCount > this.nextSeq)
-                    this.nextSeq = this.entryCount;
-                resolve(this.entryCount > 0);
-            };
-            countRequest.onerror = () => reject(countRequest.error);
+        const meta = await this.idbGet(this.META_STORE, 'meta');
+        if (!meta || meta.schemaVersion !== this.SCHEMA_VERSION || meta.dataVersion !== this.DATA_VERSION || !(meta.count > 0)) {
+            if (meta) {
+                console.log('[WordlistEngine] stored wordlist is stale (schema/data version changed), reloading');
+                await this.clear();
+            }
+            return false;
+        }
+        this.entryCount = meta.count;
+        // Seed the sequence counter past existing rows (Morpheus additions append
+        // to the extra store from here)
+        const extraCount = await new Promise((resolve, reject) => {
+            const tx = this.db.transaction([this.EXTRA_STORE], 'readonly');
+            const req = tx.objectStore(this.EXTRA_STORE).count();
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => reject(req.error);
         });
+        this.nextSeq = meta.count + extraCount;
+        return true;
     }
     /**
      * Get entry count
@@ -136,6 +223,7 @@ export class WordlistEngine {
      * to prevent unbounded memory growth — the cache repopulates on demand. */
     clearEntriesCache() {
         this.entriesCache.clear();
+        this.chunksCache.clear();
     }
     /**
      * Lookup exact macronized form for word + tag
@@ -168,24 +256,68 @@ export class WordlistEngine {
         const cached = this.entriesCache.get(normalizedWord);
         if (cached !== undefined)
             return cached;
+        let entries;
+        // Session that parsed the file: serve from memory (chunks may still be
+        // persisting in the background)
+        if (this.memGroups) {
+            entries = this.memGroups.get(normalizedWord);
+        }
+        else {
+            entries = await this.lookupInChunks(normalizedWord);
+        }
+        // Not in the wordlist file — check Morpheus-analyzed extras from a
+        // previous visit (extras only exist for words absent from the file)
+        if (!entries || entries.length === 0) {
+            entries = await this.lookupInExtras(normalizedWord);
+        }
+        const result = (entries !== null && entries !== void 0 ? entries : []).filter(e => e.accentedUnderscore);
+        this.entriesCache.set(normalizedWord, result);
+        return result;
+    }
+    /** Binary search the sorted chunk keys for the chunk that could contain
+     * `word` (greatest firstWord <= word), fetch it, and read the group. */
+    async lookupInChunks(word) {
+        if (!this.chunkKeys) {
+            this.chunkKeys = await new Promise((resolve, reject) => {
+                const tx = this.db.transaction([this.CHUNK_STORE], 'readonly');
+                const req = tx.objectStore(this.CHUNK_STORE).getAllKeys();
+                req.onsuccess = () => { var _a; return resolve((_a = req.result) !== null && _a !== void 0 ? _a : []); };
+                req.onerror = () => reject(req.error);
+            });
+            // IndexedDB returns keys sorted, but don't depend on it
+            this.chunkKeys.sort();
+        }
+        if (this.chunkKeys.length === 0)
+            return undefined;
+        // Greatest key <= word
+        let lo = 0, hi = this.chunkKeys.length - 1, pos = -1;
+        while (lo <= hi) {
+            const mid = (lo + hi) >> 1;
+            if (this.chunkKeys[mid] <= word) {
+                pos = mid;
+                lo = mid + 1;
+            }
+            else
+                hi = mid - 1;
+        }
+        if (pos === -1)
+            return undefined; // word sorts before the first chunk
+        const key = this.chunkKeys[pos];
+        let chunk = this.chunksCache.get(key);
+        if (!chunk) {
+            chunk = await this.idbGet(this.CHUNK_STORE, key);
+            if (!chunk)
+                return undefined;
+            this.chunksCache.set(key, chunk);
+        }
+        return chunk.groups[word];
+    }
+    lookupInExtras(word) {
         return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([this.STORE_NAME], 'readonly');
-            const store = transaction.objectStore(this.STORE_NAME);
-            const index = store.index('wordform');
-            const range = IDBKeyRange.only(normalizedWord);
-            // Use getAll() instead of openCursor — returns all matching rows as a
-            // single array, avoiding per-row event-loop overhead (2-5x faster).
-            const request = index.getAll(range);
-            request.onsuccess = () => {
-                var _a;
-                const all = ((_a = request.result) !== null && _a !== void 0 ? _a : []);
-                // Only include entries that have accentedUnderscore (i.e., from file)
-                const entries = all.filter(e => e.accentedUnderscore);
-                // Populate cache for subsequent calls from any pipeline stage
-                this.entriesCache.set(normalizedWord, entries);
-                resolve(entries);
-            };
-            request.onerror = () => reject(request.error);
+            const tx = this.db.transaction([this.EXTRA_STORE], 'readonly');
+            const req = tx.objectStore(this.EXTRA_STORE).index('wordform').getAll(IDBKeyRange.only(word));
+            req.onsuccess = () => { var _a; return resolve((_a = req.result) !== null && _a !== void 0 ? _a : []); };
+            req.onerror = () => reject(req.error);
         });
     }
     /**
@@ -198,15 +330,17 @@ export class WordlistEngine {
         return tag.replace(/\./g, '-');
     }
     /**
-     * Add single entry to wordlist
+     * Add single entry (Morpheus-analyzed unknown word). Goes to the extras
+     * store — the chunk layout is immutable after the bulk load, and extras
+     * only ever exist for words the wordlist file doesn't contain.
      */
     async addEntry(entry) {
         if (!this.db)
             await this.init();
         return new Promise((resolve, reject) => {
             var _a;
-            const transaction = this.db.transaction([this.STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(this.STORE_NAME);
+            const transaction = this.db.transaction([this.EXTRA_STORE], 'readwrite');
+            const store = transaction.objectStore(this.EXTRA_STORE);
             const request = store.put({
                 seq: (_a = entry.seq) !== null && _a !== void 0 ? _a : this.nextSeq++,
                 wordform: entry.wordform.toLowerCase().trim(),
@@ -222,60 +356,113 @@ export class WordlistEngine {
             request.onerror = () => reject(request.error);
         });
     }
-    /**
-     * Batch add entries (for file loading)
-     */
-    async addEntries(entries, onProgress) {
-        if (!this.db)
-            await this.init();
-        const BATCH_SIZE = 50000;
-        let processed = 0;
-        console.log('WordlistEngine: starting addEntries, total entries:', entries.length);
-        for (let i = 0; i < entries.length; i += BATCH_SIZE) {
-            const batch = entries.slice(i, i + BATCH_SIZE);
-            await new Promise((resolve, reject) => {
-                const transaction = this.db.transaction([this.STORE_NAME], 'readwrite');
-                const store = transaction.objectStore(this.STORE_NAME);
-                batch.forEach(entry => {
-                    var _a;
-                    store.put({
-                        seq: (_a = entry.seq) !== null && _a !== void 0 ? _a : this.nextSeq++,
-                        wordform: entry.wordform.toLowerCase().trim(),
-                        tag: this.normalizeTag(entry.tag.trim()),
-                        macronized: entry.macronized,
-                        accentedUnderscore: entry.accentedUnderscore,
-                        lemma: entry.lemma.trim()
-                    });
-                });
-                transaction.oncomplete = () => {
-                    processed += batch.length;
-                    if (onProgress)
-                        onProgress(processed);
-                    resolve();
-                };
-                transaction.onerror = () => reject(transaction.error);
-            });
+    /** Normalize a parsed file entry once, before grouping. */
+    normalizeEntry(entry) {
+        return {
+            wordform: entry.wordform.toLowerCase().trim(),
+            tag: this.normalizeTag(entry.tag.trim()),
+            macronized: entry.macronized,
+            accentedUnderscore: entry.accentedUnderscore,
+            lemma: entry.lemma.trim()
+        };
+    }
+    /** Group entries by wordform, preserving file order within each group —
+     * the same order the old (wordform, seq) index cursor produced. */
+    buildGroups(entries) {
+        const groups = new Map();
+        for (const raw of entries) {
+            const e = this.normalizeEntry(raw);
+            let g = groups.get(e.wordform);
+            if (!g)
+                groups.set(e.wordform, (g = []));
+            g.push(e);
         }
-        this.entryCount = processed;
-        console.log('WordlistEngine: finished addEntries, total processed:', processed);
+        return groups;
     }
     /**
-     * Clear all entries
+     * Batch add entries (for file loading). Packs the wordlist into ~800
+     * sorted range chunks instead of 812k individual rows — measured ~20x
+     * faster to persist, and lookups become one direct get() per chunk.
+     */
+    async addEntries(entries, onProgress) {
+        var _a;
+        if (!this.db)
+            await this.init();
+        console.log('WordlistEngine: packing', entries.length, 'entries into chunks');
+        const groups = (_a = this.memGroups) !== null && _a !== void 0 ? _a : this.buildGroups(entries);
+        const sortedWords = Array.from(groups.keys()).sort();
+        // Pack sorted wordform groups into chunks of ~CHUNK_SIZE entries
+        const chunks = [];
+        let current = null;
+        let currentCount = 0;
+        for (const word of sortedWords) {
+            const g = groups.get(word);
+            if (!current || currentCount >= this.CHUNK_SIZE) {
+                current = { firstWord: word, groups: {} };
+                chunks.push(current);
+                currentCount = 0;
+            }
+            current.groups[word] = g;
+            currentCount += g.length;
+        }
+        // Write chunks in a few transactions, yielding between them so the page
+        // stays responsive if this runs in the foreground
+        const CHUNKS_PER_TX = 100;
+        let written = 0;
+        for (let i = 0; i < chunks.length; i += CHUNKS_PER_TX) {
+            const batch = chunks.slice(i, i + CHUNKS_PER_TX);
+            await new Promise((resolve, reject) => {
+                const tx = this.db.transaction([this.CHUNK_STORE], 'readwrite');
+                const store = tx.objectStore(this.CHUNK_STORE);
+                batch.forEach(c => store.put(c));
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+            written += batch.reduce((n, c) => n + Object.values(c.groups).reduce((m, g) => m + g.length, 0), 0);
+            if (onProgress)
+                onProgress(written);
+            await new Promise(r => setTimeout(r, 0));
+        }
+        // Meta record last — its presence marks the load as complete, so a
+        // half-finished persist (tab closed) reads as unpopulated next visit
+        await new Promise((resolve, reject) => {
+            const tx = this.db.transaction([this.META_STORE], 'readwrite');
+            tx.objectStore(this.META_STORE).put({
+                key: 'meta',
+                schemaVersion: this.SCHEMA_VERSION,
+                dataVersion: this.DATA_VERSION,
+                count: entries.length
+            });
+            tx.oncomplete = () => resolve();
+            tx.onerror = () => reject(tx.error);
+        });
+        this.entryCount = entries.length;
+        if (this.nextSeq < entries.length)
+            this.nextSeq = entries.length;
+        this.chunkKeys = chunks.map(c => c.firstWord); // already sorted
+        console.log('WordlistEngine: persisted', chunks.length, 'chunks,', entries.length, 'entries');
+    }
+    /**
+     * Clear all stores
      */
     async clear() {
         if (!this.db)
             await this.init();
+        const stores = [this.CHUNK_STORE, this.EXTRA_STORE, this.META_STORE];
         return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([this.STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(this.STORE_NAME);
-            const request = store.clear();
-            request.onsuccess = () => {
+            const transaction = this.db.transaction(stores, 'readwrite');
+            stores.forEach(s => transaction.objectStore(s).clear());
+            transaction.oncomplete = () => {
                 this.entryCount = 0;
                 this.nextSeq = 0;
                 this.loaded = false;
+                this.chunkKeys = null;
+                this.chunksCache.clear();
+                this.memGroups = null;
+                this.entriesCache.clear();
                 resolve();
             };
-            request.onerror = () => reject(request.error);
+            transaction.onerror = () => reject(transaction.error);
         });
     }
     /**
@@ -335,9 +522,15 @@ export class WordlistEngine {
             const entries = [];
             const lines = text.split('\n');
             console.log('WordlistEngine: total lines in file:', lines.length);
+            const YIELD_EVERY = 100000; // keep the page responsive during parse
             let parsedCount = 0;
-            for (const line of lines) {
-                const trimmed = line.trim();
+            for (let li = 0; li < lines.length; li++) {
+                if (li > 0 && li % YIELD_EVERY === 0) {
+                    if (onProgress)
+                        onProgress(parsedCount);
+                    await new Promise(r => setTimeout(r, 0));
+                }
+                const trimmed = lines[li].trim();
                 if (!trimmed || trimmed.startsWith('#'))
                     continue;
                 // Split on any whitespace (tabs/spaces) — matches Python's line.split()
@@ -359,11 +552,32 @@ export class WordlistEngine {
                 }
             }
             console.log('WordlistEngine: parsed entries count:', parsedCount);
-            await this.addEntries(entries, onProgress);
+            // Serve lookups from memory immediately — the engine is usable as soon
+            // as the parse is done. Chunk persistence runs in the background and
+            // only matters for the NEXT visit.
+            this.memGroups = this.buildGroups(entries);
+            this.entryCount = entries.length;
+            this.nextSeq = entries.length;
+            if (onProgress)
+                onProgress(entries.length);
             this.loaded = true;
+            this.persistPromise = this.addEntries(entries)
+                .then(() => {
+                console.log('WordlistEngine: background persist complete');
+            })
+                .catch(err => {
+                // Non-fatal: this session works from memory; next visit re-downloads
+                console.warn('WordlistEngine: background persist failed:', err);
+            });
         })();
         await this.loadingPromise;
         this.loadingPromise = null;
+    }
+    /** Await the background chunk persist (no-op if none is running). Lets
+     * tests and shutdown paths ensure durability before closing the page. */
+    async flush() {
+        if (this.persistPromise)
+            await this.persistPromise;
     }
     /**
      * Load wordlist from URL (fetch + parse)
