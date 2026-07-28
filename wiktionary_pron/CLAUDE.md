@@ -126,6 +126,33 @@ Two engines:
 - **Async yielding** during long operations: `await wait(1)` / `await new Promise(r => setTimeout(r, 0))` to keep the UI thread responsive.
 - **Multiple IPA values** for a word are stored in `all_values` HTML attribute and cycled on click.
 
+## Self-correcting notes (mistakes made and fixed — don't repeat them)
+
+Each of these cost real debugging time in past sessions. Check this list before "fixing" related symptoms.
+
+**Testing traps**
+- **Never shim `document` in `scripts/tests/setup.cjs`** — wasmoon's Emscripten glue uses `typeof document` for environment detection and dies with "Invalid URL" under Node. Shim it per-test-file only in suites that don't load wasmoon (see `unit/lexicon_decode.test.js`).
+- **Lexicon test words must be letters only.** Every lookup path strips `[^\p{Letter}\p{Mark}-]` — synthetic words like `word000042` contain digits, get cleaned to `word`, and silently never match. Cost a failed "language isolation" test until spotted.
+- **Macronizer results have empty `textContent`** — words render via `<span class="ipa" content="...">` painted with CSS `attr(content)`. Assert the `content` attribute, not text. (Same idiom in the transcriber's line mode.)
+- **E2E must wait for `#lang` to be enabled before any interaction** — `main.js` top-level-awaits the wasmoon engine; clicking earlier hits elements with no listeners attached. Symptom: clear/dark-mode/persistence tests fail with stale values.
+- **Browser Latin ≠ Node Latin**: the browser flow macronizes input first (provinciarum → prōvinciārum), so e2e IPA expectations carry length marks that the Node suite's don't.
+- **RU/UK stress-transfer skips multi-form dictionary entries by design** — test it with a single-form word (голова → голова́), not вода (record "во́да, вода́" has a comma → skipped).
+
+**Code traps**
+- **Regex char classes with `-` between Unicode literals form ranges**: `[^\p{L}\p{M}'’-‿]` parsed `’-‿` as U+2019–U+203F and stripped ASCII hyphens from every word. Put `-` last in the class. (Was a live bug in `sanitize()` for years.)
+- **`#header > a > i` selects the HOME link's icon** — the dark-mode toggle on macronizer.html restyled the wrong button for this reason. Use `#dark_mode i`.
+- **Duplicated language lists in `main.js` drift**: `lang === "Lituanian"` (typo, missing h) appears in several copies of the multi-value language list — Lithuanian silently loses features in some modes. If touching those lists, extract one shared constant.
+
+**IndexedDB performance (measured in Chromium, 100k rows)**
+- Row-per-entry `put()` with a secondary index is the killer: ~58s/100k. `durability: 'relaxed'` changes nothing (already default). Grouping by unique key: 1.8×. **Packing ~1000 rows per record: 20×** (2.8s/100k). This is why both the macronizer wordlist and the app lexicons use sorted range-chunk records.
+- **Structured-cloning big objects is the persist wall time** — storing each chunk's payload as one JSON string (parse on read) cut the French lexicon persist ~3× to ~11s.
+- **Write the meta record last** so an interrupted persist reads as unpopulated. And **show the user that the background save is running** — invisible saves get interrupted by reloads, which looks like "caching never works" (that exact bug report happened).
+
+**Git traps (repo layout)**
+- `git checkout <branch> -- <file>` **stages** the restored file — follow with `git restore --staged` if you want it unstaged.
+- The git repo root is the parent directory; `.github/workflows/` and `.gitignore` live there, not here.
+- GitHub Pages deploys from `main` only — work on other branches is invisible in production until merged.
+
 ## Work-in-progress state (as of 2026-07-27)
 
 Uncommitted local work was split into stashes on `main` (with a full backup on branch `wip-everything`):
@@ -138,3 +165,13 @@ Uncommitted local work was split into stashes on `main` (with a full backup on b
 | `utils-scripts-and-tests` | Python/CJS lexicon build scripts and Lua verify tests in `utils/` |
 
 `wip-everything` also holds large generated lexicon data files in `utils/` that were never committed to `main`. Note: parts of `main.js`/`utils.js`/`liaison.js`/`lexicon.js` currently on `main` may not include these stashed features until the stashes are applied.
+
+### Update 2026-07-28
+
+Branch `macronizer` (pushed to origin, **not merged to `main`** — GitHub Pages still serves the pre-macronizer site) now carries, on top of the stash situation above:
+- the macronizer page + WASM engine (`macronizer/dist/`, synced from the `latin-macronizer-wasm` repo's `macronizer-ui-support` branch — never hand-edit `dist/`)
+- the full test infrastructure (see Tests section) + CI workflow
+- range-chunk IndexedDB stores for both the macronizer wordlist (first visit 10min → ~10s) and the app lexicons (return visits skip parsing)
+- `e2e/pending-features.spec.js` still holds skipped acceptance tests for the stashes
+
+Applying the `french-liaison`/`portuguese-support` stashes onto this branch will conflict lightly in `main.js` (a prefetch block was added to `transcribe()`) and `lexicon.js` (chunk-store layer added) — resolve keeping both.
