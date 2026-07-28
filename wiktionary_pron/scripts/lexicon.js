@@ -370,7 +370,8 @@ class ChunkedLexicon {
       this.chunkKeys = keys.map((k) => k[1]);
     } catch (e) {
       console.warn(`[ChunkedLexicon:${this.language}] loadChunkKeys failed`, e);
-      this.chunkKeys = [];
+      // Leave chunkKeys null so a later prefetch() retries after a
+      // transient failure; chunkKeyFor() treats null as "no chunks"
     }
   }
 
