@@ -299,6 +299,247 @@ function createLexiconInterface(lexiconData) {
   };
 }
 
+// ===========================================================================
+// Chunked IndexedDB lexicon store
+//
+// Decoded lexicon entries are persisted once as ~500-1000 sorted range-chunk
+// records (~1000 words each) instead of being re-parsed from the zip on every
+// visit. Return visits skip download+unzip+prefix-decode entirely: they read
+// the ~500 chunk keys (instant) and fetch only the chunks a text actually
+// touches via prefetch(). Same design as the macronizer's wordlist store,
+// where it took the first-visit persist from ~10min to seconds.
+// ===========================================================================
+
+const CHUNK_DB_NAME = "LexiconChunksDB_v1";
+const CHUNK_WORDS_PER_CHUNK = 1000;
+
+let chunkDbPromise = null;
+function openChunkDb() {
+  if (!chunkDbPromise) {
+    chunkDbPromise = new Promise((resolve, reject) => {
+      const req = indexedDB.open(CHUNK_DB_NAME, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        // Composite key: one store serves every language
+        db.createObjectStore("chunks", { keyPath: ["lang", "firstWord"] });
+        db.createObjectStore("meta", { keyPath: "lang" });
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+  return chunkDbPromise;
+}
+
+function idbReq(request) {
+  return new Promise((resolve, reject) => {
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+/** Range covering every chunk key of one language. */
+function langRange(lang) {
+  return IDBKeyRange.bound([lang, ""], [lang + " ", ""], false, true);
+}
+
+/**
+ * A lexicon backed by the chunk store. Two modes:
+ * - "memory": the session that parsed the zip — full Map resident, sync get()
+ *   hits it directly while chunks persist in the background.
+ * - "chunked": return visits — only chunk keys are resident; prefetch(words)
+ *   pulls the needed chunks before the (sync) get() calls run.
+ */
+class ChunkedLexicon {
+  constructor(language) {
+    this.language = language;
+    this.fullMap = null; // memory mode
+    this.chunkKeys = null; // chunked mode: sorted firstWords
+    this.chunkCache = new Map(); // firstWord -> {word: value}
+    this.persistPromise = null;
+  }
+
+  get mode() {
+    return this.fullMap ? "memory" : "chunked";
+  }
+
+  /** Sorted-array binary search: greatest chunk key <= word. */
+  chunkKeyFor(word) {
+    const keys = this.chunkKeys;
+    if (!keys || keys.length === 0) return null;
+    let lo = 0,
+      hi = keys.length - 1,
+      pos = -1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (keys[mid] <= word) {
+        pos = mid;
+        lo = mid + 1;
+      } else hi = mid - 1;
+    }
+    return pos === -1 ? null : keys[pos];
+  }
+
+  /** Sync lookup — from the Map (memory mode) or prefetched chunks. */
+  get(key) {
+    if (this.fullMap) return this.fullMap.get(key) ?? null;
+    const chunkKey = this.chunkKeyFor(key);
+    if (chunkKey === null) return null;
+    const chunk = this.chunkCache.get(chunkKey);
+    if (!chunk) {
+      // Word wasn't covered by prefetch() — sync API can't fetch now.
+      console.warn(
+        `[ChunkedLexicon:${this.language}] get("${key}") missed prefetch`,
+      );
+      return null;
+    }
+    return chunk[key] ?? null;
+  }
+
+  has(key) {
+    return this.get(key) !== null;
+  }
+
+  size() {
+    return this.fullMap ? this.fullMap.size : -1;
+  }
+
+  /**
+   * Ensure the chunks for these words (and their lookup variants) are in
+   * memory. Variants mirror every sync caller: lookupInLexicon strips
+   * non-letters, and both it and the RU/UK stress code retry lowercased.
+   */
+  async prefetch(words) {
+    if (this.fullMap) return; // memory mode: everything is resident
+    if (!this.chunkKeys) await this.loadChunkKeys();
+
+    const needed = new Set();
+    for (const raw of words) {
+      const cleaned = String(raw).replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
+      if (!cleaned) continue;
+      for (const candidate of [cleaned, cleaned.toLowerCase()]) {
+        const chunkKey = this.chunkKeyFor(candidate);
+        if (chunkKey !== null && !this.chunkCache.has(chunkKey)) {
+          needed.add(chunkKey);
+        }
+      }
+    }
+    if (needed.size === 0) return;
+
+    const db = await openChunkDb();
+    const tx = db.transaction(["chunks"], "readonly");
+    const store = tx.objectStore("chunks");
+    await Promise.all(
+      [...needed].map(async (firstWord) => {
+        const rec = await idbReq(store.get([this.language, firstWord]));
+        this.chunkCache.set(firstWord, rec ? rec.kv : {});
+      }),
+    );
+  }
+
+  async loadChunkKeys() {
+    const db = await openChunkDb();
+    const tx = db.transaction(["chunks"], "readonly");
+    const keys = await idbReq(
+      tx.objectStore("chunks").getAllKeys(langRange(this.language)),
+    );
+    // Composite keys arrive as [lang, firstWord], ascending
+    this.chunkKeys = keys.map((k) => k[1]);
+  }
+
+  /** Persist the full map as sorted range chunks (background, non-fatal). */
+  persistInBackground(sourceFile) {
+    this.persistPromise = (async () => {
+      const db = await openChunkDb();
+      const words = [...this.fullMap.keys()].sort();
+      const chunks = [];
+      for (let i = 0; i < words.length; i += CHUNK_WORDS_PER_CHUNK) {
+        const kv = {};
+        for (const w of words.slice(i, i + CHUNK_WORDS_PER_CHUNK)) {
+          kv[w] = this.fullMap.get(w);
+        }
+        chunks.push({ lang: this.language, firstWord: words[i], kv });
+      }
+
+      // Replace any stale chunks, write new ones in a few transactions
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(["chunks", "meta"], "readwrite");
+        tx.objectStore("chunks").delete(langRange(this.language));
+        tx.objectStore("meta").delete(this.language);
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+      const PER_TX = 100;
+      for (let i = 0; i < chunks.length; i += PER_TX) {
+        const batch = chunks.slice(i, i + PER_TX);
+        await new Promise((resolve, reject) => {
+          const tx = db.transaction(["chunks"], "readwrite");
+          batch.forEach((c) => tx.objectStore("chunks").put(c));
+          tx.oncomplete = resolve;
+          tx.onerror = () => reject(tx.error);
+        });
+        await new Promise((r) => setTimeout(r, 0));
+      }
+      // Meta written last: an interrupted persist reads as unpopulated
+      await new Promise((resolve, reject) => {
+        const tx = db.transaction(["meta"], "readwrite");
+        tx.objectStore("meta").put({
+          lang: this.language,
+          sourceFile,
+          count: this.fullMap.size,
+          storedAt: Date.now(),
+        });
+        tx.oncomplete = resolve;
+        tx.onerror = () => reject(tx.error);
+      });
+      console.log(
+        `[ChunkedLexicon:${this.language}] persisted ${chunks.length} chunks (${this.fullMap.size} words)`,
+      );
+    })().catch((err) => {
+      // Non-fatal: this session works from memory; next visit re-parses
+      console.warn(
+        `[ChunkedLexicon:${this.language}] background persist failed:`,
+        err,
+      );
+    });
+  }
+}
+
+/**
+ * Try to serve a language from previously persisted chunks. Returns a
+ * ChunkedLexicon in chunked mode, or null if absent/stale (sourceFile is the
+ * zip filename — bumping the version in LEXICON_LANGUAGES invalidates).
+ */
+async function loadFromChunkStore(language, sourceFile) {
+  try {
+    const db = await openChunkDb();
+    const meta = await idbReq(
+      db.transaction(["meta"], "readonly").objectStore("meta").get(language),
+    );
+    if (!meta || meta.sourceFile !== sourceFile || !(meta.count > 0)) {
+      return null;
+    }
+    const lexicon = new ChunkedLexicon(language);
+    await lexicon.loadChunkKeys();
+    if (lexicon.chunkKeys.length === 0) return null;
+    console.log(
+      `[ChunkedLexicon:${language}] serving from ${lexicon.chunkKeys.length} stored chunks (${meta.count} words)`,
+    );
+    return lexicon;
+  } catch (err) {
+    console.warn(`[ChunkedLexicon:${language}] store unavailable:`, err);
+    return null;
+  }
+}
+
+/** Wrap a freshly parsed entries Map and start the background persist. */
+function makeMemoryLexicon(language, entriesMap, sourceFile) {
+  const lexicon = new ChunkedLexicon(language);
+  lexicon.fullMap = entriesMap;
+  lexicon.persistInBackground(sourceFile);
+  return lexicon;
+}
+
 async function loadLexicon(language) {
   if (!LEXICON_LANGUAGES[language]) {
     throw new Error(`Unsupported language: ${language}`);
@@ -308,6 +549,17 @@ async function loadLexicon(language) {
   let worker;
 
   try {
+    // Return visit: serve from persisted chunks — no download, no parse
+    const fromStore = await loadFromChunkStore(
+      language,
+      LEXICON_LANGUAGES[language],
+    );
+    if (fromStore) {
+      console.timeEnd("LexiconLoad");
+      updateLoadingText("", "", "");
+      return fromStore;
+    }
+
     // Special handling for optimized format
     if (
       language === "French" ||
@@ -344,8 +596,16 @@ async function loadLexicon(language) {
     worker = new Worker("scripts/lexicon_loader_worker.js");
     const lexiconData = await processLexiconWithWorker(worker, wordPairsList);
 
-    // Create lexicon interface
-    const lexiconInterface = createLexiconInterface(lexiconData);
+    // Serve this session from memory; persist chunks for the next visit
+    const entriesMap =
+      lexiconData instanceof Map
+        ? lexiconData
+        : new Map(Object.entries(lexiconData));
+    const lexiconInterface = makeMemoryLexicon(
+      language,
+      entriesMap,
+      LEXICON_LANGUAGES[language],
+    );
 
     console.timeEnd("LexiconLoad");
     console.log("Lexicon loading complete");
@@ -387,26 +647,12 @@ async function loadOptimizedLexicon(language) {
       throw new Error("Failed to load optimized lexicon");
     }
 
-    // Create compatible interface
-    const lexiconInterface = {
-      data: optimizedLexicon.entries, // Map for compatibility
-      get(key) {
-        return optimizedLexicon.get(key);
-      },
-      has(key) {
-        return optimizedLexicon.has(key);
-      },
-
-      size() {
-        return optimizedLexicon.size();
-      },
-      getMemoryUsage() {
-        return optimizedLexicon.getMemoryUsage();
-      },
-      getPerformanceStats() {
-        return optimizedLexicon.getPerformanceStats();
-      },
-    };
+    // Serve this session from memory; persist chunks for the next visit
+    const lexiconInterface = makeMemoryLexicon(
+      language,
+      optimizedLexicon.entries,
+      LEXICON_LANGUAGES[language],
+    );
 
     console.timeEnd("LexiconLoad");
     console.log(`Optimized ${language} lexicon loading complete`);
@@ -438,4 +684,4 @@ function processLexiconWithWorker(worker, text) {
   });
 }
 
-export { loadLexicon, OptimizedV3Lexicon };
+export { loadLexicon, OptimizedV3Lexicon, ChunkedLexicon };

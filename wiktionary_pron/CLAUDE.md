@@ -80,6 +80,7 @@ Some languages use dictionary lookup as a faster/more-authoritative source than 
 - Decompressed client-side via JSZip, loaded into `OptimizedV3Lexicon` (a `Map` wrapper)
 - **V3/V4 prefix compression**: entries stored as `[prefix_len, suffix, value]` triples — the key is reconstructed incrementally (`currentKey.substring(0, prefixLen) + suffix`). V4 format for RU/UK indexes the stressed vowel position instead of storing IPA.
 - Parsing yields to the browser via `setTimeout(0)` to keep UI responsive during large loads (500k+ entries for Russian).
+- **Chunked IndexedDB store** (`ChunkedLexicon`): decoded entries persist once as ~1000-word sorted range-chunk records. First visit parses the zip, serves from memory, and persists chunks in the background; return visits skip download+decode entirely and load only chunk *keys*. Lookups stay synchronous — `transcribe()` in `main.js` calls `lexicon.prefetch(words)` (async, pulls the needed chunks) before the sync `get()` calls run. Prefetch normalization must mirror `lookupInLexicon` (strip non-letters, retry lowercase). The zip filename in `LEXICON_LANGUAGES` acts as the version key — renaming the file invalidates stored chunks.
 
 ### Caching Strategy
 

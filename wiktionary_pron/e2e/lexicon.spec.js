@@ -14,12 +14,30 @@ async function selectLanguage(page, lang, timeout = 120_000) {
 
 test.describe("lexicon path", () => {
   test("Czech: dictionary word served from the lexicon", async ({ page }) => {
+    // Visit 1 parses the zip and persists chunk records in the background
+    const persisted = page.waitForEvent("console", {
+      predicate: (m) => m.text().includes("persisted") && m.text().includes("chunks"),
+      timeout: 120_000,
+    });
     await page.goto(APP); // dict defaults to true → czech_lexicon.zip loads
     await selectLanguage(page, "Czech");
     await page.fill("#text_to_transcribe", "pes");
     await page.click("#submit");
     // czech_lexicon.zip has pes → /ˈpɛs/; processGermanIpa strips the slashes
     await expect(page.locator("#result .ipa").first()).toContainText("ˈpɛs");
+    await persisted;
+
+    // Visit 2: same context → lexicon must come up from the chunk store
+    // (no zip parse) and still resolve dictionary words via prefetch
+    await page.reload();
+    await selectLanguage(page, "Czech");
+    await page.fill("#text_to_transcribe", "den");
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa").first()).toContainText("dɛn");
+    const servedFromChunks = await page.evaluate(
+      () => globalThis.lexicon["Czech"]?.mode,
+    );
+    expect(servedFromChunks).toBe("chunked");
   });
 
   test("Russian: V4 lexicon loads and multi-form word offers alternatives", async ({
