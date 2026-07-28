@@ -1248,20 +1248,20 @@
             toggleLightMode();
         } else {
             document.body.classList.add('dark_mode');
-            document.querySelector('#header > a > i').className = 'icon icon-sun';
+            document.querySelector('#dark_mode i').className = 'icon icon-sun';
             localStorage.setItem('macronizer-dark-mode', 'true');
         }
     }
 
     function toggleLightMode() {
-        document.querySelector('#header > a > i').className = 'icon icon-moon';
+        document.querySelector('#dark_mode i').className = 'icon icon-moon';
         document.body.classList.remove('dark_mode');
         localStorage.setItem('macronizer-dark-mode', 'false');
     }
 
     if (localStorage.getItem('macronizer-dark-mode') === 'true') {
         document.body.classList.add('dark_mode');
-        document.querySelector('#header > a > i').className = 'icon icon-sun';
+        document.querySelector('#dark_mode i').className = 'icon icon-sun';
     }
 
     // --- Clear ---

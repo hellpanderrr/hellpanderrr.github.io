@@ -35,6 +35,21 @@ test.describe("macronizer", () => {
     );
   });
 
+  test("dark mode toggle changes its own icon, not the home button's", async ({
+    page,
+  }) => {
+    // Regression: the toggle used to target '#header > a > i', which is the
+    // HOME link's icon — the sun appeared on the wrong side of the header.
+    await page.goto(PAGE);
+    await page.click("#dark_mode");
+    await expect(page.locator("body")).toHaveClass(/dark_mode/);
+    await expect(page.locator("#dark_mode i")).toHaveClass(/icon-sun/);
+    await expect(page.locator("#home i")).toHaveClass(/icon-home/);
+    await page.click("#dark_mode");
+    await expect(page.locator("#dark_mode i")).toHaveClass(/icon-moon/);
+    await expect(page.locator("#home i")).toHaveClass(/icon-home/);
+  });
+
   test("return visit serves the wordlist from IndexedDB chunks", async ({
     page,
   }) => {
