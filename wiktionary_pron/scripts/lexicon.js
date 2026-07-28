@@ -432,7 +432,9 @@ class ChunkedLexicon {
     await Promise.all(
       [...needed].map(async (firstWord) => {
         const rec = await idbReq(store.get([this.language, firstWord]));
-        this.chunkCache.set(firstWord, rec ? rec.kv : {});
+        // kv is stored as a JSON string: cloning one string in/out of
+        // IndexedDB is far cheaper than structured-cloning a 1000-key object
+        this.chunkCache.set(firstWord, rec ? JSON.parse(rec.kv) : {});
       }),
     );
   }
@@ -458,7 +460,13 @@ class ChunkedLexicon {
         for (const w of words.slice(i, i + CHUNK_WORDS_PER_CHUNK)) {
           kv[w] = this.fullMap.get(w);
         }
-        chunks.push({ lang: this.language, firstWord: words[i], kv });
+        // Serialize once: one string clones into IndexedDB far faster than
+        // a 1000-key object (this was most of the persist wall time)
+        chunks.push({
+          lang: this.language,
+          firstWord: words[i],
+          kv: JSON.stringify(kv),
+        });
       }
 
       // Replace any stale chunks, write new ones in a few transactions
@@ -478,6 +486,13 @@ class ChunkedLexicon {
           tx.oncomplete = resolve;
           tx.onerror = () => reject(tx.error);
         });
+        // Reloading mid-save discards it (meta is written last), so tell the
+        // user it's running instead of failing silently on every early reload
+        updateLoadingText(
+          "",
+          "",
+          `Saving dictionary for faster future visits… ${Math.round(((i + batch.length) / chunks.length) * 100)}%`,
+        );
         await new Promise((r) => setTimeout(r, 0));
       }
       // Meta written last: an interrupted persist reads as unpopulated
@@ -492,6 +507,8 @@ class ChunkedLexicon {
         tx.oncomplete = resolve;
         tx.onerror = () => reject(tx.error);
       });
+      updateLoadingText("", "", "Dictionary saved — next visit loads instantly ✓");
+      setTimeout(() => updateLoadingText("", "", ""), 4000);
       console.log(
         `[ChunkedLexicon:${this.language}] persisted ${chunks.length} chunks (${this.fullMap.size} words)`,
       );
