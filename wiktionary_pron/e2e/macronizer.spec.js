@@ -25,9 +25,13 @@ test.describe("macronizer", () => {
     await page.click("#macronize_btn");
 
     await expect(page.locator("#result")).toBeVisible({ timeout: 120_000 });
-    // prōvinciārum: gen.pl. of prōvincia — both long vowels must be marked
-    await expect(page.locator("#resultText")).toContainText("prōvinciārum", {
-      timeout: 120_000,
-    });
+    // prōvinciārum: gen.pl. of prōvincia — both long vowels must be marked.
+    // Words render via a `content` attribute painted with CSS attr(content),
+    // so the span's text is empty — assert the attribute, not the text.
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "prōvinciārum",
+      { timeout: 120_000 },
+    );
   });
 });
