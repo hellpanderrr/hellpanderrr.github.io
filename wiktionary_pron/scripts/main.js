@@ -80,9 +80,11 @@ async function transcribe(mode, translate = false, inputText = null) {
   // memory — pull the relevant chunks in before the sync get() calls run.
   const activeLexicon = globalThis.lexicon[lang];
   if (activeLexicon?.prefetch) {
-    await activeLexicon.prefetch(
-      textLines.flatMap((line) => line.split(" ")),
-    );
+    // A failed prefetch must not kill transcription — lookups just miss and
+    // fall back to the rule engine.
+    await activeLexicon
+      .prefetch(textLines.flatMap((line) => line.split(" ")))
+      .catch((e) => console.warn("lexicon prefetch failed", e));
   }
   try {
     async function processDefault(line) {

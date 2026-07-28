@@ -287,7 +287,6 @@
     </style>
 
     <title>Latin Macronizer</title>
-    <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <meta content="" name="Keywords"/>
     <meta content="Latin macronizer — full pipeline with RFTagger POS tagging, Morpheus morphological analysis, and verse scansion."
@@ -517,7 +516,7 @@
         'cruncher.data': 'morphology database (5 MB)'
     };
 
-    window.__wasmReady = new Promise(function (resolve) {
+    window.__wasmReady = new Promise(function (resolve, reject) {
         (async function () {
             var cache;
             try {
@@ -544,14 +543,31 @@
                         ' — ' + (i + 1) + ' of ' + HEAVY_FILES.length + '…');
                     var blob = await fetchAsset(path);   // fetches path + '.gz' and gunzips
                     window.__fileCacheUrls[f] = URL.createObjectURL(blob);
-                    if (cache) cache.put(path, new Response(blob));
+                    if (cache) await cache.put(path, new Response(blob)).catch(function (e) {
+                        console.warn('Failed to cache ' + path, e);
+                    });
                 } catch (e) { console.warn('Failed to cache ' + path, e); }
             }
 
-            await Promise.all([
-                new Promise(function (r) { var s = document.createElement('script'); s.src = '/wiktionary_pron/macronizer/wasm/rftagger.js'; s.onload = r; document.head.appendChild(s); }),
-                new Promise(function (r) { var s = document.createElement('script'); s.src = '/wiktionary_pron/macronizer/wasm/cruncher.js'; s.onload = r; document.head.appendChild(s); })
-            ]);
+            function loadScript(src) {
+                return new Promise(function (r, j) {
+                    var s = document.createElement('script');
+                    s.src = src;
+                    s.onload = r;
+                    s.onerror = function () { j(new Error('Failed to load ' + src)); };
+                    document.head.appendChild(s);
+                });
+            }
+            try {
+                await Promise.all([
+                    loadScript('/wiktionary_pron/macronizer/wasm/rftagger.js'),
+                    loadScript('/wiktionary_pron/macronizer/wasm/cruncher.js')
+                ]);
+            } catch (e) {
+                window.__setupStatus('Failed to load the analysis engine — check your connection and reload the page.');
+                reject(e);
+                return;
+            }
             resolve();
         })();
     });
@@ -885,7 +901,7 @@
                       ? ''
                       : '<tr><td>Vowel lengths:</td><td>Guessed from the word ending</td></tr>')
                 : '') +
-            (flags.length ? `<tr><td>Flags:</td><td>${flags.join(', ')}</td></tr>` : '') +
+            (flags.length ? `<tr><td>Flags:</td><td>${esc(flags.join(', '))}</td></tr>` : '') +
             '</table></div>' + candidatesHtml + morpheusHtml;
     }
 
@@ -1301,11 +1317,19 @@
                 const garamondBytes = await fetch(garamondUrl).then(r => r.arrayBuffer());
                 const garamond = await pdfDoc.embedFont(new Uint8Array(garamondBytes));
 
-                const page = pdfDoc.addPage(PageSizes.Letter);
-                const [pw, ph] = [page.getWidth(), page.getHeight()];
-                if (darkMode) {
-                    page.drawRectangle({ color: rgb(0.07, 0.07, 0.07), width: pw + 10, height: ph + 10 });
+                function newPage() {
+                    const page = pdfDoc.addPage(PageSizes.Letter);
+                    if (darkMode) {
+                        page.drawRectangle({
+                            color: rgb(0.07, 0.07, 0.07),
+                            width: page.getWidth() + 10,
+                            height: page.getHeight() + 10,
+                        });
+                    }
+                    return page;
                 }
+                let page = newPage();
+                const [pw, ph] = [page.getWidth(), page.getHeight()];
                 const color = darkMode ? rgb(1, 1, 1) : rgb(0, 0, 0);
                 let y = ph - 50, x = 50, fontSize = 14;
 
@@ -1315,7 +1339,7 @@
                     for (const word of words) {
                         const w = garamond.widthOfTextAtSize(word, fontSize);
                         if (x + w > pw - 40) { x = 50; y -= fontSize * 1.6; }
-                        if (y < 50) continue;
+                        if (y < 50) { page = newPage(); x = 50; y = ph - 50; }
                         page.drawText(word, { font: garamond, x, y, size: fontSize, color });
                         x += w + garamond.widthOfTextAtSize(' ', fontSize);
                     }
@@ -1335,17 +1359,19 @@
     }
 
     async function toCsv(lines) {
+        // RFC 4180: wrap in quotes, double any embedded quotes
+        const q = (v) => '"' + String(v).replace(/"/g, '""') + '"';
         const rows = [];
         if (currentResult) {
             rows.push('"text","macronized","tag","lemma"');
             for (const t of currentResult.tokens) {
                 if (!t.text || !/^[a-zA-ZÀ-ɏ]/.test(t.text)) continue;
-                rows.push(`"${t.text}","${t.macronizedText || t.text}","${t.tag || ''}","${t.lemma || ''}"`);
+                rows.push([q(t.text), q(t.macronizedText || t.text), q(t.tag || ''), q(t.lemma || '')].join(','));
             }
         } else {
             rows.push('"text"');
             for (const l of resultToPlainText().split('\n')) {
-                rows.push(`"${l}"`);
+                rows.push(q(l));
             }
         }
         const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });

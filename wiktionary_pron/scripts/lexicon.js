@@ -213,92 +213,6 @@ class OptimizedV3Lexicon {
   }
 }
 
-/**
- * Enhanced LargeDictionaryHandler for optimized lexicon
- * Maintains compatibility with existing code
- */
-class LargeDictionaryHandler {
-  constructor(data, chunkSize = 100000) {
-    console.log("init LargeDictionaryHandler", chunkSize);
-    console.time("Chunkfify");
-    // If data is a Map (from optimized lexicon), convert to chunks
-    if (data instanceof Map) {
-      this.chunks = this.chunkifyMap(data, chunkSize);
-    } else {
-      this.chunks = this.chunkify(data, chunkSize);
-    }
-    console.timeEnd("Chunkfify");
-    console.log("finished init LargeDictionaryHandler", chunkSize);
-    this.chunkSize = chunkSize;
-  }
-
-  chunkify(data, chunkSize) {
-    const chunks = [];
-    const entries = Object.entries(data);
-
-    for (let i = 0; i < entries.length; i += chunkSize) {
-      const chunk = Object.fromEntries(entries.slice(i, i + chunkSize));
-      chunks.push(chunk);
-    }
-
-    return chunks;
-  }
-
-  chunkifyMap(map, chunkSize) {
-    const chunks = [];
-    const entries = Array.from(map.entries());
-
-    for (let i = 0; i < entries.length; i += chunkSize) {
-      const chunk = Object.fromEntries(entries.slice(i, i + chunkSize));
-      chunks.push(chunk);
-    }
-
-    return chunks;
-  }
-
-  get(key) {
-    for (const chunk of this.chunks) {
-      if (key in chunk) {
-        return chunk[key];
-      }
-    }
-    return undefined;
-  }
-
-  // Search within a specific chunk for better performance
-  getFromChunk(key, chunkIndex) {
-    if (chunkIndex >= 0 && chunkIndex < this.chunks.length) {
-      return this.chunks[chunkIndex][key];
-    }
-    return undefined;
-  }
-
-  // Get the chunk index for a given key
-  findChunkIndex(key) {
-    return this.chunks.findIndex((chunk) => key in chunk);
-  }
-
-  // Iterator for processing all entries safely
-  *entries() {
-    for (const chunk of this.chunks) {
-      for (const [key, value] of Object.entries(chunk)) {
-        yield [key, value];
-      }
-    }
-  }
-}
-
-function createLexiconInterface(lexiconData) {
-  const handler = new LargeDictionaryHandler(lexiconData);
-
-  return {
-    data: lexiconData,
-    get(key) {
-      return handler.get(key);
-    },
-  };
-}
-
 // ===========================================================================
 // Chunked IndexedDB lexicon store
 //
@@ -426,27 +340,38 @@ class ChunkedLexicon {
     }
     if (needed.size === 0) return;
 
-    const db = await openChunkDb();
-    const tx = db.transaction(["chunks"], "readonly");
-    const store = tx.objectStore("chunks");
-    await Promise.all(
-      [...needed].map(async (firstWord) => {
-        const rec = await idbReq(store.get([this.language, firstWord]));
-        // kv is stored as a JSON string: cloning one string in/out of
-        // IndexedDB is far cheaper than structured-cloning a 1000-key object
-        this.chunkCache.set(firstWord, rec ? JSON.parse(rec.kv) : {});
-      }),
-    );
+    // Non-fatal like every other IDB path here: a blocked/broken IndexedDB
+    // degrades to lookup misses (rule-based fallback), not a dead transcribe()
+    try {
+      const db = await openChunkDb();
+      const tx = db.transaction(["chunks"], "readonly");
+      const store = tx.objectStore("chunks");
+      await Promise.all(
+        [...needed].map(async (firstWord) => {
+          const rec = await idbReq(store.get([this.language, firstWord]));
+          // kv is stored as a JSON string: cloning one string in/out of
+          // IndexedDB is far cheaper than structured-cloning a 1000-key object
+          this.chunkCache.set(firstWord, rec ? JSON.parse(rec.kv) : {});
+        }),
+      );
+    } catch (e) {
+      console.warn(`[ChunkedLexicon:${this.language}] prefetch failed`, e);
+    }
   }
 
   async loadChunkKeys() {
-    const db = await openChunkDb();
-    const tx = db.transaction(["chunks"], "readonly");
-    const keys = await idbReq(
-      tx.objectStore("chunks").getAllKeys(langRange(this.language)),
-    );
-    // Composite keys arrive as [lang, firstWord], ascending
-    this.chunkKeys = keys.map((k) => k[1]);
+    try {
+      const db = await openChunkDb();
+      const tx = db.transaction(["chunks"], "readonly");
+      const keys = await idbReq(
+        tx.objectStore("chunks").getAllKeys(langRange(this.language)),
+      );
+      // Composite keys arrive as [lang, firstWord], ascending
+      this.chunkKeys = keys.map((k) => k[1]);
+    } catch (e) {
+      console.warn(`[ChunkedLexicon:${this.language}] loadChunkKeys failed`, e);
+      this.chunkKeys = [];
+    }
   }
 
   /** Persist the full map as sorted range chunks (background, non-fatal). */

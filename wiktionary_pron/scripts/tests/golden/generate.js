@@ -43,13 +43,21 @@ const PLAN = {
   },
 };
 
+// Languages whose Lua modules are known not to load under the Node shim.
+// Anything else failing to load is a regression — fail generation loudly
+// instead of silently dropping the language from golden.json.
+const NODE_UNSUPPORTED = new Set(["Czech"]);
+
 const golden = {};
 for (const [lang, { code, argsList, words }] of Object.entries(PLAN)) {
   process.stderr.write(`Loading ${lang} (${code})...\n`);
   try {
     await loadLanguage(code);
   } catch (e) {
-    process.stderr.write(`  SKIPPED — module failed to load: ${e.message}\n`);
+    if (!NODE_UNSUPPORTED.has(lang)) {
+      throw new Error(`${lang} module failed to load: ${e.message}`);
+    }
+    process.stderr.write(`  SKIPPED (known Node-unsupported): ${e.message}\n`);
     continue;
   }
   golden[lang] = [];
