@@ -1,0 +1,20 @@
+{
+  "name": "wiktionary-pron-tests",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "npm run test:unit && npm run test:ipa",
+    "test:ipa": "cd scripts/tests && mocha get_ipa.test.js golden.test.js --require ./setup.cjs --timeout 60000",
+    "test:unit": "mocha scripts/tests/unit/*.test.js --require scripts/tests/setup.cjs --timeout 20000",
+    "test:e2e": "playwright test --grep-invert macronizer",
+    "test:e2e:macronizer": "playwright test e2e/macronizer.spec.js",
+    "serve": "http-server .. -p 8993 -s"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "fake-indexeddb": "^6.2.5",
+    "http-server": "^14.1.1",
+    "mocha": "^10.8.2",
+    "wasmoon": "^1.16.0"
+  }
+}

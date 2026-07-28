@@ -52,12 +52,12 @@ describe("get_ipa_no_cache", function () {
     const tests = [
       {
         text: "provinciarum",
-        args: "Latin;Ecc;Phonemic",
+        args: "Latin;Ecclesiastical;Phonemic",
         expected: "pro.vinˈt͡ʃi.a.rum",
       },
       {
         text: "provinciarum",
-        args: "Latin;Ecc;Phonetic",
+        args: "Latin;Ecclesiastical;Phonetic",
         expected: "provin̠ʲˈt͡ʃiːärum",
       },
       {

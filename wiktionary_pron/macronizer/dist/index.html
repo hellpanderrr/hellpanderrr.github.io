@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latin Macronizer</title>
+    <script>
+        // File cache: blob URLs for cached WASM/data/model files
+        window.__fileCacheUrls = {};
+
+        // locateFile: serves cached blobs (via object URLs) when available
+        window.Module = window.Module || {};
+        window.Module.locateFile = function(path) {
+            if (window.__fileCacheUrls[path]) return window.__fileCacheUrls[path];
+            if (path.endsWith('.wasm') || path.endsWith('.data') || path.endsWith('.model')) return '/wasm/' + path;
+            return path;
+        };
+        window.Morpheus = window.Morpheus || {};
+        window.Morpheus.locateFile = window.Module.locateFile;
+
+        // Heavy files to cache via Cache API
+        var HEAVY_FILES = ['rftagger.wasm', 'rftagger-ldt.model', 'cruncher.wasm', 'cruncher.data'];
+        // Cache is URL-keyed and cache-first: bump this version whenever any
+        // file in public/wasm/ changes, or returning browsers keep the old
+        // binary forever (v1 could hold a broken 99KB rftagger.wasm).
+        var WASM_CACHE = 'wasm-files-v2';
+
+        // Proactive caching: fetch + cache each file, then create blob URLs for WASM scripts
+        window.__wasmReady = new Promise(function (resolve) {
+            (async function () {
+                var cache;
+                try {
+                    // Purge stale cache versions first (e.g. wasm-files-v1 may
+                    // hold a broken rftagger.wasm cached before 2026-07-12)
+                    var cacheKeys = await caches.keys();
+                    for (var ck of cacheKeys) {
+                        if (ck.indexOf('wasm-files-') === 0 && ck !== WASM_CACHE) {
+                            await caches.delete(ck);
+                        }
+                    }
+                    cache = await caches.open(WASM_CACHE);
+                } catch (e) {
+                    cache = null;
+                }
+
+                for (var i = 0; i < HEAVY_FILES.length; i++) {
+                    var f = HEAVY_FILES[i];
+                    var path = '/wasm/' + f;
+
+                    // Check cache first
+                    if (cache) {
+                        var cached = await cache.match(path);
+                        if (cached) {
+                            window.__fileCacheUrls[f] = URL.createObjectURL(await cached.blob());
+                            continue;
+                        }
+                    }
+
+                    // Fetch from network, cache, and create blob URL
+                    try {
+                        var resp = await fetch(path);
+                        if (resp.ok) {
+                            var blob = await resp.blob();
+                            window.__fileCacheUrls[f] = URL.createObjectURL(blob);
+                            if (cache) cache.put(path, new Response(blob));
+                        }
+                    } catch (e) {
+                        console.warn('Failed to cache ' + path, e);
+                    }
+                }
+
+                // Load WASM JS glue scripts (they use locateFile → cached blob URLs)
+                await Promise.all([
+                    new Promise(function (r) { var s = document.createElement('script'); s.src = '/wasm/rftagger.js'; s.onload = r; document.head.appendChild(s); }),
+                    new Promise(function (r) { var s = document.createElement('script'); s.src = '/wasm/cruncher.js'; s.onload = r; document.head.appendChild(s); })
+                ]);
+
+                resolve();
+            })();
+        });
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f5f5f5; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        .info { background: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        textarea { width: 100%; min-height: 150px; padding: 15px; border: 2px solid #ddd; border-radius: 5px; font-size: 16px; font-family: 'Times New Roman', serif; resize: vertical; line-height: 1.8; }
+        textarea:focus { outline: none; border-color: #4CAF50; }
+        .options { margin: 20px 0; padding: 15px; background: #f9f9f9; border-radius: 5px; }
+        .option-group { margin: 10px 0; }
+        label { cursor: pointer; margin-left: 5px; }
+        select { margin-left: 10px; padding: 5px; }
+        button { background: #4CAF50; color: white; border: none; padding: 15px 40px; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #45a049; }
+        button:disabled { background: #cccccc; cursor: not-allowed; }
+        .result { margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 5px; border: 1px solid #ddd; }
+        .result-header { font-weight: bold; margin-bottom: 10px; color: #333; }
+        .result-text { white-space: pre-wrap; }
+        .verse-line { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #eee; padding: 4px 0; }
+        .verse-content { font-family: 'Times New Roman', serif; font-size: 18px; line-height: 1.8; }
+        .verse-foot { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 14px; color: #2e7d32; background: #e8f5e9; padding: 2px 8px; border-radius: 4px; margin-left: 20px; white-space: nowrap; }
+        .result-text .ambig { background: #fff3cd; cursor: help; }
+        .result-text .unknown { background: #f8d7da; cursor: help; }
+        .word-popup { position: absolute; background: white; border: 1px solid #ccc; border-radius: 5px; padding: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 1000; max-width: 400px; font-family: 'Segoe UI', sans-serif; font-size: 13px; line-height: 1.4; }
+        .word-popup h4 { margin: 0 0 8px 0; font-size: 14px; color: #333; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .word-popup table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        .word-popup td { padding: 3px 6px; border-bottom: 1px solid #f0f0f0; }
+        .word-popup td:first-child { color: #666; font-weight: 500; }
+        .word-popup .candidates { margin-top: 8px; padding-top: 5px; border-top: 1px solid #eee; }
+        .word-popup .tag-desc { color: #555; font-style: italic; font-size: 11px; }
+        .popup-section { margin-bottom: 10px; }
+        .popup-section:last-child { margin-bottom: 0; }
+        .popup-section-title { font-weight: 600; font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e0e0e0; padding-bottom: 4px; margin-bottom: 6px; }
+        .popup-section table td { padding: 2px 6px; }
+        .popup-section table td:first-child { white-space: nowrap; }
+        .word-popup .candidate { display: inline-block; margin: 2px 4px 2px 0; padding: 2px 6px; background: #e3f2fd; border-radius: 3px; font-size: 11px; }
+        .word { cursor: pointer; border-bottom: 1px dotted #999; }
+        .stats { margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 3px; font-size: 14px; }
+        .loading { display: none; text-align: center; padding: 20px; }
+        .loading.show { display: block; }
+        .error { color: #d32f2f; padding: 10px; background: #ffebee; border-radius: 3px; margin-top: 10px; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; font-size: 12px; color: #666; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Latin Macronizer</h1>
+
+    <div class="info">
+        <strong>Automatically mark long vowels in Latin text.</strong>
+        Expected accuracy: 98-99%. Please review the result with a critical eye!
+    </div>
+
+    <div class="container">
+        <p>Enter Latin text (max 50,000 characters):</p>
+        <textarea id="inputText" placeholder="Enter your Latin text here...">Gallia est omnis divisa in partes tres.</textarea>
+
+        <div class="options">
+            <div class="option-group">
+                <input type="checkbox" id="macronize" checked>
+                <label for="macronize">Mark long vowels</label>
+            </div>
+            <div class="option-group">
+                <input type="checkbox" id="alsomaius">
+                <label for="alsomaius">Also mark <i>māius</i>, <i>Māius</i>, etc.</label>
+            </div>
+            <div class="option-group">
+                <label>Scan as:</label>
+                <select id="scan">
+                    <option value="prose">Prose (no scansion)</option>
+                    <option value="dactylichexameter">Dactylic hexameter</option>
+                    <option value="elegiacdistichs">Elegiac distichs</option>
+                    <option value="hendecasyllable">Hendecasyllable</option>
+                    <option value="iambic">Iambic trimeter + dimeter</option>
+                </select>
+            </div>
+            <div class="option-group">
+                <input type="checkbox" id="utov">
+                <label for="utov">Convert <i>u</i> to <i>v</i></label>
+            </div>
+            <div class="option-group">
+                <input type="checkbox" id="itoj">
+                <label for="itoj">Convert <i>i</i> to <i>j</i></label>
+            </div>
+        </div>
+
+        <button id="processBtn" disabled>Process Text</button>
+
+        <div class="loading" id="loading">Processing... Please wait.</div>
+
+        <div id="result" class="result" style="display: none;">
+            <div class="result-header">Result:</div>
+            <div class="result-text" id="resultText" contenteditable="true"></div>
+            <div class="stats" id="stats"></div>
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div class="wordlist-section" style="margin-top: 20px; padding: 15px; background: #f0f0f0; border-radius: 5px; border: 1px solid #ccc;">
+            <div style="font-weight: bold; margin-bottom: 10px; color: #333;">Wordlist Storage</div>
+            <div id="wlPrompt" style="display: none; color: #1976d2; font-size: 14px; margin-bottom: 10px; padding: 8px; background: #e3f2fd; border-radius: 4px;">
+                Choose storage mode below to load the wordlist (32MB, ~812k entries)
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 10px;">
+                <button id="loadIndexedDB" class="wl-btn" style="background: #1976d2;" disabled>Load into IndexedDB</button>
+                <button id="loadMemory" class="wl-btn" style="background: #f57c00;" disabled>Load into Memory</button>
+                <button id="clearCache" class="wl-btn" style="background: #c62828;" disabled>Clear Cache</button>
+            </div>
+            <div id="wlProgress" style="display: none;">
+                <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
+                    <span id="wlStatus">Downloading...</span>
+                    <span id="wlPercent">0%</span>
+                </div>
+                <div style="background: #ddd; border-radius: 3px; height: 20px; overflow: hidden;">
+                    <div id="wlProgressBar" style="background: #4CAF50; width: 0%; height: 100%; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            <div id="wlInfo" style="font-size: 12px; color: #666; margin-top: 6px;">
+                <span id="wlModeDisplay">Mode: <strong>IndexedDB</strong></span>
+                <span id="wlEntryCount"> | Entries: <strong>0</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        Based on <a href="https://alatius.com/macronizer/">Latin Macronizer</a> by Johan Winge.
+        Uses RFTagger trained on the Latin Dependency Treebank.
+    </footer>
+
+    <script type="module">
+        import { MacronizerAPI } from '/dist/api/MacronizerAPI.js';
+        import { decodeLdtTagToFeatures } from '/dist/utils/latin.js';
+
+        // Wait for WASM modules to finish loading before creating API
+        await window.__wasmReady;
+
+        const api = new MacronizerAPI();
+        let initialized = false;
+
+        // --- Init: loads everything except wordlist ---
+
+        async function init() {
+            showWlProgress('Initializing...', 0);
+
+            try {
+                await api.initialize((percent, message) => {
+                    showWlProgress(message, percent);
+                });
+                initialized = true;
+                document.getElementById('processBtn').disabled = true;
+                document.getElementById('wlPrompt').style.display = 'block';
+                document.getElementById('loadIndexedDB').disabled = false;
+                document.getElementById('loadMemory').disabled = false;
+                hideWlProgress();
+            } catch (err) {
+                showError('Failed to initialize: ' + err.message);
+                hideWlProgress();
+            }
+        }
+
+        // --- Process text ---
+
+        async function processText() {
+            if (!initialized) {
+                showError('Please wait for initialization...');
+                return;
+            }
+            if (!api.isWordlistLoaded()) {
+                showError('Load the wordlist first — click one of the buttons above.');
+                return;
+            }
+
+            const text = document.getElementById('inputText').value;
+            if (!text.trim()) {
+                showError('Please enter some text');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+
+            try {
+                const result = await api.process(text, {
+                    macronize: document.getElementById('macronize').checked,
+                    alsomaius: document.getElementById('alsomaius').checked,
+                    scan: document.getElementById('scan').value,
+                    performutov: document.getElementById('utov').checked,
+                    performitoj: document.getElementById('itoj').checked
+                });
+
+                displayResult(result);
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                document.getElementById('loading').classList.remove('show');
+            }
+        }
+
+        // --- Wordlist UI ---
+
+        function updateWlInfo() {
+            const mode = api.getWordlistMode();
+            document.getElementById('wlModeDisplay').innerHTML = `Mode: <strong>${mode === 'indexeddb' ? 'IndexedDB' : 'Memory'}</strong>`;
+            const loaded = api.isWordlistLoaded();
+            document.getElementById('wlEntryCount').innerHTML = loaded ? ` | Entries: <strong>${'?'}</strong>` : ' | <em>not loaded</em>';
+        }
+
+        function showWlProgress(message, percent) {
+            const bar = document.getElementById('wlProgressBar');
+            const status = document.getElementById('wlStatus');
+            const pctEl = document.getElementById('wlPercent');
+            const container = document.getElementById('wlProgress');
+
+            container.style.display = 'block';
+            if (percent != null) {
+                const clamped = Math.min(Math.max(percent, 0), 100);
+                bar.style.width = clamped + '%';
+                pctEl.textContent = Math.round(clamped) + '%';
+            }
+            if (message) status.textContent = message;
+        }
+
+        function hideWlProgress() {
+            document.getElementById('wlProgress').style.display = 'none';
+        }
+
+        function setLoadButtonsEnabled(enabled) {
+            document.getElementById('loadIndexedDB').disabled = !enabled;
+            document.getElementById('loadMemory').disabled = !enabled;
+            document.getElementById('clearCache').disabled = !enabled;
+        }
+
+        async function loadWordlist(mode) {
+            if (!initialized) {
+                showError('Macronizer not initialized yet.');
+                return;
+            }
+
+            setLoadButtonsEnabled(false);
+            document.getElementById('processBtn').disabled = true;
+            document.getElementById('wlPrompt').style.display = 'none';
+
+            showWlProgress('Downloading wordlist...', 0);
+
+            try {
+                await api.loadWordlist(mode, (progress) => {
+                    if (progress.phase === 'download') {
+                        const kb = Math.round(progress.current / 1024);
+                        const totalKb = Math.round(progress.total / 1024);
+                        const pct = progress.total > 0 ? Math.round(progress.current / progress.total * 50) : 0;
+                        showWlProgress(`Downloading: ${kb}KB / ${totalKb}KB`, pct);
+                    } else if (progress.phase === 'parse') {
+                        showWlProgress(`Parsing: ${progress.current.toLocaleString()} entries`, 55);
+                    } else if (progress.phase === 'store') {
+                        const pct = 55 + Math.round(progress.current / progress.total * 40);
+                        showWlProgress(
+                            `Storing: ${progress.current.toLocaleString()} / ${progress.total.toLocaleString()} entries`,
+                            pct
+                        );
+                    }
+                });
+
+                showWlProgress('Done!', 100);
+                updateWlInfo();
+                document.getElementById('processBtn').disabled = false;
+                document.getElementById('clearCache').disabled = false;
+                // Disable the button for the active mode
+                document.getElementById('loadIndexedDB').disabled = mode === 'indexeddb';
+                document.getElementById('loadMemory').disabled = mode === 'memory';
+                setTimeout(hideWlProgress, 2000);
+            } catch (err) {
+                showError('Failed to load wordlist: ' + err.message);
+                setLoadButtonsEnabled(true);
+                document.getElementById('wlPrompt').style.display = 'block';
+                hideWlProgress();
+            }
+        }
+
+        async function handleClearCache() {
+            if (!confirm('Clear all caches (wordlist + WASM files)? You will need to reload everything.')) return;
+            setLoadButtonsEnabled(false);
+            try {
+                // Clear wordlist cache
+                await api.clearWordlistCache();
+                // Clear WASM file cache (all versions)
+                try {
+                    const cacheKeys = await caches.keys();
+                    await Promise.all(cacheKeys
+                        .filter((k) => k.startsWith('wasm-files-'))
+                        .map((k) => caches.delete(k)));
+                } catch (e) {
+                    console.warn('Failed to clear file cache:', e);
+                }
+                document.getElementById('processBtn').disabled = true;
+                document.getElementById('wlPrompt').style.display = 'block';
+                document.getElementById('loadIndexedDB').disabled = false;
+                document.getElementById('loadMemory').disabled = false;
+                document.getElementById('clearCache').disabled = true;
+                document.getElementById('wlEntryCount').innerHTML = ' | <em>not loaded</em>';
+            } catch (err) {
+                showError('Failed to clear cache: ' + err.message);
+                setLoadButtonsEnabled(true);
+            }
+        }
+
+        // --- Event handlers ---
+
+        document.getElementById('loadIndexedDB').addEventListener('click', () => loadWordlist('indexeddb'));
+        document.getElementById('loadMemory').addEventListener('click', () => loadWordlist('memory'));
+        document.getElementById('clearCache').addEventListener('click', handleClearCache);
+
+        // --- Result display ---
+        let currentResult = null;
+
+        function displayResult(result) {
+            currentResult = result;
+            const taggedTokens = result.tokens || [];
+            let html = '';
+            let wordIndex = 0;
+
+            let currentLineTokens = [];
+            const linesOfTokens = [currentLineTokens];
+
+            for (let i = 0; i < taggedTokens.length; i++) {
+                const token = taggedTokens[i];
+                if (token.text && token.text.includes('\n')) {
+                    const parts = token.text.split('\n');
+                    for (let p = 0; p < parts.length - 1; p++) {
+                        if (parts[p]) currentLineTokens.push({ ...token, text: parts[p] });
+                        currentLineTokens = [];
+                        linesOfTokens.push(currentLineTokens);
+                    }
+                    if (parts[parts.length - 1]) currentLineTokens.push({ ...token, text: parts[parts.length - 1] });
+                } else {
+                    currentLineTokens.push(token);
+                }
+            }
+
+            const scannedFeet = result.scannedFeet || [];
+
+            for (let lineIdx = 0; lineIdx < linesOfTokens.length; lineIdx++) {
+                const lineTokens = linesOfTokens[lineIdx];
+                let lineHtml = '';
+
+                for (let i = 0; i < lineTokens.length; i++) {
+                    const token = lineTokens[i];
+                    const isWord = token.text && /^[a-zA-ZÀ-ɏ]/.test(token.text);
+
+                    if (isWord) {
+                        const classes = [];
+                        if (token.isAmbiguous || (token.accented && token.accented.length > 1)) classes.push('ambig');
+                        if (token.isUnknown) classes.push('unknown');
+                        classes.push('word');
+
+                        const classAttr = classes.length > 0 ? ` class="${classes.join(' ')}"` : '';
+                        let displayText = (token.macronizedText || token.text).replace(/_/g, '');
+                        if (!displayText) displayText = token.text.replace(/_/g, '');
+
+                        lineHtml += `<span${classAttr} data-word-index="${wordIndex}">${escapeHtml(displayText)}</span>`;
+                        wordIndex++;
+                    } else {
+                        lineHtml += escapeHtml(token.text || '');
+                    }
+                }
+
+                const foot = scannedFeet[lineIdx];
+                if (foot) {
+                    html += `<div class="verse-line"><span class="verse-content">${lineHtml}</span><span class="verse-foot">${escapeHtml(foot)}</span></div>`;
+                } else {
+                    html += `<div class="verse-line"><span class="verse-content">${lineHtml}</span></div>`;
+                }
+            }
+
+            document.getElementById('resultText').innerHTML = html;
+            document.getElementById('stats').innerHTML = `
+                Words: ${result.statistics.totalWords} |
+                Known: ${result.statistics.knownWords} |
+                Unknown: ${result.statistics.unknownWords} |
+                Ambiguous: ${result.statistics.ambiguousForms} |
+                Confidence: ${(result.confidence * 100).toFixed(0)}% |
+                Time: ${result.processingTime.toFixed(0)}ms
+            `;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showWordPopup(event, wordIndex) {
+            if (!currentResult || !currentResult.tokens) return;
+
+            let tokenIndex = 0;
+            let targetToken = null;
+            for (const token of currentResult.tokens) {
+                const isWord = token.text && /^[a-zA-ZÀ-ɏ]/.test(token.text);
+                if (isWord) {
+                    if (tokenIndex === wordIndex) { targetToken = token; break; }
+                    tokenIndex++;
+                }
+            }
+
+            if (!targetToken) return;
+
+            const popup = document.createElement('div');
+            popup.className = 'word-popup';
+
+            const candidates = targetToken.accented || [];
+            const flags = [];
+            if (targetToken.isAmbiguous) flags.push('Ambiguous');
+            if (targetToken.isUnknown) flags.push('Unknown');
+            if (targetToken.startssentence) flags.push('Starts Sentence');
+            if (targetToken.hasenclitic) flags.push('Has Enclitic');
+            if (targetToken.isenclitic) flags.push('Is Enclitic');
+
+            let candidatesHtml = '';
+            if (candidates.length > 0) {
+                candidatesHtml = '<div class="candidates"><strong>Candidates (wordlist/Morpheus):</strong><br>';
+                candidates.forEach((c, idx) => {
+                    candidatesHtml += `<span class="candidate">${idx+1}. ${escapeHtml(c)}</span>`;
+                });
+                candidatesHtml += '</div>';
+            }
+
+            let wordlistStatus = '—';
+            let morpheusStatus = '—';
+            if (targetToken.isUnknown) {
+                wordlistStatus = 'Not found';
+                morpheusStatus = targetToken.morpheusAnalyzed ? 'Analyzed' : 'Not analyzed';
+            } else {
+                wordlistStatus = 'Found in wordlist';
+            }
+
+            let morpheusDetailsHtml = '';
+            if (targetToken.morpheusResults && targetToken.morpheusResults.analyses && targetToken.morpheusResults.analyses.length > 0) {
+                morpheusDetailsHtml = '<div class="morpheus-details"><strong>Morpheus Analyses:</strong><br>';
+                targetToken.morpheusResults.analyses.forEach((analysis, idx) => {
+                    morpheusDetailsHtml += `<div style="margin-top:6px; padding:6px; background:#f5f5f5; border-radius:4px; border-left:3px solid #4CAF50;">`;
+                    morpheusDetailsHtml += `<strong>${idx+1}:</strong> ${escapeHtml(analysis.lemma || '—')} — ${escapeHtml(analysis.accented || '—')}<br>`;
+                    const fi = analysis.formInfo || {};
+                    morpheusDetailsHtml += `<em>POS:</em> ${escapeHtml(fi.partOfSpeech || '—')}`;
+                    if (fi.case) morpheusDetailsHtml += ` | <em>Case:</em> ${escapeHtml(fi.case)}`;
+                    if (fi.number) morpheusDetailsHtml += ` | <em>Number:</em> ${escapeHtml(fi.number)}`;
+                    if (fi.tense) morpheusDetailsHtml += ` | <em>Tense:</em> ${escapeHtml(fi.tense)}`;
+                    if (fi.mood) morpheusDetailsHtml += ` | <em>Mood:</em> ${escapeHtml(fi.mood)}`;
+                    if (fi.voice) morpheusDetailsHtml += ` | <em>Voice:</em> ${escapeHtml(fi.voice)}`;
+                    morpheusDetailsHtml += '</div>';
+                });
+                morpheusDetailsHtml += '</div>';
+            }
+
+            const tagFeats = decodeLdtTagToFeatures(targetToken.tag || '');
+
+            popup.innerHTML = `
+                <h4>${escapeHtml(targetToken.text)} → ${escapeHtml(targetToken.macronizedText || targetToken.text)}</h4>
+                <div class="popup-section">
+                    <div class="popup-section-title">RFTagger Tag</div>
+                    <table>
+                        <tr><td>Tag:</td><td><code>${escapeHtml(targetToken.tag || '—')}</code></td></tr>
+                        ${tagFeats.map(f => `<tr><td>${escapeHtml(f.feature)}:</td><td>${escapeHtml(f.value)} ( <code>${escapeHtml(f.raw)}</code> )</td></tr>`).join('')}
+                    </table>
+                </div>
+                <div class="popup-section">
+                    <div class="popup-section-title">Details</div>
+                    <table>
+                        <tr><td>Lemma:</td><td>${escapeHtml(targetToken.lemma || '—')}</td></tr>
+                        <tr><td>Confidence:</td><td>${targetToken.confidence != null ? (targetToken.confidence * 100).toFixed(0) + '%' : '—'}</td></tr>
+                        <tr><td>Wordlist:</td><td>${wordlistStatus}</td></tr>
+                        <tr><td>Morpheus:</td><td>${morpheusStatus}</td></tr>
+                        <tr><td>Flags:</td><td>${flags.length > 0 ? flags.join(', ') : '—'}</td></tr>
+                    </table>
+                </div>
+                ${candidatesHtml}
+                ${morpheusDetailsHtml}
+            `;
+
+            const rect = event.target.getBoundingClientRect();
+            popup.style.left = Math.min(rect.left + window.scrollX, window.innerWidth - 420) + 'px';
+            popup.style.top = Math.min(rect.bottom + window.scrollY + 5, window.innerHeight - 300) + 'px';
+
+            const existing = document.querySelector('.word-popup');
+            if (existing) existing.remove();
+            document.body.appendChild(popup);
+
+            setTimeout(() => {
+                function closePopup(e) {
+                    if (!popup.contains(e.target)) { popup.remove(); document.removeEventListener('click', closePopup); }
+                }
+                document.addEventListener('click', closePopup);
+            }, 10);
+        }
+
+        function showError(msg) {
+            document.getElementById('error').textContent = msg;
+            document.getElementById('error').style.display = 'block';
+        }
+
+        document.getElementById('processBtn').addEventListener('click', processText);
+        document.getElementById('inputText').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.ctrlKey) processText();
+        });
+
+        document.getElementById('resultText').addEventListener('click', function(e) {
+            const wordSpan = e.target.closest('[data-word-index]');
+            if (wordSpan) showWordPopup(e, parseInt(wordSpan.getAttribute('data-word-index'), 10));
+        });
+
+        init();
+    </script>
+</body>
+</html>
