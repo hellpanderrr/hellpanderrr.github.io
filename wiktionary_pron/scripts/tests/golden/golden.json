@@ -1,0 +1,302 @@
+{
+  "Lithuanian": [
+    {
+      "text": "labas",
+      "args": "Lithuanian;Default;Phonemic",
+      "status": "success",
+      "value": "ɫɐ.bɐs"
+    },
+    {
+      "text": "diena",
+      "args": "Lithuanian;Default;Phonemic",
+      "status": "success",
+      "value": "dʲɪə.nɐ"
+    },
+    {
+      "text": "draugas",
+      "args": "Lithuanian;Default;Phonemic",
+      "status": "success",
+      "value": "drɐʊ̯.ɡɐs"
+    },
+    {
+      "text": "miestas",
+      "args": "Lithuanian;Default;Phonemic",
+      "status": "success",
+      "value": "mʲɪə.stɐs"
+    },
+    {
+      "text": "vanduo",
+      "args": "Lithuanian;Default;Phonemic",
+      "status": "success",
+      "value": "ʋɐn.dʊ.oː"
+    }
+  ],
+  "Icelandic": [
+    {
+      "text": "góðan",
+      "args": "Icelandic;Default;Phonemic",
+      "status": "success",
+      "value": "ˈkou̯ːðan"
+    },
+    {
+      "text": "daginn",
+      "args": "Icelandic;Default;Phonemic",
+      "status": "success",
+      "value": "ˈtai̯cɪnː"
+    },
+    {
+      "text": "vinur",
+      "args": "Icelandic;Default;Phonemic",
+      "status": "success",
+      "value": "ˈvɪːnʏr"
+    },
+    {
+      "text": "borg",
+      "args": "Icelandic;Default;Phonemic",
+      "status": "success",
+      "value": "ˈpɔrk"
+    },
+    {
+      "text": "vatn",
+      "args": "Icelandic;Default;Phonemic",
+      "status": "success",
+      "value": "ˈvahtn̥"
+    }
+  ],
+  "Belorussian": [
+    {
+      "text": "добры",
+      "args": "Belorussian;Default;Phonemic",
+      "status": "success",
+      "value": "ˈdobrɨ"
+    },
+    {
+      "text": "дзень",
+      "args": "Belorussian;Default;Phonemic",
+      "status": "success",
+      "value": "d͡zʲenʲ"
+    },
+    {
+      "text": "горад",
+      "args": "Belorussian;Default;Phonemic",
+      "status": "success",
+      "value": "ˈɣorat"
+    },
+    {
+      "text": "вада",
+      "args": "Belorussian;Default;Phonemic",
+      "status": "success",
+      "value": "vada"
+    }
+  ],
+  "Bulgarian": [
+    {
+      "text": "добър",
+      "args": "Bulgarian;Default;Phonemic",
+      "status": "success",
+      "value": "dobɐr"
+    },
+    {
+      "text": "ден",
+      "args": "Bulgarian;Default;Phonemic",
+      "status": "success",
+      "value": "dɛn"
+    },
+    {
+      "text": "приятел",
+      "args": "Bulgarian;Default;Phonemic",
+      "status": "success",
+      "value": "prijɐtɛɫ"
+    },
+    {
+      "text": "град",
+      "args": "Bulgarian;Default;Phonemic",
+      "status": "success",
+      "value": "ɡrat"
+    },
+    {
+      "text": "вода",
+      "args": "Bulgarian;Default;Phonemic",
+      "status": "success",
+      "value": "vodɐ"
+    }
+  ],
+  "Mongolian": [
+    {
+      "text": "сайн",
+      "args": "Mongolian;Default;Phonemic",
+      "status": "success",
+      "value": "saiŋ"
+    },
+    {
+      "text": "найз",
+      "args": "Mongolian;Default;Phonemic",
+      "status": "success",
+      "value": "naid͡z"
+    },
+    {
+      "text": "хот",
+      "args": "Mongolian;Default;Phonemic",
+      "status": "success",
+      "value": "xɔtʰ"
+    },
+    {
+      "text": "ус",
+      "args": "Mongolian;Default;Phonemic",
+      "status": "success",
+      "value": "ʊs"
+    }
+  ],
+  "Armenian": [
+    {
+      "text": "բարեւ",
+      "args": "Armenian;Eastern;Phonemic",
+      "status": "success",
+      "value": "bɑˈɾev"
+    },
+    {
+      "text": "ընկեր",
+      "args": "Armenian;Eastern;Phonemic",
+      "status": "success",
+      "value": "ənˈkeɾ"
+    },
+    {
+      "text": "քաղաք",
+      "args": "Armenian;Eastern;Phonemic",
+      "status": "success",
+      "value": "kʰɑˈʁɑkʰ"
+    },
+    {
+      "text": "ջուր",
+      "args": "Armenian;Eastern;Phonemic",
+      "status": "success",
+      "value": "d͡ʒuɾ"
+    },
+    {
+      "text": "բարեւ",
+      "args": "Armenian;Western;Phonemic",
+      "status": "success",
+      "value": "pɑˈɾev"
+    },
+    {
+      "text": "ընկեր",
+      "args": "Armenian;Western;Phonemic",
+      "status": "success",
+      "value": "ənˈɡeɾ"
+    },
+    {
+      "text": "քաղաք",
+      "args": "Armenian;Western;Phonemic",
+      "status": "success",
+      "value": "kɑˈʁɑk"
+    },
+    {
+      "text": "ջուր",
+      "args": "Armenian;Western;Phonemic",
+      "status": "success",
+      "value": "t͡ʃuɾ"
+    }
+  ],
+  "Russian": [
+    {
+      "text": "вода́",
+      "args": "Russian;Default;Phonetic",
+      "status": "success",
+      "value": "/ˈvoˈda/,/vɐˈda/"
+    },
+    {
+      "text": "стол",
+      "args": "Russian;Default;Phonetic",
+      "status": "success",
+      "value": "/ˈstoɫ/"
+    },
+    {
+      "text": "кни́га",
+      "args": "Russian;Default;Phonetic",
+      "status": "success",
+      "value": "/ˈknʲiɡə/,/ˈknʲiˈɡa/"
+    },
+    {
+      "text": "дом",
+      "args": "Russian;Default;Phonetic",
+      "status": "success",
+      "value": "/ˈdom/"
+    }
+  ],
+  "Ukrainian": [
+    {
+      "text": "вода́",
+      "args": "Ukrainian;Default;Phonetic",
+      "status": "success",
+      "value": "/ˈwɔˈda/,/wɔˈdaˈ/"
+    },
+    {
+      "text": "стіл",
+      "args": "Ukrainian;Default;Phonetic",
+      "status": "success",
+      "value": "ˈsʲtʲiɫ"
+    },
+    {
+      "text": "кни́га",
+      "args": "Ukrainian;Default;Phonetic",
+      "status": "success",
+      "value": "/ˈknɪˈɦɐ/,/ˈknɪˈɦa/"
+    },
+    {
+      "text": "дім",
+      "args": "Ukrainian;Default;Phonetic",
+      "status": "success",
+      "value": "ˈdʲim"
+    }
+  ],
+  "Portuguese": [
+    {
+      "text": "obrigado",
+      "args": "Portuguese;Brazil;Phonetic",
+      "status": "success",
+      "value": "o.bɾiˈɡa.du"
+    },
+    {
+      "text": "cidade",
+      "args": "Portuguese;Brazil;Phonetic",
+      "status": "success",
+      "value": "siˈda.d͡ʒi"
+    },
+    {
+      "text": "água",
+      "args": "Portuguese;Brazil;Phonetic",
+      "status": "success",
+      "value": "ˈa.ɡwɐ"
+    },
+    {
+      "text": "amigo",
+      "args": "Portuguese;Brazil;Phonetic",
+      "status": "success",
+      "value": "aˈmi.ɡu"
+    },
+    {
+      "text": "obrigado",
+      "args": "Portuguese;Portugal;Phonemic",
+      "status": "success",
+      "value": "ɔ.bɾiˈɡa.du"
+    },
+    {
+      "text": "cidade",
+      "args": "Portuguese;Portugal;Phonemic",
+      "status": "success",
+      "value": "siˈda.d(ɨ)"
+    },
+    {
+      "text": "água",
+      "args": "Portuguese;Portugal;Phonemic",
+      "status": "success",
+      "value": "ˈa.ɡwɐ"
+    },
+    {
+      "text": "amigo",
+      "args": "Portuguese;Portugal;Phonemic",
+      "status": "success",
+      "value": "ɐˈmi.ɡu"
+    }
+  ]
+}

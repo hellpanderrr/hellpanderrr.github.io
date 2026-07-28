@@ -1,0 +1,5 @@
+node_modules/
+wiktionary_pron/test-results/
+wiktionary_pron/playwright-report/
+__pycache__/
+*.pyc

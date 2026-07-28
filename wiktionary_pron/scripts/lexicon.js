@@ -438,4 +438,4 @@ function processLexiconWithWorker(worker, text) {
   });
 }
 
-export { loadLexicon };
+export { loadLexicon, OptimizedV3Lexicon };

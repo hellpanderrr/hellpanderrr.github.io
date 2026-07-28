@@ -1,0 +1,58 @@
+name: Tests
+
+on:
+  push:
+    paths:
+      - "wiktionary_pron/scripts/**"
+      - "wiktionary_pron/lua_modules/**"
+      - "wiktionary_pron/index.html"
+      - "wiktionary_pron/e2e/**"
+      - "wiktionary_pron/package.json"
+      - "wiktionary_pron/playwright.config.js"
+      - ".github/workflows/tests.yml"
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wiktionary_pron
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: wiktionary_pron/package-lock.json
+      - run: npm ci
+      - name: Unit tests
+        run: npm run test:unit
+      - name: IPA engine tests (wasmoon)
+        run: npm run test:ipa
+
+  e2e:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: wiktionary_pron
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: wiktionary_pron/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: E2E browser tests
+        # The macronizer smoke test is excluded: its first-run wordlist load
+        # into IndexedDB takes ~10+ min. Run manually: npm run test:e2e:macronizer
+        run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: wiktionary_pron/test-results/
+          retention-days: 7
