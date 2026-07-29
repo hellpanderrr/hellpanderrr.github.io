@@ -685,7 +685,7 @@ async function updateOptionsUponLanguageSelection(event) {
     if (selectedLanguage === "Irish") {
       var ta = document.getElementById("text_to_transcribe");
       if (ta && !localStorage.getItem("inputText") && !urlParams.get("text")) {
-        ta.value = "caisleán cailín baile Gaeltacht uisce";
+        ta.value = "cleachtann mic léinn an aibítir fhoghraíochta idirnáisiúnta go cúramach i gcónaí";
       }
     }
 
