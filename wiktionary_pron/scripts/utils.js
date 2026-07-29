@@ -432,6 +432,17 @@ const ipaHandlers = {
     ]),
   ),
 
+  // --- Irish G2P: 17-pass pipeline, no Wiktionary Lua pron module exists ---
+  Irish: ({ cleanText, langStyle }) => {
+    const dialectMap = {
+      Connacht: "connacht",
+      Munster: "munster",
+      Ulster: "ulster",
+    };
+    const dialect = dialectMap[langStyle] || "connacht";
+    return window.ga_ipa.transcribe(cleanText, dialect);
+  },
+
   // --- Group 3: Lexicon Lookup with Generation Fallback ---
   ...Object.fromEntries(
     ["German", "French", "Czech", "Lithuanian", "Icelandic"].map((lang) => [

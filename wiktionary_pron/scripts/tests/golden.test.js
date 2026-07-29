@@ -23,6 +23,7 @@ const LANG_CODES = {
   Russian: "ru",
   Ukrainian: "uk",
   Portuguese: "pt",
+  Irish: "ga",
 };
 
 let get_ipa_no_cache;
