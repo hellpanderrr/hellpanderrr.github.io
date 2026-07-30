@@ -681,12 +681,14 @@ async function updateOptionsUponLanguageSelection(event) {
     enableAll();
     loadedLanguages[selectedLanguage] = true;
 
-    // Language-specific default example text
-    if (selectedLanguage === "Irish") {
-      var ta = document.getElementById("text_to_transcribe");
-      if (ta && !localStorage.getItem("inputText") && !urlParams.get("text")) {
-        ta.value = "cleachtann mic léinn an aibítir fhoghraíochta idirnáisiúnta go cúramach i gcónaí";
-      }
+    // Language-specific default example text (data-driven, extensible)
+    const DEFAULT_EXAMPLE_TEXT = {
+      Irish: "cleachtann mic léinn an aibítir fhoghraíochta idirnáisiúnta go cúramach i gcónaí",
+    };
+    const defaultText = DEFAULT_EXAMPLE_TEXT[selectedLanguage];
+    if (defaultText && !localStorage.getItem("inputText") && !urlParams.get("text")) {
+      const ta = document.getElementById("text_to_transcribe");
+      if (ta) { ta.value = defaultText; }
     }
 
 
@@ -848,9 +850,6 @@ function rememberText() {
   const savedText = localStorage.getItem("inputText");
   if (savedText) {
     textArea.value = savedText;
-  // If no saved text and the HTML placeholder is still showing, set a language-
-  // specific default after the user selects a language.  The language-change
-  // handler below calls enableAll() and can overwrite at that point.
   }
 }
 

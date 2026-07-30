@@ -641,22 +641,10 @@ return {
       -- Runs before the lexical A_FRONT/A_REDUCE tables so they still win.
       -- TRIED AND REVERTED (-48): pretonic a is lexically diffuse (many
       -- words keep plain [a]); the onset-quality conditioning is not enough.
-      do
-        local stress_seen = true  -- disabled
-        for i, t in ipairs(tokens) do
-          if t.type == "vowel" then
-            if t.stress then stress_seen = true
-            elseif false and not stress_seen and t.phon == "a" then
-              local prev = tokens[i - 1]
-              if prev and prev.type == "cons" and prev.phon and prev.phon ~= "" then
-                t.phon = (prev.palatal == true) and "ə" or "ɑ"
-              end
-            end
-          elseif t.type == "boundary" then
-            stress_seen = false
-          end
-        end
-      end
+      -- TRIED AND REVERTED (2026-07-28): Munster pretonic a→ɑ/ə
+      -- is lexically diffuse (too many regressions); onset-quality
+      -- conditioning doesn't salvage it.
+      -- See CLAUDE.md "Tried and reverted" section.
 
       if MUNSTER_A_FRONT[mun_w] then
         for _, t in ipairs(tokens) do

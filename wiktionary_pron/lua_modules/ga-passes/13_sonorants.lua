@@ -22,10 +22,9 @@ local function is_front_vowel_phon(phon)
 end
 
 -- Insert a combining diacritic into a phoneme string after the base character.
--- base_char: 1-byte ASCII letter (l, n, etc.)
--- combining: UTF-8 combining character (e.g. ̪ U+032A, ̠ U+0320)
--- suffix: remaining diacritics (e.g. ˠ, ʲ)
--- Returns: base_char + combining + suffix
+-- phon: base phoneme string (e.g. "l", "n")
+-- combining: UTF-8 combining character (U+032A dental, U+0320 postalveolar)
+-- Returns: base + combining + any existing length/width diacritics already on phon
 local function insert_combining(phon, combining)
   if not phon or #phon == 0 then return phon end
   -- Find the base character (first byte, which is ASCII for l/n/m/r)
@@ -96,10 +95,6 @@ local NON_TENSOR_SLENDER = {
   argoint=true, peint=true, failte=true, mointeach=true,
   -- Additional verbal adjective forms (-te/-the suffix with slender n/l)
   deintear=true, puint=true, ginte=true, nuaghinte=true, oscailte=true, gabhailte=true, innealtoir=true,
-  -- Additional n+t over-application exceptions
-  caintim=true, guiochtaint=true, peinteailte=true,
-  -- Loanwords and verbal suffix -t(-e) forms: n+t is non-tensor
-  caintim=true, guiochtaint=true, peinteailte=true,
   -- Loanwords and compounds: slender l/n is non-tensor
   pillin=true, milsean=true, milse=true, leorai=true, liopa=true, liopard=true,
   truaill=true, duille=true, gaedhilge=true,

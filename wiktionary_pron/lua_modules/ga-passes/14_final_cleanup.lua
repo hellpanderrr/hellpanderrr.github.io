@@ -757,9 +757,14 @@ return {
           override_idx = override_idx + 1
         end
         -- Also silence any trailing apostrophe boundary (e.g., "a'" -> ə not ə')
-        local next_boundary = tokens[seg[#seg].ortho_indices[2] + 1] or {}
-        if next_boundary.type == "boundary" and next_boundary.ortho == "'" then
-          next_boundary.phon = ""
+        -- Guard ortho_indices: synthetic tokens (clones from epenthesis etc.)
+        -- may lack this field, causing a nil-index error.
+        local last_seg = seg[#seg]
+        if last_seg and last_seg.ortho_indices and #last_seg.ortho_indices >= 2 then
+          local next_boundary = tokens[last_seg.ortho_indices[2] + 1] or {}
+          if next_boundary.type == "boundary" and next_boundary.ortho == "'" then
+            next_boundary.phon = ""
+          end
         end
       end
       ::next_fw_seg::

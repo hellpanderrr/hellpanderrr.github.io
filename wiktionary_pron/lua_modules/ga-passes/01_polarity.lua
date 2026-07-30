@@ -120,6 +120,7 @@ return {
       if sonorants[token.ortho] and not polarity then
         local next_cons = nil
         for k = i + 1, #tokens do
+          if tokens[k].type == "boundary" then break end
           if tokens[k].type == "cons" then next_cons = tokens[k]; break end
           if tokens[k].type == "vowel" then break end
         end

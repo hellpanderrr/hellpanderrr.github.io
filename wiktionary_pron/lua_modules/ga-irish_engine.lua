@@ -166,6 +166,27 @@ local function render_output(tokens)
     end
   end
 
+  -- Shared onset-start helper: walks backward from vowel_idx to find
+  -- the phonotactically legal onset start. Stops at word boundaries;
+  -- optionally stops at boundary tokens (use true for secondary stress,
+  -- which must not cross word/morpheme boundaries).
+  local function find_onset_start(tokens, vowel_idx, stop_at_boundaries)
+    local onset = vowel_idx
+    for j = vowel_idx - 1, 1, -1 do
+      local t = tokens[j]
+      if t.type == "cons" and t.phon and t.phon ~= "" then
+        onset = j
+      elseif t.type == "boundary" and stop_at_boundaries then
+        break
+      elseif t.phon == nil or t.phon == "" then
+        -- skip silent/ghost consonants (fh, th, etc.)
+      else
+        break
+      end
+    end
+    return onset
+  end
+
   local parts = {}
   for i, token in ipairs(tokens) do
     if token.phon and token.phon ~= "" then
@@ -186,20 +207,8 @@ local function render_output(tokens)
         -- Lexically positioned mark (pass 14 Step 11): emit exactly here.
         table.insert(parts, S.SECONDARY_STRESS_MARK)
       elseif token.secondary and token.type == "cons" then
-        -- Secondary stress: mirror the onset-start logic.
-        local onset_start = i
-        for j = i - 1, 1, -1 do
-          local t = tokens[j]
-          if t.type == "cons" and t.phon and t.phon ~= "" then
-            onset_start = j
-          elseif t.type == "boundary" then
-            break
-          elseif t.phon == nil or t.phon == "" then
-            -- skip
-          else
-            break
-          end
-        end
+        -- Secondary stress: reuse the same onset-start logic as primary.
+        local onset_start = find_onset_start(tokens, i, true)
         if onset_start == i then
           table.insert(parts, S.SECONDARY_STRESS_MARK)
         end

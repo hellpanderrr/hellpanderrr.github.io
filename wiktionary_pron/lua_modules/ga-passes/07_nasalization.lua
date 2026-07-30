@@ -1,5 +1,6 @@
 -- Pass #7: Vowel nasal raising.
--- o/u/ó/ú -> [uː] before geminate nasals (nn, ng, doubled n n).
+-- Short o/u -> [ʊ] before geminate nasals (nn, ng).
+-- Long ó/ú retain their quality; not raised to [uː].
 -- Runs after vocalization so vocalized forms aren't re-nasalized.
 -- References: Hickey II.1.9.4 (vowel gradation — nasal raising before geminate sonorants)
 

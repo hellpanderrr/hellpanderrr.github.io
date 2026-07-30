@@ -55,7 +55,7 @@ end
 
 return {
   name = "unstressed_reduction",
-  writes_context = false,
+  writes_context = true,
 
   run = function(tokens, context)
     if context.vowel_count <= 1 then
