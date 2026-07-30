@@ -490,6 +490,9 @@ return {
       ::next_seg::
     end
 
+    -- Write root_vowel_count back to context so pass 11 can use it.
+    context.root_vowel_count = seg_root_vowel_count
+
     context.is_monosyllabic = seg_is_monosyllabic
     return tokens
   end,

@@ -21,9 +21,11 @@ return {
 
       local next = tokens[i + 1]
 
-      -- Before ng: only apply to simple vowels (single orthographic character),
+      -- Before slender ng -> [ɪ]. Hickey II.1.9.4: vowel shortens to [ɪ]
+      -- before slender codas; broad ng is unaffected.
+      -- Only apply to simple vowels (single orthographic character),
       -- not digraphs (ai, ea, etc.) which pass 10 resolves.
-      if next and next.type == "cons" and next.ortho == "ng" and #token.ortho == 1 then
+      if next and next.type == "cons" and next.ortho == "ng" and next.palatal == true and #token.ortho == 1 then
         token.phon = "ɪ"
       end
 
