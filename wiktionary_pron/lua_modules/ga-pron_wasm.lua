@@ -13,12 +13,10 @@ mw.ustring = require('ustring.ustring')
 -- upper, charsets) via a dummy NFC call with a non-ASCII character.
 mw.ustring.toNFC("á")
 
+-- Requiring the engine also eager-loads the lex_subs tables (see the
+-- module-scope pcall(require, ...) block in ga-irish_engine.lua), so they too
+-- are resolved inside the doString coroutine rather than from a JS callback.
 local engine = require('ga-irish_engine')
-
--- Eager-load lex_subs tables inside doString coroutine.
-pcall(require, "ga-passes.lex_subs_connacht")
-pcall(require, "ga-passes.lex_subs_munster")
-pcall(require, "ga-passes.lex_subs_ulster")
 
 export.transcribe = engine.transcribe
 
