@@ -43,15 +43,10 @@ local AFTER_C_G_GUARD_EXCEPTIONS = {
 local SHORT_VOWELS = { ["a"] = true, ["e"] = true, ["i"] = true, ["o"] = true, ["u"] = true,
                        ["ɛ"] = true, ["ɪ"] = true, ["ɔ"] = true, ["ʊ"] = true }
 
--- Check if phon is a short vowel (no length mark)
-local function is_short_vowel(phon)
-  if not phon or phon == "" then return false end
-  -- Phon containing ː is long — never reduce
-  if phon:match(ustring and "[".. (ustring and ustring.len and "ː" or "ː") .."]") then
-    return false
-  end
-  return SHORT_VOWELS[phon]
-end
+-- NB: a local is_short_vowel() helper used to live here. It was dead code that
+-- referenced an undefined `ustring` (never required in this file), so calling it
+-- would have raised. run() inlines the equivalent test as
+-- `not phon:find("ː", 1, true) and SHORT_VOWELS[phon]`. Removed 2026-07-31.
 
 return {
   name = "unstressed_reduction",

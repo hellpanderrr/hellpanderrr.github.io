@@ -449,6 +449,10 @@ return {
     end
 
     context.is_monosyllabic = seg_is_monosyllabic
+    -- Publish the root-syllable count alongside is_monosyllabic. The header
+    -- documents this pass as computing root_vowel_count, and downstream passes
+    -- read context.root_vowel_count; without this it was always nil.
+    context.root_vowel_count = seg_root_vowel_count
     return tokens
   end,
 }
