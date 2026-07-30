@@ -1,0 +1,16 @@
+# Jekyll configuration for GitHub Pages.
+#
+# This site is a plain static site — nothing here uses Jekyll's templating. The
+# only reason this file exists is that the Pages build (see
+# .github/workflows/jekyll-gh-pages.yml, which runs actions/jekyll-build-pages)
+# excludes any path whose basename starts with an underscore. That silently
+# dropped wiktionary_pron/lua_modules/ga-passes/_shared.lua from the published
+# site, giving a 404 and breaking Irish transcription entirely — every one of
+# the 17 Irish passes requires that module.
+#
+# `include` re-adds specific underscore-prefixed paths to the build output.
+include:
+  - wiktionary_pron/lua_modules/ga-passes/_shared.lua
+
+# Deliberately no `exclude:` list — Jekyll's defaults already skip node_modules
+# and .github, and overriding it here risks dropping something the site serves.
