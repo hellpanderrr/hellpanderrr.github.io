@@ -208,7 +208,6 @@ return {
         elseif ortho == "ea" then token.phon = dv.ea
         elseif ortho == "ae" then token.phon = "eː"
         elseif ortho == "ei" then token.phon = "ɛ"
-        elseif ortho == "ai" and not next then token.phon = "iː"  -- word-final -aí
         elseif ortho == "ai" then token.phon = dv.ai
         elseif ortho == "oi" then token.phon = dv.oi
         elseif ortho == "ui" then token.phon = dv.ui
@@ -226,10 +225,13 @@ return {
           else
             token.phon = "iː"  -- word-final
           end
-        elseif ortho == "aí" or (ortho == "ai" and not next) then
+        elseif ortho == "aí" then
           -- aí: unstressed variant → word-final iː, medial short a
+          -- Word-final detection uses boundary-aware check (not just nil next)
+          -- per Hickey II.1.9: boundary tokens exist in multi-word phrases.
           local next_t = tokens[i + 1]
-          if next_t and next_t.type == "cons" then
+          local is_final = not next_t or next_t.type == "boundary"
+          if not is_final and next_t.type == "cons" then
             token.phon = "a"  -- medial: resolve a+i short, reduction will handle
           else
             token.phon = "iː"  -- word-final: aí -> iː
@@ -554,16 +556,19 @@ return {
           token.phon = "ɪ"
           token.restore_i = true
         end
+      end
 
-
-      -- Lexical quality overrides: oi in specific words should be ? (open-mid central rounded) not ?
+      -- Lexical quality overrides: oi in specific words → open-mid central rounded ɞ.
+      -- Must be a separate if-block, not nested inside the phon=="ɛ" block above;
+      -- otherwise OI_TO_OE is gated on the outer condition and on EPS tables not
+      -- having already rewritten phon to ɪ.
       if ortho == "oi" and token.phon == "ɛ" and context.word_ortho then
         local w = context.word_ortho:lower()
         local OI_TO_OE = { coillte=true, gcoillte=true, choillte=true,
           scoile=true, goidim=true,
           coirce=true, coille=true, gcoill=true }
         if OI_TO_OE[w] then token.phon = "ɞ" end
-      end      end
+      end
 
             -- Lexical: "ai" digraph → ɪ in specific words (not a).
       -- airgeadúla: first vowel "ai" expected ɪ, not a.
