@@ -30,6 +30,8 @@ const translatedMeta = {
     "Ελληνικά σε IPA: Online μετατροπέας και γεννήτρια φωνητικής μεταγραφής. Μετατρέψτε ελληνικό κείμενο σε φωνημική μεταγραφή.",
   Icelandic:
     "Íslenska yfir í IPA: Hljóðritunarbreytir og rafall á netinu. Breyttu texta í hljóðfræðilega umritun.",
+  Irish:
+    "Gaeilge go IPA: Gineadóir agus tiontaire tras-scríbhneoireachta foghraíochta ar líne. Tiontaigh téacs Gaeilge go tras-scríbhinn fhóinéimeach.",
 
   // --- Languages with ONLY Phonetic ---
   Russian:
@@ -58,6 +60,7 @@ Esta transcrição normalmente se aproxima de maneira padrão de pronunciar dete
   Lithuanian: `Tarptautinė fonetinė abėcėlė arba TFA – abėcėlinė fonetinio žymėjimo sistema, paremta lotynų abėcėle. Ją sukūrė Tarptautinė fonetikos asociacija, siekdama sunorminti įvairių kalbų garsų užrašymą. Tarptautinę fonetinę abėcėlę naudoja leksikografai, žmonės, kurie moko(si) užsienio kalbų, lingvistai, kalbos ir kalbėsenos patologai, dainininkai, aktoriai, dirbtinių kalbų kūrėjai bei vertėjai.`,
   Icelandic: `Með alþjóðlega hljóðstafrófinu er leitast við að lýsa áþreifanlegum eiginleikum mælts máls, þá hljóðönum, hljómfalli og niðurgreiningu í orð og atkvæði. Því eru þó takmörk sett þegar kemur að smæstu smáatriðum, en reynt hefur verið að auka á notagildi þess með viðbótartáknum.
 Þau grunntákn sem stuðst er við í alþjóðlega hljóðstafrófinu eru stafir og sérmerki. Hægt er að hljóðrita af mismikilli nákvæmni og stöðugt er unnið að því að bæta nákvæmni stafrófsins. Alþjóðlega hljóðfræðifélagið bætir við, fjarlægir og breytir táknum eftir þörf. Núorðið eru stafirnir alls 107, sérmerkin 52 og hljómfallstákn fjögur í stafrófinu.`,
+  Irish: `Is córas nodaireachta é an Aibítir Fhoghraíochta Idirnáisiúnta a chruthaigh teangeolaithe chun fuaimeanna na gcanúintí go léir a scríobh síos go cruinn. Baintear úsáid as chun foghraíocht na Gaeilge a léiriú, agus na trí phríomhchanúint san áireamh: Connachta, an Mhumhain agus Ulaidh. Tá difríochtaí móra idir na canúintí ó thaobh na ngutaí agus na gconsan caol agus leathan de.`,
 };
 
 function updateMeta(selectedLanguage) {

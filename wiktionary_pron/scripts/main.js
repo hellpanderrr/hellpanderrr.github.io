@@ -680,18 +680,6 @@ async function updateOptionsUponLanguageSelection(event) {
 
     enableAll();
     loadedLanguages[selectedLanguage] = true;
-
-    // Language-specific default example text (data-driven, extensible)
-    const DEFAULT_EXAMPLE_TEXT = {
-      Irish: "cleachtann mic léinn an aibítir fhoghraíochta idirnáisiúnta go cúramach i gcónaí",
-    };
-    const defaultText = DEFAULT_EXAMPLE_TEXT[selectedLanguage];
-    if (defaultText && !localStorage.getItem("inputText") && !urlParams.get("text")) {
-      const ta = document.getElementById("text_to_transcribe");
-      if (ta) { ta.value = defaultText; }
-    }
-
-
   }
 
   setLanguageAndFindVoice(lang.ttsCode);
@@ -844,8 +832,8 @@ function rememberText() {
     textArea.setAttribute("data-listener-added", "true");
   }
 
-  // Retrieve text from local storage on page load, or set default per language.
-  // Check for URL ?text= param inside the lang handler instead (it runs later).
+  // Restore text from local storage. Runs after updateMeta() has seeded the
+  // per-language sample text, so a saved draft wins over the sample.
   console.log("DOMContentLoaded", localStorage.getItem("inputText"));
   const savedText = localStorage.getItem("inputText");
   if (savedText) {
