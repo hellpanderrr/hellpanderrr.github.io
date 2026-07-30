@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Irish IPA Transcription - Help</title>
+    <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../icons/help/favicon-16x16.png">
+    <link rel="icon" href="../icons/help/favicon.ico">
+    <link href="help.css" rel="stylesheet">
+</head>
+<body>
+<div id="content">
+    <h1>Irish IPA Transcription - Help</h1>
+
+    <p style="display: flex; justify-content: space-between; align-items: center;">
+        <span><a href="../?lang=Irish">← Back to Irish transcription</a></span>
+        <span><a href="index.html">↑ All Languages</a></span>
+    </p>
+
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#dialects">Dialects: Connacht, Munster & Ulster</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+            </ul>
+        </li>
+        <li><strong>Irish Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#broad-slender">Broad vs Slender (Caol vs Leathan)</a></li>
+                <li><a href="#vowel-length">Vowel Length & Quality</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#lenition">Lenition (Séimhiú)</a></li>
+                <li><a href="#eclipsis">Eclipsis (Urú)</a></li>
+                <li><a href="#vowel-digraphs">Vowel Digraphs & Diphthongs</a></li>
+                <li><a href="#consonant-clusters">Consonant Clusters</a></li>
+                <li><a href="#epenthesis">Epenthesis (Svarabhakti)</a></li>
+                <li><a href="#sonorants">Sonorants: L, N, R</a></li>
+                <li><a href="#final-coda">Word-Final Codas</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><strong>Dialect Comparison</strong>
+            <ul>
+                <li><a href="#dialect-connacht">Connacht Features</a></li>
+                <li><a href="#dialect-munster">Munster Features</a></li>
+                <li><a href="#dialect-ulster">Ulster Features</a></li>
+            </ul>
+        </li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues & Limitations</a></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2 id="about">About This Tool</h2>
+
+    <h3>Irish Dialects</h3>
+    <p>Irish (Gaeilge) has three major dialect groups — Connacht, Munster, and Ulster — each with distinct phonological
+        patterns. This tool supports all three dialects. Key dialectal differences include vowel quality (e.g.,
+        Connacht /aː/ vs Munster /æː/), consonant realization (e.g., word-final broad bh/mh → vˠ/vʲ in Connacht,
+        weakened to w in some Ulster varieties), and stress placement (Munster attracts stress to sonorant-onset
+        syllables). See the <a href="https://en.wiktionary.org/wiki/Template:IPA/Irish">Wiktionary IPA/Irish module</a>
+        for the full reference.</p>
+    <p>This <a href="../?lang=Irish">Irish transcription app</a> uses a custom 17-pass phonological rule engine to
+        generate IPA (International Phonetic Alphabet) transcriptions for Irish text. Unlike other languages on this
+        site, there is no Wiktionary pronunciation module for Irish — Irish IPA on Wiktionary is hand-entered per word.
+        This engine provides automatic grapheme-to-phoneme (G2P) conversion for all three major dialects, making it the
+        first browser-based automatic Irish IPA generator.</p>
+
+    <p>The engine uses a hybrid architecture: a 17-pass phonological rule pipeline based on Irish linguistics
+        literature (Hickey 2014, Fuaimeanna na Gaeilge) plus a generated per-dialect lexical exception layer for
+        known words. When a word is in the exception dictionary, the lexicon entry overrides the rule output for
+        maximum accuracy. For unknown words, the rule-only output provides the best available generalization.</p>
+
+    <h2 id="dialects">Dialects: Connacht, Munster & Ulster</h2>
+    <p>Irish has three major spoken dialects, each with distinct phonological systems. This tool supports all three:</p>
+    <ul>
+        <li><strong>Connacht</strong> (primary target, most tuned): Spoken in counties Galway and Mayo. Features
+        include anticipatory raising (coláiste → [kʊlˠaːʃtʲə]), broad l/n as denti-alveolar [l̪ˠ]/[n̪ˠ], and
+        slender coda vowel gradation.</li>
+        <li><strong>Munster</strong> (Southern, Kerry/Cork): Distinctive stress attraction to long vowels in
+        non-initial syllables (cailín → [kaˈlʲiːnʲ]), éa-breaking ([eː] → [iːa̯]), epenthesis in obstruent+sonorant
+        clusters, final -igh/-aigh → [ɪɟ], and verbal -f(e)adh → [əx].</li>
+        <li><strong>Ulster</strong> (Northern, Donegal): Extensive post-tonic long-vowel shortening (scadán →
+        [ˈsˠkad̪ˠənˠ]), a-fronting before slender consonants (baile → [ˈbˠælʲə]), o/u merger to [ʌ], ch-weakening
+        [x]→[h], final vowel realizations (-adh→[u], -igh→[i]), and vowel nasalization before surviving mh.</li>
+    </ul>
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic</strong>: A broad transcription based on the rule pipeline + lexical exceptions.
+        Represents the abstract phoneme system of the selected dialect.</li>
+        <li><strong>Phonetic</strong>: Not currently available for Irish. The engine produces phonemic output
+        with some allophonic detail (quality diacritics, stress placement).</li>
+    </ul>
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Broad / Slender (Caol / Leathan)</dt>
+        <dd>The fundamental distinction in Irish phonology. Consonants are marked as <strong>broad</strong>
+        (velarized, <span class="ipa">ˠ</span>) when adjacent to broad vowels (a, o, u) or <strong>slender</strong>
+        (palatalized, <span class="ipa">ʲ</span>) when adjacent to slender vowels (e, i). This distinction changes
+        meaning: <em>bó</em> [bˠoː] (cow) vs <em>beo</em> [bʲoː] (alive).</dd>
+
+        <dt>Lenition (Séimhiú)</dt>
+        <dd>A grammatical mutation that turns stops into fricatives: b→bh [vˠ/vʲ], c→ch [x/ç], d→dh [ɣ/ɟ/j],
+        g→gh [ɣ/ɟ/j], m→mh [w/vˠ/vʲ], p→ph [fˠ/fʲ], s→sh [h/ç], t→th [h/ç]. Marked by adding ⟨h⟩ after
+        the consonant.</dd>
+
+        <dt>Eclipsis (Urú)</dt>
+        <dd>A grammatical mutation where voiced stops become nasals and voiceless stops become voiced:
+        b→mb [m], c→gc [g], d→nd [n], f→bhf [w/vˠ], g→ng [ŋ], p→bp [b], t→dt [d]. Marked by a prefix.</dd>
+
+        <dt>Velarization (Broad)</dt>
+        <dd>A secondary articulation marked by <span class="ipa">ˠ</span>, where the back of the tongue is
+        raised toward the velum during consonant articulation. Gives a "dark" quality, noticeable on l [l̪ˠ] vs [lʲ].</dd>
+
+        <dt>Palatalization (Slender)</dt>
+        <dd>A secondary articulation marked by <span class="ipa">ʲ</span>, where the tongue body is raised
+        toward the hard palate during consonant articulation. Gives a "light" or "y-like" quality.</dd>
+
+        <dt>Dental Consonant</dt>
+        <dd>Broad coronal consonants (t, d, l, n) are articulated with the tongue against the upper teeth
+        in Irish, marked with <span class="ipa">̪</span>: <span class="ipa">t̪ˠ, d̪ˠ, l̪ˠ, n̪ˠ</span>.</dd>
+
+        <dt>Postalveolar Consonant</dt>
+        <dd>Slender coronal consonants (t, d, l, n) are articulated with the tongue blade against the postalveolar
+        region in many dialects, marked with <span class="ipa">̠</span>: <span class="ipa">t̠ʲ, d̠ʲ, l̠ʲ, n̠ʲ</span>.</dd>
+
+        <dt>Schwa</dt>
+        <dd>A neutral vowel sound <span class="ipa">ə</span>, common in unstressed syllables — the default
+        reduced vowel in Irish.</dd>
+
+        <dt>Fada (Síneadh Fada)</dt>
+        <dd>The acute accent over vowels (á, é, í, ó, ú) marking them as long. This is phonemic: <em>cas</em>
+        [kasˠ] (turn) vs <em>cás</em> [kɑːsˠ] (case).</dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound where the tongue changes position during articulation. Irish has several
+        from vowel+fricative vocalization: <span class="ipa">əu</span> (from -abh/-amh), <span class="ipa">iə</span>
+        (from -ia-), <span class="ipa">uə</span> (from -ua-).</dd>
+
+        <dt>Anticipatory Raising</dt>
+        <dd>A Connacht feature where short /a/ or /o/ in the first syllable raises to [ɪ]/[ʊ] when followed
+        by a syllable with long [aː]: <em>coláiste</em> [kʊlˠaːʃtʲə], <em>caisleán</em> [kɪʃlʲɑːnˠ].</dd>
+
+        <dt>Svarabhakti (Epenthesis)</dt>
+        <dd>An epenthetic vowel [ə] inserted between heterorganic sonorant+obstruent clusters: <em>dearg</em>
+        [ˈdʲaɾˠəɡ], <em>gorm</em> [ˈɡɔɾˠəmˠ]. In Munster, extends to obstruent+sonorant clusters:
+        <em>ocrach</em> [ˈɔkɾˠəx] → [ˈɔkəɾˠəx].</dd>
+
+        <dt>Primary Stress</dt>
+        <dd>The main emphasis in a word (marked <span class="ipa">ˈ</span>). Defaults to the first syllable in
+        Connacht and Ulster, but attracted to long vowels in Munster.</dd>
+
+        <dt>Secondary Stress</dt>
+        <dd>Weaker emphasis (marked <span class="ipa">ˌ</span>) on later syllables in long words or compounds.</dd>
+
+        <dt>Devoicing</dt>
+        <dd>Word-final devoicing of voiced stops: <em>díobh</em> → final [vʲ]→[fʲ]. Also applies regressively
+        before certain suffixes.</dd>
+
+        <dt>Glide Insertion</dt>
+        <dd>Insertion of [j] or [w] between vowels in hiatus, or in Ulster word-final position after gh/dh
+        vocalization: <em>brúigh</em> → [bˠɾˠuːj].</dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This table helps you understand the IPA symbols used in Irish transcriptions. For each symbol, we provide
+        approximate English equivalents where possible.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <p>Irish vowels come in short/long pairs. Quality varies significantly by dialect — the values below show the
+        Connacht system; see the Dialect Comparison section for Munster and Ulster variants.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Orthography</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td>a (short)</td>
+            <td>"cup" (UK)</td>
+            <td>Short front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɑː/</span></td>
+            <td>á (long a)</td>
+            <td>"father"</td>
+            <td>Long back vowel (Connacht)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/aː/</span></td>
+            <td>á (long a)</td>
+            <td>"father"</td>
+            <td>Long central vowel (Ulster)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>e (short)</td>
+            <td>"bed"</td>
+            <td>Short mid front</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/eː/</span></td>
+            <td>é, éa, eo</td>
+            <td>"say" (without glide)</td>
+            <td>Pure long /e/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>i (short)</td>
+            <td>"sit"</td>
+            <td>Short lax high front</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iː/</span></td>
+            <td>í, ao, aí</td>
+            <td>"see" (without glide)</td>
+            <td>Long high front</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>o (short)</td>
+            <td>"law" (UK)</td>
+            <td>Short mid back</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/oː/</span></td>
+            <td>ó, eo</td>
+            <td>"go" (without glide)</td>
+            <td>Long mid back</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td>u (short)</td>
+            <td>"put"</td>
+            <td>Short lax high back</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/uː/</span></td>
+            <td>ú</td>
+            <td>"food" (without glide)</td>
+            <td>Long high back</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ə/</span></td>
+            <td>unstressed vowels</td>
+            <td>"about"</td>
+            <td>Schwa, reduced vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/əu/</span></td>
+            <td>-abh-, -amh-</td>
+            <td>"goat" (Scottish)</td>
+            <td>Diphthong from bh/mh vocalization</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/au/</span></td>
+            <td>-abh-, -amh- (Ulster)</td>
+            <td>"cow"</td>
+            <td>Ulster open diphthong</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iə/</span></td>
+            <td>ia</td>
+            <td>"fear" (without r)</td>
+            <td>Diphthong, i-glide to schwa</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/uə/</span></td>
+            <td>ua</td>
+            <td>"truant" (without r)</td>
+            <td>Diphthong, u-glide to schwa</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/iːa̯/</span></td>
+            <td>éa (Munster broken)</td>
+            <td>No English equivalent</td>
+            <td>Munster éa-breaking; prolonged i + a offglide</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʌ/</span></td>
+            <td>o/u (Ulster short)</td>
+            <td>"cup"</td>
+            <td>Ulster o/u merger</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/æ/</span></td>
+            <td>a before slender C (Ulster)</td>
+            <td>"cat"</td>
+            <td>Ulster a-fronting</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <p>Irish consonants come in broad (velarized, <span class="ipa">ˠ</span>) and slender (palatalized, <span class="ipa">ʲ</span>) pairs. The place of articulation shifts as well — broad coronal consonants are dental, slender coronal consonants are postalveolar.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Orthography</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/pˠ/</span></td>
+            <td>p (broad)</td>
+            <td>"pot" (velarized)</td>
+            <td>Voiceless bilabial stop, broad</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/pʲ/</span></td>
+            <td>p (slender)</td>
+            <td>"pew"</td>
+            <td>Voiceless bilabial stop, palatalized</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t̪ˠ/</span></td>
+            <td>t (broad)</td>
+            <td>"top" (dental)</td>
+            <td>Voiceless dental stop, broad</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t̠ʲ/</span></td>
+            <td>t (slender)</td>
+            <td>"tune" (postalveolar)</td>
+            <td>Voiceless postalveolar stop, slender</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d̪ˠ/</span></td>
+            <td>d (broad)</td>
+            <td>"dog" (dental)</td>
+            <td>Voiced dental stop, broad</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d̠ʲ/</span></td>
+            <td>d (slender)</td>
+            <td>"dew" (postalveolar)</td>
+            <td>Voiced postalveolar stop, slender</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/k/</span></td>
+            <td>c (broad)</td>
+            <td>"cat"</td>
+            <td>Voiceless velar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/c/</span></td>
+            <td>c (slender)</td>
+            <td>"cute" (without glide)</td>
+            <td>Voiceless palatal stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td>g (broad)</td>
+            <td>"got"</td>
+            <td>Voiced velar stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɟ/</span></td>
+            <td>g (slender)</td>
+            <td>"argue" (without glide)</td>
+            <td>Voiced palatal stop</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/fˠ/</span></td>
+            <td>f (broad)</td>
+            <td>"fog" (velarized)</td>
+            <td>Voiceless labiodental fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/fʲ/</span></td>
+            <td>f (slender)</td>
+            <td>"few"</td>
+            <td>Voiceless labiodental fricative, palatalized</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/vˠ/</span></td>
+            <td>bh/mh (broad)</td>
+            <td>"vow" (velarized)</td>
+            <td>Voiced labiodental fricative, broad</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/vʲ/</span></td>
+            <td>bh/mh (slender)</td>
+            <td>"view"</td>
+            <td>Voiced labiodental fricative, palatalized</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/w/</span></td>
+            <td>bh/mh (broad, lenited)</td>
+            <td>"wow"</td>
+            <td>Approximant realization after vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/sˠ/</span></td>
+            <td>s (broad)</td>
+            <td>"saw" (velarized)</td>
+            <td>Voiceless alveolar fricative, broad</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td>s (slender), sh</td>
+            <td>"show"</td>
+            <td>Voiceless postalveolar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/h/</span></td>
+            <td>h, th, sh (initial)</td>
+            <td>"hat"</td>
+            <td>Voiceless glottal fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ç/</span></td>
+            <td>ch (slender), th (slender)</td>
+            <td>"huge" (stronger)</td>
+            <td>Voiceless palatal fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td>ch (broad)</td>
+            <td>Scottish "loch"</td>
+            <td>Voiceless velar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɣ/</span></td>
+            <td>dh/gh (broad, lenited)</td>
+            <td>Spanish "amigo"</td>
+            <td>Voiced velar fricative</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td>dh/gh (slender, lenited)</td>
+            <td>"yes"</td>
+            <td>Voiced palatal approximant</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɾˠ/</span></td>
+            <td>r (broad)</td>
+            <td>"row" (tap, velarized)</td>
+            <td>Broad alveolar tap</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɾʲ/</span></td>
+            <td>r (slender)</td>
+            <td>"rye" (tap, palatalized)</td>
+            <td>Slender alveolar tap</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l̪ˠ/</span></td>
+            <td>l (broad, dental)</td>
+            <td>"call" (dental, dark)</td>
+            <td>Broad denti-alveolar lateral</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/lˠ/</span></td>
+            <td>l (broad, non-dental)</td>
+            <td>"call" (dark)</td>
+            <td>Broad alveolar lateral (non-dental contexts)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l̠ʲ/</span></td>
+            <td>l (slender, postalveolar)</td>
+            <td>"million" (retracted)</td>
+            <td>Slender postalveolar lateral</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/lʲ/</span></td>
+            <td>l (slender, plain)</td>
+            <td>"million"</td>
+            <td>Slender palatal lateral</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n̪ˠ/</span></td>
+            <td>n (broad, dental)</td>
+            <td>"no" (dental, dark)</td>
+            <td>Broad denti-alveolar nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/nˠ/</span></td>
+            <td>n (broad, non-dental)</td>
+            <td>"no" (dark)</td>
+            <td>Broad alveolar nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n̠ʲ/</span></td>
+            <td>n (slender, postalveolar)</td>
+            <td>"onion" (retracted)</td>
+            <td>Slender postalveolar nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/nʲ/</span></td>
+            <td>n (slender, plain)</td>
+            <td>"onion"</td>
+            <td>Slender palatal nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td>ng, n before g/c</td>
+            <td>"sing"</td>
+            <td>Velar nasal</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/mˠ/</span></td>
+            <td>m (broad)</td>
+            <td>"mow" (velarized)</td>
+            <td>Bilabial nasal, broad</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/mʲ/</span></td>
+            <td>m (slender)</td>
+            <td>"mew"</td>
+            <td>Bilabial nasal, palatalized</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɟ/</span></td>
+            <td>-igh (Munster)</td>
+            <td>"argue" (without glide)</td>
+            <td>Munster palatal stop from -igh/-aigh</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word</td>
+            <td><span class="ipa">ˈkalʲiːnʲ</span> (cailín, Connacht)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˌ</span></td>
+            <td>Secondary stress</td>
+            <td>Weaker emphasis</td>
+            <td><span class="ipa">ˌciːlʲ vˠɑn̪ˠˈt̪ˠɑːnʲ</span> (Cill Mhantáin)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Vowel is long</td>
+            <td><span class="ipa">aː</span> vs <span class="ipa">a</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˠ</span></td>
+            <td>Velarized (broad)</td>
+            <td>Consonant has velar quality</td>
+            <td><span class="ipa">t̪ˠ, l̪ˠ, n̪ˠ, sˠ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʲ</span></td>
+            <td>Palatalized (slender)</td>
+            <td>Consonant has palatal quality</td>
+            <td><span class="ipa">t̠ʲ, l̠ʲ, n̠ʲ, pʲ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̪</span></td>
+            <td>Dental</td>
+            <td>Consonant articulated at teeth</td>
+            <td><span class="ipa">t̪ˠ, d̪ˠ, l̪ˠ, n̪ˠ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̠</span></td>
+            <td>Postalveolar</td>
+            <td>Consonant articulated behind alveolar ridge</td>
+            <td><span class="ipa">t̠ʲ, d̠ʲ, l̠ʲ, n̠ʲ</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̃</span></td>
+            <td>Nasalized</td>
+            <td>Vowel has nasal quality</td>
+            <td><span class="ipa">ɑ̃ː</span> (Ulster, before mh)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">e̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Part of diphthong</td>
+            <td><span class="ipa">iːa̯</span> (Munster éa-breaking)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">j</span></td>
+            <td>Palatal glide</td>
+            <td>Glide after vowel</td>
+            <td><span class="ipa">bˠɾˠuːj</span> (Ulster, brúigh)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Dialect selection:</strong> Choose Connacht, Munster, or Ulster from the Style dropdown to see
+        dialect-specific transcriptions. The same word can produce very different IPA across dialects.</li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support for Irish, language code ga-IE).</li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.</li>
+    </ul>
+
+    <h2>Irish Pronunciation Guide</h2>
+
+    <p>This guide explains the fundamental rules of Irish pronunciation. Irish has a complex but largely regular
+        orthography once the rules of broad/slender consonant quality, vowel length, stress, and mutation are understood.</p>
+
+    <h3 id="broad-slender">Broad vs Slender (Caol vs Leathan)</h3>
+    <p>The single most important concept in Irish phonology: every consonant has two varieties depending on the
+        adjacent vowels. The rule is summarized: <strong>"caol le caol agus leathan le leathan"</strong> (slender with
+        slender and broad with broad).</p>
+
+    <h4>The Polarity Rule</h4>
+    <ul>
+        <li><strong>Broad vowels</strong>: a, á, o, ó, u, ú — make adjacent consonants velarized [ˠ] and dental/coronal</li>
+        <li><strong>Slender vowels</strong>: e, é, i, í — make adjacent consonants palatalized [ʲ] and postalveolar</li>
+    </ul>
+
+    <h4>Effect on Consonant Quality</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Consonant</th>
+            <th>Broad (velarized)</th>
+            <th>Slender (palatalized)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>t</td><td><span class="ipa">t̪ˠ</span></td><td><span class="ipa">t̠ʲ</span></td></tr>
+        <tr><td>d</td><td><span class="ipa">d̪ˠ</span></td><td><span class="ipa">d̠ʲ</span></td></tr>
+        <tr><td>l</td><td><span class="ipa">l̪ˠ</span> (dental) or <span class="ipa">lˠ</span></td><td><span class="ipa">l̠ʲ</span> (postalveolar) or <span class="ipa">lʲ</span></td></tr>
+        <tr><td>n</td><td><span class="ipa">n̪ˠ</span> (dental) or <span class="ipa">nˠ</span></td><td><span class="ipa">n̠ʲ</span> (postalveolar) or <span class="ipa">nʲ</span></td></tr>
+        <tr><td>r</td><td><span class="ipa">ɾˠ</span></td><td><span class="ipa">ɾʲ</span></td></tr>
+        <tr><td>s</td><td><span class="ipa">sˠ</span></td><td><span class="ipa">ʃ</span></td></tr>
+        <tr><td>g</td><td><span class="ipa">ɡ</span></td><td><span class="ipa">ɟ</span></td></tr>
+        <tr><td>c</td><td><span class="ipa">k</span></td><td><span class="ipa">c</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>Minimal Pairs</h4>
+    <p>Broad vs slender quality distinguishes meaning:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Broad (velarized)</th>
+            <th>IPA</th>
+            <th>Meaning</th>
+            <th>Slender (palatalized)</th>
+            <th>IPA</th>
+            <th>Meaning</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>bó</td>
+            <td><span class="ipa">bˠoː</span></td>
+            <td>cow</td>
+            <td>beo</td>
+            <td><span class="ipa">bʲoː</span></td>
+            <td>alive</td>
+        </tr>
+        <tr>
+            <td>cá</td>
+            <td><span class="ipa">kɑː</span></td>
+            <td>where</td>
+            <td>cé</td>
+            <td><span class="ipa">ceː</span></td>
+            <td>who</td>
+        </tr>
+        <tr>
+            <td>lán</td>
+            <td><span class="ipa">l̪ˠɑːn̪ˠ</span></td>
+            <td>full</td>
+            <td>léan</td>
+            <td><span class="ipa">l̠ʲeːn̪ˠ</span></td>
+            <td>sorrow</td>
+        </tr>
+        <tr>
+            <td>geal</td>
+            <td><span class="ipa">ɟalˠ</span></td>
+            <td>bright</td>
+            <td>gil</td>
+            <td><span class="ipa">ɟɪlʲ</span></td>
+            <td>gel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="vowel-length">Vowel Length & Quality</h3>
+    <p>Irish distinguishes long and short vowels phonemically. Short vowels are lax; long vowels are tense.</p>
+
+    <h4>Long Vowels</h4>
+    <ul>
+        <li><strong>Fada-marked</strong>: á, é, í, ó, ú are always long (á → [ɑː], é → [eː], í → [iː], ó → [oː], ú → [uː])</li>
+        <li><strong>Digraphs</strong>: Many vowel digraphs represent a single long vowel or diphthong:
+            <em>ao</em> → [iː], <em>eo</em> → [oː]/[ɔː], <em>ía</em> → [iə], <em>úa</em> → [uə]</li>
+        <li><strong>Vowel lengthening before geminates</strong>: Short vowels lengthen before heavy sonorant
+        clusters in monosyllables: <em>ceann</em> → [cɑːn̪ˠ], <em>poll</em> → [pˠoːl̪ˠ]</li>
+    </ul>
+
+    <h4>Short Vowels</h4>
+    <ul>
+        <li><strong>a</strong> → [a] (front), <strong>o</strong> → [ɔ], <strong>u</strong> → [ʊ],
+            <strong>i</strong> → [ɪ], <strong>e</strong> → [ɛ]</li>
+        <li><strong>Unstressed reduction</strong>: Unstressed short vowels reduce to schwa [ə]</li>
+        <li><strong>Vowel gradation</strong>: Short vowels can raise/lower depending on coda consonant quality
+        (Connacht: broad coda keeps [a], slender coda raises to [ɛ])</li>
+    </ul>
+
+    <h4>The Pairing Principle</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Long IPA</th>
+            <th>Short IPA</th>
+            <th>Long Example</th>
+            <th>Short Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>a/á</td>
+            <td><span class="ipa">/ɑː/</span></td>
+            <td><span class="ipa">/a/</span></td>
+            <td>cás <span class="ipa">/kɑːsˠ/</span></td>
+            <td>cas <span class="ipa">/kasˠ/</span></td>
+        </tr>
+        <tr>
+            <td>e/é</td>
+            <td><span class="ipa">/eː/</span></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td>sé <span class="ipa">/ʃeː/</span></td>
+            <td>se <span class="ipa">/ʃɛ/</span></td>
+        </tr>
+        <tr>
+            <td>i/í</td>
+            <td><span class="ipa">/iː/</span></td>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td>sí <span class="ipa">/ʃiː/</span></td>
+            <td>si <span class="ipa">/ʃɪ/</span></td>
+        </tr>
+        <tr>
+            <td>o/ó</td>
+            <td><span class="ipa">/oː/</span></td>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td>bó <span class="ipa">/bˠoː/</span></td>
+            <td>bo <span class="ipa">/bˠɔ/</span></td>
+        </tr>
+        <tr>
+            <td>u/ú</td>
+            <td><span class="ipa">/uː/</span></td>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td>tú <span class="ipa">/t̪ˠuː/</span></td>
+            <td>tu <span class="ipa">/t̪ˠʊ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="stress">Stress Patterns</h3>
+    <p>Irish stress patterns vary dramatically by dialect — this is one of the most distinctive differences.</p>
+
+    <h4>Connacht & Ulster: Initial Stress</h4>
+    <ul>
+        <li><strong>Default rule</strong>: Primary stress falls on the first syllable: <em>cailín</em> [ˈkalʲiːnʲ],
+            <em>Gaeltacht</em> [ˈɡeːl̪ˠt̪ˠəxt̪ˠ]</li>
+        <li><strong>Compounds</strong>: First component carries primary stress: <em>Gaeltacht</em> [ˈɡeːl̪ˠt̪ˠəxt̪ˠ],
+            <em>deirfiúr</em> [ˈdʲɛɾʲəfʲuːɾʲ]</li>
+        <li><strong>Second syllable stress</strong>: A small set of a-prefixed adverbs take second-syllable stress:
+            <em>arís</em> [əˈɾʲiːʃ], <em>amach</em> [əˈmˠax]</li>
+    </ul>
+
+    <h4>Munster: Stress Attraction</h4>
+    <p>Munster stress is attracted to the first long vowel or diphthong after the first syllable (Hickey II.3, Ó Sé):</p>
+    <ul>
+        <li><strong>Long vowel in σ₂</strong>: Stress moves to σ₂ — <em>cailín</em> [kaˈlʲiːnʲ], <em>Tomáisín</em> [t̪ˠəˌmˠɑːˈʃiːnʲ]</li>
+        <li><strong>Short + short + long (σ₃)</strong>: Stress lands on σ₃ — <em>ceannasaí</em> [canˠəˈsˠiː]</li>
+        <li><strong>-(e)acht attraction</strong>: Short σ₁ + -(e)acht in σ₂ attracts stress unless the σ₂ onset
+            is a sonorant (r/l/n/h): <em>portach</em> [pəɾˠˈt̪ˠɑx] vs <em>ocrach</em> [ˈɔkɾˠəx]</li>
+        <li><strong>Verbal resistance</strong>: Synthetic verb endings resist attraction: <em>freastalaím</em> [ˈfʲɾʲasˠt̪ˠəlˠiːmʲ]</li>
+    </ul>
+
+    <h3 id="lenition">Lenition (Séimhiú)</h3>
+    <p>Lenition is a grammatical mutation triggered by specific contexts (possessive adjectives, past tense, etc.).
+    It adds ⟨h⟩ after the consonant and changes its pronunciation:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Radical</th>
+            <th>Lenited</th>
+            <th>IPA Broad</th>
+            <th>IPA Slender</th>
+            <th>Note</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>b</td><td>bh</td><td><span class="ipa">/vˠ/</span></td><td><span class="ipa">/vʲ/</span></td><td>Often [w] after vowels</td></tr>
+        <tr><td>c</td><td>ch</td><td><span class="ipa">/x/</span></td><td><span class="ipa">/ç/</span></td><td>Velar/palatal fricative</td></tr>
+        <tr><td>d</td><td>dh</td><td><span class="ipa">/ɣ/</span></td><td><span class="ipa">/j/</span></td><td>Often silent in codas</td></tr>
+        <tr><td>f</td><td>fh</td><td colspan="2"><span class="ipa">/∅/</span></td><td>Always silent (leaves quality trace)</td></tr>
+        <tr><td>g</td><td>gh</td><td><span class="ipa">/ɣ/</span></td><td><span class="ipa">/j/</span></td><td>Same as dh when lenited</td></tr>
+        <tr><td>m</td><td>mh</td><td><span class="ipa">/vˠ/</span></td><td><span class="ipa">/vʲ/</span></td><td>Often [w] after vowels, nasalized in Ulster</td></tr>
+        <tr><td>p</td><td>ph</td><td><span class="ipa">/fˠ/</span></td><td><span class="ipa">/fʲ/</span></td><td>Labiodental fricative</td></tr>
+        <tr><td>s</td><td>sh</td><td><span class="ipa">/h/</span></td><td><span class="ipa">/ç/</span></td><td>Glottal/palatal fricative</td></tr>
+        <tr><td>t</td><td>th</td><td><span class="ipa">/h/</span></td><td><span class="ipa">/h/ or /ç/</span></td><td>Often silent word-finally</td></tr>
+        </tbody>
+    </table>
+
+    <h4>Lenition Realizations</h4>
+    <ul>
+        <li><strong>After vowels</strong>: bh/mh weaken to [w] (or [vˠ]/[vʲ] if sustained): <em>leabhar</em> [l̠ʲauɾˠ],
+            <em>scríobh</em> [ʃcɾʲiːw]</li>
+        <li><strong>Intervocalic dh/gh</strong>: Silent or [j]/[ɣ]: <em>fidheall</em> [ˈfʲiːəl̪ˠ], <em>laghad</em> [ˈl̪ˠəid̪ˠ]</li>
+        <li><strong>Word-final th</strong>: Silent after short vowels: <em>rath</em> [ɾˠa], <em>both</em> [bˠɔ]</li>
+        <li><strong>fh-</strong>: Always silent: <em>fhuil</em> [wɪlʲ], <em>fhiacail</em> [ˈiəkəlʲ]</li>
+    </ul>
+
+    <h3 id="eclipsis">Eclipsis (Urú)</h3>
+    <p>Eclipsis is triggered by possessive adjectives (ár, bhur, a), numbers (seacht, ocht, naoi, deich), and
+    certain prepositions. The eclipsing consonant is a prefix that replaces or modifies the original sound:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Radical</th>
+            <th>Eclipsed</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>b</td><td>mb</td><td><span class="ipa">/mˠ/</span></td><td>ár mbád [ɑːɾˠ mˠɑːd̪ˠ]</td></tr>
+        <tr><td>c</td><td>gc</td><td><span class="ipa">/ɡ/</span></td><td>i gcathair [ə ˈɡahəɾʲ]</td></tr>
+        <tr><td>d</td><td>nd</td><td><span class="ipa">/n̪ˠ/</span></td><td>ar ndóigh [ɛɾʲ n̪ˠoː]</td></tr>
+        <tr><td>f</td><td>bhf</td><td><span class="ipa">/w/ or /vˠ/</span></td><td>i bhfeirm [ə ˈwɛɾʲəmʲ]</td></tr>
+        <tr><td>g</td><td>ng</td><td><span class="ipa">/ŋ/</span></td><td>ár ngarraí [ɑːɾˠ ˈŋaɾˠiː]</td></tr>
+        <tr><td>p</td><td>bp</td><td><span class="ipa">/bˠ/</span></td><td>i bpáirc [ə ˈbˠɑːɾʲc]</td></tr>
+        <tr><td>t</td><td>dt</td><td><span class="ipa">/d̪ˠ/</span></td><td>ar dtús [ɛɾʲ d̪ˠuːsˠ]</td></tr>
+        </tbody>
+    </table>
+
+    <h4>T-Prefix Mutation (not eclipsis)</h4>
+    <p>Word-initial <strong>ts-</strong> and <strong>tch-</strong> are T-prefix mutations (Hickey III.2.2.2),
+    not eclipsis. The first consonant survives while the second is silenced:
+    <strong>ts→t</strong>, <strong>tch→t</strong> (e.g. <em>túis</em> → [t̪ˠuːʃ]).</p>
+
+    <h3 id="vowel-digraphs">Vowel Digraphs & Diphthongs</h3>
+    <p>Irish has many vowel digraphs whose pronunciation varies by dialect:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Digraph</th>
+            <th>Connacht</th>
+            <th>Munster</th>
+            <th>Ulster</th>
+            <th>Example (Connacht)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>ao</td><td><span class="ipa">iː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">iː</span></td><td>aon [iːn̪ˠ]</td></tr>
+        <tr><td>ai</td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td>caint [kan̠ʲtʲ]</td></tr>
+        <tr><td>ea</td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td>fear [fʲaɾˠ]</td></tr>
+        <tr><td>eo</td><td><span class="ipa">oː</span></td><td><span class="ipa">oː</span></td><td><span class="ipa">ɔː</span></td><td>beo [bʲoː]</td></tr>
+        <tr><td>ío</td><td><span class="ipa">iː</span></td><td><span class="ipa">iː</span></td><td><span class="ipa">iː</span></td><td>críochnaigh [ˈkɾʲiːxn̪ˠiː]</td></tr>
+        <tr><td>oi</td><td><span class="ipa">ɔ</span></td><td><span class="ipa">ɔi</span></td><td><span class="ipa">ɔi</span></td><td>scoil [skɔlʲ]</td></tr>
+        <tr><td>ui</td><td><span class="ipa">ʊ</span></td><td><span class="ipa">ʊi</span></td><td><span class="ipa">ʊi</span></td><td>suil [sˠʊlʲ]</td></tr>
+        <tr><td>ua</td><td><span class="ipa">uə</span></td><td><span class="ipa">uə</span></td><td><span class="ipa">uə</span></td><td>cuan [kuən̪ˠ]</td></tr>
+        <tr><td>ia</td><td><span class="ipa">iə</span></td><td><span class="ipa">iə</span></td><td><span class="ipa">iə</span></td><td>biadh [bʲiə]</td></tr>
+        <tr><td>éi</td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td>réis [ɾˠeːʃ]</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-clusters">Consonant Clusters</h3>
+    <p>Irish simplifies complex initial and medial clusters through phonological rules:</p>
+
+    <h4>Initial Cluster Simplification</h4>
+    <ul>
+        <li><strong>cn→cr</strong>, <strong>gn→gr</strong>, <strong>mn→mr</strong>, <strong>tn→tr</strong>:
+            The non-coronal element survives and a liquid appears: <em>cnoc</em> → [kɾˠɔk], <em>gnáth</em> → [ɡɾˠɑːh]</li>
+        <li><strong>ts- / tch-</strong>: T-prefix mutation → first consonant survives, second silenced:
+            <em>tsúil</em> → [t̪ˠuːlʲ], <em>tsean</em> → [t̠ʲanˠ]</li>
+    </ul>
+
+    <h4>Medial Clusters</h4>
+    <ul>
+        <li><strong>s+stop heterosyllabic</strong>: s closes the preceding syllable, stop starts the next:
+            <em>aistriú</em> → [aʃ.ˈtʲɾʲuː]</li>
+        <li><strong>Sonorant+obstruent</strong>: May trigger epenthesis (see below)</li>
+        <li><strong>n→ŋ before velar stops</strong>: <em>seanchaí</em> → [ˈʃanˠxiː] but <em>slán go fóill</em> → [sˠl̪ˠɑːŋ ɡə fˠoːlʲ]</li>
+    </ul>
+
+    <h3 id="epenthesis">Epenthesis (Svarabhakti)</h3>
+    <p>Irish inserts a short epenthetic vowel [ə] (or [ɪ] in some contexts) between consonants in certain clusters:</p>
+
+    <h4>Connacht & Ulster</h4>
+    <ul>
+        <li><strong>Heterorganic sonorant+obstruent</strong>: Insert [ə] when the preceding vowel is short and stressed:
+            <em>dearg</em> [ˈdʲaɾˠəɡ], <em>gorm</em> [ˈɡɔɾˠəmˠ], <em>seilg</em> [ˈʃɛlʲəɟ]</li>
+        <li><strong>Exclusions</strong>: Homorganic clusters (rd, rl, rn, nd, ld, nn, ll, rr) do not epenthesize</li>
+        <li><strong>Lexical exceptions</strong>: -airg, -eirg → [ɪ] not [ə]: <em>tairg</em> [ˈt̪ˠaɾʲɪɟ]</li>
+    </ul>
+
+    <h4>Munster (Extended Epenthesis)</h4>
+    <p>Munster extends epenthesis to obstruent+sonorant clusters after the stressed syllable (Ó Sé):</p>
+    <ul>
+        <li><strong>m+n</strong>: <em>feamnach</em> [ˈfʲamˠən̪ˠəx]</li>
+        <li><strong>g+l</strong>: <em>eagla</em> [ˈaɡəl̪ˠə]</li>
+        <li><strong>d+r</strong>: <em>eadrainn</em> [ˈad̪ˠəɾˠən̠ʲ]</li>
+        <li><strong>th+r</strong>: <em>cathrach</em> [ˈkahəɾˠəx]</li>
+        <li><strong>ch+r</strong>: <em>achrann</em> [ˈaxəɾˠən̪ˠ]</li>
+        <li><strong>s+r</strong>: <em>lasrach</em> [ˈl̪ˠɑsˠəɾˠəx]</li>
+        <li><strong>th+n</strong>: <em>aithne</em> [ˈahənʲə]</li>
+        <li>Also applies in pre-stress position when stress attraction moves stress off the cluster's syllable:
+            <em>Colmán</em> [kəl̪ˠəˈmˠɑːn̪ˠ], <em>purgóid</em> [pˠəɾˠəˈɡoːdʲ]</li>
+    </ul>
+
+    <h3 id="sonorants">Sonorants: L, N, R</h3>
+    <p>Irish has a famously complex sonorant system with four-way l/n distinctions and three-way r distinctions:</p>
+
+    <h4>L and N</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Broad l</th>
+            <th>Slender l</th>
+            <th>Broad n</th>
+            <th>Slender n</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Before consonant (coda)</td>
+            <td><span class="ipa">l̪ˠ</span></td>
+            <td><span class="ipa">l̠ʲ</span></td>
+            <td><span class="ipa">n̪ˠ</span></td>
+            <td><span class="ipa">n̠ʲ</span></td>
+        </tr>
+        <tr>
+            <td>Intervocalic / initial</td>
+            <td><span class="ipa">l̪ˠ</span></td>
+            <td><span class="ipa">lʲ</span></td>
+            <td><span class="ipa">n̪ˠ</span></td>
+            <td><span class="ipa">nʲ</span></td>
+        </tr>
+        <tr>
+            <td>Geminate (ll, nn)</td>
+            <td><span class="ipa">l̪ˠ</span></td>
+            <td><span class="ipa">l̠ʲ</span></td>
+            <td><span class="ipa">n̪ˠ</span></td>
+            <td><span class="ipa">n̠ʲ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>R</h4>
+    <ul>
+        <li><strong>Broad r</strong>: Alveolar tap [ɾˠ] — <em>rá</em> [ɾˠɑː], <em>carraig</em> [ˈkaɾˠəɟ]</li>
+        <li><strong>Slender r</strong>: Palatalized tap [ɾʲ] — <em>rí</em> [ɾʲiː], <em>tirim</em> [ˈtʲɪɾʲəmʲ]</li>
+        <li><strong>Geminate rr</strong>: Broad only [ɾˠ] (lengthening effect on preceding vowel) — <em>carraig</em> [ˈkaɾˠəɟ]</li>
+    </ul>
+
+    <h4>Vowel Lengthening Before Sonorants</h4>
+    <p>Short vowels lengthen in monosyllables before geminate sonorants (ll, nn, rr, mm) and heavy clusters
+    (rd, rl, rn):</p>
+    <ul>
+        <li><em>ceann</em> [cɑːn̪ˠ], <em>poll</em> [pˠoːl̪ˠ], <em>corr</em> [koːɾˠ]</li>
+        <li><em>ard</em> [ɑːɾˠd̪ˠ], <em>bord</em> [bˠoːɾˠd̪ˠ], <em>tarna</em> [ˈt̪ˠɑːɾˠn̪ˠə]</li>
+    </ul>
+
+    <h3 id="final-coda">Word-Final Codas</h3>
+    <p>Several phonological processes apply at the end of words:</p>
+    <ul>
+        <li><strong>-adh vocalization</strong>: [ə] or [uː] (Ulster: [u]) — <em>margadh</em> [ˈmˠaɾˠəɡuː] (Connacht)</li>
+        <li><strong>-igh/-aigh</strong>: [iː] or [i] — <em>ceannaigh</em> [ˈcanˠiː] (Connacht), Munster: [ɪɟ]</li>
+        <li><strong>-th deletion</strong>: After short vowels — <em>rath</em> [ɾˠa], <em>both</em> [bˠɔ]</li>
+        <li><strong>bh/mh→w</strong>: After long vowels — <em>scríobh</em> [ʃcɾʲiːw], <em>sníomh</em> [ʃnʲiːw]</li>
+        <li><strong>Ulster final -ach→[ah]</strong>: <em>Éireannach</em> [ˈeːɾʲən̪ˠah]</li>
+        <li><strong>Munster final -adh→[əx]</strong>: <em>d'fhágadh</em> [ˈd̪ˠɑːɡəx]</li>
+        <li><strong>Ulster j-glide</strong>: Final long vowel + gh/dh → [j] offglide: <em>brúigh</em> [bˠɾˠuːj]</li>
+    </ul>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+
+    <h3>1. Single Vowels (by Dialect)</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Length</th>
+            <th>Connacht</th>
+            <th>Munster</th>
+            <th>Ulster</th>
+            <th>Example (Connacht)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>a</td><td>short</td><td><span class="ipa">/a/</span></td><td><span class="ipa">/a/</span></td><td><span class="ipa">/a/</span></td><td>cas <span class="ipa">/kasˠ/</span></td></tr>
+        <tr><td>á</td><td>long</td><td><span class="ipa">/ɑː/</span></td><td><span class="ipa">/ɑː/</span></td><td><span class="ipa">/aː/</span></td><td>cás <span class="ipa">/kɑːsˠ/</span></td></tr>
+        <tr><td>e</td><td>short</td><td><span class="ipa">/ɛ/</span></td><td><span class="ipa">/ɛ/</span></td><td><span class="ipa">/ɛ/</span></td><td>te <span class="ipa">/tʲɛ/</span></td></tr>
+        <tr><td>é</td><td>long</td><td><span class="ipa">/eː/</span></td><td><span class="ipa">/eː/</span></td><td><span class="ipa">/eː/</span></td><td>sé <span class="ipa">/ʃeː/</span></td></tr>
+        <tr><td>i</td><td>short</td><td><span class="ipa">/ɪ/</span></td><td><span class="ipa">/ɪ/</span></td><td><span class="ipa">/ɪ/</span></td><td>si <span class="ipa">/ʃɪ/</span></td></tr>
+        <tr><td>í</td><td>long</td><td><span class="ipa">/iː/</span></td><td><span class="ipa">/iː/</span></td><td><span class="ipa">/iː/</span></td><td>sí <span class="ipa">/ʃiː/</span></td></tr>
+        <tr><td>o</td><td>short</td><td><span class="ipa">/ɔ/</span></td><td><span class="ipa">/ɔ/</span></td><td><span class="ipa">/ʌ/</span></td><td>bo <span class="ipa">/bˠɔ/</span></td></tr>
+        <tr><td>ó</td><td>long</td><td><span class="ipa">/oː/</span></td><td><span class="ipa">/oː/</span></td><td><span class="ipa">/ɔː/</span></td><td>bó <span class="ipa">/bˠoː/</span></td></tr>
+        <tr><td>u</td><td>short</td><td><span class="ipa">/ʊ/</span></td><td><span class="ipa">/ʊ/</span></td><td><span class="ipa">/ʌ/</span></td><td>tú <span class="ipa">/t̪ˠuː/</span></td></tr>
+        <tr><td>ú</td><td>long</td><td><span class="ipa">/uː/</span></td><td><span class="ipa">/uː/</span></td><td><span class="ipa">/uː/</span></td><td>tú <span class="ipa">/t̪ˠuː/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>2. Vowel Digraphs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Digraph</th>
+            <th>Connacht</th>
+            <th>Munster</th>
+            <th>Ulster</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>ao</td><td><span class="ipa">iː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">iː</span></td><td>aos <span class="ipa">/iːsˠ/</span></td></tr>
+        <tr><td>ai</td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td>caint <span class="ipa">/kan̠ʲtʲ/</span></td></tr>
+        <tr><td>ea</td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td>bean <span class="ipa">/bʲan̪ˠ/</span></td></tr>
+        <tr><td>eo</td><td><span class="ipa">oː</span></td><td><span class="ipa">oː</span></td><td><span class="ipa">ɔː</span></td><td>beo <span class="ipa">/bʲoː/</span></td></tr>
+        <tr><td>ío</td><td><span class="ipa">iː</span></td><td><span class="ipa">iː</span></td><td><span class="ipa">iː</span></td><td>críochnaigh <span class="ipa">/kɾʲiːxn̪ˠiː/</span></td></tr>
+        <tr><td>oi</td><td><span class="ipa">ɔ</span></td><td><span class="ipa">ɔi</span></td><td><span class="ipa">ɔi</span></td><td>scol <span class="ipa">/skɔl̪ˠ/</span></td></tr>
+        <tr><td>ui</td><td><span class="ipa">ʊ</span></td><td><span class="ipa">ʊi</span></td><td><span class="ipa">ʊi</span></td><td>subh <span class="ipa">/sˠʊw/</span></td></tr>
+        <tr><td>ua</td><td><span class="ipa">uə</span></td><td><span class="ipa">uə</span></td><td><span class="ipa">uə</span></td><td>cuan <span class="ipa">/kuən̪ˠ/</span></td></tr>
+        <tr><td>ia</td><td><span class="ipa">iə</span></td><td><span class="ipa">iə</span></td><td><span class="ipa">iə</span></td><td>fia <span class="ipa">/fʲiə/</span></td></tr>
+        <tr><td>éi</td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td>éis <span class="ipa">/eːʃ/</span></td></tr>
+        <tr><td>ae</td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td>tae <span class="ipa">/t̪ˠeː/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. Consonant Graphemes</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Grapheme</th>
+            <th>Context / Rule</th>
+            <th>IPA Broad</th>
+            <th>IPA Slender</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>b (radical)</td><td>Initial / medial</td><td><span class="ipa">bˠ</span></td><td><span class="ipa">bʲ</span></td><td>bó [bˠoː], beo [bʲoː]</td></tr>
+        <tr><td>bh</td><td>Lenited b, after V</td><td><span class="ipa">w</span></td><td><span class="ipa">w</span></td><td>leabhar [l̠ʲauɾˠ], scríobh [ʃcɾʲiːw]</td></tr>
+        <tr><td>bh</td><td>Lenited b, onset</td><td><span class="ipa">vˠ</span></td><td><span class="ipa">vʲ</span></td><td>bheadh [vʲɛx], bhean [vʲanˠ]</td></tr>
+        <tr><td>c (radical)</td><td>All positions</td><td><span class="ipa">k</span></td><td><span class="ipa">c</span></td><td>cá [kɑː], cé [ceː]</td></tr>
+        <tr><td>ch</td><td>Lenited c</td><td><span class="ipa">x</span></td><td><span class="ipa">ç</span></td><td>ach [ax], cheist [çɛʃtʲ]</td></tr>
+        <tr><td>d (radical)</td><td>Initial / medial</td><td><span class="ipa">d̪ˠ</span></td><td><span class="ipa">d̠ʲ</span></td><td>dó [d̪ˠoː], deo [d̠ʲoː]</td></tr>
+        <tr><td>dh</td><td>Lenited d, onset</td><td><span class="ipa">ɣ</span></td><td><span class="ipa">j</span></td><td>dha [ɣa], dheas [jasˠ]</td></tr>
+        <tr><td>dh</td><td>Lenited d, coda</td><td><span class="ipa">∅</span></td><td><span class="ipa">∅/j</span></td><td>fidheall [ˈfʲiːəl̪ˠ], brúigh [bˠɾˠuːj] (Ulster)</td></tr>
+        <tr><td>f (radical)</td><td>All positions</td><td><span class="ipa">fˠ</span></td><td><span class="ipa">fʲ</span></td><td>fá [fˠɑː], fé [fʲeː]</td></tr>
+        <tr><td>fh</td><td>Lenited f</td><td colspan="2"><span class="ipa">∅</span></td><td>fhuil [wɪlʲ], fhiacail [ˈiəkəlʲ]</td></tr>
+        <tr><td>g (radical)</td><td>All positions</td><td><span class="ipa">ɡ</span></td><td><span class="ipa">ɟ</span></td><td>gá [ɡɑː], gé [ɟeː]</td></tr>
+        <tr><td>gh</td><td>Lenited g (see dh)</td><td><span class="ipa">ɣ</span></td><td><span class="ipa">j</span></td><td>gha [ɣa], gheall [jal̪ˠ]</td></tr>
+        <tr><td>h</td><td>All positions</td><td colspan="2"><span class="ipa">h</span></td><td>haon [hiːn̪ˠ]</td></tr>
+        <tr><td>l</td><td>Broad, dental context</td><td><span class="ipa">l̪ˠ</span></td><td>—</td><td>lá [l̪ˠɑː], slán [sˠl̪ˠɑːn̪ˠ]</td></tr>
+        <tr><td>l</td><td>Broad, non-dental</td><td><span class="ipa">lˠ</span></td><td>—</td><td>alpán [ˈalˠpˠɑːn̪ˠ], dúlra [ˈd̪ˠuːlˠɾˠə]</td></tr>
+        <tr><td>l</td><td>Slender, postvocalic</td><td>—</td><td><span class="ipa">l̠ʲ</span></td><td>coill [kɛl̠ʲ], beilt [bʲɛl̠ʲtʲ]</td></tr>
+        <tr><td>l</td><td>Slender, prevocalic</td><td>—</td><td><span class="ipa">lʲ</span></td><td>léigh [lʲeː], líon [lʲiːn̪ˠ]</td></tr>
+        <tr><td>ll</td><td>Geminate</td><td><span class="ipa">l̪ˠ</span></td><td><span class="ipa">l̠ʲ</span></td><td>gall [ɡal̪ˠ], coill [kɛl̠ʲ]</td></tr>
+        <tr><td>m (radical)</td><td>All positions</td><td><span class="ipa">mˠ</span></td><td><span class="ipa">mʲ</span></td><td>má [mˠɑː], mé [mʲeː]</td></tr>
+        <tr><td>mh</td><td>Lenited m (see bh)</td><td><span class="ipa">w</span></td><td><span class="ipa">vʲ/w</span></td><td>samhradh [sˠəuɾˠə], nimhe [n̠ʲɨ̃vʲə]</td></tr>
+        <tr><td>n</td><td>Broad, dental context</td><td><span class="ipa">n̪ˠ</span></td><td>—</td><td>ná [n̪ˠɑː], cnoc [kɾˠɔk]</td></tr>
+        <tr><td>n</td><td>Broad, non-dental</td><td><span class="ipa">nˠ</span></td><td>—</td><td>cónra [ˈkoːnˠɾˠə], lán [l̪ˠɑːnˠ]</td></tr>
+        <tr><td>n</td><td>Slender, postvocalic</td><td>—</td><td><span class="ipa">n̠ʲ</span></td><td>crainn [kɾˠan̠ʲ], beinn [bʲɛn̠ʲ]</td></tr>
+        <tr><td>n</td><td>Slender, prevocalic</td><td>—</td><td><span class="ipa">nʲ</span></td><td>ní [nʲiː], neart [nʲaɾˠt̪ˠ]</td></tr>
+        <tr><td>nn</td><td>Geminate</td><td><span class="ipa">n̪ˠ</span></td><td><span class="ipa">n̠ʲ</span></td><td>ceann [cɑːn̪ˠ], cinn [ciːn̠ʲ]</td></tr>
+        <tr><td>ng</td><td>Geminate nasal</td><td><span class="ipa">ŋ</span></td><td><span class="ipa">ɲ</span></td><td>cing [ciŋ], ingne [ˈiŋɲə]</td></tr>
+        <tr><td>p (radical)</td><td>All positions</td><td><span class="ipa">pˠ</span></td><td><span class="ipa">pʲ</span></td><td>pós [pˠoːsˠ], pé [pʲeː]</td></tr>
+        <tr><td>ph</td><td>Lenited p</td><td><span class="ipa">fˠ</span></td><td><span class="ipa">fʲ</span></td><td>phós [fˠoːsˠ], phéint [fʲeːn̠ʲtʲ]</td></tr>
+        <tr><td>r</td><td>All positions</td><td><span class="ipa">ɾˠ</span></td><td><span class="ipa">ɾʲ</span></td><td>rá [ɾˠɑː], rí [ɾʲiː]</td></tr>
+        <tr><td>s (radical)</td><td>All positions</td><td><span class="ipa">sˠ</span></td><td><span class="ipa">ʃ</span></td><td>sá [sˠɑː], sé [ʃeː]</td></tr>
+        <tr><td>sh</td><td>Lenited s</td><td><span class="ipa">h</span></td><td><span class="ipa">ç/h</span></td><td>shé [çeː], shúil [huːlʲ]</td></tr>
+        <tr><td>t (radical)</td><td>All positions</td><td><span class="ipa">t̪ˠ</span></td><td><span class="ipa">t̠ʲ</span></td><td>tá [t̪ˠɑː], té [t̠ʲeː]</td></tr>
+        <tr><td>th</td><td>Lenited t</td><td><span class="ipa">h</span></td><td><span class="ipa">h/ç</span></td><td>thá [hɑː], théid [çeːdʲ]</td></tr>
+        <tr><td>th</td><td>Word-final coda</td><td colspan="2"><span class="ipa">∅</span></td><td>rath [ɾˠa], both [bˠɔ]</td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="dialect-connacht">Dialect: Connacht Features</h2>
+    <p>Connacht is the primary, most-tuned dialect. Key phonological rules in the engine:</p>
+    <ul>
+        <li><strong>Anticipatory raising</strong> (pass 06d): Short /a/→[ɪ], /o/→[ʊ] when the second syllable has long
+        [aː]: <em>coláiste</em> → [kʊlˠˈaːʃtʲə], <em>caisleán</em> → [kɪʃlʲˈɑːnˠ]</li>
+        <li><strong>Vowel gradation (pass 08)</strong>: Short vowels before a coda consonant raise/lower based on the
+        coda's quality: slender coda → [ɪ]/[ɛ], broad coda → [a]/[ɔ]</li>
+        <li><strong>Broad l/n → denti-alveolar</strong> (pass 13): Dental diacritic [̪] in coda position and after stops</li>
+        <li><strong>-íocht suffix</strong>: [iːçtʲ] → [iəxt̪ˠ]: <em>ríocht</em> [ɾʲiəxt̪ˠ], <em>draíocht</em> [d̪ˠɾˠiːəxt̪ˠ]</li>
+        <li><strong>w→vˠ after long vowel</strong>: Broad mh coda retains friction: <em>snámh</em> [sˠn̪ˠɑːvˠ]</li>
+        <li><strong>Function word reduction</strong>: do→[ɡə], is→[sˠ], agam→[uɡəmˠ]</li>
+    </ul>
+
+    <h2 id="dialect-munster">Dialect: Munster Features</h2>
+    <ul>
+        <li><strong>Stress attraction</strong> (pass 02): Stress moves to the first long vowel after the first syllable.
+            Exception: verbal synthetic endings resist attraction.</li>
+        <li><strong>éa-breaking</strong> (pass 15): [eː] → [iːa̯] under stress (<em>méar</em> [mʲiːa̯ɾˠ]),
+            [ia̯] pretonic (<em>éadóchas</em> [ia̯ˈd̪ˠoːxəsˠ]). Only first-syllable éa breaks.</li>
+        <li><strong>-igh/-aigh</strong> → [ɪɟ] (not [iː] as in Connacht/Ulster): <em>ceannaigh</em> [ˈcan̪ˠɪɟ],
+            <em>balaigh</em> [ˈbˠɑlˠɪɟ]</li>
+        <li><strong>Extended epenthesis</strong> (pass 12/15): Obst+son clusters get [ə] even in unstressed syllables</li>
+        <li><strong>Verbal -f(e)adh</strong> → [əx]: <em>d'fhágadh</em> [ˈd̪ˠɑːɡəx], <em>beireadh</em> [ˈbʲɛɾʲəx]</li>
+        <li><strong>Final -th</strong> → [h] (not silent): <em>tláith</em> [t̪ˠl̪ˠɑːh], <em>dlúth</em> [d̪ˠl̪ˠuːh]</li>
+        <li><strong>Geminate diphthongization</strong> (pass 13): Short vowel + geminate in closed syllable breaks to
+            diphthong: <em>fonn</em> [fˠɑun̪ˠ], <em>tonn</em> [t̪ˠɑun̪ˠ]</li>
+        <li><strong>o before nasal</strong> → [ɔ] (not [ʊ]): <em>sona</em> [ˈsˠɔn̪ˠə], <em>long</em> [l̪ˠɔŋ]</li>
+        <li><strong>First-syllable ai</strong> → [a] (not [ai])</li>
+        <li><strong>Sonorant notation</strong>: Broad l/n → dental [l̪ˠ]/[n̪ˠ]; slender l/n → plain [lʲ]/[nʲ]
+            (not postalveolar as in Connacht/Ulster). ~73 lexical exceptions</li>
+    </ul>
+
+    <h2 id="dialect-ulster">Dialect: Ulster Features</h2>
+    <ul>
+        <li><strong>Post-tonic long-vowel shortening</strong> (pass 11): Long vowels after the stressed syllable shorten:
+            <em>scadán</em> [ˈsˠkad̪ˠənˠ], <em>dochtúir</em> [ˈd̪ˠɔxt̪ˠuɾʲ]. ~197 lexical exceptions resist shortening.</li>
+        <li><strong>Short o/u merger</strong> → [ʌ] (Hickey I.2.3): <em>sop</em> [sˠʌpˠ], <em>cur</em> [kʌɾˠ].
+            Lexical set of ~100 words keeps [ɔ].</li>
+        <li><strong>á→aː</strong> (not [ɑː] as in Connacht): <em>cás</em> [kaːsˠ]. Post-tonic á fronts to [æ]
+            before slender consonants: <em>úsáid</em> [uːsˠædʲ], <em>ofráil</em> [ɔfˠɾˠælʲ]</li>
+        <li><strong>a→æ before slender consonant</strong> (pass 15): <em>baile</em> [ˈbˠælʲə], <em>maide</em> [ˈmˠædʲə].
+            ~55 lexical exceptions keep [a] (taibhse, caipín, aimsir).</li>
+        <li><strong>ó→ɔː</strong> (not [oː]): <em>bróg</em> [bˠɾˠɔːɡ], <em>mór</em> [mˠɔːɾˠ]</li>
+        <li><strong>-ach→[ah]</strong> (weakening [x]→[h]): <em>Éireannach</em> [ˈeːɾʲən̪ˠah]. Lexical set of ~77 words.</li>
+        <li><strong>Final -adh→[u]</strong> (short, not [uː]): <em>ghearradh</em> [ˈjaɾˠu], <em>canadh</em> [ˈkanˠu].
+            ~33 lexical exceptions keep long [uː] (<em>glacadh</em>, <em>margadh</em>).</li>
+        <li><strong>Final -igh/-aigh→[i]</strong> (short, not [iː]): <em>ceannaigh</em> [ˈcanˠi].
+            ~12 exceptions keep [iː] (<em>bradaigh</em>, <em>fiafraigh</em>).</li>
+        <li><strong>Final -ach→[a]</strong> (not schwa): <em>casach</em> [ˈkasˠa], <em>bocht</em> [bˠʌxt̪ˠ]</li>
+        <li><strong>bh/mh diphthong → [au]</strong> (not [əu]): <em>amhras</em> [ˈauɾˠəsˠ], <em>leabhar</em> [l̠ʲauɾˠ].
+            [au]→[oː] before r: <em>tabhair</em> [t̪ˠoːɾʲ] (22 vs 4 keepers).</li>
+        <li><strong>Vowel nasalization</strong> before surviving mh: <em>nimhe</em> [n̠ʲɨ̃vʲə], <em>crumhóg</em> [kɾˠʊ̃wɔɡ].
+            Lexical set of ~13 words.</li>
+        <li><strong>j-glide after final long vowel</strong> from gh/dh: <em>brúigh</em> [bˠɾˠuːj], <em>cruaidh</em> [kɾˠuəj].
+            Only u/a-vocalic roots; iː-final excluded.</li>
+        <li><strong>rs-leveling</strong>: [ɾˠ]+[ʃ] → [ɾˠ]+[sˠ]: <em>tuirseach</em> [ˈt̪ˠʌɾˠsˠax]</li>
+        <li><strong>Verbal -im → broad [mˠ]</strong>: <em>éistim</em> [ˈeːʃtʲəmˠ] (including -ím words with strip_fadas)</li>
+    </ul>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The engine is implemented as a 17-pass token-array pipeline in Lua. Each pass receives the token array and
+        context, modifies tokens in place (or replaces the array), and returns it.</p>
+
+    <ol>
+        <li><strong>Polarity (pass 01)</strong>: Determines broad/slender quality from flanking vowels. Simplifies
+        initial clusters (cn→cr, gn→gr, mn→mr, tn→tr).</li>
+        <li><strong>Stress (pass 02)</strong>: Primary stress on first syllable (Connacht/Ulster) or attracted to
+        long vowel (Munster). Computes syllable count.</li>
+        <li><strong>Eclipsis (pass 03)</strong>: Word-initial mutation clusters (mb→m, gc→g, dt→d, bp→b, bhf→w, ng→ŋ, nn→n).
+        T-prefix silencing (ts→t, tch→t).</li>
+        <li><strong>Cluster simplification (pass 04)</strong>: Merges adjacent consonants from compound clusters.</li>
+        <li><strong>Mutated fricatives (pass 05)</strong>: Lenited fricative realizations after vowels.</li>
+        <li><strong>Vocalization (pass 06)</strong>: Vowel+fricative sequences → diphthongs/long vowels.</li>
+        <li><strong>Anticipatory raising (pass 06d)</strong>: Connacht-only /a/→[ɪ], /o/→[ʊ] before long [aː].</li>
+        <li><strong>Nasalization (pass 07)</strong>: o/u/ó/ú → [uː] before geminate nasals.</li>
+        <li><strong>Slender coda (pass 08)</strong>: Vowel gradation before slender ng/nn.</li>
+        <li><strong>Consonants (pass 09)</strong>: Resolves all consonant tokens to IPA. Lenition, quality, clusters.</li>
+        <li><strong>Vowel adjunct (pass 09b)</strong>: Resolves vowel + mutated fricative sequences.</li>
+        <li><strong>Vowels (pass 10)</strong>: Dialect-specific vowel resolution with allophonic rules.</li>
+        <li><strong>Unstressed reduction (pass 11)</strong>: Reduces unstressed short vowels to [ə]. Epicene exceptions.</li>
+        <li><strong>Epenthesis (pass 12)</strong>: Svarabhakti vowel [ə] in sonorant+obstruent clusters.</li>
+        <li><strong>Sonorants (pass 13)</strong>: 4-way l/n diacritic system; lengthening before geminates.</li>
+        <li><strong>Final cleanup (pass 14)</strong>: Silent fricatives, devoicing, j-glides, function word overrides,
+        multi-word sandhi, -íocht override.</li>
+        <li><strong>Dialect finalize (pass 15)</strong>: Per-dialect surface normalizations (Ulster aː→æ, Munster
+        éa-breaking, sonorant flatten, etc.) — last pass, immune to later overwrites.</li>
+    </ol>
+
+    <h3>Lexical Exception Layer</h3>
+    <p>In addition to the rule pipeline, the engine has a generated per-dialect exception dictionary
+    (<code>passes/lex_subs_&lt;dialect&gt;.lua</code>) applied after rendering. This standard hybrid G2P design
+    covers ~1166 Connacht, ~1524 Munster, and ~2049 Ulster words that the rules cannot derive. The exception
+    layer is regenerated after every major rule change to only cover words that genuinely need per-word treatment.</p>
+
+    <h3>Benchmark Accuracy</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Metric</th>
+            <th>Connacht (6,598 words)</th>
+            <th>Munster (4,102)</th>
+            <th>Ulster (4,785)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>Exact match (rules + exceptions)</td><td><strong>96.92%</strong></td><td><strong>93.76%</strong></td><td><strong>94.84%</strong></td></tr>
+        <tr><td>Exact, stress-insensitive</td><td>97.26%</td><td>94.39%</td><td>95.21%</td></tr>
+        <tr><td>Exact, diacritic skeleton</td><td>97.59%</td><td>94.59%</td><td>95.26%</td></tr>
+        <tr><td>Rule-only exact match</td><td>79.52%</td><td>56.73%</td><td>52.33%</td></tr>
+        <tr><td>Phone Error Rate (PER)</td><td>1.45%</td><td>3.09%</td><td>2.97%</td></tr>
+        </tbody>
+    </table>
+    <p>Benchmark dictionaries are built from dialect-tagged Wiktionary IPA (<code>data/all_regions.csv</code>,
+    17,281 rows / 9,719 words). Rule-only accuracy on Munster/Ulster is capped at roughly 70–75% by per-word
+    transcriber disagreements in the multi-transcriber benchmark source — identical phonological contexts
+    transcribed both ways by different transcribers, not by missing rules.</p>
+
+    <h3>Cross-Dialect Reference</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Word</th>
+            <th>Connacht</th>
+            <th>Munster</th>
+            <th>Ulster</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>caisleán</td><td><span class="ipa">ˈkiʃlʲɑːnˠ</span></td><td><span class="ipa">kəˈʃlʲɑːn̪ˠ</span></td><td><span class="ipa">ˈkaʃl̠ʲanˠ</span></td></tr>
+        <tr><td>cailín</td><td><span class="ipa">ˈkalʲiːnʲ</span></td><td><span class="ipa">kɑˈlʲiːnʲ</span></td><td><span class="ipa">ˈkælʲinʲ</span></td></tr>
+        <tr><td>baile</td><td><span class="ipa">ˈbˠalʲə</span></td><td><span class="ipa">ˈbˠɑlʲə</span></td><td><span class="ipa">ˈbˠælʲə</span></td></tr>
+        <tr><td>anam</td><td><span class="ipa">ˈanˠəmˠ</span></td><td><span class="ipa">ˈɑn̪ˠəmˠ</span></td><td><span class="ipa">ˈanˠəmˠ</span></td></tr>
+        <tr><td>sláinte</td><td><span class="ipa">ˈsˠl̪ˠɑːn̠ʲtʲə</span></td><td><span class="ipa">ˈsˠl̪ˠɑːnʲtʲə</span></td><td><span class="ipa">ˈsˠl̪ˠaːn̠ʲtʲə</span></td></tr>
+        <tr><td>Gaeltacht</td><td><span class="ipa">ˈɡeːl̪ˠt̪ˠəxt̪ˠ</span></td><td><span class="ipa">ˈɡeːl̪ˠt̪ˠəxt̪ˠ</span></td><td><span class="ipa">ˈɡeːl̪ˠt̪ˠaxt̪ˠ</span></td></tr>
+        <tr><td>uisce</td><td><span class="ipa">ˈiʃcə</span></td><td><span class="ipa">ˈiʃcə</span></td><td><span class="ipa">ˈiʃcə</span></td></tr>
+        <tr><td>Gaeilge</td><td><span class="ipa">ˈɡeːl̠ʲɟɪ</span></td><td><span class="ipa">ˈɡeːlʲəɟɪ</span></td><td><span class="ipa">ˈɡeːlʲɪc</span></td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="issues">Common Issues & Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Issue</th>
+            <th>Description</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Multi-word phrase contractions</td>
+            <td>Lexicalized phrases like <em>tá a fhios ag</em> → [t̪ˠɑːsˠ eɟ] are not fully handled</td>
+            <td>~215 errors; extended FUNCTION_WORDS_OVERRIDE needed</td>
+        </tr>
+        <tr>
+            <td>Monosyllable stress inconsistency</td>
+            <td>The benchmark has inconsistent stress marking on monosyllables (some expected, some not)</td>
+            <td>Known; handled by lexical tables</td>
+        </tr>
+        <tr>
+            <td>Dialect benchmark contradictions</td>
+            <td>Munster and Ulster benchmarks contain internal contradictions from different transcribers
+            (e.g., identical context transcribed as both [a] and [æ], long and short)</td>
+            <td>Documented; limits rule-only accuracy to ~70–75%</td>
+        </tr>
+        <tr>
+            <td>Dental/sonorant diacritics</td>
+            <td>L and N dental/postalveolar marking is lexically diffuse; some words use different
+            conventions in the benchmark</td>
+            <td>Handled by lexical exception tables</td>
+        </tr>
+        <tr>
+            <td>w→vˠ after long vowel</td>
+            <td>Broad mh coda after long vowel (e.g., <em>snámh</em>) may retain friction [vˠ] instead of [w]</td>
+            <td>~23 errors; conflicts with FINAL_BH_V_TO_W table</td>
+        </tr>
+        <tr>
+            <td>Ulster -f(a)idh → [i]</td>
+            <td>Verbal future endings: majority want short [i] but mixed with [iː]</td>
+            <td>~38 errors; lexically conditioned</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <p><small>For technical issues or suggestions, please visit our <a
+      href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"
+      rel="noopener noreferrer">GitHub
+        repository</a>.</small></p>
+</div>
+</body>
+</html>

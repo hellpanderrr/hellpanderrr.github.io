@@ -832,7 +832,8 @@ function rememberText() {
     textArea.setAttribute("data-listener-added", "true");
   }
 
-  // Retrieve text from local storage on page load
+  // Restore text from local storage. Runs after updateMeta() has seeded the
+  // per-language sample text, so a saved draft wins over the sample.
   console.log("DOMContentLoaded", localStorage.getItem("inputText"));
   const savedText = localStorage.getItem("inputText");
   if (savedText) {

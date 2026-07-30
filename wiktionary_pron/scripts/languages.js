@@ -101,5 +101,11 @@ export const languages = {
     langCode: "mn",
     ttsCode: "mn-MN",
   },
+  Irish: {
+    styles: ["Connacht", "Munster", "Ulster"],
+    forms: ["Phonemic"],
+    langCode: "ga",
+    ttsCode: "ga-IE",
+  },
 };
 export default { languages };

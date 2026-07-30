@@ -47,6 +47,31 @@ test.describe("IPA transcriber", () => {
     );
   });
 
+  test("Irish: transcribes all three dialects", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Irish");
+    // Connacht (default style, default form)
+    await transcribe(page, "caisleán");
+    await expect(page.locator("#result .ipa").first()).toContainText(
+      "ʃlʲ",
+      { timeout: 30_000 },
+    );
+    // Munster — stress moves to the long second syllable
+    await page.selectOption("#lang_style", { label: "Munster" });
+    await transcribe(page, "cailín");
+    await expect(page.locator("#result .ipa").first()).toContainText(
+      "lʲiːnʲ",
+      { timeout: 30_000 },
+    );
+    // Ulster — a fronts to æ before slender consonant
+    await page.selectOption("#lang_style", { label: "Ulster" });
+    await transcribe(page, "baile");
+    await expect(page.locator("#result .ipa").first()).toContainText(
+      "bˠælʲə",
+      { timeout: 30_000 },
+    );
+  });
+
   test("German (dict=false): phonemic transcription via Lua rules", async ({
     page,
   }) => {

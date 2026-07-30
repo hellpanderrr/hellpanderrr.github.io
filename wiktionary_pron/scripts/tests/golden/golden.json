@@ -298,5 +298,115 @@
       "status": "success",
       "value": "ɐˈmi.ɡu"
     }
+  ],
+  "Irish": [
+    {
+      "text": "caisleán",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈkiʃlʲɑːnˠ"
+    },
+    {
+      "text": "caisleán",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "kəˈʃlʲɑːn̪ˠ"
+    },
+    {
+      "text": "caisleán",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈkaʃl̠ʲanˠ"
+    },
+    {
+      "text": "cailín",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈkalʲiːnʲ"
+    },
+    {
+      "text": "cailín",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "kɑˈlʲiːnʲ"
+    },
+    {
+      "text": "cailín",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈkælʲinʲ"
+    },
+    {
+      "text": "anam",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈanˠəmˠ"
+    },
+    {
+      "text": "anam",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈɑn̪ˠəmˠ"
+    },
+    {
+      "text": "anam",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈanˠəmˠ"
+    },
+    {
+      "text": "Gaeilge",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈɡeːl̠ʲɟɪ"
+    },
+    {
+      "text": "Gaeilge",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈɡeːl̪ˠənʲ"
+    },
+    {
+      "text": "Gaeilge",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈɡeːlʲɪc"
+    },
+    {
+      "text": "uisce",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈiʃcə"
+    },
+    {
+      "text": "uisce",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈiʃcə"
+    },
+    {
+      "text": "uisce",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈiʃcə"
+    },
+    {
+      "text": "baile",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈbˠalʲə"
+    },
+    {
+      "text": "baile",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈbˠalʲə"
+    },
+    {
+      "text": "baile",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈbˠælʲə"
+    }
   ]
 }
