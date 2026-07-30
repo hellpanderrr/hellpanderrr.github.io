@@ -133,23 +133,22 @@ return {
           token.phon = "h"
         end
       elseif token.ortho == "th" then
-        -- Word-final: silent (Hickey §3.2), before boundary also final.
-        local nxt = tokens[i + 1]
-        if not nxt or nxt.type == "boundary" then
+        if i == #tokens then
           token.phon = ""
         else
           local word_initial = (prev == nil) or (prev.type == "boundary")
+          local nxt = tokens[i + 1]
           -- Word-initial slender th -> ç before back rounded vowel (eo).
-          if word_initial and token.palatal == true and nxt.type == "vowel" and nxt.ortho == "eo" then
+          if word_initial and token.palatal == true and nxt and nxt.type == "vowel" and nxt.ortho == "eo" then
             token.phon = "\xc3\xa7"  -- ç
           else
             token.phon = "h"
           end
         end
       elseif token.ortho == "dh" or token.ortho == "gh" then
-        local nxt = tokens[i + 1]
-        -- Word-final dh/gh: silent (before boundary or end).
-        if not nxt or nxt.type == "boundary" then
+        local next = tokens[i + 1]
+        if i == #tokens then
+          -- Word-final dh/gh: silent
           token.phon = ""
         elseif token.palatal == true then
           token.phon = "j"

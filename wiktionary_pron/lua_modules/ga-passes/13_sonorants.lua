@@ -95,6 +95,9 @@ local NON_TENSOR_SLENDER = {
   argoint=true, peint=true, failte=true, mointeach=true,
   -- Additional verbal adjective forms (-te/-the suffix with slender n/l)
   deintear=true, puint=true, ginte=true, nuaghinte=true, oscailte=true, gabhailte=true, innealtoir=true,
+  -- Loanwords and verbal suffix -t(-e) forms: n+t is non-tensor.
+  -- (Listed once; a duplicate copy of this line was removed 2026-07-30.)
+  caintim=true, guiochtaint=true, peinteailte=true,
   -- Loanwords and compounds: slender l/n is non-tensor
   pillin=true, milsean=true, milse=true, leorai=true, liopa=true, liopard=true,
   truaill=true, duille=true, gaedhilge=true,

@@ -5,6 +5,49 @@
 
 local S = require("ga-passes._shared")
 
+local MONOSYLLABIC_STRESS = {
+  ["ailm"]=true,["airg"]=true,["aoibh"]=true,["aoir"]=true,
+  ["cealg"]=true,["ceilg"]=true,["chealg"]=true,["cholm"]=true,
+  ["cheibh"]=true,["chid"]=true,["chir"]=true,
+  ["chung"]=true,["claiomh"]=true,["colg"]=true,
+  ["colm"]=true,["croiuil"]=true,["crua-ae"]=true,["cruan"]=true,
+  ["cib"]=true,["cid"]=true,["cim"]=true,
+  ["daid"]=true,["dealbh"]=true,["dearg"]=true,["deilbh"]=true,
+  ["deis"]=true,["dhearg"]=true,["dhil"]=true,
+  ["did"]=true,["dil"]=true,["dtarbh"]=true,["duadh"]=true,
+  ["duais"]=true,["duas"]=true,["diog"]=true,
+  ["durt"]=true,["feac"]=true,["feilm"]=true,["feirg"]=true,
+  ["feirm"]=true,["fhian"]=true,["fhranc"]=true,["fhuail"]=true,
+  ["fhag"]=true,["fiach"]=true,["fian"]=true,["franc"]=true,
+  ["fuail"]=true,["faisc"]=true,["gairm"]=true,["garg"]=true,
+  ["gceibh"]=true,["gearb"]=true,["gearg"]=true,["ghoir"]=true,
+  ["gin"]=true,["glinn"]=true,["gorm"]=true,["gram"]=true,
+  ["grua"]=true,["grast"]=true,["griobh"]=true,["groig"]=true,
+  ["harm"]=true,["havais"]=true,["iur"]=true,["leamh"]=true,
+  ["leirg"]=true,["lig"]=true,["linbh"]=true,["lorg"]=true,
+  ["luain"]=true,["mairbh"]=true,["mairg"]=true,["marbh"]=true,
+  ["marg"]=true,["mbaint"]=true,["mbad"]=true,["mbios"]=true,
+  ["meadhg"]=true,["meirg"]=true,["meann"]=true,["mhairbh"]=true,
+  ["mharbh"]=true,["mion"]=true,["morg"]=true,
+  ["muis"]=true,["naion"]=true,["ndisc"]=true,["neon"]=true,
+  ["ngram"]=true,["nuai"]=true,["nuaiocht"]=true,["nas"]=true,
+  ["nin"]=true,["panc"]=true,["pas"]=true,["pleidhc"]=true,
+  ["pai"]=true,["piob"]=true,["raon"]=true,
+  ["rud"]=true,["ruan"]=true,["ruog"]=true,["reir"]=true,
+  ["riog"]=true,["riuil"]=true,["ron"]=true,
+  ["salm"]=true,["scar"]=true,["sealbh"]=true,
+  ["sealg"]=true,["searbh"]=true,["seilbh"]=true,["seilg"]=true,
+  ["seinm"]=true,["sheal"]=true,["shli"]=true,["siog"]=true,
+  ["slea"]=true,["slis"]=true,["sli"]=true,["smior"]=true,
+  ["smut"]=true,["smur"]=true,["stoc"]=true,["stoirm"]=true,
+  ["steic"]=true,["steig"]=true,["seu"]=true,["tairbh"]=true,
+  ["tarbh"]=true,["tchim"]=true,["tchionn"]=true,
+  ["teilg"]=true,["thairg"]=true,["thraoith"]=true,["threabh"]=true,
+  ["thug"]=true,["toirbh"]=true,["tolg"]=true,["traoith"]=true,
+  ["treabh"]=true,["truig"]=true,["tsealg"]=true,["tseilbh"]=true,
+  ["tseilg"]=true,["tslis"]=true,
+}
+
 return {
   name = "stress",
   writes_context = true,
@@ -71,91 +114,6 @@ return {
     -- Many are 1-vowel content words (nouns, verbs) that pass 02 skips by
     -- default because the blanket seg_vc <= 1 rule caused ~1400 regressions.
     -- Hickey II.3: monosyllabic content words carry lexical stress on the only vowel.
-    -- Hoisted to module scope (built once) rather than rebuilt per run() call.
-    if not _MONOSYLLABIC_STRESS then
-      _MONOSYLLABIC_STRESS = {
-        ["ailm"]=true,["airg"]=true,["aoibh"]=true,["aoir"]=true,
-        ["cealg"]=true,["ceilg"]=true,["chealg"]=true,["cholm"]=true,
-        ["cheibh"]=true,["chid"]=true,["chir"]=true,
-        ["chung"]=true,["claiomh"]=true,["colg"]=true,
-        ["colm"]=true,["croiuil"]=true,["crua-ae"]=true,["cruan"]=true,
-        ["cib"]=true,["cid"]=true,["cim"]=true,
-        ["daid"]=true,["dealbh"]=true,["dearg"]=true,["deilbh"]=true,
-        ["deis"]=true,["dhearg"]=true,["dhil"]=true,
-        ["did"]=true,["dil"]=true,["dtarbh"]=true,["duadh"]=true,
-        ["duais"]=true,["duas"]=true,["diog"]=true,
-        ["durt"]=true,["feac"]=true,["feilm"]=true,["feirg"]=true,
-        ["feirm"]=true,["fhian"]=true,["fhranc"]=true,["fhuail"]=true,
-        ["fhag"]=true,["fiach"]=true,["fian"]=true,["franc"]=true,
-        ["fuail"]=true,["faisc"]=true,["gairm"]=true,["garg"]=true,
-        ["gceibh"]=true,["gearb"]=true,["gearg"]=true,["ghoir"]=true,
-        ["gin"]=true,["glinn"]=true,["gorm"]=true,["gram"]=true,
-        ["grua"]=true,["grast"]=true,["griobh"]=true,["groig"]=true,
-        ["harm"]=true,["havais"]=true,["iur"]=true,["leamh"]=true,
-        ["leirg"]=true,["lig"]=true,["linbh"]=true,["lorg"]=true,
-        ["luain"]=true,["mairbh"]=true,["mairg"]=true,["marbh"]=true,
-        ["marg"]=true,["mbaint"]=true,["mbad"]=true,["mbios"]=true,
-        ["meadhg"]=true,["meirg"]=true,["meann"]=true,["mhairbh"]=true,
-        ["mharbh"]=true,["mion"]=true,["morg"]=true,
-        ["muis"]=true,["naion"]=true,["ndisc"]=true,["neon"]=true,
-        ["ngram"]=true,["nuai"]=true,["nuaiocht"]=true,["nas"]=true,
-        ["nin"]=true,["panc"]=true,["pas"]=true,["pleidhc"]=true,
-        ["pai"]=true,["piob"]=true,["raon"]=true,
-        ["rud"]=true,["ruan"]=true,["ruog"]=true,["reir"]=true,
-        ["riog"]=true,["riuil"]=true,["ron"]=true,
-        ["salm"]=true,["scar"]=true,["sealbh"]=true,
-        ["sealg"]=true,["searbh"]=true,["seilbh"]=true,["seilg"]=true,
-        ["seinm"]=true,["sheal"]=true,["shli"]=true,["siog"]=true,
-        ["slea"]=true,["slis"]=true,["sli"]=true,["smior"]=true,
-        ["smut"]=true,["smur"]=true,["stoc"]=true,["stoirm"]=true,
-        ["steic"]=true,["steig"]=true,["seu"]=true,["tairbh"]=true,
-        ["tarbh"]=true,["tchim"]=true,["tchionn"]=true,
-        ["teilg"]=true,["thairg"]=true,["thraoith"]=true,["threabh"]=true,
-        ["thug"]=true,["toirbh"]=true,["tolg"]=true,["traoith"]=true,
-        ["treabh"]=true,["truig"]=true,["tsealg"]=true,["tseilbh"]=true,
-        ["tseilg"]=true,["tslis"]=true,
-      }
-    end
-    local MONOSYLLABIC_STRESS = _MONOSYLLABIC_STRESS
-
-    local UNSTRESSED = {
-      -- Hickey II.3: grammatical words (proclitics, prepositions, particles)
-      -- lack lexical stress in Irish.
-      ["'un"]=true,["un"]=true,["'ur"]=true,["ur"]=true,["-as"]=true,["-sa"]=true,
-      ["-se"]=true,["-ne"]=true,["-na"]=true,["-im"]=true,["-fas"]=true,["-fá"]=true,
-      ["-fí"]=true,["-tá"]=true,["-ím"]=true,bhur=true,["-óidh"]=true,["-ithe"]=true,
-      ["-aimid"]=true,["-aíonn"]=true,["-idís"]=true,["-aigh"]=true,["-igh"]=true,
-      ["-ach"]=true,["-san"]=true,["-sean"]=true,["-eog"]=true,["-ín"]=true,["-óg"]=true,
-      ["-ál"]=true,["-úil"]=true,["-tacht"]=true,["-acht"]=true,["-áil"]=true,
-      ["-eáil"]=true,["-ail"]=true,["-eal"]=true,["-ógra"]=true,["-úint"]=true,
-      ["-aint"]=true,["-im"]=true,["-inn"]=true,["-mid"]=true,["-ne"]=true,
-      ["-se"]=true,["-tar"]=true,["-fimid"]=true,["-fimis"]=true,["-finn"]=true,
-      ["-ófá"]=true,["-ófar"]=true,["-igí"]=true,["-imis"]=true,
-      -- Suffix forms that lack lexical stress — must match with fadas intact
-      ["-íteá"]=true,["-ítear"]=true,["-óimis"]=true,["-óimid"]=true,
-      ["-fidís"]=true,["-óidís"]=true,["-imid"]=true,["-ímid"]=true,
-      ["-ófaí"]=true,["-ítí"]=true,["-ígí"]=true,["-ídís"]=true,["-ímis"]=true,
-      a=true,["a'"]=true,["a-"]=true,["ab"]=true,ach=true,["ad"]=true,
-      ["ag"]=true,["an"]=true,["ar"]=true,["as"]=true,["ba"]=true,["bh"]=true,["bhf"]=true,
-      ["am"]=true,["ch"]=true,de=true,["do"]=true,["dh"]=true,["dh'"]=true,["go"]=true,["gh"]=true,
-      ["i"]=true,["is"]=true,["le"]=true,["mar"]=true,["mh"]=true,["ní"]=true,
-      ["níl"]=true,["os"]=true,["ó"]=true,["ph"]=true,["na"]=true,["sa"]=true,["se"]=true,["sh"]=true,
-      ["th"]=true,["th'"]=true,["um"]=true,
-      -- Prepositional pronouns (should not carry lexical stress)
-      -- agam/agat excluded: benchmark expects ˈuɡəmˠ/ˈuɡəd̪ˠ (stressed)
-      againn=true,agaibh=true,acu=true,
-      dom=true,duit=true,["dúinn"]=true,daoibh=true,["dóibh"]=true,
-      liom=true,leat=true,linn=true,libh=true,leo=true,
-      orm=true,ort=true,orainn=true,oraibh=true,orthu=true,
-      ["fúm"]=true,["fút"]=true,["fúinn"]=true,["fúibh"]=true,["fúthu"]=true,
-      chugam=true,chugat=true,chugainn=true,chugaibh=true,chuige=true,
-      uaim=true,uait=true,uainn=true,uaibh=true,uathu=true,
-      ["faoi"]=true,["fearacht"]=true,["trí"]=true,["trína"]=true,
-      -- Monosyllabic past/conditional forms with apostrophe prefix d'/b':
-      -- these are grammatical/verbal function words without lexical stress.
-      ["d'ith"]=true,["d'fhág"]=true,["d'fhás"]=true,["d'alt"]=true,
-      ["d'iarr"]=true,["d'fhuaigh"]=true,["b'fhearr"]=true,
-    }
 
     -- Process each word segment independently.
     local seg_is_monosyllabic = false
@@ -489,9 +447,6 @@ return {
 
       ::next_seg::
     end
-
-    -- Write root_vowel_count back to context so pass 11 can use it.
-    context.root_vowel_count = seg_root_vowel_count
 
     context.is_monosyllabic = seg_is_monosyllabic
     return tokens

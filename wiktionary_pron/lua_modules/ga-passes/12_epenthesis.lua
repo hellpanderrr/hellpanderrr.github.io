@@ -44,15 +44,17 @@ return {
       local next_ortho = tokens[i + 1] and tokens[i + 1].ortho
       local is_homorganic = (cur_ortho == "r" and (next_ortho == "d" or next_ortho == "l" or next_ortho == "n")) or
         (cur_ortho == "n" and next_ortho == "d") or (cur_ortho == "l" and next_ortho == "d")
-      -- bh/mh excluded here: l+bh/mh is handled by the dedicated branch below
-      -- at word-final / before-final-vowel position only (Hickey §2.8).
-      -- The bh/mh entries must not appear in this generic branch or l+bh/mh
-      -- word-final clusters would get a schwa insertion before the dedicated guard.
+      -- NOTE: bh/mh stay in this generic branch. Excluding them (so only the
+      -- dedicated l+bh/mh branch below fires) was measured at -31 Connacht /
+      -- -37 Munster: the dedicated branch gates on word-final position, so the
+      -- exclusion silently drops legitimate medial svarabhakti. Do not re-apply.
       if S.is_sonorant(tokens[i]) and tokens[i + 1] and not is_homorganic and
          (S.is_voiced_obstruent(tokens[i + 1]) or
           tokens[i + 1].ortho == "ch" or
           tokens[i + 1].ortho == "f" or
-          tokens[i + 1].ortho == "m") then
+          tokens[i + 1].ortho == "m" or
+          tokens[i + 1].ortho == "bh" or
+          tokens[i + 1].ortho == "mh") then
 
         -- Skip epenthesis before future -f- suffixes (f + vowel + dh/d/s/mid).
         -- The f in future-tense markers (-fidh, -faidh, -feadh, -fas, -faimid)
