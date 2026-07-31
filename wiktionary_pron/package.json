@@ -8,7 +8,8 @@
     "test:unit": "mocha scripts/tests/unit/*.test.js --require scripts/tests/setup.cjs --timeout 20000",
     "test:e2e": "playwright test --grep-invert macronizer",
     "test:e2e:macronizer": "playwright test e2e/macronizer.spec.js",
-    "serve": "http-server .. -p 8993 -s"
+    "serve": "http-server .. -p 8993 -s",
+    "build:ext": "node utils/sync_extension.cjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
