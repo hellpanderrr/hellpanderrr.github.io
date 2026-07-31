@@ -3,7 +3,7 @@
 -- References: Hickey II.1.1 (polarity system), III.2.3.2 (lenition mutation outcomes),
 --  FG Ch.5 (Connacht consonant inventory)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "polarity",

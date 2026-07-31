@@ -3,7 +3,7 @@
 -- Before slender nn -> [ɪ]
 -- References: Hickey II.1.9.4 (vowel gradation — coda-driven vowel quality)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "slender_coda",

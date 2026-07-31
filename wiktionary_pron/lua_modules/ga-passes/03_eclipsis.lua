@@ -7,7 +7,7 @@
 -- so multi-word eclipsis (i bhfad, i dtosach) works.
 -- References: Hickey III.2.3.1 (nasalisation / eclipsis), Hickey III.2.2.2 (T-prefix), FG Ch.7 (mutation mapping)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 local ECLIPSIS_PAIRS = { mb = true, gc = true, dt = true, bp = true, nd = true, nn = true, bhf = true }
 

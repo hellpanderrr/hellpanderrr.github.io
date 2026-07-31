@@ -3,7 +3,7 @@
 -- Runs early so vocalization (pass #6) and reduction (pass #11) are stress-aware.
 -- References: Hickey II.3 (stress), FG Ch.5 (Connacht stress patterns)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 local MONOSYLLABIC_STRESS = {
   ["ailm"]=true,["airg"]=true,["aoibh"]=true,["aoir"]=true,

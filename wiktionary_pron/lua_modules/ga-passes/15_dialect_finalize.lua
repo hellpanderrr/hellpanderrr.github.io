@@ -7,7 +7,7 @@
 -- pass 11 already ran — Gardaí, cairdeas, Cháit).
 -- References: Hickey I.2.3 (Ulster á fronting), II.1.8 (Munster sonorants)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 -- First UTF-8 character of a phon string (byte-length aware)
 local function usub_first(s)

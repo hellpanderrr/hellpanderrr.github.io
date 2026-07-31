@@ -4,7 +4,7 @@
 -- Runs after vocalization so vocalized forms aren't re-nasalized.
 -- References: Hickey II.1.9.4 (vowel gradation — nasal raising before geminate sonorants)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "nasalization",

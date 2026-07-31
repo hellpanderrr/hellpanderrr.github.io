@@ -3,7 +3,7 @@
 -- ortho is what the fricative rules see.
 -- References: Hickey II.2.2 (cluster simplification), II.2.1 (permissible clusters)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "cluster_simplify",

@@ -3,7 +3,7 @@
 -- References: Hickey II.1.7 (consonant system — stops, fricatives, pairs),
 --  FG Ch.5 (Connacht consonant inventory), FG Appendix A (sound catalog)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "consonants",

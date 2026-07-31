@@ -6,7 +6,7 @@
 --  Hickey II.1.9.5 (short vowel qualities), II.1.9.6 (unstressed vowels),
 --  FG Ch.5 (Connacht vowel inventory), FG Ch.7 (orthography→IPA mappings)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "vowels",

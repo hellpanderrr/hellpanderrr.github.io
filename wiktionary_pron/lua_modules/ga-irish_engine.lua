@@ -2,7 +2,7 @@
 -- Replaces the monolith irish_engine.lua + irish_rules.lua.
 -- Loads passes from passes/ directory and orchestrates them.
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 local passes = require("ga-passes.init")
 local ustring = require("ustring.ustring")
 local ulen = ustring.len

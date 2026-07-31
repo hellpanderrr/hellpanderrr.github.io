@@ -5,7 +5,7 @@
 -- References: Hickey II.1.7.2 (lenited fricatives — dependent phonemes),
 --  Hickey III.2.3.2 (lenition — grammatical mutation), FG Ch.7 (mutation outcomes per dialect)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "mutated_fricatives",

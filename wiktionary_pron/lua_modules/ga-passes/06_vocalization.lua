@@ -5,7 +5,7 @@
 -- after consonants have been resolved by pass #9.
 -- References: Hickey II.1.9.9.1 (vocalisation of fricatives), II.1.9.4 (vowel gradation)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "vocalization",

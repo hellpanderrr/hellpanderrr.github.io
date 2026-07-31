@@ -6,7 +6,7 @@
 -- Runs after r_lowering (#6c), before labial_vocalization (#6e).
 -- Uses orthography to check, since vowel resolution hasn't run yet.
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 return {
   name = "anticipatory_raising",

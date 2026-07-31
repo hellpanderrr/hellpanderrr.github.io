@@ -10,7 +10,7 @@
 -- References: Hickey II.1.8 (sonorant system — 3-way l/n, geminates, §1.8.4 three-way
 --  distinctions, §1.8.6 historical development), FG Ch.5 (Connacht sonorant inventory)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 local ustring = require("ustring.ustring")
 local usub = ustring.sub
 

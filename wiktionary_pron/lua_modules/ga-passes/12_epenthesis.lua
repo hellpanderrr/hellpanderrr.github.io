@@ -4,7 +4,7 @@
 -- NOT restricted to monosyllables. (Corrected per Hickey II.2.8)
 -- References: Hickey II.2.8 (svarabhakti — sonorant + heterorganic obstruent → vowel insertion)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 -- Hickey II.2.8: heterorganic clusters trigger epenthesis:
 --   sonorant (l,n,r) + heterorganic voiced obstruent (b,d,g) or fricative (ch,f,m,bh,mh)

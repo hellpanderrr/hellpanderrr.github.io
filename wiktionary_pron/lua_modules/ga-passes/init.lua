@@ -1,6 +1,6 @@
 -- Passes initializer. Loads all 16 passes in order.
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 local passes = {}
 passes[1]  = require("ga-passes.01_polarity")

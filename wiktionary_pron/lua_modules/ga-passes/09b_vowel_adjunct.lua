@@ -4,7 +4,7 @@
 -- mh/bh in coda should remain as v/vʲ (pass 09 already resolves it correctly).
 -- This pass now only handles specific legitimate cases where vocalization is warranted.
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 local ustring = require("ustring.ustring")
 local ulen = ustring.len
 

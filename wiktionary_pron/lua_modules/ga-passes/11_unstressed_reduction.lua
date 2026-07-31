@@ -4,7 +4,7 @@
 -- References: Hickey II.1.9.6 (unstressed vowels → only [ə] and [ɪ] possible),
 --  Hickey II.2.7.2 (final devoicing), II.1.9.4 (vowel gradation)
 
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 
 -- Words in the UNSTRESSED table that should NOT have their vowel reduced to ə.
 -- These words have specific phonetic forms handled by other passes (e.g. r-lowering).

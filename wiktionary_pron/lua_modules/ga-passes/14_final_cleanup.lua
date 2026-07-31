@@ -4,7 +4,7 @@
 --  Hickey II.1.9.9.1 (vocalization of historical fricatives, digraph resolution),
 --  Hickey II.1.7 (consonant system — sandhi affrication [tʃ] from /x/+/s/),
 --  Hickey II.3 (function word stress/prosody), II.2.7.5 (assimilation across word boundaries)
-local S = require("ga-passes._shared")
+local S = require("ga-passes.shared")
 local ustring = require("ustring.ustring")
 local ugsub = ustring.gsub
 local usub = ustring.sub
