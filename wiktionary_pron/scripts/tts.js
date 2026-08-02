@@ -51,7 +51,10 @@ class StreamingTTS {
     {base: "https://tts-3.hellpanderrr.workers.dev", lastUsed: 0},
     {base: "https://tts-4.hellpanderrr.workers.dev", lastUsed: 0},
     {base: "https://tts-5.hellpanderrr.workers.dev", lastUsed: 0},
-    {base: "https://tts-6.hellpanderrr.workers.dev", lastUsed: 0}
+    {base: "https://tts-6.hellpanderrr.workers.dev", lastUsed: 0},
+    // Vercel fallback — *.vercel.app is reachable from any ISP/VPN-excluded
+    // browser (workers.dev is blocked on some direct connections).
+    {base: "https://edge-tts-vercel-teal.vercel.app/api", lastUsed: 0}
   ];
 
   #requestDelayMs = 3000;
