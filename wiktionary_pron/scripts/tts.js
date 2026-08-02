@@ -53,8 +53,9 @@ class StreamingTTS {
     {base: "https://tts-5.hellpanderrr.workers.dev", lastUsed: 0},
     {base: "https://tts-6.hellpanderrr.workers.dev", lastUsed: 0},
     // Vercel fallback — *.vercel.app is reachable from any ISP/VPN-excluded
-    // browser (workers.dev is blocked on some direct connections).
-    {base: "https://edge-tts-vercel-sigma.vercel.app/api", lastUsed: 0}
+    // browser (workers.dev is blocked on some direct connections). Token-gated
+    // (not an open proxy) per Vercel AUP: only the Vercel worker carries a token.
+    {base: "https://edge-tts-vercel-sigma.vercel.app/api", lastUsed: 0, token: "b77402b99345df4c803a1c61af805c0e8485db885b70aba9"}
   ];
 
   #requestDelayMs = 3000;
@@ -153,7 +154,9 @@ class StreamingTTS {
     for (let i = 0; i < this.#workers.length; i++) {
       const worker = this.#workers[i];
       try {
-        const response = await fetch(`${worker.base}/voices`);
+        const response = await fetch(`${worker.base}/voices`, {
+          headers: worker.token ? { "Authorization": `Bearer ${worker.token}` } : {}
+        });
         if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
 
         const data = await response.json();
@@ -245,7 +248,10 @@ class StreamingTTS {
       try {
         const response = await this.#fetchWithTimeout(`${worker.base}/tts`, {
           method: "POST",
-          headers: {"Content-Type": "application/json"},
+          headers: {
+            "Content-Type": "application/json",
+            ...(worker.token ? { "Authorization": `Bearer ${worker.token}` } : {})
+          },
           body: JSON.stringify({
             text,
             voice: voice.raw.ShortName,
