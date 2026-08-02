@@ -85,9 +85,44 @@ class StreamingTTS {
   }
 
   #getBestWorker() {
-    return this.#workers.reduce((best, current) => {
-      return (current.lastUsed < best.lastUsed) ? current : best;
+    // Round-robin starting from a random point, so concurrent requests spread
+    // across the whole farm instead of piling onto whichever worker has the
+    // oldest lastUsed timestamp (which stacks concurrent jobs on one worker
+    // and trips Cloudflare's ~21s request ceiling -> the observed hangs).
+    const startIdx = Math.floor(Math.random() * this.#workers.length);
+    return this.#workers[(startIdx + 1) % this.#workers.length];
+  }
+
+  // Abort a request to one worker after this long so a hung worker fails fast
+  // and the rotation loop moves on, instead of waiting out Cloudflare's full
+  // ~21s platform kill before failing over.
+  #workerTimeoutMs = 9000;
+
+  // Promise.race wrapper: settles on the worker response OR the abort signal OR
+  // a per-worker timeout. A timed-out worker counts as a failed attempt so the
+  // loop rotates to the next worker.
+  async #fetchWithTimeout(url, init) {
+    const controller = this.#currentAbortController;
+    let timer = null;
+    let timedOut = false;
+    const timeout = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        timedOut = true;
+        reject(new Error('Worker timeout'));
+      }, this.#workerTimeoutMs);
+      controller.signal.addEventListener('abort', () => clearTimeout(timer), {once: true});
     });
+    try {
+      const result = await Promise.race([
+        fetch(url, { ...init, signal: controller.signal }),
+        timeout
+      ]);
+      if (!timedOut) clearTimeout(timer);
+      return result;
+    } finally {
+      // swallows any leftover timer rejection after the race is won
+      timeout.catch(() => {});
+    }
   }
 
   get isPlaying() {
@@ -205,7 +240,7 @@ class StreamingTTS {
       worker.lastUsed = Date.now();
 
       try {
-        const response = await fetch(`${worker.base}/tts`, {
+        const response = await this.#fetchWithTimeout(`${worker.base}/tts`, {
           method: "POST",
           headers: {"Content-Type": "application/json"},
           body: JSON.stringify({
@@ -214,8 +249,7 @@ class StreamingTTS {
             rate: rateStr,
             pitch: pitchStr,
             volume: "+0%"
-          }),
-          signal: this.#currentAbortController.signal
+          })
         });
 
         if (!response.ok) {
