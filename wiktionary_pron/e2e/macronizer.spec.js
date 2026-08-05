@@ -41,6 +41,12 @@ test.describe("macronizer", () => {
     // Regression: the toggle used to target '#header > a > i', which is the
     // HOME link's icon — the sun appeared on the wrong side of the header.
     await page.goto(PAGE);
+    // The toggle's listener is attached by the module script that top-level-awaits
+    // __wasmReady, so clicking straight after goto() is a race: the click lands on
+    // a button with no handler and body never gets the class. Wait for readiness.
+    await expect(page.locator("#macronize_btn")).toBeEnabled({
+      timeout: 240_000,
+    });
     await page.click("#dark_mode");
     await expect(page.locator("body")).toHaveClass(/dark_mode/);
     await expect(page.locator("#dark_mode i")).toHaveClass(/icon-sun/);
