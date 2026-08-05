@@ -9,6 +9,20 @@ import { scanVerses as doScanVerses } from './Scansion.js';
 import { alignMacronized } from './alignMacronized.js';
 import { toAscii, isWhitespace, isSentenceEnder, splitEnclitic, tagDistance, levenshteinDistance, underscoreToUnicode, prefixesWithShortJ } from '../utils/latin.js';
 /**
+ * Accent overrides for words whose quantity is context-dependent — short in
+ * prose, long when a meter demands it (e.g. italorum: Ĭtălōrum in prose,
+ * Ītălōrum at the fixed-long position 8 of a hendecasyllable).
+ *
+ * Kept here instead of editing the 33MB wordlist: macrons.txt is regenerated
+ * from upstream and would silently lose a one-off data edit. The extra forms
+ * are injected as additional scansion candidates (prose keeps accenteds[0]).
+ */
+const ACCENT_OVERRIDES = {
+    // Gen. pl. of Italus. Wordlist has only the short reading I^ta^lo_rum;
+    // the meter of Catullus 1.5 requires the long ī (position 8).
+    'italorum': ['i^ta^lo_rum', 'i_ta^lo_rum'],
+};
+/**
  * Tokenization class - splits Latin text into tokens
  * Handles enclitics (-que, -ve, -ne), sentence boundaries
  */
@@ -541,6 +555,18 @@ export class Tokenization {
                         isUnknown = true;
                     }
                 }
+            }
+            // Inject context-dependent accent overrides (see ACCENT_OVERRIDES).
+            // The wordlist form stays primary (prose macronization), extra forms
+            // become scansion candidates the meter can pick.
+            const override = ACCENT_OVERRIDES[wordformLower];
+            if (override) {
+                for (const form of override) {
+                    if (!accented.includes(form)) {
+                        accented.push(form);
+                    }
+                }
+                isAmbiguous = accented.length > 1;
             }
             // Update token with accented candidates and flags
             this.tokens[idx] = token.with({

@@ -243,8 +243,11 @@ export class MorpheusAnalyzer {
         if (parts.length < 2)
             return null;
         const posCode = parts[0];
-        // Morpheus beta-code: "accented_stem,lemma". Keep only the accented stem;
-        // the lemma is extracted separately. Mirrors Python postags.py::morpheus_to_parses.
+        // Morpheus beta-code convention: "accented_stem,lemma" (comma separates
+        // the accented wordform from the dictionary lemma). We keep only the
+        // accented stem — the lemma is stored separately. This mirrors the Python
+        // reference (postags.py::morpheus_to_parses lines 434-436) which does
+        // `accented = accented.split(",")[0]`.
         const rawAccented = parts[1];
         const commaParts = rawAccented.includes(',') ? rawAccented.split(',') : [rawAccented];
         const accented = commaParts[0];

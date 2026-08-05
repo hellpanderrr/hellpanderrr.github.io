@@ -92,6 +92,7 @@
         .verse-foot { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px;
                       color: #6a1b9a; background: #f3e5f5; padding: 1px 8px; border-radius: 4px;
                       margin-left: 12px; white-space: nowrap; vertical-align: middle; }
+        .verse-foot.no-scan { color: #999; background: #f0f0f0; font-style: italic; }
         /* ----- Word detail popup (hover) ----- */
         /* fixed, not absolute: an absolutely-positioned popup adds to the document height,
            which makes the page grow/shrink (and the scrollbar appear/disappear) as it opens
@@ -808,6 +809,7 @@
         if (encliticText) flags.push('Enclitic -' + encliticText);
 
         let candidatesHtml = '';
+        let activeReadingTag = null;   // reading's LDT tag, if any — for the RFTagger note below
         if (candidates.length > 0) {
             // Pair each chip (breve-marked, so quantity-only variants stay distinct) with the
             // plain form actually rendered in the text, so we can mark the one on screen now.
@@ -829,6 +831,9 @@
                     tag: src && src.tag ? src.tag : null
                 });
             });
+            // The reading currently on screen — used to flag RFTagger disagreement below.
+            const activeReading = pairs.find(p => p.plain === displayText);
+            if (activeReading && activeReading.tag) activeReadingTag = activeReading.tag;
             const spellings = new Set(pairs.map(p => p.plain));
             const canCycle = spellings.size > 1;
             const title = pairs.length > spellings.size
@@ -862,15 +867,30 @@
 
         let morpheusHtml = '';
         const analyses = token.morpheusResults && token.morpheusResults.analyses || [];
-        if (analyses.length > 0) {
+        // Dedup: Morpheus can emit the same parse multiple times (case-variant runs,
+        // repeated <NL> lines). Key on what the row actually shows — lemma, accented,
+        // and the rendered feature list — so identical-looking rows collapse even when
+        // the underlying formInfo objects differ in which fields they carry.
+        const seenParses = new Set();
+        const analysesWithKey = analyses.map((a) => {
+            const fi = a.formInfo || {};
+            const feats = [fi.partOfSpeech, fi.case, fi.number, fi.gender, fi.tense, fi.mood, fi.voice]
+                .filter(Boolean).join(', ');
+            const key = (a.lemma || '') + '|' + (a.accented || '') + '|' + feats;
+            return { a, feats, key };
+        });
+        const uniqueAnalyses = [];
+        for (const { a, feats, key } of analysesWithKey) {
+            if (seenParses.has(key)) continue;
+            seenParses.add(key);
+            uniqueAnalyses.push({ a, feats });
+        }
+        if (uniqueAnalyses.length > 0) {
             morpheusHtml = '<div class="popup-section"><div class="popup-section-title">Morpheus analyses</div><table>';
-            analyses.slice(0, 8).forEach((a, idx) => {
-                const fi = a.formInfo || {};
-                const feats = [fi.partOfSpeech, fi.case, fi.number, fi.gender, fi.tense, fi.mood, fi.voice]
-                    .filter(Boolean).join(', ');
+            uniqueAnalyses.slice(0, 8).forEach(({ a, feats }, idx) => {
                 morpheusHtml += `<tr><td>${idx+1}. ${esc(a.lemma || '—')}</td><td>${esc(a.accented || '—')}${feats ? '<br><span class="tag-desc">' + esc(feats) + '</span>' : ''}</td></tr>`;
             });
-            if (analyses.length > 8) morpheusHtml += `<tr><td></td><td>… and ${analyses.length - 8} more</td></tr>`;
+            if (uniqueAnalyses.length > 8) morpheusHtml += `<tr><td></td><td>… and ${uniqueAnalyses.length - 8} more</td></tr>`;
             morpheusHtml += '</table></div>';
         }
 
@@ -882,18 +902,42 @@
               '</table></div>'
             : '';
 
+        // RFTagger and the readings can disagree on part of speech (rare/ambiguous forms,
+        // e.g. currito tagged adverb by RFTagger but read as a verb). Say so rather than
+        // presenting both as if they agree.
+        let tagNote = '';
+        const tagPos = (t) => {
+            if (!t) return null;
+            const pos = decodeLdtTagToFeatures(t).find(f => f.feature === 'POS');
+            return pos ? pos.value : null;
+        };
+        const tagPosVal = tagPos(token.tag);
+        const readingPosVal = tagPos(activeReadingTag);
+        if (tagPosVal && readingPosVal && tagPosVal !== readingPosVal) {
+            tagNote = '<div class="popup-note">RFTagger classifies this as <b>' + esc(tagPosVal) +
+                '</b>, but the selected reading is a <b>' + esc(readingPosVal) +
+                '</b> — rare or ambiguous forms are often mistagged; the analyzed reading below is more reliable.</div>';
+        }
+
         return '<button type="button" class="popup-close" aria-label="Close">&times;</button>' +
             `<h4>${esc(token.text)}${encliticText ? esc(encliticText) : ''} → ${esc(displayText)}</h4>` +
-            tagHtml +
+            tagHtml + tagNote +
             '<div class="popup-section"><div class="popup-section-title">Details</div><table>' +
             // The token-level lemma is a frequency guess used to RANK the readings — it is not
             // the lemma of any particular reading (those are in the readings table below).
             `<tr><td title="The most frequent lemma for this spelling. Used to rank the readings below.">` +
             `Assumed lemma:</td><td>${esc(token.lemma && token.lemma !== '-' ? token.lemma : '—')}</td></tr>` +
-            `<tr><td>Wordlist:</td><td>${token.isUnknown ? 'Not found' : 'Found'}</td></tr>` +
+            // morpheusAnalyzed is the reliable "absent from the wordlist file" signal:
+            // Morpheus extras are only ever written for words the file lacks (see
+            // WordlistEngine.addEntry). isUnknown is true only when getAccents found
+            // nothing at all — but ensureAnalyzed runs first, so a Morpheus-rescued
+            // word has extras and isUnknown stays false. Label honestly.
+            `<tr><td>Wordlist:</td><td>${token.morpheusAnalyzed
+                ? 'Not found — via Morpheus'
+                : token.isUnknown ? 'Not found' : 'Found'}</td></tr>` +
             // Morpheus IS run on every unknown word (Macronizer.ensureAnalyzed); when it finds
             // nothing the flag simply never gets set. "Not analyzed" read as "we didn't try".
-            (token.isUnknown
+            (token.isUnknown || token.morpheusAnalyzed
                 ? `<tr><td>Morpheus:</td><td>${token.morpheusAnalyzed
                       ? 'Analyzed'
                       : 'No analysis found'}</td></tr>` +
@@ -1090,7 +1134,9 @@
                 const span = document.createElement('span');
                 span.className = 'ipa';
                 span.setAttribute('content', displayText);
-
+                // TODO
+                // make text selectable
+                //span.textContent = displayText;
                 const candidates = [...new Set(
                     (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c)))
                 )].map(c => encliticText ? c + encliticText : c);
@@ -1148,12 +1194,15 @@
             }
 
             const foot = scannedFeet[lineIdx];
+            const footSpan = document.createElement('span');
+            footSpan.className = 'verse-foot';
             if (foot) {
-                const footSpan = document.createElement('span');
-                footSpan.className = 'verse-foot';
                 footSpan.textContent = foot;
-                td.appendChild(footSpan);
+            } else {
+                footSpan.classList.add('no-scan');
+                footSpan.textContent = '—';
             }
+            td.appendChild(footSpan);
             tr.appendChild(td);
             tbody.appendChild(tr);
         }
