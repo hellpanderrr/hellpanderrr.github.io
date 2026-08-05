@@ -243,15 +243,15 @@ export class MorpheusAnalyzer {
         if (parts.length < 2)
             return null;
         const posCode = parts[0];
-        const accented = parts[1];
+        // Morpheus beta-code: "accented_stem,lemma". Keep only the accented stem;
+        // the lemma is extracted separately. Mirrors Python postags.py::morpheus_to_parses.
+        const rawAccented = parts[1];
+        const commaParts = rawAccented.includes(',') ? rawAccented.split(',') : [rawAccented];
+        const accented = commaParts[0];
         const stem = accented;
         const ending = parts[parts.length - 1];
         const formInfo = this.parseFormInfo(posCode, parts.slice(2, -1));
-        let lemma = stem;
-        if (accented.includes(',')) {
-            const commaParts = accented.split(',');
-            lemma = commaParts[1];
-        }
+        let lemma = commaParts.length > 1 ? commaParts[1] : stem;
         return {
             lemma,
             stem,

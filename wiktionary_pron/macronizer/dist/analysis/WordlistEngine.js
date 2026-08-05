@@ -271,8 +271,12 @@ export class WordlistEngine {
             entries = await this.lookupInExtras(normalizedWord);
         }
         const result = (entries !== null && entries !== void 0 ? entries : []).filter(e => e.accentedUnderscore);
-        this.entriesCache.set(normalizedWord, result);
-        return result;
+        // Defensive: stale extras written before the parseAnalysisLine comma fix
+        // still hold "currito_,curro" style values. Drop them so the word falls
+        // through to a fresh Morpheus analysis instead of macronizing from a
+        // corrupt accented form.
+        this.entriesCache.set(normalizedWord, result.filter(e => !e.accentedUnderscore.includes(',')));
+        return this.entriesCache.get(normalizedWord);
     }
     /** Binary search the sorted chunk keys for the chunk that could contain
      * `word` (greatest firstWord <= word), fetch it, and read the group. */
@@ -351,6 +355,10 @@ export class WordlistEngine {
             });
             request.onsuccess = () => {
                 this.entryCount++;
+                // Invalidate the entries cache so a subsequent getAllEntries() for this
+                // wordform re-reads IndexedDB instead of returning the stale empty
+                // result cached during the "missing words" check in ensureAnalyzed.
+                this.entriesCache.delete(entry.wordform.toLowerCase().trim());
                 resolve();
             };
             request.onerror = () => reject(request.error);
