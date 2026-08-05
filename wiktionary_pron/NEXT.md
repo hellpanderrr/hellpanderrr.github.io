@@ -3,46 +3,46 @@
 _Updated 2026-08-05 — branch `main`_
 
 ## State
-Fixed the macronizer parity bug reported on r/latin: `currito` → `curritō` and
-`diffregit` → `diffrēgit` now match Winge's original. Two interacting port bugs
-(M-001 Morpheus `,lemma` suffix never stripped; M-002 `addEntry` left a stale
-`entriesCache`). Verified first-visit *and* return-visit in a real browser;
-81 node tests + 3 macronizer e2e green on exit code. Site `main` = `1cb1771`
-(live on Pages), engine `macronizer-ui-support` = `797f779`. Both pushed, both
-working trees clean.
+Macronizer scansion saga fully resolved. Site `main` (live on Pages) = `748b6c3`;
+engine `main` (was `macronizer-ui-support`, now fast-forwarded, branch deleted)
+= `e7fb22a`. Both pushed, both working trees clean.
+
+What's fixed and committed:
+- **M-003** scansion display + root cause: `macrons.txt` had `italorum` short-`I^`,
+  but hendecasyllable pos 8 needs `Ītalōrum`. Fixed via `ACCENT_OVERRIDES` in the
+  engine (dual reading, prose keeps short), not a one-off wordlist edit (33MB
+  file is regenerated upstream).
+- **M-010/011/012** popup honesty: "Wordlist: Found" no longer lies for
+  Morpheus-rescued words, Morpheus rows deduplicated, RFTagger-vs-reading POS
+  disagreement noted. Guarded by `e2e/popup-check.spec.js`.
 
 ## Open threads
-- **M-003, the obvious next one**: scansion feet disappear when a line number
-  trails the line. Display-only — start at `scannedFeet[lineIdx]` in
-  `macronizer.html` (~line 1150). Reproduce with Catullus 1 in hendecasyllable
-  mode; line 4 shows no foot.
-- **Reply to the r/latin thread.** Both macronization bugs are genuinely fixed
-  and were real bugs in the port — say so. See `docs/ISSUES.md` M-003..M-007
-  for the rest of that feedback.
-- Remaining findings have IDs in `docs/ISSUES.md` (7 open) — read it rather
-  than re-deriving from the thread.
+- **M-013 — the scansion wordlist-gap miner.** Tooling is committed (engine
+  `test/miner-scansion.mjs` + `test/data/corpus/`). **176 lines flagged** across
+  Aeneid 1-6 + Catullus (5,507 lines). Three buckets: Greek names (engine
+  limitation), ambiguous/enclitic forms (candidate gaps), and common-word
+  failures like Catullus 13.11 `nam unguentum dabo` (automaton strictness).
+  **Next action: Phase 2** — confirm flagged lines against Pedecerto
+  (pedecerto.eu/scansioni, single-verse lookup, no bulk scrape) to separate
+  real gaps from engine limits. Run: `node test/miner-scansion.mjs` in the
+  engine repo.
+- **Reply to the r/latin thread.** M-003 is fixed too now. See `docs/ISSUES.md`.
 
 ## Running / unfinished
-Nothing running. A local static server may still be on :8993
-(`curl -s -o/dev/null -w "%{http_code}" http://127.0.0.1:8993/wiktionary_pron/macronizer.html`);
-harmless, and `npm run test:e2e` starts its own.
+Nothing running. A local static server may still be on :8993 (harmless).
 
 ## Don't redo
-- **Morpheus is NOT broken.** A long stretch of last session chased "missing
-  Latin stemlib indices in `cruncher.data`". False. Two independent agents
-  refuted it and the shipped WASM analyzes `currito`/`diffregit`/`aqua`
-  correctly. The byte-grep that "proved" it was meaningless — filenames live in
-  `cruncher.js`'s manifest, not the `.data` blob.
-- **Always `morpheus_set_language(32768)` before analyzing.** Skipping it makes
-  the cruncher read `stemlib/Greek/` and return 0 for every word, which looks
-  exactly like a broken build.
-- **`macrons.txt`, `tag_to_endings`, the RFTagger model and `toAscii` are all
-  byte-identical to upstream Alatius.** Already diffed. Not the problem.
-- **The `macronizer-py-compare` Docker image is not a usable reference** — its
-  cruncher defaults to Greek and the build strips `stemlib/Greek`, so it fails
-  on every word and "agrees" with any wrong output.
-- **The scansion of `iam tum, cum ausus es unus Italorum` is not a parity bug.**
-  Prose and scan modes give identical output in both engines.
-- **Never run `build-morpheus-wasm.sh` against a read-write mount of the engine
-  repo** — its `rm -rf stemlib/Greek` deleted 711 tracked files last session
-  (restored).
+- **`^` means short, `_` means long — full stop.** The initial "ambiguous marker"
+  fix to `possibleScans` was WRONG and reverted. `italorum` was a data gap, not
+  an engine bug. (Classicist agent confirmed Ītalōrum is required by Catullus
+  1.5 itself; Ellis 1.5 note is about chronica realia, not quantity.)
+- **`public/macrons.txt` is regenerated from upstream** — never hand-edit it for
+  a one-off fix; the edit silently vanishes on next pull. Use
+  `ACCENT_OVERRIDES` in `src/core/Tokenization.ts` instead.
+- **The Aeneid corpus must be stripped of Latin Library line numbers** (every 5th
+  line). The miner's ~160-fail-per-book artifact was those trailing digits.
+- **Catullus 8 is choliambic, not hendecasyllable** — assigning it to the
+  hendecasyllable corpus made all 19 lines "fail." Same for 4/29/52 (iambic
+  trimeter, engine's "iambic" is trimeter+dimeter).
+- **Morpheus is NOT broken** (see prior NEXT.md) — the byte-grep false lead.
+- **Never run `build-morpheus-wasm.sh` against a read-write engine mount.**
