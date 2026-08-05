@@ -89,12 +89,28 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: OPEN** (engine `e7fb22a` added the tooling)
+**Status: OPEN** (engine `e7fb22a` added the tooling; `bfb5035` Phase 2 analysis)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
-empty — the italorum signature. **176 lines flagged** (~130 hexameter, ~46
-Catullus). Buckets: Greek names/proper nouns (engine limitation), known
-ambiguous/enclitic forms (`unius`, `-ne` enclitics — candidate gaps), and
-common-word lines that still fail (Catullus 13.11 `nam unguentum dabo`
-suggests an automaton strictness issue, not a data gap). Needs Phase 2:
-confirm each against Pedecerto to separate real gaps from engine limits.
+empty — the italorum signature. **153 lines flagged** after corpus cleanup
+(176 minus page furniture — `Vergil`/`The Classics Page` footers, a stray
+`+`, em-dashes — and the Catullus 62 refrains, which are lyric chants, not
+hexameter). Categorized via `test/categorize-miner.mjs`:
+- **Known words but scansion fails (155)** — the italorum signature. Deep
+  dive: Aen 2.774 `obstupui, steteruntque comae et vox faucibus haesit` is
+  canonical hexameter but the engine stores `obstipui → obsti^pu^i_` (4
+  syllables) and `segmentAccented` doesn't treat `ui` as a diphthong — a
+  prosody-model limitation, not a wordlist gap. No word shows a wrong
+  quantity; the top culprits (`que`, `et`, `non`) are correctly macronized.
+- **Contains unknown word (7)** — Greek names (`Thesea`, `Euryalus`,
+  `Helymus`), an engine limitation.
+- **Conclusion: NO wordlist gaps beyond the already-fixed italorum.**
+  `ACCENT_OVERRIDES` was right for italorum but there is no pile of similar
+  cases. The real next step is the scansion engine's prosody rules
+  (diphthong `ui`, elision, automaton strictness).
+Phase 2 added `test/e2e/test-scansion-corpus.mjs` — a regression gate that
+asserts 5 canonical lines scan (including italorum) and that no NEW failures
+appear beyond the recorded snapshot `test/data/scansion-failures-snapshot.json`.
+Run: `npm run test:scansion` (engine repo). Pedecerto (pedecerto.eu) is
+IP-blocked (HTTP 412) even with a browser UA, so confirmation was done via
+Tavily instead.

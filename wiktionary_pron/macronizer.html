@@ -581,24 +581,29 @@
     // Orthography options of the last run — wordlist forms use classical j/v and
     // must be converted back to i/u unless the user enabled those conversions
     let lastOrtho = { utov: false, itoj: false };
-    function applyOrtho(c) {
-        if (!lastOrtho.itoj) c = c.replace(/j/g, 'i').replace(/J/g, 'I');
-        if (!lastOrtho.utov) c = c.replace(/v/g, 'u').replace(/V/g, 'U');
+    // A displayed word mirrors the orthography the USER typed it with: "divisa"
+    // stays dīvīsa, "diuisa" stays dīuīsa. The i→j / u→v checkboxes still force the
+    // classical forms regardless of input. Without the input mirror, a word typed
+    // with v shows its wordlist v form first, the first click converts it to u, and
+    // the original spelling is unreachable (the divisa/diviso bug).
+    function applyOrtho(c, inputText) {
+        if (!(lastOrtho.itoj || (inputText && /[jJ]/.test(inputText)))) c = c.replace(/j/g, 'i').replace(/J/g, 'I');
+        if (!(lastOrtho.utov || (inputText && /[vV]/.test(inputText)))) c = c.replace(/v/g, 'u').replace(/V/g, 'U');
         return c;
     }
 
     // wordlist form → text form used for cycling: a_ → ā, breve/ambiguity markers stripped
-    function candidateToDisplay(c) {
-        return applyOrtho(underscoreToUnicode(c).replace(/[\^+_]/g, ''));
+    function candidateToDisplay(c, inputText) {
+        return applyOrtho(underscoreToUnicode(c).replace(/[\^+_]/g, ''), inputText);
     }
 
     // wordlist form → popup form: also render breves (a^ → ă) so candidates that
     // differ only in vowel shortness stay distinguishable (me^mo^rem vs me^morem)
     const BREVE_MAP = { a:'ă', e:'ĕ', i:'ĭ', o:'ŏ', u:'ŭ', A:'Ă', E:'Ĕ', I:'Ĭ', O:'Ŏ', U:'Ŭ' };
-    function candidateToPopup(c) {
+    function candidateToPopup(c, inputText) {
         return applyOrtho(underscoreToUnicode(c)
             .replace(/([a-zA-ZāēīōūȳĀĒĪŌŪȲ])\^/g, (m, v) => BREVE_MAP[v] || (v + '̆'))
-            .replace(/[+_]/g, ''));
+            .replace(/[+_]/g, ''), inputText);
     }
 
     await window.__wasmReady;
@@ -657,8 +662,16 @@
 
         // Strip macrons/breves from input — the pipeline expects unmarked text
         // (macronized words would otherwise be torn apart and sent to Morpheus as unknowns)
-        const text = document.getElementById('text_to_macronize').value
+        let text = document.getElementById('text_to_macronize').value
             .normalize('NFD').replace(/[̄̆]/g, '').normalize('NFC');
+        // Latin Library / textbook sources tag lines with trailing verse numbers
+        // ("urbem, 5", "libellum 1.1"). A trailing number is reference noise, not text —
+        // and by changing the last word's "following segment" it makes the verse
+        // impossible to scan (the grey box). Strip them, same as the miner's corpus prep.
+        text = text.split('\n').map(line =>
+            line.replace(/^\s*\d+(?:[.,]\d+)*\s*$/, '')
+                .replace(/\s*\d+(?:[.,]\d+)*\s*$/, '')
+        ).join('\n');
         if (!text.trim()) { showError('Please enter some text'); return; }
 
         document.getElementById('loading').style.display = 'block';
@@ -800,7 +813,7 @@
     // Build rich popup HTML for a token (table layout)
     function buildPopupHtml(token, displayText, encliticText) {
         // popup shows breved forms so quantity-only differences stay visible
-        const candidates = [...new Set((token.accented || []).map(candidateToPopup))];
+        const candidates = [...new Set((token.accented || []).map(c => candidateToPopup(c, token.text)))];
 
         const flags = [];
         if (token.isAmbiguous) flags.push('Ambiguous');
@@ -817,7 +830,7 @@
             const seen = new Set();
             const pairs = [];
             (token.accented || []).forEach((c, i) => {
-                const shown = matchCase(token.text, candidateToPopup(c)) + (encliticText || '');
+                const shown = matchCase(token.text, candidateToPopup(c, token.text)) + (encliticText || '');
                 if (seen.has(shown)) return;
                 seen.add(shown);
                 // each reading carries the lemma + tag of the wordlist row it came from,
@@ -826,7 +839,7 @@
                           : sources.find(s => s.accented === c);
                 pairs.push({
                     shown,
-                    plain: matchCase(token.text, candidateToDisplay(c)) + (encliticText || ''),
+                    plain: matchCase(token.text, candidateToDisplay(c, token.text)) + (encliticText || ''),
                     lemma: src && src.lemma ? src.lemma : null,
                     tag: src && src.tag ? src.tag : null
                 });
@@ -1102,6 +1115,10 @@
         }
 
         const scannedFeet = result.scannedFeet || [];
+        // Prose never scans, so in prose mode scannedFeet is empty and every line
+        // would otherwise get the "no scansion" placeholder — noise. Only render the
+        // foot cell when a meter is selected.
+        const scanMode = document.getElementById('scan').value;
         const tbody = document.getElementById('resultText');
         tbody.innerHTML = '';
 
@@ -1112,7 +1129,13 @@
             const td = document.createElement('td');
             td.className = 'macron-line';
 
-            const tokenDisplay = t => ((t.macronizedText || t.text).replace(/[\^+_]/g, '')) || t.text;
+            // Must mirror the cycle candidates (ortho + case) or indexOf(cur) misses and
+            // the first click jumps to a candidate the original spelling can never return to.
+            const tokenDisplay = t => {
+                const raw = (t.macronizedText || t.text).replace(/[\^+_]/g, '');
+                const ortho = matchCase(t.text, applyOrtho(raw, t.text));
+                return ortho || raw;
+            };
 
             for (let ti = 0; ti < lineTokens.length; ti++) {
                 const token = lineTokens[ti];
@@ -1138,7 +1161,7 @@
                 // make text selectable
                 //span.textContent = displayText;
                 const candidates = [...new Set(
-                    (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c)))
+                    (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c, token.text)))
                 )].map(c => encliticText ? c + encliticText : c);
                 span.__popupHtml = buildPopupHtml(token, displayText, encliticText);
 
@@ -1193,16 +1216,18 @@
                 td.appendChild(span);
             }
 
-            const foot = scannedFeet[lineIdx];
-            const footSpan = document.createElement('span');
-            footSpan.className = 'verse-foot';
-            if (foot) {
-                footSpan.textContent = foot;
-            } else {
-                footSpan.classList.add('no-scan');
-                footSpan.textContent = '—';
+            if (scanMode !== 'prose') {
+                const foot = scannedFeet[lineIdx];
+                const footSpan = document.createElement('span');
+                footSpan.className = 'verse-foot';
+                if (foot) {
+                    footSpan.textContent = foot;
+                } else {
+                    footSpan.classList.add('no-scan');
+                    footSpan.textContent = '—';
+                }
+                td.appendChild(footSpan);
             }
-            td.appendChild(footSpan);
             tr.appendChild(td);
             tbody.appendChild(tr);
         }

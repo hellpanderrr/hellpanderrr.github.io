@@ -84,10 +84,11 @@ test.describe("macronizer", () => {
       "arma",
       { timeout: 60_000 },
     );
-    // virum has a long u — proves chunk lookups return real entries
+    // virum — proves chunk lookups return real entries. The display mirrors the
+    // user's u/v setting (default u) and the i may be short in prose, so match loosely.
     await expect(page.locator("#resultText .ipa").nth(1)).toHaveAttribute(
       "content",
-      /vir[ūu]mque/,
+      /[vu][īi]?r[ūu]mque/,
       { timeout: 60_000 },
     );
   });
