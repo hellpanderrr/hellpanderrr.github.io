@@ -136,6 +136,14 @@
         body.dark_mode .word-popup .popup-cycle { border-color: #CE93D8; color: #CE93D8; }
         body.dark_mode .word-popup .popup-cycle:hover { background: #3a2f42; }
 
+        /* The readings come first; the analysis (RFTagger / Details / Morpheus) is
+           debug-oriented and tucked behind a collapsible <details>. */
+        .word-popup details.popup-analysis { margin-top: 8px; border-top: 1px solid #eee; padding-top: 6px; }
+        .word-popup details.popup-analysis summary { cursor: pointer; font-size: 12px; color: #888; font-weight: 600; }
+        .word-popup details.popup-analysis summary:hover { color: #6a1b9a; }
+        body.dark_mode .word-popup details.popup-analysis { border-top-color: #333; }
+        body.dark_mode .word-popup details.popup-analysis summary:hover { color: #CE93D8; }
+
         /* ----- Legend: the highlight colours are the whole point — name them ----- */
         /* The result follows the button directly — no rule, no gulf of whitespace. */
         #result { margin-top: 18px; padding-top: 0; border-top: none; }
@@ -235,6 +243,31 @@
         div#form_bottom .btn, #export_buttons .btn { width: auto; flex: 0 0 auto; margin: 0;
                                                      padding: 8px 18px; font-size: 15px; }
 
+        /* Embedded split button (CSV): one control — body = last-used mode, caret
+           inside opens the mode menu. The divider uses the button's own stroke so it
+           reads as one unit, not two glued buttons. */
+        #export_buttons .btn-split { position: relative; display: inline-flex; flex: 0 0 auto; }
+        #export_buttons .btn-split .btn { flex: 0 0 auto; }
+        #export_buttons .btn-split .btn-split-main { border-radius: 4px 0 0 4px; border-right: none; }
+        #export_buttons .btn-split .btn-split-caret { border-radius: 0 4px 4px 0; border-left: 1px solid currentColor;
+                                                      padding: 8px 6px; min-width: 30px; }
+        /* highlight as one unit, not per half */
+        #export_buttons .btn-split:hover .btn-split-main,
+        #export_buttons .btn-split:hover .btn-split-caret { background: #f3e5f5; color: #6a1b9a; }
+        .btn-split-menu { position: absolute; top: 100%; right: 0; z-index: 50; min-width: 170px;
+                          margin: 4px 0 0; background: #fff; border: 1px solid #ddd; border-radius: 4px;
+                          box-shadow: 0 2px 8px rgba(0,0,0,0.15); padding: 4px; list-style: none; }
+        .btn-split-menu li { display: flex; justify-content: space-between; align-items: center;
+                             padding: 7px 10px; font-size: 13px; cursor: pointer; color: #333; border-radius: 3px; }
+        .btn-split-menu li:hover, .btn-split-menu li:focus-visible { background: #f3e5f5; color: #6a1b9a; }
+        .btn-split-menu li:focus-visible { outline: 2px solid #9C27B0; outline-offset: -2px; }
+        .btn-split-menu li .check { color: #6a1b9a; margin-left: 12px; }
+        body.dark_mode .btn-split-menu { background: #1F1B24; border-color: #333; }
+        body.dark_mode .btn-split-menu li { color: #eee; }
+        body.dark_mode .btn-split-menu li:hover, body.dark_mode .btn-split-menu li:focus-visible { background: #3a2f42; color: #CE93D8; }
+        body.dark_mode .btn-split-menu li:focus-visible { outline-color: #CE93D8; }
+        body.dark_mode .btn-split-menu li .check { color: #CE93D8; }
+
         /* ----- Hints: name the jargon in place ----- */
         .hint { font-size: 12px; color: #6f6f6f; text-align: left; margin: 8px 0 0; }
         .hint a, .help-link { color: #6a1b9a; }
@@ -267,6 +300,9 @@
         body.dark_mode .stats { color: #999; }
         body.dark_mode #wlPrompt { color: #CE93D8; }
         body.dark_mode .verse-foot { background: #1F1B24; color: #CE93D8; }
+        /* specificity (0,2,1) beats the plain dark .verse-foot — keep the muted
+           "no scansion" placeholder distinct from a real foot in dark mode too */
+        body.dark_mode .verse-foot.no-scan { color: #777; background: #2a2a2a; }
         body.dark_mode .macron-line .ambig::before { background: #5c4a10; }
         body.dark_mode .macron-line .unknown::before { background: #5c2020; }
         body.dark_mode #wlProgressBar { background: #CE93D8; }
@@ -407,9 +443,16 @@
         <button autocomplete="off" class="btn btn-secondary btn-block" id="export_pdf" type="button" disabled>
             Export as PDF <i style="color:#e90101; font-size:30px;" class="icon icon-pdf"></i>
         </button>
-        <button autocomplete="off" class="btn btn-secondary btn-block" id="export_csv" type="button" disabled>
-            Export as CSV <i style="color:#03731e; font-size:30px;" class="icon icon-csv"></i>
-        </button>
+        <div class="btn-split">
+            <button autocomplete="off" class="btn btn-secondary btn-block btn-split-main" id="export_csv" type="button" title="Export as CSV — per word" disabled>
+                Export CSV <i style="color:#03731e; font-size:30px;" class="icon icon-csv"></i>
+            </button>
+            <button autocomplete="off" class="btn btn-secondary btn-block btn-split-caret" id="export_csv_caret" type="button" title="CSV layout: per word or per line" aria-haspopup="menu" aria-expanded="false" aria-controls="csv_menu" aria-label="CSV export options" disabled>&#9662;</button>
+            <ul class="btn-split-menu" id="csv_menu" role="menu" hidden>
+                <li role="menuitem" tabindex="0" data-csv-mode="word" title="One row per word: text, macronized, tag, lemma">Per word <span class="check" hidden>&#10003;</span></li>
+                <li role="menuitem" tabindex="0" data-csv-mode="line" title="One row per line of text">Per line <span class="check" hidden>&#10003;</span></li>
+            </ul>
+        </div>
     </div>
 
     <div class="wordlist-section">
@@ -699,6 +742,7 @@
             displayResult(result);
             document.getElementById('export_pdf').disabled = false;
             document.getElementById('export_csv').disabled = false;
+            document.getElementById('export_csv_caret').disabled = false;
         } catch (err) {
             showError(err.message);
         } finally {
@@ -934,6 +978,8 @@
 
         return '<button type="button" class="popup-close" aria-label="Close">&times;</button>' +
             `<h4>${esc(token.text)}${encliticText ? esc(encliticText) : ''} → ${esc(displayText)}</h4>` +
+            candidatesHtml +
+            '<details class="popup-analysis"><summary>Analysis details</summary>' +
             tagHtml + tagNote +
             '<div class="popup-section"><div class="popup-section-title">Details</div><table>' +
             // The token-level lemma is a frequency guess used to RANK the readings — it is not
@@ -959,7 +1005,7 @@
                       : '<tr><td>Vowel lengths:</td><td>Guessed from the word ending</td></tr>')
                 : '') +
             (flags.length ? `<tr><td>Flags:</td><td>${esc(flags.join(', '))}</td></tr>` : '') +
-            '</table></div>' + candidatesHtml + morpheusHtml;
+            '</table></div>' + morpheusHtml + '</details>';
     }
 
     // Singleton hover popup — stays open while the mouse is over it (selectable)
@@ -1157,6 +1203,7 @@
                 const span = document.createElement('span');
                 span.className = 'ipa';
                 span.setAttribute('content', displayText);
+                span.__token = token;   // for per-word CSV: rendered text + tag/lemma
                 // TODO
                 // make text selectable
                 //span.textContent = displayText;
@@ -1314,6 +1361,7 @@
         document.getElementById('export_buttons').style.display = '';
         document.getElementById('export_pdf').disabled = false;
         document.getElementById('export_csv').disabled = true;
+        document.getElementById('export_csv_caret').disabled = true;
         document.getElementById('copy_btn').disabled = false;
         const tbody = document.getElementById('resultText');
         tbody.innerHTML = '';
@@ -1357,7 +1405,10 @@
     // --- Clear ---
 
     function clearInput() {
-        document.getElementById('text_to_macronize').value = '';
+        // Reset to the sample, not to empty — once empty is persisted, the sample
+        // (a hardcoded textarea default) could never be restored.
+        const textarea = document.getElementById('text_to_macronize');
+        textarea.value = textarea.defaultValue;
         saveForm();
     }
 
@@ -1365,7 +1416,7 @@
 
     function isDarkMode() { return document.body.classList.contains('dark_mode'); }
 
-    async function csvPdfExport(event, exportFunction) {
+    async function csvPdfExport(event, exportFunction, mode) {
         const btn = event.currentTarget;
         const icon = btn.querySelector('i');
         btn.disabled = true;
@@ -1373,7 +1424,7 @@
         icon.className = 'icon icon--spinner';
         try {
             const lines = resultToPlainText().split('\n').map(l => [{ text: l }]);
-            await exportFunction(lines, isDarkMode());
+            await exportFunction(lines, isDarkMode(), mode);
         } finally {
             icon.className = oldClass;
             btn.disabled = false;
@@ -1432,20 +1483,23 @@
         });
     }
 
-    async function toCsv(lines) {
+    async function toCsv(lines, darkMode, mode) {
         // RFC 4180: wrap in quotes, double any embedded quotes
         const q = (v) => '"' + String(v).replace(/"/g, '""') + '"';
         const rows = [];
-        if (currentResult) {
-            rows.push('"text","macronized","tag","lemma"');
-            for (const t of currentResult.tokens) {
-                if (!t.text || !/^[a-zA-ZÀ-ɏ]/.test(t.text)) continue;
-                rows.push([q(t.text), q(t.macronizedText || t.text), q(t.tag || ''), q(t.lemma || '')].join(','));
+        if (mode === 'line') {
+            rows.push('"line"');
+            for (const row of lines) {
+                rows.push(q(row.map(c => c.macronized || c.text).join(' ')));
             }
         } else {
-            rows.push('"text"');
-            for (const l of resultToPlainText().split('\n')) {
-                rows.push(q(l));
+            // per word (default) — reads the RENDERED spans so cycled choices are
+            // honored, and keeps the tag/lemma the old token-based export had
+            rows.push('"text","macronized","tag","lemma"');
+            for (const span of document.querySelectorAll('#resultText .ipa')) {
+                const t = span.__token;
+                if (!t) continue;
+                rows.push([q(t.text), q(span.getAttribute('content') || ''), q(t.tag || ''), q(t.lemma || '')].join(','));
             }
         }
         const blob = new Blob([rows.join('\n')], { type: 'text/csv;charset=utf-8' });
@@ -1561,8 +1615,94 @@
     document.getElementById('loadMemory').addEventListener('click', () => loadWordlist('memory'));
     document.getElementById('clearCache').addEventListener('click', handleClearCache);
     document.getElementById('export_pdf').addEventListener('click', (e) => csvPdfExport(e, toPdf));
-    document.getElementById('export_csv').addEventListener('click', (e) => csvPdfExport(e, toCsv));
+    // CSV body click is wired in the split-button block below (runs the last-used mode).
     document.getElementById('copy_btn').addEventListener('click', copyResult);
+
+    // CSV embedded split button. Body runs the LAST-USED mode (so the checkmark is
+    // honest and a per-line user gets a one-click path); the label/tooltip surface
+    // the current mode so the button never silently changes meaning. The caret opens
+    // the mode menu, which is fully keyboard-operable.
+    const csvBody = document.getElementById('export_csv');
+    const csvCaret = document.getElementById('export_csv_caret');
+    const csvMenu = document.getElementById('csv_menu');
+    const CSV_MODE_KEY = 'macronizer_csv_mode';
+    const CSV_MODE_LABEL = { word: 'per word', line: 'per line' };
+    let lastCsvMode = 'word';
+    try { const saved = localStorage.getItem(CSV_MODE_KEY); if (saved === 'word' || saved === 'line') lastCsvMode = saved; } catch (e) { /* private mode */ }
+
+    function setCsvExpanded(open) {
+        csvCaret.setAttribute('aria-expanded', String(open));
+        csvMenu.hidden = !open;
+        if (open) {
+            // move focus to the first item once the menu is visible
+            const first = csvMenu.querySelector('li[data-csv-mode]');
+            if (first) first.focus();
+        }
+    }
+    function markCsvMode(mode) {
+        lastCsvMode = mode;
+        try { localStorage.setItem(CSV_MODE_KEY, mode); } catch (e) { /* private mode */ }
+        for (const li of csvMenu.querySelectorAll('li[data-csv-mode]')) {
+            const active = li.dataset.csvMode === mode;
+            li.querySelector('.check').hidden = !active;
+            li.setAttribute('aria-selected', String(active));
+        }
+        // Surface the current mode in the button's label + tooltip so the body
+        // action is never silently ambiguous.
+        csvBody.setAttribute('title', 'Export as CSV — ' + CSV_MODE_LABEL[mode]);
+    }
+    markCsvMode(lastCsvMode);
+
+    // Run an export in the given mode. Disables the BODY + CARET together (no
+    // mid-export menu race) and shows the spinner on the body.
+    async function runCsv(mode) {
+        if (csvBody.disabled) return;
+        csvBody.disabled = true;
+        csvCaret.disabled = true;
+        setCsvExpanded(false);
+        const icon = csvBody.querySelector('i');
+        const oldClass = icon.className;
+        icon.className = 'icon icon--spinner';
+        try {
+            await toCsv(resultToPlainText().split('\n').map(l => [{ text: l }]), isDarkMode(), mode);
+        } finally {
+            icon.className = oldClass;
+            csvBody.disabled = false;
+            csvCaret.disabled = false;
+        }
+    }
+
+    csvBody.addEventListener('click', () => runCsv(lastCsvMode));
+    csvCaret.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setCsvExpanded(csvMenu.hidden);
+    });
+    document.addEventListener('click', () => setCsvExpanded(false));
+
+    // Keyboard: ArrowUp/Down navigate items, Enter/Space select, Escape closes.
+    csvMenu.addEventListener('keydown', (e) => {
+        const items = [...csvMenu.querySelectorAll('li[data-csv-mode]')];
+        const idx = items.indexOf(e.target);
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            const delta = e.key === 'ArrowDown' ? 1 : -1;
+            const next = items[(idx + delta + items.length) % items.length];
+            next.focus();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            const item = items[idx];
+            if (item) { markCsvMode(item.dataset.csvMode); runCsv(item.dataset.csvMode); }
+        } else if (e.key === 'Escape') {
+            setCsvExpanded(false);
+            csvCaret.focus();
+        }
+    });
+    csvMenu.addEventListener('click', (e) => {
+        const item = e.target.closest('li[data-csv-mode]');
+        if (!item) return;
+        markCsvMode(item.dataset.csvMode);
+        runCsv(item.dataset.csvMode);
+    });
 
     document.getElementById('text_to_macronize').addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && e.ctrlKey) macronizeText();
@@ -1598,7 +1738,15 @@
         let state;
         try { state = JSON.parse(localStorage.getItem(FORM_KEY) || 'null'); } catch (e) { return; }
         if (!state) return;
-        if (typeof state.text === 'string') document.getElementById('text_to_macronize').value = state.text;
+        const textarea = document.getElementById('text_to_macronize');
+        if (typeof state.text === 'string' && state.text !== '') {
+            textarea.value = state.text;
+        } else if (!state.text) {
+            // An empty/missing persisted text means the form was cleared at some point
+            // (or saved before the sample-reset fix). Fall back to the hardcoded sample
+            // so it isn't lost forever on reload.
+            textarea.value = textarea.defaultValue;
+        }
         if (state.scan) document.getElementById('scan').value = state.scan;
         CHECKBOXES.forEach(id => {
             if (typeof state[id] === 'boolean') document.getElementById(id).checked = state[id];
