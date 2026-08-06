@@ -449,6 +449,9 @@ body i.icon-home {
 }
 
 .ipa::before {
+    /* SHARED painter: the transcriber's line mode renders empty
+       <div class="ipa" content="…"> cells and depends on this to paint their text.
+       The macronizer neutralizes it locally (real textContent there). */
     content: attr(content);
 }
 

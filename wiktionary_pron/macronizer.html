@@ -86,9 +86,14 @@
         .macron-line { font-size: 20px; line-height: 1.9; }
         .macron-line .ipa { cursor: default; margin-right: 0; }
         .macron-line .ipa.multiple-values { cursor: pointer; font-family: inherit; font-weight: bold; }
-        .macron-line .ambig::before { background: #fff3cd; padding: 0 3px; border-radius: 3px; }
-        .macron-line .unknown::before { background: #f8d7da; padding: 0 3px; border-radius: 3px; }
-        .macron-line .ambig, .macron-line .unknown { cursor: help; }
+        /* The ambig/unknown flags live ON the span now (text is real textContent),
+           not on the ::before pseudo-element — that painter is gone. */
+        .macron-line .ambig { background: #fff3cd; padding: 0 3px; border-radius: 3px; cursor: help; }
+        .macron-line .unknown { background: #f8d7da; padding: 0 3px; border-radius: 3px; cursor: help; }
+        /* Words are real textContent now; the shared .ipa::before painter (style.css)
+           would paint them a second time via attr(content). Kill it here, scoped —
+           the transcriber still needs that painter on its own page. */
+        #resultText .ipa::before { content: none; }
         .verse-foot { font-family: 'Courier New', Courier, monospace; font-weight: bold; font-size: 13px;
                       color: #6a1b9a; background: #f3e5f5; padding: 1px 8px; border-radius: 4px;
                       margin-left: 12px; white-space: nowrap; vertical-align: middle; }
@@ -101,7 +106,9 @@
                       padding: 10px 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10000;
                       max-width: 380px; font-family: 'Noto Sans', sans-serif; font-size: 13px;
                       line-height: 1.45; text-align: left; }
-        .word-popup h4 { margin: 0 0 8px 0; font-size: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        /* tacit sets h1–h6 color:#000, so the heading must restate the color here —
+           otherwise "divisa → dīvīsa" renders black on the dark popup. */
+        .word-popup h4 { margin: 0 0 8px 0; font-size: 15px; border-bottom: 1px solid #eee; padding-bottom: 5px; color: #333; }
         .word-popup table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 0; }
         .word-popup td { padding: 2px 6px; border: none; overflow: visible; display: table-cell; }
         .word-popup tr { display: table-row; border: none; margin: 0; }
@@ -278,10 +285,18 @@
         /* ----- Word cells are real controls: focusable, and they say so ----- */
         .macron-line .ipa:focus-visible { outline: 2px solid #9C27B0; outline-offset: 2px; border-radius: 3px; }
         body.dark_mode .macron-line .ipa:focus-visible { outline-color: #CE93D8; }
+        /* Flagged words are the ones you inspect — give the focus ring a solid target. */
+        .macron-line .ipa.ambig:focus-visible, .macron-line .ipa.unknown:focus-visible { outline: 2px solid #9C27B0; outline-offset: 2px; }
+        body.dark_mode .macron-line .ipa.ambig:focus-visible, body.dark_mode .macron-line .ipa.unknown:focus-visible { outline-color: #CE93D8; }
 
         /* Currently-shown candidate, so cycling has a visible position */
         .word-popup .candidate.active { background: #6a1b9a; color: #fff; font-weight: bold; }
         body.dark_mode .word-popup .candidate.active { background: #CE93D8; color: #1F1B24; }
+
+        /* Readings rows are tappable — picking a reading chooses it. */
+        .word-popup table.readings tr { cursor: pointer; }
+        .word-popup table.readings tr:active { background: #e1bee7; }
+        body.dark_mode .word-popup table.readings tr:active { background: #4a3a52; }
 
         /* On phones the floating popup covers the text it describes — dock it instead */
         .word-popup.sheet { position: fixed; left: 0 !important; right: 0; bottom: 0; top: auto !important;
@@ -292,6 +307,20 @@
         .word-popup.sheet .popup-close { display: block; position: absolute; top: 6px; right: 10px;
                                          background: none; border: none; font-size: 22px; line-height: 1;
                                          color: #888; cursor: pointer; padding: 2px 6px; }
+        /* A grab handle at the sheet's top edge signals it can be pulled down. */
+        .word-popup.sheet::before { content: ''; display: block; width: 36px; height: 4px;
+                                    border-radius: 2px; background: #ccc; margin: 8px auto 6px; }
+        body.dark_mode .word-popup.sheet::before { background: #5a5a5a; }
+        /* Scrim behind the docked sheet: dims the page and gives a big tap-to-dismiss. */
+        #sheet-scrim { display: none; position: fixed; inset: 0; z-index: 9999;
+                       background: rgba(0,0,0,0.4); }
+        body.dark_mode #sheet-scrim { background: rgba(0,0,0,0.6); }
+        /* Bigger touch targets on coarse pointers: the sheet's rows and buttons. */
+        @media (pointer: coarse) {
+            .word-popup.sheet .popup-close { padding: 8px 12px; font-size: 24px; }
+            .word-popup .popup-cycle { min-height: 44px; }
+            .word-popup table.readings td { padding: 9px 6px; }
+        }
 
         /* ----- Dark mode (app palette: #121212 page / #1F1B24 surface / #CE93D8 accent) ----- */
         /* Lets the browser paint native controls (checkboxes, select) dark instead of
@@ -303,8 +332,8 @@
         /* specificity (0,2,1) beats the plain dark .verse-foot — keep the muted
            "no scansion" placeholder distinct from a real foot in dark mode too */
         body.dark_mode .verse-foot.no-scan { color: #777; background: #2a2a2a; }
-        body.dark_mode .macron-line .ambig::before { background: #5c4a10; }
-        body.dark_mode .macron-line .unknown::before { background: #5c2020; }
+        body.dark_mode .macron-line .ambig { background: #5c4a10; }
+        body.dark_mode .macron-line .unknown { background: #5c2020; }
         body.dark_mode #wlProgressBar { background: #CE93D8; }
         body.dark_mode #wlInfo { color: #aaa; }
         body.dark_mode #firstRun { background: #1F1B24; border-color: #9C27B0; }
@@ -317,7 +346,7 @@
         body.dark_mode .credits { color: #999; }
         body.dark_mode .credits a { color: #CE93D8; }
         body.dark_mode .word-popup { background: #1F1B24; color: #e0e0e0; border-color: #9C27B0; box-shadow: none; }
-        body.dark_mode .word-popup h4 { border-color: #3a2f42; }
+        body.dark_mode .word-popup h4 { color: #e0e0e0; border-color: #3a2f42; }
         body.dark_mode .word-popup td:first-child { color: #aaa; }
         body.dark_mode .popup-section-title { color: #aaa; border-color: #3a2f42; }
         body.dark_mode .word-popup .candidate { background: #3a2f42; color: #CE93D8; }
@@ -428,7 +457,9 @@
         <div class="legend" id="legend"></div>
         <table id="result_table">
             <caption class="sr-only">Macronized text. Highlighted words have more than one possible
-                reading; activate a word to see its analysis and cycle through the alternatives.</caption>
+                reading; tap or press Enter on a highlighted word to see its analysis and choose a
+                reading. On a computer, click a vowel to toggle its macron. The output is editable —
+                click and type to correct it.</caption>
             <tbody id="resultText"></tbody>
         </table>
         <div class="stats" id="stats" aria-live="polite"></div>
@@ -648,6 +679,149 @@
             .replace(/([a-zA-ZāēīōūȳĀĒĪŌŪȲ])\^/g, (m, v) => BREVE_MAP[v] || (v + '̆'))
             .replace(/[+_]/g, ''), inputText);
     }
+
+    // The ONE writer for a word's display text. Phase 1 of the editing overhaul
+    // made the output real text (selectable/copyable/findable) while keeping the
+    // content attribute in sync as the machine-readable source — export, aria-labels
+    // and the e2e suite all still read it. Every render path must funnel through here.
+    function setDisplay(span, text) {
+        span.textContent = text;
+        span.setAttribute('content', text);
+    }
+
+    // ---- Phase 2 editing: click-vowel toggle + type-to-edit + undo ----
+
+    // Winge's correction gesture: click a vowel to toggle its macron (ā↔a, … ȳ↔y, both
+    // cases). Structurally it can't introduce a non-Latin typo — only Latin vowels move.
+    const VOWEL_REPL = {
+        'ā': 'a', 'ē': 'e', 'ī': 'i', 'ō': 'o', 'ū': 'u', 'ȳ': 'y',
+        'Ā': 'A', 'Ē': 'E', 'Ī': 'I', 'Ō': 'O', 'Ū': 'U', 'Ȳ': 'Y',
+        'a': 'ā', 'e': 'ē', 'i': 'ī', 'o': 'ō', 'u': 'ū', 'y': 'ȳ',
+        'A': 'Ā', 'E': 'Ē', 'I': 'Ī', 'O': 'Ō', 'U': 'Ū', 'Y': 'Ȳ'
+    };
+
+    // The char under the pointer. The caret offset from caretRangeFromPoint can sit on
+    // either side of a glyph (clicking a consonant often yields the *next* char's offset),
+    // so resolve it to the char whose glyph rect actually contains the click point. That
+    // way clicking a consonant never toggles a neighbouring vowel by accident.
+    function charAtClick(e) {
+        let r = null;
+        if (document.caretRangeFromPoint) {
+            r = document.caretRangeFromPoint(e.clientX, e.clientY);
+        } else if (document.caretPositionFromPoint) {
+            const p = document.caretPositionFromPoint(e.clientX, e.clientY);
+            if (p) r = { startContainer: p.offsetNode, startOffset: p.offset };
+        }
+        if (!r || !r.startContainer || r.startContainer.nodeType !== Node.TEXT_NODE) return null;
+        const node = r.startContainer;
+        const span = node.parentElement;
+        if (!span || !span.classList || !span.classList.contains('ipa')) return null;
+        for (const o of [r.startOffset - 1, r.startOffset]) {
+            if (o < 0 || o >= node.data.length) continue;
+            const range = document.createRange();
+            range.setStart(node, o);
+            range.setEnd(node, o + 1);
+            const rect = range.getBoundingClientRect();
+            if (rect.width === 0) continue;   // zero-width (combining marks) — not clickable
+            if (e.clientX >= rect.left && e.clientX <= rect.right &&
+                e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                return { node, offset: o, span };
+            }
+        }
+        return null;
+    }
+
+    // One mutation on the undo/redo stacks: a snapshot of the whole rendered result,
+    // captured BEFORE the change. Cheap (a short text), simple, and covers both the
+    // programmatic vowel toggles and the browser's own typing.
+    const MAX_UNDO = 100;
+    let undoStack = [];
+    let redoStack = [];
+
+    function resultEditableState() {
+        const out = [];
+        for (const tr of document.querySelectorAll('#resultText tr.line')) {
+            const td = tr.querySelector('td.macron-line');
+            if (!td) { out.push([]); continue; }
+            const line = [];
+            for (const node of td.childNodes) {
+                if (node.nodeType === Node.TEXT_NODE) line.push(['t', node.data]);
+                else if (node.classList && node.classList.contains('ipa')) line.push(['i', node.textContent]);
+                else line.push(['o']);   // other (verse-foot chip) — left untouched on restore
+            }
+            out.push(line);
+        }
+        return out;
+    }
+
+    function applyResultState(state) {
+        const trs = document.querySelectorAll('#resultText tr.line');
+        if (state.length !== trs.length) return false;
+        for (let i = 0; i < trs.length; i++) {
+            const td = trs[i].querySelector('td.macron-line');
+            if (!td) return false;
+            const line = state[i];
+            const nodes = Array.from(td.childNodes);
+            if (nodes.length !== line.length) return false;
+            for (let j = 0; j < nodes.length; j++) {
+                const node = nodes[j];
+                const kind = line[j][0];
+                if (kind === 't' && node.nodeType === Node.TEXT_NODE) node.data = line[j][1];
+                else if (kind === 'i' && node.classList && node.classList.contains('ipa')) setDisplay(node, line[j][1]);
+                // 'o' entries stay as they are
+            }
+        }
+        return true;
+    }
+
+    function pushUndo() {
+        undoStack.push(resultEditableState());
+        if (undoStack.length > MAX_UNDO) undoStack.shift();
+        redoStack.length = 0;
+    }
+    function undo() {
+        if (!undoStack.length) return;
+        redoStack.push(resultEditableState());
+        applyResultState(undoStack.pop());
+    }
+    function redo() {
+        if (!redoStack.length) return;
+        undoStack.push(resultEditableState());
+        applyResultState(redoStack.pop());
+    }
+
+    // The result region is ALWAYS editable (Winge's model): each line's cell is
+    // contenteditable, so typing corrects in place and native selection works.
+    const resultRegion = document.getElementById('result');
+    resultRegion.addEventListener('beforeinput', (e) => {
+        if (e.inputType && /history/.test(e.inputType)) return;   // native undo/redo — we own it
+        if (!e.target.closest || !e.target.closest('td.macron-line')) return;
+        pushUndo();
+    });
+    // After the browser edits text, keep each word's `content` attr (the export / aria
+    // source) in sync with what is actually rendered.
+    resultRegion.addEventListener('input', (e) => {
+        const td = e.target.closest && e.target.closest('td.macron-line');
+        if (!td) return;
+        for (const span of td.querySelectorAll('.ipa')) {
+            if (span.getAttribute('content') !== span.textContent) span.setAttribute('content', span.textContent);
+        }
+    });
+    // Ctrl/Cmd+Z / Shift+Z / Y undo and redo, but only while the focus/selection is in
+    // the result — the input textarea keeps its native undo.
+    document.addEventListener('keydown', (e) => {
+        if (!(e.ctrlKey || e.metaKey)) return;
+        const k = e.key.toLowerCase();
+        if (k !== 'z' && k !== 'y') return;
+        const sel = window.getSelection && window.getSelection();
+        const inResult = sel && sel.rangeCount && resultRegion.contains(sel.anchorNode);
+        const aeInResult = document.activeElement && resultRegion.contains(document.activeElement);
+        if (!inResult && !aeInResult) return;
+        e.preventDefault();
+        if (k === 'z' && e.shiftKey) redo();
+        else if (k === 'z') undo();
+        else redo();
+    });
 
     await window.__wasmReady;
 
@@ -900,7 +1074,9 @@
                 '<table class="readings">';
             pairs.forEach((p, idx) => {
                 const active = p.plain === displayText ? ' class="active"' : '';
-                candidatesHtml += `<tr${active}>` +
+                // data-plain = the reading actually rendered in the text; tapping the row
+                // chooses it (the popup click handler reads this).
+                candidatesHtml += `<tr${active} data-plain="${esc(p.plain)}">` +
                     `<td class="r-form">${idx+1}. ${esc(p.shown)}</td>` +
                     `<td class="r-lemma">${p.lemma ? esc(p.lemma) : '—'}</td>` +
                     `<td class="r-gram">${p.tag ? esc(grammarSummary(p.tag)) : '—'}</td>` +
@@ -1008,14 +1184,31 @@
             '</table></div>' + morpheusHtml + '</details>';
     }
 
-    // Singleton hover popup — stays open while the mouse is over it (selectable)
+    // Singleton popup — a dialog when opened deliberately, a hover card otherwise.
     const popupEl = document.createElement('div');
     popupEl.className = 'word-popup';
     popupEl.style.display = 'none';
+    popupEl.setAttribute('role', 'dialog');
+    popupEl.setAttribute('tabindex', '-1');
     document.body.appendChild(popupEl);
+    // Scrim behind the docked sheet (tap-to-dismiss) — created once, toggled on show/hide.
+    const sheetScrim = document.createElement('div');
+    sheetScrim.id = 'sheet-scrim';
+    document.body.appendChild(sheetScrim);
+    sheetScrim.addEventListener('click', () => { if (useSheet()) hidePopup(); });
     let hideTimer = null;
     let popupSpan = null;      // which word the popup currently describes
     let popupPinned = false;   // opened deliberately (tap/click/keyboard) — hover can't dismiss it
+    // Screen-reader announcement: "reading N of M" on open and on cycle.
+    const popupStatus = document.createElement('div');
+    popupStatus.setAttribute('role', 'status');
+    popupStatus.setAttribute('aria-live', 'polite');
+    popupStatus.className = 'sr-only';
+    document.body.appendChild(popupStatus);
+    function announceReadings(span) {
+        const c = span && span.__token && (span.__token.accented || []).length;
+        popupStatus.textContent = c ? (c > 1 ? `${c} possible readings` : 'One possible reading') : '';
+    }
     popupEl.addEventListener('mouseenter', () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } });
     popupEl.addEventListener('mouseleave', () => scheduleHidePopup());
     popupEl.addEventListener('click', (e) => {
@@ -1025,10 +1218,19 @@
         e.stopPropagation();
         if (e.target.closest('.popup-close')) {
             const span = popupSpan;
-            hidePopup();
-            if (span) span.focus();
+            hidePopup(true);
         } else if (e.target.closest('.popup-cycle')) {
             if (popupSpan && popupSpan.__cycle) popupSpan.__cycle();
+        } else if (e.target.closest('tr[data-plain]')) {
+            // Tapping/clicking a reading row chooses it: render it, update the popup
+            // for the chosen spelling, and close — it's a one-shot choice.
+            const span = popupSpan;
+            if (span) {
+                const plain = e.target.closest('tr[data-plain]').getAttribute('data-plain');
+                setDisplay(span, plain);
+                span.__popupHtml = buildPopupHtml(span.__token, plain, span.__enclitic || '');
+            }
+            hidePopup(true);
         }
     });
 
@@ -1037,25 +1239,32 @@
     const useSheet = () => isTouch() || window.innerWidth < 560;
     const popupIsOpenFor = (span) => popupEl.style.display === 'block' && popupSpan === span;
 
-    function showPopupFor(span, pin = false) {
+    function showPopupFor(span, pin = false, focus = false) {
         if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
         popupSpan = span;
         if (pin) popupPinned = true;
         popupEl.innerHTML = span.__popupHtml;
+        popupEl.setAttribute('aria-label', `Readings for ${span.textContent}`);
         popupEl.style.display = 'block';
+        span.setAttribute('aria-expanded', 'true');
 
         if (useSheet()) {
             popupEl.classList.add('sheet');
+            sheetScrim.style.display = 'block';
             // drop any inline clamp left over from a floating popup — the sheet's CSS owns these
             popupEl.style.maxHeight = '';
             popupEl.style.overflowY = '';
             popupEl.style.top = '';
             popupEl.style.left = '';
-            return;
+        } else {
+            popupEl.classList.remove('sheet');
+            sheetScrim.style.display = 'none';
+            positionPopup(span);
         }
-        popupEl.classList.remove('sheet');
-
-        positionPopup(span);
+        // Move focus into the popup only on explicit activation (keyboard/tap/button) —
+        // never on hover, which would interrupt reading flow.
+        if (focus) popupEl.focus();
+        announceReadings(span);
     }
 
     // Viewport coordinates — the popup is position:fixed, so no scroll offsets here.
@@ -1110,12 +1319,18 @@
         positionPopup(popupSpan);
     }, { passive: true });
 
-    function hidePopup() {
+    function hidePopup(returnFocus = false) {
         if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+        const span = popupSpan;
         popupEl.style.display = 'none';
         popupEl.classList.remove('sheet');
+        sheetScrim.style.display = 'none';
         popupSpan = null;
         popupPinned = false;
+        if (span) {
+            span.setAttribute('aria-expanded', 'false');
+            if (returnFocus) span.focus();
+        }
     }
 
     // Hover-out only closes a popup that hover opened; a pinned one waits to be dismissed.
@@ -1127,17 +1342,66 @@
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && popupEl.style.display === 'block') {
-            const span = popupSpan;
-            hidePopup();
-            if (span) span.focus();
+            hidePopup(true);   // return focus to the word
         }
     });
-    // A docked sheet should close when you tap elsewhere
+    // A docked sheet should close when you tap elsewhere. Flagged words keep it open
+    // (they are its trigger); a plain word closes it because you're editing that word.
     document.addEventListener('click', (e) => {
         if (popupEl.style.display !== 'block') return;
-        if (popupEl.contains(e.target) || (e.target.closest && e.target.closest('.macron-line .ipa'))) return;
+        if (popupEl.contains(e.target)) return;
+        if (e.target.closest && e.target.closest('.macron-line .ipa.ambig, .macron-line .ipa.unknown')) return;
         hidePopup();
     });
+
+    // Text is real now, so a drag across words is a text selection — and it must
+    // NOT read as a click (which cycles a word) or spawn hover popups mid-drag.
+    // `dragging` is set once the pointer travels beyond a small threshold while the
+    // button is down, and stays set long enough for the trailing click to see it.
+    // Mouse only: touch has its own tap-vs-scroll handling, and a finger drifts
+    // more than this threshold on an ordinary tap, which would wrongly kill it.
+    let dragging = false;
+    document.addEventListener('pointerdown', (e) => {
+        dragging = false;
+        if (e.pointerType !== 'mouse') return;
+        const startX = e.clientX, startY = e.clientY;
+        const move = (ev) => {
+            if (ev.buttons & 1 && Math.abs(ev.clientX - startX) + Math.abs(ev.clientY - startY) > 4) {
+                dragging = true;
+            }
+        };
+        document.addEventListener('pointermove', move);
+        const up = () => {
+            document.removeEventListener('pointermove', move);
+            document.removeEventListener('pointerup', up);
+            setTimeout(() => { dragging = false; }, 80);   // outlive the trailing click
+        };
+        document.addEventListener('pointerup', up);
+    });
+
+    // Touch opener (delegated, survives re-render): a tap on a FLAGGED word opens the
+    // readings sheet. preventDefault on touchend suppresses the focus + synthetic click,
+    // so the contenteditable cell never takes focus and the OS keyboard never slides up
+    // under the sheet. A clean word's tap is left alone → native caret for editing.
+    let touchTapStart = null;
+    resultRegion.addEventListener('touchstart', (e) => {
+        const t = e.touches[0];
+        if (t) touchTapStart = { x: t.clientX, y: t.clientY, t: performance.now() };
+    }, { passive: true });
+    resultRegion.addEventListener('touchend', (e) => {
+        const start = touchTapStart;
+        touchTapStart = null;
+        if (!start) return;
+        const t = e.changedTouches && e.changedTouches[0];
+        if (!t) return;
+        if (Math.abs(t.clientX - start.x) + Math.abs(t.clientY - start.y) > 10) return;   // scroll
+        if (performance.now() - start.t > 500) return;   // long-press → native selection
+        const span = t.target && t.target.closest ? t.target.closest('.macron-line .ipa') : null;
+        if (!span) return;
+        if (!(span.classList.contains('ambig') || span.classList.contains('unknown'))) return;
+        e.preventDefault();
+        showPopupFor(span, true, true);
+    }, { passive: false });
 
     function displayResult(result) {
         const taggedTokens = result.tokens || [];
@@ -1168,12 +1432,20 @@
         const tbody = document.getElementById('resultText');
         tbody.innerHTML = '';
 
+        // A fresh macronization discards all previous editing state.
+        undoStack = [];
+        redoStack = [];
+
         for (let lineIdx = 0; lineIdx < linesOfTokens.length; lineIdx++) {
             const lineTokens = linesOfTokens[lineIdx];
             const tr = document.createElement('tr');
             tr.className = 'line';
             const td = document.createElement('td');
             td.className = 'macron-line';
+            // The output is always editable: each line is a contenteditable cell. Enter
+            // would spawn structure (lines are rows, not paragraphs), so block it.
+            td.setAttribute('contenteditable', 'true');
+            td.addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
 
             // Must mirror the cycle candidates (ortho + case) or indexOf(cur) misses and
             // the first click jumps to a candidate the original spelling can never return to.
@@ -1202,64 +1474,70 @@
                 const displayText = encliticText ? stemDisplay + encliticText : stemDisplay;
                 const span = document.createElement('span');
                 span.className = 'ipa';
-                span.setAttribute('content', displayText);
+                setDisplay(span, displayText);   // real text + content kept in sync
                 span.__token = token;   // for per-word CSV: rendered text + tag/lemma
-                // TODO
-                // make text selectable
-                //span.textContent = displayText;
+                span.__enclitic = encliticText || null;   // for rebuilding the popup after a toggle
                 const candidates = [...new Set(
                     (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c, token.text)))
                 )].map(c => encliticText ? c + encliticText : c);
                 span.__popupHtml = buildPopupHtml(token, displayText, encliticText);
 
-                // Every word is inspectable, so every word is reachable by keyboard.
-                span.tabIndex = 0;
-                span.setAttribute('role', 'button');
-                const describe = () => {
-                    const n = candidates.length;
-                    span.setAttribute('aria-label',
-                        span.getAttribute('content') +
-                        (n > 1 ? ` — ${n} possible readings, activate to cycle` : '') +
-                        (token.isUnknown ? ' — not in wordlist' : ''));
-                };
-                describe();
-
                 const cycle = () => {
                     if (candidates.length < 2) return;
                     const cur = span.getAttribute('content');
                     const next = candidates[(candidates.indexOf(cur) + 1) % candidates.length];
-                    span.setAttribute('content', next);
+                    setDisplay(span, next);
+                    popupStatus.textContent = `Reading ${candidates.indexOf(next) + 1} of ${candidates.length}`;
                     span.__popupHtml = buildPopupHtml(token, next, encliticText);
-                    describe();
                     if (popupIsOpenFor(span)) showPopupFor(span, true);
                 };
                 span.__cycle = cycle;   // the popup's "Next reading" button drives this
 
                 if (candidates.length > 1) span.classList.add('multiple-values');
-
-                span.addEventListener('click', () => {
-                    // First interaction reveals the analysis; once it's open, clicking cycles.
-                    // On a mouse the popup is already open from hover, so a click cycles straight
-                    // away; on touch (no hover) the first tap is what opens it.
-                    if (!popupIsOpenFor(span)) { showPopupFor(span, true); return; }
-                    popupPinned = true;
-                    cycle();
-                });
-                span.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycle(); }
-                });
-                // Only *keyboard* focus opens the popup — a tap also fires focus, and that would
-                // make the first tap count as "already open" and cycle the word immediately.
-                span.addEventListener('focus', () => {
-                    if (span.matches(':focus-visible')) showPopupFor(span, true);
-                });
-                span.addEventListener('blur', () => { popupPinned = false; scheduleHidePopup(); });
-                span.addEventListener('mouseenter', () => { if (!isTouch()) showPopupFor(span); });
-                span.addEventListener('mouseleave', () => scheduleHidePopup());
-
                 // Yellow means exactly "you can cycle this" — otherwise the legend lies.
                 if (candidates.length > 1) span.classList.add('ambig');
                 if (token.isUnknown) span.classList.add('unknown');
+
+                // The interaction model is pointer-dependent:
+                //   mouse — hover opens the popup; single-click a vowel toggles its macron;
+                //   touch — tapping a FLAGGED word opens the readings sheet (the flag invites
+                //           inspection); tapping a clean word just places a caret to edit;
+                //           vowel-toggling is desktop-only (the OS keyboard's long-press gives
+                //           macrons on phones). A click that was really a drag does nothing.
+                span.addEventListener('click', (e) => {
+                    if (dragging) return;
+                    if (e.detail !== 1) return;
+                    // Touch never toggles on a click — a delegated touchend handler owns
+                    // taps on flagged words (and suppresses this click), and a clean word's
+                    // tap just lands the native caret. This branch only runs on mouse.
+                    if (isTouch()) return;
+                    // Mouse: toggle the macron under the pointer (a consonant → caret only).
+                    const hit = charAtClick(e);
+                    if (!hit) return;
+                    const repl = VOWEL_REPL[hit.node.data[hit.offset]];
+                    if (!repl) return;
+                    pushUndo();
+                    hit.node.replaceData(hit.offset, 1, repl);   // in place — caret survives
+                    span.setAttribute('content', span.textContent);
+                    span.__popupHtml = buildPopupHtml(token, span.textContent, span.__enclitic || '');
+                    if (popupIsOpenFor(span)) showPopupFor(span, false);
+                });
+                span.addEventListener('mouseenter', () => { if (!isTouch() && !dragging) showPopupFor(span); });
+                span.addEventListener('mouseleave', () => scheduleHidePopup());
+                // Keyboard path: only FLAGGED words (the ones with a worthwhile popup) are
+                // focusable — a clean word stays pure editable text (no tab-stop noise in a
+                // long poem). Enter is already a dead key inside the editable cell, so it's
+                // free to open the popup. Space is left alone (it types).
+                if (candidates.length > 1 || token.isUnknown) {
+                    span.tabIndex = 0;
+                    span.setAttribute('role', 'button');
+                    span.setAttribute('aria-haspopup', 'dialog');
+                    span.setAttribute('aria-expanded', 'false');
+                    span.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter') { e.preventDefault(); showPopupFor(span, true, true); }
+                    });
+                }
+
                 td.appendChild(span);
             }
 
@@ -1267,6 +1545,7 @@
                 const foot = scannedFeet[lineIdx];
                 const footSpan = document.createElement('span');
                 footSpan.className = 'verse-foot';
+                footSpan.setAttribute('contenteditable', 'false');   // analysis output, not user text
                 if (foot) {
                     footSpan.textContent = foot;
                 } else {
@@ -1275,7 +1554,9 @@
                 }
                 td.appendChild(footSpan);
             }
+
             tr.appendChild(td);
+
             tbody.appendChild(tr);
         }
 
@@ -1289,7 +1570,7 @@
 
         const legend = document.getElementById('legend');
         legend.innerHTML =
-            (nAmbig ? '<span><i class="sw-ambig">ā</i>more than one reading — click or press Enter to cycle</span>' : '') +
+            (nAmbig ? '<span><i class="sw-ambig">ā</i>more than one reading — tap it to choose</span>' : '') +
             (nUnknown ? '<span><i class="sw-unknown">ā</i>not in the wordlist — vowel lengths guessed from the ending</span>' : '');
         legend.style.display = (nAmbig || nUnknown) ? 'flex' : 'none';
 
@@ -1311,18 +1592,25 @@
         return d.innerHTML;
     }
 
+    // One line's plain macronized text from its rendered cell (reflects cycled choices).
+    // Reads the synced `content` attribute — the canonical rendered value — and skips
+    // the .verse-foot chip and any non-.ipa nodes.
+    function lineToPlainText(td) {
+        let line = '';
+        for (const node of td.childNodes) {
+            if (node.nodeType === Node.TEXT_NODE) line += node.textContent;
+            else if (node.classList && node.classList.contains('ipa')) line += node.getAttribute('content');
+        }
+        return line;
+    }
+
     // Reconstruct plain macronized text from the rendered cells (reflects cycled choices)
     function resultToPlainText() {
         const lines = [];
         for (const tr of document.querySelectorAll('#resultText tr.line')) {
-            let line = '';
             const td = tr.querySelector('td');
             if (!td) { lines.push(''); continue; }
-            for (const node of td.childNodes) {
-                if (node.nodeType === Node.TEXT_NODE) line += node.textContent;
-                else if (node.classList && node.classList.contains('ipa')) line += node.getAttribute('content');
-            }
-            lines.push(line);
+            lines.push(lineToPlainText(td));
         }
         return lines.join('\n');
     }

@@ -11,7 +11,8 @@ test("popup shows RFTagger disagreement + Morpheus dedup for currito", async ({ 
   await page.click("#macronize_btn");
   await expect(page.locator("#resultText .ipa").first()).toBeVisible({ timeout: 120_000 });
 
-  await page.locator("#resultText .ipa").first().click();
+  // Desktop: hovering a flagged word opens the popup (single-click toggles a vowel).
+  await page.locator("#resultText .ipa").first().hover();
 
   // 0. Readings come FIRST (the debug detail is collapsed behind <details>)
   const readings = page.locator(".word-popup .popup-section", { hasText: /^Possible readings/ });
@@ -53,7 +54,8 @@ test("v/u words cycle reversibly — divisa's original spelling must come back",
   await expect(span).toHaveAttribute("content", "dīvīsa");
   const initial = await span.getAttribute("content");
 
-  await span.click(); // hover already opened the popup; this pins it (may cycle once)
+  // Desktop: hovering the flagged word opens the popup (a single click would toggle).
+  await span.hover();
   const nextBtn = page.locator(".word-popup .popup-cycle");
   await expect(nextBtn).toBeVisible({ timeout: 5000 });
 

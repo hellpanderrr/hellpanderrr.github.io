@@ -33,6 +33,10 @@ test.describe("macronizer", () => {
       "prōvinciārum",
       { timeout: 120_000 },
     );
+    // Phase 1 (editing overhaul): the output is REAL text now — selectable and
+    // copyable. The content attribute stays in sync, and textContent must match.
+    const first = page.locator("#resultText .ipa").first();
+    await expect(first).toHaveText("prōvinciārum", { timeout: 5_000 });
   });
 
   test("dark mode toggle changes its own icon, not the home button's", async ({
