@@ -132,9 +132,15 @@ Two test-infrastructure findings:
 1. **No coverage tooling existed** until this session. Now wired: `npm run
    test:coverage` (c8 for unit/IPA + opt-in `COVERAGE=1` V8 collector
    `e2e/coverage-collect.spec.js` + `scripts/tests/coverage-merge.mjs`).
-   Measured: **61.92% statements** overall; `macronizer.html` 71.6%;
+   Measured 2026-08-06: **61.92% statements** overall; `macronizer.html` 71.6%;
    **Scansion.js 12%, MorpheusAnalyzer 42%, alignMacronized 29%** (engine
    correctness, not UI — unit tests belong in the engine repo).
+   2026-08-07: the collector now drives the desktop paths exhaustively
+   (Escape, outside-click, multi-line undo, unknown-word, scansion, dark-mode
+   chip) plus the touch/sheet paths via a second page in the same context with
+   CDP touch emulation (shares IndexedDB — no second wordlist parse). Measured:
+   **66.44% statements** overall; `macronizer.html` **78.16%**; Scansion.js
+   **85%, alignMacronized 74%, MorpheusAnalyzer 55%**.
 2. **Every macronizer e2e test re-downloads + re-parses the 812k wordlist** in
    its fresh context (8 parses/CI run across editing + popup-check). Fix:
    share one context per spec file. Also the CI exclusion `--grep-invert
@@ -143,3 +149,9 @@ Two test-infrastructure findings:
    Coverage-gap plan (from a 3-agent council): extend existing tests (Escape,
    scrim/Back/blur, multi-line undo, dark-mode chip, CSV content) + 2 new
    (unknown-word red flow, copy-after-edit).
+   **2026-08-07 done:** editing.spec.js and popup-check.spec.js are now `serial`
+   with one shared page (8 parses → 1 for those files), and gained all the
+   plan's gaps: Escape+focus-return, scrim/Android-Back/blur in the touch test,
+   multi-line undo, dark-mode `.no-scan` chip, CSV content (cycled spelling),
+   + new unknown-word red-flow and copy-after-edit tests. The stale CI
+   exclusion (item above) is NOT yet fixed.

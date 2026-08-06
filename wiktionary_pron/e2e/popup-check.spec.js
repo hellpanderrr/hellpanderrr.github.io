@@ -2,7 +2,22 @@ import { test, expect } from "@playwright/test";
 
 const PAGE = "/wiktionary_pron/macronizer.html";
 
-test("popup shows RFTagger disagreement + Morpheus dedup for currito", async ({ page }) => {
+test.describe.configure({ mode: "serial" });
+
+// One shared page for all four tests: the 812k wordlist parses ONCE into
+// IndexedDB (first test), then each later test reloads from the chunk store
+// instead of re-downloading + re-parsing (M-015: 4 parses → 1).
+let sharedPage;
+test.beforeAll(async ({ browser }) => {
+  const context = await browser.newContext();
+  sharedPage = await context.newPage();
+});
+test.afterAll(async () => {
+  if (sharedPage) await sharedPage.context().close();
+});
+
+test("popup shows RFTagger disagreement + Morpheus dedup for currito", async () => {
+  const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
   await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
@@ -38,7 +53,8 @@ test("popup shows RFTagger disagreement + Morpheus dedup for currito", async ({ 
   await expect(wlLabel).toContainText("Not found");
 });
 
-test("v/u words cycle reversibly — divisa's original spelling must come back", async ({ page }) => {
+test("v/u words cycle reversibly — divisa's original spelling must come back", async () => {
+  const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
   await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
@@ -68,7 +84,8 @@ test("v/u words cycle reversibly — divisa's original spelling must come back",
   await expect(span).toHaveAttribute("content", initial);
 });
 
-test("prose shows no grey placeholders; numbered verse scans after line-number strip", async ({ page }) => {
+test("prose shows no grey placeholders; numbered verse scans after line-number strip", async () => {
+  const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
   await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
@@ -91,9 +108,25 @@ test("prose shows no grey placeholders; numbered verse scans after line-number s
   await expect(page.locator("#resultText .verse-foot.no-scan")).toHaveCount(0);
   // The line numbers are reference noise — they must not survive into the output.
   await expect(page.locator("#resultText")).not.toContainText("1.1");
+
+  // M-014 regression: in dark mode the "—" placeholder must NOT pick up the
+  // real-feet purple. Force a line that cannot scan so a .no-scan chip exists,
+  // then toggle dark mode and assert the chip is the muted grey, not purple.
+  await page.fill("#text_to_macronize", "zzzzqzzz\nCui dono lepidum novum libellum");
+  await page.click("#macronize_btn");
+  await expect(page.locator("#resultText .verse-foot.no-scan").first()).toBeVisible({ timeout: 120_000 });
+  await page.click("#dark_mode");
+  await expect(page.locator("body")).toHaveClass(/dark_mode/);
+  const chipColor = await page.locator("#resultText .verse-foot.no-scan").first().evaluate(
+    (el) => getComputedStyle(el).color,
+  );
+  // .no-scan is #777 in dark mode — NOT the #CE93D8 purple of real feet.
+  expect(chipColor).toBe("rgb(119, 119, 119)");
+  await page.click("#dark_mode");
 });
 
-test("CSV split button exports per word (default) and per line from the dropdown", async ({ page }) => {
+test("CSV split button exports per word (default) and per line from the dropdown", async () => {
+  const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
   await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
@@ -102,12 +135,29 @@ test("CSV split button exports per word (default) and per line from the dropdown
   await page.click("#macronize_btn");
   await expect(page.locator("#resultText .ipa").first()).toBeVisible({ timeout: 120_000 });
 
+  // Cycle the first word (divisa → a dīvīsa/diuīsa variant) so the CSV export
+  // reflects a RENDERED spelling, not just the typed input.
+  const firstSpan = page.locator("#resultText .ipa").first();
+  await expect(firstSpan).toHaveAttribute("content", "dīvīsa", { timeout: 120_000 });
+  await firstSpan.hover();
+  const nextBtn = page.locator(".word-popup .popup-cycle");
+  await expect(nextBtn).toBeVisible({ timeout: 5000 });
+  await nextBtn.click();
+  const cycled = await firstSpan.getAttribute("content");
+  expect(cycled).not.toBe("divisa");   // the cycle actually moved somewhere
+
   // Default: body runs the last-used mode (per word by default).
   await expect(page.locator("#export_csv")).toHaveAttribute("title", /per word/i);
   const wordDl = page.waitForEvent("download");
   await page.click("#export_csv");
   const wordDownload = await wordDl;
   expect(wordDownload.suggestedFilename()).toMatch(/\.csv$/);
+  // M-015: the per-word CSV reads the RENDERED spans, so the cycled spelling must
+  // show up in the file (not the original input). Read the download's bytes.
+  const wordStream = await wordDownload.createReadStream();
+  let wordCsv = "";
+  for await (const chunk of wordStream) wordCsv += chunk.toString("utf8");
+  expect(wordCsv).toContain(cycled);
 
   // Caret opens the dropdown with both modes.
   await page.click("#export_csv_caret");
