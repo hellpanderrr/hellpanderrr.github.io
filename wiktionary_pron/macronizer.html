@@ -27,6 +27,23 @@
            textarea its own inset, so no two consecutive blocks lined up.
            ===================================================================== */
         #content { max-width: 780px; margin: 0 auto; }
+        /* Mobile: the column ran edge-to-edge with no breathing room — the transcriber
+           insets body 18px under 767px, the macronizer never did. Match that idiom.
+           Deliberately NOT env(safe-area-inset-*): the column is centered and narrow, so
+           it never reaches a notch — and on landscape the right inset can be ~44px, which
+           shows up as a large empty gap on the right. A fixed 18px keeps it symmetric.
+           The sheet/scrim are position:fixed, so body padding doesn't move them. */
+        @media (max-width: 767px) {
+            body { padding-left: 18px; padding-right: 18px; }
+        }
+        /* tacit's base body padding is 36px all around, but its own ≤767 rule drops to
+           "18px 0". Without this, body padding jumps 18px→36px at exactly 768px and the
+           content column SHRINKS (731→696px) as the viewport widens. Smooth it through
+           the range where the 780px cap still leaves room; ≥852 the centred column's own
+           gutters exceed 36px anyway, so tacit's value is invisible there. */
+        @media (min-width: 768px) and (max-width: 851px) {
+            body { padding-left: 18px; padding-right: 18px; }
+        }
         #header { align-items: center; }
         #header > h1 { margin-left: 14px; padding-left: 0; font-size: 28px; }
         #header #home { display: inline-flex; align-items: center; }
@@ -68,6 +85,12 @@
         .option-select label { color: #888; }
         .options select { margin: 0; height: 24px; padding: 0 4px; font-size: 15px;
                           border: none; background: transparent; }
+        /* The "Scan as" chip holds a <select> and is the widest chip. On a narrow phone
+           its intrinsic (min-content) width exceeds the content column, so the flex row
+           can't wrap it and pushes #content's scrollWidth past the viewport. Let the chip
+           shrink: the select truncates, and the chip can then wrap below its peers. */
+        .option-select { min-width: 0; max-width: 100%; }
+        .option-select select { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
         body.dark_mode .option-group { background: #1a1620; border-color: #332c3a; }
         body.dark_mode .option-group:hover { border-color: #CE93D8; }
@@ -164,7 +187,13 @@
 
         .legend { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 6px 20px;
                   font-size: 13px; color: #666; margin-bottom: 4px; }
-        .legend span { white-space: nowrap; }
+        /* Each legend chip ("ā more than one reading…") must be allowed to wrap on a narrow
+           phone: white-space:nowrap made a chip unbreakable, so when it was wider than the
+           column flex-wrap couldn't wrap it and it overflowed #content (empty space on the
+           right below ~300px). The i-swatch and its text stay together; only the full chip
+           wraps to the next line. */
+        .legend span { white-space: normal; }
+        .legend i { white-space: nowrap; }
         .legend i { font-style: normal; padding: 0 6px; border-radius: 3px; margin-right: 5px; }
         .legend .sw-ambig { background: #fff3cd; }
         .legend .sw-unknown { background: #f8d7da; }
@@ -455,11 +484,16 @@
     <div id="result" style="display: none;">
         <h2 class="result-heading">Macronized</h2>
         <div class="legend" id="legend"></div>
-        <table id="result_table">
-            <caption class="sr-only">Macronized text. Highlighted words have more than one possible
-                reading; tap or press Enter on a highlighted word to see its analysis and choose a
-                reading. On a computer, click a vowel to toggle its macron. The output is editable —
-                click and type to correct it.</caption>
+        <!-- sr-only caption as a table SIBLING, not a <caption>: a table <caption> does
+             not clip with overflow:hidden — its full unclipped text forces the table's
+             intrinsic width, so at narrow viewports the document gained horizontal
+             scrollWidth (the "empty space on the right"). A sibling keeps SR semantics
+             without participating in table layout. -->
+        <div class="sr-only" id="result_table_desc">Macronized text. Highlighted words have more than
+            one possible reading; tap or press Enter on a highlighted word to see its analysis and
+            choose a reading. On a computer, click a vowel to toggle its macron. The output is
+            editable — click and type to correct it.</div>
+        <table id="result_table" aria-describedby="result_table_desc">
             <tbody id="resultText"></tbody>
         </table>
         <div class="stats" id="stats" aria-live="polite"></div>
