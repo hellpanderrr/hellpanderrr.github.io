@@ -37,6 +37,8 @@ catch typos and normalize spellings (`-īs` → `-ēs`) and cannot correct the
 result. Winge's original site made the output `contenteditable` in May 2017
 plus per-vowel click-to-toggle. Substantial build: contenteditable +
 re-macronize + re-export + surviving the cycle/click handlers.
+**Plan:** `docs/EDITING-OVERHAUL-PLAN.md` — real editable text + click-vowel
+toggle + per-session accepted-names list; rejects a "decisions replay" model.
 
 ## M-005 — Word popup shows no dictionary definition
 **Status: OPEN.** Users cannot tell *populus* (people) from *populus* (poplar),
@@ -54,6 +56,7 @@ differ only in a short vowel collapse into one row).
 **Status: OPEN.** Only the bulk "copy" button works. Structural: words render
 via `<span class="ipa" content="…">` painted with CSS `attr(content)`, so the
 selectable text is empty, and the popup/cycle handlers own the click.
+**Plan:** `docs/EDITING-OVERHAUL-PLAN.md` Phase 1 — real text + per-line copy.
 
 ## M-008 — `rftagger.js` ships an assertions (debug) build
 **Status: OPEN.** CodeRabbit finding on PR #7. `assert()` bodies,
