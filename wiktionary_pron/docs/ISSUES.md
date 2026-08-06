@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals: 7 open, 6 fixed (13 total).
+Totals: 8 open, 7 fixed (15 total).
 
 ---
 
@@ -32,13 +32,12 @@ JS `ACCENT_OVERRIDES` map in the engine (`e7fb22a`) carrying both readings,
 not a one-off wordlist edit (the 33MB file is regenerated upstream).
 
 ## M-004 — Output is not editable
-**Status: OPEN.** Adoption blocker per r/latin feedback: users macronize to
-catch typos and normalize spellings (`-īs` → `-ēs`) and cannot correct the
-result. Winge's original site made the output `contenteditable` in May 2017
-plus per-vowel click-to-toggle. Substantial build: contenteditable +
-re-macronize + re-export + surviving the cycle/click handlers.
-**Plan:** `docs/EDITING-OVERHAUL-PLAN.md` — real editable text + click-vowel
-toggle + per-session accepted-names list; rejects a "decisions replay" model.
+**Status: OPEN** (editable output shipped `54d425e`; Phase 3 persistence remains)
+Output is now real editable text: contenteditable lines, click-vowel macron
+toggle, Ctrl+Z/Y undo, and a mobile tap-flagged→readings-sheet (site `54d425e`,
+`e5fa491`). What remains from the plan (`docs/EDITING-OVERHAUL-PLAN.md` Phase 3):
+the accepted-names list and input-hash snapshot — the pieces that make edits
+*survive* a revisit, not the in-session editing itself.
 
 ## M-005 — Word popup shows no dictionary definition
 **Status: OPEN.** Users cannot tell *populus* (people) from *populus* (poplar),
@@ -53,10 +52,11 @@ lists *distinct macronizations*, not all morphological readings (readings that
 differ only in a short vowel collapse into one row).
 
 ## M-007 — Individual words/lines cannot be selected or copied
-**Status: OPEN.** Only the bulk "copy" button works. Structural: words render
-via `<span class="ipa" content="…">` painted with CSS `attr(content)`, so the
-selectable text is empty, and the popup/cycle handlers own the click.
-**Plan:** `docs/EDITING-OVERHAUL-PLAN.md` Phase 1 — real text + per-line copy.
+**Status: FIXED** (2026-08-06, site `54d425e`)
+Words render as real text nodes (`setDisplay` syncs textContent + content), so
+they are natively selectable/copyable/findable. The per-line copy *button* was
+added then removed (redundant with native selection + caused a popup-overlap
+bug) — native selection is the mechanism now.
 
 ## M-008 — `rftagger.js` ships an assertions (debug) build
 **Status: OPEN.** CodeRabbit finding on PR #7. `assert()` bodies,
@@ -117,3 +117,29 @@ appear beyond the recorded snapshot `test/data/scansion-failures-snapshot.json`.
 Run: `npm run test:scansion` (engine repo). Pedecerto (pedecerto.eu) is
 IP-blocked (HTTP 412) even with a browser UA, so confirmation was done via
 Tavily instead.
+
+## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
+**Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)
+The `.verse-foot.no-scan` placeholder lost to `body.dark_mode .verse-foot` on
+specificity, so unscannable lines rendered the same purple as real feet in dark
+mode. Fixed with `body.dark_mode .verse-foot.no-scan` (0,3,1 beats 0,2,1). Was
+**untracked** (only folded into M-003's evidence) — recorded here for a complete
+tracker. Not asserted by any e2e test (see M-015).
+
+## M-015 — Test infra: no coverage measurement; e2e re-parses wordlist per test
+**Status: OPEN** (2026-08-06)
+Two test-infrastructure findings:
+1. **No coverage tooling existed** until this session. Now wired: `npm run
+   test:coverage` (c8 for unit/IPA + opt-in `COVERAGE=1` V8 collector
+   `e2e/coverage-collect.spec.js` + `scripts/tests/coverage-merge.mjs`).
+   Measured: **61.92% statements** overall; `macronizer.html` 71.6%;
+   **Scansion.js 12%, MorpheusAnalyzer 42%, alignMacronized 29%** (engine
+   correctness, not UI — unit tests belong in the engine repo).
+2. **Every macronizer e2e test re-downloads + re-parses the 812k wordlist** in
+   its fresh context (8 parses/CI run across editing + popup-check). Fix:
+   share one context per spec file. Also the CI exclusion `--grep-invert
+   macronizer` is title-based + stale — wordlist-heavy editing/popup-check DO
+   run in CI (`../.github/workflows/tests.yml:57` comment is outdated).
+   Coverage-gap plan (from a 3-agent council): extend existing tests (Escape,
+   scrim/Back/blur, multi-line undo, dark-mode chip, CSV content) + 2 new
+   (unknown-word red flow, copy-after-edit).

@@ -1,5 +1,6 @@
 node_modules/
 wiktionary_pron/test-results/
 wiktionary_pron/playwright-report/
+wiktionary_pron/coverage/
 __pycache__/
 *.pyc

@@ -6,6 +6,10 @@
     "test": "npm run test:unit && npm run test:ipa",
     "test:ipa": "cd scripts/tests && mocha get_ipa.test.js golden.test.js --require ./setup.cjs --timeout 60000",
     "test:unit": "mocha scripts/tests/unit/*.test.js --require scripts/tests/setup.cjs --timeout 20000",
+    "test:coverage:unit": "c8 --temp-directory coverage/.tmp-unit --report-dir coverage/unit --reporter=json --reporter=text --include \"scripts/**\" --include \"macronizer/dist/**\" --exclude \"scripts/tests/**\" mocha scripts/tests/unit/*.test.js --require scripts/tests/setup.cjs --timeout 20000",
+    "test:coverage:ipa": "c8 --temp-directory coverage/.tmp-ipa --report-dir coverage/ipa --reporter=json --reporter=text --include \"scripts/**\" --include \"macronizer/dist/**\" --exclude \"scripts/tests/**\" -- mocha scripts/tests/get_ipa.test.js scripts/tests/golden.test.js --require scripts/tests/setup.cjs --timeout 60000",
+    "test:coverage:e2e": "cross-env COVERAGE=1 playwright test e2e/coverage-collect.spec.js",
+    "test:coverage": "npm run test:coverage:unit && npm run test:coverage:ipa && npm run test:coverage:e2e && node scripts/tests/coverage-merge.mjs",
     "test:e2e": "playwright test --grep-invert macronizer",
     "test:e2e:macronizer": "playwright test e2e/macronizer.spec.js",
     "serve": "http-server .. -p 8993 -s",
@@ -13,9 +17,15 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
+    "c8": "^12.0.0",
+    "cross-env": "^10.1.0",
     "fake-indexeddb": "^6.2.5",
     "http-server": "^14.1.1",
+    "istanbul-lib-coverage": "^3.2.2",
+    "istanbul-lib-report": "^3.0.1",
+    "istanbul-reports": "^3.2.0",
     "mocha": "^10.8.2",
+    "v8-to-istanbul": "^9.3.0",
     "wasmoon": "^1.16.0"
   }
 }

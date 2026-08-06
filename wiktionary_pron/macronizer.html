@@ -18,6 +18,10 @@
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!-- Warm the wordlist download: the engine fetches macrons.txt.gz only AFTER the
+         WASM assets are fetched+gunzipped (a serialized second round-trip). Preloading
+         it lets the browser fetch it in parallel, cutting first-visit latency. -->
+    <link as="fetch" crossorigin href="macronizer/macrons.txt.gz" rel="preload">
 
     <style>
         /* =====================================================================
@@ -1283,6 +1287,14 @@
         span.setAttribute('aria-expanded', 'true');
 
         if (useSheet()) {
+            // If the editable cell holds focus (the OS keyboard is up), blur it BEFORE
+            // docking — otherwise the sheet sits at bottom:0 behind the keyboard and the
+            // tap appears to do nothing. The keyboard also slides the sheet's anchor.
+            const ae = document.activeElement;
+            if (ae && resultRegion.contains(ae)) ae.blur();
+            // Android Back should close the sheet, not leave the page: push a history entry
+            // when the sheet opens, and the popstate handler below pops it.
+            history.pushState({ macronizerSheet: true }, '');
             popupEl.classList.add('sheet');
             sheetScrim.style.display = 'block';
             // drop any inline clamp left over from a floating popup — the sheet's CSS owns these
@@ -1377,6 +1389,16 @@
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && popupEl.style.display === 'block') {
             hidePopup(true);   // return focus to the word
+        }
+    });
+    // Android Back (popstate) closes the sheet instead of navigating away. The browser
+    // already popped the history entry we pushed on sheet-open, so just hide the sheet —
+    // the entry is consumed, and the NEXT Back leaves the page. If the sheet was closed
+    // by another path, its pushed entry stays and Back simply consumes it (no-op) before
+    // leaving on the next press — standard behavior, not a bug.
+    window.addEventListener('popstate', () => {
+        if (popupEl.classList.contains('sheet') && popupEl.style.display === 'block') {
+            hidePopup();
         }
     });
     // A docked sheet should close when you tap elsewhere. Flagged words keep it open

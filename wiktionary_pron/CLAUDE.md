@@ -18,6 +18,7 @@ npm run test:unit  # pure JS helpers: sanitize, memoizeLocalStorage, V3/V4 lexic
 npm run test:ipa   # wasmoon Lua engine: exact-IPA tests + golden files (15 languages)
 npm run test:e2e   # Playwright browser tests, excludes macronizer (~5 min: includes Russian lexicon load)
 npm run test:e2e:macronizer  # macronizer smoke tests (~30s; covers first-visit and return-visit wordlist paths)
+npm run test:coverage   # real coverage: c8 (unit/IPA) + opt-in V8 e2e collector → merged % (see Testing traps)
 npx playwright test -g "Latin"   # run a single e2e test
 ```
 
@@ -133,10 +134,13 @@ Each of these cost real debugging time in past sessions. Check this list before 
 **Testing traps**
 - **Never shim `document` in `scripts/tests/setup.cjs`** — wasmoon's Emscripten glue uses `typeof document` for environment detection and dies with "Invalid URL" under Node. Shim it per-test-file only in suites that don't load wasmoon (see `unit/lexicon_decode.test.js`).
 - **Lexicon test words must be letters only.** Every lookup path strips `[^\p{Letter}\p{Mark}-]` — synthetic words like `word000042` contain digits, get cleaned to `word`, and silently never match. Cost a failed "language isolation" test until spotted.
-- **Macronizer results have empty `textContent`** — words render via `<span class="ipa" content="...">` painted with CSS `attr(content)`. Assert the `content` attribute, not text. (Same idiom in the transcriber's line mode.)
+- **Macronizer words now render as REAL text** (Phase 1, `54d425e`): `setDisplay` syncs `textContent` AND `content`. Assert `content` for exports/aria (still the machine source), but the output is selectable textContent now. The transcriber's line mode still paints via `attr(content)`, so that page's `.ipa` text remains empty.
+- **Coverage: `npm run test:coverage`** (c8 unit/IPA + opt-in `COVERAGE=1` V8 collector `e2e/coverage-collect.spec.js` → `coverage-merge.mjs`). Measured 2026-08-06: **61.9% stmts**; macronizer.html 71.6%; engine gaps are **Scansion.js 12%, MorpheusAnalyzer 42%, alignMacronized 29%** — engine correctness, fix with unit tests in the engine repo, not UI e2e.
+- **Every macronizer e2e test re-parses the 812k wordlist in its fresh context** (~30–60s each; 8/CI run). Prefer EXTENDING existing tests (which paid the load) over adding new ones, or share one context per spec file. And `--grep-invert macronizer` in CI only excludes `macronizer.spec.js` — editing/popup-check (wordlist-heavy) still run in CI.
 - **E2E must wait for `#lang` to be enabled before any interaction** — `main.js` top-level-awaits the wasmoon engine; clicking earlier hits elements with no listeners attached. Symptom: clear/dark-mode/persistence tests fail with stale values. 2026-08-05: recurred on **macronizer.html**, where the gate is `#macronize_btn` being enabled — the dark-mode test clicked straight after `goto()` and was intermittently flaky (60s timeout, passed on retry). ✅ enforced by the readiness wait in `e2e/macronizer.spec.js`.
 - **Browser Latin ≠ Node Latin**: the browser flow macronizes input first (provinciarum → prōvinciārum), so e2e IPA expectations carry length marks that the Node suite's don't.
 - **RU/UK stress-transfer skips multi-form dictionary entries by design** — test it with a single-form word (голова → голова́), not вода (record "во́да, вода́" has a comma → skipped).
+- **`scripts/tests/init.js` was silently cwd-dependent** — its `fs.readFile` resolved `../../lua_modules/...` against `process.cwd()`, so the IPA suite only ran from `scripts/tests/`. Fixed 2026-08-06 by anchoring `LUA_ROOT` to the module path; keep it cwd-independent (coverage runs it from the repo root).
 
 **Macronizer / Morpheus traps** (2026-08-05)
 - **Morpheus returns `"accented_stem,lemma"`** — e.g. `currito_,curro`. The comma must be stripped from the *accented* form (Python does `accented.split(",")[0]`, `postags.py:434-436`). Keeping it corrupts `accentedUnderscore`, breaks DP alignment, and silently mis-macronizes every out-of-wordlist word. Fixed in `MorpheusAnalyzer.parseAnalysisLine`.
