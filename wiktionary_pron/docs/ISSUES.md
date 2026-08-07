@@ -105,6 +105,32 @@ WORDS fallback is npm-only) and produces `macronizer/glosses.tsv.gz`.
   (surface the idiomatic primary, not L&S's first section) and a few
   citation residues (`(class.)`, `de Or`, `Truc. prol`) — cosmetic, not wrong.
 
+**2026-08-07 real-text stress test (the Caesar passage) → 4 more systematic
+fixes.** Typing *"Gallia est omnis divisa..."* exposed wrong glosses on the most
+common words, all now fixed in `_probe_refined.cjs` + `utils/build_glosses.cjs`:
+- **Case-collision guard** — the wordlist spells the pronoun *other* as `Alius`
+  (capitalized), colliding with L&S's proper-noun `Alius1` ("native of Elis").
+  When a capitalized wordlist lemma's L&S homograph-1 is a capitalized proper
+  noun and a numbered sibling exists, resolve the sibling (`Alius`→`alius2`→
+  "another, other").
+- **Quantifier + interrogative openers** — "All, every", "who? which? what?"
+  now score as strong definition openers (word-boundary match, so "All," works).
+- **Grammar-note penalty** — usage notes ("The rel. freq. agrees with the foll.
+  word", "the neutr. plur. omnia is often closely connected...") get −4 via
+  grammar-abbrev density; bare author names glued to a clause end get −4 too.
+- **Primary-first + terse preference** — among the first 3 flattened senses,
+  prefer a short (≤80 chars) high-score clean gloss; then fall back to the full
+  argmax. A marginal secondary ("to cultivate (late Lat.)", era −1) can no longer
+  beat the primary ("to inhabit (class.)", era +1); a deep translated example
+  can't out-score "All, every". Bracket-close split ("Engl. else], another, other").
+- **Result on the passage:** `alius`→"another, other", `omnis`→"All, every",
+  `qui`→"who? which? what?", `incolo`→"to dwell or abide in a place",
+  `venio`→"to come. spring, be descended", `ipse`→"the master, himself".
+  `appello`→"To drive" is the ONE remaining wrong word — inherent: the wordlist
+  conflates appello1 (drive) and appello2 (call) under one bare lemma.
+- **Re-measured after fixes:** coverage 85.6% (L&S 81.3 + WORDS 4.3), 31,704
+  lemmas, 456 KB gz; L&S residue **3.88%** (down from 4.41%), WORDS 1.10%.
+
 ## M-006 — Popup buries the useful section under debug detail
 **Status: OPEN.** r/latin feedback: "Possible readings" is the only part users
 want; the RFTagger/Morpheus detail reads as debug output. Move readings to the

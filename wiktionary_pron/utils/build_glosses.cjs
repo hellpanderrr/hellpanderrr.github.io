@@ -51,7 +51,12 @@ const PAREN_REF_TAIL = /\((?:cf\.?|syn\.?|v\.|opp\.)[^)]*\)\s*$/i;
 const FRAG_START = new Set(("Fin Lit Esp Transf Neutr Act Pass Absol Justi Inf Fut Perf Imperf Pluperf Sup Comp Gen Dat Acc Abl Nom Voc Loc Part P. a. v. cf. etc. q. v. i. e. ap. id. Virg Verg Ov Hor Cic Caes Ter Plaut Sen Tac Gell Plin Suet Lucr App Charis Prisc Donat Serv Macr Pan Aug Orell Varr Fest Cato Cap Stich Rud Truc Pseud Most Poen").split(" "));
 const MACRON = /[āēīōūĂĒĪŌŪƏ]|[àáâãåäèéêëìíîïòóôõöùúûü]/;
 const GREEK = /[αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ]/;
-const STRONG_OPEN = /^(?:to\s|a\s|an\s|the\s|one who\s|that which\s|a person who\s|a thing which\s|who\s|which\s|what\s|any\s|some\s|having\s|being\s|full of\s|made of\s|containing\s|capable\s|able\s|worthy\s|pertaining to\s|belonging to\s|relating to\s|of or belonging to\s|of or pertaining to\s|used for\s|so called\s|called\s)/i;
+const STRONG_OPEN = /^(?:to\s|a\s|an\s|the\s|one who\s|that which\s|a person who\s|a thing which\s|who\s|which\s|what\s|any\s|some\s|having\s|being\s|full of\s|made of\s|containing\s|capable\s|able\s|worthy\s|pertaining to\s|belonging to\s|relating to\s|of or belonging to\s|of or pertaining to\s|used for\s|so called\s|called\s|all\b|every\b|each\b|another\b|who\b|which\b|what\b|whose\b|how\b|where\b|why\b)/i;
+// grammar-abbrev density — the tell of a usage note ("The rel. freq. agrees with
+// the foll. word") vs a real gloss ("All, every", "who? which?"). Also author
+// names glued to the end of an example clause ("...dissolverunt?Cic").
+const GRAMMAR_ABBR = /\b(?:neutr|plur|sing|freq|rel|foll|subst|interrog|impers|gen|dat|acc|abl|voc|nom|gramm|ellipt|collect|perh|esp|opp)\b\.?/i;
+const TRAIL_AUTHOR_BARE = /(?:Cic|Liv|Plaut|Ter|Verg|Virg|Ov|Hor|Caes|Sen|Tac|Cat|Juv|Stat|Plin|Suet|Lucr|Tert|Gell|Curt|Varr|Enn|Isid|Amm|Charis|Prisc|Donat|Serv|Pan|App|Front)\b\.?\s*$/i;
 const WEAK_OPEN = /^(?:of\s|in\s|by\s|for\s|from\s|with\s|at\s|on\s|into\s|against\s|around\s|before\s|beyond\s|per\s|and\s|also\s|such\s|same\s|hence\s|esp\.\s|perh\.\s)/i;
 const LATIN_FORM = /(?:isse|asse|unt|erit|tur|mus|tis|ium|ibus|arum|orum|ens)$/;
 const ETYM = /(?:Sanscr\.|Germ\.|Engl\.|orig\.|collat\.\s+form|root\s+[a-z]+|perh\.\s+root|etym\.|cf\.\s+[A-Z][a-z]+\s+root)/i;
@@ -92,6 +97,9 @@ function cleanOne(t) {
     if (all) t = t.slice(m[0].length).trim();
   }
   t = t.replace(/^In\s+(?:gen\.|partic\.|the\s+widest\s+sense),?\s*/i,"").replace(/^Lit\.\s*/i,"");
+  // section labels for pronoun/adverb senses: "Rel., who, which...", "Interrog., who?",
+  // "Act., ...", "Neutr., ..." — strip so the real gloss opener survives
+  t = t.replace(/^(?:Rel|Interrog|Act|Pass|Neutr|Absol|Lit|Transf|Esp|Prop|Trop|Subst|P\. a\.|In\s+gen|In\s+partic)\.?,?\s*/i,"");
   t = t.replace(PAREN_REF,"").trim();
   t = t.replace(PAREN_REF_TAIL,"").trim();
   t = t.replace(CIT_FULL,"").trim();
@@ -121,12 +129,19 @@ function scoreGloss(g, pos) {
   if (LATIN_FORM.test(first)) s -= 3;
   if (LATIN_LOOKING.test(first)) s -= 3;
   if (/^[A-Z]/.test(g) && FRAG_START.has(first)) s -= 3;
+  // grammar-note density: "The rel. freq. agrees..." / "the neutr. plur. omnia
+  // is often closely connected..." — these are usage notes, not definitions
+  if (GRAMMAR_ABBR.test(g)) s -= 4;
+  // a bare author name glued to the clause end = a translated example, not a gloss
+  if (TRAIL_AUTHOR_BARE.test(g)) s -= 4;
   if (/(?:\s(?:hence|cf|syn|freq\.|class\.|absol|neutr|act\.|pass\.|in\s+gen\.))\s*,?\s*(?:\([^)]*\))?$/i.test(g)) s -= 4;
   if (/\((?:cf\.?|syn\.?|freq\.?|rare|class\.?|poet\.?|ante-?class\.?)\)?$/i.test(g)) s -= 2;
   return s;
 }
 function bestClause(s, pos) {
-  const clauses = s.split(/[;:]/).flatMap(c => c.split(/,\s+(?=to\s|a\s|an\s|the\s|of\s|in\s|by\s|for\s|from\s|with\s|who\s|which\s|one\s|that\s)/));
+  const clauses = s.split(/[;:]/).flatMap(c => c.split(/,\s+(?=to\s|a\s|an\s|the\s|of\s|in\s|by\s|for\s|from\s|with\s|who\s|which\s|one\s|that\s)/))
+    // definitions that follow a closing etymology bracket: "Engl. else], another, other"
+    .flatMap(c => c.split(/\]\s*,?\s+(?=a\b|an\b|the\b|one\b|who\b|which\b|what\b|to\b|another\b|other\b)/));
   let best = null, bestScore = -99, bestEn = -1;
   let cursor = 0;
   for (const c of clauses) {
@@ -136,7 +151,13 @@ function bestClause(s, pos) {
     if ((ETYM.test(before) || GREEK.test(before)) && !/[\]\)][\s.,;:]*$/.test(before)) continue;
     const r = cleanOne(c);
     if (!r) continue;
-    const sc = scoreGloss(r, pos), en = enCount(r);
+    // era preference on the RAW clause (cleanOne strips the era note): the
+    // classical sense is the primary one users want, the late/post-Aug./rare
+    // sense is a marginal add-on — "to inhabit (class.)" beats "to cultivate (late Lat.)"
+    let era = 0;
+    if (/\(class/i.test(c)) era = 1;
+    else if (/\((?:late|post-?aug|ante-?class|arch|very\s+rare|perh\.?)/i.test(c)) era = -1;
+    const sc = scoreGloss(r, pos) + era, en = enCount(r);
     if (sc > bestScore) { bestScore = sc; best = r; bestEn = en; }
   }
   return {best, bestScore, bestEn};
@@ -150,6 +171,29 @@ function flattenSenses(senses) {
 function lsExtract(e, pos) {
   if (!e || !e.senses || e.senses.length === 0) return null;
   const all = flattenSenses(e.senses);
+  // PRIMARY-FIRST: L&S puts the primary definition early (senses[0] or nearby).
+  // Among the first 3 flattened senses, pick the BEST clean definition (era-
+  // adjusted score ≥ 4) — but prefer it over a deep example anywhere. A marginal
+  // secondary sense ("to cultivate (late Lat.)", era-adjusted 3) must not beat
+  // the true primary ("to inhabit (class.)", era-adjusted 6) just by appearing
+  // earlier in the string order.
+  let early = null, earlyScore = -99;
+  for (let i=0;i<Math.min(all.length,3);i++) {
+    const b = bestClause(all[i], pos);
+    if (!b.best) continue;
+    if (b.bestScore >= 4 && b.bestScore > earlyScore) { early = b.best; earlyScore = b.bestScore; }
+  }
+  if (early) return early;
+  // Verbose usage-explanation clauses (a whole sentence) are the primary sense
+  // spelled out, not the terse gloss users want. Among the first 3 senses, prefer
+  // a shorter clean clause (score ≥ 2, ≤ 80 chars) over a long one.
+  let terse = null, terseLen = 1e9;
+  for (let i=0;i<Math.min(all.length,3);i++) {
+    const b = bestClause(all[i], pos);
+    if (!b.best || b.bestScore < 3) continue;
+    if (b.best.length <= 80 && b.best.length < terseLen) { terse = b.best; terseLen = b.best.length; }
+  }
+  if (terse) return terse;
   let best = null, bestScore = -99, bestEn = -1;
   for (let i=0;i<all.length;i++) {
     const b = bestClause(all[i], pos);
@@ -193,12 +237,46 @@ function isSpurious(l) {
   for (const k of a) if (!b.has(k)) return false;
   return true;
 }
+// For a base like "alius", find the numbered sibling key the WORDLIST carries
+// (alius2) — used by the case-collision guard to steer a capitalized wordlist
+// lemma (Alius) away from a proper-noun L&S homograph-1 onto the common-word
+// numbered key. Returns the highest existing sibling key (alius2 > alius3...).
+function numberedSibling(base) {
+  let found = null, foundN = 0;
+  for (const k of lsByKey.keys()) {
+    if (!k.startsWith(base)) continue;
+    const m = k.slice(base.length).match(/^(\d+)$/);
+    if (!m) continue;
+    const n = +m[1];
+    if (n > foundN) { foundN = n; found = k; }
+  }
+  return found;
+}
 function resolve(lemma, pos, depth = 0) {
   const l = lemma.toLowerCase();
   const base = l.replace(/\d+$/,"");
   let e;
   if (isSpurious(l)) e = lsByKey.get(base) || lsByKey.get(base+"1");
-  else e = lsByKey.get(l) || lsByKey.get(base) || lsByKey.get(base+"1");
+  else {
+    // CASE-COLLISION GUARD: a capitalized wordlist lemma can be a case-variant of
+    // a common word (wordlist "Alius" = the pronoun "other", capitalized because
+    // Perseus treated it as a proper noun), which would collide with an L&S
+    // proper-noun homograph-1 ("Alius1" = "native of Elis"). If the L&S homograph-1
+    // key is itself capitalized (proper noun) and the wordlist has a numbered
+    // sibling for the same base, resolve the sibling instead (alius2 = the pronoun).
+    const h1 = lsByKey.get(base + "1");
+    if (/^[A-Z]/.test(lemma) && h1 && /^[A-Z]/.test(h1.key)) {
+      const sib = numberedSibling(base);
+      if (sib) {
+        const se = lsByKey.get(sib);
+        if (se) {
+          const sg = lsExtract(se, pos);
+          if (sg) return sg;
+        }
+      }
+    }
+    e = lsByKey.get(l) || lsByKey.get(base) || lsByKey.get(base+"1");
+  }
   if (!e) return null;
   let gloss = lsExtract(e, pos);
   if (!gloss && depth < 2 && e.main_notes) {
