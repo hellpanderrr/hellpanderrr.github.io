@@ -4,3 +4,12 @@ wiktionary_pron/playwright-report/
 wiktionary_pron/coverage/
 __pycache__/
 *.pyc
+# 30MB of Lewis & Short JSON + WORDS data — build input for build_glosses.cjs, not shipped
+wiktionary_pron/utils/ext_tmp/
+# gloss-extraction scratch probes + audit samples (reference implementation is
+# utils/build_glosses.cjs, which is tracked)
+wiktionary_pron/_probe*.cjs
+wiktionary_pron/_audit_*.cjs
+wiktionary_pron/_audit_sample*.tsv
+wiktionary_pron/_audit_*.json
+wiktionary_pron/_audit_*.tsv

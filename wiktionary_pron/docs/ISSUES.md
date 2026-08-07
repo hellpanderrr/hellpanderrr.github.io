@@ -61,10 +61,49 @@ the real wordlist and audited by subagents.
 - **Gotcha:** Perseus tag gender is at **index 6** (`n-s---fn-`), not index 3 —
   reading tag[3] makes gender always empty. The `tag[3]` value is the
   *subcategorization*, not gender.
-- **Build:** `utils/build_glosses.py` → `macronizer/glosses.tsv.gz` (~570 KB),
-  site-side, no engine change; render as a quiet `r-def` column on reading rows
-  (council design); fallback to `—`/link for the ~5% ambiguous (L&S exact-key
-  when N≥2, else WORDS, else omit).
+- **Build:** `utils/build_glosses.cjs` (Node, not Python — the WORDS fallback
+  needs the `whitakers-words` npm engine) → `macronizer/glosses.tsv.gz`
+  (`lemma\tgloss`, gzipped, ~476 KB), site-side, no engine change; render as a
+  quiet `r-def` column on reading rows (council design); fallback to `—`/link
+  for the ~5% ambiguous (L&S exact-key when N≥2, else WORDS, else omit).
+
+**2026-08-07 refined pipeline + labeled-holdout audit (BUILT as `utils/build_glosses.cjs`):** Two
+advisor audits (quality + measurement) found the first-clause extractor
+("88%") shipped ~15% fragment/garbage glosses (common verbs came out as
+citation fragments: `verto`→"Lucr", `amo`→"Amāsse = amavisse"), and the first
+scoring pass traded coverage for correctness. A second pass (`_probe_refined.cjs`)
+fixed the systemic issues and was audited on a fresh 120-row labeled holdout.
+The pipeline is ported verbatim to `utils/build_glosses.cjs` (Node, because the
+WORDS fallback is npm-only) and produces `macronizer/glosses.tsv.gz`.
+- **The 6 extraction fixes** (all in `_probe_refined.cjs` + `utils/build_glosses.cjs`):
+  1. **POS-gated verb bonus** — only verbs get +2 for a `to X` clause; nouns/adjectives *lose* points for one. Killed the dominant wrong-gloss class (`acus`→"to embroider" was a needle, `fames`→"to leave" was hunger): 322 of 17,861 noun-glosses used to start with "to".
+  2. **Spurious-homograph skip** — when the wordlist `lemmaN` form-set is byte-identical to its bare `lemma` twin (210 lemmas / 5,690 rows), the wordlist duplicated one homograph under two keys; prefer the bare-key gloss instead of exact-key (else `paro2`→"make equal" when the wordlist's `paro2` is the *prepare* verb).
+  3. **Bare-capital-adjective recognition** — L&S adjectives open with a capitalized English word ("Useful", "Empty", "Desolate"); these now score as definitions. Guarded against function-word openers ("With inf", "Of persons" are NOT adjectives).
+  4. **Primary-first + strict-higher-score + earlier-tiebreak** — the argmax across all flattened clauses prefers the primary L&S sense over deep example/translation strings.
+  5. **POS-aware cross-ref resolution** — `main_notes "v. X"` recurses into the target using the *target's* POS (`potens`→"to be able", `versor`→"to turn", `beatus`→"the rich", `certo`→"Determined, resolved, fixed" via `certus`).
+  6. **Fragment blockers** — scope-labels ("Of persons."), etymology context ("root div-, to gleam" AND Greek words "Gr. φλυω" rejected unless a `]` intervenes), dangling-"hence" markers, unclosed trailing paren (clause-split broke "(syn.: ...)" across clauses — `fleo`→"to weep" was losing to "to neigh").
+- **Measured (final):** L&S 80.6% + WORDS 4.1% = **84.7%** of (lemma|tag) rows;
+  unique-lemma **77.9%**; frequency-weighted **87.0%**; top-1000 most-attested
+  **97.6%**. Artifact **476 KB gz** (under the 568 KB budget).
+- **Labeled-holdout audit (120 rows, independent subagent):** 104 CORRECT / 11
+  MINOR-FLAW / 1 WRONG / 4 cannot-judge → **99.1% usable, 0.9% wrong** (the one
+  wrong row was `aequalis`→"Of persons.", a section label — since fixed).
+  Common words: 100% usable, 0% wrong (but ~13% show a literal/secondary sense
+  like `fero`→"set in motion" vs "carry" — L&S's first-listed sense). Rare
+  words: 98% usable. **Shippable as "machine-extracted, not hand-verified."**
+- **2026-08-07 re-audit on the FINAL pipeline (85.9%, post-build-fixes):**
+  deterministic residue scan + fresh 120-row sample (seed 424242).
+  Residue over 28,658 L&S glosses: **4.41%** (trailing usage-note 1.25%,
+  trailing author 0.55%, trailing citation 0.47%, trailing etc/al/sq 1.96%,
+  mid cross-ref 0.06%, unconverted macron 0.01%). WORDS glosses: 1.07%
+  residue. Fresh sample: **0 WRONG** (common-60 all usable; ~6 minor literal-
+  sense verbs — `fero`/`impedio`/`amo`/`juvo`/`volvo`/`veho`; random-60 a few
+  citation tails `Truc. prol`/`Cato R. R`). Zero wrong-homograph cases in the
+  artifact (populus/populus2/malus2/paro2/levo2/vestitus2 all correct).
+  Re-confirms: **shippable**, ~0% wrong, 4.4% cosmetic residue.
+- **Remaining known gaps (don't chase):** sense-ordering for polysemous verbs
+  (surface the idiomatic primary, not L&S's first section) and a few
+  citation residues (`(class.)`, `de Or`, `Truc. prol`) — cosmetic, not wrong.
 
 ## M-006 — Popup buries the useful section under debug detail
 **Status: OPEN.** r/latin feedback: "Possible readings" is the only part users
