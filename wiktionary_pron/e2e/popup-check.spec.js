@@ -51,6 +51,39 @@ test("popup shows RFTagger disagreement + Morpheus dedup for currito", async () 
   // 3. Wordlist label honest
   const wlLabel = page.locator(".word-popup tr", { hasText: "Wordlist:" });
   await expect(wlLabel).toContainText("Not found");
+
+  // 4. Dictionary gloss column (M-005) — currito is Morpheus-rescued (not in the
+  // wordlist), so its lemma curro carries an L&S gloss; the column fills in after
+  // the glosses.tsv.gz download lands.
+  const defCell = page.locator(".word-popup table.readings td.r-def").first();
+  await expect(defCell).toBeVisible({ timeout: 10_000 });
+  await expect(defCell).not.toContainText("—");
+});
+
+test("dictionary gloss disambiguates homographs in the readings popup", async () => {
+  const page = sharedPage;
+  test.setTimeout(300_000);
+  await page.goto(PAGE);
+  await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
+
+  // populus = people (bare), populus2 = poplar tree (numbered) — the exact
+  // homograph pair the M-005 feature exists for. popule is the poplar's vocative
+  // (wordlist lemma populus2), so its gloss must be the poplar, NOT the people.
+  await page.fill("#text_to_macronize", "popule");
+  await page.click("#macronize_btn");
+  const span = page.locator("#resultText .ipa").first();
+  await expect(span).toBeVisible({ timeout: 120_000 });
+  await span.hover();
+
+  const defCells = page.locator(".word-popup table.readings td.r-def");
+  await expect(defCells.first()).toBeVisible({ timeout: 10_000 });
+  const defs = await defCells.allTextContents();
+  expect(defs.length).toBeGreaterThan(0);
+  // The poplar reading must carry the poplar gloss — proving exact-key homograph
+  // resolution reaches the browser (not the bare-lemma "people").
+  expect(defs.join(" ")).toContain("poplar");
+  // And no placeholder "—" should survive once the glosses have loaded.
+  expect(defs.every((d) => d.trim() && d.trim() !== "—")).toBeTruthy();
 });
 
 test("v/u words cycle reversibly — divisa's original spelling must come back", async () => {

@@ -156,11 +156,15 @@
         .word-popup table.readings td { padding: 3px 6px; vertical-align: top; font-size: 12px; }
         .word-popup table.readings .r-form { white-space: nowrap; font-weight: 600; color: #6a1b9a; }
         .word-popup table.readings .r-lemma { white-space: nowrap; font-style: italic; color: #555; }
+        .word-popup table.readings .r-def { color: #666; font-size: 11px; line-height: 1.35; }
+        .word-popup table.readings .r-def .dash { color: #bbb; }
         .word-popup table.readings .r-gram { color: #888; font-size: 11px; }
         .word-popup table.readings tr.active { background: #f3e5f5; }
         .word-popup table.readings tr.active .r-form { color: #4a1069; }
         body.dark_mode .word-popup table.readings .r-form { color: #CE93D8; }
         body.dark_mode .word-popup table.readings .r-lemma { color: #bbb; }
+        body.dark_mode .word-popup table.readings .r-def { color: #aaa; }
+        body.dark_mode .word-popup table.readings .r-def .dash { color: #777; }
         body.dark_mode .word-popup table.readings .r-gram { color: #999; }
         body.dark_mode .word-popup table.readings tr.active { background: #3a2f42; }
         .word-popup .popup-cycle { display: block; margin: 8px 0 0; padding: 5px 10px; width: 100%;
@@ -1114,10 +1118,15 @@
                 const active = p.plain === displayText ? ' class="active"' : '';
                 // data-plain = the reading actually rendered in the text; tapping the row
                 // chooses it (the popup click handler reads this).
+                const def = glossFor(p.lemma);
+                const defHtml = def
+                    ? `<td class="r-def">${esc(def)}</td>`
+                    : '<td class="r-def"><span class="dash">—</span></td>';
                 candidatesHtml += `<tr${active} data-plain="${esc(p.plain)}">` +
                     `<td class="r-form">${idx+1}. ${esc(p.shown)}</td>` +
                     `<td class="r-lemma">${p.lemma ? esc(p.lemma) : '—'}</td>` +
                     `<td class="r-gram">${p.tag ? esc(grammarSummary(p.tag)) : '—'}</td>` +
+                    defHtml +
                     '</tr>';
             });
             candidatesHtml += '</table>';
@@ -1279,6 +1288,8 @@
 
     function showPopupFor(span, pin = false, focus = false) {
         if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+        // Kick the gloss download on first popup so the r-def column fills in.
+        ensureGlosses();
         popupSpan = span;
         if (pin) popupPinned = true;
         popupEl.innerHTML = span.__popupHtml;
@@ -1646,6 +1657,56 @@
         var d = document.createElement('div');
         d.textContent = text;
         return d.innerHTML;
+    }
+
+    // ---- Dictionary glosses (M-005) ----
+    // macronizer/glosses.tsv.gz = gzip of `lemma<TAB>gloss` lines (one per lemma,
+    // lowercased key). Loaded lazily on first popup; a miss renders "—" (the ~5%
+    // unglossed are rare names/derived verbs, not everyday words).
+    var glossCache = null;        // Map<lowercase-lemma, gloss>
+    var glossPromise = null;
+    function glossFor(lemma) {
+        if (!glossCache) return null;
+        var k = (lemma || '').toLowerCase();
+        // EXACT key first — the artifact stores homograph-numbered lemmas under
+        // their own key (populus2 → "poplar"), and misreading them as the bare
+        // lemma would defeat the whole point of the feature (people vs poplar).
+        var g = glossCache.get(k);
+        if (g !== undefined) return g;
+        // fall back to the bare key for lemmas the artifact collapsed (spurious
+        // homographs resolve identically in the build; rare numbered lemmas too)
+        g = glossCache.get(k.replace(/[0-9]+$/, ''));
+        return g !== undefined ? g : null;
+    }
+    function ensureGlosses() {
+        if (glossPromise) return glossPromise;
+        // fetchAsset appends '.gz' to its argument, so pass the .tsv base name.
+        glossPromise = fetchAsset('macronizer/glosses.tsv')
+            .then(function (blob) {
+                return blob.text();
+            })
+            .then(function (text) {
+                glossCache = new Map();
+                text.split('\n').forEach(function (line) {
+                    var tab = line.indexOf('\t');
+                    if (tab < 1) return;
+                    var k = line.slice(0, tab).trim().toLowerCase();
+                    var v = line.slice(tab + 1).trim();
+                    if (k && v) glossCache.set(k, v);
+                });
+                // The r-def column was rendered with a "—" placeholder while this was
+                // loading; re-render the open popup in place (no re-dock/re-position)
+                // so the glosses appear without disrupting a touch sheet.
+                if (popupIsOpenFor(popupSpan) && popupSpan.__token) {
+                    var plain = popupSpan.textContent;
+                    popupSpan.__popupHtml = buildPopupHtml(
+                        popupSpan.__token, plain, popupSpan.__enclitic || '');
+                    popupEl.innerHTML = popupSpan.__popupHtml;
+                    popupEl.setAttribute('aria-label', `Readings for ${popupSpan.textContent}`);
+                }
+            })
+            .catch(function () { glossPromise = null; });   // transient failure: retry next popup
+        return glossPromise;
     }
 
     // One line's plain macronized text from its rendered cell (reflects cycled choices).
