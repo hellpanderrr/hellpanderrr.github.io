@@ -1,43 +1,45 @@
 # Next
 
-_Updated 2026-08-06 — branch `main`_
+_Updated 2026-08-07 — branch `main`_
 
 ## State
-Editing/mobile overhaul shipped + pushed (`54d425e`, `e5fa491`): real editable
-output, click-vowel toggle, touch tap-flagged→readings-sheet, narrow-width fix.
-Then committed + pushed the coverage tooling and the two mobile fixes
-(preload, blur-before-dock, Android Back). Working tree clean; both repos on
-`main` = `origin/main`.
+Test-coverage work committed + pushed (`5520f93`, `19644d4`): editing.spec.js +
+popup-check.spec.js serial with shared pages (8→1 wordlist parse/file), added
+Escape/scrim/Back/multi-line-undo/dark-chip/CSV-content + unknown-word and
+copy-after-edit tests; V8 collector extended to drive touch paths via CDP in
+the same context. Measured 66.4% stmts (macronizer.html 78.2%). Clean.
 
 ## Open threads
-- **UI test coverage gaps (M-015).** Plan from a 3-agent council: EXTEND the
-  existing e2e tests (each new test re-parses the 812k wordlist, ~30-60s):
-  Escape+focus-return, scrim/Back/blur in the touch test, multi-line undo,
-  dark-mode `.no-scan` chip color, CSV *content* (a cycled spelling). Add 2
-  new: unknown-word red flow, copy-after-edit. Then share one context per spec
-  file (biggest CI-time/determinism win) and fix the stale CI exclusion
-  (`--grep-invert macronizer` in `.github/workflows/tests.yml:57` only drops
-  macronizer.spec.js; editing/popup-check still run in CI).
-- **Engine coverage is the real gap** — Scansion.js 12%, MorpheusAnalyzer 42%,
-  alignMacronized 29%. That's engine correctness (M-013 prosody), fix with unit
-  tests in the **engine repo**, not UI e2e.
-- **M-004 Phase 3** — accepted-names list + input-hash snapshot (the pieces
-  that make edits survive a revisit). Deferred by the council; snapshot must
-  serialize the active-reading index per token (technical agent's finding).
+- **M-005 dictionary gloss — research DONE, not built.** `whitakers-words`
+  (WORDS) + L&S JSON (`utils/ext_tmp/ls_*.json`, 30MB) evaluated + audited by
+  2 subagents. Rule + numbers in `_probe_final.cjs` and ISSUES.md M-005.
+  **Build `utils/build_glosses.py`**: L&S-exact-key → L&S-fallback → WORDS,
+  emit `macronizer/glosses.tsv.gz` (~570 KB), quiet `r-def` column on reading
+  rows, `—`/link fallback for ambiguous.
+- **UI test coverage (M-015)**: stale CI exclusion unfixed —
+  `--grep-invert macronizer` in `.github/workflows/tests.yml:57` only drops
+  macronizer.spec.js; editing/popup-check (wordlist-heavy) still run in CI.
+- **Engine coverage** — Scansion.js / MorpheusAnalyzer / alignMacronized are
+  engine correctness (M-013), fix with unit tests in the **engine repo**.
+- **M-004 Phase 3** — accepted-names list + input-hash snapshot (edit
+  persistence). Snapshot must serialize the active-reading index.
 
 ## Running / unfinished
-Nothing running. Coverage tooling: `npm run test:coverage` (c8 + opt-in
-`COVERAGE=1` collector + `coverage-merge.mjs`); measured 61.9% stmts.
-`coverage/` is gitignored.
+Nothing running. Coverage tooling: `npm run test:coverage`. Note: `package.json`
+now has `whitakers-words` as a devDependency (from the M-005 research) — commit
+only if the gloss build uses it.
 
 ## Don't redo
+- **Gloss source research is settled.** Prefer L&S-exact-key (WORDS mis-keys
+  numbered homographs: paro2/acceptor2/virosus2), Perseus tag gender is index 6,
+  `senses[0]` is the clean definition. See CLAUDE.md "Dictionary-gloss traps".
+  Dead end ruled out: WORDS-first priority ships ~2-3% wrong glosses.
+- **Don't deep-walk L&S `senses[1+]`** — returns subsection fragments for only
+  2.4% of a small bucket; not worth it.
+- **Don't commit `utils/ext_tmp/`** — 30MB of L&S JSON + WORDS data, a build
+  input not shipped. Add `ext_tmp/` to `.gitignore` rather than commit it.
 - **Don't multiply e2e tests** — each fresh context re-parses the wordlist.
-  Extend existing tests or share one context per file.
-- **Scansion/Morpheus coverage = engine unit tests**, not UI e2e (a chip
-  rendering ≠ feet correct). One UI test per path is enough.
-- **Do NOT build a "decisions replay" state machine** (M-004/M-007) — use
-  snapshot + surface-keyed accepted-names.
-- **Dark-mode `.no-scan` chip** (M-014) fixed via `body.dark_mode
-  .verse-foot.no-scan` (0,3,1) — was untracked; asserted by no test yet.
+- **Do NOT build a "decisions replay" state machine** (M-004/M-007) — snapshot +
+  accepted-names.
 - **CI exclusion is title-based + stale** — don't trust it to exclude wordlist
-  suites; make it structural when touching the workflow.
+  suites.

@@ -142,6 +142,12 @@ Each of these cost real debugging time in past sessions. Check this list before 
 - **RU/UK stress-transfer skips multi-form dictionary entries by design** — test it with a single-form word (голова → голова́), not вода (record "во́да, вода́" has a comma → skipped).
 - **`scripts/tests/init.js` was silently cwd-dependent** — its `fs.readFile` resolved `../../lua_modules/...` against `process.cwd()`, so the IPA suite only ran from `scripts/tests/`. Fixed 2026-08-06 by anchoring `LUA_ROOT` to the module path; keep it cwd-independent (coverage runs it from the repo root).
 
+**Dictionary-gloss traps** (2026-08-07, M-005 research)
+- **Perseus tag gender is at index 6, not index 3.** `n-s---fn-` → gender is `tag[6]` (`f`), `tag[3]` (`s`) is number/subcategorization. Reading `tag[3]` makes gender always empty and silently collapses (lemma|POS|gender) to (lemma|POS).
+- **WORDS (`whitakers-words`) parses only the bare base and returns homograph-1** — it mis-keys numbered lemmas (`paro2`→"prepare", `acceptor2`→"receiver", `virosus2`→"having strong taste", `sustentaculum`→"nourishment"). L&S keyed by the *exact numbered headword* is correct. **Prefer L&S-exact-key → L&S-fallback → WORDS**, never WORDS-first for homographs.
+- **L&S `senses[0]` is the clean primary definition** — don't over-split it. Strip only the leading multi-token abbrev (`V. a.,`/`Lit.,`/`V. inch. n. [..],`), split on `;:`, strip author-citations (`Plaut|Cic|Liv|...`), reject crossrefs (`init./fin./v.the foll.art.`/`q.v.`) and grammar fragments (`Part.`/`Sup.`/`Gen.`/`In gram`). `senses` can contain nested lists (subsections `Lit./Esp./Transf.`) — take first usable string. `ABBR` regex must drop `\b` before `.` (a `.`→space is no word boundary).
+- **Source of truth for the rule + measured numbers:** `_probe_final.cjs`, M-005 in `docs/ISSUES.md`.
+
 **Macronizer / Morpheus traps** (2026-08-05)
 - **Morpheus returns `"accented_stem,lemma"`** — e.g. `currito_,curro`. The comma must be stripped from the *accented* form (Python does `accented.split(",")[0]`, `postags.py:434-436`). Keeping it corrupts `accentedUnderscore`, breaks DP alignment, and silently mis-macronizes every out-of-wordlist word. Fixed in `MorpheusAnalyzer.parseAnalysisLine`.
 - **`WordlistEngine.addEntry` must invalidate `entriesCache`** — `ensureAnalyzed` caches the *empty* lookup for a missing word, then Morpheus writes the row; without invalidation `getAccents` re-reads the stale empty cache and falls through to the `tag_to_endings` guess. This is why `currito` came out `currītō` on first visit.

@@ -43,6 +43,28 @@ the accepted-names list and input-hash snapshot — the pieces that make edits
 **Status: OPEN.** Users cannot tell *populus* (people) from *populus* (poplar),
 or the two *malus* lemmas, from the readings list alone. Add a dictionary link
 per reading — `accentedSources` already carries lemma+tag per row.
+**2026-08-07 research (not yet built):** Two gloss sources were evaluated against
+the real wordlist and audited by subagents.
+- **Source** = `whitakers-words` npm (MIT, kigawas port of Whitaker's WORDS) +
+  Lewis & Short JSON (`utils/ext_tmp/ls_*.json`, Perseus, CC-BY-SA). Both
+  Perseus-sourced so the wordlist lemma → L&S numbered key aligns.
+- **Measured:** 84% of (lemma|POS) resolve; ~92% of rendered *wordforms* (a
+  WORDS-on-wordform fallback +2.6pp). Gap is rare names/derived verbs, not
+  everyday words. Bundled map ≈ **568 KB gz**.
+- **Extraction rule** (in `_probe_final.cjs`): WORDS-first is **WRONG** — WORDS
+  parses only the bare base and returns homograph-1, mis-keying `paro2`,
+  `acceptor2`, `virosus2`, `sustentaculum`. **Prefer L&S by exact numbered key
+  first** (both subagents independently agreed). L&S `senses[0]`, strip
+  multi-token leading abbrev (`V. a.,`/`Lit.,`/`V. inch. n. [..]`), split on
+  `;:`, strip author-citations, reject crossrefs (`init./fin./v.the foll.art.`)
+  and grammar fragments (`Part.`/`Sup.`/`Gen.`/`In gram`).
+- **Gotcha:** Perseus tag gender is at **index 6** (`n-s---fn-`), not index 3 —
+  reading tag[3] makes gender always empty. The `tag[3]` value is the
+  *subcategorization*, not gender.
+- **Build:** `utils/build_glosses.py` → `macronizer/glosses.tsv.gz` (~570 KB),
+  site-side, no engine change; render as a quiet `r-def` column on reading rows
+  (council design); fallback to `—`/link for the ~5% ambiguous (L&S exact-key
+  when N≥2, else WORDS, else omit).
 
 ## M-006 — Popup buries the useful section under debug detail
 **Status: OPEN.** r/latin feedback: "Possible readings" is the only part users
