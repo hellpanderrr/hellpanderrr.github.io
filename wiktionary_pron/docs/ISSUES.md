@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals: 8 open, 7 fixed (15 total).
+Totals: 6 open, 10 fixed (15 total).
 
 ---
 
@@ -40,9 +40,14 @@ the accepted-names list and input-hash snapshot — the pieces that make edits
 *survive* a revisit, not the in-session editing itself.
 
 ## M-005 — Word popup shows no dictionary definition
-**Status: OPEN.** Users cannot tell *populus* (people) from *populus* (poplar),
-or the two *malus* lemmas, from the readings list alone. Add a dictionary link
-per reading — `accentedSources` already carries lemma+tag per row.
+**Status: FIXED** (2026-08-07, site `5ad9391` + `5c62e5b` + `6a453cf`).
+Users can now tell *populus* (people) from *populus* (poplar): the readings
+popup has a quiet `r-def` column, filled from `macronizer/glosses.tsv.gz`
+(exact-key-first, so `populus2`→poplar). Built by `utils/build_glosses.cjs`
+(L&S + WORDS, Node because the WORDS fallback is npm-only). 85.6% of
+(lemma|tag) rows glossed, 456 KB gz. Audited ~99% usable / 0% wrong on common
+words; residue 3.88%. One known wrong word remains: `appello`→"To drive"
+(inherent wordlist conflation of appello1/2 under one bare lemma).
 **2026-08-07 research (not yet built):** Two gloss sources were evaluated against
 the real wordlist and audited by subagents.
 - **Source** = `whitakers-words` npm (MIT, kigawas port of Whitaker's WORDS) +
