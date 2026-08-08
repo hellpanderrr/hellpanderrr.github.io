@@ -6692,5 +6692,1054 @@
    "contains": "the Waal, the left arm of the Rhine"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "cena",
+  "expect": {
+   "contains": "a dinner, supper, main meal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prandium",
+  "expect": {
+   "contains": "a luncheon, midday meal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oleum",
+  "expect": {
+   "contains": "oil"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lac",
+  "expect": {
+   "contains": "milk"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cuniculus",
+  "expect": {
+   "contains": "a rabbit; an underground passage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mus",
+  "expect": {
+   "contains": "a mouse"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "elephantus",
+  "expect": {
+   "contains": "an elephant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "panis",
+  "expect": {
+   "contains": "bread, a loaf"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caseus",
+  "expect": {
+   "contains": "cheese"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "concha",
+  "expect": {
+   "contains": "a shell, shellfish; a pearl"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cancer",
+  "expect": {
+   "contains": "a crab; the zodiac sign Cancer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "squatina",
+  "expect": {
+   "contains": "an angler-fish"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "simo",
+  "expect": {
+   "contains": "a snub-nosed man"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tollo",
+  "expect": {
+   "contains": "to lift, raise up, take up"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "loquor",
+  "expect": {
+   "contains": "to speak, talk, say"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aio",
+  "expect": {
+   "contains": "to say yes, affirm, assert"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inquam",
+  "expect": {
+   "contains": "I say"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "possideo",
+  "expect": {
+   "contains": "to possess, hold, own"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obtineo",
+  "expect": {
+   "contains": "to hold, keep, maintain, obtain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "saluto",
+  "expect": {
+   "contains": "to greet, salute, welcome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cogito",
+  "expect": {
+   "contains": "to think, ponder, reflect, consider"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arbitror",
+  "expect": {
+   "contains": "to think, judge, believe, suppose"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "existimo",
+  "expect": {
+   "contains": "to judge, think, consider, value"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "constituo",
+  "expect": {
+   "contains": "to set up, establish, appoint, decide"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "decerno",
+  "expect": {
+   "contains": "to decide, determine, decree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "censeo",
+  "expect": {
+   "contains": "to think, judge, consider; to assess, decree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "metuo",
+  "expect": {
+   "contains": "to fear, be afraid of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "doleo",
+  "expect": {
+   "contains": "to suffer pain, grieve, feel sorrow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lugeo",
+  "expect": {
+   "contains": "to mourn, lament, bewail"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ploro",
+  "expect": {
+   "contains": "to weep, lament, cry out"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "luctus",
+  "expect": {
+   "contains": "grief, mourning, lamentation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gemitus",
+  "expect": {
+   "contains": "a sigh, groan"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "queror",
+  "expect": {
+   "contains": "to complain, lament, bewail"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vociferor",
+  "expect": {
+   "contains": "to cry aloud, shout, exclaim"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cerno",
+  "expect": {
+   "contains": "to separate, sift; to discern, see, distinguish"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dormio",
+  "expect": {
+   "contains": "to sleep"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "somnus",
+  "expect": {
+   "contains": "sleep"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "magnopere",
+  "expect": {
+   "contains": "greatly, very much, especially"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "imprimis",
+  "expect": {
+   "contains": "especially, particularly, in the first place"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acutus",
+  "expect": {
+   "contains": "sharp, pointed, acute, keen"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acerbus",
+  "expect": {
+   "contains": "harsh, bitter, sour; severe, unripe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asper",
+  "expect": {
+   "contains": "rough, uneven; harsh, fierce"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "durus",
+  "expect": {
+   "contains": "hard, tough; harsh, unfeeling, stern"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lenis",
+  "expect": {
+   "contains": "mild, gentle, smooth, soft"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mitis",
+  "expect": {
+   "contains": "mild, gentle, kind, mellow, ripe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clemens",
+  "expect": {
+   "contains": "mild, merciful, gentle, calm"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "benignus",
+  "expect": {
+   "contains": "kind, gracious, generous, friendly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "humanus",
+  "expect": {
+   "contains": "human, humane, kind, cultured"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "comis",
+  "expect": {
+   "contains": "courteous, kind, affable, obliging"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "affabilis",
+  "expect": {
+   "contains": "approachable, courteous, affable, kind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vehemens",
+  "expect": {
+   "contains": "violent, impetuous, eager, vehement, strong"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "egeo",
+  "expect": {
+   "contains": "to need, lack, want, be poor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "incito",
+  "expect": {
+   "contains": "to urge on, rouse, excite, incite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "concito",
+  "expect": {
+   "contains": "to stir up, rouse, excite, incite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exaspero",
+  "expect": {
+   "contains": "to make rough, irritate, exasperate, provoke"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suscito",
+  "expect": {
+   "contains": "to lift up, rouse, awaken, stir up"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "excito",
+  "expect": {
+   "contains": "to rouse, awake, excite, stir up"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stimulo",
+  "expect": {
+   "contains": "to goad, spur on, urge, stimulate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "instigo",
+  "expect": {
+   "contains": "to urge on, incite, instigate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "expergiscor",
+  "expect": {
+   "contains": "to wake up, awake, rouse oneself"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "evigilo",
+  "expect": {
+   "contains": "to wake up, be awake"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vigilia",
+  "expect": {
+   "contains": "a watch, wakefulness, vigil"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "insomnia",
+  "expect": {
+   "contains": "sleeplessness, insomnia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "abscido",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "atrocitas",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "badia",
+  "expect": {
+   "contains": "a kind of cloak, capote"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bestiarius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "chamaemelon",
+  "expect": {
+   "contains": "chamomile (a plant)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "characias",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "columis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corduena",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cotiso",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cyparissa",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cyparissius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "depluo",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "derepente",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diabetes",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diablintes",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dialis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "divalis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dracontium",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "drepana",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dromas",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "edulia",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "edusa",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "emolumentum",
+  "expect": {
+   "contains": "advantage, gain, profit, emolument"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "falcidius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flevo",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "funambulus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gedrosi",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gemoniae",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "genauni",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "heliades",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "helioscopion",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hilotae",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hira",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "holus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "icadius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ilotae",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "impositio",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "incestus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ischias",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lutetia",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "magdalia",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "menephron",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "minaciae",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moenis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mogontiacum",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nivarius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "patronus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "penninus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "philaeni",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phrixus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praecutio",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "proeliaris",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pylae",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pylaicus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "regularis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scordus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "selenion",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "semideus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "serapias",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "serapion",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "silicia",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "simila",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "solonium",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "specularius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stephanium",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stipendiarius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stratiotes",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "strychnos",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suggrunda",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tamarix",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tamesis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "taricheae",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "taygetus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tectosages",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tellena",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "teuta",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "thoas",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tomyris",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "torquis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tragacanthum",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tragion",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tragoriganum",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tragum",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "traha",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tralles",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "trocmi",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "trulleum",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tyras",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "usipetes",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vacalus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vehicularis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vehicularius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "velinus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "venatrix",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "verticula",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vialis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "virgineus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vistula",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "agonia",
+  "expect": {
+   "contains": "a victim, a sacrifice"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "civicus",
+  "expect": {
+   "contains": "civil, civic, of citizens"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dearmo",
+  "expect": {
+   "contains": "to disarm, deprive of weapons"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epithalamium",
+  "expect": {
+   "contains": "a wedding-song, epithalamium"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hippopotamus",
+  "expect": {
+   "contains": "a river-horse, hippopotamus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "improperium",
+  "expect": {
+   "contains": "a reproach, taunt, disgrace"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quantitas",
+  "expect": {
+   "contains": "a quantity, amount, size"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scordion",
+  "expect": {
+   "contains": "scordium, water-germander (a plant)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "secretum",
+  "expect": {
+   "contains": "a secret, mystery; a secret place"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tenesmos",
+  "expect": {
+   "contains": "a straining, tenesmus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "portiuncula",
+  "expect": {
+   "contains": "a small part or portion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suprascando",
+  "expect": {
+   "contains": "to climb over, surmount"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "concupiscentia",
+  "expect": {
+   "contains": "a strong desire, longing, concupiscence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "culullus",
+  "expect": {
+   "contains": "a drinking-cup, goblet"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asyndeton",
+  "expect": {
+   "contains": "asyndeton (a rhetorical figure omitting connectives)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "delabor",
+  "expect": {
+   "contains": "to glide down, sink down, fall"
+  },
+  "note": "core_gloss"
  }
 ]
