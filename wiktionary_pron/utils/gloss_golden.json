@@ -11822,5 +11822,54 @@
    "contains": "the seashore, coast, beach, shore"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "pius",
+  "expect": {
+   "contains": "pious, dutiful, devoted, loyal; holy, blessed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "portendo",
+  "expect": {
+   "contains": "to portend, foreshadow, foretell, signify"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iugum",
+  "expect": {
+   "contains": "a yoke; a ridge, mountain-range; a pair (of yoked animals)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arx",
+  "expect": {
+   "contains": "a citadel, fortress, stronghold; the Capitol"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moenia",
+  "expect": {
+   "contains": "walls, ramparts, fortifications (of a city)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lacrima",
+  "expect": {
+   "contains": "a tear; (poet.) a drop, gum-drop"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "saltus2",
+  "expect": {
+   "contains": "a leap, bound; a mountain pasture, forest, defile"
+  },
+  "note": "core_gloss"
  }
 ]
