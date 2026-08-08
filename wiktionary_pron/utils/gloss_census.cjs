@@ -80,7 +80,37 @@ const B1 = [ // high-frequency content words (a student meets on page one of Cae
   ["pello","drive"],["pello1","drive"],["sumo","take"],["cogo","force","compel"],["iubeo","order","command"],
   ["impero","command","order"],["timeo","fear"],["terreo","frighten"],["paro","prepare"],["moneo","warn","advise"],
   ["doceo","teach"],["disco","learn"],["scio","know"],["nescio","not know"],["puto","think"],["credo","believe"],
-  ["dico3","say"],["ait","say"],["inquit","say"],["inquam","say"]
+  ["dico3","say"],["ait","say"],["inquit","say"],["inquam","say"],
+  // round 4-7 fixes: more common content words
+  ["bellum","war"],["proelium","battle"],["acies","battle"],["caedes","slaughter"],
+  ["casus","fall","accident","chance"],["facies","face"],["forma","form","shape"],
+  ["species","appearance","kind","sort"],["vestis","garment"],["toga","toga"],
+  ["gemma","gem","jewel","bud"],["funus","funeral"],["sepultura","burial"],
+  ["agor","drive","do","act"],["ago","drive","do","act"],["cado","fall"],
+  ["pendo","weigh","pay"],["colo","cultivate","inhabit","honor"],["nascor","born"],
+  ["discedo","depart"],["succedo","succeed"],["volo2","fly"],["dubito","doubt"],
+  ["narro","tell","relate"],["nego","deny"],["respondeo","answer","reply"],
+  ["vado","go","walk","hasten"],["moror","delay"],["pereo","perish","die"],
+  ["rogo","ask","request"],["suadeo","advise","persuade"],["taceo","silent"],
+  ["tremo","tremble"],["vereor","fear"],["opprimo","overwhelm"],["precor","pray"],
+  ["servio","serve"],["studeo","study"],["placeo","please"],["soleo","accustomed"],
+  ["loquor","speak","talk"],["aio","say","affirm"],["saluto","greet"],
+  ["cogito","think"],["arbitror","think","judge"],["constituo","establish","decide"],
+  ["decerno","decide","decree"],["censeo","think","judge"],["metuo","fear"],
+  ["doleo","grieve","suffer"],["lugeo","mourn"],["ploro","weep","lament"],
+  ["cerno","discern","see"],["dormio","sleep"],["expergiscor","wake"],
+  ["albus","white"],["ater","black"],["niger","black"],["caeruleus","blue"],
+  ["candidus","white"],["purus","pure"],["castus","chaste"],["integer","whole"],
+  ["simplex","simple"],["pluvia","rain"],["imber","rain"],["nimbus","storm-cloud"],
+  ["fumus","smoke"],["nebula","mist","fog"],["tempestas","storm"],["turbo","whirlwind"],
+  ["meridies","midday","noon"],["oriens","east"],["occidens","west"],["lux","light"],
+  ["lumen","light"],["radius","ray","rod"],["os2","bone"],["mentum","chin"],
+  ["cubitus","elbow"],["planta","sole"],["socrus","mother-in-law"],["affinis","relation by marriage"],
+  ["colonia","colony"],["basilica","basilica"],["gymnasium","gymnasium"],
+  ["thermae","baths"],["templum","temple"],["lectus","bed","couch"],["circus","circus"],
+  ["ludus","play","game"],["carcer","prison"],["portus","harbor","port"],
+  ["sapientia","wisdom"],["pietas","piety"],["fluctus","wave"],["finis","end"],
+  ["centurio","centurion"],["senator","senator"],["ferrum","iron"],["aries","ram"]
 ];
 
 const bands = { B0, B1 };

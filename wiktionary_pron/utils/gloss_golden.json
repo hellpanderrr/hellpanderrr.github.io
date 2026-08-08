@@ -9008,5 +9008,320 @@
    "contains": "to look at, watch, observe; to face, point toward"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "colonia",
+  "expect": {
+   "contains": "a colony, settlement"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "basilica",
+  "expect": {
+   "contains": "a basilica, public hall"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gymnasium",
+  "expect": {
+   "contains": "a gymnasium, public school for exercise"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "thermae",
+  "expect": {
+   "contains": "hot baths, warm baths"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "templum",
+  "expect": {
+   "contains": "a temple, shrine; a sacred precinct"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lectus",
+  "expect": {
+   "contains": "a bed, couch; chosen, picked (adj.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "circus",
+  "expect": {
+   "contains": "a circus, race-course; a circle, ring"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "carcer",
+  "expect": {
+   "contains": "a prison, jail; a starting-gate (in the circus)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "portus",
+  "expect": {
+   "contains": "a harbor, port"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "regio",
+  "expect": {
+   "contains": "a region, district, district of a city"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "provincia",
+  "expect": {
+   "contains": "a province"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "statio",
+  "expect": {
+   "contains": "a standing-place, post, station; a harbor, anchorage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ludus",
+  "expect": {
+   "contains": "a play, game, sport; a school"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "schola",
+  "expect": {
+   "contains": "a school; a learned discussion, lecture"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lavacrum",
+  "expect": {
+   "contains": "a bath, bathing-place"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fabrica",
+  "expect": {
+   "contains": "a workshop, trade, craft"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "officina",
+  "expect": {
+   "contains": "a workshop, work-room, manufactory"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caupona",
+  "expect": {
+   "contains": "an inn, tavern, eating-house"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hospitium",
+  "expect": {
+   "contains": "an inn, lodging; hospitality, entertainment"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stabulum",
+  "expect": {
+   "contains": "a stable; a dwelling, abode, haunt"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mensa",
+  "expect": {
+   "contains": "a table; a meal, course"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cubiculum",
+  "expect": {
+   "contains": "a bed-chamber, room"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "triclinium",
+  "expect": {
+   "contains": "a dining-room, dining-couch"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "atrium",
+  "expect": {
+   "contains": "a hall, entrance-court, atrium"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vestibulum",
+  "expect": {
+   "contains": "an entrance-court, forecourt, vestibule"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "porticus",
+  "expect": {
+   "contains": "a colonnade, portico, gallery"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "peristylium",
+  "expect": {
+   "contains": "a peristyle, colonnaded court"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tablinum",
+  "expect": {
+   "contains": "a study, archive-room (in a Roman house)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cella",
+  "expect": {
+   "contains": "a room, chamber, store-room; a cell"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aedicula",
+  "expect": {
+   "contains": "a small building, shrine, niche"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fanum",
+  "expect": {
+   "contains": "a temple, shrine, sanctuary"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "delubrum",
+  "expect": {
+   "contains": "a temple, shrine, sanctuary"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sacellum",
+  "expect": {
+   "contains": "a small shrine, chapel"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ara",
+  "expect": {
+   "contains": "an altar; a haven, refuge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "focus",
+  "expect": {
+   "contains": "a hearth, fireplace"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sacrarium",
+  "expect": {
+   "contains": "a sacristy, shrine, holy place"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stadium",
+  "expect": {
+   "contains": "a stadium, race-course"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "theatrum",
+  "expect": {
+   "contains": "a theatre, playhouse"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "curia",
+  "expect": {
+   "contains": "a senate-house, curia (a division of the people)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praetorium",
+  "expect": {
+   "contains": "a general's tent; a governor's residence, praetorium"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "comitium",
+  "expect": {
+   "contains": "the comitium, place of assembly in Rome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tabula",
+  "expect": {
+   "contains": "a board, plank, tablet, table"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amphitheatrum",
+  "expect": {
+   "contains": "an amphitheatre"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bibliotheca",
+  "expect": {
+   "contains": "a library"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "municipium",
+  "expect": {
+   "contains": "a free town, municipality"
+  },
+  "note": "core_gloss"
  }
 ]
