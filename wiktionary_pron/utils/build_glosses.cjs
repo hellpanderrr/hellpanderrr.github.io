@@ -230,6 +230,17 @@ function cleanOne(t) {
   // Arat. Phaen. 394 B. and K").
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*(?:[A-Z][a-z]{2,8}\.\s*)?(?:l\.\s*)?(?:p\.\s*)?\s*[\dIVXLCDM]+[\s\S]*$/,"").trim();
   t = t.replace(/\s+ap\.\s*[A-Z][a-z]{2,8}\..*$/,"").trim();
+  // "ap." = apud ("X according to Y") — a citation tail that survives the other
+  // strips because it has NO numeral: "Att. ap", "Trag. ap", "Com. ap",
+  // "Fragm. ap", "ap. Aug", "ap. Fronto Ep. ad M", "Acac. ap", "Enn. ap".
+  // Strip from the last punctuation up to the terminal apud-author phrase.
+  // Pattern: a sentence-final "$sep … ap. <author?>". The `[^;:]*` keeps it from
+  // crossing into a preceding main clause (a definition never ends in apud).
+  // (corpus-scan 2026-08-09 — 34 fragment glosses.)
+  t = t.replace(/[.,;:][^;:]*\bap\.?\s*(?:[A-Z][A-Za-z. ]*)?\s*$/i,"").trim();
+  // bare "Doed." = Doederlein's Latin Synonyms — cited as a cross-ref marker, not
+  // a gloss; never ends a real definition. (corpus-scan 2026-08-09.)
+  t = t.replace(/[.,;:]?\s*Doed\.?\s*$/i,"").trim();
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{3,}(?:\s*[A-Z][a-z]{2,8}\.?)?\s*$/,"").trim();
   // Residual citation tails the author lists miss (re-audit 2026-08-08): "Th",
   // "Or", "Ib", "Ep", "adv", "fin" after a period — KNOWN single-token abbrevs

@@ -166,7 +166,7 @@
         }
       ]
     },
-    "note": "Caesar: primary is s[14] chief person/master or s[16] himself \u0432\u0402\u201d NOT the verbose s[32] note"
+    "note": "Caesar: primary is s[14] chief person/master or s[16] himself вЂ” NOT the verbose s[32] note"
   },
   {
     "lemma": "Gallia",
@@ -253,7 +253,7 @@
     "expect": {
       "contains": "equal"
     },
-    "note": "genuine distinct homograph (root par, make equal) \u2014 advisory panel"
+    "note": "genuine distinct homograph (root par, make equal) — advisory panel"
   },
   {
     "lemma": "levo",
@@ -12351,7 +12351,7 @@
   {
     "lemma": "verro",
     "expect": {
-      "contains": "to sweep, sweep together; (as adversus) toward, facing"
+      "contains": "to sweep"
     },
     "note": "core_gloss"
   },
@@ -13740,5 +13740,145 @@
       "contains": "unbending"
     },
     "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "excipio",
+    "expect": {
+      "contains": "to take up"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "cresco",
+    "expect": {
+      "contains": "to grow"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "calidus",
+    "expect": {
+      "contains": "hot"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "attendo",
+    "expect": {
+      "contains": "to attend to"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "comperio",
+    "expect": {
+      "contains": "to find out"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "cuncto",
+    "expect": {
+      "contains": "to delay"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "antiquus",
+    "expect": {
+      "contains": "old"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "consultor",
+    "expect": {
+      "contains": "a counselor"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "promptus",
+    "expect": {
+      "contains": "ready, prompt"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "paro3",
+    "expect": {
+      "contains": "a small light ship"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "cedo2",
+    "expect": {
+      "contains": "give here!"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "syrus",
+    "expect": {
+      "contains": "Syrian"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "foedus2",
+    "expect": {
+      "contains": "an alliance"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "misero",
+    "expect": {
+      "contains": "to pity"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "perjuro",
+    "expect": {
+      "contains": "to swear falsely"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "eo2",
+    "expect": {
+      "contains": "for that reason"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "nobilis",
+    "expect": {
+      "contains": "noble"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "improvisus",
+    "expect": {
+      "contains": "unforeseen"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "umidus",
+    "expect": {
+      "contains": "moist"
+    },
+    "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "alienus",
+    "expect": {
+      "contains": "of another"
+    },
+    "note": "freq-scan fix (2026-08-09)"
   }
 ]
