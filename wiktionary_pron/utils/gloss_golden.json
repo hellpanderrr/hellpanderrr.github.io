@@ -13306,5 +13306,103 @@
       "contains": "deformity"
     },
     "note": "introductory-phrase/rare-word primary (P2 straggler)"
+  },
+  {
+    "lemma": "levo2",
+    "expect": {
+      "contains": "smooth"
+    },
+    "note": "accent-distinct homograph (H1): to smooth, polish"
+  },
+  {
+    "lemma": "plaga2",
+    "expect": {
+      "contains": "region"
+    },
+    "note": "accent-distinct homograph (H1): region"
+  },
+  {
+    "lemma": "plaga3",
+    "expect": {
+      "contains": "net"
+    },
+    "note": "accent-distinct homograph (H1): hunting-net"
+  },
+  {
+    "lemma": "labrum2",
+    "expect": {
+      "contains": "tub"
+    },
+    "note": "accent-distinct homograph (H1): basin, tub"
+  },
+  {
+    "lemma": "specula2",
+    "expect": {
+      "contains": "hope"
+    },
+    "note": "accent-distinct homograph (H1): slight hope"
+  },
+  {
+    "lemma": "pila3",
+    "expect": {
+      "contains": "ball"
+    },
+    "note": "accent-distinct homograph (H1): playing-ball"
+  },
+  {
+    "lemma": "striga2",
+    "expect": {
+      "contains": "hag"
+    },
+    "note": "accent-distinct homograph (H1): hag, witch"
+  },
+  {
+    "lemma": "utriculus2",
+    "expect": {
+      "contains": "belly"
+    },
+    "note": "accent-distinct homograph (H1): abdomen"
+  },
+  {
+    "lemma": "molitor2",
+    "expect": {
+      "contains": "miller"
+    },
+    "note": "accent-distinct homograph (H1): miller"
+  },
+  {
+    "lemma": "rapina2",
+    "expect": {
+      "contains": "turnip"
+    },
+    "note": "accent-distinct homograph (H1): turnip-field"
+  },
+  {
+    "lemma": "viripotens2",
+    "expect": {
+      "contains": "marriageable"
+    },
+    "note": "accent-distinct homograph (H1): nubile"
+  },
+  {
+    "lemma": "melinus2",
+    "expect": {
+      "contains": "honey"
+    },
+    "note": "accent-distinct homograph (H1): of honey"
+  },
+  {
+    "lemma": "allevo2",
+    "expect": {
+      "contains": "smooth"
+    },
+    "note": "accent-distinct homograph (H1): make smooth"
+  },
+  {
+    "lemma": "anathema2",
+    "expect": {
+      "contains": "accursed"
+    },
+    "note": "accent-distinct homograph (H1): accursed thing"
   }
 ]

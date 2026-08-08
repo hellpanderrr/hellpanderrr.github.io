@@ -32,7 +32,9 @@ for (const line of fs.readFileSync("macronizer/macrons.txt","utf8").split("\\n")
   const lem = p[2].toLowerCase();
   rows.set(p[2]+"|"+p[1], {lemma:p[2], tag:p[1]});
   if (!formSets.has(lem)) formSets.set(lem, new Set());
-  formSets.get(lem).add(p[0]+"|"+p[1]);
+  // ACCENT-BASED form signature (must match build_glosses.cjs H1 fix — the
+  // wordlist's field-4 accented form disambiguates distinct homographs).
+  formSets.get(lem).add(p[0]+"|"+p[3]);
   const pos = POS_MAP[p[1][0]] || p[1][0];
   if (!lemmaPosCount.has(lem)) lemmaPosCount.set(lem, {});
   lemmaPosCount.get(lem)[pos] = (lemmaPosCount.get(lem)[pos]||0)+1;
@@ -61,7 +63,8 @@ if (process.argv.includes("--rebuild-cache") || !fs.existsSync(CACHE)) {
     let e = out[lem];
     if (!e) { e = out[lem] = { pos: {}, forms: [] }; }
     e.pos[pos] = (e.pos[pos] || 0) + 1;
-    e.forms.push(p[0] + "|" + p[1]);
+    // ACCENT-BASED form signature (must match build_glosses.cjs H1 fix).
+    e.forms.push(p[0] + "|" + p[3]);
   }
   fs.writeFileSync(CACHE, zlib.gzipSync(JSON.stringify(out)));
   console.log(`cached ${Object.keys(out).length} lemmas`);
