@@ -13495,5 +13495,12 @@
       "contains": "innkeeper"
     },
     "note": "root cross-ref beat noun primary (H3)"
+  },
+  {
+    "lemma": "qui2",
+    "expect": {
+      "contains": "manner"
+    },
+    "note": "interrogative ? gloss (H4): in what manner, how"
   }
 ]

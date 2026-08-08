@@ -215,6 +215,15 @@ function cleanOne(t) {
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*$/,"").trim();
   // "Coel. Aur" / "Coel. Aurel" — Caelius Aurelianus cited by two-part name.
   t = t.replace(/[.,;:]\s*Coel\.?\s+Aur(?:el)?\.?\s*$/i,"").trim();
+  // Short citation tails (H4, corpus-audit): 1-2 letter author abbrevs + book
+  // refs that the 3+-letter CIT strips miss — "Inscr. Orell. no. 3199 and 7205",
+  // ". R. R. 2, 1 med", "* Vitr. 1, 1 med", "* Hor. C. 1, 28, 5 al", "Cato,
+  // R. R. 76 init", "Fl. 1, 742". Lowercase words (no., med, init, al) break the
+  // digit-terminated assumption.
+  t = t.replace(/[.,;:]\s*(?:no\.?\s*[\dIVXLCDM]+(?:\s*and\s*[\dIVXLCDM]+)*|Inscr\.?\s*Orell\.?|R\.\s*R\.?|Vitr\.|Hor\.\s*C\.?|Fl\.|Cels|Cato\s*,?\s*R\.?\s*R\.?|init|med|fin|al\.?)[\s\S]*$/i,"").trim();
+  // "* Vitr. 1, 1 med" / "* Hor. C. 1, 28, 5 al" — a leading asterisk before the
+  // author abbrev (L&S's note marker for a rare/uncertain reading).
+  t = t.replace(/[.,;:]\s*\*\s*(?:Vitr\.|Hor\.\s*C\.?|Cic\.|Ov\.|Plin\.?|Tac\.?|Liv\.?|Verg\.?)[\s\S]*$/i,"").trim();
   // citation chains: "ap. Serv. l. l", "Arn. 3, p", "Arat. Phaen. 394 B. and K",
   // ", Treb. Poll", ", Firm" — an L&S author reference glued to the clause end
   // ("the plough-beam. ap. Serv. l. l", "a constellation, usu. called Bootes.
@@ -463,7 +472,10 @@ function usable(g, pos) {
   // citation/author residue survived cleanOne: "Ov. M", "Treb", "puella,Hier. Ep"
   if (TRAIL_AUTHOR_BARE.test(g)) return false;
   // abbreviation-only fragment: ", , f", "Hence, adv", "belua, i. e"
-  const realWords = g.split(/[\s,]/).filter(w => /^[A-Za-z-]{3,}$/.test(w));
+  // Interrogative glosses ("in what manner? how? whereby?") carry "?" — strip the
+  // trailing punct before the token test so qui2's "how? whereby?" isn't dropped
+  // to just FUNCTION words. (H4, corpus-audit — qui2 was MISSING.)
+  const realWords = g.split(/[\s,]/).map(w => w.replace(/[?!,;:.]+$/, "")).filter(w => /^[A-Za-z-]{3,}$/.test(w));
   if (realWords.length === 0) return false;
   if (realWords.every(w => FRAG_START.has(w) || FUNCTION.has(w.toLowerCase()))) return false;
   // A clause opening with the INDEFINITE/definite article that contains ZERO
