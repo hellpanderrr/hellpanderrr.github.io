@@ -625,7 +625,13 @@ for (const line of fs.readFileSync("macronizer/macrons.txt","utf8").split("\n"))
   const lem = p[2].toLowerCase();
   rows.set(p[2]+"|"+p[1], {lemma:p[2], tag:p[1]});
   if (!formSets.has(lem)) formSets.set(lem, new Set());
-  formSets.get(lem).add(p[0]+"|"+p[1]);
+  // ACCENT-BASED form signature (form + accented form): distinct vowel length
+  // proves two homograph keys are DISTINCT words (levo "levo" vs levo2 "levare"
+  // to smooth — le^v- vs le_va-), while an identical signature means the wordlist
+  // duplicated one word under two keys (paro/paro2, acceptor/acceptor2). The old
+  // form+tag signature conflated distinct words (levo2 got the bare levo1 "to lift
+  // up" instead of "to smooth, polish"). H1 fix (corpus-audit 2026-08-08).
+  formSets.get(lem).add(p[0]+"|"+p[3]);
   const pos = POS_MAP[p[1][0]] || p[1][0];
   if (!lemmaPosCount.has(lem)) lemmaPosCount.set(lem, {});
   lemmaPosCount.get(lem)[pos] = (lemmaPosCount.get(lem)[pos]||0)+1;
