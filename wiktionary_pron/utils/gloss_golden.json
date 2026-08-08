@@ -13546,5 +13546,82 @@
       "contains": "to cry out"
     },
     "note": "unassimilated/ex-collat form (H6)"
+  },
+  {
+    "lemma": "castra",
+    "expect": {
+      "contains": "a camp"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "castrum",
+    "expect": {
+      "contains": "a camp"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "sacerdos",
+    "expect": {
+      "contains": "a priest"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "facilis",
+    "expect": {
+      "contains": "easy"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "celer",
+    "expect": {
+      "contains": "swift"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "appello",
+    "expect": {
+      "contains": "to call"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "dominus",
+    "expect": {
+      "contains": "lord"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "exercitus2",
+    "expect": {
+      "contains": "an army"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "taurus",
+    "expect": {
+      "contains": "a bull"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "tribunus",
+    "expect": {
+      "contains": "a tribune"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "recens",
+    "expect": {
+      "contains": "recent"
+    },
+    "note": "high-freq common word wrong/narrow sense (audit)"
   }
 ]
