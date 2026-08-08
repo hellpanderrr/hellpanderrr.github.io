@@ -595,7 +595,17 @@
  {
   "lemma": "agmen",
   "expect": {
-   "contains": "troop"
+   "alternates": [
+    {
+     "contains": "troop"
+    },
+    {
+     "contains": "line of march"
+    },
+    {
+     "contains": "column"
+    }
+   ]
   },
   "note": "primary"
  },
@@ -10245,6 +10255,335 @@
   "lemma": "interdictum2",
   "expect": {
    "contains": "an interdict, prohibition, decree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cuneus",
+  "expect": {
+   "contains": "a wedge; a wedge-shaped formation, a band"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pugio",
+  "expect": {
+   "contains": "a dagger, poniard"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sica",
+  "expect": {
+   "contains": "a curved dagger, sica"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "machaera",
+  "expect": {
+   "contains": "a large sword, saber, cutlass"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "framea",
+  "expect": {
+   "contains": "a framea, a German spear, javelin"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spatha",
+  "expect": {
+   "contains": "a broad sword; a spatula, stirrer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "veru",
+  "expect": {
+   "contains": "a spit, spike, javelin"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tragula",
+  "expect": {
+   "contains": "a javelin, dart (thrown with a thong)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vinea",
+  "expect": {
+   "contains": "a vine; a vineyard; (milit.) a movable shed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "castellum",
+  "expect": {
+   "contains": "a fortress, stronghold; a reservoir (of an aqueduct)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "munimentum",
+  "expect": {
+   "contains": "a fortification, defense, bulwark, rampart"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praesidium",
+  "expect": {
+   "contains": "a garrison, guard, protection; a defense"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stativa",
+  "expect": {
+   "contains": "a standing camp (pl.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hiberna",
+  "expect": {
+   "contains": "winter-quarters (pl.); of winter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aestiva",
+  "expect": {
+   "contains": "summer-quarters (pl.); of summer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hastati",
+  "expect": {
+   "contains": "the hastati, the first line of Roman infantry"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "triarii",
+  "expect": {
+   "contains": "the triarii, the third line of Roman infantry"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "postsignani",
+  "expect": {
+   "contains": "troops stationed behind the standards"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "legionarius",
+  "expect": {
+   "contains": "legionary, of a legion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auxilia",
+  "expect": {
+   "contains": "auxiliary troops, auxiliaries, aid, help (pl.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "militia",
+  "expect": {
+   "contains": "military service, warfare, the soldiery"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dilectus",
+  "expect": {
+   "contains": "a levy, recruiting; a chosen band"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tumultus",
+  "expect": {
+   "contains": "an uproar, disturbance, tumult; a sudden war"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "concursus",
+  "expect": {
+   "contains": "a running together, concourse, encounter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "labarum",
+  "expect": {
+   "contains": "the labarum, the Roman imperial standard"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tuba",
+  "expect": {
+   "contains": "a trumpet (straight)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cornu",
+  "expect": {
+   "contains": "a horn; a wing (of an army); a horn (instrument)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bucina",
+  "expect": {
+   "contains": "a crooked trumpet, horn, bucina"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lituus",
+  "expect": {
+   "contains": "an augur's staff; a curved trumpet"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "classicum",
+  "expect": {
+   "contains": "a war-trumpet, signal; a battle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tentorium",
+  "expect": {
+   "contains": "a tent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "papilio",
+  "expect": {
+   "contains": "a butterfly, moth; a tent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "parma",
+  "expect": {
+   "contains": "a small round shield, buckler"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caetra",
+  "expect": {
+   "contains": "a light Spanish shield"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "umbo",
+  "expect": {
+   "contains": "the boss of a shield"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cassis",
+  "expect": {
+   "contains": "a helmet (of metal)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "armamenta",
+  "expect": {
+   "contains": "equipment, tackle, gear (pl.); armor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "trabea",
+  "expect": {
+   "contains": "a robe of state (of augurs, kings, knights)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praetexta",
+  "expect": {
+   "contains": "a toga praetexta (bordered robe); a tragedy (play)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "candida",
+  "expect": {
+   "contains": "a toga candida (a candidate's white toga); white"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cuneus2",
+  "expect": {
+   "contains": "a wedge; a wedge-shaped body"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "testudo",
+  "expect": {
+   "contains": "a tortoise; a testudo, covering-shield formation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vinea2",
+  "expect": {
+   "contains": "a vine; a movable shed (military)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "classis",
+  "expect": {
+   "contains": "a fleet; a class, division (of the people)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "copiae",
+  "expect": {
+   "contains": "supplies, troops, forces, resources (pl.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arma",
+  "expect": {
+   "contains": "arms, weapons, armor; warfare, battle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "munus2",
+  "expect": {
+   "contains": "a service, office, duty; a gift; a public show"
   },
   "note": "core_gloss"
  }
