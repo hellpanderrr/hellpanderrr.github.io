@@ -46,3 +46,41 @@ file keeps the detail.
 - **`.replace()` without `/g` only replaces the FIRST match.** The probe/harness
   strip of `const (fs|path|zlib|engine) = require(...)` lines silently left
   later ones, causing "Identifier already declared" — until `/gm` was added.
+
+## 2026-08-08 — M-005 gate-then-rank restructure + Aeneid stress test
+
+- **The "99.1% usable" holdout could not see `terra`→"the sea".** It measured
+  *fragment-ness* (well-formed English) on an unstratified 120-row sample; "the
+  sea" is perfect English. The Aeneid 1.1–11 stress test (a different register
+  than Caesar prose) found 11 wrong common-word glosses. Lesson: audit
+  correctness (does the gloss MEAN the lemma?) not well-formedness, and sample
+  by frequency — the top-1000 words are what users actually hover.
+- **Whack-a-mole ⇒ decouple detection from selection.** Fusing "is this a
+  usable gloss?" and "which is primary?" into one score + surface tiebreaks
+  (comma-count, shorter, runTokens) traded one failure class for another ~30
+  times this session. The fix: hard per-clause REJECTION gates (fragments,
+  citations, usage-notes, pure-Latin) that remove candidates before ranking,
+  then rank by score → latinCount → sense-order → runTokens → shorter.
+  Rejection is monotone (only removes candidates); position is fixed. The
+  golden suite (`utils/gloss_golden.json`, 75 rows) is the anti-whack-a-mole:
+  grow it per-fix, same commit.
+- **`latToks` lowercased proper nouns before the capitalization check.**
+  `Senones`/`Euryalus`/`Venus` became `senones`/`euryalus`/`venus`, matched
+  Latin inflections (-es/-us), and tripped the pure-Latin reject — nulling
+  ~171 proper-noun glosses. This directly contradicted `latinCount` (which
+  skips capitalized words). Fix: check capitalization BEFORE lowercasing.
+  Cost a whole council round to diagnose.
+- **The Latin-tail truncation cut gloss SYNONYMS, not just examples.** The
+  strip fired on any Latin-looking word followed by more text, so "Easily
+  broken, or crumbled to pieces, friable" → "Easily broken, or crumbled to"
+  and "One who flees or runs away" → "One who". Fix: only truncate when a
+  LATIN word (not more English gloss) follows the Latin-looking one.
+- **"perh." is a frequency hedge, NOT a late/rare marker.** The era penalty
+  `(late|post-Aug|ante-class|arch|very rare|perh.)` −3 demoted the classical
+  primary of `dignitas` — "(so, rarely, and perh. only in Cic.)" — below a
+  marginal clause. Remove `perh.` from the era regex.
+- **The gloss build was 17× redundant.** 673k `(lemma|tag)` rows over ~40k
+  unique lemmas, and `resolve()` is pure per lemma. Memoize by the EXACT lemma
+  string (case-sensitive — the collision guard keys `Gallia` ≠ `gallia`):
+  841s → 50s, byte-identical artifact. WORDS `parseWord` is cheap (0.6ms); the
+  L&S resolve was the cost.
