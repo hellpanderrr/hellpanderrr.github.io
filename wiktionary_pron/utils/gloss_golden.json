@@ -12389,5 +12389,47 @@
    "contains": "near, close to, beside; according to"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "validus",
+  "expect": {
+   "contains": "strong, vigorous, robust; (as adv. valde) strongly, very"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "demos",
+  "expect": {
+   "contains": "a tract of land, demos; (as demum) at length, at last, finally"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "potis",
+  "expect": {
+   "contains": "able, capable, powerful; (potissimum) especially, chiefly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prior",
+  "expect": {
+   "contains": "former, earlier, prior"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quamobrem",
+  "expect": {
+   "contains": "wherefore, for which reason, why"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "demum2",
+  "expect": {
+   "contains": "at length, at last, finally, only"
+  },
+  "note": "core_gloss"
  }
 ]
