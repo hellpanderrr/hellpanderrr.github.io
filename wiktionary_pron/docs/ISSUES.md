@@ -343,3 +343,36 @@ maledictus, lator, acceptum, debitum, nupta, sponsa, discepto, mansuetus, + 10
 adverbs). Blanket WORDS-first REJECTED (regressed memor/superus/saevus/certo,
 golden-locked). **Residue (accepted):** ~100 rare participles still verb-glossed
 (WORDS POS-null). golden 1783→1794; census 341/341; `npm test` + e2e green.
+
+## M-018 — Corpus read-through audit found 8 systematic gloss-extraction patterns
+**Status: FIXED** (2026-08-08, sites `5c515f2`..`74fb466`).
+A subagent read 6,716 L&S entries in bulk (dense D+M + stride-all) and compared
+raw senses vs the artifact, surfacing 8 patterns grep-hunting would have missed:
+- **P1** `de Or` strip matched "de or" mid-word (`declino`→"to turn asi"). Fixed
+  with `\bde` + required separator.
+- **P2** compact L&S primaries scored 0 (abstract-run first tokens, single-cap
+  primary rejection, un-stripped "freq. and class." parens, that/those openers).
+  Fixed isGlossRun suffixes + capital-accept (was dead code — toks lowercased
+  first), usable() single-cap relax, paren-note + bare "(class.)" strip,
+  WEAK_OPEN that/those/this. divinitas "Godhead, divinity", dulcis "Sweet",
+  mucidus "Mouldy, musty", magnitudo "Greatness, size, bulk, magnitude",
+  discordia, mamma.
+- **P3** Latin-quote clauses ("an quod te imperator consulit") won via article
+  STRONG_OPEN. Hard gate: article-opened + 0-enCount + ≥3 non-English tokens.
+- **P4** text-critical editor notes ("the best reading is", "the form discribo")
+  gated. declinatus "inflection...", meio "urinate, make water".
+- **P5** lowercase-key proper-noun collisions: musa "a Muse", murena "a moray
+  eel", tyrius, trivia, dis "rich", minor "less", dido. 12 core entries.
+- **P6** citation author lists extended (Lampr, Ambros, Val, Macr, Nep, Aus,
+  Flor, Hier, Cassiod, Sid, Pall) + book-part residue (". de Tob", ". adv",
+  ". Coel. Aur"). 47→0 residue.
+- **P7** etymology/myth-note clauses ("a nymph who was changed") — mitigated by
+  P2 primary recognition; residual few left.
+- **P8** common V/N lemmas fell to "—" (L&S orthography-heavy + WORDS
+  non-unique). WORDS-first fallback rescued +976 lemmas (adlevo "lift/raise",
+  adpello "call (upon)"). The audit's differo/diffido/dissilio are NOT wordlist
+  lemmas — nothing to show.
+- Relative-clause gloss guard ("she who rules") + ETYM language markers
+  (Osc./Goth./O.H.Germ.) + era-note sync (paren "class." no double-bonus) + 3
+  straggler core entries (superbus, domina, deformitas).
+golden 1881→1896, census 341→348, artifact 32,748→33,679 lemmas. All exit 0.

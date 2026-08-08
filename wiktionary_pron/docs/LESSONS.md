@@ -159,3 +159,34 @@ file keeps the detail.
   node probes by the parent) which found MORE than the one surviving subagent.
   The bug-hunter's half-written transcript was still recoverable (parse its
   .output JSONL for tool_use results + assistant text) and gave the systemic class.
+
+## Corpus read-through beats grep-hunting for systematic errors (2026-08-08, M-018)
+The 4-lens cold audit of 2026-08-08 stalled (3/4 empty transcripts) and only
+surfaced ONE pattern (the cross-ref verb-leak). The follow-up that actually
+worked was a **single subagent told to READ the L&S corpus in bulk and let
+patterns emerge** — no grep for suspected patterns. It read 6,716 entries (dense
+D+M + stride-all-26) and found **8 systematic classes** my grep probes missed:
+the `de Or` mid-word truncation (my own in-progress fix was BROKEN and it caught
+it), abstract-run primary scoring, Latin-quote rescue, text-critical notes,
+proper-noun collisions, citation residue, etymology fragments, and missing
+common verbs.
+- **Prompt it with a coverage strategy and a file-deliverable**: "dense pass
+  over 2 full letter files + stride every Nth across all 26; write the report to
+  disk BEFORE finishing (a stalled agent must not lose it)". The report landed
+  even though prior agents went silent.
+- **Tell it what's already fixed** so it doesn't re-confirm the known classes
+  (it still flagged residuals, which were the highest-signal items).
+- **The artifact-vs-raw `lemma|raw|artifact` TSV is the key data shape** — the
+  agent can spot the divergence pattern in bulk without knowing each lemma.
+- **Re-measure after every fix**: the capital-first-token accept I added was
+  DEAD CODE (toks were lowercased before the /^[A-Z]/ test), and once enabled it
+  over-fired on etymology fragments ("Erse, aile") — a rebuild + golden + census
+  per change caught both immediately.
+
+## A broken in-progress fix can be the highest-value audit find (2026-08-08)
+The corpus agent's #1 finding was that my OWN uncommitted `de Or` strip
+(added hours earlier, artifact already rebuilt) was mangling `declino`→"to turn
+asi" — the `/i` + optional-punctuation regex matched "de or" inside English
+words. A bare `\bde` + required separator fixed it. Lesson: get in-progress
+changes audited before trusting them; an audit that only finds bugs in committed
+code misses the freshly-broken working tree.
