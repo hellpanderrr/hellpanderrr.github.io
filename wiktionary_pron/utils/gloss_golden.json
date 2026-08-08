@@ -9830,7 +9830,7 @@
  {
   "lemma": "fides2",
   "expect": {
-   "contains": "faith, trust, confidence; a promise; a stringed instrument"
+   "contains": "a stringed instrument, lyre, lute, cithern"
   },
   "note": "core_gloss"
  },
@@ -11070,7 +11070,7 @@
  {
   "lemma": "capio2",
   "expect": {
-   "contains": "to take, seize, capture; to comprehend, contain"
+   "contains": "a taking, seizing, capture"
   },
   "note": "core_gloss"
  },
