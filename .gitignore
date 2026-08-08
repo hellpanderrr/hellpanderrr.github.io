@@ -13,3 +13,5 @@ wiktionary_pron/_audit_*.cjs
 wiktionary_pron/_audit_sample*.tsv
 wiktionary_pron/_audit_*.json
 wiktionary_pron/_audit_*.tsv
+# derived from macrons.txt — rebuilt by `node utils/test_gloss_regression.cjs --rebuild-cache`
+wiktionary_pron/utils/gloss_lemma_cache.json.gz

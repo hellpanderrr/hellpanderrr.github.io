@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "npm run test:unit && npm run test:ipa",
+    "test": "npm run test:unit && npm run test:ipa && npm run test:gloss",
     "test:ipa": "cd scripts/tests && mocha get_ipa.test.js golden.test.js --require ./setup.cjs --timeout 60000",
     "test:unit": "mocha scripts/tests/unit/*.test.js --require scripts/tests/setup.cjs --timeout 20000",
     "test:coverage:unit": "c8 --temp-directory coverage/.tmp-unit --report-dir coverage/unit --reporter=json --reporter=text --include \"scripts/**\" --include \"macronizer/dist/**\" --exclude \"scripts/tests/**\" mocha scripts/tests/unit/*.test.js --require scripts/tests/setup.cjs --timeout 20000",
@@ -12,6 +12,7 @@
     "test:coverage": "npm run test:coverage:unit && npm run test:coverage:ipa && npm run test:coverage:e2e && node scripts/tests/coverage-merge.mjs",
     "test:e2e": "playwright test --grep-invert macronizer",
     "test:e2e:macronizer": "playwright test e2e/macronizer.spec.js",
+    "test:gloss": "node utils/test_gloss_regression.cjs",
     "serve": "http-server .. -p 8993 -s",
     "build:ext": "node utils/sync_extension.cjs"
   },

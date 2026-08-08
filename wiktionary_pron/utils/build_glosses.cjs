@@ -45,13 +45,14 @@ const TAIL_CIT = /[.,;:]\s*(?:[A-Z][a-z]{2,8}\.\s*)?(?:[IVXLCDM]+|\d+)(?:\s*,\s*
 const TAIL_AUTHOR = /[.,;:]\s*(?:[A-Z][a-z]{2,8}\.|[A-Z]\.\s*[A-Z]\.?)(?:\s*[A-Z]?\.?\s*(?:p\.\s*)?\d*)?\s*\.?$/;
 const CIT_FULL = /[.,;:]\s*(?:id\.\s*)?(?:ap\.\s*)?[A-Z][a-z]{2,8}\.\s*(?:[IVXLCDM]+|\d+)(?:\s*,\s*(?:§\s*)?[IVXLCDM\d]+)*\s*[,;]?\s*(?:§\s*\d+)?\s*(?:fin\.?)?\s*\.?$/;
 const HEADER = /^(?:In\s+(?:gen\.|partic\.|the\s+widest\s+sense)|Lit\.?|Transf\.?|Esp\.?|Fin\.?|Neutr\.?|Act\.?|Pass\.?|Absol\.?|P\.\s*a\.|Prop\.?|Trop\.?)$/i;
+const SAME_AS = /^the\s+same\s+as/i;
 const SCOPE_LABEL = /^Of\s+(?:persons|things|place|time|animals|men|women|gods|goddesses|trees|plants|birds|fish|beasts|cattle|places|cities|countries|seasons|years|days|letters|sounds|manners|affairs|actions|events|the\s+mind|the\s+body|nature|divine\s+things|human\s+things)\.?\s*$/i;
 const PAREN_REF = /\((?:cf\.?|syn\.?|v\.|q\.\s*v\.|opp\.|i\.\s*e\.|viz\.|etc\.)[^)]*\)/gi;
 const PAREN_REF_TAIL = /\((?:cf\.?|syn\.?|v\.|opp\.)[^)]*\)\s*$/i;
 const FRAG_START = new Set(("Fin Lit Esp Transf Neutr Act Pass Absol Justi Inf Fut Perf Imperf Pluperf Sup Comp Gen Dat Acc Abl Nom Voc Loc Part P. a. v. cf. etc. q. v. i. e. ap. id. Virg Verg Ov Hor Cic Caes Ter Plaut Sen Tac Gell Plin Suet Lucr App Charis Prisc Donat Serv Macr Pan Aug Orell Varr Fest Cato Cap Stich Rud Truc Pseud Most Poen").split(" "));
 const MACRON = /[āēīōūĂĒĪŌŪƏ]|[àáâãåäèéêëìíîïòóôõöùúûü]/;
 const GREEK = /[αβγδεζηθικλμνξοπρστυφχψωΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ]/;
-const STRONG_OPEN = /^(?:to\s|a\s|an\s|the\s|one who\s|that which\s|a person who\s|a thing which\s|who\s|which\s|what\s|any\s|some\s|having\s|being\s|full of\s|made of\s|containing\s|capable\s|able\s|worthy\s|pertaining to\s|belonging to\s|relating to\s|of or belonging to\s|of or pertaining to\s|used for\s|so called\s|called\s|all\b|every\b|each\b|another\b|who\b|which\b|what\b|whose\b|how\b|where\b|why\b)/i;
+const STRONG_OPEN = /^(?:to\s|a\s|an\s|the\s|one who\s|that which\s|a person who\s|a thing which\s|who\s|which\s|what\s|any\s|some\s|having\s|being\s|full of\s|made of\s|containing\s|capable\s|able\s|worthy\s|mindful of\s|out of one's\s|beside one's\s|pertaining to\s|belonging to\s|relating to\s|of or belonging to\s|of or pertaining to\s|used for\s|so called\s|called\s|all\b|every\b|each\b|another\b|who\b|which\b|what\b|whose\b|how\b|where\b|why\b)/i;
 // grammar-abbrev density — the tell of a usage note ("The rel. freq. agrees with
 // the foll. word") vs a real gloss ("All, every", "who? which?"). Also author
 // names glued to the end of an example clause ("...dissolverunt?Cic").
@@ -61,11 +62,66 @@ const WEAK_OPEN = /^(?:of\s|in\s|by\s|for\s|from\s|with\s|at\s|on\s|into\s|again
 const LATIN_FORM = /(?:isse|asse|unt|erit|tur|mus|tis|ium|ibus|arum|orum|ens)$/;
 const ETYM = /(?:Sanscr\.|Germ\.|Engl\.|orig\.|collat\.\s+form|root\s+[a-z]+|perh\.\s+root|etym\.|cf\.\s+[A-Z][a-z]+\s+root)/i;
 const LATIN_LOOKING = /^(?:sum|es|est|sumus|estis|sunt|eram|eras|erat|ero|eris|erit|sim|sis|sit|essem|esses|esset|fui|fuisti|fuit|fueram|fueras|fuerat|fuero|fueris|fuerit|fiam|fias|fiat|fiebam|fiebas|fiebat|fio|fimus|fitis|fiant|fierem|fieres|fieret|fierent|fiamus|fiatis|erimus|eritis)$/i;
-const EN_WORDS = new Set(`to a an the of in by for from with at on into one who which what any some used having being full made containing capable able worthy called such same so hence also pertaining belonging relating or and but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you do does did done make makes made give gives gave taken take took turn turns turned call calls called come comes came put puts find finds found keep keeps kept see sees saw seen set sets lead leads led hold holds held bring brings brought run runs running move moves moved stand stands lie lies lay born living thing person people place time day night hand head eye ear foot body blood water fire earth land sea sky sun moon star year month week end part side kind sort way manner means mode fashion force power strength might authority rule government law right wrong good bad evil great small large big high low deep broad wide long short old new young early late quick slow fast hard soft light heavy warm cold hot dry wet clean pure holy sacred common private public open shut close together apart alone single double triple fold like love hate fear joy grief sorrow pain hurt wound injury harm evil ill sick well whole safe sound strong weak feeble faint dim bright clear dark obscure hidden secret plain simple complex subtle keen sharp dull blunt rough smooth level even flat straight curved bent round square long broad short gentle mild harsh stern fierce wild tame soft sweet bitter sour acid tart sharp hot cold very really quite rather somewhat slightly wholly entirely utterly quite eg viz namely useful serviceable beneficial profitable advantageous pleasant agreeable delightful pleasing empty waste desert powerful prudent violent foreign blessed unlike resembling green wasteful effective valuable excellent worthy active passable capable ready fit suitable proper fitting meet convenient opportune seasonable timely becoming decorous fair beautiful handsome comely shapely well-made well-formed graceful elegant refined polished finished perfect complete whole entire total full crowded thick numerous many much great immense vast huge large spacious broad wide extensive far-far distant remote separated parted divided separate distinct several various diverse different varied manifold rich wealthy opulent sumptuous costly dear expensive precious rare valuable choice select exquisite superb superb fine nice delicious savory tasteful good savory wholesome healthy salubrious healthful sound firm stable steady constant continual perpetual everlasting eternal immortal lasting enduring abiding durable permanent lasting solid substantial strong mighty potent powerful forcible vigorous active energetic spirited mettlesome manly brave courageous valiant bold daring fearless intrepid dauntless resolute firm steadfast unyielding inflexible stubborn obstinate headstrong willful perverse wayward froward forward bold daring rash reckless heedless careless negligent remiss slack idle lazy indolent slothful sluggish torpid inert sluggish dull heavy stupid senseless foolish silly fatuous imbecile weak-minded witless simple foolish silly childish puerile boyish girlish womanish effeminate soft delicate tender fragile frail brittle weak feeble languid faint exhausted wearied tired weary fatigued jaded worn-out spent exhausted`.split(/\s+/));
+const EN_WORDS = new Set(`to a an the of in by for from with at on into one who which what any some used having being full made containing capable able worthy called such same so hence also pertaining belonging relating or and but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you do does did done make makes made give gives gave taken take took turn turns turned call calls called come comes came put puts find finds found keep keeps kept see sees saw seen set sets lead leads led hold holds held bring brings brought run runs running move moves moved stand stands lie lies lay born living thing person people place time day night hand head eye ear foot body blood water fire earth land sea sky sun moon star year month week end part side kind sort way manner means mode fashion force power strength might authority rule government law right wrong good bad evil great small large big high low deep broad wide long short old new young early late quick slow fast hard soft light heavy warm cold hot dry wet clean pure holy sacred common private public open shut close together apart alone single double triple fold like love hate fear joy grief sorrow pain hurt wound injury harm evil ill sick well whole safe sound strong weak feeble faint dim bright clear dark obscure hidden secret plain simple complex subtle keen sharp dull blunt rough smooth level even flat straight curved bent round square long broad short gentle mild harsh stern fierce wild tame soft sweet bitter sour acid tart sharp hot cold very really quite rather somewhat slightly wholly entirely utterly quite eg viz namely useful serviceable beneficial profitable advantageous pleasant agreeable delightful pleasing empty waste desert powerful prudent violent foreign blessed unlike resembling green wasteful effective valuable excellent worthy active passable capable ready fit suitable proper fitting meet convenient opportune seasonable timely becoming decorous fair beautiful handsome comely shapely well-made well-formed graceful elegant refined polished finished perfect complete whole entire total full crowded thick numerous many much great immense vast huge large spacious broad wide extensive far-far distant remote separated parted divided separate distinct several various diverse different varied manifold rich wealthy opulent sumptuous costly dear expensive precious rare valuable choice select exquisite superb superb fine nice delicious savory tasteful good savory wholesome healthy salubrious healthful sound firm stable steady constant continual perpetual everlasting eternal immortal lasting enduring abiding durable permanent lasting solid substantial strong mighty potent powerful forcible vigorous active energetic spirited mettlesome manly brave courageous valiant bold daring fearless intrepid dauntless resolute firm steadfast unyielding inflexible stubborn obstinate headstrong willful perverse wayward froward forward bold daring rash reckless heedless careless negligent remiss slack idle lazy indolent slothful sluggish torpid inert sluggish dull heavy stupid senseless foolish silly fatuous imbecile weak-minded witless simple foolish silly childish puerile boyish girlish womanish effeminate soft delicate tender fragile frail brittle weak feeble languid faint exhausted wearied tired weary fatigued jaded worn-out spent exhausted energy vigor virtue potency anger wrath rage fury passion upper lower higher outer inner former latter savage ferocious barbarous furious plain soil shore coast wave storm breeze grove meadow valley ridge cliff sand bloom blossom root branch leaf seed fruit flower corn grain wheat barley wine oil milk honey salt stone rock metal gold silver brass bronze iron copper tin lead vein mine quarry chasm cave shelter refuge haven port harbor bay gulf strait isle island cape headland promontory marsh fen bog morass heath moor down hill hilltop knoll summit peak crest precipice crag scar shelf ledge terrace bank mound heap pile stack mass bulk lump piece portion share lot quantity number amount sum total whole entire all every each both neither either any some few several many much more most least little smaller greater lesser upper lower inner outer former latter nearest farthest outermost innermost honey sweet darling wonderful strange thousand weary angry immense countless hungry himself exclusively times famine dearth sense senses insane mad frantic sleep sleepy drowsy dozy somnolent list register`.split(/\s+/));
 const BIO_WORDS = new Set("king queen prince princess daughter son father mother brother sister wife husband god goddess nymph giant hero heroine warrior king king's people nation tribe city town river mountain island kingdom region country land sea kingly royal".split(/\s+/));
 const FUNCTION = new Set(("to a an the of in by for from with at on into who which what and or but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you so hence also such same perh esp etc i e v s c m n t o r or in for with out by of on at".split(" ")));
+// GLOSS_RUN: "force, vigor, power, energy, virtue", "land, ground, soil", "much,
+// great, many" — L&S's bare synonym-run primary senses. The old scorer only caught
+// capitalized ADJ runs (isBareAdj), so common noun/adjective primaries scored 0
+// and lost to a translated example ("terra"→"the sea", "vis"→"the same as Juno").
+const GLOSS_RUN = /^[A-Z]?[a-z]{3,}(?:-[a-z]{3,})?(?:,\s*[a-z]{3,}(?:-[a-z]{3,})?)+$/;
+// Latin inflections that rarely end English words — used to (a) exclude Latin
+// runs from GLOSS_RUN and (b) reject pure-Latin clauses ("a proelio" = article +
+// Latin ablative, an example not a gloss).
+const LATIN_INFL = /(?:us|um|ae|is|em|am|as|es|os|unt|tur|mus|tis|ntur|ibus|orum|arum|oque|que)$/;
+// "i. e." / "viz." introduce an explication of a specific referent, the signature
+// of a translated example ("the upper, i. e. the Adriatic and Ionian Sea") rather
+// than the general gloss. Slight penalty so the general gloss wins.
+const IE_MARK = /(?:i\.\s*e\.|viz\.|id\s*est)/i;
+function isEnglishWord(w) {
+  const x = w.toLowerCase().replace(/^[^a-z]*|[^a-z]*$/g, "");
+  return EN_WORDS.has(x) || BIO_WORDS.has(x) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(x);
+}
+// Count Latin-inflected tokens in a clause (lowercase, ≥4 chars, Latin inflection
+// ending, not an English word, not an English-morphology word). "pisces,Aus" → 1;
+// "the master, himself" → 0; "the famous" → 0 (-ous is English).
+function latinCount(g) {
+  let n = 0;
+  for (const t of g.split(/[\s,]/)) {
+    // skip capitalized words — proper nouns ("Samnium", "Hirpini") aren't Latin
+    // inflections of English words, and counting them loses a real gloss to a
+    // Latin-looking place name ("a city of the Hirpini in Samnium" vs "the
+    // inhabitants of Aec").
+    if (/^[A-Z]/.test(t)) continue;
+    const w = t.toLowerCase();
+    if (w.length >= 4 && /^[a-z]/.test(w) && LATIN_INFL.test(w) && !EN_WORDS.has(w)
+        && !/(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(w)
+        // English plural of an EN_WORDS singular: "senses"→sense, "heavens"→heaven,
+        // "things"→thing. Latin ablatives (-ibus) and genitives (-ae, -is) aren't
+        // English plurals; require the singular in EN_WORDS so it's safe.
+        && !(w.endsWith("es") && EN_WORDS.has(w.slice(0, -2) + "e"))
+        && !(w.endsWith("s") && !w.endsWith("is") && !w.endsWith("us") && EN_WORDS.has(w.slice(0, -1)))) n++;
+  }
+  return n;
+}
+function isGlossRun(g) {
+  if (!GLOSS_RUN.test(g)) return false;
+  const toks = g.split(",").map(x => x.trim().toLowerCase());
+  // The FIRST token must be English (hyphen-compounds split for the check: a
+  // honey-sweet first token is honey+sweet, both English) — kills Latin example
+  // runs ("veni, vidi, vici", "omnia, adverbially, altogether, entirely").
+  const firstWords = toks[0].split("-");
+  const firstOk = firstWords.some(w => EN_WORDS.has(w) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing)$/.test(w));
+  if (!firstOk) return false;
+  for (const t of toks) {
+    if (FUNCTION.has(t)) return false;
+    if (t.length >= 5 && LATIN_INFL.test(t) && !EN_WORDS.has(t)) return false;
+  }
+  return true;
+}
 function enCount(g) {
-  const toks = g.toLowerCase().replace(/[^a-z\s]/g," ").split(/\s+/).filter(w=>w.length>=3);
+  // split on spaces AND hyphens so hyphen-compounds ("honey-sweet") count as English
+  const toks = g.toLowerCase().replace(/[^a-z\s-]/g," ").split(/[\s-]+/).filter(w=>w.length>=3);
   let n = 0;
   for (const w of toks) {
     if (FUNCTION.has(w)) continue;
@@ -77,10 +133,13 @@ function enCount(g) {
 }
 function isBareAdj(g, pos) {
   if (pos !== "ADJ") return false;
-  if (!/^[A-Z]/.test(g)) return false;
   const first = g.split(/[\s,]/)[0].toLowerCase();
   if (FRAG_START.has(first)) return false;
   if (FUNCTION.has(first)) return false;   // "With inf", "Of persons" are NOT adjectives
+  // L&S bare adjectives open capitalized ("Useful", "Empty", "Desolate") or with
+  // a known English word. A lowercase Latin verb form like "vive" (ends -ive) must
+  // NOT qualify — it was getting a bare-ADJ bonus and beating the real gloss.
+  if (!/^[A-Z]/.test(g) && !EN_WORDS.has(first)) return false;
   if (!EN_WORDS.has(first) && !/(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing)$/.test(first)) return false;
   return true;
 }
@@ -89,14 +148,25 @@ function cleanOne(t) {
   if (XREF.test(t)) return null;
   if (HEADER.test(t)) return null;
   if (SCOPE_LABEL.test(t)) return null;
+  if (SAME_AS.test(t)) return null;
+  if (/^(?:hence|whence|thence|wherefore|whereby)\b/i.test(t)) return null;
   if (ETYM.test(t)) return null;
   let m = t.match(/^((?:[a-z]+\.\s*)+(?:\[[^\]]*\]\s*)?),\s+/i);
   if (m) {
     const head = m[1].replace(/\[.*?\]/g,"").trim();
     const all = head.split(/\s+/).filter(Boolean).every(tok => ABBR_TOK.test(tok));
-    if (all) t = t.slice(m[0].length).trim();
+    // Don't strip a "Adj. dim. [mellitus]" head when it's followed by a hyphenated
+    // English compound ("honey-sweet") — the [] is a cross-ref, not a section
+    // label, and stripping it over-fragments the gloss. Only strip when the next
+    // token is a plain gloss opener.
+    const rest = t.slice(m[0].length);
+    if (all && !/^[a-z]+-[a-z]/.test(rest) && !/^[a-z]+,/.test(rest)) t = rest.trim();
   }
   t = t.replace(/^In\s+(?:gen\.|partic\.|the\s+widest\s+sense),?\s*/i,"").replace(/^Lit\.\s*/i,"");
+  // A standalone "Adj. dim. [mellitus]," / "Adj. of ..." / "dim. [X]" head before
+  // the gloss — the [] is a cross-ref to the base form. Strip it so the gloss
+  // survives ("Adj. dim. [mellitus], honey-sweet, darling" → "honey-sweet, darling").
+  t = t.replace(/^(?:adj\.|dim\.|adv\.|freq\.|rare\.?|subst\.|m\.|f\.)\s+[a-z]+\.\s*\[[^\]]*\]\s*,\s*/i,"").trim();
   // section labels for pronoun/adverb senses: "Rel., who, which...", "Interrog., who?",
   // "Act., ...", "Neutr., ..." — strip so the real gloss opener survives
   t = t.replace(/^(?:Rel|Interrog|Act|Pass|Neutr|Absol|Lit|Transf|Esp|Prop|Trop|Subst|P\. a\.|In\s+gen|In\s+partic)\.?,?\s*/i,"");
@@ -105,12 +175,121 @@ function cleanOne(t) {
   t = t.replace(CIT_FULL,"").trim();
   t = t.replace(TAIL_CIT,"").trim();
   t = t.replace(TAIL_AUTHOR,"").trim();
+  // citation chains: "ap. Serv. l. l", "Arn. 3, p", "Arat. Phaen. 394 B. and K",
+  // ", Treb. Poll", ", Firm" — an L&S author reference glued to the clause end
+  // ("the plough-beam. ap. Serv. l. l", "a constellation, usu. called Bootes.
+  // Arat. Phaen. 394 B. and K").
+  t = t.replace(/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*(?:[A-Z][a-z]{2,8}\.\s*)?(?:l\.\s*)?(?:p\.\s*)?\s*[\dIVXLCDM]+[\s\S]*$/,"").trim();
+  t = t.replace(/\s+ap\.\s*[A-Z][a-z]{2,8}\..*$/,"").trim();
+  t = t.replace(/[.,;:]\s*[A-Z][a-z]{3,}(?:\s*[A-Z][a-z]{2,8}\.?)?\s*$/,"").trim();
   t = t.replace(CIT,"");
   t = t.replace(/\([^)]*\)\s*$/,"").trim();
   t = t.replace(/\([^)]*$/,"").trim();   // unclosed trailing paren (clause-split broke "(syn.: ...)" across clauses)
   t = t.replace(/[.,;]$/,"").trim();
   t = t.replace(/\s+(?:etc\.?|al\.|sq\.)$/i,"").trim();
   t = t.replace(/[.,;]$/,"").trim();
+  // Citation/note tails that survived the strip: "—Hence", "—Prov", "—Subst",
+  // ", i. e", "belua, i. e" (cross-ref markers), ", 6, 495 sq" (pure locator).
+  t = t.replace(/\s*—[A-Za-z.]{2,15}\s*$/,"").trim();
+  t = t.replace(/[.,;:]\s*(?:i\.\s*e\.|cf\.|v\.\s*infra|q\.\s*v\.|id\.|ap\.)\s*$/i,"").trim();
+  t = t.replace(/[.,;:]\s*\d+(?:\s*,\s*[IVXLCDM\d]+)*\s*(?:sq\.|sqq\.)?\s*$/,"").trim();
+  // Proper-noun preamble: "Aeculanum (Aecae?), f. A city..." / "Roma, f. Rome" —
+  // the entry's headword+gender is glued to the gloss and kills its STRONG_OPEN.
+  t = t.replace(/^[A-Z][a-z]+(?:\s*\([^)]*\)\s*)?,\s*[fmn]\.\s+/i,"").trim();
+  // Leading etymology/orthography prefix glued before the gloss: "memoria, mora,
+  // etc., not from memini, mindful of a thing, remembering". Strip the leading
+  // non-English prefix ONLY when it contains a clearly-Latin token (ends -ia/-ini/
+  // -orum...), so "That may be easily united or joined together, sociable" (no
+  // Latin token) is untouched.
+  {
+    const toks = t.split(/\s+/);
+    const LATIN_ISH = /(?:ia|ini|orum|arum|oque|que|ibus|atur|antur|entur|atur|itur|atis|orum)$/;
+    let hasLatin = false, firstEn = -1;
+    for (let i = 0; i < toks.length; i++) {
+      const w = toks[i].toLowerCase().replace(/^[^a-z]*|[^a-z]*$/g, "");
+      if (!w) continue;
+      // FUNCTION words are transparent — "not from memini, mindful..." must not
+      // stop the scan at "not" (which is in EN_WORDS).
+      if (FUNCTION.has(w)) continue;
+      // isEn must recognize hyphen-compounds: "honey-sweet" splits into honey+sweet
+      // (both English). A plain "honey" (tok[0]) would otherwise not be English and
+      // firstEn skips past it to "darling", truncating the gloss.
+      const isEn = EN_WORDS.has(w) || BIO_WORDS.has(w)
+        || w.split("-").some(x => EN_WORDS.has(x) || BIO_WORDS.has(x))
+        || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(w);
+      if (isEn) { firstEn = i; break; }
+      if (LATIN_ISH.test(w)) hasLatin = true;
+    }
+    // Drop the leading non-gloss prefix (Latin etymology OR function-word run) so
+    // the gloss starts at the first English content word: "not from memini,
+    // mindful of a thing, remembering" → "mindful of a thing, remembering".
+    // Only when a Latin token preceded it ("memini") — a first-token gloss like
+    // "honey-sweet" must not be dropped.
+    if (firstEn > 0 && hasLatin) t = toks.slice(firstEn).join(" ");
+  }
+  // Latin example glued after the English gloss: "Wonderful! how strange! indeed!
+  // papae! divitias tu quidem habuisti luculentas" — the gloss ends at the first
+  // Latin word that is followed by more Latin example text. "a market-place,
+  // public square, forum" survives ("forum" is last; no English seen before it).
+  // "Easily broken, or crumbled to pieces, friable" survives ("pieces" looks
+  // Latin-ish but is followed by more gloss, not a citation).
+  {
+    const toks = t.split(/\s+/);
+    let seenEn = false;
+    for (let i = 0; i < toks.length; i++) {
+      const w = toks[i].toLowerCase().replace(/^[^a-z]*|[^a-z]*$/g, "");
+      if (!w) continue;
+      if (FUNCTION.has(w)) continue;
+      if (EN_WORDS.has(w) || BIO_WORDS.has(w) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(w)) { seenEn = true; continue; }
+      // lowercase only — a capitalized word is a proper noun ("Son of Priam and
+      // Hecuba": Priam ends in -am but is a name, not a Latin example tail).
+      // Only truncate when a LATIN word follows the Latin one — a citation tail
+      // ("...luculentas") — NOT when it's a gloss synonym ("...to pieces, friable").
+      if (seenEn && w.length >= 4 && !/^[A-Z]/.test(toks[i]) && LATIN_INFL.test(w) && i < toks.length - 1) {
+        const next = toks[i + 1].toLowerCase().replace(/^[^a-z]*|[^a-z]*$/g, "");
+        const nextLatin = next.length >= 4 && !EN_WORDS.has(next) && !/(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(next)
+          && !/^[A-Z]/.test(toks[i + 1]);
+        if (nextLatin) { t = toks.slice(0, i).join(" "); break; }
+      }
+    }
+  }
+  // Pure-Latin clause, not a gloss: "a proelio" (article + Latin ablative) and
+  // "a qua (gratia) te flecti... quam Herculem" are example translations, not
+  // definitions. Reject an all-non-English clause with Latin-inflected tokens —
+  // short ("a proelio": 1 Latin token) or long (2+ tokens).
+  if (t.length >= 4 && enCount(t) === 0) {
+    const toks = t.split(/\s+/).filter(Boolean);
+    const latToks = toks.filter(tk => {
+      // Proper nouns ("Senones", "Euryalus", "Venus") are NOT Latin inflections —
+      // skip capitalized tokens before the lowercase check, mirroring latinCount.
+      if (/^[A-Z]/.test(tk)) return false;
+      const w = tk.toLowerCase();
+      return w.length >= 4 && /^[a-z]/.test(w) && LATIN_INFL.test(w) && !EN_WORDS.has(w);
+    });
+    const nonFn = toks.filter(tk => !FUNCTION.has(tk.toLowerCase()) && tk.length >= 3 && !/^[A-Z]/.test(tk));
+    const hasProperNoun = toks.some(tk => /^[A-Z]/.test(tk));
+    if (latToks.length >= 2) return null;
+    // A strong-opener gloss with a proper noun ("A festival of Venus", "A chieftain
+    // of the Senones") is English, never a pure-Latin clause — escape the short-clause
+    // reject. "a proelio" (no capital) still dies here.
+    if (latToks.length >= 1 && nonFn.length <= 2 && !(hasProperNoun && STRONG_OPEN.test(t))) return null;
+    // A pure Latin phrase: ≥2 non-function tokens, at least one Latin-inflected,
+    // and NONE English-morphology ("consortio inter reges", "natura nos sociabiles
+    // fecit", "sive ex inferiore loco... loquitur"). Short citation tokens ("Ep")
+    // and capitals are filtered out of nonFn. "to shackle, hamper, hinder, hold
+    // fast" has no Latin-inflected token; "poplar, poplar-tree" likewise survives.
+    // A STRONG opener or comma-run shape ("A list, register, syllabus") is an
+    // English gloss even if its words aren't in EN_WORDS — don't reject it.
+    const glossShaped = STRONG_OPEN.test(t) || GLOSS_RUN.test(t);
+    if (!glossShaped && nonFn.length >= 2 && latToks.length >= 1 && nonFn.every(tk => {
+      const w = tk.toLowerCase().replace(/^[^a-z]*|[^a-z]*$/g, "");
+      return w.length >= 3 && !EN_WORDS.has(w) && !/(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(w);
+    })) return null;
+    // article + a Latin ablative: "a proelio" (-io isn't in LATIN_INFL). "an
+    // appletree" and "a poplar, poplar-tree" don't end in a Latin ablative.
+    const abl = toks.some(tk => /[aeiou]o$/.test(tk.toLowerCase()) && !EN_WORDS.has(tk.toLowerCase()));
+    if (/^(?:a|an|the)\s+/i.test(t) && toks.length <= 4 && abl) return null;
+  }
   if (!t || t.length < 4) return null;
   return t;
 }
@@ -118,6 +297,7 @@ function scoreGloss(g, pos) {
   let s = 0;
   if (STRONG_OPEN.test(g)) s += 3;
   else if (isBareAdj(g, pos)) s += 3;
+  else if (isGlossRun(g)) s += 3;
   else if (WEAK_OPEN.test(g)) s += 1;
   if (pos === "V" && /\bto\s+[a-z]/i.test(g)) s += 2;
   else if (pos !== "V" && /^to\s+[a-z]/i.test(g)) s -= 3;
@@ -136,31 +316,136 @@ function scoreGloss(g, pos) {
   if (TRAIL_AUTHOR_BARE.test(g)) s -= 4;
   if (/(?:\s(?:hence|cf|syn|freq\.|class\.|absol|neutr|act\.|pass\.|in\s+gen\.))\s*,?\s*(?:\([^)]*\))?$/i.test(g)) s -= 4;
   if (/\((?:cf\.?|syn\.?|freq\.?|rare|class\.?|poet\.?|ante-?class\.?)\)?$/i.test(g)) s -= 2;
+  if (IE_MARK.test(g)) s -= 3;
+  // "very rare, and only of the eyes" — a usage-restriction note, not a gloss.
+  if (/^(?:very\s+rare(?:ly)?|rarely|in\s+very\s+rare|rare\b)/i.test(g)) s -= 3;
   return s;
 }
+// Selection is DECOUPLED from detection (panel M-008 consensus):
+//  - detection = cleanOne + the hard gates below (a clause is usable or not);
+//  - selection = score desc → latinCount asc → EARLIEST SENSE asc → shorter.
+// No comma-count/runTokens preference — it rewarded citation fragments.
+// L&S primacy is positional (senses are ordered by primacy), so among equal-score
+// candidates the earliest sense is the primary. Verbs need no special case:
+// "to bear..." in s[4] beats "to move or go swiftly" in s[6] by sense order.
+function better(cand, best, pos) {
+  if (cand.sc !== best.sc) return cand.sc > best.sc;
+  const la = latinCount(cand.g), lb = latinCount(best.g);
+  if (la !== lb) return la < lb;
+  // L&S orders senses by primacy — among equal-score, equal-latin candidates the
+  // EARLIEST sense is the primary ("to bear, carry" in s[0] beats "to move or go
+  // swiftly" in s[6]; "a needle" in s[0] beats "a buckle" in s[3]; malus's "an
+  // evil" in s[1] beats the narrower "hurt, harm" in s[4]).
+  if (cand.sense !== best.sense) return cand.sense < best.sense;
+  // English synonym-run richness within a sense: "upper, higher" (2) beats "the
+  // lower or Etruscan Sea)" (0); "land, ground, soil" (3) beats "the sea" (0).
+  // Fragments like "pisces,Aus" score 0 because their segments aren't English.
+  const a = runTokens(cand.g), b = runTokens(best.g);
+  if (a !== b) return a > b;
+  // English content within a sense: "A city of the Hirpini" (en 1) beats "the
+  // inhabitants of Aec" (en 0).
+  if (cand.en !== best.en) return cand.en > best.en;
+  if (cand.g.length !== best.g.length) return cand.g.length < best.g.length;
+  return false;
+}
+// Count comma-segments that are a SINGLE English content word ("land, ground,
+// soil" = 3). Latin fragments ("pisces,Aus"), abbreviation fragments (", , f") and
+// multi-word segments don't count.
+function runTokens(g) {
+  return g.split(",").filter(seg => {
+    const w = seg.trim();
+    if (!/^[A-Za-z-]{3,}$/.test(w)) return false;
+    const words = w.toLowerCase().split("-");
+    return words.some(x => EN_WORDS.has(x) || BIO_WORDS.has(x) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion)$/.test(x));
+  }).length;
+}
+// Hard gates that remove a clause from the candidate set before ranking. These
+// are boolean rejections, not soft penalties — rejection is monotone (it only
+// removes candidates, never flips a right answer to a wrong one) and recoverable
+// (fall through to the next sense → WORDS).
+function usable(g, pos) {
+  if (!g || g.length < 4) return false;
+  // citation/author residue survived cleanOne: "Ov. M", "Treb", "puella,Hier. Ep"
+  if (TRAIL_AUTHOR_BARE.test(g)) return false;
+  // abbreviation-only fragment: ", , f", "Hence, adv", "belua, i. e"
+  const realWords = g.split(/[\s,]/).filter(w => /^[A-Za-z-]{3,}$/.test(w));
+  if (realWords.length === 0) return false;
+  if (realWords.every(w => FRAG_START.has(w) || FUNCTION.has(w.toLowerCase()))) return false;
+  // a single CAPITALIZED short word is an author/fragment ("in Psa", "Pers",
+  // "Vulg", "Ov"), not a gloss. "an appletree" (lowercase, compound) survives.
+  if (realWords.length === 1 && /^[A-Z][a-z]{1,4}$/.test(realWords[0])) return false;
+  // a pure Latin/abbrev tail glued to an example: "in fame frumentum exportare. Fl"
+  if (/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*$/.test(g)) return false;
+  // usage/construction explanations, not glosses: "Where the person or thing
+  // referred to is to be emphatically distinguished from others", "the person or
+  // thing referred to is to be emphatically distinguished", "When a thing is
+  // predicated of..." — relative-clause sentences explaining a construction.
+  if (/^(?:where|when|how|why)\b/i.test(g)) return false;
+  if (/^the\s+(?:person|thing|object|subject|word|pronoun|noun|verb)\s+(?:or\s+\w+\s+)?referred to\s+(?:is|was) to be/i.test(g)) return false;
+  // grammatical meta-notes, not glosses: "in two forms", "in three ways", "in
+  // four senses" — the declension/orthography section headers of a complex entry.
+  if (/^in\s+(?:one|two|three|four|five|both|a|an)\s+(?:forms?|ways?|senses?|numbers?|syllables?)\b/i.test(g)) return false;
+  return true;
+}
+// R2 (panel data-expert): a clause that OPENS an English gloss run is the primary
+// even when its 40-char `before` window contains etymology/Greek ("Sanscr. root
+// smar-... mindful of a thing", "...prop. the dry land, ... land, ground, soil").
+// L&S puts the noun/verb primary at the TAIL of senses[0] AFTER the etymology
+// block; the old guard skipped exactly those.
+function isGlossyOpen(raw) {
+  // NOT WEAK_OPEN: etymology fragments also open with "in/of/with" ("in smarti,
+  // memory" is Sanskrit etymology, not a gloss). Only a strong opener, a bare
+  // synonym run, or an English content word is a real gloss opener.
+  if (STRONG_OPEN.test(raw) || isGlossRun(cleanOne(raw) || "")) return true;
+  const first = ((cleanOne(raw) || "").split(/[\s,]/)[0] || "").toLowerCase();
+  return first.length >= 3 && (EN_WORDS.has(first) || BIO_WORDS.has(first) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing)$/.test(first));
+}
 function bestClause(s, pos) {
-  const clauses = s.split(/[;:]/).flatMap(c => c.split(/,\s+(?=to\s|a\s|an\s|the\s|of\s|in\s|by\s|for\s|from\s|with\s|who\s|which\s|one\s|that\s)/))
+  const clauses = s.split(/[;:]/).flatMap(c => c.split(/,\s+(?=to\s|a\s|an\s|the\s|of\s|in\s|by\s|for\s|from\s|with\s|who\s|which\s|one\s|that\s|much\b|few\b|little\b|many\b|great\b|upper\b|lower\b|former\b|latter\b)/))
     // definitions that follow a closing etymology bracket: "Engl. else], another, other"
-    .flatMap(c => c.split(/\]\s*,?\s+(?=a\b|an\b|the\b|one\b|who\b|which\b|what\b|to\b|another\b|other\b)/));
-  let best = null, bestScore = -99, bestEn = -1;
+    .flatMap(c => c.split(/\]\s*,?\s+(?=a\b|an\b|the\b|one\b|who\b|which\b|what\b|to\b|another\b|other\b)/))
+    // L&S chains subordinate notes with an em-dash ("a probe, Cels. 7, 17.—Hence,
+    // acu pingere..."). A gloss never contains an em-dash; split so the note is
+    // its own (rejected) clause instead of gluing a citation to the gloss.
+    .flatMap(c => c.split(/—/));
+  let best = null;
   let cursor = 0;
   for (const c of clauses) {
     const start = s.indexOf(c, cursor);
     const before = start >= 0 ? s.slice(Math.max(0, start - 40), start) : "";
     cursor = start >= 0 ? start + c.length : cursor;
-    if ((ETYM.test(before) || GREEK.test(before)) && !/[\]\)][\s.,;:]*$/.test(before)) continue;
+    // GREEK context is ALWAYS etymology ("Gr. φλυω, to bubble up") — skip it,
+    // UNLESS the Greek is separated from the clause by a ";" or "]" (the etymology
+    // block closed and the real gloss follows: "Gr. μάρτυς, witness; ... mindful
+    // of a thing"). Check the segment AFTER the last ";" in the 40-char window:
+    // "φλυ-; Gr. φλυω, " has Greek after the ";" → reject; "μεριμνα, care; cf.: "
+    // has Greek BEFORE the ";" → allow.
+    if (GREEK.test(before)) {
+      const cut = Math.max(before.lastIndexOf(";"), before.lastIndexOf("]"));
+      const seg = before.slice(cut + 1);
+      if (GREEK.test(seg)) continue;
+    }
+    if (ETYM.test(before) && !/[\]\)][\s.,;:]*$/.test(before) && !isGlossyOpen(c)) continue;
     const r = cleanOne(c);
     if (!r) continue;
+    if (!usable(r, pos)) continue;
     // era preference on the RAW clause (cleanOne strips the era note): the
     // classical sense is the primary one users want, the late/post-Aug./rare
     // sense is a marginal add-on — "to inhabit (class.)" beats "to cultivate (late Lat.)"
     let era = 0;
-    if (/\(class/i.test(c)) era = 1;
-    else if (/\((?:late|post-?aug|ante-?class|arch|very\s+rare|perh\.?)/i.test(c)) era = -1;
-    const sc = scoreGloss(r, pos) + era, en = enCount(r);
-    if (sc > bestScore) { bestScore = sc; best = r; bestEn = en; }
+    // standalone "class." (not "post-class."/"ante-class.") is the classical marker.
+    if (/(?:^|[\s(])class\./i.test(c)) era = 1;
+    // late/rare senses are demoted hard (data-expert R7): they should only win by
+    // the fallback, never beat the classical primary ("a violent longing" (post-Aug.)
+    // must not beat "Famine, dearth" (class.)). "perh." (perhaps) is a FREQUENCY
+    // hedge, not a late/rare marker — "(so, rarely, and perh. only in Cic.)" is a
+    // classical primary and must NOT be demoted (dignitas s[1] was losing to a
+    // marginal clause).
+    else if (/\b(?:late|post-?aug|ante-?class|arch\.?|very\s+rare)\b/i.test(c)) era = -3;
+    const baseSc = scoreGloss(r, pos), sc = baseSc + era, en = enCount(r);
+    if (!best || better({ sc, baseSc, g: r, en, sense: -1 }, best, pos)) best = { sc, baseSc, g: r, en, sense: -1 };
   }
-  return {best, bestScore, bestEn};
+  return { best: best && best.g, bestScore: best && best.sc, bestBase: best && best.baseSc, bestEn: best && best.en };
 }
 function flattenSenses(senses) {
   const out = [];
@@ -171,37 +456,27 @@ function flattenSenses(senses) {
 function lsExtract(e, pos) {
   if (!e || !e.senses || e.senses.length === 0) return null;
   const all = flattenSenses(e.senses);
-  // PRIMARY-FIRST: L&S puts the primary definition early (senses[0] or nearby).
-  // Among the first 3 flattened senses, pick the BEST clean definition (era-
-  // adjusted score ≥ 4) — but prefer it over a deep example anywhere. A marginal
-  // secondary sense ("to cultivate (late Lat.)", era-adjusted 3) must not beat
-  // the true primary ("to inhabit (class.)", era-adjusted 6) just by appearing
-  // earlier in the string order.
-  let early = null, earlyScore = -99;
-  for (let i=0;i<Math.min(all.length,3);i++) {
+  // SINGLE GATED PASS (panel M-008): walk every sense in order; the best clause
+  // of each sense is a candidate. Selection = score → latinCount → earliest
+  // sense → shorter. L&S orders senses by primacy, so "upper, higher" in s[3]
+  // beats the later superlative run "the highest, greatest, most exalted,
+  // supreme" (equal score, earlier sense). Verbs resolve the same way ("to bear"
+  // in s[4] beats "to move or go swiftly" in s[6]).
+  let cand = null;
+  for (let i = 0; i < all.length; i++) {
     const b = bestClause(all[i], pos);
     if (!b.best) continue;
-    if (b.bestScore >= 4 && b.bestScore > earlyScore) { early = b.best; earlyScore = b.bestScore; }
+    const c = { sc: b.bestScore, baseSc: b.bestBase, g: b.best, en: b.bestEn, sense: i };
+    if (!cand || better(c, cand, pos)) cand = c;
   }
-  if (early) return early;
-  // Verbose usage-explanation clauses (a whole sentence) are the primary sense
-  // spelled out, not the terse gloss users want. Among the first 3 senses, prefer
-  // a shorter clean clause (score ≥ 2, ≤ 80 chars) over a long one.
-  let terse = null, terseLen = 1e9;
-  for (let i=0;i<Math.min(all.length,3);i++) {
-    const b = bestClause(all[i], pos);
-    if (!b.best || b.bestScore < 3) continue;
-    if (b.best.length <= 80 && b.best.length < terseLen) { terse = b.best; terseLen = b.best.length; }
-  }
-  if (terse) return terse;
-  let best = null, bestScore = -99, bestEn = -1;
-  for (let i=0;i<all.length;i++) {
-    const b = bestClause(all[i], pos);
-    if (!b.best) continue;
-    if (b.bestScore > bestScore) { best = b.best; bestScore = b.bestScore; bestEn = b.bestEn; }
-  }
-  if (!best) return null;
-  if (bestScore >= 2 || (bestScore >= 0 && bestEn >= 2)) return best;
+  if (!cand) return null;
+  // ACCEPTANCE FLOOR (detection, decoupled from selection): a selected clause is
+  // only usable if it scores well OR carries ≥2 English content words. Uses the
+  // BASE score (without era penalty) so a legitimate rare/era gloss ("A stopple,
+  // plug (post-Aug.)", "A sponge (late Lat.)") isn't nulled — the era penalty
+  // demotes RANKING (a post-Aug. secondary must not beat the classical primary)
+  // but must not reject a real gloss outright.
+  if (cand.baseSc >= 2 || (cand.baseSc >= 0 && cand.en >= 2)) return cand.g;
   return null;
 }
 
@@ -241,22 +516,35 @@ function isSpurious(l) {
 // (alius2) — used by the case-collision guard to steer a capitalized wordlist
 // lemma (Alius) away from a proper-noun L&S homograph-1 onto the common-word
 // numbered key. Returns the highest existing sibling key (alius2 > alius3...).
+// Precomputed once so resolve() is O(1) per lemma (the naive per-call scan of all
+// ~40k L&S keys made the full build O(n²) — a hidden ~minutes).
+const lsSibling = new Map();
+for (const k of lsByKey.keys()) {
+  const m = k.match(/^(.*?)(\d+)$/);
+  if (!m) continue;
+  const base = m[1], n = +m[2];
+  const prev = lsSibling.get(base);
+  if (!prev || n > prev.n) lsSibling.set(base, { key: k, n });
+}
 function numberedSibling(base) {
-  let found = null, foundN = 0;
-  for (const k of lsByKey.keys()) {
-    if (!k.startsWith(base)) continue;
-    const m = k.slice(base.length).match(/^(\d+)$/);
-    if (!m) continue;
-    const n = +m[1];
-    if (n > foundN) { foundN = n; found = k; }
-  }
-  return found;
+  const s = lsSibling.get(base);
+  return s ? s.key : null;
 }
 function resolve(lemma, pos, depth = 0) {
   const l = lemma.toLowerCase();
   const base = l.replace(/\d+$/,"");
   let e;
-  if (isSpurious(l)) e = lsByKey.get(base) || lsByKey.get(base+"1");
+  if (isSpurious(l)) {
+    // Spurious-homograph skip normally prefers the bare key (the wordlist
+    // duplicated one homograph under two keys — paro2 is the same *prepare* verb
+    // as paro, so bare paro1 "make ready" is right). BUT when the bare twin's
+    // homograph-1 is a CAPITALIZED proper noun (wordlist alius2 = the pronoun,
+    // bare "Alius1" = "native of Elis"), the numbered key is the common word and
+    // must win (alius2 → "another, other").
+    const h1 = lsByKey.get(base + "1");
+    if (h1 && /^[A-Z]/.test(h1.key)) e = lsByKey.get(l) || null;
+    else e = lsByKey.get(base) || lsByKey.get(base + "1");
+  }
   else {
     // CASE-COLLISION GUARD: a capitalized wordlist lemma can be a case-variant of
     // a common word (wordlist "Alius" = the pronoun "other", capitalized because
@@ -297,7 +585,12 @@ function wGloss(lemma, pos, gender) {
     try { const a = engine.parseWord(base); ps = (a.results||[]).map(x=>({pofs:(x.ir&&x.ir.qual&&x.ir.qual.pofs)||"",g:(x.ir&&x.ir.qual&&x.ir.qual.noun&&x.ir.qual.noun.gender)||"",m:(x.de&&x.de.mean)||""})); } catch(e){}
     wc.set(base, ps);
   }
-  const same = wc.get(base).filter(x=>x.pofs===pos && (!gender||x.g===gender));
+  const all = wc.get(base).filter(x=>x.pofs===pos);
+  // Use gender only when it disambiguates: the wordlist tag's gender is often
+  // wrong/imprecise (inoblitus tagged "m" but WORDS says "f"), and dropping to
+  // an empty list silently loses a good gloss. Fall back to POS-only.
+  let same = all;
+  if (gender) { const gf = all.filter(x=>x.g===gender); if (gf.length) same = gf; }
   const distinct = new Set(same.map(x=>x.m.split(";")[0].trim().replace(/^\||\||$/g,"")));
   return distinct.size===1 ? [...distinct][0] : null;
 }
@@ -308,12 +601,24 @@ const lemmaGloss = new Map();
 let lClean=0,wClean=0,none=0, done=0;
 const total = rows.size;
 const t0 = Date.now();
+// resolve() is pure per lemma (same lem + dominantPos → same result) but the
+// wordlist carries ~673k (lemma|tag) rows over only ~40k unique lemmas. Memoize
+// by the EXACT lemma string (resolve is case-sensitive in the collision guard,
+// so "Gallia" ≠ "gallia") to cut ~17× redundant work: ~330s → ~20s.
+const resolveCache = new Map();
+const wGlossCache = new Map();
 for (const r of rows.values()) {
   const lem = r.lemma;
   const pos = dominantPos(lem.toLowerCase());
   const g6 = (pos==="N"||pos==="ADJ"||pos==="PRON") ? (GEN_MAP[r.tag[6]]||"") : "";
-  const l = resolve(lem, pos);
-  const w = SKIP_WORDS ? null : wGloss(lem, pos, g6);
+  let l = resolveCache.get(lem);
+  if (l === undefined) { l = resolve(lem, pos); resolveCache.set(lem, l); }
+  let w = null;
+  if (!SKIP_WORDS) {
+    const wk = lem + " " + pos + " " + g6;
+    w = wGlossCache.get(wk);
+    if (w === undefined) { w = wGloss(lem, pos, g6); wGlossCache.set(wk, w); }
+  }
   let gloss = null;
   if (l) { gloss = l; lClean++; }
   else if (w) { gloss = w; wClean++; }
