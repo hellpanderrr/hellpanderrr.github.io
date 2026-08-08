@@ -186,11 +186,16 @@ panel (classicist, data-expert, adversarial-architect) verified the root causes:
   by running the pre-restructure extractor).
 
 **Fix (committed with this section):**
-- **CORE_GLOSS override table** (`utils/core_gloss.json`, 262 entries) — hand-
-  curated everyday glosses for the closed function-word class + homograph-inverted
-  content words + content verbs whose L&S primary is etymological (`scribo`→"to
-  write", `credo`→"to believe"). L&S never states "and"/"but"/"to be" — no scoring
-  rule can recover them. Applied pre-resolve; wins over everything.
+- **CORE_GLOSS override table** (`utils/core_gloss.json`, now **1587 entries**) —
+  hand-curated everyday glosses for the closed function-word class + homograph-
+  inverted content words + content verbs/nouns whose L&S primary is etymological
+  (`scribo`→"to write", `credo`→"to believe", `ago`→"to drive, do, act",
+  `os2`→"a bone", `albus`→"white") + proper-noun truncations (`caesar`→"Caesar;
+  an emperor") + abstract/legal/military/body/weather terms. L&S never states
+  "and"/"but"/"to be" — no scoring rule can recover them. Applied pre-resolve;
+  wins over everything. Supports explicit-null → fail-safe "—" (a wrong gloss is
+  worse than none). A 14-round curation loop (2026-08-08) grew it from 262
+  entries, each round gated by the golden suite + census (monotone rule).
 - **WORDS-first for the closed particle class** — lemmas with any r/c/e attestation
   (157 lemmas) prefer Whitaker's WORDS first-result (frequency-ordered) over L&S.
   Scoped so it touches zero content-word golden rows.
@@ -198,12 +203,14 @@ panel (classicist, data-expert, adversarial-architect) verified the root causes:
   however/nevertheless/mount/mountain/sea/heaven/sky.
 - **Era cap + enCount suffix expansion TRIED and REVERTED** — they regressed
   `curro`/`impedio` golden rows; the override table handles those cases instead.
-- **Measurement gate:** `utils/gloss_census.cjs` — 241 frequency-stratified rows
+- **Measurement gate:** `utils/gloss_census.cjs` — 341 frequency-stratified rows
   (closed-class census + high-frequency content words). Moved the stratum from
-  ~38% → **100% correct (241/241)**. Wired into `npm test` + CI.
-- **Golden suite extended:** 75 → **333 rows** (every core_gloss key must have a
-  golden row — enforced by test_gloss_regression.cjs). 333/333 pass.
-- **Result:** artifact 467 KB gz (unchanged); coverage 89.9%; frequency census
+  ~38% → **100% correct (341/341)**. Wired into `npm test` + CI.
+- **Golden suite extended:** 75 → **1651 rows** (every core_gloss key must have a
+  golden row — enforced by test_gloss_regression.cjs; also locks a test-runner
+  norm fix for "B.C." glosses). 1651/1651 pass.
+- **Result:** artifact 464 KB gz (curated entries REPLACE verbose L&S narratives,
+  so size is stable); coverage 89.9%; frequency census
   241/241. A Caesar page now shows correct glosses on the words a student hovers
   most (et→"and", in→"in, within", sum→"to be", autem→"but, however").
 

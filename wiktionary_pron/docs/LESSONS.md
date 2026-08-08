@@ -119,3 +119,23 @@ file keeps the detail.
   it), it's exactly where curated knowledge is irreplaceable, and it's the same
   decision already made for `appello`. Every core entry gets a golden row in the
   same commit (monotone rule).
+- **A script inside `utils/` that `require`s a data file must use a path relative
+  to the script, not the repo root — and a node -e heredoc with apostrophes breaks
+  silently.** 2026-08-08: `_add_weather.cjs` (in `utils/`) did `require("./utils/
+  core_gloss.json")` (wrong, module-relative) but `fs.writeFileSync("core_gloss.json")`
+  (cwd-relative) — the fixes landed in a stray REPO-ROOT `core_gloss.json`, the
+  real `utils/core_gloss.json` never changed, and a later script overwrote the
+  stray. Cost an entire curation round before a count-mismatch exposed it. Fix:
+  absolute paths in throwaway scripts, and ALWAYS verify a fix reached the artifact
+  (rebuild + grep the lemma), not just that core_gloss.json changed.
+- **The golden suite's `evalExpect` normalized `got` (stripped trailing punctuation)
+  but compared against the RAW `contains` string.** Proper-noun glosses ending
+  "B.C." always failed: norm("...b.c.")→"b.c" vs raw "b.c.". Fix: norm BOTH sides.
+  This is why "contains" and "startsWith" must go through the same normalization.
+- **Curation at scale is bounded and monotone.** 14 rounds (2026-08-08) grew
+  core_gloss 262 → 1587 entries and the golden suite 75 → 1651 rows, all green,
+  artifact size FIXED at ~464 KB (curated entries replace verbose L&S narratives).
+  The class is finite — each semantic area (function words, homographs, verbs,
+  nouns, adjectives, proper nouns, buildings, body parts, weather, abstract,
+  legal, military) adds a bounded batch; the golden+census gates lock every fix.
+  This is the "principled not whack-a-mole" precedent, scaled.

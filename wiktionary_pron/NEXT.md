@@ -4,25 +4,31 @@ _Updated 2026-08-08 — branch `main`_
 
 ## State
 M-005 (dictionary glosses in the word popup) is **DONE, fixed, verified — including
-the function-word stratum**. The gate-then-rank restructure (`93d1cef`) fixed
-content words; a 2026-08-08 panel audit then found the closed class (conjunctions,
-prepositions, pronouns, copula, adverbs) ~40% wrong (`et`→"used for et ... et",
-`sum`→"to pass, elapse"). Fixed, NOT yet committed:
-- **`utils/core_gloss.json` (262 hand-curated entries)** — everyday glosses for the
-  closed function-word class + homograph-inverted content words + content verbs
-  with etymological L&S primaries. Applied pre-resolve; wins over everything.
+the function-word stratum AND a systematic curation loop**. The gate-then-rank
+restructure (`93d1cef`) fixed content words; a 2026-08-08 panel audit found the
+closed class (conjunctions, prepositions, pronouns, copula, adverbs) ~40% wrong
+(`et`→"used for et ... et", `sum`→"to pass, elapse"). Fixed + curated:
+- **`utils/core_gloss.json` (1587 hand-curated entries)** — everyday glosses for
+  the closed function-word class + homograph-inverted content words + content
+  verbs/nouns/adjectives with etymological L&S primaries + proper-noun truncations
+  + abstract/legal/military/body-part/weather terms. Applied pre-resolve; wins
+  over everything. Supports explicit-null (force fail-safe "—").
 - **WORDS-first for the closed particle class** (any r/c/e attestation, 157 lemmas)
   — Whitaker's WORDS first-result (frequency-ordered) beats L&S's usage-notes.
-- **`utils/gloss_census.cjs` (241 rows)** — frequency-stratified census, wired into
-  `npm test` + CI. Closed class went **38% → 100% correct (241/241)**.
-- **Golden suite 75 → 333 rows** (every core key gets a golden row — enforced).
-  333/333 pass. `npm test` green (unit 81 + IPA 22 + gloss 333 + census 241).
-- Artifact `macronizer/glosses.tsv.gz` rebuilt (467 KB, unchanged), 89.9% coverage.
+- **`utils/gloss_census.cjs` (341 rows)** — frequency-stratified census, wired into
+  `npm test` + CI. Closed class went **38% → 100% correct (341/341)**.
+- **Golden suite 75 → 1651 rows** (every core key gets a golden row — enforced;
+  also locks a test-runner norm fix for "B.C." glosses).
+  1651/1651 pass. `npm test` green (unit 81 + IPA 22 + gloss 1651 + census 341).
+- Artifact `macronizer/glosses.tsv.gz` (464 KB), 89.9% coverage, 32,736 lemmas.
 - Full detail: `docs/ISSUES.md` M-005, `docs/LESSONS.md`.
 
 ## Open threads
-- **M-005 residue (accepted, fail-safe):** ~198 rare-name/edge glosses null → "—".
-  `appello`→"To drive" inherent. `vos` is a wordlist gap (never a lemma).
+- **M-005 residue (accepted, fail-safe):** ~200 rare-name/edge glosses null → "—".
+  `appello`→"To drive" inherent. `vos` is a wordlist gap (never a lemma). The
+  long tail (~31k lemmas) is audited by pattern-scan (verb-on-noun, dangling-rel,
+  latin-residue) — mostly-clean; rare proper-noun narratives remain verbose but
+  correct.
 - **UI test coverage (M-015):** stale CI exclusion —
   `--grep-invert macronizer` in `.github/workflows/tests.yml` only drops
   macronizer.spec.js; editing/popup-check (wordlist-heavy) still run in CI.
