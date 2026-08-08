@@ -11675,5 +11675,12 @@
    "contains": "shared in common, common"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "litus",
+  "expect": {
+   "contains": "seashore"
+  },
+  "note": "core_gloss"
  }
 ]
