@@ -12053,5 +12053,166 @@
    "contains": "(form of sum) they are"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "tristis",
+  "expect": {
+   "contains": "sad, sorrowful, gloomy, mournful, grim"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ferox",
+  "expect": {
+   "contains": "fierce, wild, savage, spirited, arrogant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "apertus",
+  "expect": {
+   "contains": "open, uncovered, exposed; plain, clear"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clausus",
+  "expect": {
+   "contains": "closed, shut, shut up, confined"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "divinus",
+  "expect": {
+   "contains": "divine, of a god, sacred, prophetic"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "falsus",
+  "expect": {
+   "contains": "false, untrue, deceptive, mistaken"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "verus",
+  "expect": {
+   "contains": "true, real, genuine, actual"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "plus",
+  "expect": {
+   "contains": "more, in greater degree (comp. of multus)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aeternus",
+  "expect": {
+   "contains": "eternal, everlasting, immortal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gravis",
+  "expect": {
+   "contains": "heavy, weighty; serious, severe, important"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "levis",
+  "expect": {
+   "contains": "light, not heavy; trifling, fickle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "felix",
+  "expect": {
+   "contains": "happy, fortunate, lucky; fruitful, productive"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "miser",
+  "expect": {
+   "contains": "wretched, miserable, unhappy, pitiable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sacer",
+  "expect": {
+   "contains": "sacred, holy, consecrated"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "profanus",
+  "expect": {
+   "contains": "profane, unholy, not sacred, impious"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sapiens",
+  "expect": {
+   "contains": "wise, sensible, prudent; a sage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stultus",
+  "expect": {
+   "contains": "foolish, stupid, silly, simple"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prudens",
+  "expect": {
+   "contains": "prudent, wise, sensible, knowing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "callidus",
+  "expect": {
+   "contains": "clever, skilful, crafty, cunning"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iustus",
+  "expect": {
+   "contains": "just, righteous, lawful, upright"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "humilis",
+  "expect": {
+   "contains": "low, lowly, humble, mean, insignificant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "utilis",
+  "expect": {
+   "contains": "useful, beneficial, profitable, serviceable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "immortalis",
+  "expect": {
+   "contains": "immortal, undying, everlasting"
+  },
+  "note": "core_gloss"
  }
 ]
