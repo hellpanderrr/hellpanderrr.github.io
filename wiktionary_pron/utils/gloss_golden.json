@@ -7741,5 +7741,264 @@
    "contains": "to glide down, sink down, fall"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "os2",
+  "expect": {
+   "contains": "a bone"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mentum",
+  "expect": {
+   "contains": "the chin"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clavicula",
+  "expect": {
+   "contains": "a small key; the collar-bone"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scapula",
+  "expect": {
+   "contains": "a shoulder-blade, shoulder"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cubitus",
+  "expect": {
+   "contains": "the elbow; a reclining posture"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "carpus",
+  "expect": {
+   "contains": "the wrist"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tarsus",
+  "expect": {
+   "contains": "the ankle, tarsus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "planta",
+  "expect": {
+   "contains": "the sole of the foot"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sacrum",
+  "expect": {
+   "contains": "a stone; (sacrum) sacred, holy; a sacred thing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "urina",
+  "expect": {
+   "contains": "urine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "semen",
+  "expect": {
+   "contains": "seed, semen; a graft, scion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "matrix",
+  "expect": {
+   "contains": "a womb, uterus; a mother; a matrix"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tonsilla",
+  "expect": {
+   "contains": "a tonsil"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "medius",
+  "expect": {
+   "contains": "the middle (finger); middle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "minimus",
+  "expect": {
+   "contains": "smallest, least"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latus",
+  "expect": {
+   "contains": "wide, broad, spacious"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ren",
+  "expect": {
+   "contains": "a kidney"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vesicula",
+  "expect": {
+   "contains": "a small bladder, blister, vesicle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "urina2",
+  "expect": {
+   "contains": "urine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cubitus2",
+  "expect": {
+   "contains": "the elbow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tibia2",
+  "expect": {
+   "contains": "a flute, pipe (in addition to the shin-bone)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "planta2",
+  "expect": {
+   "contains": "the sole of the foot; a plant, sprout"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "papilla2",
+  "expect": {
+   "contains": "a nipple, teat"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mamma2",
+  "expect": {
+   "contains": "a breast, teat, udder"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sacrum2",
+  "expect": {
+   "contains": "a sacred thing; (pl.) sacred rites"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "socrus",
+  "expect": {
+   "contains": "a mother-in-law"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "affinis",
+  "expect": {
+   "contains": "a relation by marriage, a kinsman by marriage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "consanguineus",
+  "expect": {
+   "contains": "a blood-relation, kinsman"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "consobrinus",
+  "expect": {
+   "contains": "a cousin (son of a mother's sister)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amita",
+  "expect": {
+   "contains": "a paternal aunt (father's sister)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "matertera",
+  "expect": {
+   "contains": "a maternal aunt (mother's sister)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "neptis",
+  "expect": {
+   "contains": "a granddaughter; a niece"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vitricus",
+  "expect": {
+   "contains": "a stepfather"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "noverca",
+  "expect": {
+   "contains": "a stepmother"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "privignus",
+  "expect": {
+   "contains": "a stepson"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "privigna",
+  "expect": {
+   "contains": "a stepdaughter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "proavia",
+  "expect": {
+   "contains": "a great-grandmother"
+  },
+  "note": "core_gloss"
  }
 ]
