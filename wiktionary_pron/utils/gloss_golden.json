@@ -4470,7 +4470,7 @@
  {
   "lemma": "egregius",
   "expect": {
-   "contains": "a title of public officers in high station"
+   "contains": "outstanding, excellent, distinguished"
   },
   "note": "core_gloss"
  },
@@ -7998,6 +7998,860 @@
   "lemma": "proavia",
   "expect": {
    "contains": "a great-grandmother"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "albus",
+  "expect": {
+   "contains": "white"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ater",
+  "expect": {
+   "contains": "black, dark, gloomy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "niger",
+  "expect": {
+   "contains": "black, dark"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rutilus",
+  "expect": {
+   "contains": "reddish, golden, shining"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rufus",
+  "expect": {
+   "contains": "red, reddish"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "luteus",
+  "expect": {
+   "contains": "yellow, saffron-colored"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "croceus",
+  "expect": {
+   "contains": "saffron-colored, yellow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "purpureus",
+  "expect": {
+   "contains": "purple, crimson, bright-red"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "coccineus",
+  "expect": {
+   "contains": "scarlet-colored, crimson"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "viridis",
+  "expect": {
+   "contains": "green"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caeruleus",
+  "expect": {
+   "contains": "dark blue, azure, cerulean"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "glaucus",
+  "expect": {
+   "contains": "gleaming, grey-green, blue-grey"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cyaneus",
+  "expect": {
+   "contains": "dark blue, sea-blue"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obscurus",
+  "expect": {
+   "contains": "dark, obscure, hidden, unknown"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "opacus",
+  "expect": {
+   "contains": "dark, shady, obscure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tenebricus",
+  "expect": {
+   "contains": "dark, gloomy, tenebrous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lucidus",
+  "expect": {
+   "contains": "bright, clear, shining, lucid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clarus",
+  "expect": {
+   "contains": "clear, bright; famous, renowned"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "famosus",
+  "expect": {
+   "contains": "famous, renowned; infamous, notorious"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "insignis",
+  "expect": {
+   "contains": "distinguished, remarkable, eminent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "illustris",
+  "expect": {
+   "contains": "bright, clear; illustrious, famous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "splendidus",
+  "expect": {
+   "contains": "bright, shining, splendid, magnificent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "luminosus",
+  "expect": {
+   "contains": "full of light, luminous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "coruscus",
+  "expect": {
+   "contains": "flashing, glittering, gleaming"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flammeus",
+  "expect": {
+   "contains": "flaming, fiery"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "igneus",
+  "expect": {
+   "contains": "fiery, burning, on fire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "candidus",
+  "expect": {
+   "contains": "white, bright, shining; candid, sincere"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "candidatus",
+  "expect": {
+   "contains": "a candidate for office"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "togatus",
+  "expect": {
+   "contains": "wearing the toga, gowned, togate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pallidus",
+  "expect": {
+   "contains": "pale, pallid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "luridus",
+  "expect": {
+   "contains": "pale, wan, sallow, lurid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fuscus",
+  "expect": {
+   "contains": "dark, dusky, swarthy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sordidus",
+  "expect": {
+   "contains": "dirty, filthy, mean, low"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maculosus",
+  "expect": {
+   "contains": "spotted, speckled, stained"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "varius",
+  "expect": {
+   "contains": "various, diverse, changing, different"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "picturatus",
+  "expect": {
+   "contains": "painted, embroidered, decorated"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ornatus",
+  "expect": {
+   "contains": "equipped, furnished, adorned, distinguished"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mundus",
+  "expect": {
+   "contains": "clean, neat, elegant, refined; the world"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "purus",
+  "expect": {
+   "contains": "clean, pure, unstained, clear"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "castus",
+  "expect": {
+   "contains": "pure, chaste, holy, sacred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pudicus",
+  "expect": {
+   "contains": "chaste, modest, pure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "integer",
+  "expect": {
+   "contains": "whole, entire, unhurt; honest, upright"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sincerus",
+  "expect": {
+   "contains": "pure, clean, sound, genuine, sincere"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "simplex",
+  "expect": {
+   "contains": "simple, plain, single, artless"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "compositus",
+  "expect": {
+   "contains": "joined, composed, arranged, regular"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "turbidus",
+  "expect": {
+   "contains": "confused, troubled, wild, turbulent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inturbidus",
+  "expect": {
+   "contains": "undisturbed, quiet, calm"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "instabilis",
+  "expect": {
+   "contains": "unstable, inconstant, changeable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "labilis",
+  "expect": {
+   "contains": "slipping, sliding, unstable, fleeting"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caducus",
+  "expect": {
+   "contains": "falling, falling down; frail, perishable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fragilis",
+  "expect": {
+   "contains": "fragile, breakable, frail, weak"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mollis",
+  "expect": {
+   "contains": "soft, gentle, mild, tender, pliant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tener",
+  "expect": {
+   "contains": "soft, delicate, tender, young"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "delicatus",
+  "expect": {
+   "contains": "delightful, charming; luxurious, effeminate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "languidus",
+  "expect": {
+   "contains": "faint, weak, languid, sluggish"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lassus",
+  "expect": {
+   "contains": "weary, tired, faint, exhausted"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fessus",
+  "expect": {
+   "contains": "weary, tired, exhausted, worn out"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "confractus",
+  "expect": {
+   "contains": "broken, shattered"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "triangulus",
+  "expect": {
+   "contains": "triangular; a triangle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vestitus",
+  "expect": {
+   "contains": "clothing, garments, dress"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aequus",
+  "expect": {
+   "contains": "level, even, equal; fair, just"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "planus",
+  "expect": {
+   "contains": "flat, level, even; clear, plain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "curvus",
+  "expect": {
+   "contains": "curved, bent, crooked"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rotundus",
+  "expect": {
+   "contains": "round, circular"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quadratus",
+  "expect": {
+   "contains": "square, squared"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "purpureus2",
+  "expect": {
+   "contains": "purple, crimson, bright-red"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "viridis2",
+  "expect": {
+   "contains": "green"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "castus2",
+  "expect": {
+   "contains": "pure, chaste, holy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pluvia",
+  "expect": {
+   "contains": "rain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "imber",
+  "expect": {
+   "contains": "rain, a shower of rain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nimbus",
+  "expect": {
+   "contains": "a storm-cloud, rain-cloud, rainstorm"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calor",
+  "expect": {
+   "contains": "heat, warmth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aestus",
+  "expect": {
+   "contains": "heat, glow, feverish excitement; the tide"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ardor",
+  "expect": {
+   "contains": "heat, flame, fire; eagerness, passion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flamma",
+  "expect": {
+   "contains": "a flame, blaze, fire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "incendium",
+  "expect": {
+   "contains": "a fire, conflagration"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scintilla",
+  "expect": {
+   "contains": "a spark"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "favilla",
+  "expect": {
+   "contains": "ashes, hot ashes, cinders"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fumus",
+  "expect": {
+   "contains": "smoke, steam, vapor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nebula",
+  "expect": {
+   "contains": "a mist, fog, cloud"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caligo",
+  "expect": {
+   "contains": "thick air, darkness, gloom, fog"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nubecula",
+  "expect": {
+   "contains": "a small cloud"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tempestas",
+  "expect": {
+   "contains": "a storm, tempest; a season, weather"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "procella",
+  "expect": {
+   "contains": "a storm, hurricane, tempest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "turbo",
+  "expect": {
+   "contains": "a whirlwind, tornado; a top; a commotion, disorder"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aura",
+  "expect": {
+   "contains": "a breeze, breath of air"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spiritus",
+  "expect": {
+   "contains": "a breath, breathing; a spirit, soul, mind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "halitus",
+  "expect": {
+   "contains": "a breath, vapor, exhalation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anhelitus",
+  "expect": {
+   "contains": "a panting, gasping, breathing hard"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suspirium",
+  "expect": {
+   "contains": "a sigh, deep breath"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "umbra",
+  "expect": {
+   "contains": "a shade, shadow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "umbella",
+  "expect": {
+   "contains": "a parasol, sunshade, umbrella"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lux",
+  "expect": {
+   "contains": "light"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lumen",
+  "expect": {
+   "contains": "light, brightness; an eye"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "splendor",
+  "expect": {
+   "contains": "brightness, brilliance, splendor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fulgor",
+  "expect": {
+   "contains": "a flash of lightning, gleam, brightness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "radius",
+  "expect": {
+   "contains": "a ray, beam; a rod, staff, spoke"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nitidus",
+  "expect": {
+   "contains": "shining, bright, glossy, elegant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nitor",
+  "expect": {
+   "contains": "brightness, splendor, elegance; a struggle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "candor",
+  "expect": {
+   "contains": "whiteness, brightness, splendor; sincerity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "albedo",
+  "expect": {
+   "contains": "whiteness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tenebrae",
+  "expect": {
+   "contains": "darkness, gloom; the underworld"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obscuritas",
+  "expect": {
+   "contains": "darkness, obscurity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crepusculum",
+  "expect": {
+   "contains": "twilight, dusk"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diluculum",
+  "expect": {
+   "contains": "dawn, daybreak"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mane",
+  "expect": {
+   "contains": "morning"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vesper",
+  "expect": {
+   "contains": "the evening, evening-star, west"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oriens",
+  "expect": {
+   "contains": "the east; the rising sun"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "occidens",
+  "expect": {
+   "contains": "the west; sunset"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "meridies",
+  "expect": {
+   "contains": "midday, noon; the south"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "notus",
+  "expect": {
+   "contains": "the south wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "septentrio",
+  "expect": {
+   "contains": "the north, the north wind; (pl.) the Great Bear"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aquilo",
+  "expect": {
+   "contains": "the north wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "boreas",
+  "expect": {
+   "contains": "the north wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "zephyrus",
+  "expect": {
+   "contains": "the west wind, zephyr"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eurus",
+  "expect": {
+   "contains": "the east (or southeast) wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auster",
+  "expect": {
+   "contains": "the south wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "subsolanus",
+  "expect": {
+   "contains": "the east wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maurus",
+  "expect": {
+   "contains": "a Moor; Moorish, African"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flamen",
+  "expect": {
+   "contains": "a priest (of a particular deity); a breath of wind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flammula",
+  "expect": {
+   "contains": "a small flame; a little fire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fumigo",
+  "expect": {
+   "contains": "to smoke, fumigate"
   },
   "note": "core_gloss"
  }
