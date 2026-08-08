@@ -11682,5 +11682,131 @@
    "contains": "seashore"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "vicinia",
+  "expect": {
+   "contains": "a neighborhood, vicinity; the neighbors"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "copia",
+  "expect": {
+   "contains": "plenty, abundance, supply, quantity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "laus",
+  "expect": {
+   "contains": "praise, glory, fame, renown"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "opus",
+  "expect": {
+   "contains": "a work, labor, task; a building, structure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "salus",
+  "expect": {
+   "contains": "health, safety, welfare, salvation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "speculum",
+  "expect": {
+   "contains": "a mirror, looking-glass"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tumulus",
+  "expect": {
+   "contains": "a mound, hill, heap; a grave-mound, barrow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "donum",
+  "expect": {
+   "contains": "a gift, present"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "periculum",
+  "expect": {
+   "contains": "a danger, peril, risk; a trial, test"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "thesaurus",
+  "expect": {
+   "contains": "a treasury, store-house; a treasure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vulgus",
+  "expect": {
+   "contains": "the common people, the public, the crowd"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obses",
+  "expect": {
+   "contains": "a hostage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "senex",
+  "expect": {
+   "contains": "an old man, aged; old age"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "plebs",
+  "expect": {
+   "contains": "the common people, the plebeians"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "honos",
+  "expect": {
+   "contains": "honor, esteem, regard; an office, dignity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prex",
+  "expect": {
+   "contains": "a prayer, entreaty, request"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fortuna2",
+  "expect": {
+   "contains": "fortune, chance, luck; fortune (the goddess)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "periclum",
+  "expect": {
+   "contains": "a danger, peril, risk"
+  },
+  "note": "core_gloss"
  }
 ]
