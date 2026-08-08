@@ -251,25 +251,9 @@
   {
     "lemma": "paro2",
     "expect": {
-      "alternates": [
-        {
-          "contains": "ready"
-        },
-        {
-          "contains": "prepare"
-        },
-        {
-          "contains": "design"
-        },
-        {
-          "contains": "contrive"
-        },
-        {
-          "contains": "order"
-        }
-      ]
+      "contains": "equal"
     },
-    "note": "wordlist paro2 = same prepare verb (305 rows identical to paro); spurious-skip to bare"
+    "note": "genuine distinct homograph (root par, make equal) \u2014 advisory panel"
   },
   {
     "lemma": "levo",
@@ -13644,5 +13628,117 @@
       "contains": "to differ"
     },
     "note": "re-audit sample (M-019 follow-up)"
+  },
+  {
+    "lemma": "animosus2",
+    "expect": {
+      "contains": "full of courage"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "aveo2",
+    "expect": {
+      "contains": "to be well"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "comparo2",
+    "expect": {
+      "contains": "to make ready"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "deformo2",
+    "expect": {
+      "contains": "to deform"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "luo2",
+    "expect": {
+      "contains": "to pay"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "jugis2",
+    "expect": {
+      "contains": "continuous"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "patrius2",
+    "expect": {
+      "contains": "of one's native country"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "pila2",
+    "expect": {
+      "contains": "a pillar"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "satyricus2",
+    "expect": {
+      "contains": "satiric"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "pediculus2",
+    "expect": {
+      "contains": "a louse"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "acceptor2",
+    "expect": {
+      "contains": "a hawk"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "osculo2",
+    "expect": {
+      "contains": "to kiss"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "ravus2",
+    "expect": {
+      "contains": "gray-yellow"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "excretus2",
+    "expect": {
+      "contains": "grown up"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "incitus2",
+    "expect": {
+      "contains": "immovable"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
+  },
+  {
+    "lemma": "inclinis2",
+    "expect": {
+      "contains": "unbending"
+    },
+    "note": "numbered-homograph common sense (advisory panel)"
   }
 ]
