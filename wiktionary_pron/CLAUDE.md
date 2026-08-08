@@ -13,9 +13,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 `npm install` once in this directory (`wiktionary_pron/`), then:
 
 ```bash
-npm test           # unit + IPA engine tests (Mocha, ~3s)
+npm test           # unit + IPA engine tests + gloss golden suite (Mocha + node, ~5s)
 npm run test:unit  # pure JS helpers: sanitize, memoizeLocalStorage, V3/V4 lexicon decode
 npm run test:ipa   # wasmoon Lua engine: exact-IPA tests + golden files (15 languages)
+npm run test:gloss # macronizer gloss-extraction golden suite (utils/gloss_golden.json, ~2s)
 npm run test:e2e   # Playwright browser tests, excludes macronizer (~5 min: includes Russian lexicon load)
 npm run test:e2e:macronizer  # macronizer smoke tests (~30s; covers first-visit and return-visit wordlist paths)
 npm run test:coverage   # real coverage: c8 (unit/IPA) + opt-in V8 e2e collector → merged % (see Testing traps)
@@ -152,6 +153,8 @@ Each of these cost real debugging time in past sessions. Check this list before 
 - **The popup gloss lookup must be EXACT-KEY-FIRST** — stripping the homograph number before lookup makes `populus2`→"the people" (should be "poplar"), silently defeating the feature. ✅ enforced by the popup e2e `popule`→poplar test. (More in `docs/LESSONS.md`.)
 - **Case-collision: wordlist "Alius" = the pronoun "other", capitalized** — it collides with L&S proper-noun `Alius1` ("native of Elis"). Guard: capitalized wordlist lemma + capitalized L&S homograph-1 + numbered sibling exists → resolve the sibling. ✅ in `build_glosses.cjs`. (More in `docs/LESSONS.md`.)
 - **Real-text stress test (Caesar passage) is the quality gate for common words** — it caught 4 systematic bugs (quantifier/interrogative openers need `\b`, grammar-note density penalty, era-preference on the RAW clause, primary-first + terse pass). Full detail in `docs/LESSONS.md`.
+- **A second stress text (Aeneid) found 11 MORE wrong glosses the 120-row "99.1% usable" holdout missed.** The holdout measured *fragment-ness* (well-formed English) on an unstratified sample — it structurally could not see `terra`→"the sea" as wrong. Lesson: sample by frequency, and test more than one register. The fix was a **gate-then-rank restructure** (2026-08-08, `93d1cef`): hard per-clause rejection gates, then score → latinCount → sense-order → runTokens. Guarded by `utils/gloss_golden.json` (75 rows, `npm run test:gloss`).
+- **The gloss build memoizes resolve()/wGloss() per lemma** — the wordlist is 673k rows over ~40k unique lemmas, and resolve() is pure per lemma (keyed by exact lemma string, case-sensitive for the collision guard). 841s → 50s, byte-identical artifact.
 
 **Macronizer / Morpheus traps** (2026-08-05)
 - **Morpheus returns `"accented_stem,lemma"`** — e.g. `currito_,curro`. The comma must be stripped from the *accented* form (Python does `accented.split(",")[0]`, `postags.py:434-436`). Keeping it corrupts `accentedUnderscore`, breaks DP alignment, and silently mis-macronizes every out-of-wordlist word. Fixed in `MorpheusAnalyzer.parseAnalysisLine`.

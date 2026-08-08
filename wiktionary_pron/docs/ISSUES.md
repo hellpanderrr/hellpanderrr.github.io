@@ -136,6 +136,32 @@ common words, all now fixed in `_probe_refined.cjs` + `utils/build_glosses.cjs`:
 - **Re-measured after fixes:** coverage 85.6% (L&S 81.3 + WORDS 4.3), 31,704
   lemmas, 456 KB gz; L&S residue **3.88%** (down from 4.41%), WORDS 1.10%.
 
+**2026-08-08 restructure (site `93d1cef`): the Aeneid stress test broke the
+"99.1% usable" claim.** A second real-text test (Aeneid 1.1–11, epic register vs
+Caesar's prose) exposed ~11 WRONG common-word glosses the 120-row holdout had
+missed: `terra`→"the sea", `vis`→"the same as Juno", `superus`→"the Adriatic and
+Ionian Sea", `memor`→"which remembers the Marsian war", `profugus`→"a proelio",
+`fatum`→"that which is said", plus saevus/altus/ira/ille/multus. The holdout
+measured *fragment-ness* (well-formed English) not *correctness*, on an
+unstratified sample — it structurally could not see "the sea" as wrong. Root
+cause (3-advisor panel): the extractor was content-blind to L&S's positional
+structure — the real primary sits at the TAIL of senses[0] after the etymology
+block, and the ETYM guard skipped exactly those, forcing fall-through to
+secondaries/examples.
+- **Restructure (decoupled gate-then-rank):** hard per-clause gates (fragments,
+  citations, usage-notes, pure-Latin) REMOVE candidates before ranking;
+  selection = score → latinCount → sense-order → runTokens → shorter. Plus
+  ETYM-tail exemption, hyphen-compound tolerance, exhaustive citation stripping,
+  proper-noun preamble strip, leading-etymology-prefix strip, era demotion.
+- **Golden suite (new):** `utils/gloss_golden.json` (75 hand-labeled rows) +
+  `utils/test_gloss_regression.cjs` (~2s, `npm run test:gloss`, wired into
+  `npm test`). Locks content, not well-formedness.
+- **Build memoized:** resolve()/wGloss() per lemma → 841s → 50s, byte-identical.
+- **Result:** 89.8% coverage (was 85.6%), 32,799 lemmas, 467 KB gz; stress batch
+  all correct; 75/75 golden. Known accepted residue: ~198 rare-name/edge glosses
+  now null (shown as "—") — a deliberate trade: null is fail-safe, wrong is
+  fail-loud. `appello`→"To drive" remains inherent.
+
 ## M-006 — Popup buries the useful section under debug detail
 **Status: OPEN.** r/latin feedback: "Possible readings" is the only part users
 want; the RFTagger/Morpheus detail reads as debug output. Move readings to the
