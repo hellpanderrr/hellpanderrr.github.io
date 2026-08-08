@@ -13404,5 +13404,89 @@
       "contains": "accursed"
     },
     "note": "accent-distinct homograph (H1): accursed thing"
+  },
+  {
+    "lemma": "vexo",
+    "expect": {
+      "contains": "to injure"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "orno",
+    "expect": {
+      "contains": "to adorn"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "crucio",
+    "expect": {
+      "contains": "to torture"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "accuso",
+    "expect": {
+      "contains": "to accuse"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "contemno",
+    "expect": {
+      "contains": "to despise"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "solvo",
+    "expect": {
+      "contains": "to loosen"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "exigo",
+    "expect": {
+      "contains": "to drive out"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "provideo",
+    "expect": {
+      "contains": "to foresee"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "exspecto",
+    "expect": {
+      "contains": "to wait for"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "contamino",
+    "expect": {
+      "contains": "to pollute"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "verto",
+    "expect": {
+      "contains": "to turn"
+    },
+    "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "crepo",
+    "expect": {
+      "contains": "to rattle"
+    },
+    "note": "literal/etym sense beat primary (H2)"
   }
 ]
