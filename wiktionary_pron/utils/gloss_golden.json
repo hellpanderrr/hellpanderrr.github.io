@@ -11941,5 +11941,75 @@
    "contains": "equally, in like manner, at the same time"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "debeo",
+  "expect": {
+   "contains": "to owe, be in debt; to be obliged, ought, must"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "libet",
+  "expect": {
+   "contains": "it pleases, it is agreeable, one is pleased (to)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "taedet",
+  "expect": {
+   "contains": "it wearies, disgusts, is tiresome, one is sick of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pudeo",
+  "expect": {
+   "contains": "to be ashamed, feel shame"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "paeniteo",
+  "expect": {
+   "contains": "to repent, regret, be dissatisfied"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "misereo",
+  "expect": {
+   "contains": "to pity, have compassion on, commiserate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "refero",
+  "expect": {
+   "contains": "to bring back, carry back; to report, relate; to ascribe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "refert",
+  "expect": {
+   "contains": "it matters, it makes a difference, it concerns"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "interest",
+  "expect": {
+   "contains": "it concerns, it matters, it makes a difference; it is in one's interest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "convenit",
+  "expect": {
+   "contains": "it is agreed, it is fitting, it suits, it is proper"
+  },
+  "note": "core_gloss"
  }
 ]
