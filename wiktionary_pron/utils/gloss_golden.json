@@ -483,7 +483,14 @@
  {
   "lemma": "papae",
   "expect": {
-   "contains": "wonderful"
+   "alternates": [
+    {
+     "contains": "oh! indeed!"
+    },
+    {
+     "contains": "wonderful"
+    }
+   ]
   },
   "note": "was removed"
  },
@@ -2536,6 +2543,954 @@
   "lemma": "timeo",
   "expect": {
    "contains": "to fear, dread, be afraid of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "casus",
+  "expect": {
+   "contains": "a fall; accident, chance, event, occurrence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pilum",
+  "expect": {
+   "contains": "a javelin (of the Roman infantry)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "murus",
+  "expect": {
+   "contains": "a wall"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "strata",
+  "expect": {
+   "contains": "a paved road, street; a layer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "voluntas",
+  "expect": {
+   "contains": "will, wish, desire, inclination"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amicus",
+  "expect": {
+   "contains": "a friend"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clipeus",
+  "expect": {
+   "contains": "a round shield"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "saltus",
+  "expect": {
+   "contains": "a leap, bound; a mountain pasture, forest, defile"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "angiportus",
+  "expect": {
+   "contains": "a narrow street, lane, alley"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "antrum",
+  "expect": {
+   "contains": "a cave, cavern, grotto"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "callis",
+  "expect": {
+   "contains": "a path, footway, track"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scutum",
+  "expect": {
+   "contains": "a shield"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pavor",
+  "expect": {
+   "contains": "a trembling, quaking, panic"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "formido",
+  "expect": {
+   "contains": "fear, terror, dread"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "casus1",
+  "expect": {
+   "contains": "a fall; accident, chance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sapientia",
+  "expect": {
+   "contains": "wisdom, knowledge, philosophy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scientia",
+  "expect": {
+   "contains": "knowledge, science, skill"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pietas",
+  "expect": {
+   "contains": "dutifulness, piety, devotion, loyalty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ars",
+  "expect": {
+   "contains": "art, skill, craft, science"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "avis",
+  "expect": {
+   "contains": "a bird"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "serpens",
+  "expect": {
+   "contains": "a serpent, snake"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cuculus",
+  "expect": {
+   "contains": "a cuckoo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "luscinia",
+  "expect": {
+   "contains": "a nightingale"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gracilis",
+  "expect": {
+   "contains": "thin, slender, lean, slight"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anser",
+  "expect": {
+   "contains": "a goose"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pavo",
+  "expect": {
+   "contains": "a peacock"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ingenium",
+  "expect": {
+   "contains": "natural disposition, talent, genius, character"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ago",
+  "expect": {
+   "contains": "to drive, do, act, perform; to pass, spend (time)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cado",
+  "expect": {
+   "contains": "to fall, sink, drop"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pendo",
+  "expect": {
+   "contains": "to weigh, pay; to ponder, value"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sisto",
+  "expect": {
+   "contains": "to cause to stand, set, place; to stop, halt"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "efficio",
+  "expect": {
+   "contains": "to effect, bring about, accomplish, make"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "conficio",
+  "expect": {
+   "contains": "to finish, complete, accomplish, wear out, exhaust"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "colo",
+  "expect": {
+   "contains": "to cultivate, till; to inhabit, dwell in; to honor, worship"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nascor",
+  "expect": {
+   "contains": "to be born; to rise, spring, grow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "discedo",
+  "expect": {
+   "contains": "to depart, go away, leave"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "succedo",
+  "expect": {
+   "contains": "to go under; to succeed, follow, come after; to prosper"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "succurro",
+  "expect": {
+   "contains": "to run to help, help, succor, aid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "volo2",
+  "expect": {
+   "contains": "to fly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fluctus",
+  "expect": {
+   "contains": "a wave, billow, surge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "finis",
+  "expect": {
+   "contains": "an end, boundary, limit; purpose, aim"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "meta",
+  "expect": {
+   "contains": "a boundary mark, goal, turning-post"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "modus",
+  "expect": {
+   "contains": "a measure, bound, limit; manner, way, method"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moles",
+  "expect": {
+   "contains": "a massive structure, mass, heap; a mole (sea-wall)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "centurio",
+  "expect": {
+   "contains": "a centurion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praefectus",
+  "expect": {
+   "contains": "a commander, prefect, overseer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praetor",
+  "expect": {
+   "contains": "a praetor, commander, leader"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quaestor",
+  "expect": {
+   "contains": "a quaestor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "censor",
+  "expect": {
+   "contains": "a censor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "senator",
+  "expect": {
+   "contains": "a senator"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ferrum",
+  "expect": {
+   "contains": "iron"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aries",
+  "expect": {
+   "contains": "a ram; a battering-ram"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aer",
+  "expect": {
+   "contains": "air"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ripa",
+  "expect": {
+   "contains": "a bank, shore"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "limes",
+  "expect": {
+   "contains": "a boundary, border-line, path, road"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sidus",
+  "expect": {
+   "contains": "a star, constellation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aequor",
+  "expect": {
+   "contains": "an even surface, level plain; the sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pontus",
+  "expect": {
+   "contains": "the sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "absumo",
+  "expect": {
+   "contains": "to consume, use up, destroy, spend"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anceps",
+  "expect": {
+   "contains": "two-headed; double; doubtful, uncertain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "antepagmentum",
+  "expect": {
+   "contains": "a door-frame, door-case, door-jamb"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "assius",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "avena",
+  "expect": {
+   "contains": "oats; a shepherd's pipe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ballista",
+  "expect": {
+   "contains": "a catapult, engine for hurling missiles"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caesar",
+  "expect": {
+   "contains": "Caesar; an emperor, crown-prince"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caesareus",
+  "expect": {
+   "contains": "of Caesar, imperial"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caesarianus",
+  "expect": {
+   "contains": "of Caesar, imperial, Caesarian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caesarinus",
+  "expect": {
+   "contains": "of Caesar, imperial"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caespes",
+  "expect": {
+   "contains": "a turf, sod"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caeterus",
+  "expect": {
+   "contains": "the rest, the remaining, other"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cenaticus",
+  "expect": {
+   "contains": "money given in lieu of food, commutation-money"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ceterus",
+  "expect": {
+   "contains": "the rest, the remaining, other"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cetus",
+  "expect": {
+   "contains": "a whale, shark, or other large sea-creature"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cinis",
+  "expect": {
+   "contains": "ashes, cinders, embers"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cista",
+  "expect": {
+   "contains": "a box, chest, basket"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clinias",
+  "expect": {
+   "contains": "Clinias (a Greek proper name)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corinthia",
+  "expect": {
+   "contains": "Corinthian bronzes, Corinthian vases"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corinthus",
+  "expect": {
+   "contains": "Corinth (city in Greece)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corsis",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "creta",
+  "expect": {
+   "contains": "chalk, clay (used for cleansing garments)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "creta2",
+  "expect": {
+   "contains": "chalk, clay (used for cleansing garments)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cumque",
+  "expect": {
+   "contains": "whenever, at whatever time"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "decretum",
+  "expect": {
+   "contains": "a decree, ordinance, decision"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "devoratrix",
+  "expect": {
+   "contains": "a female devourer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dossennus",
+  "expect": {
+   "contains": "a fool, clown, jester"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "econtra",
+  "expect": {
+   "contains": "on the contrary, on the other hand"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eminus",
+  "expect": {
+   "contains": "at a distance, from afar"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "extrarius",
+  "expect": {
+   "contains": "external, foreign, outside"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fiscina",
+  "expect": {
+   "contains": "a small basket woven of slender twigs"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flaminia",
+  "expect": {
+   "contains": "a flaminica, priestess of a flamen"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "leporinus",
+  "expect": {
+   "contains": "of a hare, leporine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "libellus",
+  "expect": {
+   "contains": "a little book, pamphlet, small writing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "limatus",
+  "expect": {
+   "contains": "polished, refined, exact"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "monitorius",
+  "expect": {
+   "contains": "admonitory, serving to remind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moretum",
+  "expect": {
+   "contains": "a country dish of garlic, rue, vinegar, oil"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "murex",
+  "expect": {
+   "contains": "a purple-fish (murex), yielding Tyrian dye"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nitrum",
+  "expect": {
+   "contains": "natron, mineral soda"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oeneus",
+  "expect": {
+   "contains": "Oeneus (father of Meleager)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "opobalsamum",
+  "expect": {
+   "contains": "opobalsamum, the juice of the balsam tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pellitus",
+  "expect": {
+   "contains": "clad in skins, wrapped in hides"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "penuarius",
+  "expect": {
+   "contains": "of provisions, of a store-room"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "perturbatrix",
+  "expect": {
+   "contains": "a female disturber"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pituinus",
+  "expect": {
+   "contains": "of the pine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pumex",
+  "expect": {
+   "contains": "pumice-stone (used for smoothing)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rana",
+  "expect": {
+   "contains": "a frog"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "redux",
+  "expect": {
+   "contains": "brought back, returning, restored"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sambucus",
+  "expect": {
+   "contains": "the elder-tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "senatus",
+  "expect": {
+   "contains": "the senate, the supreme council at Rome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sextarius",
+  "expect": {
+   "contains": "a sextarius, a pint, the sixth part of a measure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sponda",
+  "expect": {
+   "contains": "the frame of a bedstead, a couch"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stobi",
+  "expect": {
+   "contains": "Stobi (a town in Macedonia)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stragulum",
+  "expect": {
+   "contains": "a covering, bedspread, coverlet, blanket"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stragulus",
+  "expect": {
+   "contains": "a covering, bedspread, coverlet, blanket"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tripedalis",
+  "expect": {
+   "contains": "three feet long"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tripedaneus",
+  "expect": {
+   "contains": "three feet long"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tympanum",
+  "expect": {
+   "contains": "a drum, tambourine (tympanum)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vaccinus",
+  "expect": {
+   "contains": "of a cow, bovine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vitrum",
+  "expect": {
+   "contains": "glass; woad (a plant yielding blue dye)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bellum",
+  "expect": {
+   "contains": "a war"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acies",
+  "expect": {
+   "contains": "a line of battle, battle-array; a sharp edge, keenness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clades",
+  "expect": {
+   "contains": "a disaster, defeat, destruction, calamity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exitium",
+  "expect": {
+   "contains": "destruction, ruin, overthrow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "facies",
+  "expect": {
+   "contains": "a face, form, appearance, looks"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "forma",
+  "expect": {
+   "contains": "a form, shape, figure; beauty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "species",
+  "expect": {
+   "contains": "an appearance, form, shape; a species, kind, sort"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vestis",
+  "expect": {
+   "contains": "a garment, clothing, a robe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "toga",
+  "expect": {
+   "contains": "a toga, the Roman outer garment"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pallium",
+  "expect": {
+   "contains": "a cloak, mantle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gemma",
+  "expect": {
+   "contains": "a gem, jewel, precious stone; a bud"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "strages",
+  "expect": {
+   "contains": "a slaughter, havoc, defeat, overthrow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "funus",
+  "expect": {
+   "contains": "a funeral, burial, funeral rites"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sepultura",
+  "expect": {
+   "contains": "a burial, interment, funeral"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vestimentum",
+  "expect": {
+   "contains": "a garment, piece of clothing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tela",
+  "expect": {
+   "contains": "a web, woven fabric; a warp"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "monile",
+  "expect": {
+   "contains": "a necklace"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "armilla",
+  "expect": {
+   "contains": "a bracelet, armlet"
   },
   "note": "core_gloss"
  }

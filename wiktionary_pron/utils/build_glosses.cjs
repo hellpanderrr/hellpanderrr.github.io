@@ -557,9 +557,12 @@ function resolve(lemma, pos, depth = 0) {
   // the FULL lowercase lemma (NOT number-stripped base): populus2 (poplar) must not
   // hit a coreGloss.populus ("a people"), and malus2 (apple-tree) must not hit
   // coreGloss.malus ("bad"). Core keys are all bare lemmas, so a numbered wordlist
-  // lemma simply won't collide.
-  const curated = coreGloss[l];
-  if (curated) return curated;
+  // lemma simply won't collide. An EXPLICIT null value = force fail-safe "—"
+  // (strip the gloss entirely — a wrong gloss is worse than none).
+  if (Object.prototype.hasOwnProperty.call(coreGloss, l)) {
+    if (coreGloss[l] === null) return null;
+    return coreGloss[l];
+  }
   let e;
   if (isSpurious(l)) {
     // Spurious-homograph skip normally prefers the bare key (the wordlist
@@ -689,7 +692,13 @@ for (const r of rows.values()) {
   // beat WORDS' "move, set in motion". For the non-core closed class WORDS-first
   // wins over L&S, whose function-word primaries are usage-notes that lose the
   // STRONG_OPEN ranking (et→"used for et...et").
-  if (coreGloss[lemLower]) { gloss = l; lClean++; }
+  if (Object.prototype.hasOwnProperty.call(coreGloss, lemLower)) {
+    // coreGloss says something explicit: a string gloss OR null (force "—").
+    // An explicit-null key must NOT fall through to L&S/WORDS — the curated
+    // decision is "show nothing" (fail-safe over fail-loud).
+    gloss = coreGloss[lemLower];
+    if (gloss) lClean++; else none++;
+  }
   else if (closedSet.has(lemLower)) {
     if (wFirst) { gloss = wFirst; wClean++; }
     else if (l) { gloss = l; lClean++; }
