@@ -11591,5 +11591,89 @@
    "contains": "to flow toward, stream in; to abound, be rich"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "aquilonaris",
+  "expect": {
+   "contains": "of or belonging to the north wind, northern"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vulnerabilis",
+  "expect": {
+   "contains": "vulnerable, easily wounded"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auscultator",
+  "expect": {
+   "contains": "a hearer, listener, eavesdropper"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "octoni",
+  "expect": {
+   "contains": "eight each, eight at a time"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "occulta",
+  "expect": {
+   "contains": "hidden things, secrets (neut. pl.); secret"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inscriptum",
+  "expect": {
+   "contains": "an inscription; (as adj.) written, inscribed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iliona",
+  "expect": {
+   "contains": "Iliona (a daughter of Priam and Hecuba, wife of Polymestor)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "brome",
+  "expect": {
+   "contains": "Brome (a Naiad nymph, nurse of Dionysus)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exscreatus",
+  "expect": {
+   "contains": "a hawking or coughing up"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mitigatio",
+  "expect": {
+   "contains": "a soothing, mitigation, alleviation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adversum",
+  "expect": {
+   "contains": "against, opposite, facing; turned toward"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "communitus",
+  "expect": {
+   "contains": "shared in common, common"
+  },
+  "note": "core_gloss"
  }
 ]
