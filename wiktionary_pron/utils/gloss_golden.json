@@ -13488,5 +13488,12 @@
       "contains": "to rattle"
     },
     "note": "literal/etym sense beat primary (H2)"
+  },
+  {
+    "lemma": "caupo",
+    "expect": {
+      "contains": "innkeeper"
+    },
+    "note": "root cross-ref beat noun primary (H3)"
   }
 ]

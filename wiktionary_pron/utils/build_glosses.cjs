@@ -256,6 +256,14 @@ function cleanOne(t) {
   // ", i. e", "belua, i. e" (cross-ref markers), ", 6, 495 sq" (pure locator).
   t = t.replace(/\s*—[A-Za-z.]{2,15}\s*$/,"").trim();
   t = t.replace(/[.,;:]\s*(?:i\.\s*e\.|cf\.|v\.\s*infra|q\.\s*v\.|id\.|ap\.)\s*$/i,"").trim();
+  // ", v. X" / ". v. X" cross-ref tails (H3, corpus-audit): L&S appends the base
+  // form to derived words — "A goddess, v. divus", "A cloud, v. nubes", "The left
+  // hand, v. laevus". The cross-ref is NOT part of the gloss.
+  t = t.replace(/[.,;:]\s*v\.\s*[A-Z][a-z]*\.?\s*$/i,"").trim();
+  // ", opp. X" opposition note (H3): "Smooth, smoothed, not rough, opp. asper
+  // (class.)" — the opposition note is a usage note, not the gloss, and it
+  // triggers the GRAMMAR_ABBR "opp" penalty killing legitimate primaries (levis2).
+  t = t.replace(/[.,;:]\s*opp\.\s*[a-zA-Z ]+\.?\s*$/i,"").trim();
   t = t.replace(/[.,;:]\s*\d+(?:\s*,\s*[IVXLCDM\d]+)*\s*(?:sq\.|sqq\.)?\s*$/,"").trim();
   // Proper-noun preamble: "Aeculanum (Aecae?), f. A city..." / "Roma, f. Rome" —
   // the entry's headword+gender is glued to the gloss and kills its STRONG_OPEN.
