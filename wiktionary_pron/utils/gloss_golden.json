@@ -10890,5 +10890,167 @@
    "contains": "the internal organs, entrails (pl.); one's flesh and blood"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "abstemius",
+  "expect": {
+   "contains": "abstinent, temperate, abstemious"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adjectivus",
+  "expect": {
+   "contains": "added (to); an adjective"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aegrotaticius",
+  "expect": {
+   "contains": "sickly, often ill, valetudinarian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bibax",
+  "expect": {
+   "contains": "given to drinking, bibulous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "conspicuus",
+  "expect": {
+   "contains": "visible, conspicuous, striking, remarkable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "illacrimabilis",
+  "expect": {
+   "contains": "pitiless, unweeping, inexorable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "improfessus",
+  "expect": {
+   "contains": "unavowed, undeclared, unprofessed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inexstinctus",
+  "expect": {
+   "contains": "unquenched, unextinguished, never extinguished"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amphimallum",
+  "expect": {
+   "contains": "a rough garment, shaggy on both sides"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "albatus",
+  "expect": {
+   "contains": "clothed in white"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "judex",
+  "expect": {
+   "contains": "a judge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "commentarius",
+  "expect": {
+   "contains": "a commentary, notebook, memoir, record"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aspalathus",
+  "expect": {
+   "contains": "asparagus (a thorny plant), aspalathus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "leucographis",
+  "expect": {
+   "contains": "a plant used as a remedy for spitting blood"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lychnites",
+  "expect": {
+   "contains": "lychnites (white marble from Paros)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "naxium",
+  "expect": {
+   "contains": "Naxian, from Naxos (marble)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "laureolus",
+  "expect": {
+   "contains": "a laurel-wreath; laurel (small laurel)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lampetie",
+  "expect": {
+   "contains": "Lampetie (a daughter of Helios)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "daedalion",
+  "expect": {
+   "contains": "Daedalion (a son of Lucifer)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "archiatrus",
+  "expect": {
+   "contains": "a chief physician, archiater"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fannius",
+  "expect": {
+   "contains": "Fannius (a Roman family name)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "midamus",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mugionia",
+  "expect": null,
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lura",
+  "expect": null,
+  "note": "core_gloss"
  }
 ]
