@@ -9785,5 +9785,467 @@
    "contains": "augury, divination; an omen, sign"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "rescriptum",
+  "expect": {
+   "contains": "a rescript, written answer, official reply"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obligatio",
+  "expect": {
+   "contains": "an obligation, binding, bond, engagement"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "culpa",
+  "expect": {
+   "contains": "a fault, blame, guilt, negligence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fides2",
+  "expect": {
+   "contains": "faith, trust, confidence; a promise; a stringed instrument"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mala",
+  "expect": {
+   "contains": "bad things, evils; the cheek-bone (mala)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rogatio",
+  "expect": {
+   "contains": "a proposal (of a law), bill; a question"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "meritum",
+  "expect": {
+   "contains": "a merit, desert, service; worth, value"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pensum",
+  "expect": {
+   "contains": "a task, allotted portion of work; duty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "interdictum",
+  "expect": {
+   "contains": "an interdict, prohibition, decree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corpus",
+  "expect": {
+   "contains": "a body; a corpse; a whole, collection"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obligatio2",
+  "expect": {
+   "contains": "an obligation, binding, bond"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iustitium",
+  "expect": {
+   "contains": "a suspension of legal business, cessation of justice"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iudicium",
+  "expect": {
+   "contains": "a judgment, decision, trial; discernment"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iudex",
+  "expect": {
+   "contains": "a judge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "recuperatores",
+  "expect": {
+   "contains": "recuperators (judges for recovering property)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "centumviri",
+  "expect": {
+   "contains": "the centumviri (a court of 105 judges)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "decemviri",
+  "expect": {
+   "contains": "the decemviri (a board of ten)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "triumviri",
+  "expect": {
+   "contains": "the triumviri (a board of three)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dictator",
+  "expect": {
+   "contains": "a dictator"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "magister",
+  "expect": {
+   "contains": "a master, chief, head, director, teacher"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pontifex",
+  "expect": {
+   "contains": "a pontiff, high-priest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "augur",
+  "expect": {
+   "contains": "an augur, soothsayer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "haruspex",
+  "expect": {
+   "contains": "a haruspex, soothsayer (who inspected entrails)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "interrex",
+  "expect": {
+   "contains": "an interrex (a temporary regent)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suffragium",
+  "expect": {
+   "contains": "a vote, suffrage, ballot"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "promulgatio",
+  "expect": {
+   "contains": "a promulgation, publication (of a law)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latio",
+  "expect": {
+   "contains": "a bringing, proposing (of a law)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sanctio",
+  "expect": {
+   "contains": "a sanction, ratification, enactment"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "veto",
+  "expect": {
+   "contains": "I forbid, I veto"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "intercessio",
+  "expect": {
+   "contains": "an intercession, veto, intervention"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "provocatio",
+  "expect": {
+   "contains": "an appeal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "appellatio",
+  "expect": {
+   "contains": "an appeal; a naming, title, appellation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "recusatio",
+  "expect": {
+   "contains": "a refusal, declining, objection"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exemptio",
+  "expect": {
+   "contains": "a taking out, removal, exemption"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "immunitas",
+  "expect": {
+   "contains": "immunity, exemption"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cursus",
+  "expect": {
+   "contains": "a running, course, race; a journey"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amicitia",
+  "expect": {
+   "contains": "friendship"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clientela",
+  "expect": {
+   "contains": "clientship, the relation of patron and client"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "patronatus",
+  "expect": {
+   "contains": "patronage, the office of a patron"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aequitas",
+  "expect": {
+   "contains": "equity, fairness, justice, equality"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bonitas",
+  "expect": {
+   "contains": "goodness, excellence, kindness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "benignitas",
+  "expect": {
+   "contains": "kindness, graciousness, courtesy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "humanitas",
+  "expect": {
+   "contains": "humanity, kindness, refinement, culture"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "liberalitas",
+  "expect": {
+   "contains": "generosity, liberality, kindness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "munificentia",
+  "expect": {
+   "contains": "generosity, munificence, bountifulness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "modestia",
+  "expect": {
+   "contains": "modesty, restraint, moderation, propriety"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pudor",
+  "expect": {
+   "contains": "a sense of shame, modesty, decency, honor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "verecundia",
+  "expect": {
+   "contains": "shame, modesty, bashfulness, diffidence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "reverentia",
+  "expect": {
+   "contains": "reverence, respect, awe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "observantia",
+  "expect": {
+   "contains": "observance, respect, regard, attention"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obsequium",
+  "expect": {
+   "contains": "compliance, obedience, deference, obligingness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "beneficium",
+  "expect": {
+   "contains": "a benefit, kindness, favor, service"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "officium",
+  "expect": {
+   "contains": "a duty, service, office; a kindness, courtesy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "munus",
+  "expect": {
+   "contains": "a service, office, duty; a gift; a public show"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sollicitudo",
+  "expect": {
+   "contains": "anxiety, care, concern, solicitude"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "edictum",
+  "expect": {
+   "contains": "an edict, proclamation, decree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "novella",
+  "expect": {
+   "contains": "new things, news (pl.); (Novellae) the Novels"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "digestum",
+  "expect": {
+   "contains": "the Digest, Pandects (a compilation of Roman law)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pandectae",
+  "expect": {
+   "contains": "the Pandects, Digest (of Roman law)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "delictum",
+  "expect": {
+   "contains": "a fault, offence, crime, transgression"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dolus",
+  "expect": {
+   "contains": "guile, deceit, fraud, trickery"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "neglegentia",
+  "expect": {
+   "contains": "negligence, carelessness, neglect"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "imprudentia",
+  "expect": {
+   "contains": "ignorance, imprudence, lack of foresight"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ignorantia",
+  "expect": {
+   "contains": "ignorance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "error",
+  "expect": {
+   "contains": "an error, mistake, delusion, wandering"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "interdictum2",
+  "expect": {
+   "contains": "an interdict, prohibition, decree"
+  },
+  "note": "core_gloss"
  }
 ]
