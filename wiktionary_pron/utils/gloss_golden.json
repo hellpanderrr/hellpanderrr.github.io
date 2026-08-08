@@ -8854,5 +8854,159 @@
    "contains": "to smoke, fumigate"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "dubito",
+  "expect": {
+   "contains": "to doubt, hesitate, be uncertain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "narro",
+  "expect": {
+   "contains": "to tell, relate, narrate, recount"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nego",
+  "expect": {
+   "contains": "to deny, say no, refuse"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "respondeo",
+  "expect": {
+   "contains": "to answer, reply, respond"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vado",
+  "expect": {
+   "contains": "to go, walk, hasten, rush"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moror",
+  "expect": {
+   "contains": "to delay, linger, stay, wait"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moveo",
+  "expect": {
+   "contains": "to move, stir, set in motion; to influence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pereo",
+  "expect": {
+   "contains": "to perish, die, be ruined, disappear"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rogo",
+  "expect": {
+   "contains": "to ask, ask for, request; to propose (a law)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suadeo",
+  "expect": {
+   "contains": "to advise, recommend, urge, persuade"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sumo",
+  "expect": {
+   "contains": "to take, take up, assume; to eat, consume"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "taceo",
+  "expect": {
+   "contains": "to be silent, keep silent, say nothing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tremo",
+  "expect": {
+   "contains": "to tremble, shake, quake, quiver"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vereor",
+  "expect": {
+   "contains": "to fear, revere, respect; to be afraid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "opprimo",
+  "expect": {
+   "contains": "to press down, overwhelm, crush, oppress"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "precor",
+  "expect": {
+   "contains": "to pray, beseech, entreat, beg"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "servio",
+  "expect": {
+   "contains": "to serve, be a slave to, be devoted to"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "studeo",
+  "expect": {
+   "contains": "to be eager, zealous; to study, apply oneself to"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "placeo",
+  "expect": {
+   "contains": "to please, be pleasing to, be agreeable"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "soleo",
+  "expect": {
+   "contains": "to be accustomed, be wont"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "libo",
+  "expect": {
+   "contains": "to pour out (an offering), taste, touch lightly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "specto",
+  "expect": {
+   "contains": "to look at, watch, observe; to face, point toward"
+  },
+  "note": "core_gloss"
  }
 ]
