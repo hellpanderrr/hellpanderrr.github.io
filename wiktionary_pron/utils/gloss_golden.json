@@ -13285,5 +13285,26 @@
       "contains": "a Roman surname"
     },
     "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "superbus",
+    "expect": {
+      "contains": "proud"
+    },
+    "note": "introductory-phrase/rare-word primary (P2 straggler)"
+  },
+  {
+    "lemma": "domina",
+    "expect": {
+      "contains": "mistress"
+    },
+    "note": "introductory-phrase/rare-word primary (P2 straggler)"
+  },
+  {
+    "lemma": "deformitas",
+    "expect": {
+      "contains": "deformity"
+    },
+    "note": "introductory-phrase/rare-word primary (P2 straggler)"
   }
 ]
