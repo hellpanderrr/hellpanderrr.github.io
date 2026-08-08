@@ -12011,5 +12011,47 @@
    "contains": "it is agreed, it is fitting, it suits, it is proper"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "edo",
+  "expect": {
+   "contains": "to eat, consume, devour"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ulter",
+  "expect": {
+   "contains": "beyond, further, more remote (adj.); the ulterior"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ultra",
+  "expect": {
+   "contains": "beyond, further, past; more than (adv./prep.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sum2",
+  "expect": {
+   "contains": "to be, exist"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "est",
+  "expect": {
+   "contains": "(form of sum) he/she/it is"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sunt",
+  "expect": {
+   "contains": "(form of sum) they are"
+  },
+  "note": "core_gloss"
  }
 ]
