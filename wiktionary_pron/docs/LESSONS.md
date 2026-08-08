@@ -190,3 +190,31 @@ asi" — the `/i` + optional-punctuation regex matched "de or" inside English
 words. A bare `\bde` + required separator fixed it. Lesson: get in-progress
 changes audited before trusting them; an audit that only finds bugs in committed
 code misses the freshly-broken working tree.
+
+## The 4-expert audit panel beat the cold audit — here's the recipe (2026-08-08, M-019)
+The 2026-08-08 4-expert panel (classicist, product, adversarial architect, data
+expert) returned 3 FAIL + 1 conditional-pass and found real defects the cold
+audit missed (39 homograph conflations, 6 missing common words, 8 architect
+bugs). Why it worked when the earlier cold audit (M-017) stalled:
+- **Give each agent a concrete method + a file deliverable**: "sample 120 random
+  + 80 frequency + 40 homograph; write the report to DISK before finishing."
+  All 4 completed with reports on disk (the cold audit's 3/4 produced empty
+  transcripts).
+- **The adversarial architect actually RAN the pipeline** — extracted the helper
+  block and exercised resolve()/lsExtract() over all 51k L&S keys + 812k
+  wordlist rows. Every bug had a concrete `lemma → wrong gloss → should be`.
+  A static-read-only reviewer would have missed them.
+- **Split by lens, not by file**: classicist (correctness), product (coverage/
+  UI copy), architect (break the code), data (honest numbers + test integrity).
+  The overlap (data's homograph count == classicist's homograph sample ==
+  architect's Bug 6) cross-validated the finding.
+- **The data audit checked the TEST SUITES' honesty** — it found golden/census
+  were blind to homograph conflation (0 of 34 misfire lemmas tested). Test
+  gates that pass 100% while data is wrong are a data-integrity problem, not a
+  code-quality one.
+- **Verify every claim before fixing** — I confirmed each wrong gloss against
+  the L&S raw + wordlist accent before curating. Some audit values were wrong
+  (anathema2 "accursed" was actually L&S "an offering"; the classicist's
+  dico2/caelum2/lego2/frons2 were already correct as-is). The accent signature
+  was the ground truth that separated true homographs (levo2≠levo) from
+  wordlist duplicates (paro2==paro).

@@ -376,3 +376,32 @@ raw senses vs the artifact, surfacing 8 patterns grep-hunting would have missed:
   (Osc./Goth./O.H.Germ.) + era-note sync (paren "class." no double-bonus) + 3
   straggler core entries (superbus, domina, deformitas).
 golden 1881→1896, census 341→348, artifact 32,748→33,679 lemmas. All exit 0.
+
+## M-019 — 4-expert audit panel found systematic homograph + coverage defects (M-005)
+**Status: FIXED** (2026-08-08, sites `7b82f7d`..`17133fb`).
+A 4-expert panel (classicist/product/architect/data) audited the post-M-018
+artifact and returned 3 FAIL + 1 conditional-pass. All 8 concrete architect bugs
++ the data audit's homograph/core/coverage findings fixed:
+- **H1 accent-signature homograph detection**: `isSpurious()` conflated distinct
+  homographs sharing a paradigm (levo2, plaga2/3, labrum2, specula2, pila3,
+  striga2, utriculus2, molitor2, rapina2, viripotens2). formSets now keys by
+  form+accented-form (field 4) — distinct vowel length = distinct word.
+- **H2 literal/etym primary verbs** (verto, vexo, orno, crucio, crepo, accuso,
+  contemno, solvo, exigo, provideo, exspecto, contamino) curated in core.
+- **H3 opp./v.X cross-ref tails**: ", opp. X" (levis2 was MISSING) + ", v. X"
+  (diva "A goddess, v. divus") stripped in cleanOne.
+- **H4 ?-gloss acceptance + short citation tails**: qui2 (interrogative) was
+  MISSING; Inscr./R.R./Vitr./init/med/al citation tails stripped.
+- **H5 participle coverage**: cross-ref recursion handles fr./from (+ POS-skip
+  fixes abscido's "v. a. caedo"→caedo), wAdjFirst fallback, verb-leak guard
+  extended. diligens, corruptus, demissus, serius, laudatus, confertus, + core
+  for WORDS-ADJ-less participles. +208 lemmas.
+- **H6 unassimilated-prefix coverage + core contradictions**: adfacio→afficio,
+  inpleo→impleo, obfero→offero, disfero→differo, etc. (compound normalization
+  table); castus2 (noun "chastity" not adj "pure"), litus2 ("a smearing").
+- **H7 homograph regression tests**: 14 golden rows + golden-runner cache fixed
+  to accent signature.
+- **Common-word curation**: castra, sacerdos, facilis, celer, appello, dominus,
+  exercitus2, taurus, tribunus, recens (broken/narrow senses).
+golden 1910→1941, census 348/348, artifact 33,678→33,958 lemmas, L&S 83.3% /
+WORDS 9.2% / none 7.6%. All exit 0 + e2e green.
