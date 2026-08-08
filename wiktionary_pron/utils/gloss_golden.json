@@ -12214,5 +12214,180 @@
    "contains": "immortal, undying, everlasting"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "sitis",
+  "expect": {
+   "contains": "thirst, dryness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dolor",
+  "expect": {
+   "contains": "pain, grief, sorrow, distress"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nomen",
+  "expect": {
+   "contains": "a name; a noun; fame, renown"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tristitia",
+  "expect": {
+   "contains": "sadness, sorrow, gloom, melancholy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "memoria",
+  "expect": {
+   "contains": "memory, remembrance, recollection"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cantus",
+  "expect": {
+   "contains": "a song, singing, melody, music"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fortuna",
+  "expect": {
+   "contains": "fortune, luck, chance, fate; fortune (the goddess)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "necessitas",
+  "expect": {
+   "contains": "necessity, compulsion, constraint"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "casus2",
+  "expect": {
+   "contains": "a fall; accident, chance, event, occurrence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fama",
+  "expect": {
+   "contains": "a report, rumor, reputation, fame"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nomen2",
+  "expect": {
+   "contains": "a name; a noun; fame, renown"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "littera",
+  "expect": {
+   "contains": "a letter (of the alphabet); (pl.) literature, a letter, epistle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sermo",
+  "expect": {
+   "contains": "conversation, talk, discourse, speech"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vox",
+  "expect": {
+   "contains": "a voice, sound, cry, word, saying"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "somnium2",
+  "expect": {
+   "contains": "a dream; an idle fancy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tristitia2",
+  "expect": {
+   "contains": "sadness, sorrow, gloom"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cantus2",
+  "expect": {
+   "contains": "a song, singing, melody"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "casus3",
+  "expect": {
+   "contains": "a fall; accident, chance, event, occurrence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aetas2",
+  "expect": {
+   "contains": "an age, lifetime; a period of life; an age, era"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "circe",
+  "expect": {
+   "contains": "Circe (an enchantress); (as preposition) circa, around, about"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "citer",
+  "expect": {
+   "contains": "this side of, on this side; near"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "verro",
+  "expect": {
+   "contains": "to sweep, sweep together; (as adversus) toward, facing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adversum2",
+  "expect": {
+   "contains": "against, opposite, facing; toward"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "versus",
+  "expect": {
+   "contains": "toward, facing, against (prep.); a verse, line (noun)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iuxta",
+  "expect": {
+   "contains": "near, close to, beside; according to"
+  },
+  "note": "core_gloss"
  }
 ]
