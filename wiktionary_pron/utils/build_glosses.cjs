@@ -704,6 +704,19 @@ for (const r of rows.values()) {
     else if (l) { gloss = l; lClean++; }
     else none++;
   }
+  // L&S CROSS-REF VERB-LEAK GUARD (bug-hunter 2026-08-08): L&S main_notes
+  // ("amanter, adv., v. amo", "potens, v. possum") makes resolve() recurse into
+  // the base verb, so ADV/ADJ lemmas get the verb's INFINITIVE gloss (cito→"to
+  // put in motion" should be "quickly", mortuus→"to die" should be "dead",
+  // potens→"to be able" should be "powerful"). WORDS POS-filtered (wGloss) gives
+  // the correct POS-aware gloss. Rule: an ADV/ADJ-dominant lemma whose L&S result
+  // is a verb-infinitive ("to X") prefers WORDS-POS. Scoped narrowly so memor/
+  // superus/saevus/certo (real adjective glosses, golden-locked) are untouched.
+  else if ((pos === "ADV" || pos === "ADJ") && l && /^to\s+[a-z]/i.test(l)) {
+    if (w) { gloss = w; wClean++; }
+    else if (l) { gloss = l; lClean++; }
+    else none++;
+  }
   else if (l) { gloss = l; lClean++; }
   else if (w) { gloss = w; wClean++; }
   else none++;

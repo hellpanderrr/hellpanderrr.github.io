@@ -12431,5 +12431,166 @@
    "contains": "at length, at last, finally, only"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "strenuus",
+  "expect": {
+   "contains": "active, vigorous, strenuous, energetic"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "commodus",
+  "expect": {
+   "contains": "convenient, suitable, fit, proper; obliging"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "assiduus",
+  "expect": {
+   "contains": "assiduous, unremitting, constant, continual"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calceatus",
+  "expect": {
+   "contains": "shod, wearing shoes, booted"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maledictus",
+  "expect": {
+   "contains": "accursed, detestable, infamous, reviled"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lator",
+  "expect": {
+   "contains": "a bearer, carrier, bringer; a proposer (of a law)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acceptum",
+  "expect": {
+   "contains": "a receipt, entry in an account; (as adj.) received"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "debitum",
+  "expect": {
+   "contains": "a debt, what is owed; a due"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nupta",
+  "expect": {
+   "contains": "a bride, married woman, wife"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sponsa",
+  "expect": {
+   "contains": "a bride, betrothed woman, fiancee"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rabies",
+  "expect": {
+   "contains": "madness, rage, fury"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "discepto",
+  "expect": {
+   "contains": "to dispute, argue, contend, debate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mansuetus",
+  "expect": {
+   "contains": "tame, gentle, mild, submissive"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "false",
+  "expect": {
+   "contains": "falsely, wrongly, deceitfully"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "docte",
+  "expect": {
+   "contains": "learnedly, skilfully, expertly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "constanter",
+  "expect": {
+   "contains": "constantly, steadily, firmly, consistently"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diverse",
+  "expect": {
+   "contains": "in different directions, differently, variously"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "apertum",
+  "expect": {
+   "contains": "openly, plainly, manifestly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "callenter",
+  "expect": {
+   "contains": "skilfully, cleverly, shrewdly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "expergite",
+  "expect": {
+   "contains": "awake, alert, vigilant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "illuminate",
+  "expect": {
+   "contains": "brightly, clearly, luminously"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exserte",
+  "expect": {
+   "contains": "distinctly, clearly, expressly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "coniuncte",
+  "expect": {
+   "contains": "jointly, in common, connectedly"
+  },
+  "note": "core_gloss"
  }
 ]
