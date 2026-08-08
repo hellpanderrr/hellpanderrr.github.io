@@ -197,6 +197,13 @@ function cleanOne(t) {
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*(?:[A-Z][a-z]{2,8}\.\s*)?(?:l\.\s*)?(?:p\.\s*)?\s*[\dIVXLCDM]+[\s\S]*$/,"").trim();
   t = t.replace(/\s+ap\.\s*[A-Z][a-z]{2,8}\..*$/,"").trim();
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{3,}(?:\s*[A-Z][a-z]{2,8}\.?)?\s*$/,"").trim();
+  // "Cic. de Or. 1, 43, 191; 2, 1, 2 al." — L&S cites the De Oratore by
+  // "de Or." (after stripping the author + book digits, the "de Or." fragment
+  // survives: "a famous lawyer, friend of L. Licinius Crassus. de Or").
+  // REQUIRE a real separator AND a word boundary: a bare /de\s+or/i would match
+  // the "de or" inside English words — "asiDE OR away" → declino "to turn asi",
+  // "disquietUDE OR confusion" → interturbo "To produce disquietu".
+  t = t.replace(/[.,;:]\s+\bde\s+Or\.?[\s\S]*$/i,"").trim();
   t = t.replace(CIT,"");
   t = t.replace(/\([^)]*\)\s*$/,"").trim();
   t = t.replace(/\([^)]*$/,"").trim();   // unclosed trailing paren (clause-split broke "(syn.: ...)" across clauses)
@@ -279,8 +286,14 @@ function cleanOne(t) {
       // ("...luculentas") — NOT when it's a gloss synonym ("...to pieces, friable").
       if (seenEn && w.length >= 4 && !/^[A-Z]/.test(toks[i]) && LATIN_INFL.test(w) && i < toks.length - 1) {
         const next = toks[i + 1].toLowerCase().replace(/^[^a-z]*|[^a-z]*$/g, "");
+        // Require the following word to be ACTUALLY Latin-inflected too, not just
+        // not-English. "prickles, thorny" (aculeatus) was truncating to "Furnished
+        // with stings or" because "prickles" ends in -es (LATIN_INFL) and "thorny"
+        // isn't in EN_WORDS — but neither is Latin. Real example tails always carry
+        // Latin inflection ("...habuisti luculentas" → -as). Without this, English
+        // plurals/adjectives in -y after an -es/-is word get cut mid-gloss.
         const nextLatin = next.length >= 4 && !EN_WORDS.has(next) && !/(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(next)
-          && !/^[A-Z]/.test(toks[i + 1]);
+          && !/^[A-Z]/.test(toks[i + 1]) && LATIN_INFL.test(next);
         if (nextLatin) { t = toks.slice(0, i).join(" "); break; }
       }
     }
