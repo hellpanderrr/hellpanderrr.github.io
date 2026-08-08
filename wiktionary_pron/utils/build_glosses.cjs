@@ -231,6 +231,12 @@ function cleanOne(t) {
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*(?:[A-Z][a-z]{2,8}\.\s*)?(?:l\.\s*)?(?:p\.\s*)?\s*[\dIVXLCDM]+[\s\S]*$/,"").trim();
   t = t.replace(/\s+ap\.\s*[A-Z][a-z]{2,8}\..*$/,"").trim();
   t = t.replace(/[.,;:]\s*[A-Z][a-z]{3,}(?:\s*[A-Z][a-z]{2,8}\.?)?\s*$/,"").trim();
+  // Residual citation tails the author lists miss (re-audit 2026-08-08): "Th",
+  // "Or", "Ib", "Ep", "adv", "fin" after a period — KNOWN single-token abbrevs
+  // only. (A broader "strip any trailing . <Cap>... pattern" was tried and
+  // REVERTED — it ate 411 real glosses incl. proper nouns like archimedes and
+  // common words like demum.)
+  t = t.replace(/[.,;]\s*(?:Th|Or|Ib|Ep|adv|fin|init|med)\b\.?\s*$/i,"").trim();
   // "Cic. de Or. 1, 43, 191; 2, 1, 2 al." — L&S cites the De Oratore by
   // "de Or." (after stripping the author + book digits, the "de Or." fragment
   // survives: "a famous lawyer, friend of L. Licinius Crassus. de Or").

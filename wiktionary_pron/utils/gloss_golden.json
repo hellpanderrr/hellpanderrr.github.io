@@ -13623,5 +13623,26 @@
       "contains": "recent"
     },
     "note": "high-freq common word wrong/narrow sense (audit)"
+  },
+  {
+    "lemma": "retroversus",
+    "expect": {
+      "contains": "turned back"
+    },
+    "note": "re-audit sample (M-019 follow-up)"
+  },
+  {
+    "lemma": "benefactor",
+    "expect": {
+      "contains": "a benefactor"
+    },
+    "note": "re-audit sample (M-019 follow-up)"
+  },
+  {
+    "lemma": "discrepo",
+    "expect": {
+      "contains": "to differ"
+    },
+    "note": "re-audit sample (M-019 follow-up)"
   }
 ]
