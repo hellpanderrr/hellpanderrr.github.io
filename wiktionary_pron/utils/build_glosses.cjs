@@ -75,7 +75,7 @@ const GRAMMAR_ABBR = /\b(?:neutr|plur|sing|freq|rel|foll|subst|interrog|impers|g
 const TRAIL_AUTHOR_BARE = /(?:Cic|Liv|Plaut|Ter|Verg|Virg|Ov|Hor|Caes|Sen|Tac|Cat|Juv|Stat|Plin|Suet|Lucr|Tert|Gell|Curt|Varr|Enn|Isid|Amm|Charis|Prisc|Donat|Serv|Pan|App|Front)\b\.?\s*$/i;
 const WEAK_OPEN = /^(?:of\s|in\s|by\s|for\s|from\s|with\s|at\s|on\s|into\s|against\s|around\s|before\s|beyond\s|per\s|and\s|also\s|such\s|same\s|hence\s|esp\.\s|perh\.\s|that\s|those\s|this\s)/i;
 const LATIN_FORM = /(?:isse|asse|unt|erit|tur|mus|tis|ium|ibus|arum|orum|ens)$/;
-const ETYM = /(?:Sanscr\.|Germ\.|Engl\.|orig\.|collat\.\s+form|root\s+[a-z]+|perh\.\s+root|etym\.|cf\.\s+[A-Z][a-z]+\s+root)/i;
+const ETYM = /(?:Sanscr\.|Germ\.|Engl\.|orig\.|collat\.\s+form|root\s+[a-z]+|perh\.\s+root|etym\.|cf\.\s+[A-Z][a-z]+\s+root|Osc\.|Goth\.|O\.?\s*H\.?\s*Germ\.|Lith\.|Slav\.|Skt\.|Icel\.|A.-S\.|O\.?\s*Lat\.)/i;
 const LATIN_LOOKING = /^(?:sum|es|est|sumus|estis|sunt|eram|eras|erat|ero|eris|erit|sim|sis|sit|essem|esses|esset|fui|fuisti|fuit|fueram|fueras|fuerat|fuero|fueris|fuerit|fiam|fias|fiat|fiebam|fiebas|fiebat|fio|fimus|fitis|fiant|fierem|fieres|fieret|fierent|fiamus|fiatis|erimus|eritis)$/i;
 const EN_WORDS = new Set(`to a an the of in by for from with at on into one who which what any some used having being full made containing capable able worthy called such same so hence also pertaining belonging relating or and but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you do does did done make makes made give gives gave taken take took turn turns turned call calls called come comes came put puts find finds found keep keeps kept see sees saw seen set sets lead leads led hold holds held bring brings brought run runs running move moves moved stand stands lie lies lay born living thing person people place time day night hand head eye ear foot body blood water fire earth land sea sky sun moon star year month week end part side kind sort way manner means mode fashion force power strength might authority rule government law right wrong good bad evil great small large big high low deep broad wide long short old new young early late quick slow fast hard soft light heavy warm cold hot dry wet clean pure holy sacred common private public open shut close together apart alone single double triple fold like love hate fear joy grief sorrow pain hurt wound injury harm evil ill sick well whole safe sound strong weak feeble faint dim bright clear dark obscure hidden secret plain simple complex subtle keen sharp dull blunt rough smooth level even flat straight curved bent round square long broad short gentle mild harsh stern fierce wild tame soft sweet bitter sour acid tart sharp hot cold very really quite rather somewhat slightly wholly entirely utterly quite eg viz namely useful serviceable beneficial profitable advantageous pleasant agreeable delightful pleasing empty waste desert powerful prudent violent foreign blessed unlike resembling green wasteful effective valuable excellent worthy active passable capable ready fit suitable proper fitting meet convenient opportune seasonable timely becoming decorous fair beautiful handsome comely shapely well-made well-formed graceful elegant refined polished finished perfect complete whole entire total full crowded thick numerous many much great immense vast huge large spacious broad wide extensive far-far distant remote separated parted divided separate distinct several various diverse different varied manifold rich wealthy opulent sumptuous costly dear expensive precious rare valuable choice select exquisite superb superb fine nice delicious savory tasteful good savory wholesome healthy salubrious healthful sound firm stable steady constant continual perpetual everlasting eternal immortal lasting enduring abiding durable permanent lasting solid substantial strong mighty potent powerful forcible vigorous active energetic spirited mettlesome manly brave courageous valiant bold daring fearless intrepid dauntless resolute firm steadfast unyielding inflexible stubborn obstinate headstrong willful perverse wayward froward forward bold daring rash reckless heedless careless negligent remiss slack idle lazy indolent slothful sluggish torpid inert sluggish dull heavy stupid senseless foolish silly fatuous imbecile weak-minded witless simple foolish silly childish puerile boyish girlish womanish effeminate soft delicate tender fragile frail brittle weak feeble languid faint exhausted wearied tired weary fatigued jaded worn-out spent exhausted energy vigor virtue potency anger wrath rage fury passion upper lower higher outer inner former latter savage ferocious barbarous furious plain soil shore coast wave storm breeze grove meadow valley ridge cliff sand bloom blossom root branch leaf seed fruit flower corn grain wheat barley wine oil milk honey salt stone rock metal gold silver brass bronze iron copper tin lead vein mine quarry chasm cave shelter refuge haven port harbor bay gulf strait isle island cape headland promontory marsh fen bog morass heath moor down hill hilltop knoll summit peak crest precipice crag scar shelf ledge terrace bank mound heap pile stack mass bulk lump piece portion share lot quantity number amount sum total whole entire all every each both neither either any some few several many much more most least little smaller greater lesser upper lower inner outer former latter nearest farthest outermost innermost honey sweet darling wonderful strange thousand weary angry immense countless hungry himself exclusively times famine dearth sense senses insane mad frantic sleep sleepy drowsy dozy somnolent list register together always forever ever within upon among company along however nevertheless mount mountain sea heaven sky yours ours theirs hers its thy thine thou thee ye mine my your our their`.split(/\s+/));
 const BIO_WORDS = new Set("king queen prince princess daughter son father mother brother sister wife husband god goddess nymph giant hero heroine warrior king king's people nation tribe city town river mountain island kingdom region country land sea kingly royal".split(/\s+/));
@@ -122,6 +122,7 @@ function latinCount(g) {
 function isGlossRun(g) {
   if (!GLOSS_RUN.test(g)) return false;
   const toks = g.split(",").map(x => x.trim().toLowerCase());
+  const firstRaw = g.split(",")[0].trim(); // original case — the capital check needs it
   // The FIRST token must be English (hyphen-compounds split for the check: a
   // honey-sweet first token is honey+sweet, both English) — kills Latin example
   // runs ("veni, vidi, vici", "omnia, adverbially, altogether, entirely").
@@ -132,9 +133,13 @@ function isGlossRun(g) {
   // CAPITALIZES the first token of a primary run ("Mouldy, musty", "Greatness,
   // size"). Accept any capitalized first token that isn't a frag/author label.
   // (P2a — divinitas "Godhead, divinity" was losing to "The power of divining".)
+  // Etymology language-name fragments ("Erse, aile", "Osc., Goth.") are capitalized
+  // and would pass the capital-accept — but they're NOT glosses (alius2 was
+  // getting "Erse, aile" for its old-form note before "another, other"). (P2a)
+  const ETYM_LANG = new Set(["erse","osc","goth","gothic","skr","skt","a.-s","icel","old","lit","russ","cesc","bohem","irish","welsh","cornish","breton","gaul","celtic","slav","slavic","prus","pers","sanscr","sanscrit","lith","germ","engl","hibern","pol","polish","czech","hung","bulg","serb","lett","est","fin","norse","saxon","anglo"]);
   const firstOk = firstWords.some(w => EN_WORDS.has(w)
     || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|ness|head|hood|ity|tion|ion|ment)$/.test(w)
-    || (/^[A-Z]/.test(toks[0]) && !FRAG_START.has(toks[0].toLowerCase()) && !FUNCTION.has(toks[0].toLowerCase())));
+    || (/^[A-Z]/.test(firstRaw) && !FRAG_START.has(toks[0]) && !FUNCTION.has(toks[0]) && !ETYM_LANG.has(toks[0])));
   if (!firstOk) return false;
   for (const t of toks) {
     if (FUNCTION.has(t)) return false;
@@ -234,7 +239,7 @@ function cleanOne(t) {
       prev = t;
       // strip trailing "..., (NOTE)" where NOTE is a usage/era/frequency marker —
       // the note may be followed by a period "(not in Cic.)." or bare "(not in Cic.)".
-      t = t.replace(/\s*\([.,;:.\s]*(?:not in [A-Z][a-z.]*|in [A-Z][a-z]*\.? (?:rare|several times)|late Lat\.|post-?aug\.?|ante-?class\.?|ante\s*-?\s*class\.?|eccl\.? Lat\.?|very rare|rare but class\.?|rarely|arch\.?|perh\.?|so, rarely|used chiefly|a few places|very\s+freq\.?\s+and\s+class\.?|freq\.?\s+and\s+class\.?|class\.?\s+and\s+freq\.?|except\s+in\s+[A-Z][a-z]+\.?)[^)]*\)[.,;:]*\s*$/i,"").trim();
+      t = t.replace(/\s*\([.,;:.\s]*(?:not in [A-Z][a-z.]*|in [A-Z][a-z]*\.? (?:rare|several times)|late Lat\.|post-?aug\.?|ante-?class\.?|ante\s*-?\s*class\.?|eccl\.? Lat\.?|very rare|rare but class\.?|rarely|arch\.?|perh\.?|so, rarely|used chiefly|a few places|very\s+freq\.?\s+and\s+class\.?|freq\.?\s+and\s+class\.?|class\.?\s+and\s+freq\.?|except\s+in\s+[A-Z][a-z]+\.?|class\.?)[^)]*\)[.,;:]*\s*$/i,"").trim();
       t = t.replace(/[.,;:]\s*$/,"").trim();
     }
   }
@@ -324,6 +329,12 @@ function cleanOne(t) {
     });
     const nonFn = toks.filter(tk => !FUNCTION.has(tk.toLowerCase()) && tk.length >= 3 && !/^[A-Z]/.test(tk));
     const hasProperNoun = toks.some(tk => /^[A-Z]/.test(tk));
+    // A relative-clause gloss ("mistress, she who rules or commands", "one who
+    // watches over", "a person that takes") is ENGLISH, never a pure-Latin
+    // example — the "she/he/one/those who" opener is an L&S definition pattern.
+    // Its content words ("rules", "commands", "mistress") aren't in EN_WORDS and
+    // look Latin-ish, which was triggering this rejection. (P2 straggler: domina)
+    if (/^(?:she|he|one|those|they|a\s+person|a\s+thing)\s+who\b/i.test(t) || /\b(?:one|she|he|those)\s+who\b/i.test(t)) return t;
     if (latToks.length >= 2) return null;
     // A strong-opener gloss with a proper noun ("A festival of Venus", "A chieftain
     // of the Senones") is English, never a pure-Latin clause — escape the short-clause
@@ -373,12 +384,16 @@ function scoreGloss(g, pos) {
   if (LATIN_LOOKING.test(first)) s -= 3;
   if (/^[A-Z]/.test(g) && FRAG_START.has(first)) s -= 3;
   // grammar-note density: "The rel. freq. agrees..." / "the neutr. plur. omnia
-  // is often closely connected..." — these are usage notes, not definitions
+  // is often closely connected..." — these are usage notes, not definitions.
+  // Test on `shape` (paren-stripped): a trailing "(class.)"/"(freq. and class.)"
+  // that scoreGloss already strips as a note must NOT also trigger the tail
+  // penalty — "Greatness, size, bulk, magnitude (class.)" was getting the run +3
+  // then a −4 (line 380's class\.) and −2 (line 381's class\.) for the same note.
   if (GRAMMAR_ABBR.test(g)) s -= 4;
   // a bare author name glued to the clause end = a translated example, not a gloss
   if (TRAIL_AUTHOR_BARE.test(g)) s -= 4;
-  if (/(?:\s(?:hence|cf|syn|freq\.|class\.|absol|neutr|act\.|pass\.|in\s+gen\.))\s*,?\s*(?:\([^)]*\))?$/i.test(g)) s -= 4;
-  if (/\((?:cf\.?|syn\.?|freq\.?|rare|class\.?|poet\.?|ante-?class\.?)\)?$/i.test(g)) s -= 2;
+  if (/(?:\s(?:hence|cf|syn|freq\.|class\.|absol|neutr|act\.|pass\.|in\s+gen\.))\s*,?\s*(?:\([^)]*\))?$/i.test(shape)) s -= 4;
+  if (/\((?:cf\.?|syn\.?|freq\.?|rare|class\.?|poet\.?|ante-?class\.?)\)?$/i.test(shape)) s -= 2;
   if (IE_MARK.test(g)) s -= 3;
   // "very rare, and only of the eyes" — a usage-restriction note, not a gloss.
   if (/^(?:very\s+rare(?:ly)?|rarely|in\s+very\s+rare|rare\b)/i.test(g)) s -= 3;
