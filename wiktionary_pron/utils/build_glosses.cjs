@@ -127,10 +127,14 @@ function isGlossRun(g) {
   // runs ("veni, vidi, vici", "omnia, adverbially, altogether, entirely").
   const firstWords = toks[0].split("-");
   // Abstract-noun primaries ("Godhead, divinity", "Deformity, ugliness",
-  // "Debility, infirmity") open with words ending -ness/-head/-hood/-ity/-tion/-ment
-  // that aren't in EN_WORDS — without them the primary run scores 0 and a later
-  // verbose/narrow sense wins (divinitas→"The power of divining"). (P2a)
-  const firstOk = firstWords.some(w => EN_WORDS.has(w) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|ness|head|hood|ity|tion|ment)$/.test(w));
+  // "Debility, infirmity", "Disunion, disagreement") open with words ending
+  // -ness/-head/-hood/-ity/-tion/-ion/-ment that aren't in EN_WORDS. L&S also
+  // CAPITALIZES the first token of a primary run ("Mouldy, musty", "Greatness,
+  // size"). Accept any capitalized first token that isn't a frag/author label.
+  // (P2a — divinitas "Godhead, divinity" was losing to "The power of divining".)
+  const firstOk = firstWords.some(w => EN_WORDS.has(w)
+    || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|ness|head|hood|ity|tion|ion|ment)$/.test(w)
+    || (/^[A-Z]/.test(toks[0]) && !FRAG_START.has(toks[0].toLowerCase()) && !FUNCTION.has(toks[0].toLowerCase())));
   if (!firstOk) return false;
   for (const t of toks) {
     if (FUNCTION.has(t)) return false;
@@ -347,9 +351,16 @@ function cleanOne(t) {
 }
 function scoreGloss(g, pos) {
   let s = 0;
+  // Test run/adj shapes on the gloss WITHOUT trailing parenthetical notes —
+  // "(good prose)", "(class.)", "(esp. of females, rarely of males)" survive
+  // cleanOne and break GLOSS_RUN ("Deformity, ugliness (good prose)" fails the
+  // run test → scores 0 and loses to a later sense). The note is not the gloss.
+  // Only strip TRAILING parens — an internal parenthetical is real content
+  // ("a teat, dug of animals (of a female)") and must not be removed.
+  const shape = g.replace(/\s*\([^)]*\)\s*$/g, "");
   if (STRONG_OPEN.test(g)) s += 3;
-  else if (isBareAdj(g, pos)) s += 3;
-  else if (isGlossRun(g)) s += 3;
+  else if (isBareAdj(shape, pos)) s += 3;
+  else if (isGlossRun(shape)) s += 3;
   else if (WEAK_OPEN.test(g)) s += 1;
   if (pos === "V" && /\bto\s+[a-z]/i.test(g)) s += 2;
   else if (pos !== "V" && /^to\s+[a-z]/i.test(g)) s -= 3;
@@ -423,6 +434,26 @@ function usable(g, pos) {
   const realWords = g.split(/[\s,]/).filter(w => /^[A-Za-z-]{3,}$/.test(w));
   if (realWords.length === 0) return false;
   if (realWords.every(w => FRAG_START.has(w) || FUNCTION.has(w.toLowerCase()))) return false;
+  // A clause opening with the INDEFINITE/definite article that contains ZERO
+  // English content words AND ≥2 non-capital non-English tokens is a translated
+  // Latin example, not a gloss: "an quod te imperator consulit", "a mima uxore",
+  // "a se dolores, morbos, debilitates repellere". The article gives such clauses
+  // STRONG_OPEN +3 and they beat the real primary. The ≥2-word requirement keeps
+  // legitimate 1-2 word article glosses ("A sponge", "A poplar, poplar-tree",
+  // "The antipodes", "A stopple, plug") — their single content word isn't in
+  // EN_WORDS but IS the gloss. "A festival of Venus" (proper noun) survives via
+  // the capital check. (P3)
+  if (/^(?:a|an|the)\s+/i.test(g) && enCount(g) === 0) {
+    const after = g.replace(/^(?:a|an|the)\s+/i, "");
+    const tokens = after.split(/[\s,;:]+/).filter(t => /^[a-z]{3,}/i.test(t));
+    const nonEn = tokens.filter(t => !EN_WORDS.has(t.toLowerCase()) && !/^[A-Z]/.test(t)
+      && !/(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing|tion|ness|ment)$/.test(t.toLowerCase()));
+    // ≥3 non-English tokens = a Latin example ("an quod te imperator consulit",
+    // "a se dolores, morbos, debilitates repellere"). 1-2 non-English content
+    // words are legitimate rare-English glosses ("A sponge", "A poplar,
+    // poplar-tree", "The antipodes", "A stopple, plug"). (P3)
+    if (nonEn.length >= 3) return false;
+  }
   // A single CAPITALIZED short word is usually an author/fragment ("in Psa",
   // "Pers", "Vulg", "Ov"), not a gloss. BUT it also kills real one-word primaries
   // ("Sweet", "Great", "Bad", "Good", "High") that L&S capitalizes — dulcis was
