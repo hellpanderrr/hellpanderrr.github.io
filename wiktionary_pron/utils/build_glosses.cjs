@@ -487,6 +487,12 @@ function usable(g, pos) {
   // grammatical meta-notes, not glosses: "in two forms", "in three ways", "in
   // four senses" — the declension/orthography section headers of a complex entry.
   if (/^in\s+(?:one|two|three|four|five|both|a|an)\s+(?:forms?|ways?|senses?|numbers?|syllables?)\b/i.test(g)) return false;
+  // Text-critical / orthography editor notes, not glosses (P4): "the best reading
+  // is", "the correct read. is", "the form discribo seems to have been used", "an
+  // ancient and rare form", "In a double sense". These are English and score via
+  // STRONG_OPEN "the"/"an" +3, beating the real primary (declinatus "Variation,
+  // inflection of words" was losing to "the best reading is"). (P4)
+  if (/^(?:the\s+(?:best|correct|true|right|more\s+usual)\s+(?:reading|read\.|form|orthogr|spelling)\b|an\s+(?:ancient|old)\s+and\s+rare\s+form\b|in\s+a\s+double\s+sense\b|the\s+form\s+[a-z]+)/i.test(g)) return false;
   return true;
 }
 // R2 (panel data-expert): a clause that OPENS an English gloss run is the primary
