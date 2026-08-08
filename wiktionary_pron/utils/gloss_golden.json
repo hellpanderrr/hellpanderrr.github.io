@@ -746,7 +746,17 @@
  {
   "lemma": "dignitas",
   "expect": {
-   "contains": "worthy"
+   "alternates": [
+    {
+     "contains": "worthy"
+    },
+    {
+     "contains": "dignity"
+    },
+    {
+     "contains": "worth"
+    }
+   ]
   },
   "note": "was nulled: 'perh.' era penalty demoted the primary"
  },
@@ -10584,6 +10594,300 @@
   "lemma": "munus2",
   "expect": {
    "contains": "a service, office, duty; a gift; a public show"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "algor",
+  "expect": {
+   "contains": "cold, chill, coldness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ancora",
+  "expect": {
+   "contains": "an anchor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anchora",
+  "expect": {
+   "contains": "an anchor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aurata",
+  "expect": {
+   "contains": "a gilt-head (a fish); gilded, gold-covered"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "apex",
+  "expect": {
+   "contains": "a peak, summit, tip, point; a priest's pointed cap"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arbor",
+  "expect": {
+   "contains": "a tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asylum",
+  "expect": {
+   "contains": "an asylum, refuge, sanctuary"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auctor",
+  "expect": {
+   "contains": "an author, originator; an authority, witness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "blandus",
+  "expect": {
+   "contains": "flattering, caressing, smooth, seductive"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caelestis",
+  "expect": {
+   "contains": "heavenly, celestial, divine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calamus",
+  "expect": {
+   "contains": "a reed, cane, pen (of reed)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "causa2",
+  "expect": {
+   "contains": "a cause, reason, motive"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clam",
+  "expect": {
+   "contains": "secretly, in secret, privately"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clare",
+  "expect": {
+   "contains": "clearly, brightly, loudly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crudelis",
+  "expect": {
+   "contains": "cruel, hard-hearted, unfeeling"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "duritia",
+  "expect": {
+   "contains": "hardness, harshness, sternness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "famulus",
+  "expect": {
+   "contains": "a servant, slave, attendant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fastigium",
+  "expect": {
+   "contains": "a peak, summit, top; the gable of a roof; dignity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flagrum",
+  "expect": {
+   "contains": "a whip, scourge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fons",
+  "expect": {
+   "contains": "a spring, fountain, source"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "forma2",
+  "expect": {
+   "contains": "a form, shape, figure; beauty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "frenum",
+  "expect": {
+   "contains": "a bridle, bit, curb"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gloria2",
+  "expect": {
+   "contains": "glory, fame, renown"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "honestas",
+  "expect": {
+   "contains": "honor, integrity, virtue, respectability"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lapis",
+  "expect": {
+   "contains": "a stone"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lumen2",
+  "expect": {
+   "contains": "light, brightness; an eye"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "macula",
+  "expect": {
+   "contains": "a spot, stain, blemish; a disgrace"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "memoria2",
+  "expect": {
+   "contains": "memory, remembrance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "meridies2",
+  "expect": {
+   "contains": "midday, noon; the south"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mors2",
+  "expect": {
+   "contains": "death"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "otium2",
+  "expect": {
+   "contains": "leisure, ease, rest, idleness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "passus",
+  "expect": {
+   "contains": "a step, pace; a footstep"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "portio",
+  "expect": {
+   "contains": "a portion, share, part"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praesens",
+  "expect": {
+   "contains": "present, at hand; immediate; ready"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quies",
+  "expect": {
+   "contains": "rest, repose, quiet, peace"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "regnum2",
+  "expect": {
+   "contains": "a kingdom, rule, sovereignty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sors2",
+  "expect": {
+   "contains": "a lot, fate, chance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tempus2",
+  "expect": {
+   "contains": "time; a period, season; the temple (of the head)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tranquillitas",
+  "expect": {
+   "contains": "calmness, quiet, stillness, tranquillity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "valetudo",
+  "expect": {
+   "contains": "health, state of health; good or bad health"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "victoria2",
+  "expect": {
+   "contains": "victory"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "viscera",
+  "expect": {
+   "contains": "the internal organs, entrails (pl.); one's flesh and blood"
   },
   "note": "core_gloss"
  }
