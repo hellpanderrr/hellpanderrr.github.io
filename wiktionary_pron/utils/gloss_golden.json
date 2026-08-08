@@ -11871,5 +11871,75 @@
    "contains": "a leap, bound; a mountain pasture, forest, defile"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "certe",
+  "expect": {
+   "contains": "certainly, surely, at least, at any rate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sane",
+  "expect": {
+   "contains": "certainly, truly, indeed, truly, quite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "utique2",
+  "expect": {
+   "contains": "especially, certainly, at any rate, in particular"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "equidem",
+  "expect": {
+   "contains": "indeed, truly, for my part, to be sure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pariter",
+  "expect": {
+   "contains": "equally, in like manner, at the same time"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "proinde",
+  "expect": {
+   "contains": "therefore, accordingly; just so, equally"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quippe",
+  "expect": {
+   "contains": "certainly, to be sure, of course, indeed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quatenus",
+  "expect": {
+   "contains": "how far, to what extent, how long; since, inasmuch as"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sanus",
+  "expect": {
+   "contains": "sound, healthy, well, whole; sane, rational"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pariter2",
+  "expect": {
+   "contains": "equally, in like manner, at the same time"
+  },
+  "note": "core_gloss"
  }
 ]
