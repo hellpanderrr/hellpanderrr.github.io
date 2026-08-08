@@ -162,6 +162,51 @@ secondaries/examples.
   now null (shown as "—") — a deliberate trade: null is fail-safe, wrong is
   fail-loud. `appello`→"To drive" remains inherent.
 
+**2026-08-08 panel audit + function-word fix (the "89.8% coverage" claim was
+misleading).** A hand-curated 79-word top-frequency check exposed that the
+function-word/closed-class stratum — conjunctions, prepositions, pronouns,
+copula, core adverbs — was ~40% WRONG (`autem`→"the parent of all evil",
+`et`→"used for et ... et", `cum`→"A being or bringing together",
+`sum`→"to pass, elapse", `in`→"hand, busied", `caelum`→"a graver"). A 3-advisor
+panel (classicist, data-expert, adversarial-architect) verified the root causes:
+- **Scoring asymmetry:** `STRONG_OPEN` (+3) rewards clauses opening "the/a/an/
+  used for"; real particle primaries open weak ("on/with/but/for", +1 or 0), so a
+  translated example ("the parent of all evil") outranks the gloss.
+- **Homograph inversion:** L&S numbers the RARE sense as homograph-1 (`caelum1`=
+  chisel, `lego1`=bequeath, `dico1`=dedicate); `resolve()` falls through to base1.
+- **EN_WORDS gaps:** "always/forever/together/within/upon" not in EN_WORDS; real
+  primaries score 0, examples with common words pass the acceptance floor.
+- **Era bonus + cross-ref misfire:** `class.`-marked senses flip ties (`sum`);
+  `semper`→"a single time" via a `v. semel` cross-ref.
+- **Measurement failure (KEY):** every prior "top-1000 common words" sample ranked
+  by WORDFORM COUNT (morphological richness), which is anti-correlated with text
+  frequency — function words carry 1–6 wordforms and rank ~30k of 40k lemmas, so
+  the failing stratum was structurally excluded. Same lesson as terra→"the sea":
+  measure by frequency, not wordform count. The breakage is PRE-EXISTING (proved
+  by running the pre-restructure extractor).
+
+**Fix (committed with this section):**
+- **CORE_GLOSS override table** (`utils/core_gloss.json`, 262 entries) — hand-
+  curated everyday glosses for the closed function-word class + homograph-inverted
+  content words + content verbs whose L&S primary is etymological (`scribo`→"to
+  write", `credo`→"to believe"). L&S never states "and"/"but"/"to be" — no scoring
+  rule can recover them. Applied pre-resolve; wins over everything.
+- **WORDS-first for the closed particle class** — lemmas with any r/c/e attestation
+  (157 lemmas) prefer Whitaker's WORDS first-result (frequency-ordered) over L&S.
+  Scoped so it touches zero content-word golden rows.
+- **EN_WORDS expansion** — added together/always/forever/within/upon/among/company/
+  however/nevertheless/mount/mountain/sea/heaven/sky.
+- **Era cap + enCount suffix expansion TRIED and REVERTED** — they regressed
+  `curro`/`impedio` golden rows; the override table handles those cases instead.
+- **Measurement gate:** `utils/gloss_census.cjs` — 241 frequency-stratified rows
+  (closed-class census + high-frequency content words). Moved the stratum from
+  ~38% → **100% correct (241/241)**. Wired into `npm test` + CI.
+- **Golden suite extended:** 75 → **333 rows** (every core_gloss key must have a
+  golden row — enforced by test_gloss_regression.cjs). 333/333 pass.
+- **Result:** artifact 467 KB gz (unchanged); coverage 89.9%; frequency census
+  241/241. A Caesar page now shows correct glosses on the words a student hovers
+  most (et→"and", in→"in, within", sum→"to be", autem→"but, however").
+
 ## M-006 — Popup buries the useful section under debug detail
 **Status: OPEN.** r/latin feedback: "Possible readings" is the only part users
 want; the RFTagger/Morpheus detail reads as debug output. Move readings to the

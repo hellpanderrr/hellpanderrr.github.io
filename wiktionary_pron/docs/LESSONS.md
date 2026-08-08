@@ -84,3 +84,38 @@ file keeps the detail.
   string (case-sensitive — the collision guard keys `Gallia` ≠ `gallia`):
   841s → 50s, byte-identical artifact. WORDS `parseWord` is cheap (0.6ms); the
   L&S resolve was the cost.
+- **The gloss "top-1000 common words" was ranked by WORDFORM COUNT — the wrong
+  proxy.** 2026-08-08: a hand-curated 79-word top-frequency check exposed the
+  function-word/closed-class stratum as ~40% WRONG (`autem`→"the parent of all
+  evil", `et`→"used for et ... et", `sum`→"to pass, elapse"), while every prior
+  audit claimed "99.1% usable." Root cause of the blind spot: wordform count is
+  ANTI-correlated with text frequency — `et`/`in`/`cum` carry 1–6 wordforms and
+  rank ~30k of 40k lemmas, so "top-1000 most-attested" samples were all content
+  words. Measure by corpus frequency (exposure), not morphological richness. The
+  fix added `utils/gloss_census.cjs` (241 frequency-stratified rows, wired into
+  `npm test` + CI) so this stratum can never hide again.
+- **L&S numbers the RARE homograph as `-1` for many common words.** `caelum1`=
+  chisel (sky is caelum2), `lego1`=bequeath (read is lego2), `dico1`=dedicate
+  (say is dico2), `frons1`=leaf (brow is frons2). The extractor's base1 fallback
+  therefore picks the wrong word. This generalizes the `appello` problem: the
+  closed class + homograph-inverted words are INHERENTLY a curated-table problem
+  — no scoring rule deduces "and"/"but"/"to be"/"sky" from data that never says
+  it. Fix: `utils/core_gloss.json` (262 hand-curated entries) applied pre-resolve.
+- **"Curate vs rule" line for gloss fixes:** fixable-by-rule = the gloss EXISTS in
+  L&S and only loses on score/floor/steering (cum, in, autem, mons — EN_WORDS gap
+  or steering); must-curate = the gloss does NOT exist in L&S (et, sed, sum, deus,
+  mare — usage-notes/etymology only). Whitaker's WORDS first-result (frequency-
+  ordered) is a pre-curated fallback that covers most of the closed class; a small
+  core table covers where WORDS itself is imperfect (enim→"for", cis→"this side").
+- **The `class.` era bonus (+1) and enCount suffix expansion look safe but are
+  NOT — they regressed golden content words.** `curro` ("to move quickly, to
+  hasten" beat "To run" after `-ly` counted as English) and `impedio` (era=0
+  removed the tie that let the earlier "To entangle, embarrass (class.)" win).
+  The golden suite caught both in seconds. Lesson: gate-then-rank's scoring
+  function is tightly tuned; don't touch it to fix a stratum a curated table
+  handles more safely.
+- **The 2026-08-08 M-005 fix is precedent that a bounded curated override IS
+  principled, not whack-a-mole:** the closed class is finite (~262 entries covers
+  it), it's exactly where curated knowledge is irreplaceable, and it's the same
+  decision already made for `appello`. Every core entry gets a golden row in the
+  same commit (monotone rule).

@@ -87,6 +87,22 @@ const golden = JSON.parse(fs.readFileSync(GOLDEN, "utf8"));
 let pass = 0, fail = 0;
 const fails = [];
 let engine = null;
+// CORE_GLOSS keys must each have a golden row — a curated override with no
+// regression gate would silently rot (monotone rule: every override gets a golden
+// row in the same commit). No-op when utils/core_gloss.json doesn't exist yet.
+const coreGlossPath = "utils/core_gloss.json";
+if (fs.existsSync(coreGlossPath)) {
+  const core = JSON.parse(fs.readFileSync(coreGlossPath, "utf8"));
+  const covered = new Set(golden.map(r => r.lemma.toLowerCase()));
+  for (const k of Object.keys(core)) {
+    if (!covered.has(k)) { fail++; fails.push({ lemma: k, expect: { contains: core[k] }, got: "(no golden row)", note: "core_gloss override missing from golden suite" }); }
+  }
+  for (const row of golden) {
+    if (core[row.lemma] && row.expect !== null && !evalExpect(row.expect, core[row.lemma], (s)=>(s||"").toLowerCase())) {
+      fail++; fails.push({ lemma: row.lemma, expect: row.expect, got: core[row.lemma], note: "core_gloss override contradicts golden expectation" });
+    }
+  }
+}
 for (const row of golden) {
   const { lemma, expect, note, wordsOnly } = row;
   let got = null;

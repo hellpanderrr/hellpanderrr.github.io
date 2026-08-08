@@ -37,6 +37,21 @@ for (const c of "ABCDEFGHIJKLMNOPQRSTUVXYZ") {
   }
 }
 
+// ---- CORE_GLOSS override table ----
+// Hand-curated everyday glosses for the closed function-word stratum (conjunctions,
+// prepositions, pronouns, copula, core adverbs) + a few homograph-inverted common
+// content words. L&S never states "and"/"but"/"to be" — its function-word primaries
+// are usage-notes ("a particle of limitation...") and etymology scaffolding ("Conj.
+// [Sanscr. ati...]"), and it numbers the RARE homograph as -1 (caelum1=chisel,
+// lego1=bequeath). No scoring rule can recover these; the class is closed and finite
+// (~100 entries). Applied FIRST in resolve(), before L&S/WORDS. Every key must have
+// a row in utils/gloss_golden.json (enforced by test_gloss_regression.cjs).
+// Source: utils/core_gloss.json (hand-reviewed; drafted 2026-08-08 by panel).
+const coreGloss = (() => {
+  try { return JSON.parse(fs.readFileSync("utils/core_gloss.json", "utf8")); }
+  catch { return {}; }
+})();
+
 // ---- extraction regexes (from the refined probe) ----
 const XREF = /^(v\.\s*(the|a|id)|init\.|fin\.|q\.\s*v\.|perh\.|etym\.|lit\.|esp\.|abb\.)$/i;
 const ABBR_TOK = /^(v\.|a\.|n\.|adj\.|adv\.|conj\.|prep\.|pron\.|interj\.|num\.|part\.|ger\.|sup\.|imper\.|inf\.|lit\.|in\s+gen\.|in\s+partic\.|prop\.|trop\.|transf\.|inch\.|patron\.|m\.|f\.|dim\.|eccl\.|subst\.|poet\.|arch\.|old\.|dep\.|freq\.)/i;
@@ -62,7 +77,7 @@ const WEAK_OPEN = /^(?:of\s|in\s|by\s|for\s|from\s|with\s|at\s|on\s|into\s|again
 const LATIN_FORM = /(?:isse|asse|unt|erit|tur|mus|tis|ium|ibus|arum|orum|ens)$/;
 const ETYM = /(?:Sanscr\.|Germ\.|Engl\.|orig\.|collat\.\s+form|root\s+[a-z]+|perh\.\s+root|etym\.|cf\.\s+[A-Z][a-z]+\s+root)/i;
 const LATIN_LOOKING = /^(?:sum|es|est|sumus|estis|sunt|eram|eras|erat|ero|eris|erit|sim|sis|sit|essem|esses|esset|fui|fuisti|fuit|fueram|fueras|fuerat|fuero|fueris|fuerit|fiam|fias|fiat|fiebam|fiebas|fiebat|fio|fimus|fitis|fiant|fierem|fieres|fieret|fierent|fiamus|fiatis|erimus|eritis)$/i;
-const EN_WORDS = new Set(`to a an the of in by for from with at on into one who which what any some used having being full made containing capable able worthy called such same so hence also pertaining belonging relating or and but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you do does did done make makes made give gives gave taken take took turn turns turned call calls called come comes came put puts find finds found keep keeps kept see sees saw seen set sets lead leads led hold holds held bring brings brought run runs running move moves moved stand stands lie lies lay born living thing person people place time day night hand head eye ear foot body blood water fire earth land sea sky sun moon star year month week end part side kind sort way manner means mode fashion force power strength might authority rule government law right wrong good bad evil great small large big high low deep broad wide long short old new young early late quick slow fast hard soft light heavy warm cold hot dry wet clean pure holy sacred common private public open shut close together apart alone single double triple fold like love hate fear joy grief sorrow pain hurt wound injury harm evil ill sick well whole safe sound strong weak feeble faint dim bright clear dark obscure hidden secret plain simple complex subtle keen sharp dull blunt rough smooth level even flat straight curved bent round square long broad short gentle mild harsh stern fierce wild tame soft sweet bitter sour acid tart sharp hot cold very really quite rather somewhat slightly wholly entirely utterly quite eg viz namely useful serviceable beneficial profitable advantageous pleasant agreeable delightful pleasing empty waste desert powerful prudent violent foreign blessed unlike resembling green wasteful effective valuable excellent worthy active passable capable ready fit suitable proper fitting meet convenient opportune seasonable timely becoming decorous fair beautiful handsome comely shapely well-made well-formed graceful elegant refined polished finished perfect complete whole entire total full crowded thick numerous many much great immense vast huge large spacious broad wide extensive far-far distant remote separated parted divided separate distinct several various diverse different varied manifold rich wealthy opulent sumptuous costly dear expensive precious rare valuable choice select exquisite superb superb fine nice delicious savory tasteful good savory wholesome healthy salubrious healthful sound firm stable steady constant continual perpetual everlasting eternal immortal lasting enduring abiding durable permanent lasting solid substantial strong mighty potent powerful forcible vigorous active energetic spirited mettlesome manly brave courageous valiant bold daring fearless intrepid dauntless resolute firm steadfast unyielding inflexible stubborn obstinate headstrong willful perverse wayward froward forward bold daring rash reckless heedless careless negligent remiss slack idle lazy indolent slothful sluggish torpid inert sluggish dull heavy stupid senseless foolish silly fatuous imbecile weak-minded witless simple foolish silly childish puerile boyish girlish womanish effeminate soft delicate tender fragile frail brittle weak feeble languid faint exhausted wearied tired weary fatigued jaded worn-out spent exhausted energy vigor virtue potency anger wrath rage fury passion upper lower higher outer inner former latter savage ferocious barbarous furious plain soil shore coast wave storm breeze grove meadow valley ridge cliff sand bloom blossom root branch leaf seed fruit flower corn grain wheat barley wine oil milk honey salt stone rock metal gold silver brass bronze iron copper tin lead vein mine quarry chasm cave shelter refuge haven port harbor bay gulf strait isle island cape headland promontory marsh fen bog morass heath moor down hill hilltop knoll summit peak crest precipice crag scar shelf ledge terrace bank mound heap pile stack mass bulk lump piece portion share lot quantity number amount sum total whole entire all every each both neither either any some few several many much more most least little smaller greater lesser upper lower inner outer former latter nearest farthest outermost innermost honey sweet darling wonderful strange thousand weary angry immense countless hungry himself exclusively times famine dearth sense senses insane mad frantic sleep sleepy drowsy dozy somnolent list register`.split(/\s+/));
+const EN_WORDS = new Set(`to a an the of in by for from with at on into one who which what any some used having being full made containing capable able worthy called such same so hence also pertaining belonging relating or and but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you do does did done make makes made give gives gave taken take took turn turns turned call calls called come comes came put puts find finds found keep keeps kept see sees saw seen set sets lead leads led hold holds held bring brings brought run runs running move moves moved stand stands lie lies lay born living thing person people place time day night hand head eye ear foot body blood water fire earth land sea sky sun moon star year month week end part side kind sort way manner means mode fashion force power strength might authority rule government law right wrong good bad evil great small large big high low deep broad wide long short old new young early late quick slow fast hard soft light heavy warm cold hot dry wet clean pure holy sacred common private public open shut close together apart alone single double triple fold like love hate fear joy grief sorrow pain hurt wound injury harm evil ill sick well whole safe sound strong weak feeble faint dim bright clear dark obscure hidden secret plain simple complex subtle keen sharp dull blunt rough smooth level even flat straight curved bent round square long broad short gentle mild harsh stern fierce wild tame soft sweet bitter sour acid tart sharp hot cold very really quite rather somewhat slightly wholly entirely utterly quite eg viz namely useful serviceable beneficial profitable advantageous pleasant agreeable delightful pleasing empty waste desert powerful prudent violent foreign blessed unlike resembling green wasteful effective valuable excellent worthy active passable capable ready fit suitable proper fitting meet convenient opportune seasonable timely becoming decorous fair beautiful handsome comely shapely well-made well-formed graceful elegant refined polished finished perfect complete whole entire total full crowded thick numerous many much great immense vast huge large spacious broad wide extensive far-far distant remote separated parted divided separate distinct several various diverse different varied manifold rich wealthy opulent sumptuous costly dear expensive precious rare valuable choice select exquisite superb superb fine nice delicious savory tasteful good savory wholesome healthy salubrious healthful sound firm stable steady constant continual perpetual everlasting eternal immortal lasting enduring abiding durable permanent lasting solid substantial strong mighty potent powerful forcible vigorous active energetic spirited mettlesome manly brave courageous valiant bold daring fearless intrepid dauntless resolute firm steadfast unyielding inflexible stubborn obstinate headstrong willful perverse wayward froward forward bold daring rash reckless heedless careless negligent remiss slack idle lazy indolent slothful sluggish torpid inert sluggish dull heavy stupid senseless foolish silly fatuous imbecile weak-minded witless simple foolish silly childish puerile boyish girlish womanish effeminate soft delicate tender fragile frail brittle weak feeble languid faint exhausted wearied tired weary fatigued jaded worn-out spent exhausted energy vigor virtue potency anger wrath rage fury passion upper lower higher outer inner former latter savage ferocious barbarous furious plain soil shore coast wave storm breeze grove meadow valley ridge cliff sand bloom blossom root branch leaf seed fruit flower corn grain wheat barley wine oil milk honey salt stone rock metal gold silver brass bronze iron copper tin lead vein mine quarry chasm cave shelter refuge haven port harbor bay gulf strait isle island cape headland promontory marsh fen bog morass heath moor down hill hilltop knoll summit peak crest precipice crag scar shelf ledge terrace bank mound heap pile stack mass bulk lump piece portion share lot quantity number amount sum total whole entire all every each both neither either any some few several many much more most least little smaller greater lesser upper lower inner outer former latter nearest farthest outermost innermost honey sweet darling wonderful strange thousand weary angry immense countless hungry himself exclusively times famine dearth sense senses insane mad frantic sleep sleepy drowsy dozy somnolent list register together always forever ever within upon among company along however nevertheless mount mountain sea heaven sky`.split(/\s+/));
 const BIO_WORDS = new Set("king queen prince princess daughter son father mother brother sister wife husband god goddess nymph giant hero heroine warrior king king's people nation tribe city town river mountain island kingdom region country land sea kingly royal".split(/\s+/));
 const FUNCTION = new Set(("to a an the of in by for from with at on into who which what and or but not as up down over under through between about after before during without within across toward against around above below near off out per than then there their they he she it we you so hence also such same perh esp etc i e v s c m n t o r or in for with out by of on at".split(" ")));
 // GLOSS_RUN: "force, vigor, power, energy, virtue", "land, ground, soil", "much,
@@ -434,6 +449,11 @@ function bestClause(s, pos) {
     // sense is a marginal add-on — "to inhabit (class.)" beats "to cultivate (late Lat.)"
     let era = 0;
     // standalone "class." (not "post-class."/"ante-class.") is the classical marker.
+    // +1 kept (2026-08-08): the panel's "cap the class. era bonus" idea was tried
+    // (era=0) and REVERTED — it regressed impedio golden (a class.-marked earlier
+    // sense "To entangle, embarrass (class.)" needs the +1 to tie-and-win on
+    // sense-order over a later higher-scoring clause). The sum/lego/dico cases it
+    // was meant to fix are handled by the CORE_GLOSS override table instead.
     if (/(?:^|[\s(])class\./i.test(c)) era = 1;
     // late/rare senses are demoted hard (data-expert R7): they should only win by
     // the fallback, never beat the classical primary ("a violent longing" (post-Aug.)
@@ -533,6 +553,13 @@ function numberedSibling(base) {
 function resolve(lemma, pos, depth = 0) {
   const l = lemma.toLowerCase();
   const base = l.replace(/\d+$/,"");
+  // CORE_GLOSS is a human assertion — it wins over any extractor output. Keyed by
+  // the FULL lowercase lemma (NOT number-stripped base): populus2 (poplar) must not
+  // hit a coreGloss.populus ("a people"), and malus2 (apple-tree) must not hit
+  // coreGloss.malus ("bad"). Core keys are all bare lemmas, so a numbered wordlist
+  // lemma simply won't collide.
+  const curated = coreGloss[l];
+  if (curated) return curated;
   let e;
   if (isSpurious(l)) {
     // Spurious-homograph skip normally prefers the bare key (the wordlist
@@ -578,14 +605,17 @@ function resolve(lemma, pos, depth = 0) {
   return gloss;
 }
 const wc = new Map();
-function wGloss(lemma, pos, gender) {
-  const base = lemma.replace(/\d+$/,"");
+function wcLoad(base) {
   if (!wc.has(base)) {
     let ps = [];
     try { const a = engine.parseWord(base); ps = (a.results||[]).map(x=>({pofs:(x.ir&&x.ir.qual&&x.ir.qual.pofs)||"",g:(x.ir&&x.ir.qual&&x.ir.qual.noun&&x.ir.qual.noun.gender)||"",m:(x.de&&x.de.mean)||""})); } catch(e){}
     wc.set(base, ps);
   }
-  const all = wc.get(base).filter(x=>x.pofs===pos);
+  return wc.get(base);
+}
+function wGloss(lemma, pos, gender) {
+  const base = lemma.replace(/\d+$/,"");
+  const all = wcLoad(base).filter(x=>x.pofs===pos);
   // Use gender only when it disambiguates: the wordlist tag's gender is often
   // wrong/imprecise (inoblitus tagged "m" but WORDS says "f"), and dropping to
   // an empty list silently loses a good gloss. Fall back to POS-only.
@@ -594,6 +624,20 @@ function wGloss(lemma, pos, gender) {
   const distinct = new Set(same.map(x=>x.m.split(";")[0].trim().replace(/^\||\||$/g,"")));
   return distinct.size===1 ? [...distinct][0] : null;
 }
+// WORDS FIRST-RESULT mode for the closed particle class (M-005 fix, 2026-08-08).
+// WORDS lists senses in frequency order; for function words the first sense IS the
+// everyday one (et→"and", sed→"but", semper→"always", cum→"when/with"). L&S's
+// function-word primaries are usage-notes ("a particle of limitation...") that
+// lose the STRONG_OPEN ranking, so for the closed class WORDS wins. Result is
+// cached through wcLoad (shared with wGloss).
+function wGlossFirst(lemma) {
+  const base = lemma.replace(/\d+$/,"");
+  for (const x of wcLoad(base)) {
+    const g = (x.m||"").split(";")[0].trim().replace(/^\||\||$/g,"");
+    if (g) return g;
+  }
+  return null;
+}
 
 // ---- build ----
 const SKIP_WORDS = process.env.SKIP_WORDS === "1";
@@ -601,12 +645,21 @@ const lemmaGloss = new Map();
 let lClean=0,wClean=0,none=0, done=0;
 const total = rows.size;
 const t0 = Date.now();
+// CLOSED-CLASS SET (M-005 fix, 2026-08-08): lemmas with ANY preposition/conjunction/
+// interjection attestation (tag[0] ∈ {r,c,e}). Latin's prepositions are tagged both
+// "d" (adv) and "r" (prep) in the wordlist (de, pro, inter, contra...), so dominant-POS
+// undercounts them; the any-attestation set (157 lemmas) is the true closed class.
+// For these, WORDS-first wins over L&S (see wGlossFirst); coreGloss entries still win
+// over everything (checked inside resolve()). Counted once here for the build loop.
+const closedSet = new Set();
+for (const r of rows.values()) if (r.tag[0] === "r" || r.tag[0] === "c" || r.tag[0] === "e") closedSet.add(r.lemma.toLowerCase());
 // resolve() is pure per lemma (same lem + dominantPos → same result) but the
 // wordlist carries ~673k (lemma|tag) rows over only ~40k unique lemmas. Memoize
 // by the EXACT lemma string (resolve is case-sensitive in the collision guard,
 // so "Gallia" ≠ "gallia") to cut ~17× redundant work: ~330s → ~20s.
 const resolveCache = new Map();
 const wGlossCache = new Map();
+const wGlossFirstCache = new Map();
 for (const r of rows.values()) {
   const lem = r.lemma;
   const pos = dominantPos(lem.toLowerCase());
@@ -614,13 +667,35 @@ for (const r of rows.values()) {
   let l = resolveCache.get(lem);
   if (l === undefined) { l = resolve(lem, pos); resolveCache.set(lem, l); }
   let w = null;
+  let wFirst = null;
   if (!SKIP_WORDS) {
+    const lemLower = lem.toLowerCase();
+    // WORDS-first only for the closed particle class — cheap (157 lemmas), memoized
+    // through wcLoad so the same parse serves both wGlossFirst and wGloss.
+    if (closedSet.has(lemLower)) {
+      wFirst = wGlossFirstCache.get(lemLower);
+      if (wFirst === undefined) { wFirst = wGlossFirst(lem); wGlossFirstCache.set(lemLower, wFirst); }
+    }
     const wk = lem + " " + pos + " " + g6;
     w = wGlossCache.get(wk);
     if (w === undefined) { w = wGloss(lem, pos, g6); wGlossCache.set(wk, w); }
   }
   let gloss = null;
-  if (l) { gloss = l; lClean++; }
+  const lemLower = lem.toLowerCase();
+  // Precedence (M-005 fix): coreGloss > WORDS-first (closed particle class) > L&S
+  // > WORDS-distinct (general fallback). `l` IS the core gloss when the lemma is a
+  // core key (resolve short-circuits to it), so it must win even over wFirst —
+  // enim→"for" (core) must beat WORDS' "namely", cis→"this side of" (core) must
+  // beat WORDS' "move, set in motion". For the non-core closed class WORDS-first
+  // wins over L&S, whose function-word primaries are usage-notes that lose the
+  // STRONG_OPEN ranking (et→"used for et...et").
+  if (coreGloss[lemLower]) { gloss = l; lClean++; }
+  else if (closedSet.has(lemLower)) {
+    if (wFirst) { gloss = wFirst; wClean++; }
+    else if (l) { gloss = l; lClean++; }
+    else none++;
+  }
+  else if (l) { gloss = l; lClean++; }
   else if (w) { gloss = w; wClean++; }
   else none++;
   if (gloss && !lemmaGloss.has(lem.toLowerCase())) lemmaGloss.set(lem.toLowerCase(), gloss);

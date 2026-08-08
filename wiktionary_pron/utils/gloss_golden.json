@@ -1,82 +1,2542 @@
 [
-  { "lemma": "terra",  "expect": { "contains": "land" }, "note": "Aeneid: was 'the sea' (example-translation)" },
-  { "lemma": "vis",    "expect": { "contains": "force" }, "note": "Aeneid: was 'the same as Juno' (personified example)" },
-  { "lemma": "multus", "expect": { "alternates": [ { "contains": "many" }, { "contains": "much" } ] }, "note": "Aeneid: was 'the emphasis then falling on the second adjective'" },
-  { "lemma": "memor",  "expect": { "contains": "mindful" }, "note": "Aeneid: was 'which remembers the Marsian war'" },
-  { "lemma": "superus","expect": { "contains": "upper" }, "note": "Aeneid: was 'the upper, i.e. the Adriatic and Ionian Sea'" },
-  { "lemma": "fatum",  "expect": { "alternates": [ { "contains": "fate" }, { "contains": "oracle" }, { "contains": "prophetic" }, { "contains": "said" }, { "contains": "utterance" } ] }, "note": "Aeneid: literal s[0] and idiomatic senses all acceptable" },
-  { "lemma": "profugus","expect": { "alternates": [ { "contains": "flee" }, { "contains": "fugitive" }, { "contains": "exile" }, { "contains": "banish" } ] }, "note": "Aeneid: 'a proelio' fixed; substantive sense 'A fugitive, banished person, exile' also correct" },
-  { "lemma": "saevus", "expect": { "contains": "furious" }, "note": "Aeneid: was 'of any vehement, passionate excitement...'" },
-  { "lemma": "altus",  "expect": { "contains": "high" }, "note": "Aeneid: was 'Seen from below upwards, high' (verbose)" },
-  { "lemma": "ille",   "expect": { "alternates": [ { "contains": "that" }, { "contains": "famous" } ] }, "note": "Aeneid: pronoun; 'the famous' acceptable" },
-  { "lemma": "ira",    "expect": { "contains": "anger" }, "note": "Aeneid: was 'A cause of anger, provocation' (secondary)" },
-  { "lemma": "cano",   "expect": { "contains": "sing" }, "note": "Aeneid primary" },
-  { "lemma": "omnis",  "expect": { "contains": "every" }, "note": "Caesar: was 'omnia, adverbially, altogether' (Latin run)" },
-  { "lemma": "qui",    "expect": { "contains": "which" }, "note": "Caesar" },
-  { "lemma": "incolo", "expect": { "contains": "dwell" }, "note": "Caesar" },
-  { "lemma": "venio",  "expect": { "contains": "come" }, "note": "Caesar: was 'veni, vidi, vici' (Latin run)" },
-  { "lemma": "ipse",   "expect": { "alternates": [ { "contains": "himself" }, { "contains": "master" } ] }, "note": "Caesar: primary is s[14] chief person/master or s[16] himself — NOT the verbose s[32] note" },
-  { "lemma": "Gallia", "expect": { "contains": "gaul" }, "note": "L&S entry has no string senses; WORDS gives Gaul", "wordsOnly": true },
-  { "lemma": "Alius",  "expect": { "contains": "other" }, "note": "case-collision guard: capitalized wordlist lemma must resolve sibling" },
-  { "lemma": "alius2", "expect": { "contains": "other" }, "note": "wordlist has alius2 (pronoun); spurious-skip must NOT send it to Alius1 (Elis)" },
-
-  { "lemma": "populus","expect": { "contains": "people" }, "note": "homograph lock" },
-  { "lemma": "populus2","expect": { "contains": "poplar" }, "note": "homograph lock: exact-key-first" },
-  { "lemma": "malus",  "expect": { "alternates": [ { "contains": "bad" }, { "contains": "evil" } ] }, "note": "homograph lock" },
-  { "lemma": "malus2", "expect": { "contains": "apple" }, "note": "homograph lock" },
-  { "lemma": "paro",   "expect": { "alternates": [ { "contains": "ready" }, { "contains": "prepare" }, { "contains": "design" }, { "contains": "contrive" }, { "contains": "order" } ] }, "note": "prepare verb; L&S s[0] 'to order, contrive, design' or s[4] 'to prepare' both parare senses" },
-  { "lemma": "paro2",  "expect": { "alternates": [ { "contains": "ready" }, { "contains": "prepare" }, { "contains": "design" }, { "contains": "contrive" }, { "contains": "order" } ] }, "note": "wordlist paro2 = same prepare verb (305 rows identical to paro); spurious-skip to bare" },
-  { "lemma": "levo",   "expect": { "contains": "lift" }, "note": "verb primary" },
-  { "lemma": "vestitus2","expect": { "contains": "cloth" }, "note": "clothing (WORDS-saved: L&S extraction fails)", "wordsOnly": true },
-  { "lemma": "aequalis","expect": { "contains": "equal" }, "note": "was 'Of persons.' (scope label)" },
-
-  { "lemma": "acus",   "expect": { "contains": "needle" }, "note": "was 'The tongue of a buckle, Treb' (late citation)" },
-  { "lemma": "amo",    "expect": { "alternates": [ { "contains": "like" }, { "contains": "love" } ] }, "note": "verb primary" },
-  { "lemma": "fero",   "expect": { "contains": "bear" }, "note": "was 'to move or go swiftly' (subcategorized)" },
-  { "lemma": "curro",  "expect": { "contains": "run" }, "note": "verb primary" },
-  { "lemma": "fleo",   "expect": { "contains": "weep" }, "note": "verb primary" },
-  { "lemma": "fames",  "expect": { "alternates": [ { "contains": "hunger" }, { "contains": "famine" }, { "contains": "dearth" } ] }, "note": "L&S s[3] 'Famine, dearth' or WORDS 'hunger' both acceptable" },
-  { "lemma": "impedio","expect": { "contains": "entangle" }, "note": "verb primary" },
-  { "lemma": "juvo",   "expect": { "alternates": [ { "contains": "help" }, { "contains": "delight" } ] }, "note": "verb primary" },
-  { "lemma": "volvo",  "expect": { "contains": "roll" }, "note": "was 'to unroll, i.e. open' (secondary)" },
-  { "lemma": "veho",   "expect": { "alternates": [ { "contains": "carry" }, { "contains": "bear" }, { "contains": "borne" }, { "contains": "carried" }, { "contains": "ride" } ] }, "note": "veho's L&S s[0] is the passive 'to be carried or borne'" },
-  { "lemma": "potens", "expect": { "alternates": [ { "contains": "able" }, { "contains": "power" } ] }, "note": "cross-ref via certus" },
-  { "lemma": "versor", "expect": { "contains": "turn" }, "note": "cross-ref" },
-  { "lemma": "beatus", "expect": { "alternates": [ { "contains": "bless" }, { "contains": "happy" } ] }, "note": "cross-ref" },
-  { "lemma": "certo",  "expect": { "alternates": [ { "contains": "determined" }, { "contains": "resolved" } ] }, "note": "cross-ref via certus" },
-  { "lemma": "certus", "expect": { "contains": "determined" }, "note": "primary" },
-
-  { "lemma": "mellitulus","expect": { "contains": "honey" }, "note": "was null (hyphen-compound invisible)" },
-  { "lemma": "deiphobus","expect": { "contains": "priam" }, "note": "was null (citation chain)" },
-  { "lemma": "millies","expect": { "contains": "thousand" }, "note": "was null (times ends in -es)" },
-  { "lemma": "papae",  "expect": { "contains": "wonderful" }, "note": "was removed" },
-  { "lemma": "amnigena","expect": { "contains": "river" }, "note": "was removed" },
-  { "lemma": "centiceps","expect": { "contains": "hundred" }, "note": "was removed" },
-  { "lemma": "phronesis","expect": { "alternates": [ { "contains": "understanding" }, { "contains": "prudence" } ] }, "note": "was removed" },
-  { "lemma": "sociabilis","expect": { "contains": "sociable" }, "note": "was removed" },
-  { "lemma": "inexquisitus","expect": { "alternates": [ { "contains": "search" }, { "contains": "inquire" } ] }, "note": "was removed" },
-  { "lemma": "sparsilis","expect": { "contains": "scatter" }, "note": "was removed" },
-
-  { "lemma": "amens",  "expect": { "alternates": [ { "contains": "mind" }, { "contains": "insane" } ] }, "note": "regression watch" },
-  { "lemma": "buris",  "expect": { "contains": "plough" }, "note": "was 'the plough-beam. ap. Serv. l. l' (citation)" },
-  { "lemma": "caesius","expect": { "contains": "gray" }, "note": "was 'very rare, and only of the eyes' (usage note)" },
-  { "lemma": "aeculanum","expect": { "contains": "city" }, "note": "was 'the same as, Inscr' (cross-ref)" },
-  { "lemma": "anticipatio","expect": { "contains": "preconception" }, "note": "citation tail" },
-  { "lemma": "agmen",  "expect": { "contains": "troop" }, "note": "primary" },
-  { "lemma": "accusator","expect": { "alternates": [ { "contains": "accus" }, { "contains": "call" }, { "contains": "account" } ] }, "note": "an accuser / one who calls another to account" },
-  { "lemma": "allocutio","expect": { "alternates": [ { "contains": "address" }, { "contains": "accost" }, { "contains": "speaking" } ] }, "note": "a speaking to, address, consoling address" },
-  { "lemma": "inoblitus","expect": { "contains": "mindful" }, "note": "WORDS fallback, gender-tolerant", "wordsOnly": true },
-  { "lemma": "consemineus","expect": { "alternates": [ { "contains": "sown" }, { "contains": "plant" } ] }, "note": "WORDS fallback, gender-tolerant", "wordsOnly": true },
-
-  { "lemma": "abaris",   "expect": { "contains": "rutulian" }, "note": "proper-noun class (was nulled by latToks lowercasing proper nouns)" },
-  { "lemma": "acco",     "expect": { "alternates": [ { "contains": "chieftain" }, { "contains": "senones" } ] }, "note": "proper-noun class" },
-  { "lemma": "aphrodisia","expect": { "contains": "festival" }, "note": "proper-noun class" },
-  { "lemma": "alcides",  "expect": { "contains": "descendant" }, "note": "proper-noun class" },
-  { "lemma": "antipodes","expect": { "contains": "antipod" }, "note": "proper-noun class" },
-  { "lemma": "spretus2", "expect": { "contains": "despis" }, "note": "proper-noun class (recovered by base-score floor)" },
-  { "lemma": "spissamentum","expect": { "contains": "stopple" }, "note": "era-marked gloss recovery" },
-  { "lemma": "spongos",  "expect": { "contains": "sponge" }, "note": "era-marked gloss recovery" },
-  { "lemma": "friabilis","expect": { "contains": "friable" }, "note": "was nulled: truncation cut 'to pieces, friable'" },
-  { "lemma": "fugitor",  "expect": { "contains": "flees" }, "note": "was nulled: truncation cut 'or runs away'" },
-  { "lemma": "dignitas", "expect": { "contains": "worthy" }, "note": "was nulled: 'perh.' era penalty demoted the primary" }
+ {
+  "lemma": "terra",
+  "expect": {
+   "contains": "land"
+  },
+  "note": "Aeneid: was 'the sea' (example-translation)"
+ },
+ {
+  "lemma": "vis",
+  "expect": {
+   "contains": "force"
+  },
+  "note": "Aeneid: was 'the same as Juno' (personified example)"
+ },
+ {
+  "lemma": "multus",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "many"
+    },
+    {
+     "contains": "much"
+    }
+   ]
+  },
+  "note": "Aeneid: was 'the emphasis then falling on the second adjective'"
+ },
+ {
+  "lemma": "memor",
+  "expect": {
+   "contains": "mindful"
+  },
+  "note": "Aeneid: was 'which remembers the Marsian war'"
+ },
+ {
+  "lemma": "superus",
+  "expect": {
+   "contains": "upper"
+  },
+  "note": "Aeneid: was 'the upper, i.e. the Adriatic and Ionian Sea'"
+ },
+ {
+  "lemma": "fatum",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "fate"
+    },
+    {
+     "contains": "oracle"
+    },
+    {
+     "contains": "prophetic"
+    },
+    {
+     "contains": "said"
+    },
+    {
+     "contains": "utterance"
+    }
+   ]
+  },
+  "note": "Aeneid: literal s[0] and idiomatic senses all acceptable"
+ },
+ {
+  "lemma": "profugus",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "flee"
+    },
+    {
+     "contains": "fugitive"
+    },
+    {
+     "contains": "exile"
+    },
+    {
+     "contains": "banish"
+    }
+   ]
+  },
+  "note": "Aeneid: 'a proelio' fixed; substantive sense 'A fugitive, banished person, exile' also correct"
+ },
+ {
+  "lemma": "saevus",
+  "expect": {
+   "contains": "furious"
+  },
+  "note": "Aeneid: was 'of any vehement, passionate excitement...'"
+ },
+ {
+  "lemma": "altus",
+  "expect": {
+   "contains": "high"
+  },
+  "note": "Aeneid: was 'Seen from below upwards, high' (verbose)"
+ },
+ {
+  "lemma": "ille",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "that"
+    },
+    {
+     "contains": "famous"
+    }
+   ]
+  },
+  "note": "Aeneid: pronoun; 'the famous' acceptable"
+ },
+ {
+  "lemma": "ira",
+  "expect": {
+   "contains": "anger"
+  },
+  "note": "Aeneid: was 'A cause of anger, provocation' (secondary)"
+ },
+ {
+  "lemma": "cano",
+  "expect": {
+   "contains": "sing"
+  },
+  "note": "Aeneid primary"
+ },
+ {
+  "lemma": "omnis",
+  "expect": {
+   "contains": "every"
+  },
+  "note": "Caesar: was 'omnia, adverbially, altogether' (Latin run)"
+ },
+ {
+  "lemma": "qui",
+  "expect": {
+   "contains": "which"
+  },
+  "note": "Caesar"
+ },
+ {
+  "lemma": "incolo",
+  "expect": {
+   "contains": "dwell"
+  },
+  "note": "Caesar"
+ },
+ {
+  "lemma": "venio",
+  "expect": {
+   "contains": "come"
+  },
+  "note": "Caesar: was 'veni, vidi, vici' (Latin run)"
+ },
+ {
+  "lemma": "ipse",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "himself"
+    },
+    {
+     "contains": "master"
+    }
+   ]
+  },
+  "note": "Caesar: primary is s[14] chief person/master or s[16] himself — NOT the verbose s[32] note"
+ },
+ {
+  "lemma": "Gallia",
+  "expect": {
+   "contains": "gaul"
+  },
+  "note": "L&S entry has no string senses; WORDS gives Gaul",
+  "wordsOnly": true
+ },
+ {
+  "lemma": "Alius",
+  "expect": {
+   "contains": "other"
+  },
+  "note": "case-collision guard: capitalized wordlist lemma must resolve sibling"
+ },
+ {
+  "lemma": "alius2",
+  "expect": {
+   "contains": "other"
+  },
+  "note": "wordlist has alius2 (pronoun); spurious-skip must NOT send it to Alius1 (Elis)"
+ },
+ {
+  "lemma": "populus",
+  "expect": {
+   "contains": "people"
+  },
+  "note": "homograph lock"
+ },
+ {
+  "lemma": "populus2",
+  "expect": {
+   "contains": "poplar"
+  },
+  "note": "homograph lock: exact-key-first"
+ },
+ {
+  "lemma": "malus",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "bad"
+    },
+    {
+     "contains": "evil"
+    }
+   ]
+  },
+  "note": "homograph lock"
+ },
+ {
+  "lemma": "malus2",
+  "expect": {
+   "contains": "apple"
+  },
+  "note": "homograph lock"
+ },
+ {
+  "lemma": "paro",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "ready"
+    },
+    {
+     "contains": "prepare"
+    },
+    {
+     "contains": "design"
+    },
+    {
+     "contains": "contrive"
+    },
+    {
+     "contains": "order"
+    }
+   ]
+  },
+  "note": "prepare verb; L&S s[0] 'to order, contrive, design' or s[4] 'to prepare' both parare senses"
+ },
+ {
+  "lemma": "paro2",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "ready"
+    },
+    {
+     "contains": "prepare"
+    },
+    {
+     "contains": "design"
+    },
+    {
+     "contains": "contrive"
+    },
+    {
+     "contains": "order"
+    }
+   ]
+  },
+  "note": "wordlist paro2 = same prepare verb (305 rows identical to paro); spurious-skip to bare"
+ },
+ {
+  "lemma": "levo",
+  "expect": {
+   "contains": "lift"
+  },
+  "note": "verb primary"
+ },
+ {
+  "lemma": "vestitus2",
+  "expect": {
+   "contains": "cloth"
+  },
+  "note": "clothing (WORDS-saved: L&S extraction fails)",
+  "wordsOnly": true
+ },
+ {
+  "lemma": "aequalis",
+  "expect": {
+   "contains": "equal"
+  },
+  "note": "was 'Of persons.' (scope label)"
+ },
+ {
+  "lemma": "acus",
+  "expect": {
+   "contains": "needle"
+  },
+  "note": "was 'The tongue of a buckle, Treb' (late citation)"
+ },
+ {
+  "lemma": "amo",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "like"
+    },
+    {
+     "contains": "love"
+    }
+   ]
+  },
+  "note": "verb primary"
+ },
+ {
+  "lemma": "fero",
+  "expect": {
+   "contains": "bear"
+  },
+  "note": "was 'to move or go swiftly' (subcategorized)"
+ },
+ {
+  "lemma": "curro",
+  "expect": {
+   "contains": "run"
+  },
+  "note": "verb primary"
+ },
+ {
+  "lemma": "fleo",
+  "expect": {
+   "contains": "weep"
+  },
+  "note": "verb primary"
+ },
+ {
+  "lemma": "fames",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "hunger"
+    },
+    {
+     "contains": "famine"
+    },
+    {
+     "contains": "dearth"
+    }
+   ]
+  },
+  "note": "L&S s[3] 'Famine, dearth' or WORDS 'hunger' both acceptable"
+ },
+ {
+  "lemma": "impedio",
+  "expect": {
+   "contains": "entangle"
+  },
+  "note": "verb primary"
+ },
+ {
+  "lemma": "juvo",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "help"
+    },
+    {
+     "contains": "delight"
+    }
+   ]
+  },
+  "note": "verb primary"
+ },
+ {
+  "lemma": "volvo",
+  "expect": {
+   "contains": "roll"
+  },
+  "note": "was 'to unroll, i.e. open' (secondary)"
+ },
+ {
+  "lemma": "veho",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "carry"
+    },
+    {
+     "contains": "bear"
+    },
+    {
+     "contains": "borne"
+    },
+    {
+     "contains": "carried"
+    },
+    {
+     "contains": "ride"
+    }
+   ]
+  },
+  "note": "veho's L&S s[0] is the passive 'to be carried or borne'"
+ },
+ {
+  "lemma": "potens",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "able"
+    },
+    {
+     "contains": "power"
+    }
+   ]
+  },
+  "note": "cross-ref via certus"
+ },
+ {
+  "lemma": "versor",
+  "expect": {
+   "contains": "turn"
+  },
+  "note": "cross-ref"
+ },
+ {
+  "lemma": "beatus",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "bless"
+    },
+    {
+     "contains": "happy"
+    }
+   ]
+  },
+  "note": "cross-ref"
+ },
+ {
+  "lemma": "certo",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "determined"
+    },
+    {
+     "contains": "resolved"
+    }
+   ]
+  },
+  "note": "cross-ref via certus"
+ },
+ {
+  "lemma": "certus",
+  "expect": {
+   "contains": "determined"
+  },
+  "note": "primary"
+ },
+ {
+  "lemma": "mellitulus",
+  "expect": {
+   "contains": "honey"
+  },
+  "note": "was null (hyphen-compound invisible)"
+ },
+ {
+  "lemma": "deiphobus",
+  "expect": {
+   "contains": "priam"
+  },
+  "note": "was null (citation chain)"
+ },
+ {
+  "lemma": "millies",
+  "expect": {
+   "contains": "thousand"
+  },
+  "note": "was null (times ends in -es)"
+ },
+ {
+  "lemma": "papae",
+  "expect": {
+   "contains": "wonderful"
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "amnigena",
+  "expect": {
+   "contains": "river"
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "centiceps",
+  "expect": {
+   "contains": "hundred"
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "phronesis",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "understanding"
+    },
+    {
+     "contains": "prudence"
+    }
+   ]
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "sociabilis",
+  "expect": {
+   "contains": "sociable"
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "inexquisitus",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "search"
+    },
+    {
+     "contains": "inquire"
+    }
+   ]
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "sparsilis",
+  "expect": {
+   "contains": "scatter"
+  },
+  "note": "was removed"
+ },
+ {
+  "lemma": "amens",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "mind"
+    },
+    {
+     "contains": "insane"
+    }
+   ]
+  },
+  "note": "regression watch"
+ },
+ {
+  "lemma": "buris",
+  "expect": {
+   "contains": "plough"
+  },
+  "note": "was 'the plough-beam. ap. Serv. l. l' (citation)"
+ },
+ {
+  "lemma": "caesius",
+  "expect": {
+   "contains": "gray"
+  },
+  "note": "was 'very rare, and only of the eyes' (usage note)"
+ },
+ {
+  "lemma": "aeculanum",
+  "expect": {
+   "contains": "city"
+  },
+  "note": "was 'the same as, Inscr' (cross-ref)"
+ },
+ {
+  "lemma": "anticipatio",
+  "expect": {
+   "contains": "preconception"
+  },
+  "note": "citation tail"
+ },
+ {
+  "lemma": "agmen",
+  "expect": {
+   "contains": "troop"
+  },
+  "note": "primary"
+ },
+ {
+  "lemma": "accusator",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "accus"
+    },
+    {
+     "contains": "call"
+    },
+    {
+     "contains": "account"
+    }
+   ]
+  },
+  "note": "an accuser / one who calls another to account"
+ },
+ {
+  "lemma": "allocutio",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "address"
+    },
+    {
+     "contains": "accost"
+    },
+    {
+     "contains": "speaking"
+    }
+   ]
+  },
+  "note": "a speaking to, address, consoling address"
+ },
+ {
+  "lemma": "inoblitus",
+  "expect": {
+   "contains": "mindful"
+  },
+  "note": "WORDS fallback, gender-tolerant",
+  "wordsOnly": true
+ },
+ {
+  "lemma": "consemineus",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "sown"
+    },
+    {
+     "contains": "plant"
+    }
+   ]
+  },
+  "note": "WORDS fallback, gender-tolerant",
+  "wordsOnly": true
+ },
+ {
+  "lemma": "abaris",
+  "expect": {
+   "contains": "rutulian"
+  },
+  "note": "proper-noun class (was nulled by latToks lowercasing proper nouns)"
+ },
+ {
+  "lemma": "acco",
+  "expect": {
+   "alternates": [
+    {
+     "contains": "chieftain"
+    },
+    {
+     "contains": "senones"
+    }
+   ]
+  },
+  "note": "proper-noun class"
+ },
+ {
+  "lemma": "aphrodisia",
+  "expect": {
+   "contains": "festival"
+  },
+  "note": "proper-noun class"
+ },
+ {
+  "lemma": "alcides",
+  "expect": {
+   "contains": "descendant"
+  },
+  "note": "proper-noun class"
+ },
+ {
+  "lemma": "antipodes",
+  "expect": {
+   "contains": "antipod"
+  },
+  "note": "proper-noun class"
+ },
+ {
+  "lemma": "spretus2",
+  "expect": {
+   "contains": "despis"
+  },
+  "note": "proper-noun class (recovered by base-score floor)"
+ },
+ {
+  "lemma": "spissamentum",
+  "expect": {
+   "contains": "stopple"
+  },
+  "note": "era-marked gloss recovery"
+ },
+ {
+  "lemma": "spongos",
+  "expect": {
+   "contains": "sponge"
+  },
+  "note": "era-marked gloss recovery"
+ },
+ {
+  "lemma": "friabilis",
+  "expect": {
+   "contains": "friable"
+  },
+  "note": "was nulled: truncation cut 'to pieces, friable'"
+ },
+ {
+  "lemma": "fugitor",
+  "expect": {
+   "contains": "flees"
+  },
+  "note": "was nulled: truncation cut 'or runs away'"
+ },
+ {
+  "lemma": "dignitas",
+  "expect": {
+   "contains": "worthy"
+  },
+  "note": "was nulled: 'perh.' era penalty demoted the primary"
+ },
+ {
+  "lemma": "ab",
+  "expect": {
+   "contains": "from, away from; by (with abl.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acer",
+  "expect": {
+   "contains": "sharp, keen, piercing (adj.); the maple tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ad",
+  "expect": {
+   "contains": "to, toward, at, near"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adeo",
+  "expect": {
+   "contains": "so much, to such a point, indeed; to approach (verb)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adhuc",
+  "expect": {
+   "contains": "up to now, as yet, still"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adversus",
+  "expect": {
+   "contains": "against, opposite, facing; toward"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aeque",
+  "expect": {
+   "contains": "equally, in like manner"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ager",
+  "expect": {
+   "contains": "a field, land"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alias",
+  "expect": {
+   "contains": "at another time; otherwise; elsewhere"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alibi",
+  "expect": {
+   "contains": "elsewhere"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aliqui",
+  "expect": {
+   "contains": "some, any"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aliquis",
+  "expect": {
+   "contains": "someone, somebody, anyone; something"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ambo",
+  "expect": {
+   "contains": "both"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amor",
+  "expect": {
+   "contains": "love"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "an",
+  "expect": {
+   "contains": "whether; or, or else"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anima",
+  "expect": {
+   "contains": "breath, soul, life"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "annus",
+  "expect": {
+   "contains": "a year"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ante",
+  "expect": {
+   "contains": "before, in front of; before (of time)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "antequam",
+  "expect": {
+   "contains": "before, until"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "apud",
+  "expect": {
+   "contains": "at, near, by; among; in the presence of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aqua",
+  "expect": {
+   "contains": "water"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "at",
+  "expect": {
+   "contains": "but, yet; but at least"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "atque",
+  "expect": {
+   "contains": "and, and also, and indeed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "atqui",
+  "expect": {
+   "contains": "and yet, but yet"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "audio",
+  "expect": {
+   "contains": "to hear, listen (to)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auris",
+  "expect": {
+   "contains": "the ear"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aut",
+  "expect": {
+   "contains": "or; or else, otherwise"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "autem",
+  "expect": {
+   "contains": "but, however, moreover; on the other hand"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caedes",
+  "expect": {
+   "contains": "a slaughter, massacre, murder"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caelum",
+  "expect": {
+   "contains": "sky, heaven"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caro",
+  "expect": {
+   "contains": "flesh, meat"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ceterum",
+  "expect": {
+   "contains": "for the rest; but, however"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cibus",
+  "expect": {
+   "contains": "food"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "circiter",
+  "expect": {
+   "contains": "about, around, near"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "committo",
+  "expect": {
+   "contains": "to commit, entrust; to join, unite; to engage in"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "confero",
+  "expect": {
+   "contains": "to bring together, collect; to compare"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "consisto",
+  "expect": {
+   "contains": "to stand, take one's stand, halt; to consist"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "contra",
+  "expect": {
+   "contains": "against, opposite, contrary to"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "coram",
+  "expect": {
+   "contains": "in the presence of, before; face to face"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cum",
+  "expect": {
+   "contains": "with, together with (prep.); when, since, although (conj.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cur",
+  "expect": {
+   "contains": "why; wherefore"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "de",
+  "expect": {
+   "contains": "of, concerning; down from, from"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "decem",
+  "expect": {
+   "contains": "ten"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "decet",
+  "expect": {
+   "contains": "it is fitting, proper, becoming"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "deleo",
+  "expect": {
+   "contains": "to destroy, blot out, annihilate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "deus",
+  "expect": {
+   "contains": "a god, goddess"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dico",
+  "expect": {
+   "contains": "to say, speak, tell"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dimico",
+  "expect": {
+   "contains": "to fight, contend"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "domo",
+  "expect": {
+   "contains": "to tame, subdue, conquer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "donec",
+  "expect": {
+   "contains": "until, as long as"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dum",
+  "expect": {
+   "contains": "while, as long as; until; provided that"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "duodecim",
+  "expect": {
+   "contains": "twelve"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ecce",
+  "expect": {
+   "contains": "behold! lo! see!"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "em",
+  "expect": {
+   "contains": "lo! see! here!"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "enim",
+  "expect": {
+   "contains": "for, indeed, truly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eo",
+  "expect": {
+   "contains": "there, to that place (adv.); to go, walk (verb)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "erga",
+  "expect": {
+   "contains": "toward, against (of feelings)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "et",
+  "expect": {
+   "contains": "and"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "etenim",
+  "expect": {
+   "contains": "for indeed, for truly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "etiam",
+  "expect": {
+   "contains": "also, even; besides, still, yet"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "etiamnum",
+  "expect": {
+   "contains": "still, even now"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "etsi",
+  "expect": {
+   "contains": "even if, although"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ex",
+  "expect": {
+   "contains": "out of, from; by reason of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fere",
+  "expect": {
+   "contains": "almost, nearly; generally"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fides",
+  "expect": {
+   "contains": "faith, trust, confidence, belief"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flumen",
+  "expect": {
+   "contains": "a river"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "foris",
+  "expect": {
+   "contains": "a door (noun); out of doors, outside (adv.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "frons",
+  "expect": {
+   "contains": "forehead, brow, front; (poetic) foliage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fructus2",
+  "expect": {
+   "contains": "fruit, produce; profit, enjoyment"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fundus",
+  "expect": {
+   "contains": "a farm, estate; the bottom, base"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "furor",
+  "expect": {
+   "contains": "madness, fury, rage (noun); to steal (verb)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gaudium",
+  "expect": {
+   "contains": "joy, delight"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gero",
+  "expect": {
+   "contains": "to carry, bear, conduct; to wage (war), do"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gratia",
+  "expect": {
+   "contains": "favor, grace, gratitude, thanks; for the sake of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hercules",
+  "expect": {
+   "contains": "by Hercules! (oath)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "heri",
+  "expect": {
+   "contains": "yesterday"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hic",
+  "expect": {
+   "contains": "this; he, she, it; the latter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hinc",
+  "expect": {
+   "contains": "hence, from here; from this side"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hodie",
+  "expect": {
+   "contains": "today"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "honor",
+  "expect": {
+   "contains": "honor, esteem, office"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "idem",
+  "expect": {
+   "contains": "the same; also, likewise"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ignis",
+  "expect": {
+   "contains": "fire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "illic",
+  "expect": {
+   "contains": "that one yonder (pron.); there, to that place (adv.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "immo",
+  "expect": {
+   "contains": "nay rather, indeed; no, on the contrary"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "in",
+  "expect": {
+   "contains": "in, within, among; into (with acc.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "instituo",
+  "expect": {
+   "contains": "to set up, establish, arrange; to determine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inter",
+  "expect": {
+   "contains": "between, among; during"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "invado",
+  "expect": {
+   "contains": "to enter, invade, attack"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "is",
+  "expect": {
+   "contains": "that; he, she, it"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iste",
+  "expect": {
+   "contains": "that of yours; that"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ita",
+  "expect": {
+   "contains": "so, thus, in this manner; yes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "jam",
+  "expect": {
+   "contains": "now, already; soon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "jus",
+  "expect": {
+   "contains": "right, law, justice"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "juxta",
+  "expect": {
+   "contains": "near, close to; according to"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "labor",
+  "expect": {
+   "contains": "labor, toil, work (noun); to slip, glide (verb)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latro",
+  "expect": {
+   "contains": "a robber (noun); to bark (verb)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lego",
+  "expect": {
+   "contains": "to read; to gather, pick out, choose"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lex",
+  "expect": {
+   "contains": "a law, statute"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "liber",
+  "expect": {
+   "contains": "a book (noun); free (adj.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "licet",
+  "expect": {
+   "contains": "it is permitted, it is allowed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "magis",
+  "expect": {
+   "contains": "more, rather"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maneo",
+  "expect": {
+   "contains": "to remain, stay, abide"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mare",
+  "expect": {
+   "contains": "the sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maxime",
+  "expect": {
+   "contains": "especially, particularly; very greatly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "metus",
+  "expect": {
+   "contains": "fear, dread"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "minime",
+  "expect": {
+   "contains": "least of all, by no means; not at all"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mitto",
+  "expect": {
+   "contains": "to send"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "modo",
+  "expect": {
+   "contains": "only, merely; just now; provided that"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mons",
+  "expect": {
+   "contains": "a mountain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mors",
+  "expect": {
+   "contains": "death"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mox",
+  "expect": {
+   "contains": "soon, presently; afterwards"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nam",
+  "expect": {
+   "contains": "for"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "namque",
+  "expect": {
+   "contains": "for indeed, for truly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ne",
+  "expect": {
+   "contains": "not; lest, that not; so that... not"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "necdum",
+  "expect": {
+   "contains": "and not yet, nor yet"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nempe",
+  "expect": {
+   "contains": "certainly, to be sure, of course"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "neque",
+  "expect": {
+   "contains": "and not, nor"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nimium",
+  "expect": {
+   "contains": "too much, excessively"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nisi",
+  "expect": {
+   "contains": "if not, unless; except"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "non",
+  "expect": {
+   "contains": "not"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nondum",
+  "expect": {
+   "contains": "not yet"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nox",
+  "expect": {
+   "contains": "night"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nunc",
+  "expect": {
+   "contains": "now, at present"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nuper",
+  "expect": {
+   "contains": "recently, lately"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ob",
+  "expect": {
+   "contains": "on account of, for; before, in front of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "obsideo",
+  "expect": {
+   "contains": "to besiege, blockade; to occupy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "odium",
+  "expect": {
+   "contains": "hatred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "olim",
+  "expect": {
+   "contains": "formerly, once; hereafter, someday"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oportet",
+  "expect": {
+   "contains": "it is necessary, one must, ought"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "otium",
+  "expect": {
+   "contains": "leisure, idleness, rest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palam",
+  "expect": {
+   "contains": "openly, publicly (adv.); in the presence of (prep.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pario",
+  "expect": {
+   "contains": "to bring forth, bear, give birth to; to obtain, acquire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "parum",
+  "expect": {
+   "contains": "too little, not enough; insufficiently"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pax",
+  "expect": {
+   "contains": "peace"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "per",
+  "expect": {
+   "contains": "through, throughout; by means of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "peto",
+  "expect": {
+   "contains": "to seek, aim at, attack; to ask, request"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pono",
+  "expect": {
+   "contains": "to put, place, set; to set up"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "porro",
+  "expect": {
+   "contains": "further, moreover; henceforward"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praeter",
+  "expect": {
+   "contains": "past, beyond; besides, except"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pro",
+  "expect": {
+   "contains": "for, on behalf of; in front of; instead of; O! (interj.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "proh",
+  "expect": {
+   "contains": "O! alas!"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prope",
+  "expect": {
+   "contains": "near, close by; nearly, almost"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "propter",
+  "expect": {
+   "contains": "near; on account of, because of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prorsus",
+  "expect": {
+   "contains": "utterly, entirely, certainly; in a word"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "puella",
+  "expect": {
+   "contains": "a girl, maiden"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quam",
+  "expect": {
+   "contains": "how, as, than; to what extent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quare",
+  "expect": {
+   "contains": "wherefore, therefore; why"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quicumque",
+  "expect": {
+   "contains": "whoever, whatever"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quin",
+  "expect": {
+   "contains": "that not; but that; nay, indeed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quis",
+  "expect": {
+   "contains": "who? (interrog.); anyone, someone (indef.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quisnam",
+  "expect": {
+   "contains": "who, pray? who then?"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quisquis",
+  "expect": {
+   "contains": "whoever, whatever"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quominus",
+  "expect": {
+   "contains": "that not, from...ing (after verbs of hindering)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quomodo",
+  "expect": {
+   "contains": "how, in what manner"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "radix",
+  "expect": {
+   "contains": "a root"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rapio",
+  "expect": {
+   "contains": "to seize, snatch, carry off"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rursus",
+  "expect": {
+   "contains": "again, anew, back"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sal",
+  "expect": {
+   "contains": "salt; wit"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "saltem",
+  "expect": {
+   "contains": "at least, at any rate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sanguis",
+  "expect": {
+   "contains": "blood"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "satis",
+  "expect": {
+   "contains": "enough, sufficiently"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "secundum",
+  "expect": {
+   "contains": "after, behind; according to; along"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "secus",
+  "expect": {
+   "contains": "otherwise, differently (adv.); sex (noun)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sed",
+  "expect": {
+   "contains": "but, yet, however"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "semper",
+  "expect": {
+   "contains": "always, ever"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sensus2",
+  "expect": {
+   "contains": "sense, perception, feeling; meaning"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "septem",
+  "expect": {
+   "contains": "seven"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "si",
+  "expect": {
+   "contains": "if; whether"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sic",
+  "expect": {
+   "contains": "so, thus, in this way"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sicut",
+  "expect": {
+   "contains": "just as, as; as it were"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "silva",
+  "expect": {
+   "contains": "a wood, forest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "simul",
+  "expect": {
+   "contains": "at the same time, together; as soon as"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sin",
+  "expect": {
+   "contains": "but if, if however, if on the contrary"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sine",
+  "expect": {
+   "contains": "without"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sive",
+  "expect": {
+   "contains": "or if; whether... or"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "socius",
+  "expect": {
+   "contains": "an ally, companion, partner"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spero",
+  "expect": {
+   "contains": "to hope, expect"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "statim",
+  "expect": {
+   "contains": "immediately, at once"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "studium",
+  "expect": {
+   "contains": "eagerness, zeal, pursuit, study"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sub",
+  "expect": {
+   "contains": "under, beneath; up to, at the foot of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "subigo",
+  "expect": {
+   "contains": "to subdue, conquer, force"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "subito",
+  "expect": {
+   "contains": "suddenly, of a sudden"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sui",
+  "expect": {
+   "contains": "of himself, herself, itself; oneself (reflexive)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sum",
+  "expect": {
+   "contains": "to be; to exist"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "super",
+  "expect": {
+   "contains": "over, above; upon; besides"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "supra",
+  "expect": {
+   "contains": "above, over; before; more than"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tam",
+  "expect": {
+   "contains": "so, to such a degree; so much"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tamquam",
+  "expect": {
+   "contains": "as, just as; as if"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "traho",
+  "expect": {
+   "contains": "to draw, drag, pull"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "trans",
+  "expect": {
+   "contains": "across, over, beyond"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tum",
+  "expect": {
+   "contains": "then, at that time; thereupon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tunc",
+  "expect": {
+   "contains": "then, at that time"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ubi",
+  "expect": {
+   "contains": "where; when"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ubique",
+  "expect": {
+   "contains": "everywhere"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "umerus",
+  "expect": {
+   "contains": "the shoulder, upper arm"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "undique",
+  "expect": {
+   "contains": "from all sides, on every side"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "urbs",
+  "expect": {
+   "contains": "a city"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "usquam",
+  "expect": {
+   "contains": "anywhere, in any place"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "usque",
+  "expect": {
+   "contains": "all the way, continuously; even"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ut",
+  "expect": {
+   "contains": "as, just as (adv.); that, so that, in order that (conj.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "utcumque",
+  "expect": {
+   "contains": "however, in whatever way; whenever"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "uterque",
+  "expect": {
+   "contains": "each of the two, both"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "uti",
+  "expect": {
+   "contains": "as, just as; so that, in order that"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "utrum",
+  "expect": {
+   "contains": "whether"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vas",
+  "expect": {
+   "contains": "a vessel, dish, utensil"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vel",
+  "expect": {
+   "contains": "or; either... or; even"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "velut",
+  "expect": {
+   "contains": "as, just as; as if"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vero",
+  "expect": {
+   "contains": "but, truly, indeed; however"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vertex",
+  "expect": {
+   "contains": "the top, summit, crown of the head"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "verum",
+  "expect": {
+   "contains": "the truth (noun); truly (adv.); but, however (conj.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "video",
+  "expect": {
+   "contains": "to see, perceive"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vinum",
+  "expect": {
+   "contains": "wine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vir",
+  "expect": {
+   "contains": "a man; a husband; a hero"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "virtus",
+  "expect": {
+   "contains": "courage, manliness, excellence, virtue"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nimis",
+  "expect": {
+   "contains": "too much"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cis",
+  "expect": {
+   "contains": "this side of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "penes",
+  "expect": {
+   "contains": "in the power of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fio",
+  "expect": {
+   "contains": "to become, be made, be done"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ego",
+  "expect": {
+   "contains": "I, me"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suus",
+  "expect": {
+   "contains": "his, her, its (own); their (own)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "noster",
+  "expect": {
+   "contains": "our, ours"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "malo",
+  "expect": {
+   "contains": "to prefer, choose rather"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nihil",
+  "expect": {
+   "contains": "nothing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tenus",
+  "expect": {
+   "contains": "up to, as far as"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "qua",
+  "expect": {
+   "contains": "where, by which way, in which direction"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ergo",
+  "expect": {
+   "contains": "therefore, consequently"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quidem",
+  "expect": {
+   "contains": "indeed, certainly, to be sure"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prae",
+  "expect": {
+   "contains": "before, in front of; in comparison with"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quoniam",
+  "expect": {
+   "contains": "since, because, seeing that"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "num",
+  "expect": {
+   "contains": "whether; surely not (in a question expecting no)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quamvis",
+  "expect": {
+   "contains": "however much; although"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "res",
+  "expect": {
+   "contains": "thing, matter, affair, circumstance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vita",
+  "expect": {
+   "contains": "life; manner of life, living"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "servus",
+  "expect": {
+   "contains": "a slave, servant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ratio",
+  "expect": {
+   "contains": "reckoning, account; reason, method, plan"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auctoritas",
+  "expect": {
+   "contains": "authority, influence, weight, power"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "timor",
+  "expect": {
+   "contains": "fear, dread, anxiety"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scribo",
+  "expect": {
+   "contains": "to write"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "teneo",
+  "expect": {
+   "contains": "to hold, grasp, keep, possess"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adsum",
+  "expect": {
+   "contains": "to be present, be at hand"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dono",
+  "expect": {
+   "contains": "to give, present, bestow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "invenio",
+  "expect": {
+   "contains": "to find, discover, meet with"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "voco",
+  "expect": {
+   "contains": "to call, summon, name"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clamo",
+  "expect": {
+   "contains": "to shout, cry out, call aloud"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "moneo",
+  "expect": {
+   "contains": "to warn, advise, admonish, remind"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scio",
+  "expect": {
+   "contains": "to know, understand"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nescio",
+  "expect": {
+   "contains": "to not know, be ignorant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "puto",
+  "expect": {
+   "contains": "to think, reckon, suppose, consider"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "credo",
+  "expect": {
+   "contains": "to believe, trust; to entrust, lend"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mater",
+  "expect": {
+   "contains": "a mother"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "soror",
+  "expect": {
+   "contains": "a sister"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "duo",
+  "expect": {
+   "contains": "two"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dico2",
+  "expect": {
+   "contains": "to say, speak, tell"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lego2",
+  "expect": {
+   "contains": "to read; to gather, pick out, choose"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "redeo",
+  "expect": {
+   "contains": "to go back, return"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "statuo",
+  "expect": {
+   "contains": "to set up, establish; to decide, determine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cogo",
+  "expect": {
+   "contains": "to compel, force; to collect, gather together"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "timeo",
+  "expect": {
+   "contains": "to fear, dread, be afraid of"
+  },
+  "note": "core_gloss"
+ }
 ]
