@@ -11052,5 +11052,544 @@
   "lemma": "lura",
   "expect": null,
   "note": "core_gloss"
+ },
+ {
+  "lemma": "curo",
+  "expect": {
+   "contains": "to care for, take care of, attend to; to cure, heal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "percipio",
+  "expect": {
+   "contains": "to take possession of, seize; to perceive, learn, understand"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "capio2",
+  "expect": {
+   "contains": "to take, seize, capture; to comprehend, contain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "accipio",
+  "expect": {
+   "contains": "to receive, accept, get, obtain; to hear, learn"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "suscipio",
+  "expect": {
+   "contains": "to take up, undertake, assume, accept"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nosco",
+  "expect": {
+   "contains": "to get to know, learn, recognize"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "commendo",
+  "expect": {
+   "contains": "to entrust, commit, commend; to recommend"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "accendo",
+  "expect": {
+   "contains": "to kindle, set on fire, light; to inflame, excite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "salvo",
+  "expect": {
+   "contains": "to save, preserve, keep safe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "defendo",
+  "expect": {
+   "contains": "to defend, protect; to ward off, repel"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sentio",
+  "expect": {
+   "contains": "to feel, perceive, sense; to think, judge, believe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "intellego",
+  "expect": {
+   "contains": "to understand, perceive, comprehend"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "comprehendo",
+  "expect": {
+   "contains": "to grasp, seize; to comprehend, understand, include"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "apprehendo",
+  "expect": {
+   "contains": "to seize, grasp, lay hold of; to understand"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "recipio",
+  "expect": {
+   "contains": "to take back, recover, receive back; to admit, receive"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "agnosco",
+  "expect": {
+   "contains": "to recognize, acknowledge, admit"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "recognosco",
+  "expect": {
+   "contains": "to recognize again, recollect, review, acknowledge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "discerno",
+  "expect": {
+   "contains": "to separate, distinguish, discern"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "distinguo",
+  "expect": {
+   "contains": "to mark off, distinguish, separate; to adorn"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "separo",
+  "expect": {
+   "contains": "to separate, divide, sever"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "divido",
+  "expect": {
+   "contains": "to divide, separate, distribute; to part"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "partior",
+  "expect": {
+   "contains": "to share, divide, distribute, apportion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "impertior",
+  "expect": {
+   "contains": "to impart, bestow, give a share of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "distribuo",
+  "expect": {
+   "contains": "to divide, distribute, assign"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tribuo",
+  "expect": {
+   "contains": "to assign, attribute, allot, bestow, give"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "largior",
+  "expect": {
+   "contains": "to give lavishly, bestow, grant, distribute"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "munero",
+  "expect": {
+   "contains": "to present, honor, reward"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praesto",
+  "expect": {
+   "contains": "to stand before, excel; to be responsible for, perform, furnish"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exhibeo",
+  "expect": {
+   "contains": "to show, display, exhibit; to provide, furnish"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praebeo",
+  "expect": {
+   "contains": "to offer, present, provide, afford, supply"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "porrigo",
+  "expect": {
+   "contains": "to stretch out, extend, reach forth, offer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mando",
+  "expect": {
+   "contains": "to entrust, commit, order, command"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "delego",
+  "expect": {
+   "contains": "to send, delegate, assign, entrust"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hortor",
+  "expect": {
+   "contains": "to encourage, exhort, urge, incite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exhortor",
+  "expect": {
+   "contains": "to encourage, exhort, urge, animate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cohortor",
+  "expect": {
+   "contains": "to encourage, exhort, urge, animate"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adhortor",
+  "expect": {
+   "contains": "to encourage, exhort, urge on"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "succendo",
+  "expect": {
+   "contains": "to kindle, set on fire (from below)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "incendo",
+  "expect": {
+   "contains": "to set on fire, kindle, burn; to inflame, excite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "comburo",
+  "expect": {
+   "contains": "to burn up, consume by fire, destroy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ustulo",
+  "expect": {
+   "contains": "to burn slightly, scorch, singe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cremo",
+  "expect": {
+   "contains": "to burn, consume by fire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aduro",
+  "expect": {
+   "contains": "to set fire to, burn, scorch"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ardeo",
+  "expect": {
+   "contains": "to be on fire, burn, blaze; to glow, be inflamed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flagro",
+  "expect": {
+   "contains": "to blaze, burn, flame, glow"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "deflagro",
+  "expect": {
+   "contains": "to be consumed by fire, burn up; to go out"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ignesco",
+  "expect": {
+   "contains": "to take fire, catch fire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "conspiro",
+  "expect": {
+   "contains": "to blow together, sound in unison; to conspire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inspiro",
+  "expect": {
+   "contains": "to blow upon, breathe into, inspire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "respiro",
+  "expect": {
+   "contains": "to breathe out, exhale; to recover breath, take a rest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exspiro",
+  "expect": {
+   "contains": "to breathe out, exhale; to expire, die"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anhelo",
+  "expect": {
+   "contains": "to pant, gasp, breathe hard; to desire eagerly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "halo",
+  "expect": {
+   "contains": "to breathe, emit breath, give off"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "redoleo",
+  "expect": {
+   "contains": "to smell of, be redolent of, smack of"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oleo",
+  "expect": {
+   "contains": "to smell, emit a smell, be fragrant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fragro",
+  "expect": {
+   "contains": "to smell sweet, be fragrant"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "scateo",
+  "expect": {
+   "contains": "to bubble forth, gush, abound in"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ferveo",
+  "expect": {
+   "contains": "to boil, seethe, glow, be hot; to be eager, ferment"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fervo",
+  "expect": {
+   "contains": "to boil, seethe, glow, be hot"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bullo",
+  "expect": {
+   "contains": "to bubble, boil, seethe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ebullio",
+  "expect": {
+   "contains": "to boil up, bubble out, gush forth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spumo",
+  "expect": {
+   "contains": "to foam, froth, bubble"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "despumo",
+  "expect": {
+   "contains": "to skim off the foam; to froth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fluo",
+  "expect": {
+   "contains": "to flow, stream, run; to pass away"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mano",
+  "expect": {
+   "contains": "to flow, run, trickle, drip"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stillo",
+  "expect": {
+   "contains": "to drip, drop, trickle, distil"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "defluo",
+  "expect": {
+   "contains": "to flow down, stream down"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "confluo",
+  "expect": {
+   "contains": "to flow together, meet, converge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "interfluo",
+  "expect": {
+   "contains": "to flow between, flow among"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praeterfluo",
+  "expect": {
+   "contains": "to flow past, flow by"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "superfluo",
+  "expect": {
+   "contains": "to overflow, be superfluous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "influo",
+  "expect": {
+   "contains": "to flow in, stream in"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "effluo",
+  "expect": {
+   "contains": "to flow out, stream out, escape"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "perfluo",
+  "expect": {
+   "contains": "to flow through, pass through"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "refluo",
+  "expect": {
+   "contains": "to flow back, ebb"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diffluo",
+  "expect": {
+   "contains": "to flow in different directions, dissolve, melt"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "affluo",
+  "expect": {
+   "contains": "to flow toward, stream in; to abound, be rich"
+  },
+  "note": "core_gloss"
  }
 ]
