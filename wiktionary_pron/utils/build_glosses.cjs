@@ -203,6 +203,23 @@ function cleanOne(t) {
   t = t.replace(/[.,;]$/,"").trim();
   t = t.replace(/\s+(?:etc\.?|al\.|sq\.)$/i,"").trim();
   t = t.replace(/[.,;]$/,"").trim();
+  // Terminal parenthetical with its trailing punctuation: L&S's usage-note tails
+  // arrive as "(not in Cic.)." (paren + period) — the earlier `\([^)]*\)\s*$` strip
+  // (line 201) can't match while the string ends in ".", and the period-strips above
+  // run too late. Loop so "(rare but class.)." and "(not in Cic.)" both clear.
+  // Guard: only strip when the paren content is a NOTE, not a real gloss qualifier
+  // ("eat up (dainties)", "(of a law)", "(female)" are meaningful — keep them).
+  {
+    let guard = 0;
+    let prev = "";
+    while (t !== prev && guard++ < 4) {
+      prev = t;
+      // strip trailing "..., (NOTE)" where NOTE is a usage/era/frequency marker —
+      // the note may be followed by a period "(not in Cic.)." or bare "(not in Cic.)".
+      t = t.replace(/\s*\([.,;:.\s]*(?:not in [A-Z][a-z.]*|in [A-Z][a-z]*\.? (?:rare|several times)|late Lat\.|post-?aug\.?|ante-?class\.?|eccl\.? Lat\.?|very rare|rare but class\.?|rarely|arch\.?|perh\.?|so, rarely|used chiefly|a few places)[^)]*\)[.,;:]*\s*$/i,"").trim();
+      t = t.replace(/[.,;:]\s*$/,"").trim();
+    }
+  }
   // Citation/note tails that survived the strip: "—Hence", "—Prov", "—Subst",
   // ", i. e", "belua, i. e" (cross-ref markers), ", 6, 495 sq" (pure locator).
   t = t.replace(/\s*—[A-Za-z.]{2,15}\s*$/,"").trim();
