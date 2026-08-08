@@ -784,6 +784,7 @@ for (const r of rows.values()) {
   if (l === undefined) { l = resolve(lem, pos); resolveCache.set(lem, l); }
   let w = null;
   let wFirst = null;
+  let wFirstAny = null;
   if (!SKIP_WORDS) {
     const lemLower = lem.toLowerCase();
     // WORDS-first only for the closed particle class — cheap (157 lemmas), memoized
@@ -795,7 +796,10 @@ for (const r of rows.values()) {
     const wk = lem + " " + pos + " " + g6;
     w = wGlossCache.get(wk);
     if (w === undefined) { w = wGloss(lem, pos, g6); wGlossCache.set(wk, w); }
-  }
+    // P8: first WORDS result regardless of POS-uniqueness — the fallback for
+    // common V/N lemmas whose WORDS POS-filter has >1 distinct meaning.
+    wFirstAny = wGlossFirst(lem);
+  } else wFirstAny = null;
   let gloss = null;
   const lemLower = lem.toLowerCase();
   // Precedence (M-005 fix): coreGloss > WORDS-first (closed particle class) > L&S
@@ -832,6 +836,12 @@ for (const r of rows.values()) {
   }
   else if (l) { gloss = l; lClean++; }
   else if (w) { gloss = w; wClean++; }
+  // P8 fallback (corpus audit): common V/N lemmas whose L&S entry is
+  // orthography-heavy and whose WORDS POS-filter has >1 distinct meaning
+  // (differo "postpone/delay" + "spread abroad") fell to "—". Relax to the
+  // FIRST WORDS result (frequency-ordered) — a real gloss beats "—" for a
+  // common verb. Scoped to V/N (the classes WORDS covers well).
+  else if ((pos === "V" || pos === "N") && wFirstAny) { gloss = wFirstAny; wClean++; }
   else none++;
   if (gloss && !lemmaGloss.has(lem.toLowerCase())) lemmaGloss.set(lem.toLowerCase(), gloss);
   if (++done % 100000 === 0) console.log(`  ${done}/${total} (${((Date.now()-t0)/1000).toFixed(0)}s)`);
