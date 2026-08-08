@@ -7156,8 +7156,10 @@
   },
   {
     "lemma": "abscido",
-    "expect": null,
-    "note": "core_gloss"
+    "expect": {
+      "contains": "cut off"
+    },
+    "note": "comparison clause beat primary (H5); was explicit-null"
   },
   {
     "lemma": "atrocitas",
@@ -13502,5 +13504,33 @@
       "contains": "manner"
     },
     "note": "interrogative ? gloss (H4): in what manner, how"
+  },
+  {
+    "lemma": "laudatus",
+    "expect": {
+      "contains": "praised"
+    },
+    "note": "participle ADJ (H5): WORDS lacks ADJ sense"
+  },
+  {
+    "lemma": "notatus",
+    "expect": {
+      "contains": "marked"
+    },
+    "note": "participle ADJ (H5): WORDS lacks ADJ sense"
+  },
+  {
+    "lemma": "levatus",
+    "expect": {
+      "contains": "raised"
+    },
+    "note": "participle ADJ (H5): WORDS lacks ADJ sense"
+  },
+  {
+    "lemma": "demissus",
+    "expect": {
+      "contains": "low"
+    },
+    "note": "participle ADJ (H5): WORDS lacks ADJ sense"
   }
 ]

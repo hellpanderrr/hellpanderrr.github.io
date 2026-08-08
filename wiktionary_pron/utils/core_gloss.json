@@ -1,6 +1,6 @@
 {
   "ab": "from, away from; by (with abl.)",
-  "abscido": null,
+  "abscido": "to cut off, cut away, lop off",
   "abstemius": "abstinent, temperate, abstemious",
   "absumo": "to consume, use up, destroy, spend",
   "accendo": "to kindle, set on fire, light; to inflame, excite",
@@ -1848,5 +1848,9 @@
   "contamino": "to pollute, defile, contaminate, stain, taint",
   "verto": "to turn, turn round, turn about; to change, transform",
   "crepo": "to rattle, crack, creak, rustle, sound loudly",
-  "caupo": "an innkeeper, tavern-keeper, vintner"
+  "caupo": "an innkeeper, tavern-keeper, vintner",
+  "laudatus": "praised, commended; praiseworthy",
+  "notatus": "marked, noted, noticed; stigmatized",
+  "levatus": "raised, lifted up",
+  "demissus": "low, humble, downcast, dejected"
 }

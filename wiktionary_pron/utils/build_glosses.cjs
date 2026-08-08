@@ -737,7 +737,22 @@ function resolve(lemma, pos, depth = 0) {
   if (!e) return null;
   let gloss = lsExtract(e, pos);
   if (!gloss && depth < 2 && e.main_notes) {
-    const m = e.main_notes.match(/(?:^|[,;]|\s)(?:v|cf)\.\s*([a-z]+)/i);
+    // Cross-ref to the base form: "v. X", "cf. X", "fr. X", "from X", "q. v.".
+    // The old regex (v|cf)\.\s*([a-z]+) matched the POS marker "a" in "v. a.
+    // caedo" (abscido was recursing into "a" instead of "caedo" → "—"). Also
+    // extends to "Part. and , from corrumpo" / "fr. demitto" (H5 participles).
+    // "versor, āri, v. verso" — the marker must be a REAL abbrev ("v."/"cf."/"fr.")
+    // with a period, so the "v" inside "versor" at the string start doesn't match
+    // (old optional-period regex captured "ersor" for versor → null gloss).
+    // "from X" is allowed ONLY when the entry is a participle ("Part. and , from
+    // corrumpo") — inde's "locative from is" is an ETYMOLOGY note, not a cross-ref,
+    // and recursing into "is" gave inde→"that; he, she, it".
+    let m;
+    if (/(?:Part\.|fr\.)\b/i.test(e.main_notes)) {
+      m = e.main_notes.match(/(?:^|[,;]\s*|\s)(?:v\.|cf\.|q\.?\s*v\.|fr\.|from\b)\s*(?:a\.\s*|n\.\s*|dep\.\s*)?([a-z]+)/i);
+    } else {
+      m = e.main_notes.match(/(?:^|[,;]\s*|\s)(?:v\.|cf\.|q\.?\s*v\.|fr\.)\s*(?:a\.\s*|n\.\s*|dep\.\s*)?([a-z]+)/i);
+    }
     if (m) {
       const tgt = m[1].toLowerCase();
       const te = lsByKey.get(tgt) || lsByKey.get(tgt+"1");
@@ -811,6 +826,7 @@ for (const r of rows.values()) {
   let w = null;
   let wFirst = null;
   let wFirstAny = null;
+  let wAdjFirst = null;
   if (!SKIP_WORDS) {
     const lemLower = lem.toLowerCase();
     // WORDS-first only for the closed particle class — cheap (157 lemmas), memoized
@@ -818,6 +834,14 @@ for (const r of rows.values()) {
     if (closedSet.has(lemLower)) {
       wFirst = wGlossFirstCache.get(lemLower);
       if (wFirst === undefined) { wFirst = wGlossFirst(lem); wGlossFirstCache.set(lemLower, wFirst); }
+    }
+    // H5: FIRST ADJ result for participle-lemma fallback (diligens → "careful,
+    // diligent", not the VPAR "love, hold dear").
+    if (pos === "ADJ") {
+      const base = lem.replace(/\d+$/, "");
+      for (const x of wcLoad(base)) {
+        if ((x.pofs || "") === "ADJ") { wAdjFirst = (x.m || "").split(";")[0].trim().replace(/^\||\||$/g, ""); if (wAdjFirst) break; }
+      }
     }
     const wk = lem + " " + pos + " " + g6;
     w = wGlossCache.get(wk);
@@ -855,8 +879,13 @@ for (const r of rows.values()) {
   // the correct POS-aware gloss. Rule: an ADV/ADJ-dominant lemma whose L&S result
   // is a verb-infinitive ("to X") prefers WORDS-POS. Scoped narrowly so memor/
   // superus/saevus/certo (real adjective glosses, golden-locked) are untouched.
+  // H5 extension: a participle whose L&S cross-ref recursion returned the base
+  // VERB's gloss (demissus→"to lower, put down" from demitto; laudatus→"recommend"
+  // from laudo) is an ADJ-dominant word — the user wants the ADJECTIVE ("humble",
+  // "praised"). Use wAdjFirst (first WORDS ADJ sense) when the POS-unique w is null.
   else if ((pos === "ADV" || pos === "ADJ") && l && /^to\s+[a-z]/i.test(l)) {
     if (w) { gloss = w; wClean++; }
+    else if (pos === "ADJ" && wAdjFirst) { gloss = wAdjFirst; wClean++; }
     else if (l) { gloss = l; lClean++; }
     else none++;
   }
@@ -868,6 +897,13 @@ for (const r of rows.values()) {
   // FIRST WORDS result (frequency-ordered) — a real gloss beats "—" for a
   // common verb. Scoped to V/N (the classes WORDS covers well).
   else if ((pos === "V" || pos === "N") && wFirstAny) { gloss = wFirstAny; wClean++; }
+  // H5 participles (corpus-audit): ADJ-dominant lemmas whose L&S entry is a
+  // "Part. and , from X" cross-ref with empty senses (diligens, corruptus,
+  // demissus, laudatus). WORDS gives VPAR first but the ADJ sense is what the
+  // user wants — use the FIRST ADJ result. Fall through to wFirstAny only if no
+  // ADJ result exists (rare).
+  else if (pos === "ADJ" && wAdjFirst) { gloss = wAdjFirst; wClean++; }
+  else if (pos === "ADJ" && wFirstAny) { gloss = wFirstAny; wClean++; }
   else none++;
   if (gloss && !lemmaGloss.has(lem.toLowerCase())) lemmaGloss.set(lem.toLowerCase(), gloss);
   if (++done % 100000 === 0) console.log(`  ${done}/${total} (${((Date.now()-t0)/1000).toFixed(0)}s)`);
