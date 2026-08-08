@@ -3493,5 +3493,3204 @@
    "contains": "a bracelet, armlet"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "punctum",
+  "expect": {
+   "contains": "a point, puncture, small spot"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "momentum",
+  "expect": {
+   "contains": "a movement, impulse; a moment, importance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aevum",
+  "expect": {
+   "contains": "an age, lifetime, eternity"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "saeculum",
+  "expect": {
+   "contains": "a generation, age, century"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "senectus",
+  "expect": {
+   "contains": "old age"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pueritia",
+  "expect": {
+   "contains": "childhood, boyhood"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "familia",
+  "expect": {
+   "contains": "a household, family"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stirps",
+  "expect": {
+   "contains": "a stock, stem, trunk; lineage, race, family"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "par",
+  "expect": {
+   "contains": "equal, like"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "supplicium",
+  "expect": {
+   "contains": "a punishment, penalty; execution"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "poena",
+  "expect": {
+   "contains": "a penalty, punishment, fine"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vindicta",
+  "expect": {
+   "contains": "vengeance, punishment, revenge"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arbitrium",
+  "expect": {
+   "contains": "a judgment, decision, authority, will"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arbiter",
+  "expect": {
+   "contains": "an umpire, arbiter, judge; a witness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "conclusio",
+  "expect": {
+   "contains": "a conclusion, inference, close"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "electio",
+  "expect": {
+   "contains": "a choice, selection"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "testis",
+  "expect": {
+   "contains": "a witness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hospes",
+  "expect": {
+   "contains": "a host, guest; a stranger"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "civitas",
+  "expect": {
+   "contains": "the state, citizenship, a community of citizens"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "consilium",
+  "expect": {
+   "contains": "a plan, purpose, counsel, advice; deliberation"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adulescentia",
+  "expect": {
+   "contains": "youth, adolescence, young manhood"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "genus",
+  "expect": {
+   "contains": "a race, stock, family; a kind, sort, class"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "progenies",
+  "expect": {
+   "contains": "offspring, descendants, progeny"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "parvus",
+  "expect": {
+   "contains": "small, little"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bonus",
+  "expect": {
+   "contains": "good"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crassus",
+  "expect": {
+   "contains": "thick, fat, coarse; dull, stupid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pinguis",
+  "expect": {
+   "contains": "fat, rich, fertile, plump"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "densus",
+  "expect": {
+   "contains": "thick, dense, crowded"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spissus",
+  "expect": {
+   "contains": "thick, dense, compact"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "creber",
+  "expect": {
+   "contains": "frequent, repeated, crowded, numerous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "frequens",
+  "expect": {
+   "contains": "frequent, numerous, crowded, well-attended"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "paucus",
+  "expect": {
+   "contains": "few, little"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bini",
+  "expect": {
+   "contains": "two at a time, two each"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "terni",
+  "expect": {
+   "contains": "three each, three at a time"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quaterni",
+  "expect": {
+   "contains": "four each, four at a time"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "septendecim",
+  "expect": {
+   "contains": "seventeen"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sexaginta",
+  "expect": {
+   "contains": "sixty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "octoginta",
+  "expect": {
+   "contains": "eighty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "septuaginta",
+  "expect": {
+   "contains": "seventy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ducenti",
+  "expect": {
+   "contains": "two hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "trecenti",
+  "expect": {
+   "contains": "three hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sescenti",
+  "expect": {
+   "contains": "six hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nongenti",
+  "expect": {
+   "contains": "nine hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "quadringenti",
+  "expect": {
+   "contains": "four hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "septingenti",
+  "expect": {
+   "contains": "seven hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "octingenti",
+  "expect": {
+   "contains": "eight hundred"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nonaginta",
+  "expect": {
+   "contains": "ninety"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "accepta",
+  "expect": {
+   "contains": "a portion of land granted to an individual by the state"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ace",
+  "expect": {
+   "contains": "a town in Galilee, afterwards called Ptolemais or Acca, now St. Jean d'Acre"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acharnae",
+  "expect": {
+   "contains": "a deme of Attica"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "achelous",
+  "expect": {
+   "contains": "the river-god Achelous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acron",
+  "expect": {
+   "contains": "a king of the Caeninenses, slain by Romulus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "acrota",
+  "expect": {
+   "contains": "a king of the Albani, brother of Romulus Silvius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "actaeon",
+  "expect": {
+   "contains": "a grandson of Cadmus, who, having seen Diana bathing naked with her nymphs, was torn to pieces by his own dogs"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "actium",
+  "expect": {
+   "contains": "a promontory and town in Epirus, on the Ambracian Gulf, where Augustus conquered Antony and Cleopatra, 31 B.C."
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aegates",
+  "expect": {
+   "contains": "three islands in the Mediterranean, west of Sicily, where the Carthaginians were conquered by the Romans, 241 B.C."
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aegon",
+  "expect": {
+   "contains": "the Aegean Sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aesacus",
+  "expect": {
+   "contains": "a son of Priam"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aeson",
+  "expect": {
+   "contains": "a Thessalian prince, brother of king Pelias, and father of Jason, who in extreme old age was transformed by the magic arts of Medea into a youth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aglauros",
+  "expect": {
+   "contains": "a daughter of Cecrops, changed by Mercury into a stone"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alcyone",
+  "expect": {
+   "contains": "a daughter of Aeolus, who threw herself into the sea for love of her husband Ceyx and was changed into a kingfisher"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amenanus",
+  "expect": {
+   "contains": "a river in Sicily, at the southern declivity of Aetna"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amphimedon",
+  "expect": {
+   "contains": "a Libyan who, while fighting for Cepheus against Perseus, was slain by the latter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amphissus",
+  "expect": {
+   "contains": "a son of Apollo and Dryope, builder of the town Oeta, at the foot of Mt. Oeta"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amphrysus",
+  "expect": {
+   "contains": "a small river in Thessaly, near which Apollo fed the flocks of Admetus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ampycus",
+  "expect": {
+   "contains": "a priest of Ceres"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amycus",
+  "expect": {
+   "contains": "a centaur slain in the contest with the Lapithae"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amymone",
+  "expect": {
+   "contains": "a fountain near Argos"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amyntas",
+  "expect": {
+   "contains": "the father of the Macedonian king Philip"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amyntor",
+  "expect": {
+   "contains": "a king of the Dolopians, and father of Phoenix"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amythaon",
+  "expect": {
+   "contains": "the father of Melampus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anaphe",
+  "expect": {
+   "contains": "an island that rose of itself in the Cretan Sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ancaeus",
+  "expect": {
+   "contains": "an Arcadian, slain by the Calydonian boar"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "antaeus",
+  "expect": {
+   "contains": "a huge giant in Libya, slain by Hercules"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "apidanus",
+  "expect": {
+   "contains": "a river in Thessaly, which unites with the Enipeus and flows into the Peneus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arachne",
+  "expect": {
+   "contains": "a Lydian maiden who challenged Minerva to a trial of skill in spinning, and was changed by the goddess into a spider"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arcesius",
+  "expect": {
+   "contains": "a son of Jupiter, father of Laertes, and grandfather of Ulysses"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "archiereus",
+  "expect": {
+   "contains": "a chief priest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arenacum",
+  "expect": {
+   "contains": "a town in Gallia Belgica, now Aerth or Arth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "argia",
+  "expect": {
+   "contains": "a daughter of Adrastus, and wife of Polynices"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ariovistus",
+  "expect": {
+   "contains": "a king of the Germans, defeated by Julius Caesar in the Gallic War"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arne",
+  "expect": {
+   "contains": "a woman who betrayed her country (the island Siphnos), and was changed into a jackdaw"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asiarcha",
+  "expect": {
+   "contains": "a high-priest, and overseer of games and theatrical exhibitions in the Roman province of Asia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asopis",
+  "expect": {
+   "contains": "the mother of Aeacus by Jupiter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "astraea",
+  "expect": {
+   "contains": "the goddess of Justice, who during the Golden Age lived on the earth, but finally abandoned it and returned to heaven"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "athis",
+  "expect": {
+   "contains": "a son of Limnate, slain by Perseus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "autonoe",
+  "expect": {
+   "contains": "a daughter of Cadmus, wife of Aristaeus, and mother of Actaeon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "beroe",
+  "expect": {
+   "contains": "the nurse of Semele"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bianor",
+  "expect": {
+   "contains": "a centaur slain by Theseus at the marriage festival of Pirithous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bromus",
+  "expect": {
+   "contains": "a centaur slain by Caeneus in the contest with the Centaurs"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "byblis",
+  "expect": {
+   "contains": "a daughter of Miletus who fell in love with her brother Caunus and, being repulsed, was changed into a fountain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "caeneus",
+  "expect": {
+   "contains": "a daughter of Elatus, changed by Neptune into a boy; present at the Calydonian hunt and the contest of the Centaurs and Lapithae"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calanus",
+  "expect": {
+   "contains": "an Indian philosopher (gymnosophist) in the time of Alexander the Great, who in old age burned himself on a pyre"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "callistratus",
+  "expect": {
+   "contains": "a Grecian orator"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calydon",
+  "expect": {
+   "contains": "a very ancient town in Aetolia, on the river Evenus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calymne",
+  "expect": {
+   "contains": "an island in the Aegean Sea, not far from Rhodes, distinguished for its honey, now Kalimno"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "carcaso",
+  "expect": {
+   "contains": "a city of Gallia Narbonensis, now Carcassonne"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "carna",
+  "expect": {
+   "contains": "a goddess, previously called Crane, guardian of door-hinges and of the life of man"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cato",
+  "expect": {
+   "contains": "a cognomen of several celebrated Romans in the gens Porcia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "celadon",
+  "expect": {
+   "contains": "an Egyptian companion of Phineus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cenchreis",
+  "expect": {
+   "contains": "the wife of Cinyras and mother of Myrrha"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "centobriga",
+  "expect": {
+   "contains": "a town of the Celtiberi in Spain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cephalus",
+  "expect": {
+   "contains": "the husband of Procris, whom he unintentionally shot"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cephisus",
+  "expect": {
+   "contains": "a river in Phocis and Boeotia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "chione",
+  "expect": {
+   "contains": "a daughter of Daedalion, mother of Autolycus by Mercury and of the musician Philammon by Apollo, shot by Diana"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clanis",
+  "expect": {
+   "contains": "a companion of Phineus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clarius",
+  "expect": {
+   "contains": "a small town in Ionia, near Colophon, celebrated for a temple and an oracle of Apollo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "claros",
+  "expect": {
+   "contains": "a small town in Ionia, near Colophon, celebrated for a temple and an oracle of Apollo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clericus",
+  "expect": {
+   "contains": "a clergyman, priest"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cloanthus",
+  "expect": {
+   "contains": "a companion of Aeneas"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clytius",
+  "expect": {
+   "contains": "a companion of Phineus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clytus",
+  "expect": {
+   "contains": "a companion of Phineus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "combe",
+  "expect": {
+   "contains": "the mother of the Curetes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corduba",
+  "expect": {
+   "contains": "a town in Hispania Baetica, on the river Baetis, now Cordoba"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "coronea",
+  "expect": {
+   "contains": "a town in Boeotia, west of Lake Copais"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cottus",
+  "expect": {
+   "contains": "a ruler of the coast of Thrace (382-356 B.C.), son-in-law of Iphicrates"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crantor",
+  "expect": {
+   "contains": "the armor-bearer of Peleus, slain by the centaur Demoleon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crataeis",
+  "expect": {
+   "contains": "the mother of Scylla"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "craterus",
+  "expect": {
+   "contains": "a general of Alexander the Great"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crimisus",
+  "expect": {
+   "contains": "a river on the south-west coast of Sicily"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crithote",
+  "expect": {
+   "contains": "a town in the Thracian Chersonese"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crocale",
+  "expect": {
+   "contains": "a companion of Diana"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cyanee",
+  "expect": {
+   "contains": "a nymph, daughter of Maeander, mother of Caunus and Byblis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cynice",
+  "expect": {
+   "contains": "the Cynic sect"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cypassis",
+  "expect": {
+   "contains": "the mistress of the poet Ovid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cyzicos",
+  "expect": {
+   "contains": "a king of the Doliones, after whom the town of Cyzicus was named"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "daedalus",
+  "expect": {
+   "contains": "the mythical Athenian architect, father of Icarus, and builder of the Cretan labyrinth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "datis",
+  "expect": {
+   "contains": "a general of the Medes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "demoleon",
+  "expect": {
+   "contains": "a centaur slain by Perseus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "demoleos",
+  "expect": {
+   "contains": "a Grecian chieftain before Troy, slain by Aeneas"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dercetis",
+  "expect": {
+   "contains": "a Syrian goddess, called also Atargatis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dia",
+  "expect": {
+   "contains": "the old name of the island of Naxos"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diomedes",
+  "expect": {
+   "contains": "a famous hero at the siege of Troy, after which he went to Apulia, where he founded Argyripa (Arpi)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dorylas",
+  "expect": {
+   "contains": "a Greek proper name"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dryope",
+  "expect": {
+   "contains": "the mother of Amphissus by Apollo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dumnorix",
+  "expect": {
+   "contains": "an Aeduan, brother of Divitiacus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "duronius",
+  "expect": {
+   "contains": "a Roman proper name"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dymas",
+  "expect": {
+   "contains": "the father of Hecuba"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "echo",
+  "expect": {
+   "contains": "a nymph who could only repeat the last words of another's speech; she pined away for love of Narcissus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "egregius",
+  "expect": {
+   "contains": "a title of public officers in high station"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "entellus",
+  "expect": {
+   "contains": "a Sicilian hero, famous as a pugilist"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epaminondas",
+  "expect": {
+   "contains": "the famous general of the Thebans, victor at Leuctra and Mantinea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epaphus",
+  "expect": {
+   "contains": "a son of Jupiter Ammon and Io, and builder of Memphis in Egypt"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "erucius",
+  "expect": {
+   "contains": "a Roman proper name"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eumelus",
+  "expect": {
+   "contains": "a king of Patrae"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eumenes",
+  "expect": {
+   "contains": "a famous general under Alexander the Great, and after his death governor of Cappadocia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eumolpus",
+  "expect": {
+   "contains": "a son of Musaeus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eurypylus",
+  "expect": {
+   "contains": "a son of Hercules and king of the island of Cos"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eurysthenes",
+  "expect": {
+   "contains": "a son of Aristodemus, king of Sparta, brother of Procles"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eurytus",
+  "expect": {
+   "contains": "an Argonaut"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flora",
+  "expect": {
+   "contains": "the goddess of flowers, whose festival was celebrated in April"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "galaxias",
+  "expect": {
+   "contains": "the Milky Way"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "genusus",
+  "expect": {
+   "contains": "a river of Grecian Illyria, north of Apollonia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "graea",
+  "expect": {
+   "contains": "an ancient town in Boeotia, near Oropus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "haemimontus",
+  "expect": {
+   "contains": "a province of Thrace, adjoining Mount Haemus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hebe",
+  "expect": {
+   "contains": "the daughter of Juno, cup-bearer to the gods, and wife of Hercules"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "helle",
+  "expect": {
+   "contains": "a daughter of Athamas and Nephele, who fled with her brother Phrixus on a golden-fleeced ram, and was drowned in the strait called Hellespontus after her"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "helorus",
+  "expect": {
+   "contains": "a river on the eastern coast of Sicily"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hermippus",
+  "expect": {
+   "contains": "a Greek proper name"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "herse",
+  "expect": {
+   "contains": "a daughter of Cecrops, beloved by Mercury"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hersilia",
+  "expect": {
+   "contains": "the wife of Romulus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hicetas",
+  "expect": {
+   "contains": "a tyrant of Leontini"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hipparinus",
+  "expect": {
+   "contains": "the father of Dion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hippodamas",
+  "expect": {
+   "contains": "the father of Perimele"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hipponicus",
+  "expect": {
+   "contains": "an Athenian, father-in-law of Alcibiades"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hyale",
+  "expect": {
+   "contains": "a nymph, companion of Diana"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hylonome",
+  "expect": {
+   "contains": "a female centaur, wife of Cyllarus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iarba",
+  "expect": {
+   "contains": "a king of Mauretania"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "icarus",
+  "expect": {
+   "contains": "a son of Daedalus, who, on his flight from Crete, fell into the Aegean Sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "icelos",
+  "expect": {
+   "contains": "a son of Somnus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "idas",
+  "expect": {
+   "contains": "a companion of Diomedes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ignigena",
+  "expect": {
+   "contains": "a poetical epithet of Bacchus, whose mother Semele was killed by lightning"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ilerda",
+  "expect": {
+   "contains": "a city in Hispania Tarraconensis, on the Sicoris, now Lleida"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ilioneus",
+  "expect": {
+   "contains": "the youngest son of Niobe"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iolaus",
+  "expect": {
+   "contains": "a son of Iphiclus, and constant companion of his uncle Hercules"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iole",
+  "expect": {
+   "contains": "a daughter of Eurytus, king of Oechalia, whom Hercules married to his son Hyllus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iphis",
+  "expect": {
+   "contains": "a Cretan girl who was changed into a man"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lampia",
+  "expect": {
+   "contains": "a town in Arcadia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ledus",
+  "expect": {
+   "contains": "a river in Gallia Narbonensis, now Lez"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "leucothoe",
+  "expect": {
+   "contains": "a daughter of Orchamus, king of Babylon, and Eurynome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ligdus",
+  "expect": {
+   "contains": "the husband of Telethusa, and father of Iphis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lycurgus",
+  "expect": {
+   "contains": "a king of Nemea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lynceus",
+  "expect": {
+   "contains": "a descendant of Lynceus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "macrobius",
+  "expect": {
+   "contains": "a Roman grammarian of the late fourth century, author of the Saturnalia and a commentary on Cicero's Somnium Scipionis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mago",
+  "expect": {
+   "contains": "a brother of Hannibal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mammaea",
+  "expect": {
+   "contains": "the mother of the emperor Alexander Severus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mardonius",
+  "expect": {
+   "contains": "a son-in-law of Darius, and general of the Persians, defeated by Pausanias at Plataea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "marullus",
+  "expect": {
+   "contains": "a Roman surname"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "melantho",
+  "expect": {
+   "contains": "a sea-nymph, daughter of Neptune"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mide",
+  "expect": {
+   "contains": "a city in Boeotia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "midea",
+  "expect": {
+   "contains": "a city in Lycia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "miletis",
+  "expect": {
+   "contains": "the daughter of Miletus, Byblis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mimallones",
+  "expect": {
+   "contains": "the Bacchantes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "minyeias",
+  "expect": {
+   "contains": "a daughter of Minyas"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mithras",
+  "expect": {
+   "contains": "the sun-god of the Persians"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mnemon",
+  "expect": {
+   "contains": "a surname of king Artaxerxes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mnemonides",
+  "expect": {
+   "contains": "the Muses, daughters of Mnemosyne"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mnemosyne",
+  "expect": {
+   "contains": "the mother of the Muses"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mocilla",
+  "expect": {
+   "contains": "a Roman surname"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mycale",
+  "expect": {
+   "contains": "a promontory and city in Ionia, opposite the island of Samos"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "narycia",
+  "expect": {
+   "contains": "the city of Locri in Lower Italy, founded by the Ozolian Locrians"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "naubolides",
+  "expect": {
+   "contains": "a king of Phocis, father of Iphitus the Argonaut"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "naubolus",
+  "expect": {
+   "contains": "a king of Phocis, father of Iphitus the Argonaut"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "neleus",
+  "expect": {
+   "contains": "the father of twelve sons, of whom all except Nestor were killed by Hercules"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nemesa",
+  "expect": {
+   "contains": "a river in Belgic Gaul, now the Nims"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "neretum",
+  "expect": {
+   "contains": "a city in Calabria, now Nardo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nobilior",
+  "expect": {
+   "contains": "a family name in the gens Fulvia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nora",
+  "expect": {
+   "contains": "a hill-fort between Lycaonia and Cappadocia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ophias",
+  "expect": {
+   "contains": "the daughter of Ophius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oricos",
+  "expect": {
+   "contains": "a seaport town of Illyria Graeca"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oricum",
+  "expect": {
+   "contains": "a seaport town of Illyria Graeca"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pandrosos",
+  "expect": {
+   "contains": "a daughter of Cecrops and sister of Aglauros and Herse"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "periphas",
+  "expect": {
+   "contains": "a king of Attica"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "perseus",
+  "expect": {
+   "contains": "a son of Jupiter and Danae, who slew the Gorgon Medusa and rescued Andromeda from the sea-monster"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "peteon",
+  "expect": {
+   "contains": "a town in Boeotia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phantasos",
+  "expect": {
+   "contains": "a son of Somnus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pharis",
+  "expect": {
+   "contains": "a city in Messenia, afterwards called Pharae or Pherae"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phocus",
+  "expect": {
+   "contains": "a son of Aeacus, slain by his brother Peleus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phyllius",
+  "expect": {
+   "contains": "a Boeotian who was in love with Cygnus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phyllos",
+  "expect": {
+   "contains": "a region in Arcadia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "poeas",
+  "expect": {
+   "contains": "the father of Philoctetes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "polybus",
+  "expect": {
+   "contains": "a king of Corinth, at whose court Oedipus was brought up"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "polydamas",
+  "expect": {
+   "contains": "a Trojan, son of Panthous and friend of Hector"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "polynices",
+  "expect": {
+   "contains": "a son of Oedipus and Jocasta, brother of Eteocles"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "polyxo",
+  "expect": {
+   "contains": "a prophetess in Lemnos"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "proetus",
+  "expect": {
+   "contains": "a king of Tiryns, brother of Acrisius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prosymna",
+  "expect": {
+   "contains": "a country or town of Argolis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "protesilaus",
+  "expect": {
+   "contains": "the husband of Laodamia, and leader of the Thessalians against Troy, where he was the first to be killed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prothoenor",
+  "expect": {
+   "contains": "a hero at the wedding of Perseus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "psamathe",
+  "expect": {
+   "contains": "a sea-nymph, mother of Phocus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pylene",
+  "expect": {
+   "contains": "a town in Aetolia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "rhanis",
+  "expect": {
+   "contains": "a nymph in the train of Diana"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "riparienses",
+  "expect": {
+   "contains": "troops stationed on the bank of a river"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "seduni",
+  "expect": {
+   "contains": "a Helvetian people in the region of modern Sion"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sena",
+  "expect": {
+   "contains": "a town on the coast of Umbria, where Hasdrubal was defeated by M. Livius Salinator, now Senigallia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "serdica",
+  "expect": {
+   "contains": "a city of Moesia, now Sofia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sirmium",
+  "expect": {
+   "contains": "an important city of Pannonia Inferior, now Sremska Mitrovica"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sontiates",
+  "expect": {
+   "contains": "a powerful tribe in Aquitania"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sosilus",
+  "expect": {
+   "contains": "a Lacedaemonian who instructed Hannibal in Greek literature and recorded his exploits"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spatale",
+  "expect": {
+   "contains": "a nymph"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stratie",
+  "expect": {
+   "contains": "a town in Arcadia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "telchines",
+  "expect": {
+   "contains": "a fabled family of priests in Rhodes, famous for their magic arts"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "teleboas",
+  "expect": {
+   "contains": "a centaur killed by Nestor at the marriage of Pirithous"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "telephus",
+  "expect": {
+   "contains": "a king of Mysia, son of Hercules and the nymph Auge, wounded by the spear of Achilles and afterwards cured by its rust"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "telethusa",
+  "expect": {
+   "contains": "the wife of Ligdus and mother of Iphis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "terpsichore",
+  "expect": {
+   "contains": "the Muse of dancing"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "thala",
+  "expect": {
+   "contains": "an important town of Numidia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "thestius",
+  "expect": {
+   "contains": "a king of Aetolia, father of Leda and Althaea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "trachas",
+  "expect": {
+   "contains": "the town usually called Tarracina, near the Pomptine Marshes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "triton",
+  "expect": {
+   "contains": "a sea-god, son of Neptune, who blows through a shell to calm or rouse the sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "venulus",
+  "expect": {
+   "contains": "a Rutulian warrior, sent by Turnus as an ambassador to Diomedes"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vulcanus",
+  "expect": {
+   "contains": "the fire-god, son of Jupiter and Juno"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alcithoe",
+  "expect": {
+   "contains": "one of the daughters of Minyas, changed into a bat for ridiculing the orgies of Bacchus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anaxarete",
+  "expect": {
+   "contains": "a rich and beautiful maiden of Cyprus, changed to stone for disdaining the love of Iphis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "artaxerxes",
+  "expect": {
+   "contains": "the name of several kings of Persia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asbolus",
+  "expect": {
+   "contains": "a black, shaggy hound of Actaeon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asclepiodotus",
+  "expect": {
+   "contains": "a biographer of the emperor Diocletian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "astyages",
+  "expect": {
+   "contains": "an enemy of Perseus, changed to stone by the head of Medusa"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "barcas",
+  "expect": {
+   "contains": "a surname of Hamilcar"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "capaneus",
+  "expect": {
+   "contains": "one of the Seven against Thebes, struck by lightning"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cipus",
+  "expect": {
+   "contains": "a fabled Roman praetor, upon whose head horns suddenly grew"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clytie",
+  "expect": {
+   "contains": "a daughter of Oceanus, changed into the heliotrope"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "decelea",
+  "expect": {
+   "contains": "a deme of Attica"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dictys",
+  "expect": {
+   "contains": "a mariner changed by Bacchus into a dolphin"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diophanes",
+  "expect": {
+   "contains": "a Latin author on agriculture"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dorceus",
+  "expect": {
+   "contains": "one of Actaeon's hounds"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eleleus",
+  "expect": {
+   "contains": "a surname of Bacchus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eporedorix",
+  "expect": {
+   "contains": "a Gallic chieftain who served in Caesar's army"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "etesiae",
+  "expect": {
+   "contains": "the Etesian winds, which blow annually for forty days"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "euphorbus",
+  "expect": {
+   "contains": "a brave Trojan, whose soul Pythagoras claimed had passed into himself"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eurylochus",
+  "expect": {
+   "contains": "a companion of Ulysses, who alone withstood Circe's magic cup"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "haemonia",
+  "expect": {
+   "contains": "a poetical name of Thessaly"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hyleus",
+  "expect": {
+   "contains": "one who took part in the Calydonian hunt"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hypermnestra",
+  "expect": {
+   "contains": "a daughter of Danaus, the only one who spared her husband's life"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hypseus",
+  "expect": {
+   "contains": "one who was present at the nuptials of Perseus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "leonteus",
+  "expect": {
+   "contains": "a Greek warrior before Troy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lethaea",
+  "expect": {
+   "contains": "the wife of Olenus, turned to stone for her pride"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "leucon",
+  "expect": {
+   "contains": "one of Actaeon's hounds"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lycormas",
+  "expect": {
+   "contains": "a river of Aetolia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maera",
+  "expect": {
+   "contains": "a woman changed into a dog"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "menalippus",
+  "expect": {
+   "contains": "the slayer of Tydeus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "menas",
+  "expect": {
+   "contains": "a freedman and admiral of Sextus Pompeius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "micipsa",
+  "expect": {
+   "contains": "a son of Masinissa and king of Numidia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "modestinus",
+  "expect": {
+   "contains": "a celebrated Roman jurist under Alexander Severus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "munychia",
+  "expect": {
+   "contains": "the port of Athens"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pamphagus",
+  "expect": {
+   "contains": "a hound of Actaeon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "panomphaeus",
+  "expect": {
+   "contains": "an epithet of Jupiter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "parmenides",
+  "expect": {
+   "contains": "a Greek philosopher of Elea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pecuniola",
+  "expect": {
+   "contains": "a surname of P. Aurelius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "periclymenus",
+  "expect": {
+   "contains": "a son of Neleus, who received from Neptune the power of changing his shape"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pharnabazus",
+  "expect": {
+   "contains": "a Persian satrap"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phlegon",
+  "expect": {
+   "contains": "one of the four horses of the sun"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phlegraeus",
+  "expect": {
+   "contains": "one of the Centaurs"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phlegyae",
+  "expect": {
+   "contains": "the Phlegyans, a people of Thessaly who destroyed the temple at Delphi"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phorbas",
+  "expect": {
+   "contains": "the name of several mythical personages"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phyle",
+  "expect": {
+   "contains": "a fortified place in Attica"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "propoetides",
+  "expect": {
+   "contains": "Cyprian girls who, denying the divinity of Venus, were turned to stone"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stilbon",
+  "expect": {
+   "contains": "a name of the planet Mercury"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "telemus",
+  "expect": {
+   "contains": "a soothsayer, the seer of the Cyclops"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tuticanus",
+  "expect": {
+   "contains": "a friend of the poet Ovid"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vercingetorix",
+  "expect": {
+   "contains": "a chief of the Gauls, defeated by Julius Caesar"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "verticordia",
+  "expect": {
+   "contains": "an epithet of Venus, the turner of hearts"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "virbius",
+  "expect": {
+   "contains": "a surname of Hippolytus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "volscens",
+  "expect": {
+   "contains": "an officer of the Latins"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "adolenda",
+  "expect": {
+   "contains": "a Roman goddess who presided over the burning of trees struck by lightning"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "agesilaus",
+  "expect": {
+   "contains": "a king of Sparta, who defeated the Athenians and Boeotians at Coronea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alcathous",
+  "expect": {
+   "contains": "a son of Pelops, founder of Megara"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alemon",
+  "expect": {
+   "contains": "a Greek, the father of Myscelus, the founder of Crotona"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alemonides",
+  "expect": {
+   "contains": "the son of Alemon, i.e. Myscelus, founder of Crotona"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alope",
+  "expect": {
+   "contains": "a daughter of Cercyon, mother of Hippothous by Neptune, changed into a fountain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amazon",
+  "expect": {
+   "contains": "one of the Amazons, a race of warlike women who dwelt on the river Thermodon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amphion",
+  "expect": {
+   "contains": "a son of Antiope by Jupiter, king of Thebes and husband of Niobe, who built the walls of Thebes by the magic of his music"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "amulius",
+  "expect": {
+   "contains": "a king of Alba, who expelled his brother Numitor and ordered Romulus and Remus to be thrown into the Tiber"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "anchises",
+  "expect": {
+   "contains": "the father of Aeneas, who carried him from burning Troy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "antenor",
+  "expect": {
+   "contains": "a Trojan elder who advised restoring Helen to the Greeks; after the fall of Troy he founded Patavium (Padua)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arbaces",
+  "expect": {
+   "contains": "the first king of Media"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "archias",
+  "expect": {
+   "contains": "a Greek poet of Antioch, defended by Cicero in a famous oration"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ares",
+  "expect": {
+   "contains": "the god of war, identified with the Roman Mars"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "arethusa",
+  "expect": {
+   "contains": "a nymph of Elis, pursued by the river-god Alpheus, changed into the fountain Arethusa at Syracuse"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aristarchus",
+  "expect": {
+   "contains": "a celebrated Alexandrian grammarian and critic of Homer"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "asconius",
+  "expect": {
+   "contains": "a Roman grammarian and commentator on Cicero's orations"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "atreus",
+  "expect": {
+   "contains": "a king of Mycenae, son of Pelops, and father of Agamemnon and Menelaus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "atrides",
+  "expect": {
+   "contains": "a son of Atreus, i.e. Agamemnon or Menelaus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "bacchylides",
+  "expect": {
+   "contains": "a Greek lyric poet, contemporary of Pindar"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "byzacium",
+  "expect": {
+   "contains": "a province in North Africa, between the river Triton and the Lesser Syrtis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "calypso",
+  "expect": {
+   "contains": "a nymph who detained Odysseus on the island of Ogygia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "canace",
+  "expect": {
+   "contains": "a daughter of Aeolus, who killed herself at her father's command"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "capitolium",
+  "expect": {
+   "contains": "the Capitoline hill and temple of Jupiter at Rome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "carmani",
+  "expect": {
+   "contains": "a people on the Persian Gulf, in Carmania"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cassandra",
+  "expect": {
+   "contains": "a daughter of Priam, who prophesied the fall of Troy but was believed by no one"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "catonianus",
+  "expect": {
+   "contains": "pertaining to Cato, Catonian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "celaenae",
+  "expect": {
+   "contains": "a town of Phrygia, on the Maeander"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "celtiberi",
+  "expect": {
+   "contains": "a people of central Spain, of mixed Celtic and Iberian origin"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cherusci",
+  "expect": {
+   "contains": "a German tribe, who destroyed the legions of Varus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "chimaera",
+  "expect": {
+   "contains": "a fire-breathing monster, part lion, part goat, and part serpent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cineas",
+  "expect": {
+   "contains": "a Thessalian orator, minister of Pyrrhus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "clitus",
+  "expect": {
+   "contains": "a general of Alexander the Great, slain by him in a fit of drunkenness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "codrus",
+  "expect": {
+   "contains": "the last king of Athens, who devoted himself to death for his country"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "coroebus",
+  "expect": {
+   "contains": "a Phrygian, son of Mygdon, who fought for Priam and loved Cassandra"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "corycius",
+  "expect": {
+   "contains": "of or belonging to Corycus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "crotopiades",
+  "expect": {
+   "contains": "a descendant of Crotopus, i.e. Linus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cupressus",
+  "expect": {
+   "contains": "the cypress tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cyparissus",
+  "expect": {
+   "contains": "a youth beloved by Apollo, changed into a cypress tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "cytheris",
+  "expect": {
+   "contains": "a Roman actress, the mistress of Mark Antony"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "damasippus",
+  "expect": {
+   "contains": "a Roman who cruelly put to death the adherents of Sulla"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "danae",
+  "expect": {
+   "contains": "a daughter of Acrisius, mother of Perseus, visited by Jupiter in a shower of gold"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "deiotarus",
+  "expect": {
+   "contains": "a tetrarch of Galatia, defended by Cicero in a speech"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "domitius",
+  "expect": {
+   "contains": "a Roman family name (the gens Domitia)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "dorus",
+  "expect": {
+   "contains": "the legendary ancestor of the Dorians"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "echidna",
+  "expect": {
+   "contains": "a monster, half woman and half serpent, mother of Cerberus and the Hydra"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "elephantis",
+  "expect": {
+   "contains": "an island of the Nile, opposite Syene"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epicharmus",
+  "expect": {
+   "contains": "a Greek comic poet of Syracuse"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epicurus",
+  "expect": {
+   "contains": "a Greek philosopher of Samos, founder of the Epicurean school"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epidicus",
+  "expect": {
+   "contains": "a comedy of Plautus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "epiphania",
+  "expect": {
+   "contains": "a city of Cilicia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "erigone",
+  "expect": {
+   "contains": "a daughter of Icarius, who hanged herself for grief at her father's death"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "erillus",
+  "expect": {
+   "contains": "a Stoic philosopher of Carthage"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "erymanthus",
+  "expect": {
+   "contains": "a mountain range in Arcadia, on the borders of Elis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "euphorio",
+  "expect": {
+   "contains": "a Greek poet and grammarian of Chalcis"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "europa",
+  "expect": {
+   "contains": "a daughter of Agenor, carried off by Jupiter in the form of a bull"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "eurydice",
+  "expect": {
+   "contains": "the wife of Orpheus, who died of a serpent's bite"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "favonius",
+  "expect": {
+   "contains": "the west wind, Zephyr"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fetiales",
+  "expect": {
+   "contains": "Roman priests who declared war and made treaties"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flavialis",
+  "expect": {
+   "contains": "of the gens Flavia, Flavian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flavianus",
+  "expect": {
+   "contains": "of the gens Flavia, Flavian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "flavius",
+  "expect": {
+   "contains": "a Roman gens name"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "floralia",
+  "expect": {
+   "contains": "a festival in honor of Flora, celebrated in April"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "florius",
+  "expect": {
+   "contains": "of or belonging to Flora"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "fordicidia",
+  "expect": {
+   "contains": "a Roman festival at which a pregnant cow was sacrificed"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gavius",
+  "expect": {
+   "contains": "a Roman who was crucified by Verres"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gigas",
+  "expect": {
+   "contains": "a giant; pl. the Giants, who stormed heaven and were smitten by Jupiter"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "granicus",
+  "expect": {
+   "contains": "a river of Mysia, where Alexander defeated the Persians"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "gylippus",
+  "expect": {
+   "contains": "a Spartan general in the Peloponnesian War, who defeated the Athenians in Sicily"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "harpocrates",
+  "expect": {
+   "contains": "the Egyptian god of silence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "heraclitus",
+  "expect": {
+   "contains": "a Greek philosopher of Ephesus, known for his doctrine of flux"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hippocoon",
+  "expect": {
+   "contains": "a Lacedaemonian, father of Enoesimus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hippomenes",
+  "expect": {
+   "contains": "a son of Megareus, who conquered Atalanta in a race"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hippotades",
+  "expect": {
+   "contains": "a descendant of Hippotes, i.e. Aeolus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hippothous",
+  "expect": {
+   "contains": "a son of Cercyon, who took part in the Calydonian hunt"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hostilius",
+  "expect": {
+   "contains": "a Roman gens name; esp. Tullus Hostilius, the third king of Rome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "hylas",
+  "expect": {
+   "contains": "a beautiful youth, companion of Hercules, carried off by the nymphs"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "icariotis",
+  "expect": {
+   "contains": "of or belonging to Icarus; the Icarian Sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "icaris",
+  "expect": {
+   "contains": "of or belonging to Icarus; the Icarian Sea"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iliades",
+  "expect": {
+   "contains": "a Trojan; a descendant of Ilus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ino",
+  "expect": {
+   "contains": "a daughter of Cadmus, who threw herself into the sea with her son Melicerta and became a sea-goddess"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inous",
+  "expect": {
+   "contains": "of or belonging to Ino"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inuus",
+  "expect": {
+   "contains": "a Roman god of fertility, identified with Faunus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "iphimedia",
+  "expect": {
+   "contains": "a daughter of Triopas, mother of the giants Otus and Ephialtes by Neptune"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "janus",
+  "expect": {
+   "contains": "the Roman god of beginnings and gates, with two faces"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "justinus",
+  "expect": {
+   "contains": "a Roman historian who abridged the work of Pompeius Trogus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "laco",
+  "expect": {
+   "contains": "a Laconian, a Spartan"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "laestrygon",
+  "expect": {
+   "contains": "one of the Laestrygones, a mythical race of cannibal giants"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "laocoon",
+  "expect": {
+   "contains": "a Trojan priest of Apollo, who with his two sons was crushed by serpents"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "larentia",
+  "expect": {
+   "contains": "the wife of Faustulus, who suckled and reared Romulus and Remus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latium",
+  "expect": {
+   "contains": "the country of the Latins in central Italy, where Rome was situated"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latialis",
+  "expect": {
+   "contains": "of or belonging to Latium"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latinae",
+  "expect": {
+   "contains": "of or belonging to Latium"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "latinus",
+  "expect": {
+   "contains": "a legendary king of Latium, father of Lavinia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "maenalus",
+  "expect": {
+   "contains": "a mountain range in Arcadia, sacred to Pan"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mamertinus",
+  "expect": {
+   "contains": "a Roman orator and consul"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mamurius",
+  "expect": {
+   "contains": "a legendary smith, maker of the sacred shields (ancilia)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mamurra",
+  "expect": {
+   "contains": "a Roman knight, a favorite of Julius Caesar, known for his luxury"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mandonius",
+  "expect": {
+   "contains": "a Spanish chieftain who sided with the Romans in the Second Punic War"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "manlius",
+  "expect": {
+   "contains": "a Roman hero who saved the Capitol from the Gauls"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "marcion",
+  "expect": {
+   "contains": "the founder of the Marcionite heresy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mariccus",
+  "expect": {
+   "contains": "a Boian who stirred up a revolt against Vitellius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mars",
+  "expect": {
+   "contains": "the Roman god of war, father of Romulus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "martius",
+  "expect": {
+   "contains": "of or belonging to Mars or to the month of March"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mavortius",
+  "expect": {
+   "contains": "of or belonging to Mars, warlike"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "medea",
+  "expect": {
+   "contains": "a sorceress, daughter of Aeetes king of Colchis, who helped Jason win the Golden Fleece"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "memnon",
+  "expect": {
+   "contains": "a son of Tithonus and Aurora, king of the Ethiopians, slain by Achilles at Troy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "memnonia",
+  "expect": {
+   "contains": "of or belonging to Memnon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "memnonides",
+  "expect": {
+   "contains": "the birds that rose from the ashes of Memnon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "memnonius",
+  "expect": {
+   "contains": "of or belonging to Memnon"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "menelaus",
+  "expect": {
+   "contains": "a son of Atreus, brother of Agamemnon, and husband of Helen"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "meton",
+  "expect": {
+   "contains": "an Athenian astronomer, who discovered the Metonic cycle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "milo",
+  "expect": {
+   "contains": "a Roman tribune, who murdered Clodius and was defended by Cicero"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mincius",
+  "expect": {
+   "contains": "a river of Cisalpine Gaul, now the Mincio, flowing past Mantua"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "minois",
+  "expect": {
+   "contains": "a female descendant of Minos, i.e. Ariadne or Pasiphae"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "molorchus",
+  "expect": {
+   "contains": "a poor vine-dresser near Nemea, who entertained Hercules"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "murcia",
+  "expect": {
+   "contains": "an epithet of Venus, taken from the myrtle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "mygdones",
+  "expect": {
+   "contains": "a people of Thrace, who afterwards took possession of part of Phrygia"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nasica",
+  "expect": {
+   "contains": "a cognomen of the Scipios, meaning pointed-nose"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nereius",
+  "expect": {
+   "contains": "of or belonging to Nereus, Nereian"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nerine",
+  "expect": {
+   "contains": "a Nereid, daughter of Nereus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "norensis",
+  "expect": {
+   "contains": "of or belonging to Nora"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "olympus",
+  "expect": {
+   "contains": "a mountain in Thessaly, the seat of the gods"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "orodes",
+  "expect": {
+   "contains": "a king of Parthia, who defeated and killed Crassus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palamedes",
+  "expect": {
+   "contains": "a son of Nauplius, a Greek hero before Troy, falsely accused by Ulysses"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palatinus",
+  "expect": {
+   "contains": "of or belonging to the Palatine hill"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palatium",
+  "expect": {
+   "contains": "the Palatine, one of the seven hills of Rome"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palinurus",
+  "expect": {
+   "contains": "the pilot of Aeneas, who fell asleep and fell into the sea; a promontory of Lucania was named after him"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palladius",
+  "expect": {
+   "contains": "a Roman agricultural writer of the fourth century"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pausilypum",
+  "expect": {
+   "contains": "a hill near Naples, now Posilipo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pelasgi",
+  "expect": {
+   "contains": "the Pelasgians, the earliest inhabitants of Greece"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pelopea",
+  "expect": {
+   "contains": "of or belonging to Pelops"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pelopius",
+  "expect": {
+   "contains": "of or belonging to Pelops"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pelops",
+  "expect": {
+   "contains": "a son of Tantalus, king of Pisa, after whom the Peloponnesus was named"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "petreius",
+  "expect": {
+   "contains": "a Roman officer, a lieutenant of Pompey"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phidias",
+  "expect": {
+   "contains": "a celebrated Athenian sculptor, maker of the Olympian Zeus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phidippus",
+  "expect": {
+   "contains": "a famous Athenian courier, Phidippides"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "philometor",
+  "expect": {
+   "contains": "a surname of Ptolemy VI of Egypt, meaning mother-loving"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "plinius",
+  "expect": {
+   "contains": "a Roman gens name; esp. Pliny the Elder, who died in the eruption of Vesuvius"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "plotinus",
+  "expect": {
+   "contains": "a Greek philosopher, founder of Neoplatonism"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "polyxena",
+  "expect": {
+   "contains": "a daughter of Priam, sacrificed at the grave of Achilles by his son Pyrrhus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "postverta",
+  "expect": {
+   "contains": "a Roman goddess of childbirth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "proserpina",
+  "expect": {
+   "contains": "a daughter of Ceres and Jupiter, carried off by Pluto to be queen of the underworld"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prudentius",
+  "expect": {
+   "contains": "a Christian Latin poet of the fourth century"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prusias",
+  "expect": {
+   "contains": "a king of Bithynia, who betrayed Hannibal to the Romans"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pseudophilippus",
+  "expect": {
+   "contains": "an impostor, Andriscus, who gave himself out to be Philip, son of Perseus"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pythagoras",
+  "expect": {
+   "contains": "a Greek philosopher of Samos, founder of the Pythagorean school"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pythia",
+  "expect": {
+   "contains": "the priestess of Apollo at Delphi"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pythius",
+  "expect": {
+   "contains": "of or belonging to Pythian Apollo"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "python",
+  "expect": {
+   "contains": "the serpent slain by Apollo near Delphi"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "senensis",
+  "expect": {
+   "contains": "of or belonging to Sena"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sosia",
+  "expect": {
+   "contains": "a slave in Plautus' Amphitruo, whose name became proverbial for a double"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vahalis",
+  "expect": {
+   "contains": "the Waal, the left arm of the Rhine"
+  },
+  "note": "core_gloss"
  }
 ]

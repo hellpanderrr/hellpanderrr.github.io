@@ -150,9 +150,12 @@ function evalExpect(expect, got, norm) {
     if (p.exact !== undefined) {
       if (norm(p.exact) === g) return true;
     } else if (p.contains !== undefined) {
-      if (g.includes(p.contains.toLowerCase())) return true;
+      // Normalize the expectation the SAME way as got (norm strips trailing
+      // punctuation + collapses whitespace) — otherwise a gloss ending "B.C." is
+      // normed to "b.c" but compared against the raw "b.c." and fails.
+      if (g.includes(norm(p.contains))) return true;
     } else if (p.startsWith !== undefined) {
-      if (g.startsWith(p.startsWith.toLowerCase())) return true;
+      if (g.startsWith(norm(p.startsWith))) return true;
     } else if (p.regex !== undefined) {
       if (new RegExp(p.regex, "i").test(got)) return true;
     }
