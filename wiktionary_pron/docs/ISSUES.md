@@ -325,3 +325,21 @@ Two test-infrastructure findings:
    multi-line undo, dark-mode `.no-scan` chip, CSV content (cycled spelling),
    + new unknown-word red-flow and copy-after-edit tests. The stale CI
    exclusion (item above) is NOT yet fixed.
+
+## M-017 — Gloss artifact had a systemic L&S cross-ref verb-leak (ADJ/ADV lemmas)
+**Status: FIXED** (2026-08-08, site `c291be4`).
+Cold audit (4-lens panel, 2026-08-08) found L&S `main_notes` cross-refs
+("amanter, adv., v. amo", "potens, v. possum") make `resolve()` recurse into the
+base verb, so ADJ/ADV lemmas showed the verb INFINITIVE: `cito`→"to put in
+motion" (should be "quickly"), `mortuus`→"to die" ("dead"), `potens`→"to be
+able" ("powerful"), `strenuus`→"unproductive" ("vigorous"), `malus`→"an evil"
+(the wordlist is 192/197 ADJ-tagged; should be "bad"), plus `rabies`,
+`commodus`, `assiduus` and the N→verb class (`lator`, `debitum`, `nupta`,
+`sponsa`). Measured: 89 ADV→verb + 56 ADJ→verb + 93 N→verb rows affected.
+**Fix:** scoped build rule — an ADV/ADJ-dominant lemma whose L&S result is a
+verb-infinitive ("to X") prefers WORDS POS-filtered (wGloss); + 24 core entries
+for rule-blind cases (malus, strenuus, rabies, commodus, assiduus, calceatus,
+maledictus, lator, acceptum, debitum, nupta, sponsa, discepto, mansuetus, + 10
+adverbs). Blanket WORDS-first REJECTED (regressed memor/superus/saevus/certo,
+golden-locked). **Residue (accepted):** ~100 rare participles still verb-glossed
+(WORDS POS-null). golden 1783→1794; census 341/341; `npm test` + e2e green.

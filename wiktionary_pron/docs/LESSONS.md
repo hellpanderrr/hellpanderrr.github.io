@@ -139,3 +139,23 @@ file keeps the detail.
   nouns, adjectives, proper nouns, buildings, body parts, weather, abstract,
   legal, military) adds a bounded batch; the golden+census gates lock every fix.
   This is the "principled not whack-a-mole" precedent, scaled.
+- **L&S `main_notes` cross-refs leak the base verb's INFINITIVE onto ADJ/ADV lemmas.**
+  Cold audit (2026-08-08): L&S stores adverbs/participles as main_notes pointing
+  at the base verb ("amanter, adv., v. amo", "potens, v. possum", "mortuus, v.
+  morior"); resolve()'s cross-ref recursion then returns the verb gloss, so
+  cito→"to put in motion" (should be "quickly"), mortuus→"to die" ("dead"),
+  potens→"to be able" ("powerful"), malus→"an evil" (the wordlist is 192/197
+  ADJ-tagged → "bad"). Fixed with a SCOPED build rule: an ADV/ADJ-dominant lemma
+  whose L&S result is a verb-infinitive ("to X") prefers WORDS POS-filtered
+  (wGloss). Scoping matters — a blanket WORDS-first regresses memor/superus/
+  saevus/certo (real adjective glosses, golden-locked). ✅ enforced by the golden
+  suite (malus/cito/potens/mortuus rows) + the "to X" guard in build_glosses.cjs.
+- **4 cold-audit subagents: 3 produced EMPTY transcripts and silently did nothing.**
+  2026-08-08: launched a 4-lens panel (classicist/measurement/bug-hunter/architect)
+  in background; an hour later 3 of 4 were 0 bytes (stalled at launch, no error),
+  only the bug-hunter ran (69 probes, then went quiet mid-report). Lesson: a
+  background subagent panel is not reliable — verify each transcript grew, and
+  treat the run as best-effort. The useful cold audit was done INLINE (direct
+  node probes by the parent) which found MORE than the one surviving subagent.
+  The bug-hunter's half-written transcript was still recoverable (parse its
+  .output JSONL for tool_use results + assistant text) and gave the systemic class.
