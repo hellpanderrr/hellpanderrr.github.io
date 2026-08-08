@@ -110,7 +110,10 @@ const B1 = [ // high-frequency content words (a student meets on page one of Cae
   ["thermae","baths"],["templum","temple"],["lectus","bed","couch"],["circus","circus"],
   ["ludus","play","game"],["carcer","prison"],["portus","harbor","port"],
   ["sapientia","wisdom"],["pietas","piety"],["fluctus","wave"],["finis","end"],
-  ["centurio","centurion"],["senator","senator"],["ferrum","iron"],["aries","ram"]
+  ["centurio","centurion"],["senator","senator"],["ferrum","iron"],["aries","ram"],
+  // P5 proper-noun/homograph collisions (a student clicking these wants the common word)
+  ["musa","muse"],["murena","moray"],["tyrius","tyrian"],["trivia","crossroads"],
+  ["dis","rich"],["minor","less","smaller"],["marcus","marcus"]
 ];
 
 const bands = { B0, B1 };

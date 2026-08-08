@@ -166,7 +166,7 @@
         }
       ]
     },
-    "note": "Caesar: primary is s[14] chief person/master or s[16] himself — NOT the verbose s[32] note"
+    "note": "Caesar: primary is s[14] chief person/master or s[16] himself \u0432\u0402\u201d NOT the verbose s[32] note"
   },
   {
     "lemma": "Gallia",
@@ -13201,5 +13201,89 @@
       "contains": "in waves"
     },
     "note": "participle/adverb verb-leak fix (M-017)"
+  },
+  {
+    "lemma": "musa",
+    "expect": {
+      "contains": "a Muse"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "murena",
+    "expect": {
+      "contains": "a moray eel"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "murena1",
+    "expect": {
+      "contains": "a moray eel"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "tyrius",
+    "expect": {
+      "contains": "Tyrian"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "trivia",
+    "expect": {
+      "contains": "goddess of the crossroads"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "dis",
+    "expect": {
+      "contains": "rich"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "dis1",
+    "expect": {
+      "contains": "rich"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "minor",
+    "expect": {
+      "contains": "less"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "minor2",
+    "expect": {
+      "contains": "less"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "dido",
+    "expect": {
+      "contains": "to give out"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "marcus",
+    "expect": {
+      "contains": "Marcus (Roman praenomen)"
+    },
+    "note": "proper-noun/homograph collision (P5)"
+  },
+  {
+    "lemma": "musa2",
+    "expect": {
+      "contains": "a Roman surname"
+    },
+    "note": "proper-noun/homograph collision (P5)"
   }
 ]
