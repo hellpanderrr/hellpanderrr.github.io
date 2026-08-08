@@ -11808,5 +11808,19 @@
    "contains": "a danger, peril, risk"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "litus2",
+  "expect": {
+   "contains": "the seashore, coast, beach, shore"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "litus3",
+  "expect": {
+   "contains": "the seashore, coast, beach, shore"
+  },
+  "note": "core_gloss"
  }
 ]
