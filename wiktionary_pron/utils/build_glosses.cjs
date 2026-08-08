@@ -55,7 +55,7 @@ const coreGloss = (() => {
 // ---- extraction regexes (from the refined probe) ----
 const XREF = /^(v\.\s*(the|a|id)|init\.|fin\.|q\.\s*v\.|perh\.|etym\.|lit\.|esp\.|abb\.)$/i;
 const ABBR_TOK = /^(v\.|a\.|n\.|adj\.|adv\.|conj\.|prep\.|pron\.|interj\.|num\.|part\.|ger\.|sup\.|imper\.|inf\.|lit\.|in\s+gen\.|in\s+partic\.|prop\.|trop\.|transf\.|inch\.|patron\.|m\.|f\.|dim\.|eccl\.|subst\.|poet\.|arch\.|old\.|dep\.|freq\.)/i;
-const CIT = /[,;]\s*(?:id\.\s*)?(?:ap\.\s*)?(Plaut|Cic|Liv|Ov|Hor|Verg|Virg|Cat|Sen|Tac|Caes|Ter|Juv|Stat|Col|Plin|Suet|Lucr|Tert|Aug|Gell|Curt|Varr|Enn|Id|Eur|Hdt|Hom|Her|Isid|Amm|Spart|Vulg|Luc|Prop|Tib|Ulp|Paul|Fest|Dig|Cod|Hyg|Front|Charis|Prisc|Donat|Serv|Solin|Pan|App)\b/i;
+const CIT = /[,;]\s*(?:id\.\s*)?(?:ap\.\s*)?(Plaut|Cic|Liv|Ov|Hor|Verg|Virg|Cat|Sen|Tac|Caes|Ter|Juv|Stat|Col|Plin|Suet|Lucr|Tert|Aug|Gell|Curt|Varr|Enn|Id|Eur|Hdt|Hom|Her|Isid|Amm|Spart|Vulg|Luc|Prop|Tib|Ulp|Paul|Fest|Dig|Cod|Hyg|Front|Charis|Prisc|Donat|Serv|Solin|Pan|App|Lampr|Ambros|Val|Macr|Nep|Aus|Flor|Hier|Cassiod|Sid|Pall)\b/i;
 const TAIL_CIT = /[.,;:]\s*(?:[A-Z][a-z]{2,8}\.\s*)?(?:[IVXLCDM]+|\d+)(?:\s*,\s*(?:§\s*)?[IVXLCDM\d]+)*\s*[,;]?\s*(?:§\s*\d+)?\s*(?:[A-Z][a-z]+\.?\s*\d*)?\s*\.?$/;
 const TAIL_AUTHOR = /[.,;:]\s*(?:[A-Z][a-z]{2,8}\.|[A-Z]\.\s*[A-Z]\.?)(?:\s*[A-Z]?\.?\s*(?:p\.\s*)?\d*)?\s*\.?$/;
 const CIT_FULL = /[.,;:]\s*(?:id\.\s*)?(?:ap\.\s*)?[A-Z][a-z]{2,8}\.\s*(?:[IVXLCDM]+|\d+)(?:\s*,\s*(?:§\s*)?[IVXLCDM\d]+)*\s*[,;]?\s*(?:§\s*\d+)?\s*(?:fin\.?)?\s*\.?$/;
@@ -72,7 +72,7 @@ const STRONG_OPEN = /^(?:to\s|a\s|an\s|the\s|one who\s|that which\s|a person who
 // the foll. word") vs a real gloss ("All, every", "who? which?"). Also author
 // names glued to the end of an example clause ("...dissolverunt?Cic").
 const GRAMMAR_ABBR = /\b(?:neutr|plur|sing|freq|rel|foll|subst|interrog|impers|gen|dat|acc|abl|voc|nom|gramm|ellipt|collect|perh|esp|opp)\b\.?/i;
-const TRAIL_AUTHOR_BARE = /(?:Cic|Liv|Plaut|Ter|Verg|Virg|Ov|Hor|Caes|Sen|Tac|Cat|Juv|Stat|Plin|Suet|Lucr|Tert|Gell|Curt|Varr|Enn|Isid|Amm|Charis|Prisc|Donat|Serv|Pan|App|Front)\b\.?\s*$/i;
+const TRAIL_AUTHOR_BARE = /(?:Cic|Liv|Plaut|Ter|Verg|Virg|Ov|Hor|Caes|Sen|Tac|Cat|Juv|Stat|Plin|Suet|Lucr|Tert|Gell|Curt|Varr|Enn|Isid|Amm|Charis|Prisc|Donat|Serv|Pan|App|Front|Lampr|Ambros|Val|Macr|Nep|Aus|Flor|Hier|Cassiod|Sid|Pall|Quint|Colum)\b\.?\s*$/i;
 const WEAK_OPEN = /^(?:of\s|in\s|by\s|for\s|from\s|with\s|at\s|on\s|into\s|against\s|around\s|before\s|beyond\s|per\s|and\s|also\s|such\s|same\s|hence\s|esp\.\s|perh\.\s|that\s|those\s|this\s)/i;
 const LATIN_FORM = /(?:isse|asse|unt|erit|tur|mus|tis|ium|ibus|arum|orum|ens)$/;
 const ETYM = /(?:Sanscr\.|Germ\.|Engl\.|orig\.|collat\.\s+form|root\s+[a-z]+|perh\.\s+root|etym\.|cf\.\s+[A-Z][a-z]+\s+root|Osc\.|Goth\.|O\.?\s*H\.?\s*Germ\.|Lith\.|Slav\.|Skt\.|Icel\.|A.-S\.|O\.?\s*Lat\.)/i;
@@ -206,6 +206,15 @@ function cleanOne(t) {
   t = t.replace(CIT_FULL,"").trim();
   t = t.replace(TAIL_CIT,"").trim();
   t = t.replace(TAIL_AUTHOR,"").trim();
+  // Book-part / treatise-name residue that survives author stripping: the author
+  // abbrev (Ambros., Tert., Coel. Aur., Macr.) is stripped but the book-part that
+  // FOLLOWED it survives as ". de Tob", ". adv. Marc", ". Res. carn", ". Coel.
+  // Aur", ". Od", ". C", ". S" etc. (P6 — decorosus "Elegant, beautiful. de Tob",
+  // delatura "An accusation, information. adv", devorator "A devourer. Res. carn").
+  t = t.replace(/[.,;:]\s*(?:de\s+[A-Za-z]+|adv|init|med|fin|od|c\.?\s*s|res\.?\s+carn|eccl|in\s+[A-Za-z]+|ep|sat|de\s+benef)\.?\s*$/i,"").trim();
+  t = t.replace(/[.,;:]\s*[A-Z][a-z]{2,8}\.\s*$/,"").trim();
+  // "Coel. Aur" / "Coel. Aurel" — Caelius Aurelianus cited by two-part name.
+  t = t.replace(/[.,;:]\s*Coel\.?\s+Aur(?:el)?\.?\s*$/i,"").trim();
   // citation chains: "ap. Serv. l. l", "Arn. 3, p", "Arat. Phaen. 394 B. and K",
   // ", Treb. Poll", ", Firm" — an L&S author reference glued to the clause end
   // ("the plough-beam. ap. Serv. l. l", "a constellation, usu. called Bootes.
