@@ -40,7 +40,7 @@ for (const line of fs.readFileSync("macronizer/macrons.txt","utf8").split("\\n")
   lemmaPosCount.get(lem)[pos] = (lemmaPosCount.get(lem)[pos]||0)+1;
 }
 `;
-let defs = head.replace(WL_BLOCK, "var rows = new Map(), formSets = new Map(), lemmaPosCount = new Map();\n");
+let defs = head.replace(WL_BLOCK, "var rows = new Map(), formSets = new Map(), formSetsTag = new Map(), lemmaPosCount = new Map();\n");
 defs = defs.replace(/^const \{ createEngine \} = .*$/gm, "").replace(/^const (fs|path|zlib|engine) = .*$/gm, "").replace(/^const engine = .*$/gm, "");
 defs = defs.replace(/\bconst\s+/g, "var ").replace(/\blet\s+/g, "var ");
 eval(defs);
@@ -61,10 +61,12 @@ if (process.argv.includes("--rebuild-cache") || !fs.existsSync(CACHE)) {
     const lem = p[2].toLowerCase();
     const pos = POS_MAP[p[1][0]] || p[1][0];
     let e = out[lem];
-    if (!e) { e = out[lem] = { pos: {}, forms: [] }; }
+    if (!e) { e = out[lem] = { pos: {}, forms: [], formsTag: [] }; }
     e.pos[pos] = (e.pos[pos] || 0) + 1;
-    // ACCENT-BASED form signature (must match build_glosses.cjs H1 fix).
+    // DUAL-SIGNATURE (must match build_glosses.cjs): form+accent for formSets,
+    // form+tag for formSetsTag — isSpurious requires both to match the bare twin.
     e.forms.push(p[0] + "|" + p[3]);
+    e.formsTag.push(p[0] + "|" + p[1]);
   }
   fs.writeFileSync(CACHE, zlib.gzipSync(JSON.stringify(out)));
   console.log(`cached ${Object.keys(out).length} lemmas`);
@@ -73,6 +75,7 @@ if (process.argv.includes("--rebuild-cache") || !fs.existsSync(CACHE)) {
 const cache = JSON.parse(zlib.gunzipSync(fs.readFileSync(CACHE)));
 for (const [lem, e] of Object.entries(cache)) {
   if (e.forms) formSets.set(lem, new Set(e.forms));
+  if (e.formsTag) formSetsTag.set(lem, new Set(e.formsTag));
 }
 // dominantPos reads lemmaPosCount — rebuild it faithfully, then override dominantPos
 for (const [lem, e] of Object.entries(cache)) lemmaPosCount.set(lem, e.pos);

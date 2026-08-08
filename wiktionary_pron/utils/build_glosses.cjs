@@ -645,19 +645,25 @@ const GEN_MAP = { m:"M", f:"F", n:"N", c:"C" };
 // ---- wordlist index ----
 const rows = new Map();
 const formSets = new Map();
+const formSetsTag = new Map();
 const lemmaPosCount = new Map();
 for (const line of fs.readFileSync("macronizer/macrons.txt","utf8").split("\n")) {
   const p = line.split("\t"); if (p.length<4) continue;
   const lem = p[2].toLowerCase();
   rows.set(p[2]+"|"+p[1], {lemma:p[2], tag:p[1]});
   if (!formSets.has(lem)) formSets.set(lem, new Set());
-  // ACCENT-BASED form signature (form + accented form): distinct vowel length
-  // proves two homograph keys are DISTINCT words (levo "levo" vs levo2 "levare"
-  // to smooth — le^v- vs le_va-), while an identical signature means the wordlist
-  // duplicated one word under two keys (paro/paro2, acceptor/acceptor2). The old
-  // form+tag signature conflated distinct words (levo2 got the bare levo1 "to lift
-  // up" instead of "to smooth, polish"). H1 fix (corpus-audit 2026-08-08).
+  if (!formSetsTag.has(lem)) formSetsTag.set(lem, new Set());
+  // DUAL-SIGNATURE homograph detection (architect re-audit 2026-08-08):
+  //   - formSets      = (form + accented form) — distinguishes levo2 "smooth" from
+  //     levo "lift" (distinct vowel length) but wrongly collapses testis2 "testicle"
+  //     (same forms AND accents as testis "witness").
+  //   - formSetsTag   = (form + tag) — distinguishes testis2 (distinct tags) but
+  //     wrongly conflates levo2 (same tags).
+  //   isSpurious requires BOTH signatures to match the bare twin: a genuinely
+  //   distinct homograph differs in at least one signature. Genuine wordlist
+  //   duplicates (paro/paro2, acceptor/acceptor2) match on both.
   formSets.get(lem).add(p[0]+"|"+p[3]);
+  formSetsTag.get(lem).add(p[0]+"|"+p[1]);
   const pos = POS_MAP[p[1][0]] || p[1][0];
   if (!lemmaPosCount.has(lem)) lemmaPosCount.set(lem, {});
   lemmaPosCount.get(lem)[pos] = (lemmaPosCount.get(lem)[pos]||0)+1;
@@ -672,9 +678,17 @@ function isSpurious(l) {
   const m = l.match(/^(.*?)(\d+)$/);
   if (!m) return false;
   const bare = m[1];
+  // A numbered lemma is a wordlist DUPLICATE only when it matches the bare twin
+  // on BOTH signatures — form+accent AND form+tag. A distinct homograph (testis2
+  // "testicle" vs testis "witness", levo2 "smooth" vs levo "lift") differs on at
+  // least one. (New form+tag sig regressed testis2; new form+accent regressed
+  // levo2; BOTH is the intersection that captures every available signal.)
   const a = formSets.get(l), b = formSets.get(bare);
-  if (!a || !b || a.size !== b.size) return false;
+  const at = formSetsTag.get(l), bt = formSetsTag.get(bare);
+  if (!a || !b || !at || !bt) return false;
+  if (a.size !== b.size || at.size !== bt.size) return false;
   for (const k of a) if (!b.has(k)) return false;
+  for (const k of at) if (!bt.has(k)) return false;
   return true;
 }
 // For a base like "alius", find the numbered sibling key the WORDLIST carries
