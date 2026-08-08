@@ -8495,9 +8495,9 @@
   {
     "lemma": "castus2",
     "expect": {
-      "contains": "pure, chaste, holy"
+      "contains": "chastity"
     },
-    "note": "core_gloss"
+    "note": "noun homograph (H6): chastity, not the adj pure"
   },
   {
     "lemma": "pluvia",
@@ -11814,9 +11814,9 @@
   {
     "lemma": "litus2",
     "expect": {
-      "contains": "the seashore, coast, beach, shore"
+      "contains": "smearing"
     },
-    "note": "core_gloss"
+    "note": "short-i noun (H6): a smearing, not seashore"
   },
   {
     "lemma": "litus3",
@@ -13532,5 +13532,19 @@
       "contains": "low"
     },
     "note": "participle ADJ (H5): WORDS lacks ADJ sense"
+  },
+  {
+    "lemma": "uto",
+    "expect": {
+      "contains": "to use"
+    },
+    "note": "unassimilated/ex-collat form (H6)"
+  },
+  {
+    "lemma": "vocifero",
+    "expect": {
+      "contains": "to cry out"
+    },
+    "note": "unassimilated/ex-collat form (H6)"
   }
 ]

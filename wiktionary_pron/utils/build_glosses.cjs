@@ -734,6 +734,34 @@ function resolve(lemma, pos, depth = 0) {
     }
     e = lsByKey.get(l) || lsByKey.get(base) || lsByKey.get(base+"1");
   }
+  // UNASSIMILATED-PREFIX FALLBACK (H6, data audit): the wordlist carries archaic
+  // spellings the L&S keys under the ASSIMILATED form — adfacio→afficio, inpleo→
+  // impleo, obfero→offero, disfero→differo, absteneo→abstineo, obcurro→occurro,
+  // adquaero→acquiro, reteneo→retineo. When the direct key misses, normalize the
+  // prefix and retry. The simple prefix rules (adf→aff etc.) handle the pure-
+  // consonant cases; the vowel-changing compounds need an explicit table
+  // (adfacio→afficio, adficio→afficio, exfodio→effodio, etc.).
+  if (!e) {
+    // explicit compound mappings (vowel change beyond simple prefix assimilation)
+    const TABLE = {
+      adfacio: "afficio", adficio: "afficio", afficio: "afficio",
+      inpleo: "impleo", inlido: "illido", inlustris: "illustris",
+      obfero: "offero", obcurro: "occurro", obsisto: "obsisto",
+      disfero: "differo", deerigo: "dirigo", exfodio: "effodio",
+      absteneo: "abstineo", adquaero: "acquiro", reteneo: "retineo",
+      adplico: "applico", uto: "utor", vocifero: "vociferor", adnosco: "agnosco",
+      praeterveho: "praetervehor", obsido: "obsideo", adpello: "appello",
+      velifico: "velificor", morigeror: "morigeror",
+      inmitto: "immitto", obpono: "oppono", subfero: "suffero",
+    };
+    const norm = TABLE[l] || l
+      .replace(/^adf/, "aff").replace(/^adp/, "app").replace(/^adq/, "acqu").replace(/^adt/, "att")
+      .replace(/^inp/, "imp").replace(/^inf/, "imf").replace(/^inm/, "imm").replace(/^inr/, "irr").replace(/^inl/, "ill")
+      .replace(/^obf/, "off").replace(/^obc/, "occ").replace(/^obp/, "opp")
+      .replace(/^disf/, "diff").replace(/^disb/, "dib")
+      .replace(/^abst/, "abst");
+    if (norm !== l) e = lsByKey.get(norm) || lsByKey.get(norm + "1");
+  }
   if (!e) return null;
   let gloss = lsExtract(e, pos);
   if (!gloss && depth < 2 && e.main_notes) {

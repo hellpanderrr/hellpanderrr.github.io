@@ -275,7 +275,7 @@
   "cassis": "a helmet (of metal)",
   "castellum": "a fortress, stronghold; a reservoir (of an aqueduct)",
   "castus": "pure, chaste, holy, sacred",
-  "castus2": "pure, chaste, holy",
+  "castus2": "chastity, purity, abstinence, continence",
   "casus": "a fall; accident, chance, event, occurrence",
   "casus1": "a fall; accident, chance",
   "casus2": "a fall; accident, chance, event, occurrence",
@@ -926,7 +926,7 @@
   "limes": "a boundary, border-line, path, road",
   "littera": "a letter (of the alphabet); (pl.) literature, a letter, epistle",
   "litus": "the seashore, coast, beach, shore",
-  "litus2": "the seashore, coast, beach, shore",
+  "litus2": "a smearing, anointing, daubing",
   "litus3": "the seashore, coast, beach, shore",
   "lituus": "an augur's staff; a curved trumpet",
   "loquor": "to speak, talk, say",
@@ -1852,5 +1852,7 @@
   "laudatus": "praised, commended; praiseworthy",
   "notatus": "marked, noted, noticed; stigmatized",
   "levatus": "raised, lifted up",
-  "demissus": "low, humble, downcast, dejected"
+  "demissus": "low, humble, downcast, dejected",
+  "uto": "to use, employ, make use of",
+  "vocifero": "to cry out, shout, exclaim loudly"
 }
