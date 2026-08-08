@@ -9323,5 +9323,467 @@
    "contains": "a free town, municipality"
   },
   "note": "core_gloss"
+ },
+ {
+  "lemma": "portentum",
+  "expect": {
+   "contains": "a portent, omen, prodigy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "ostentum",
+  "expect": {
+   "contains": "a portent, prodigy, wonder"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "auspicium",
+  "expect": {
+   "contains": "an auspice, omen from birds; authority, command"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "haruspicium",
+  "expect": {
+   "contains": "divination by inspecting entrails, haruspicy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "somnium",
+  "expect": {
+   "contains": "a dream; an idle fancy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "visum",
+  "expect": {
+   "contains": "a vision, sight, appearance, thing seen"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "insomnium",
+  "expect": {
+   "contains": "a dream; sleeplessness"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "phantasma",
+  "expect": {
+   "contains": "a ghost, phantom, apparition"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "larva",
+  "expect": {
+   "contains": "a ghost, spectre, mask"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spectrum",
+  "expect": {
+   "contains": "an appearance, image, spectre"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lemures",
+  "expect": {
+   "contains": "the spirits of the dead, ghosts (pl.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "manes",
+  "expect": {
+   "contains": "the departed spirits, shades of the dead"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "penates",
+  "expect": {
+   "contains": "the household gods, Penates; one's home"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "lares",
+  "expect": {
+   "contains": "the household gods, Lares; one's home"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "genius",
+  "expect": {
+   "contains": "a guardian spirit, genius; inclination, taste"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sors",
+  "expect": {
+   "contains": "a lot, fate; a chance; an oracle"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tessera",
+  "expect": {
+   "contains": "a cube, die; a token, ticket; a tessera"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "alea",
+  "expect": {
+   "contains": "a die (pl. dice); a game of chance; risk, hazard"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "agon",
+  "expect": {
+   "contains": "a contest, struggle, conflict"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "victoria",
+  "expect": {
+   "contains": "victory"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "victor",
+  "expect": {
+   "contains": "a conqueror, victor, winner"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "palma",
+  "expect": {
+   "contains": "the palm (of the hand); a palm (of victory); a palm-tree"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praemium",
+  "expect": {
+   "contains": "a reward, prize, premium"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "praeda",
+  "expect": {
+   "contains": "booty, spoil, plunder, prey"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "spolium",
+  "expect": {
+   "contains": "spoils, booty, plunder; a skin stripped off"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "exuviae",
+  "expect": {
+   "contains": "spoils, booty; that which is stripped off (skin, arms)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "manubiae",
+  "expect": {
+   "contains": "booty, spoils of war (esp. money from the sale of booty)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pecunia",
+  "expect": {
+   "contains": "money, property, wealth"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "nummus",
+  "expect": {
+   "contains": "a coin, piece of money"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "denarius",
+  "expect": {
+   "contains": "a denarius (a silver coin)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sestertius",
+  "expect": {
+   "contains": "a sestertius (a coin)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "aureus",
+  "expect": {
+   "contains": "golden, of gold; a gold coin"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "argenteus",
+  "expect": {
+   "contains": "silver, of silver"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "libella",
+  "expect": {
+   "contains": "a small coin; a level, balance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "minutia",
+  "expect": {
+   "contains": "smallness, fineness; small details"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tributum",
+  "expect": {
+   "contains": "a tax, tribute"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vectigal",
+  "expect": {
+   "contains": "a tax, toll, revenue, rent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "portorium",
+  "expect": {
+   "contains": "a toll, customs-duty, port-duty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "stipendium",
+  "expect": {
+   "contains": "a tax, tribute; pay, salary; military service"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "merces",
+  "expect": {
+   "contains": "pay, wages, reward, price, hire"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "pretium",
+  "expect": {
+   "contains": "a price, value, worth; a reward, penalty"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "annona",
+  "expect": {
+   "contains": "the yearly produce, crop; the price of grain"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "penuria",
+  "expect": {
+   "contains": "want, scarcity, lack, need"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "inopia",
+  "expect": {
+   "contains": "want, need, scarcity, lack"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "egestas",
+  "expect": {
+   "contains": "poverty, want, need, indigence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "paupertas",
+  "expect": {
+   "contains": "poverty, need, indigence"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "divitiae",
+  "expect": {
+   "contains": "riches, wealth (pl.)"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "facultas",
+  "expect": {
+   "contains": "ability, power, opportunity; abundance, supply"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "potentia",
+  "expect": {
+   "contains": "power, might, force, authority"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "robur",
+  "expect": {
+   "contains": "oak-wood, strength, vigor; the flower of an army"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "firmitas",
+  "expect": {
+   "contains": "firmness, strength, stability"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "constantia",
+  "expect": {
+   "contains": "steadfastness, firmness, constancy, consistency"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "patientia",
+  "expect": {
+   "contains": "patience, endurance, forbearance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "tolerantia",
+  "expect": {
+   "contains": "endurance, tolerance, forbearance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "sedulitas",
+  "expect": {
+   "contains": "assiduity, diligence, zeal, application"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "diligentia",
+  "expect": {
+   "contains": "care, diligence, attention, industry"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "industria",
+  "expect": {
+   "contains": "industry, diligence, activity, zeal"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "divinatio",
+  "expect": {
+   "contains": "divination, soothsaying, prophecy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "oraculum",
+  "expect": {
+   "contains": "an oracle, prophecy, divine utterance"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "vaticinium",
+  "expect": {
+   "contains": "a prophecy, prediction, soothsaying"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prophetia",
+  "expect": {
+   "contains": "prophecy, prediction"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "omen",
+  "expect": {
+   "contains": "an omen, sign, token, portent"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "monstrum",
+  "expect": {
+   "contains": "a monster; a portent, omen, prodigy"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "prodigium",
+  "expect": {
+   "contains": "a prodigy, portent, omen"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "miraculum",
+  "expect": {
+   "contains": "a wonder, marvel, miracle; an object of wonder"
+  },
+  "note": "core_gloss"
+ },
+ {
+  "lemma": "augurium",
+  "expect": {
+   "contains": "augury, divination; an omen, sign"
+  },
+  "note": "core_gloss"
  }
 ]
