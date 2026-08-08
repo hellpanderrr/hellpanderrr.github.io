@@ -218,3 +218,36 @@ bugs). Why it worked when the earlier cold audit (M-017) stalled:
   dico2/caelum2/lego2/frons2 were already correct as-is). The accent signature
   was the ground truth that separated true homographs (levo2≠levo) from
   wordlist duplicates (paro2==paro).
+
+## Stalled-agent work is recoverable from its transcript JSONL (2026-08-08, M-019)
+Two subagents this session wrote a report to disk (good) but TWO more ran 35-50
+min with a 0-byte `.output` file and no report. Both had done substantive work
+before stalling:
+- The **architect re-audit** discovered a REGRESSION in my own H1 fix (accent-
+  signature isSpurious wrongly collapsed testis2 "testicle" to "witness" —
+  identical-accent distinct homographs) and verified it through resolve(). Its
+  last live message ("v.infra in main_notes would make the cross-ref regex
+  recurse into infra") pointed at a real low-impact bug. All recoverable.
+- The **data verifier** confirmed all 90 homographs are byte-identical
+  paradigm duplicates — the fact that validated the advisory panel's approach.
+Recovery path: the agent's full conversation is at
+`C:\Users\<user>\.claude\projects\<project>\...\subagents\agent-<id>.jsonl`
+(the `.output` file stays 0 bytes!). Extract the `type=="assistant"` message
+texts (skip tool calls) — the reasoning is there even if no final report.
+`python -c` + `tmp/` write beats printing (Unicode arrows crash cp1251 console).
+Lesson: the transcript is the record of a stalled agent's work — recover it
+before re-running or assuming nothing happened.
+
+## Form+accent ALONE regresses homograph detection — use BOTH signatures (2026-08-08)
+The H1 accent-signature fix separated levo2 "smooth" (distinct accent) from
+levo "lift", but REGRESSED testis2 "testicle" (identical accent AND forms to
+testis "witness" — only the TAG set differs). Neither single signature wins:
+form+tag separates testis2, form+accent separates levo2. The correct predicate:
+a numbered lemma is spuriously duplicated ONLY when BOTH form+accent AND
+form+tag match the bare twin (paro2==paro, acceptor2==acceptor). Also: the
+~90 remaining "unresolvable" homographs are byte-identical on ALL signatures
+AND row count (Perseus duplicates the whole paradigm per page-split), so no
+automatic signal exists — L&S numbers the primary -1 and rarer -2, meaning the
+COMMON sense is often the numbered entry (osculo2 "to kiss"). Curate by
+dictionary judgement, never by row count. Full panel reasoning:
+`tmp/_panel_homograph.md` + `tmp/_panel_product.md`.

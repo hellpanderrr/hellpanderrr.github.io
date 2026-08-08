@@ -18,3 +18,5 @@ wiktionary_pron/utils/gloss_lemma_cache.json.gz
 # gloss-build scratch probes (reference implementation is utils/build_glosses.cjs, tracked)
 wiktionary_pron/utils/_*.json
 wiktionary_pron/utils/_*.cjs
+# session scratch — probes, dumps, audit reports (moved out of utils/ per user)
+wiktionary_pron/tmp/

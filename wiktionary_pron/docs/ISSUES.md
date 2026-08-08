@@ -405,3 +405,29 @@ artifact and returned 3 FAIL + 1 conditional-pass. All 8 concrete architect bugs
   exercitus2, taurus, tribunus, recens (broken/narrow senses).
 golden 1910→1941, census 348/348, artifact 33,678→33,958 lemmas, L&S 83.3% /
 WORDS 9.2% / none 7.6%. All exit 0 + e2e green.
+
+## M-020 — Architect re-audit + advisory panel on homograph detection (M-005)
+**Status: FIXED** (2026-08-08/09, sites `daaa36d`..`55417ba`).
+The M-019 architect re-audit stalled mid-run, but its transcript (recovered from
+the subagent JSONL) found a regression in H1's accent-signature `isSpurious`:
+genuinely-distinct homographs with identical forms AND accents (testis2
+"testicle" vs testis "witness", carmen2 "wool-card" vs carmen "song") were
+wrongly collapsed to the bare twin (~21 lemmas, 96 total lose a distinct sense).
+**Fix:** `isSpurious` now requires BOTH signatures — form+accent AND form+tag —
+to match the bare twin. Form+tag alone regressed levo2; form+accent alone
+regressed testis2; the intersection captures every available signal. The
+golden-runner cache stores both (forms + formsTag).
+**Advisory panel** (2026-08-08, 3 experts) on the remaining 90 unresolvable
+homographs (byte-identical on all three signatures AND row count — Perseus
+duplicates the full paradigm per page-split, so row count is NOT a frequency
+signal). Key finding: L&S numbers the PRIMARY word -1 and rarer secondary -2,
+so the COMMON sense is often the NUMBERED entry (osculo2 "to kiss" vs osculo1
+"supply with a mouth"; comparo2 "make ready"; luo2 "pay/atone"). The artifact
+was showing the rare bare-twin gloss for these common words. **Fixed:** 17 core
+entries (animosus2 bold, aveo2 fare-well, comparo2 make-ready, deformo2 deform,
+luo2 pay, jugis2 perennial, patrius2 native, pila2 pillar, satyricus2 satiric,
+pediculus2 louse + protector acceptor2/osculo2/ravus2/paro2/excretus2/
+incitus2/inclinis2); stale paro2 golden updated (panel confirmed paro2 is a
+distinct word "make equal", root par). ~71 rare/antiquarian pairs left
+uncurated — the panel saw no user value (fish-names, citation-only homographs).
+golden 1944→1960, census 348/348. All exit 0 + e2e green.
