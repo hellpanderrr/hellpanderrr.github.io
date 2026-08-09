@@ -14,11 +14,26 @@ M-005 (dictionary glosses in the word popup) has been through THREE audit rounds
    the ~17 where L&S's numbered -2 sense is the COMMON word (osculo2 "kiss",
    comparo2 "make ready", luo2 "pay", animosus2 "bold") — L&S numbers the primary
    -1, so the everyday sense is often the numbered entry. 17 core entries added.
-Final: `core_gloss.json` **1887**, golden **1960/1960**, census **348/348**,
-artifact **33,957 lemmas @ 472 KB**, L&S 83.3% / WORDS 9.2% / none 7.6%.
-`npm test` (22+81+1960+348) and macronizer e2e (3/3) both exit 0.
+Final: `core_gloss.json` **1888**, golden **1981/1981**, census **348/348**,
+artifact **34,335 lemmas @ 466 KB**, L&S 85.6% / WORDS 8.8% / none 5.6%.
+
+## M-021c — LLM everyday-gloss layer (2026-08-09, `49e5cf5`)
+The L&S extractor opens entries with the literal/etymological sense (neco→"to
+drown", impetro→"to accomplish" calque). A free local LLM (poolside rotator,
+see memory `llm-batch-gloss-layer`) now generates everyday glosses for the
+freq>=30 stratum, audited in a second pass. Layer sits between core_gloss and
+L&S; only non-golden/non-core lemmas (5,916) so no hand-curated row is touched.
+Fixed the literal/passive disease: neco→"to kill", sperno→"to despise",
+capio→"to take", levo2→"to smooth" (homograph preserved). none-rate 7.5%→5.6%.
 
 ## Open threads
+- **193 golden-covered lemmas keep L&S** (veho→"be carried", invenio→"find")
+  — the golden gate checks L&S substrings, so re-baselining them to the LLM's
+  correct-but-differently-worded gloss is deferred (panel: needs semantic
+  synonym-buckets, not substring re-key, to avoid a rubber stamp).
+- **~70 audited-but-skipped BAD glosses** still carry conjugated slips or
+  invented nuance — flagged by the LLM audit but not auto-fixed (auditor is
+  ~50% precise, e.g. it wrongly rejects pareo=obey). Left as review candidates.
 - **~100 rare participle verb-leaks remain** (M-017 residue; ADJ/ADV lemmas
   still "to X", WORDS POS-null). Lower priority — rare words.
 - **P7 etymology/myth-note clauses** (menta "a nymph who was changed",
