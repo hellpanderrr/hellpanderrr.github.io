@@ -51,6 +51,17 @@ const coreGloss = (() => {
   try { return JSON.parse(fs.readFileSync("utils/core_gloss.json", "utf8")); }
   catch { return {}; }
 })();
+// LLM everyday-gloss layer (M-021c): generated offline, audited, applied only to
+// non-golden/non-core top-frequency lemmas. TSV `lemma<TAB>gloss`. Absent → {} (skip).
+const llmByKey = (() => {
+  const m = new Map();
+  try {
+    for (const line of fs.readFileSync("utils/llm_glosses.tsv", "utf8").split("\n")) {
+      const i = line.indexOf("\t"); if (i > 0 && line.slice(i+1).trim()) m.set(line.slice(0, i).toLowerCase(), line.slice(i+1).trim());
+    }
+  } catch (e) {}
+  return m;
+})();
 
 // ---- extraction regexes (from the refined probe) ----
 const XREF = /^(v\.\s*(the|a|id)|init\.|fin\.|q\.\s*v\.|perh\.|etym\.|lit\.|esp\.|abb\.)$/i;
@@ -733,6 +744,15 @@ function resolve(lemma, pos, depth = 0) {
     if (coreGloss[l] === null) return null;
     return coreGloss[l];
   }
+  // LLM everyday-gloss layer (M-021c, 2026-08-09): hand-verified everyday primary
+  // glosses for the readable top-frequency stratum, generated via offline LLM batch
+  // (poolside rotator) and audited. Sits above L&S — L&S opens entries with the
+  // literal/etymological sense (neco→"to drown", impetro→"to accomplish"), while
+  // these are the everyday meaning (neco→"to kill", impetro→"to obtain"). Only the
+  // non-golden/non-core lemmas are included (filtered at build), so no test or
+  // hand-curated row is overridden.
+  const llmGloss = llmByKey.get(l);
+  if (llmGloss) return llmGloss;
   let e;
   if (isSpurious(l)) {
     // Spurious-homograph skip normally prefers the bare key (the wordlist

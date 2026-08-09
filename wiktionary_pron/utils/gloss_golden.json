@@ -13880,5 +13880,12 @@
       "contains": "of another"
     },
     "note": "freq-scan fix (2026-08-09)"
+  },
+  {
+    "lemma": "nolo",
+    "expect": {
+      "contains": "unwilling"
+    },
+    "note": "closed-class function word (LLM-layer census fix, 2026-08-09)"
   }
 ]
