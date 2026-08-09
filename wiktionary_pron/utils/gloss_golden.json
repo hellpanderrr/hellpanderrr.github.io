@@ -4901,9 +4901,9 @@
   {
     "lemma": "naubolides",
     "expect": {
-      "contains": "a king of Phocis, father of Iphitus the Argonaut"
+      "contains": "son of Naubolus"
     },
-    "note": "core_gloss"
+    "note": "oracle audit 2026-08-09: was \"king of Phocis, father of Iphitus\" — that is Naubolus himself; naubolides is the patronymic (son of Naubolus), auditor right"
   },
   {
     "lemma": "naubolus",
@@ -5538,9 +5538,9 @@
   {
     "lemma": "phlegraeus",
     "expect": {
-      "contains": "one of the Centaurs"
+      "contains": "of Phlegra, Phlegraean"
     },
-    "note": "core_gloss"
+    "note": "oracle audit 2026-08-09: was \"one of the Centaurs\" — wrong, phlegraeus=of Phlegra (site of Gigantomachy), auditor right"
   },
   {
     "lemma": "phlegyae",
@@ -10264,9 +10264,9 @@
   {
     "lemma": "sica",
     "expect": {
-      "contains": "a curved dagger, sica"
+      "contains": "a curved dagger"
     },
-    "note": "core_gloss"
+    "note": "oracle audit 2026-08-09: was \"a curved dagger, sica\" — lemma repeated in gloss, auditor right"
   },
   {
     "lemma": "machaera",
@@ -10957,9 +10957,9 @@
   {
     "lemma": "aspalathus",
     "expect": {
-      "contains": "asparagus (a thorny plant), aspalathus"
+      "contains": "thorny shrub"
     },
-    "note": "core_gloss"
+    "note": "oracle audit 2026-08-09: was \"asparagus (a thorny plant), aspalathus\" — L&S=thorny shrub, auditor right"
   },
   {
     "lemma": "leucographis",
@@ -11350,9 +11350,9 @@
   {
     "lemma": "deflagro",
     "expect": {
-      "contains": "to be consumed by fire, burn up; to go out"
+      "contains": "to be consumed by fire, burn up"
     },
-    "note": "core_gloss"
+    "note": "oracle audit 2026-08-09: was \"...burn up; to go out\" — to go out not in L&S (deflagro=burn down), auditor right"
   },
   {
     "lemma": "ignesco",
@@ -13723,16 +13723,16 @@
   {
     "lemma": "incitus2",
     "expect": {
-      "contains": "immovable"
+      "contains": "rapid, swift"
     },
-    "note": "numbered-homograph common sense (advisory panel)"
+    "note": "oracle audit 2026-08-09: M-020 panel had immovable (wrong); L&S=rapid, swift"
   },
   {
     "lemma": "inclinis2",
     "expect": {
-      "contains": "unbending"
+      "contains": "bending, inclined"
     },
-    "note": "numbered-homograph common sense (advisory panel)"
+    "note": "oracle audit 2026-08-09: M-020 panel had unbending (wrong); L&S=bending, inclined"
   },
   {
     "lemma": "excipio",
