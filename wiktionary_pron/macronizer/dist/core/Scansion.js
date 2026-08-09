@@ -37,6 +37,14 @@ export function separateAmbiguousVowels(accenteds) {
     const newAccenteds = [];
     for (let accented of accenteds) {
         accented = modifications[accented] || accented;
+        // -ērunt/-ĕrunt (3rd-pl perfect) poetic alternation: the long ē before -runt
+        // can be short (stetērunt ~ stetĕrunt). Mark it ambiguous so both lengths result.
+        // This is the M-013 signature fix: Aen 2.774 "obstipui, steteruntque comae" only
+        // scans when steterunt reads stetĕrunt (short e), which the wordlist marks long.
+        const erunt = /^(.+?)([aeiouy])_runt$/.exec(accented);
+        if (erunt) {
+            accented = `${erunt[1]}${erunt[2]}_^runt`;
+        }
         const parts = accented.split('_^');
         // Generate all 2^(n-1) variants (each _^ either becomes _ or is removed)
         for (let variant = 0; variant < (1 << (parts.length - 1)); variant++) {

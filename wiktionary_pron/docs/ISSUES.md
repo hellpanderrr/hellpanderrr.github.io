@@ -262,7 +262,8 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: OPEN** (engine `e7fb22a` added the tooling; `bfb5035` Phase 2 analysis)
+**Status: PARTIALLY FIXED** (2026-08-10 — engine `-ērunt/-ĕrunt` alternation; the
+`ui`-diphthong theory was tested and REJECTED, see below)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -287,6 +288,33 @@ appear beyond the recorded snapshot `test/data/scansion-failures-snapshot.json`.
 Run: `npm run test:scansion` (engine repo). Pedecerto (pedecerto.eu) is
 IP-blocked (HTTP 412) even with a browser UA, so confirmation was done via
 Tavily instead.
+
+**2026-08-10 — root cause found (the -ērunt/-ĕrunt alternation).** A
+gold-quantities experiment (hypotactic.com's macronized Aeneid) proved the
+dominant cause was NOT the ui-diphthong theory from the original analysis:
+feeding the gold per-word quantities into `scanVerse` still left ~80/107 lines
+failing, and adding a `ui` diphthong rule only unlocked 1–2 lines. The real
+systematic mechanism turned out to be the **3rd-pl-perfect -ērunt/-ĕrunt
+alternation**: the wordlist marks the e in `stetērunt`/`cōnstitērunt` long, but
+the poetic license allows it short. The obstipuī line (and cōnstitērunt) only
+scan when `stetĕrunt` reads short.
+- **Fix** (engine `Scansion.ts`, `separateAmbiguousVowels`): an accented form
+  ending in `[aeiouy]_runt` now also generates the `_^`-ambiguous variant, so
+  `possibleScans` offers both lengths. Chosen readings stay correct: obstipuī
+  remains 4-syllable `LSSL` (ob-sti-pu-ī), steterunt → `stetĕrunt`.
+- **Result:** 3 corpus lines fixed with zero regressions (153 → 150 snapshot
+  baseline). Whole-file scansion of Aen 1.1–4 now yields `DDSSDS | DSDSDT |
+  DSSSDS | DSDSDS` — line 2's `vēnit` correctly disambiguated by the meter.
+- **Rejected:** a word-final `ui`-diphthong merge was tested and produced a
+  FALSE positive (obstupuī → 3-syllable `LSL`), and caused a 44-line corpus
+  regression (sanguine/anguis where `gu` makes the u consonantal). It was
+  reverted. Both the `sanguine` non-merge guard and the 4-syllable obstipuī
+  are now locked by unit tests.
+- **Tests added:** `test/unit/scansion.test.ts` (8 tests — the first Scansion
+  unit coverage) + the obstipuī/cōnstitērunt lines added to the GOLDEN list in
+  the corpus gate (7 golden lines now). The golden check was ALSO fixed: it
+  previously marked a needle as passing regardless of `feet`, so a golden line
+  that stopped scanning would silently pass — it now requires non-empty feet.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)
