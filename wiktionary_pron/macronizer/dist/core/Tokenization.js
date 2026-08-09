@@ -21,6 +21,23 @@ const ACCENT_OVERRIDES = {
     // Gen. pl. of Italus. Wordlist has only the short reading I^ta^lo_rum;
     // the meter of Catullus 1.5 requires the long ī (position 8).
     'italorum': ['i^ta^lo_rum', 'i_ta^lo_rum'],
+    // Gold-confirmed quantity fixes (hypotactic.com macronized Aeneid, M-013).
+    // The wordlist marks the first syllable long where the edition has it short;
+    // the extra short form becomes a scansion candidate the meter can pick.
+    // Lāvini → la-vī-nī (Aen 1.263, 6.890): wordlist la_vi_ni_ has long first a.
+    'lavini': ['la_vi_ni_', 'la^vi_ni_'],
+    // Orīōn → ŏ-rī-ōn (Aen 1.535, 4.52): wordlist O_ri_o_n has long first o.
+    'orion': ['O_ri_o_n', 'o^ri_o_n'],
+    // dehīscēns → dĕ-hīs-cēns (Aen 1.106): wordlist de_hi_sce_ns has long de.
+    'dehiscens': ['de_hi_sce_ns', 'de^hi_sce_ns'],
+    // ecqua → ec-qua (Aen 3.488): wordlist ecqua_ has long final a.
+    'ecqua': ['ecqua_', 'ecqua'],
+    // Phryges → phry-ges (Aen 1.102): wordlist phry^ge_s has long e.
+    'phryges': ['phry^ge_s', 'phry^ges'],
+    // Trōes → trō-es (Aen 1.30): wordlist tro_e_s has long e.
+    'troes': ['tro_e_s', 'tro_es'],
+    // Dīāna → dī-ā-na (Aen 1.499): wordlist Di^a_na has SHORT first i (inverse case).
+    'diana': ['Di^a_na', 'di_a_na'],
 };
 /**
  * Tokenization class - splits Latin text into tokens

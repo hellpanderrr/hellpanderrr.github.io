@@ -316,6 +316,25 @@ scan when `stetĕrunt` reads short.
   previously marked a needle as passing regardless of `feet`, so a golden line
   that stopped scanning would silently pass — it now requires non-empty feet.
 
+**2026-08-10 (same session) — ACCENT_OVERRIDES for gold-confirmed quantity
+errors.** A per-word gold comparison against hypotactic.com's macronized
+Aeneid found a second systematic class: the wordlist marks several words'
+first syllable long where the edition has it short. 7 overrides added to
+`Tokenization.ts` `ACCENT_OVERRIDES` (each verified against the gold word):
+Lāvini→la^vi_ni_, Orīōn→o^ri_o_n, dehīscēns→de^hi_sce_ns, ecqua→ecqua,
+Phryges→phry^ges, Trōes→tro_es, Dīāna→di_a_na (inverse — wordlist had it
+short). **10 more corpus lines fixed, zero regressions** (150 → 140 snapshot).
+Overrides are injected as extra scansion candidates (prose keeps the wordlist
+form), so prose macronization is unchanged.
+- The 10 fixed lines: Aen 1.106 (dehiscens), 1.30 (Troes), 1.263/6.890
+  (Lavini), 1.102 (Phryges), 1.499 (Diana), 1.535/4.52 (Orion), 3.488
+  (ecqua), 3.379 (Lavini).
+- GOLDEN list now 14 lines; display output verified to match the edition
+  (Orīōn, ecqua, Dīāna).
+- Note: the corpus gate still counts a few lines that my per-line
+  reconstruction "fixed" but the whole-file gate does not (RFTagger POS
+  differs per-line vs whole-file) — always judge by the whole-file gate.
+
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)
 The `.verse-foot.no-scan` placeholder lost to `body.dark_mode .verse-foot` on
