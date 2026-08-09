@@ -13880,5 +13880,61 @@
       "contains": "unwilling"
     },
     "note": "closed-class function word (LLM-layer census fix, 2026-08-09)"
+  },
+  {
+    "lemma": "acerra",
+    "expect": {
+      "contains": "box or casket for incense"
+    },
+    "note": "oracle audit: was truncated"
+  },
+  {
+    "lemma": "actualis",
+    "expect": {
+      "contains": "active, practical"
+    },
+    "note": "oracle audit: was ive, practical"
+  },
+  {
+    "lemma": "adamas",
+    "expect": {
+      "contains": "adamant"
+    },
+    "note": "oracle audit: was hard est iron (OCR)"
+  },
+  {
+    "lemma": "alcimede",
+    "expect": {
+      "contains": "Alcimede"
+    },
+    "note": "oracle audit: was truncated"
+  },
+  {
+    "lemma": "appromitto",
+    "expect": {
+      "contains": "promise in addition"
+    },
+    "note": "oracle audit: was truncated"
+  },
+  {
+    "lemma": "cydippe",
+    "expect": {
+      "contains": "Cydippe"
+    },
+    "note": "oracle audit: was truncated"
+  },
+  {
+    "lemma": "sextantarius",
+    "expect": {
+      "contains": "sextans"
+    },
+    "note": "oracle audit: was truncated"
+  },
+  {
+    "lemma": "talentum",
+    "expect": {
+      "contains": "talent"
+    },
+    "note": "oracle audit: was truncated"
   }
 ]

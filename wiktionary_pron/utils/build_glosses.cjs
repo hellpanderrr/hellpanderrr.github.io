@@ -827,10 +827,16 @@ function resolve(lemma, pos, depth = 0) {
     // corrumpo") — inde's "locative from is" is an ETYMOLOGY note, not a cross-ref,
     // and recursing into "is" gave inde→"that; he, she, it".
     let m;
-    if (/(?:Part\.|fr\.)\b/i.test(e.main_notes)) {
+    if (/\bPart\./i.test(e.main_notes)) {
+      // Genuine participle cross-ref: "Part. and , from corrumpo", "fr. demitto".
+      // from/fr. here legitimately points to the base verb whose participle this is.
       m = e.main_notes.match(/(?:^|[,;]\s*|\s)(?:v\.|cf\.|q\.?\s*v\.|fr\.|from\b)\s*(?:a\.\s*|n\.\s*|dep\.\s*)?([a-z]+)/i);
     } else {
-      m = e.main_notes.match(/(?:^|[,;]\s*|\s)(?:v\.|cf\.|q\.?\s*v\.|fr\.)\s*(?:a\.\s*|n\.\s*|dep\.\s*)?([a-z]+)/i);
+      // Genuine cross-refs only (v./cf./q.v.). fr./from in an ETYMOLOGY note
+      // ("orig. fr. aceo, become sour") must NOT recurse — it imports the base
+      // verb's gloss for a non-verb lemma (acetum→"To be sour" instead of
+      // "Sour wine, wine-vinegar"; M-021c audit).
+      m = e.main_notes.match(/(?:^|[,;]\s*|\s)(?:v\.|cf\.|q\.?\s*v\.)\s*(?:a\.\s*|n\.\s*|dep\.\s*)?([a-z]+)/i);
     }
     if (m) {
       const tgt = m[1].toLowerCase();
@@ -967,6 +973,16 @@ for (const r of rows.values()) {
     else if (pos === "ADJ" && wAdjFirst) { gloss = wAdjFirst; wClean++; }
     else if (l) { gloss = l; lClean++; }
     else none++;
+  }
+  // NOUN CROSS-REF VERB-LEAK GUARD (M-021c audit): a noun-dominant lemma whose
+  // L&S entry is a bare cross-ref (no own senses) recurses into the base verb
+  // (actum "act, i, v. ago" → "to drive, do, act"; argentaria → "to be a
+  // money-changer"). WORDS gives the correct noun gloss ("act, deed", "bank").
+  // Scoped: pos is N (not ADV/ADJ — those have their own guard above), l is a
+  // verb-infinitive ("to X"), and WORDS has a LOWERCASE noun result (exclude
+  // proper nouns like dido→"Dido"). Golden-safe: 0 golden lemmas in this set.
+  else if (pos === "N" && l && /^to\s+[a-z]/i.test(l) && w && /^[a-z]/.test(w)) {
+    gloss = w; wClean++;
   }
   else if (l) { gloss = l; lClean++; }
   else if (w) { gloss = w; wClean++; }
