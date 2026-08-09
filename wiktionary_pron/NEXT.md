@@ -3,90 +3,48 @@
 _Updated 2026-08-09 — branch `main`_
 
 ## State
-M-005 (dictionary glosses in the word popup) has been through THREE audit rounds:
-1. **Corpus read-through** (M-018) fixed 8 systematic classes.
-2. **4-expert panel** (M-019) found homograph-conflation + coverage defects (fixed H1-H7).
-3. **Architect re-audit + advisory panel** (2026-08-08/09): the architect's transcript
-   found H1's accent-signature regressed distinct homographs with identical accents
-   (testis2 "testicle"). Fixed with **dual-signature isSpurious** (form+accent AND
-   form+tag must match). Then a 3-expert advisory panel on the remaining 90
-   unresolvable homographs (identical on all three signals) recommended curating
-   the ~17 where L&S's numbered -2 sense is the COMMON word (osculo2 "kiss",
-   comparo2 "make ready", luo2 "pay", animosus2 "bold") — L&S numbers the primary
-   -1, so the everyday sense is often the numbered entry. 17 core entries added.
-Final: `core_gloss.json` **1888**, golden **1981/1981**, census **348/348**,
-artifact **34,335 lemmas @ 466 KB**, L&S 85.6% / WORDS 8.8% / none 5.6%.
-
-## M-021c — LLM everyday-gloss layer (2026-08-09, `49e5cf5`)
-The L&S extractor opens entries with the literal/etymological sense (neco→"to
-drown", impetro→"to accomplish" calque). A free local LLM (poolside rotator,
-see memory `llm-batch-gloss-layer`) now generates everyday glosses for the
-freq>=30 stratum, audited in a second pass. Layer sits between core_gloss and
-L&S; only non-golden/non-core lemmas (5,916) so no hand-curated row is touched.
-Fixed the literal/passive disease: neco→"to kill", sperno→"to despise",
-capio→"to take", levo2→"to smooth" (homograph preserved). none-rate 7.5%→5.6%.
+M-005 (word-popup glosses) is shipped and verified. An **LLM everyday-gloss
+layer** (M-021c, `49e5cf5`) now sits between core_gloss and L&S: 5,916
+freq≥30 lemmas get correct everyday primaries (neco→"to kill" not "drown",
+sperno→"to despise", levo2→"to smooth"), fixing L&S's literal/passive opening.
+none-rate 7.5%→5.6%, total 94.4%. `npm test` exit 0 (22+81+1981+348), macronizer
+e2e 3/3. LLM recipe in memory `llm-batch-gloss-layer` + `docs/ISSUES.md` M-021.
 
 ## Open threads
-- **193 golden-covered lemmas keep L&S** (veho→"be carried", invenio→"find")
-  — the golden gate checks L&S substrings, so re-baselining them to the LLM's
-  correct-but-differently-worded gloss is deferred (panel: needs semantic
-  synonym-buckets, not substring re-key, to avoid a rubber stamp).
-- **~70 audited-but-skipped BAD glosses** still carry conjugated slips or
-  invented nuance — flagged by the LLM audit but not auto-fixed (auditor is
-  ~50% precise, e.g. it wrongly rejects pareo=obey). Left as review candidates.
-- **~100 rare participle verb-leaks remain** (M-017 residue; ADJ/ADV lemmas
-  still "to X", WORDS POS-null). Lower priority — rare words.
-- **P7 etymology/myth-note clauses** (menta "a nymph who was changed",
-  monedula) — a residual few remain; mitigated by P2 primary recognition.
-- **Some remaining core values may be wrong** — the data audit found 2
-  contradictions (castus2, litus2) among 1836; a full core-vs-L&S audit could
-  find more (68 dead keys noted).
-- **Push the M-005 commits** when ready for GitHub Pages — nothing since
-  `da94aca` is pushed; ~60 commits sit on `main` locally.
-- **Engine lemmatization collisions** (wordlist maps `circa`→Circe, `est`→edo,
-  `versus`→verro, `demum`→demos, `sane`→sanus): patched via core here, real fix
-  in the engine repo. `differo`/`diffido`/`dissilio`/`ius`/`valde`/`quod`/
-  `iacio` are NOT wordlist lemmas (0 rows) — resolved via inflected forms.
-- **UI test coverage (M-015):** stale CI exclusion (`--grep-invert macronizer`).
-- **Engine coverage (M-013)** — Scansion.js / MorpheusAnalyzer / alignMacronized.
-- **M-004 Phase 3** — accepted-names list + input-hash snapshot.
+- **193 golden-covered lemmas still show L&S literal** (veho→"be carried",
+  invenio→"find"). The gate checks L&S substrings; re-baselining needs semantic
+  synonym-buckets authored from the headword (not the LLM output), else rubber
+  stamp. Start: `utils/gloss_golden.json` + the 193 in `docs/ISSUES.md` M-021.
+- **~70 audited-but-skipped BAD glosses** (invented nuance, homograph conflation)
+  — flagged but not fixed (auditor ~50% precise). Review list:
+  `tmp/_llm_audit_out.json`.
+- **~100 rare participle verb-leaks** (M-017 residue) — low priority, rare words.
+- **Push M-005 commits to GitHub Pages** — nothing since `da94aca` pushed; ~60
+  commits on `main` locally.
+- **Engine lemmatization collisions** (circa→Circe, est→edo) — patched via core,
+  real fix in engine repo. **UI test coverage (M-015)**, **engine coverage
+  (M-013)**, **M-004 Phase 3** accepted-names list.
 
 ## Running / unfinished
-Nothing running. Audit/advisory reports live in `tmp/` (gitignored; the session
-scratch folder): `_audit_classicist.md`, `_audit_product.md`, `_audit_architect.md`,
-`_audit_data.md`, `_audit_recheck.md`, `_panel_homograph.md`, `_panel_product.md`.
-The data-verifier panel agent stalled (transcript at .claude/—extract if needed).
-The remaining ~71 unresolvable homographs (identical forms/accents/tags) are
-accepted residue — the panel saw no user value in curating rare/antiquarian senses.
+Nothing running. Scratch in `tmp/` (gitignored): `_llm_batch_out.json` (1,932
+gen), `_llm_gen2_out.json` (4,511 gen), `_llm_audit_out.json` (238 BAD flags),
+`_llm_batch_fixed.json` (corrected), `llm_glosses.tsv` (merged). Generator:
+`tmp/_llm_gen2.cjs`; auditor: `tmp/_llm_audit.cjs` (concurrency 10, per-call resume).
 
 ## Don't redo
-- **L&S `main_notes` cross-refs leak the verb infinitive onto ADJ/ADV lemmas.**
-  Guarded by the "to X" build rule + golden rows. Blanket WORDS-first is WRONG.
-- **The golden suite is self-referential for core_gloss keys** — trust the
-  census + spot audits, not the golden count alone. The panel proved it: golden
-  100% while wrong homograph rows passed.
-- **Measure by corpus frequency / token exposure, not wordform count.**
-- **Curation is bounded and monotone** (core 262→1887, golden 75→1960); every
-  core entry gets a golden row in the SAME commit.
-- **`isSpurious` must use the DUAL signature — form+accent AND form+tag must
-  match the bare twin.** Form+accent alone regressed distinct homographs with
-  identical accents (testis2 "testicle" → "witness"); form+tag alone regressed
-  levo2 (same tags). Both together capture every available signal. The golden-
-  runner cache (`test_gloss_regression.cjs`) must store both (forms + formsTag).
-- **The ~90 "unresolvable" homographs are byte-identical paradigm duplicates**
-  (same forms/accents/tags AND row count) — the wordlist gives no signal. L&S
-  numbers the PRIMARY -1 and rarer secondary -2, so the COMMON sense is often
-  the numbered entry (osculo2 "kiss"). Curate by dictionary judgement (~17
-  done), not frequency. Do NOT collapse numbered→bare globally (breaks
-  testis2/populus2/malus2 exact-key rows + the popup e2e).
-- **`from X` cross-ref recursion needs a "Part." guard** — "locative from is"
-  (inde) is etymology, not a cross-ref.
-- **A `de\s+Or` citation strip needs `\b` + separator.**
-- **capital-first-token accept in isGlossRun**: check original-case token,
-  exclude etymology language fragments ("Erse, aile").
-- **Unassimilated prefixes** (adfacio→afficio) need an explicit compound table,
-  not just prefix rules (vowel changes too).
-- **Scripts in `utils/` that write data files: use ABSOLUTE paths.**
-- **All session scratch lives in `tmp/`** (gitignored) — probes, dumps, audit
-  and panel reports. Never write `_*` files to `utils/`.
+- **No single source beats L&S for the everyday primary** — measured: Lewis
+  Elementary 5.8% on golden, WORDS-first-V ~25-30% worse (homograph collisions),
+  kaikki net-negative. The LLM is the only reliable everyday-primary source.
+- **LLM audit is a FILTER, not a verdict** — ~half its BAD flags are false
+  positives (rejects pareo=obey, prefers synonyms). Apply only objective fixes
+  (conjugated slip = verb gloss lacking "to "); review the rest by hand.
+- **Rotator handles concurrency 10** (c8's ~80% ECONNREFUSED was transient
+  spread-account exhaustion). Write checkpoint after EVERY call for exact resume.
+- **Golden-covered lemmas keep L&S by design** — don't let the LLM override
+  them; re-baselining is the deferred semantic-gate work.
+- **Golden/core monotone rule stands** — every new core key needs a golden row
+  in the SAME commit (nolo was a census catch).
+- **`isSpurious` uses DUAL signature** (form+accent AND form+tag). **~90
+  unresolvable homographs are byte-identical paradigm duplicates** — curate by
+  judgement, never collapse numbered→bare. **All `_*` scratch lives in `tmp/`**.
 - **Do NOT build a "decisions replay" state machine** (M-004/M-007).

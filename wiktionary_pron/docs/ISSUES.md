@@ -431,3 +431,31 @@ incitus2/inclinis2); stale paro2 golden updated (panel confirmed paro2 is a
 distinct word "make equal", root par). ~71 rare/antiquarian pairs left
 uncurated — the panel saw no user value (fish-names, citation-only homographs).
 golden 1944→1960, census 348/348. All exit 0 + e2e green.
+
+## M-021 — Frequency-stratified re-audit found L&S literal/passive disease (M-005)
+**Status: FIXED** (2026-08-09, sites `77e7ed3` + `49e5cf5`). The wordform-count
+holdouts structurally missed wrong glosses; a frequency-stratified sweep found
+the residual ~8% error concentrated in the top stratum: L&S opens entries with
+the literal/etymological sense (neco→"drown", impetro→"accomplish" calque,
+attendo→"stretch a bow", veho→passive "be carried"). Two-part fix:
+- **`77e7ed3`**: apud/Doed citation-tail strip (cleared 31 fragment glosses) +
+  20 curated core overrides (homeo-/verb-leaks, homograph twins). golden→1960.
+- **`49e5cf5` (M-021c)**: an **LLM everyday-gloss layer** (`utils/llm_glosses.tsv`,
+  5,916 lemmas, freq≥30) generated via free offline poolside batch, audited,
+  applied between core_gloss and L&S for non-golden/non-core lemmas only. Fixed
+  the literal/passive disease across the readable stratum: neco→"to kill",
+  sperno→"to despise", misceo→"to mix", capio→"to take", levo2→"to smooth"
+  (homograph preserved), servo→"to save". none-rate 7.5%→5.6%, total→94.4%.
+golden→1981, census 348/348, npm test + e2e green.
+
+**OPEN — golden-covered lemmas still show L&S literal** (veho→"be carried",
+invenio→"find"): the golden gate checks exact L&S substrings, so re-baselining
+the 193 golden-covered top lemmas to the LLM's correct-but-differently-worded
+gloss needs a semantic synonym-bucket re-key (not substring), authored from the
+headword meaning and never from the LLM output (else rubber stamp).
+
+**OPEN — ~70 audited-but-skipped BAD glosses**: the LLM audit flagged 238
+candidates (~12%), ~half false positives (auditor wrongly rejects pareo=obey,
+prefers synonyms). Applied only the objective fixes (conjugated slips, broken
+strings); the ~70 genuinely-wrong remainder (invented nuance, homograph
+conflation) sit as review candidates in `tmp/_llm_audit_out.json`.

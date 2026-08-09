@@ -251,3 +251,31 @@ automatic signal exists — L&S numbers the primary -1 and rarer -2, meaning the
 COMMON sense is often the numbered entry (osculo2 "to kiss"). Curate by
 dictionary judgement, never by row count. Full panel reasoning:
 `tmp/_panel_homograph.md` + `tmp/_panel_product.md`.
+
+## LLM offline batch generation/audit via the poolside rotator (2026-08-09)
+The free local rotator (`POST http://127.0.0.1:5000/cline/v1/chat/completions`,
+model `poolside/laguna-s-2.1:free`, recipe in `F:\projects\fohlio\...\POOLSIDE_RECIPE.md`)
+reliably generates everyday glosses at **concurrency 10** — the earlier ~80%
+ECONNREFUSED at concurrency 8 was transient spread-account exhaustion, not a
+hard limit (verified: 10/10 ok). Write the checkpoint JSON **after every call**
+so a kill loses at most one row and resume is exact; 0 errors at c10 + 3×retry.
+
+**The LLM is the only source that reliably gives the everyday primary** where
+L&S opens literal (neco→"kill" not "drown", impetro→"obtain" not "accomplish").
+Measured: Lewis Elementary 5.8% on golden vs our L&S 91.5%; WORDS-first-V
+~25-30% worse (homograph collisions); kaikki net-negative. The LLM preserves
+homographs (levo2→"smooth") where WORDS fails.
+
+**Audit-as-filter, not verdict:** a second LLM pass (`"OK"` / `"BAD: reason :
+correct"`) flags ~12% of glosses, but ~half are FALSE positives (it prefers a
+synonym; even gets facts wrong — rejects pareo=obey). Apply only objective
+fixes (conjugated slips video→"to see", broken strings); review the rest by hand.
+
+**Conjugated-slip catch:** verb lemma + gloss not starting with "to " = flag.
+Real cases: video→"I see", scio→"I know", nosco→"learn". Fix to infinitive.
+
+**Golden-gate brittleness:** the gate checks exact L&S substrings, so correct
+LLM glosses "fail" ~168 of 193 golden-covered lemmas. Keep golden-covered
+lemmas on L&S (hand-audited) rather than re-baselining; a semantic synonym-
+bucket re-key is deferred (must not be a rubber stamp). Adding a core key
+(e.g. nolo) requires a golden row in the SAME commit (golden-runner enforces).
