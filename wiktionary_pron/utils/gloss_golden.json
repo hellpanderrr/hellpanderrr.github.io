@@ -516,16 +516,9 @@
   {
     "lemma": "inexquisitus",
     "expect": {
-      "alternates": [
-        {
-          "contains": "search"
-        },
-        {
-          "contains": "inquire"
-        }
-      ]
+      "contains": "unsearchable"
     },
-    "note": "was removed"
+    "note": "oracle audit (2026-08-09): was search/inquire, but word is NEGATIVE (in-exquisitus) = unsearchable"
   },
   {
     "lemma": "sparsilis",
@@ -6777,9 +6770,9 @@
   {
     "lemma": "squatina",
     "expect": {
-      "contains": "an angler-fish"
+      "contains": "angel-fish"
     },
-    "note": "core_gloss"
+    "note": "oracle audit (2026-08-09): was angler-fish, but L&S = angel-fish, skate"
   },
   {
     "lemma": "simo",
