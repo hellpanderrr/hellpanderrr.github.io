@@ -318,3 +318,19 @@ non-obvious method lessons, in the order they bit:
 - **ACCENT_OVERRIDES append candidates; prose keeps accented[0]** — so an
   override changes scansion-mode readings without touching prose macrons.
   Verify each override against the gold word before adding.
+- **A "documented cause" fix can leave the headline line broken for a
+  different reason — re-run the gold experiment after fixing.** The y-synizesis
+  gap was logged as THE cause of Aen 5.337 `emicat Euryalus...`. Implementing
+  consonantal-y (gate 113 → 111, fixed 5.322 `tertius Euryalus` + 5.334
+  `non tamen Euryali...`) did NOT fix 5.337: even with Eu-rya-lus the gold
+  quantities give `lŭs et` (S-S), which cannot open a foot, and no
+  gold-consistent reading fits the automaton at all. The cause was real but
+  not the blocker. Lesson: after applying the fix named in the issue, re-derive
+  the line's failure from scratch before writing "still open".
+- **Brute-force the meter automaton with candidate L/S readings** to enumerate
+  exactly which quantity readings fit a line. Feed each word's plausible L/S
+  strings through `meters.json['dactylichexameter']` (state 0 start/accept) and
+  print the accepted combinations. If NO gold-consistent reading is accepted,
+  the line is genuinely unfittable (prosody/transmission gap), not a wordlist
+  or synizesis gap — and you skip the quantity-corruption trap. Faster and more
+  decisive than reading scansion marks off a rendered PDF.
