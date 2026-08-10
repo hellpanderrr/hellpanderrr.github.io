@@ -706,13 +706,25 @@ Three waves closing the 34,338-lemma artifact audit (commits a00e915, fc8aa81,
   11 confirmed regressions reverted (inopinor, stellatura, tabulinum,
   immundo, salax, memorialis, reliquus, incolumis, puter, largus,
   nonigesimus).
+- **Two-family intersection closure (M-022e…m)** — a fresh stepfun run over the
+  FIXED artifact (859 batches, ~6h, thinking budget 1000) produced 1336 flags;
+  intersection with the Gemini re-audit = **460 lemmas**. Processed to zero:
+  432/432 non-numbered (137 L&S-confirmed + 18 + 62 + 27 + 9 + 32 adverb-POS +
+  268 audit-reason-grounded, minus 7 reverted after L&S contradiction), 28
+  numbered left to L&S. **Key finding: the two-family intersection is still
+  ~80% FP** — both models share the wrong-POS / twin-sense / truncation-FP
+  errors, so agreement is NOT independent confirmation; only the L&S-primary
+  cross-check is the verdict. The adverb-POS class (32 lemmas: velociter
+  "swift"→"swiftly") was invisible to word-overlap filters because L&S adverbs
+  open with "Fin." — caught via wordlist-POS instead.
 
-**OPEN — residual re-audit flags (est. ~1600)** — the re-audit's remaining
-flags outside the fix sets: ~1400 long-standing (pre-M-022), ~120 changed-by-
-waves that the re-audit flagged but L&S cross-check cleared as noise (e.g.
-alia/effugius/decoris where the gloss is L&S-primary-correct). Single-family
-Gemini = noisy; do not chase without an independent second family.
+**Status: FIXED** — M-022 gloss track closed. Full artifact 34,338 lemmas /
+448 KB gz, L&S 89.8%, llm layer 10,081 entries. Tests 1992 golden + 348 census
+green. Three-family audit + closure re-audit + full two-family intersection all
+processed; remaining flags are numbered homographs (L&S authoritative) or
+two-family-shared FP. Further passes chase model noise — the gloss track is at
+its plateau.
 
-**State**: artifact 34,338 lemmas / 450 KB gz, L&S 89.7%, tests 1992 golden
-+ 348 census green. Pipeline lesson: every LLM fix wave must close with a full
-re-audit of the FIXED artifact + L&S primary cross-check on all changes.
+**Pipeline lesson** (M-022a…m): every LLM fix wave must close with a full
+re-audit of the FIXED artifact + L&S primary cross-check on all changes;
+intersection-of-families is a filter, never a verdict.
