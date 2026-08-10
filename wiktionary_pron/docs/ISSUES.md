@@ -578,3 +578,38 @@ L&S-agreement gate (the 1978 audit2-only flags are largely auditor noise —
 do not chase them).
 
 **OPEN — golden-covered lemmas still show L&S literal** (unchanged, see above).
+
+## M-022 — Gemini full-artifact audit trilogy (2026-08-10) ✅
+
+Three waves closing the 34,338-lemma artifact audit (commits a00e915, fc8aa81,
+45effbe, f89811a):
+
+- **W1 (690 triple-agreed)** — all 3 audits (2× stepfun + Gemini) agreed wrong:
+  fixed all 690. 666 non-numbered context-grounded corrections into
+  `llm_glosses.tsv`; 24 numbered homographs REMOVED from llm layer → L&S
+  numbered key authoritative (auditor cross-suggests the bare twin); 3 core
+  fixes golden-locked (pone "behind, after", rutulus "a Rutulian", alia
+  "otherwise").
+- **W2 (1281 Gemini-only)** — 1209 non-numbered corrections applied, 72
+  numbered skipped/removed. Exposed the SYSTEMIC wrong-POS defect → POS guard
+  in `build_glosses.cjs` (ADJ/ADV lemma never gets "to X" from llm layer)
+  fixed 104 artifact-wide in one shot; 71 ethnic/geographic adjectives whose
+  only gloss was the wrong verb regenerated ("Achaean", "Arabian", "Ithacan").
+- **W3 (396 stepfun-both-not-Gemini)** — Gemini's 69% recall missed these; 388
+  corrections applied; 8 reverted after L&S check (auditor was wrong on
+  cholera/heius/pausea/immunitus/sutela/fibrinus/mantice/spurium).
+- **Closure re-audit (M-022d)** — full Gemini re-run of the FIXED artifact:
+  1723 flags (was 3145, −45%); 2086/2286 fix targets now clean (91%);
+  11 confirmed regressions reverted (inopinor, stellatura, tabulinum,
+  immundo, salax, memorialis, reliquus, incolumis, puter, largus,
+  nonigesimus).
+
+**OPEN — residual re-audit flags (est. ~1600)** — the re-audit's remaining
+flags outside the fix sets: ~1400 long-standing (pre-M-022), ~120 changed-by-
+waves that the re-audit flagged but L&S cross-check cleared as noise (e.g.
+alia/effugius/decoris where the gloss is L&S-primary-correct). Single-family
+Gemini = noisy; do not chase without an independent second family.
+
+**State**: artifact 34,338 lemmas / 450 KB gz, L&S 89.7%, tests 1992 golden
++ 348 census green. Pipeline lesson: every LLM fix wave must close with a full
+re-audit of the FIXED artifact + L&S primary cross-check on all changes.
