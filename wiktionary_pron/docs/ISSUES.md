@@ -548,3 +548,33 @@ candidates (~12%), ~half false positives (auditor wrongly rejects pareo=obey,
 prefers synonyms). Applied only the objective fixes (conjugated slips, broken
 strings); the ~70 genuinely-wrong remainder (invented nuance, homograph
 conflation) sit as review candidates in `tmp/_llm_audit_out.json`.
+
+**FIXED (2026-08-09, sites `533da9d` + `6d17ec6`, M-021d/e)** — full-artifact
+LLM batch audit (34,335 words, stepfun flash batch-40 retry-on-incomplete,
+~3h) + fixes:
+- **1688 of 2794 audit1 flags now pass audit2.** wrong-POS 613→107,
+  truncated 294→18, garbled 112→1.
+- Parser gates: `fr.`/`from` in etymology notes no longer recurses into the
+  base verb (acetum→"vinegar"); noun-dominant lemma with verb cross-ref
+  prefers WORDS-noun (actum→"act, deed", argentaria→"bank").
+- LLM-layer: 149 wrong-POS + 170 wrong-meaning + 601 generated everyday
+  glosses merged into `llm_glosses.tsv` (now 7,996 entries).
+- Core: 22 flagged entries verified vs L&S; **4 real fixes** (deflagro,
+  aspalathus, phlegraeus, naubolides), 18 reverted (auditor wrong on
+  mythological/proper-noun entries). golden→1989, census 348/348, npm test
+  + e2e green.
+- **Key evidence — auditor is an UNSTABLE filter**: a second audit run
+  flagged 3084 words (2794 first); only **1106 overlap**. Single-run flag
+  counts are meaningless; use the intersection. The 1106 persistent are
+  definite defects, largely semantic (alii→garlic vs "others", adoperio→
+  "uncover" vs "cover up", aedilis truncated).
+
+**OPEN — 1106 persistent defects (both audits agree)** — the reliable
+remaining target, mostly L&S/WORDS semantic: wrong homograph (alii→garlic),
+opposite meanings (adoperio→uncover), declined-forms-as-lemmas (alia→"native
+of Elis"), truncated tails (adonia, aedilis). Verdicts in
+`tmp/_audit2_out.json`. Fix via LLM-corrections in `llm_glosses.tsv` with an
+L&S-agreement gate (the 1978 audit2-only flags are largely auditor noise —
+do not chase them).
+
+**OPEN — golden-covered lemmas still show L&S literal** (unchanged, see above).

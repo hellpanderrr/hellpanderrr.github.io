@@ -334,3 +334,12 @@ non-obvious method lessons, in the order they bit:
   the line is genuinely unfittable (prosody/transmission gap), not a wordlist
   or synizesis gap — and you skip the quantity-corruption trap. Faster and more
   decisive than reading scansion marks off a rendered PDF.
+
+## LLM batch-audit instability (2026-08-09, M-021d/e)
+
+- **Two independent audit runs of the SAME artifact flagged 2794 vs 3084 words; only 1106 overlapped.** The auditor is a filter with ~60-75% recall that is *not stable run-to-run* — it catches different words each pass. Comparing flag COUNTS between runs is meaningless; the reliable signal is the **intersection** (both runs independently flagged it = definitely defective). Never conclude "regression" from a higher second-pass count.
+- **Auto-applying audit corrections to `core_gloss.json` is dangerous for mythological/proper-noun entries.** The auditor is confidently wrong on obscure names: it claimed `pituinus`="of phlegm" (L&S: pines), `flaminia`="Via Flaminia" (WORDS: priestess of a flamen), `maera`/`hypseus`/`menalippus` (wrong mythological figures), `lacrima` gum-drop "anachronistic" (L&S sense[2] is exactly gum-drop). Of 22 core flags, only **4** were real fixes (deflagro, aspalathus, phlegraeus, naubolides); 18 reverted. **Verify every core suggestion against L&S before applying.**
+- **Audit corrections for LLM-layer words are much safer** (same-source refinement): applied 149 wrong-POS + 170 wrong-meaning with zero golden breakage. The LLM layer is the right place to auto-apply; core is not.
+- **LLM generation for L&S-flagged words can pick the wrong homograph** (utriculus2→"pouch" should be "belly" = utriculus1's sense). The `lemma2`/`lemma3` numbered keys need exact-key protection; a generated gloss for a numbered lemma must not conflate its twin.
+- **Parser gates that DID work** (zero golden regressions): (1) `fr.`/`from` in ETYMOLOGY notes ("orig. fr. aceo") no longer recurses into the base verb → acetum→"vinegar"; (2) noun-dominant lemma whose L&S cross-ref yields a verb-infinitive prefers WORDS-noun → actum→"act, deed". Both scoped narrowly (the ADV/ADJ verb-leak guard already existed; extended to N).
+- **Golden lock catches auditor truth**: when golden + L&S agreed but the auditor disagreed, golden was right 18/22 times. The 4 auditor-wins (deflagro "to go out" not in L&S, aspalathus=thorny shrub, phlegraeus=of Phlegra, naubolides=patronymic) each needed a golden row update to match.
