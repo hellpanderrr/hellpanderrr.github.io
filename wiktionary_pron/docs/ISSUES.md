@@ -362,6 +362,12 @@ overrides + corpus fixes.** Two subagents parallelized the remaining buckets.
 - **Rejected:** est-prodelision ("puero est" → "puero 'st") — only 2 failing
   lines contain est, neither on the death path, and the metrical effect is
   already produced by the existing `'V'`-elision branch. Not worth the risk.
+- **OPEN — y-synizesis engine gap.** Aen 5.337 `emicat Euryalus et munere
+  victor amici` still fails even with a short-a Euryalus because the name sits
+  mid-foot; the meter requires Eu-rya-lus (3 syllables) via synizesis of `-ya-`.
+  `possibleScans` handles synizesis only for `ui` and `s/ng + u + vowel`, not
+  `y + vowel` (Greek names). A small rule addition (consonantal y in Greek
+  names) would plausibly unlock a batch of mid-foot Greek-name lines.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

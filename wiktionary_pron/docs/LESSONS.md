@@ -279,3 +279,42 @@ LLM glosses "fail" ~168 of 193 golden-covered lemmas. Keep golden-covered
 lemmas on L&S (hand-audited) rather than re-baselining; a semantic synonym-
 bucket re-key is deferred (must not be a rubber stamp). Adding a core key
 (e.g. nolo) requires a golden row in the SAME commit (golden-runner enforces).
+
+## Scansion failure triage: the method that worked (2026-08-10, M-013)
+
+The M-013 scansion failures went 150 → 113 (25% cut) this session. The
+non-obvious method lessons, in the order they bit:
+
+- **The gold-quantity experiment splits causes in one shot.** Feed the gold
+  per-word quantities (hypotactic.com's macronized Aeneid) into `scanVerse`.
+  If the line still fails with correct quantities, it's a PROSODY-MODEL gap,
+  not a wordlist gap. Only ~1/4 of the corpus failures fixed with gold.
+- **Judge fixes by the whole-file corpus gate, NEVER per-line.** RFTagger
+  assigns different POS per-line vs whole-file, so a line that scans alone
+  may still fail in the file. My per-line reconstruction "fixed" 21 lines;
+  only 10 survived the real gate. `test/e2e/test-scansion-corpus.mjs` is
+  the truth; the snapshot delta is the number to report.
+- **A scansion "fix" that corrupts quantity is worse than no fix.** A
+  word-final `ui`-diphthong merge turned obstupuī into a 3-syllable LSL
+  (genuinely 4: ob-sti-pu-ī) and caused a 44-line corpus regression
+  (sanguine/anguis — `gu` makes the u consonantal). The automaton found A
+  path, not THE correct one. Always print the CHOSEN accented forms and
+  check the quantities against the edition before accepting a fix.
+- **`scannedFeet` alignment breaks on empty verses.** `scanVerses` emitted a
+  foot only for non-empty verses, so the `* * * * * * * *` divider lines in
+  catullus-LXII/LXIV shifted every subsequent line's feet index — creating
+  spurious failures AND hiding 8 real LXIV ones. Fix: empty verses emit
+  empty-foot placeholders; the gate + snapshot-regenerator skip non-verse
+  (normalized-empty) lines. Generalizable: any index-aligned output must
+  handle empty inputs, or every row after the gap misreads.
+- **est-prodelision ("puero est" → "puerō 'st") is already handled** by the
+  existing `'V'`-elision branch — a 1-syllable "est" after a vowel-final word
+  gets the final vowel elided, which is metrically identical. Tested and
+  rejected: only 2 failing lines contain est, neither on the death path.
+- **Corpus text errors belong in the corpus, not the engine.** 4 lines in
+  catullus-II/LXIV had typos/editorial markers (solacium→solaciolum,
+  [est/es]→est, ligitam→ligatam, misera→a misera). Verify against Latin
+  Library / wikisource / negenborn scanned Catullus before editing.
+- **ACCENT_OVERRIDES append candidates; prose keeps accented[0]** — so an
+  override changes scansion-mode readings without touching prose macrons.
+  Verify each override against the gold word before adding.
