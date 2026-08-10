@@ -3,25 +3,24 @@
 _Updated 2026-08-10 — branch `main`_
 
 ## State
-**Scansion (M-013/M-013b/M-013c) is the active front: 150 → 12 failing
-lines** over 18 engine commits. ~85 gold-verified `ACCENT_OVERRIDES`
-(brute-forced against hypotactic per-syllable data, NOT surface macrons) +
-3 corpus fixes + hypermeter support. M-013c (`6c49747`) found the root cause
-of the last -que failures: scanVerse rejected a completed meter when
-elided trailing words followed; guard relaxation + complete-reading tie-break
-+ verse-final-only min-penalty merge → 26 → 15, then obruimur/pater
-(`2711098`) and Numitor (`3758533`) → 12. Verified: gate PASS (12 baseline,
-no new failures), jest 38/38. Gloss (M-022) is closed; ~11 commits unpushed.
+**Scansion (M-013b/c/d) is the active front: 150 → 12 snapshot failures**
+over 19 engine commits, plus ~85 gold-verified `ACCENT_OVERRIDES` + hypermeter
+support. M-013c (`6c49747`) fixed the hypermeter elision-completion guard
+(26 → 15); obruimur/pater/Numitor → 12; `05f87e3` fixed a verseFinalQue
+punctuation bug that was silently reverting ~19 lines to 5-foot partials.
+Verified: gate exit 0 (12 baseline), jest 38/38. Gloss (M-022) is closed;
+~19 commits unpushed.
 
 ## Open threads
-- **Scansion: 12 hard lines remain** (snapshot regenerated each batch):
-  structural Greek-name syllabification (Euryalus LSSL — no engine form
-  reaches it, emicat Euryalus; Zacynthos — scans manually but not whole-file),
-  hemistichs (`Italiam non sponte sequor` — not a hexameter by transmission),
-  Catullus edition variants (praeoptarit — engine can't merge prae+op;
-  divolso; Scamandri), Aeneid 6 (ferreique; nomen et arma locum servant te
-  amice), malesuada (suā diphthong). Start from `test/brute-line.mjs` +
-  `test/gold-diag.mjs`; judge by the whole-file gate. Details: ISSUES.md M-013.
+- **Harden the scansion gate to catch partial scans — highest value.** The
+  gate checks `feet === ''` only, so a hexameter that scans 5 feet (`SSDDD`)
+  passes. M-013d audit: 13 genuine 5-foot partials are hidden this way.
+  Change `test/e2e/test-scansion-corpus.mjs` to treat `feet.length < 6`
+  (hexameter) as a failure, regenerate the snapshot, then chase the 9
+  brute-fixable overrides (Nereidum matri, apparet Camerina, cum tacet omnis,
+  ductores, victor Simoenta, scrupea, supplicium, flammati Phaethontis, cum
+  Phrygii Teucro). Corpus fix: Cat 64.204 `ecens` → `exposcens`.
+  Start: `test/brute-line.mjs` + `test/gold-diag.mjs`. Details: ISSUES M-013d.
 - **Push M-021/M-022 to GitHub Pages** — `git push origin main` publishes the
   gloss layer; verify live after. Nothing deployed since `f28355d`.
 - **Gloss residual**: ~1600 single-family Gemini re-audit flags (M-022d) — only
@@ -51,6 +50,8 @@ Gloss audit outputs in `tmp/` (never commit).
   words. **Do NOT apply the min-penalty merge to mid-line -que** — it leaked
   the # reading's cheap penalty and flipped hīc→hĭc / vāgīnā (27-line
   regression, scoped back to verse-final only).
+- **verseFinalQue detection must skip punctuation** (`05f87e3`) — `-que.`/
+  `-que,` lines otherwise revert to 5-foot partials the gate masks.
 - **Overridden wordforms clear isUnknown** so allVowelsAmbiguous isn't layered
   on top (the Cymodoce all-long false candidate).
 - **est-prodelision already handled** by the `'V'`-elision branch.

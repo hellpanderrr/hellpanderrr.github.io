@@ -262,11 +262,13 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-10 — engine 18 commits: 150 → **12**
-failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56` + ~80
+**Status: PARTIALLY FIXED** (2026-08-10 — engine 19 commits: 150 → **12**
+failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56` + ~85
 gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322` + **M-013c hypermeter
-elision-completion guard `6c49747`** (26 → 15). The `ui`-diphthong theory was
-tested and REJECTED, see below. 12 hard lines remain.)
+elision-completion guard `6c49747`** (26 → 15) + **M-013d gate-under-count
+audit** (`05f87e3` punctuation fix). The `ui`-diphthong theory was tested and
+REJECTED, see below. 12 hard lines remain + 13 hidden 5-foot partials the
+gate under-counts — see M-013d.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -444,6 +446,11 @@ byte-identical except the fixed lines) + jest 38/38 each time:
 - **`2711098` (15 → 13):** obruimur → ō-bru-i-mur (LSSL, Aen 2.411) + pater →
   pă-tēr (SL, Aen 5.521), both gold-verified.
 - **`3758533` (13 → 12):** Numitor → Nu-mi-tor (SSL, Aen 6.768).
+- **`05f87e3` (12 → 12 + 19 partials fixed):** verseFinalQue detection now
+  skips punctuation before the newline — `-que.`/`-que,` lines were being
+  misclassified as mid-line, silently reverting ~19 lines to 5-foot partials
+  (incl. Aen 5.826 Cymodoceque SSDDD → SSDDDT). The gate didn't catch this
+  because it only checks `feet === ''`.
 - **12 remaining** (snapshot `scansion-failures-snapshot.json`): mostly
   structural — Greek names the engine can't syllabify (Euryalus LSSL,
   Zacynthos), hemistichs (Italiam non sponte sequor), Catullus edition
@@ -451,6 +458,27 @@ byte-identical except the fixed lines) + jest 38/38 each time:
   (ferreique, nomen te amice). New tools: `test/brute-line.mjs` (arbitrary
   `_`/`^` forms through the automaton), `test/gold-align.mjs` +
   `test/gold-diag.mjs` (gold L/S pattern vs engine candidates).
+
+**2026-08-10 (M-013d) — the gate under-counts: 32 hidden 5-foot partials.**
+A full-corpus audit (all 5,478 verse lines; hexameter judged by
+`feet.length < 6`) found the gate reports **partial scans as passing** — it
+checks `feet === ''` only. **32 lines scan 5 feet of a hexameter and pass.**
+~19 were the `-que.` punctuation bug (now fixed, `05f87e3`). **13 genuine
+5-foot partials remain**, brute-forced with arbitrary `_`/`^` quantities:
+- Fixable quantity errors (brute finds a full 6-foot solution): Nereidum
+  matri (Aen 3.74), apparet Camerina (Aen 3.701), cum tacet omnis (Aen
+  4.526), ductores longe (Aen 5.133), victor apud rapidum Simoenta (Aen
+  5.261), scrupea tuta lacu (Aen 6.238), supplicium saevis (Cat 64.204),
+  flammati Phaethontis (Cat 64.293), cum Phrygii Teucro (Cat 64.346).
+- Structural / no 6-foot solution: Tune ille Aeneas (Aen 1.617), rursum ex
+  diverso (Aen 3.232), sive deae (Aen 3.262), discedam explebo (Aen 6.545).
+- **Corpus transcription error (not engine):** Cat 64.204 "supplicium saevis
+  **ecens** anxia factis" should be **exposcens** — fix the corpus file, the
+  line then has a brute solution.
+- **Action:** harden the gate to treat `feet.length < 6` (hexameter) as a
+  failure. That surfaces the 13 instead of hiding them; then chase the 9
+  brute-fixable quantity overrides. True error rate today: 25/5,478 (0.46%),
+  not the gate-reported 0.22%.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

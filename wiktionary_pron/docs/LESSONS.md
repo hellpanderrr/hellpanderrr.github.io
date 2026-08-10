@@ -422,6 +422,25 @@ non-obvious method lessons, in the order they bit:
   After the M-013c fixes, the tie-break turned it into a complete `SSDDDT`. When
   chasing scansion bugs, verify every line ends at state 0, not just that feet
   are non-empty.
+  - ⚠️ **RECURRED + quantified 2026-08-10:** a full-corpus audit (all 5,478
+    verse lines, `feet.length < 6` for hexameter) found **32 hidden 5-foot
+    partials** the gate reports as passing — the true error count was 12
+    snapshot + 13 remaining partials = 25/5,478 (0.46%), not 0.22%. ~19 of
+    them were caused by a `verseFinalQue` punctuation bug (see below) and are
+    now complete. **The gate STILL does not check foot completeness** — a
+    hexameter that scans 5 feet passes. Fixing that (`feet.length < 6` → fail)
+    is the highest-value next step (ISSUES M-013d).
 - **Heredocs in Git Bash eat backslashes** — a `ROOT.replace(/\/g, '/')` in a
   `<<'EOF'` heredoc became `/\/g` and broke the script. Use the Write tool for
   any JS with regexes.
+- **Verse-final -que detection must skip punctuation, not just spaces** (2026-08-10,
+  `05f87e3`). The `verseFinalQue` scan in `scanVerses` stopped at the FIRST
+  content token: for a line ending `-que.` or `-que,` the `.`/`,` is neither
+  space nor newline, so the loop broke with `verseFinalQue=false`. That
+  misclassified verse-final -que lines ending in punctuation as mid-line,
+  dropping the cheap `#` (final-anceps) reading and silently reverting ~19
+  lines to 5-foot partial scans — including Aen 5.826 Cymodoceque (`SSDDD`),
+  which the gate masked as passing. Fix: skip spaces AND punctuation, stop only
+  at a word (mid-line) or newline/end (verse-final). **This is exactly why the
+  gate needs a foot-completeness check** — a `-que.` regression is invisible
+  to `feet === ''`.
