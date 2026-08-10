@@ -752,7 +752,13 @@ function resolve(lemma, pos, depth = 0) {
   // non-golden/non-core lemmas are included (filtered at build), so no test or
   // hand-curated row is overridden.
   const llmGloss = llmByKey.get(l);
-  if (llmGloss) return llmGloss;
+  // POS GUARD (M-022/Gemini round-2, 2026-08-10): the offline LLM auditor
+  // systematically returns wrong-POS "to X" verb glosses for ADJ/ADV-dominant
+  // lemmas (aptus→"to be fit or proper", carus→"to care for", bidens→"to
+  // bite", intestatus→"to castrate"). The llm layer has no POS signal, so
+  // block a verb-infinitive gloss for an ADJ/ADV lemma at the boundary and
+  // fall through to L&S/WORDS, whose POS-aware guards pick the right sense.
+  if (llmGloss && !((pos === "ADJ" || pos === "ADV") && /^to\s+[a-z]/i.test(llmGloss))) return llmGloss;
   let e;
   if (isSpurious(l)) {
     // Spurious-homograph skip normally prefers the bare key (the wordlist
