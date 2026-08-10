@@ -386,3 +386,42 @@ non-obvious method lessons, in the order they bit:
 - **Systemic fix beats point fixes: the POS guard.** The auditor systematically returns wrong-POS "to X" verb glosses for ADJ/ADV-dominant lemmas (aptus→"to be fit or proper", carus→"to care for", bidens→"to bite", intestatus→"to castrate", arabicus→"to Arabia relating to Arabia"). Added a POS guard in resolve(): an ADJ/ADV-dominant lemma never gets a verb-infinitive gloss from the llm layer → falls through to POS-aware L&S/WORDS. Fixed 104 artifact-wide wrong-POS glosses in one shot. Also exposes a/d lemmas whose ONLY gloss was the wrong verb (geographic/ethnic adjectives) — regenerate those.
 - **Generation fixes carry a ~5% inversion/garbage rate** that only a closing re-audit exposes: inopinor→"unexpected" (L&S: suppose), stellatura→"stars" (L&S: soldiers' ration deduction), tabulinum→"chest" (L&S: balcony), salax→"sharp-witted" (L&S: lustful), largus→"large dare", reliquus→"the correct read. is". **Every fix wave needs a full re-audit of the FIXED artifact** (M-022d: 1723 flags vs 3145, -45%; 2086/2286 fixes clean, 11 confirmed regressions reverted).
 - **The auditor is noisy even when two runs agree** — generation inherits its confidence and can produce the OPPOSITE of L&S (immunitus fix was "fortified" when L&S says "unfortified"). The L&S primary cross-check (senses[0] first clause) is the mandatory gate on every applied fix.
+
+## The hypermeter elision-completion guard — and two ways it can regress (2026-08-10, M-013c)
+
+- **`scanVerse` was rejecting genuine hypermeters.** Its guard killed ANY word that
+  completed the hexameter (returned to state 0) when later words followed —
+  even fully-elided ones. A verse-final `-que` that elides into the next line's
+  initial vowel (deorumqu' aut, nexaequ' aere) completes the meter at the
+  penultimate word with a trailing 0-syllable `que`. The dual-candidate fix
+  (2ee8322) couldn't reach it because the automaton was never offered the path
+  where the meter finishes before the last word. Fix: allow a completed meter
+  when every trailing word is fully elided, + prefer the COMPLETE reading over
+  a partial one at equal penalty (an elided verse-final -que at penalty 0
+  otherwise beats a real final syllable at penalty 0 — the Cymodoce 5-foot
+  scan). 10 lines fixed in one commit.
+- **The min-penalty hypermeter merge must be verse-final ONLY.** The dual-candidate
+  code runs for EVERY `-que` word (mid-line atque/namque too, to preserve the
+  pre-existing candidate set). Switching its dedup to "keep lowest penalty" leaked
+  the # reading's cheap penalty into mid-line contexts and flipped 27 lines'
+  chosen quantities (hīc→hĭc, vāgīnā→vāgina) — gold said those were regressions.
+  Scoping the min-penalty merge to verse-final `-que` (detected by "next content
+  token is a newline") restored byte-identical candidates for mid-line words.
+  Lesson: a candidate-set optimization that changes *penalties* (not just adds
+  candidates) silently re-ranks every line that word appears in — scope it by
+  the exact structural condition it's meant for.
+- **Overrides must suppress the allVowelsAmbiguous fallback.** A word with an
+  authoritative ACCENT_OVERRIDE that is also marked `isUnknown` gets the engine's
+  "guess every vowel length" form on top — and the cheapest (often wrong) combo
+  wins (Cymodoce all-long L-L-L-L beating the gold LSSL). The override injection
+  now clears `isUnknown`, so the ambiguity fallback isn't layered on. Check this
+  whenever an override for an unknown/named word doesn't take effect.
+- **A "passing" line can be a false positive that masks a bug.** Aen 5.826
+  (Cymodoceque) reported `SSDDD` — an INCOMPLETE 5-foot hexameter — as "scanned."
+  The gate only checks non-empty feet, so it never noticed the partial scan.
+  After the M-013c fixes, the tie-break turned it into a complete `SSDDDT`. When
+  chasing scansion bugs, verify every line ends at state 0, not just that feet
+  are non-empty.
+- **Heredocs in Git Bash eat backslashes** — a `ROOT.replace(/\/g, '/')` in a
+  `<<'EOF'` heredoc became `/\/g` and broke the script. Use the Write tool for
+  any JS with regexes.

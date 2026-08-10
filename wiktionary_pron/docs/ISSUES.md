@@ -262,10 +262,11 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-10 — engine 15 commits this session:
-150 → **26** failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56`
-+ ~80 gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322`. The `ui`-diphthong
-theory was tested and REJECTED, see below. 26 hard lines remain.)
+**Status: PARTIALLY FIXED** (2026-08-10 — engine 18 commits: 150 → **12**
+failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56` + ~80
+gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322` + **M-013c hypermeter
+elision-completion guard `6c49747`** (26 → 15). The `ui`-diphthong theory was
+tested and REJECTED, see below. 12 hard lines remain.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -415,6 +416,41 @@ each gate-verified 0 regressions, snapshot regenerated each time:
   edition not in gold), and the quantity-corruption-risky lines (emicat
   Euryalus, Zacynthos line scans manually but not whole-file — POS-context
   dependent).
+
+**2026-08-10 (M-013c) — hypermeter elision-completion guard, 26 → 12.**
+Three engine commits, all gate-verified 0 regressions (whole-file feet dump
+byte-identical except the fixed lines) + jest 38/38 each time:
+- **`6c49747` — scanVerse guard + tie-break + verse-final -que merge
+  (26 → 15).** Root cause of the 10 remaining -que failures: scanVerse
+  rejected ANY word that completed the meter (returned to state 0) when later
+  words followed — even fully-elided ones. That blocked genuine hypermeters
+  where the verse-final -que elides into the next line's initial vowel
+  (deorumqu' aut, nexaequ' aere). Three-part fix: (a) guard allows a completed
+  meter when every trailing word is fully elided; (b) tie-break prefers the
+  COMPLETE reading (ends at state 0) over a partial one at equal penalty —
+  an elided verse-final -que (penalty 0) otherwise beats a real final
+  syllable (also penalty 0); (c) for verse-final -que only, merge the # and V
+  readings keeping the LOWEST penalty per (scansion, accent) — dedup-first
+  dropped the cheap # que[S], making a real final -que impossible (Aen 5.826
+  Cymodoceque). **The min-penalty merge was initially applied to ALL -que
+  (incl. mid-line atque/namque), which leaked the # reading's cheap penalty
+  and flipped hīc→hĭc / vāgīnā across 27 lines — scoped to verse-final only,
+  mid-line keeps the pre-existing dedup (byte-identical candidates).** Gold
+  overrides in the same commit: videt → vĭ-dēt (SL, the prior vi_det LS was
+  WRONG — final -t before h+vowel makes no position, and gold=SL); cymodoce
+  → Cȳ-mo-do-cē (LSSL); dehiscit → dĕ-hīs-cit (SLL, Aen 5.142). Overridden
+  wordforms now clear isUnknown so allVowelsAmbiguous (which guesses every
+  vowel combo and lets the cheapest form win) isn't layered on top.
+- **`2711098` (15 → 13):** obruimur → ō-bru-i-mur (LSSL, Aen 2.411) + pater →
+  pă-tēr (SL, Aen 5.521), both gold-verified.
+- **`3758533` (13 → 12):** Numitor → Nu-mi-tor (SSL, Aen 6.768).
+- **12 remaining** (snapshot `scansion-failures-snapshot.json`): mostly
+  structural — Greek names the engine can't syllabify (Euryalus LSSL,
+  Zacynthos), hemistichs (Italiam non sponte sequor), Catullus edition
+  variants (praeoptarit, divolso, Scamandri), and 2 Aeneid 6 lines
+  (ferreique, nomen te amice). New tools: `test/brute-line.mjs` (arbitrary
+  `_`/`^` forms through the automaton), `test/gold-align.mjs` +
+  `test/gold-diag.mjs` (gold L/S pattern vs engine candidates).
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)
