@@ -145,8 +145,11 @@ export function possibleScans(accentedCandidates, followingSegment) {
                     news.push([penaltySoFar, scanSoFar + 'C']);
                     news.push([penaltySoFar + NOSYNEZISPENALTY, scanSoFar + 'V']);
                 }
-                // u/i could be consonant (synizesis) when adjacent to vowel
-                else if ('ui'.includes(thisSeg.charAt(0)) && ('aeiouy'.includes(nextSeg.charAt(0)) || 'aeiouy'.includes(prevSeg.charAt(0)))) {
+                // u/i/y could be consonant (synizesis) when adjacent to vowel.
+                // y is included for Greek names (Euryalus, Helymus, Cinyra): the
+                // consonant y merges with the preceding consonant + following vowel
+                // into one syllable (e.g. Euryalus → Eu-rya-lus).
+                else if ('uiy'.includes(thisSeg.charAt(0)) && ('aeiouy'.includes(nextSeg.charAt(0)) || 'aeiouy'.includes(prevSeg.charAt(0)))) {
                     news.push([penaltySoFar, scanSoFar + 'V']);
                     news.push([penaltySoFar + SYNEZISPENALTY, scanSoFar + 'C']);
                 }

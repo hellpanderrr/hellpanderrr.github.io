@@ -3,18 +3,26 @@
 _Updated 2026-08-10 — branch `main`_
 
 ## State
-M-013 scansion cut 150 → 113 failing corpus lines (25%) across 4 engine
-commits (`7fd0113`, `381a97a`, `e3320e4`, `c40f8e8`): -ērunt/-ĕrunt
-alternation, 22 gold-confirmed ACCENT_OVERRIDES, the empty-verse alignment
-fix, and 4 corpus-text corrections. All verified: gate PASS (113 baseline, 21
-golden lines), jest 38/38, 5-meter smoke 6/6, site e2e (macronizer 3/3 +
-coverage) PASS. M-005 gloss layer (M-021c) remains shipped and verified.
+M-013 scansion cut 150 → **111** failing corpus lines (26%) across 5 engine
+commits (`7fd0113`, `381a97a`, `e3320e4`, `c40f8e8`, `c8fcf56`):
+-ērunt/-ĕrunt alternation, 22 gold-confirmed ACCENT_OVERRIDES, the empty-verse
+alignment fix, 4 corpus-text corrections, and **y-synizesis for Greek names**
+(`c8fcf56` — unlocks Aen 5.322 `tertius Euryalus` + 5.334 `non tamen
+Euryali...`; gate 113→111, zero regressions). All verified: gate PASS (111
+baseline, **23** golden lines), jest 38/38, 5-meter smoke 6/6, site e2e
+(macronizer 3/3 + coverage) PASS. M-005 gloss layer (M-021c) remains shipped
+and verified.
 
 ## Open threads
-- **y-synizesis engine gap** (Aen 5.337 `emicat Euryalus...`): `possibleScans`
-  handles synizesis only for `ui` and `s/ng+u+vowel`, not `y+vowel` (Greek
-  names mid-foot). Start: `latin-macronizer-wasm/src/core/Scansion.ts` +
-  `test/e2e/test-scansion-corpus.mjs`.
+- **Aen 5.337 `emicat Euryalus et munere victor amici` still fails** — but NOT
+  via y-synizesis (now implemented). Gold quantities genuinely don't fit the
+  automaton: `lŭs et` (S S) can't open a foot, et-position fails, `mūnere`
+  (LSS)/5th-foot placement has no valid reading; only corrupt non-gold
+  quantities scan. See `docs/ISSUES.md` M-013. Likely needs a deeper prosody
+  change (elision/synizesis beyond y) or is a transmission anomaly.
+- **Remaining ~111 failures** are mostly elision/synizesis/automaton-strictness
+  prosody gaps + unverifiable proper-noun quantities. Triage method: gold
+  quantities → whole-file gate → print chosen forms. See `docs/ISSUES.md` M-013.
 - **Remaining ~113 failures** are mostly elision/synizesis/automaton-strictness
   prosody gaps + unverifiable proper-noun quantities. Triage method: gold
   quantities → whole-file gate → print chosen forms. See `docs/ISSUES.md` M-013.

@@ -262,8 +262,8 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-10 — engine `-ērunt/-ĕrunt` alternation; the
-`ui`-diphthong theory was tested and REJECTED, see below)
+**Status: PARTIALLY FIXED** (2026-08-10 — engine `-ērunt/-ĕrunt` alternation +
+`y`-synizesis `c8fcf56`; the `ui`-diphthong theory was tested and REJECTED, see below)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -356,18 +356,26 @@ overrides + corpus fixes.** Two subagents parallelized the remaining buckets.
   (editorial bracket), catullus-II:13 `ligitam`→`ligatam`, catullus-LXIV:72
   `misera`→`a misera` (missing interjection a). Two hemistichs
   (Nisus et Euryalus primi, tertius Euryalus) are metrically incomplete
-  fragments by transmission — the first now scans partially (DDS), the second
-  remains a known failure.
-- GOLDEN list now **21 lines**; baseline **113 failing lines**.
+  fragments by transmission — the first now scans partially (DDS); the second
+  now scans fully (y-synizesis, below).
+- GOLDEN list now **23 lines**; baseline **111 failing lines**.
 - **Rejected:** est-prodelision ("puero est" → "puero 'st") — only 2 failing
   lines contain est, neither on the death path, and the metrical effect is
   already produced by the existing `'V'`-elision branch. Not worth the risk.
-- **OPEN — y-synizesis engine gap.** Aen 5.337 `emicat Euryalus et munere
-  victor amici` still fails even with a short-a Euryalus because the name sits
-  mid-foot; the meter requires Eu-rya-lus (3 syllables) via synizesis of `-ya-`.
-  `possibleScans` handles synizesis only for `ui` and `s/ng + u + vowel`, not
-  `y + vowel` (Greek names). A small rule addition (consonantal y in Greek
-  names) would plausibly unlock a batch of mid-foot Greek-name lines.
+- **FIXED (2026-08-10, engine `c8fcf56`) — y-synizesis for Greek names.**
+  `possibleScans` treated u/i as consonantizable (synizesis) when adjacent to a
+  vowel but not `y`. Greek names (Euryalus, Euryali) put `y` between a
+  consonant and a vowel; treating it as a consonant merges ry+a into one
+  syllable and lets the line scan. Whole-file gate 113 → 111 failing lines,
+  zero regressions. Fixed Aen 5.322 `tertius Euryalus` and Aen 5.334
+  `non tamen Euryali, non ille oblitus amorum` (both added to GOLDEN).
+- **Still OPEN — Aen 5.337 `emicat Euryalus et munere victor amici`** remains
+  a known failure for a DIFFERENT reason: even with y-synizesis (Eu-rya-lus,
+  3 syllables), the gold quantities genuinely do not fit the dactylic-hexameter
+  automaton — `lŭs et` (S S) cannot open a foot, `et`-lengthening by position
+  fails, and `mūnere` (LSS) / the 5th-foot placement leave no valid reading.
+  Only corrupt non-gold quantity readings scan (the quantity-corruption trap),
+  so it stays in the baseline.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)
