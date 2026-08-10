@@ -262,8 +262,10 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-10 — engine `-ērunt/-ĕrunt` alternation +
-`y`-synizesis `c8fcf56`; the `ui`-diphthong theory was tested and REJECTED, see below)
+**Status: PARTIALLY FIXED** (2026-08-10 — engine 15 commits this session:
+150 → **26** failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56`
++ ~80 gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322`. The `ui`-diphthong
+theory was tested and REJECTED, see below. 26 hard lines remain.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -376,6 +378,43 @@ overrides + corpus fixes.** Two subagents parallelized the remaining buckets.
   fails, and `mūnere` (LSS) / the 5th-foot placement leave no valid reading.
   Only corrupt non-gold quantity readings scan (the quantity-corruption trap),
   so it stays in the baseline.
+
+**2026-08-10 (M-013b) — bulk gold-verified overrides + hypermeter support,
+150 → 26 failing lines.** A whole-artifact attack on the 111-line baseline
+using the hypotactic per-syllable gold (`vergil.json`/`catullus.json`, NOT the
+surface macron text — `rēligiō` shows short re in the surface text but long re
+per-syllable). Method per batch: brute-force candidate `_`/`^` forms through
+`possibleScans` until the form matches the gold L/S pattern, add as an
+`ACCENT_OVERRIDES` entry, rebuild dist, whole-file gate. 15 engine commits,
+each gate-verified 0 regressions, snapshot regenerated each time:
+- `3f52e73` religio family (long rē, 6 lines) + closed-prefix compounds
+  (subiciunt/obicitur/coniciunt/inice — prefix vowel short but syllable
+  CLOSED, `su_bi^ciunt`).
+- `3df84ee` 15 Greek names (Ilionea, Mnesthea, Tritonidis, Panthus, etc).
+- `f8a0253`/`d78a6fc`/`aa9055e`/`74de3cc`/`ddbbc46`/`75afbfa`/`b69d887`
+  Aeneid + Catullus quantity fixes (oreades → SLSS, thraces → LS, pulvis →
+  LL, aereum → LSSL, tene → LS, etc).
+- **`2ee8322` — hypermeter support (the biggest structural win).** A
+  verse-final `-que` now offers BOTH the line-final (anceps) and the eliding
+  (hypermeter) reading; the automaton picks whichever scans. Lookahead for
+  `-que` skips the newline to find the next line's initial vowel. Alignment
+  preserved (no line-splicing). Fixed `munera laetitiamque dii`,
+  `totumque dehiscit`. REJECTED first approach (splice verses across `\n`) —
+  broke `scannedFeet` index alignment, 283-line regression, reverted.
+- **Rejected: h-position as a global rule.** `videt hominesne` needs det long
+  (Aen 1.308), but `venit Hic` keeps nit short (Aen 1.52) — the gold is
+  INCONSISTENT, so no universal "C + h makes position" rule. Added `videt` →
+  `vi_det` override instead (line still fails on other words).
+- **Rejected: diphthong expansion** for `malesuāda` (suā) and `alveō` (veō) —
+  the engine's diphthong set is fixed (ae/au/ei/eu/oe); adding su/ve would
+  corrupt ordinary words.
+- **Gate: 26 failing lines remain**, all hard: multi-elision hypermeters
+  (deorumque, coloremque with 2 elisions), hemistichs (`Italiam non sponte
+  sequor`, `et matri praereptus amor` — not hexameters by transmission),
+  Catullus structural (praeoptarit — engine can't merge prae+op; divolso —
+  edition not in gold), and the quantity-corruption-risky lines (emicat
+  Euryalus, Zacynthos line scans manually but not whole-file — POS-context
+  dependent).
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

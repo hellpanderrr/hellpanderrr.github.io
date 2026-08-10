@@ -3,66 +3,46 @@
 _Updated 2026-08-10 — branch `main`_
 
 ## State
-Gloss layer (M-021 → M-022) shipped and verified end-to-end. The full
-34,338-lemma artifact has been through a **complete 3-family audit cycle**:
-2× stepfun runs (M-021d/e) + 1× Gemini 3.5/3.1 flash-lite run (M-022, ~8 min),
-with a closing **Gemini re-audit of the FIXED artifact** (M-022d).
+**Scansion (M-013/M-013b) is the active front: 150 → 26 failing lines** over
+18 engine commits (15 this session). ~80 gold-verified `ACCENT_OVERRIDES`
+(brute-forced against hypotactic per-syllable data, NOT surface macrons) +
+3 corpus fixes + hypermeter support (`2ee8322`, verse-end `-que` dual
+candidate). Verified: gate PASS (26 baseline, 23 golden), jest 38/38.
+Gloss (M-022) is closed; ~7 commits unpushed.
 
-Committed this session: `a00e915` (W1: 690 triple-agreed defects),
-`fc8aa81` (W2: 1281 Gemini-only + POS guard), `45effbe` (W3: 388
-stepfun-both-not-Gemini), `f89811a` (closure re-audit: 11 regressions),
-`c7e20ec` (docs). **7 commits unpushed** (`b3bc246`..`c7e20ec`) — GitHub
-Pages still serves pre-M-021 state.
-
-Artifact: 34,338 lemmas / 450 KB gz / L&S 89.7% / WORDS 4.6% / none 5.6%.
-Tests green: 22 unit + 81 IPA + 1992 golden + 348 census.
-
-## Open threads (priority order)
-- **Push to GitHub Pages** — 7 commits local, nothing deployed since
-  `f28355d`. `git push origin main` publishes everything; verify the live
-  macronizer gloss layer after.
-- **~1600 residual re-audit flags** (M-022d) — single-family Gemini noise:
-  ~1400 long-standing (pre-M-022), ~120 changed-by-waves that L&S cross-check
-  cleared. Do NOT chase without an independent second model family (the
-  auditor is a noisy filter — see Don't redo). Intersection with a fresh
-  stepfun run on the CURRENT artifact would be the reliable next target.
-- **193 golden-covered lemmas still show L&S literal** (veho→"be carried") —
-  needs a semantic synonym-bucket re-key authored from the headword, not LLM
-  output. Unchanged since M-005.
-- **Scansion M-013** (separate track, from `b3bc246`): ~111 corpus failures;
-  Aen 5.337 `emicat Euryalus...` still unfittable by any gold-consistent
-  reading. See ISSUES.md M-013.
+## Open threads
+- **Scansion: 26 hard lines remain** — multi-elision hypermeters (deorumque,
+  coloremque), hemistichs (`Italiam non sponte sequor`, `et matri praereptus
+  amor` — not hexameters by transmission), Catullus structural (praeoptarit,
+  divolso, natisque), quantity-corruption-risky (emicat Euryalus, Zacynthos).
+  Start from `test/e2e/test-scansion-corpus.mjs` + `test/trace-scansion.mjs`;
+  judge by the whole-file gate. Details: ISSUES.md M-013.
+- **Push M-021/M-022 to GitHub Pages** — `git push origin main` publishes the
+  gloss layer; verify live after. Nothing deployed since `f28355d`.
+- **Gloss residual**: ~1600 single-family Gemini re-audit flags (M-022d) — only
+  chase via intersection with a fresh stepfun run. 193 golden-covered lemmas
+  still show L&S literal (needs semantic synonym re-key).
 
 ## Running / unfinished
-Nothing running. Audit outputs: `tmp/_final_audit_out.json` (audit1, 2794),
-`tmp/_audit2_out.json` (audit2, 3084), `tmp/_gemini_audit_out.json` (Gemini
-3145), `tmp/_gemini_reaudit_full.json` (closure, 1723). Fix generators:
-`tmp/_gemini_fix690/1209/396.py`, `tmp/_fix{690,1209,396}.tsv`. Workbench:
-`tmp/_regressions.tsv`, `tmp/_only1281.tsv`, `tmp/_both425.tsv`. Scratch
-lives in `tmp/` — never commit it.
+Nothing running. Scansion snapshot: `test/data/scansion-failures-snapshot.json`
+(26), regenerate with `node test/regen-snapshot.mjs` after an intended change.
+Gold data (temp): hypotactic `vergil.json`/`catullus.json` (per-syllable).
+Gloss audit outputs in `tmp/` (never commit).
 
 ## Don't redo
-- **The auditor is a noisy filter, unstable run-to-run.** Two stepfun runs
-  flagged 2794 vs 3084 (1106 overlap); Gemini added a third family. Compare
-  INTERSECTIONS, never flag counts. A higher second-pass count is NOT a
-  regression.
-- **Numbered homographs: the auditor structurally cross-suggests the bare
-  twin's sense** (esurio2 "hungry person"→verb, scopa2 "speculation"→broom,
-  certo bare adverb→"to contend"). L&S numbered key is authoritative —
-  REMOVE numbered lemmas from the LLM layer, never generate fixes for them.
-- **Every LLM fix wave carries ~5% inversion/garbage** (inopinor→"unexpected"
-  vs L&S "suppose", salax→"sharp-witted" vs "lustful"). Always close with a
-  full re-audit of the FIXED artifact + an L&S primary cross-check
-  (senses[0] first clause) on every changed gloss.
-- **Do not auto-apply audit corrections to `core_gloss.json`** — verify each
-  against L&S (18/22 were wrong on mythological/proper nouns).
-- **Systemic guards beat point fixes**: the POS guard in `build_glosses.cjs`
-  (ADJ/ADV lemma never gets "to X" from the llm layer) fixed 104 wrong-POS
-  glosses in one shot. Add a guard before hand-fixing a class.
-- **Parser gates that worked** (zero golden regressions): fr./from in ETYMOLOGY
-  must not recurse into the base verb; noun-lemma verb cross-ref prefers
-  WORDS-noun; spurious-homograph needs the DUAL signature (form+accent AND
-  form+tag).
-- **Scansion don't-redo** (from `b3bc246`): judge by whole-file gate only;
-  never corrupt vowel quantities to make a line scan; re-derive a line's
-  failure from scratch after applying a fix before declaring it open.
+- **Judge scansion by the whole-file gate ONLY** — per-line runs differ
+  (RFTagger POS). `test-scansion-corpus.mjs` is the truth.
+- **Never corrupt vowel quantities to make a line scan** — print chosen forms,
+  check against the edition (the ui-diphthong false positive).
+- **Gold per-syllable data > surface macrons** (rēligiō: short re on surface,
+  long re per-syllable). Brute-force `_`/`^` forms against the L/S pattern.
+- **`git restore dist/` after tsc silently drops NEW src overrides** — rebuild
+  after restore, or a gate run shows the old failure.
+- **No global h-position rule** — gold is inconsistent (videt S-L vs venit S-S);
+  use per-word overrides.
+- **Hypermeter = offer both `#`/`V` readings for verse-end `-que`, never splice
+  lines** (splicing broke `scannedFeet` alignment, 283 regressions).
+- **est-prodelision already handled** by the `'V'`-elision branch.
+- **Corpus text errors → fix the corpus, not the engine** (verify vs gold first).
+- **Gloss don't-redo**: auditor is a noisy filter — compare intersections, never
+  counts; numbered homographs → L&S key; every LLM fix wave needs a re-audit.

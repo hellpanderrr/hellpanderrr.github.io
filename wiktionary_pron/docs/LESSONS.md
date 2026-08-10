@@ -307,6 +307,9 @@ non-obvious method lessons, in the order they bit:
   empty-foot placeholders; the gate + snapshot-regenerator skip non-verse
   (normalized-empty) lines. Generalizable: any index-aligned output must
   handle empty inputs, or every row after the gap misreads.
+  ✅ enforced by `Scansion.ts` `scanVerses` (empty-verse placeholder) AND the
+  hypermeter dual-candidate fix `2ee8322` (kept alignment by offering both
+  readings rather than splicing lines — see the new hypermeter lesson).
 - **est-prodelision ("puero est" → "puerō 'st") is already handled** by the
   existing `'V'`-elision branch — a 1-syllable "est" after a vowel-final word
   gets the final vowel elided, which is metrically identical. Tested and
@@ -334,6 +337,37 @@ non-obvious method lessons, in the order they bit:
   the line is genuinely unfittable (prosody/transmission gap), not a wordlist
   or synizesis gap — and you skip the quantity-corruption trap. Faster and more
   decisive than reading scansion marks off a rendered PDF.
+
+- **Gold SURFACE text ≠ gold PER-SYLLABLE data — trust the latter.** The
+  hypotactic macronized Aeneid surface shows `rēligiō` with short re, but the
+  per-syllable JSON (`vergil.json`/`catullus.json`, `syllables[].length`) shows
+  `re:long` — L&S double quantity, Vergil scans long re. Brute-forcing `_`/`^`
+  forms against the per-syllable L/S pattern (not the surface macrons) was the
+  decisive method for ~80 overrides. Surface macrons can mislead on exactly the
+  ambiguous quantities that matter.
+
+- **`git restore dist/` after tsc silently loses NEW src overrides from dist.**
+  The CRLF-churn cleanup (`git restore dist/...` after every rebuild) also
+  reverted freshly-added `ACCENT_OVERRIDES` entries from `dist/core/Tokenization.js`,
+  so a gate run kept showing the OLD failure and looked like the override "didn't
+  work." Symptom: src has the override, `grep dist` doesn't. Fix: rebuild AFTER
+  the restore, or restore only the whitespace-only files (`git diff
+  --ignore-all-space` first). Cost a whole debugging cycle on `dehiscent`.
+
+- **Rejected — h-position as a universal rule.** `videt hominesne` needs `det`
+  long (Aen 1.308, gold S-L), but `venit Hic` keeps `nit` short (Aen 1.52, gold
+  S-S) — the gold is INCONSISTENT on "word-final C + h makes position." A global
+  `C + h → position` rule caused 283 regressions. The safe form is a per-word
+  override (videt → `vi_det`). Verify the RULE against multiple gold lines
+  before implementing it as code.
+
+- **Hypermeter: offer BOTH readings, never splice lines.** A verse-final `-que`
+  that elides into the next line's initial vowel is the hypermeter. The working
+  fix: give verse-end `-que` both the `#` (final-anceps) and `V` (eliding)
+  candidate sets and let the automaton choose. Splicing the two lines into one
+  verse (my first attempt) broke `scannedFeet` index alignment and caused a
+  283-line regression — an index-aligned output array must keep one slot per
+  source line no matter what.
 
 ## LLM batch-audit instability (2026-08-09, M-021d/e)
 
