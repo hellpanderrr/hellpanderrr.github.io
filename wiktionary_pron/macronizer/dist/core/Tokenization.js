@@ -38,6 +38,37 @@ const ACCENT_OVERRIDES = {
     'troes': ['tro_e_s', 'tro_es'],
     // Dīāna → dī-ā-na (Aen 1.499): wordlist Di^a_na has SHORT first i (inverse case).
     'diana': ['Di^a_na', 'di_a_na'],
+    // Catullus + Greek-name quantity fixes (M-013, verified by subagent against
+    // Latin Library / wikisource / negenborn scanned Catullus / virgil.org).
+    // soluit → sŏ-lu-it (Catullus 2b.13): wordlist collapses to 2-syll "solvit".
+    'soluit': ['solvit', 'so^lu^it'],
+    // inelegantes → in-ē-lĕ-gān-tēs (Catullus 6.2): wordlist has long "le".
+    'inelegantes': ['ine_le_gante_s', 'ine_le^gante_s'],
+    // fragrans → fră-grāns (Catullus 6.8): wordlist has long root a.
+    'fragrans': ['fra_gra_ns', 'fra^gra_ns'],
+    // volo → vŏlŏ (Catullus 6.16): short final -ō of 1st-person verbs.
+    'volo': ['volo_', 'vo^lo^'],
+    // dabo → dăbŏ (Catullus 13.11): short final -ō.
+    'dabo': ['da^bo_', 'da^bo^'],
+    // Cyrenis → cŷ-rē-nīs (Catullus 7.4): Greek upsilon is short.
+    'cyrenis': ['Cy_re_ni_s', 'Cy^re_ni_s'],
+    // Mane → mănĕ (Catullus 10.27): hiatus at the quote boundary needs short final e.
+    'mane': ['ma_ne', 'ma^ne_', 'ma^ne^'],
+    // abite → ă-bī-te (Catullus 14.21): wordlist wrong on both vowels.
+    'abite': ['a_bi_te', 'a^bi_te'],
+    // quandoquidem → quāndŏ-quīdem (Catullus 101): wordlist has long o.
+    'quandoquidem': ['quando_qui^dem', 'quando^qui^dem'],
+    // tete → tētĕ (Catullus 101.5): missing from wordlist entirely.
+    'tete': ['te_te'],
+    // Oilei → ŏ-ĭ-lē-ī (Aen 1.41): wordlist has 4 long syllables.
+    'oilei': ['Oi_le_i_', 'O^le_i_'],
+    // Thesea → Thē-sĕ-ă (Aen 6.122, 6.123, LXIV): wordlist has long se.
+    'thesea': ['The_se_a', 'The_se^a'],
+    // Euryalus / Euryalum → Eu-ry-ă-lus (Aen 5.295, 5.323): wordlist has long a.
+    'euryalus': ['Eury^a_lus', 'Eury^a^lus'],
+    'euryalum': ['Eury^a_lum', 'Eury^a^lum'],
+    // Letum → lētum (Aen 6.277): capitalized proper noun falls to ending engine.
+    'letum': ['letum', 'le_tum'],
 };
 /**
  * Tokenization class - splits Latin text into tokens

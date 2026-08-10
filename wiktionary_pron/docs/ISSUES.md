@@ -335,6 +335,34 @@ form), so prose macronization is unchanged.
   reconstruction "fixed" but the whole-file gate does not (RFTagger POS
   differs per-line vs whole-file) — always judge by the whole-file gate.
 
+**2026-08-10 (same session) — empty-verse alignment + Catullus/Greek-name
+overrides + corpus fixes.** Two subagents parallelized the remaining buckets.
+- **Empty-verse alignment bug (engine `Scansion.ts`):** `scanVerses` emitted a
+  foot only for non-empty verses, so the `* * * * * * * *` divider lines in
+  catullus-LXII/LXIV shifted every subsequent line's feet index. This produced
+  spurious failures ("tertia sola tua est" reported failing) and HID 8 real
+  LXIV failures. Now empty verses emit empty-foot placeholders (alignment
+  preserved; automaton not advanced). Gate + `regen-snapshot.mjs` skip
+  non-verse lines. 140 → 137 baseline.
+- **15 more ACCENT_OVERRIDES** (subagent-verified against Latin Library /
+  wikisource / negenborn scanned Catullus / virgil.org): soluit, inelegantes,
+  fragrans, volo, dabo, cyrenis, mane, abite, quandoquidem, tete (missing from
+  wordlist), oilei, thesea (unlocks 5 lines), euryalus/euryalum, letum.
+  **24 more lines fixed, zero regressions** (137 → 113). Chosen readings
+  verified: sŏ-lu-it, in-ē-lĕ-gantēs, fra-grāns (ā by position), vŏlŏ, dăbŏ,
+  cŷ-rē-nīs, mănĕ (hiatus), ă-bī-te, tētĕ, ŏ-ĭ-lē-ī, Thē-sĕ-ă, Eu-ry-ă-lus.
+- **4 corpus text corrections** (the corpus, not the engine, was wrong):
+  catullus-II:7 `solacium`→`solaciolum`, catullus-II:11 `[est/es]`→`est`
+  (editorial bracket), catullus-II:13 `ligitam`→`ligatam`, catullus-LXIV:72
+  `misera`→`a misera` (missing interjection a). Two hemistichs
+  (Nisus et Euryalus primi, tertius Euryalus) are metrically incomplete
+  fragments by transmission — the first now scans partially (DDS), the second
+  remains a known failure.
+- GOLDEN list now **21 lines**; baseline **113 failing lines**.
+- **Rejected:** est-prodelision ("puero est" → "puero 'st") — only 2 failing
+  lines contain est, neither on the death path, and the metrical effect is
+  already produced by the existing `'V'`-elision branch. Not worth the risk.
+
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)
 The `.verse-foot.no-scan` placeholder lost to `body.dark_mode .verse-foot` on
