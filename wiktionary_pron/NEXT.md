@@ -12,9 +12,11 @@ exit 0):
   `feet.length === 5`. The 3× expansion (Aeneid 7-12 + Georgics + Eclogues +
   47 Catullus elegies, `e39b29f`) surfaced a 2.2% true baseline the 6-book
   corpus under-reported. Details: ISSUES.md M-013d/e/f/g.
-- **Gloss (M-005 → M-023d)**: closed; site fully pushed to origin/main (0
-  ahead). Artifact 34,342 lemmas / 448 KB gz / L&S 89.7%. The engine repo has
-  26 scansion commits unpushed (not deployed; engine is a local dev repo).
+- **Gloss (M-005 → M-023f)**: cross-author stress (Caesar/Cicero/Vergil/Ovid,
+  ~99% glossed) + full-artifact scans + the isSpurious homograph guard
+  (94 numbered homographs restored, 327 glosses corrected). Artifact 34,411
+  lemmas / 450 KB gz / L&S 89.8%. Tests 22 unit + 81 IPA + 2067 golden + 348
+  census. 4 commits unpushed (M-023c/d/e/f + f.2).
 
 ## Open threads
 - **Chase the 220 snapshot failures with `test/gold-blocker.mjs`** — for each
