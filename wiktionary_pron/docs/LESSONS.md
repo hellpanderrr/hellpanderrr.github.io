@@ -631,3 +631,12 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   mytho-geographical proper nouns. Both are ~1-2% of lemmas and hand-curatable
   via core overrides, but the verse tail (patronymics) has no L&S entry at all.
 - **Golden now 2051 rows; artifact 34,412 lemmas / 450 KB / L&S 89.8%.**
+
+## Full-artifact defect scan (2026-08-11, M-023e)
+
+- **The offline LLM layer shipped `</think>` / `<tool_call>` tokens INSIDE gloss values.** 10 entries in `utils/llm_glosses.tsv` (acte, adjaceo, concupisco, condico, fuco, futurus, piger, quintus, torquatus, unctus) had the LLM's reasoning leaked into the gloss ("to paint or dye</think>To color, paint, dye.", "fifth</think>*(Note: ..."). The generator didn't strip thinking-token output. All 10 have a clean gloss prefix before the artifact marker; strip everything after `</think>`/`<tool_call>`/`Note:` at the data layer. A whole-artifact scan for `</think>` etc. is the only way to catch these — the cross-author stress tests can't (they sample by lemma, and these words didn't appear).
+- **L&S parenthetical Latin examples survive extraction.** "The hair of the head (hence barba comaeque, Ov. M. 7, 288)" — the "(hence LATIN, Author. book)" is a worked example, not a gloss, and the parser keeps it. Only 2 in the artifact (coma, sphaera) — core override, not a parser rule.
+- **L&S senses[1+] can beat senses[0] on score and carry a fragment tail.** altanus: senses[0] "A south-southwest wind, between the Africus and Libonotus" lost to senses[1] "the sea winds were so called quod ab alto spirant)" (Latin quote + unclosed paren). statarius: senses[0] "stationary, standing firm" lost to senses[1] "a kind of comedy... Heaut. prol. 36 sq." (citation tail). Both need core overrides.
+- **Heuristic scans of the whole artifact are mostly false-positive.** "First token ends in -is/-it/-am" flags 1707 glosses but they're English verbs ("drive", "made", "cattle"). "relative-clause openers" flags proper nouns whose L&S gloss genuinely starts "who...". The reliable scans were: LLM-artifact tokens (zero false positives), parenthetical-Latin-citation (2 real), dangling-comma-tail (1 real, armus). Measure the class before fixing it.
+- **WORDS `[~ X => Y]` is a legitimate metaphor notation** ("pessum → to the lowest part, [~ dare => destroy, ruin]"), not LLM junk — don't strip it.
+- **Artifact after M-023e: 34,412 lemmas / 449 KB / L&S 89.8%. Golden 2056 / census 348, all green.**

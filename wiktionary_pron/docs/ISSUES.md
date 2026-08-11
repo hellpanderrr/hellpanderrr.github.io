@@ -926,3 +926,31 @@ and Morpheus-rescued forms whose lemmas ARE glossed (ide→idem, jamque→jam).
 
 **Status: FIXED.** Artifact 34,412 lemmas / 450 KB / L&S 89.8%. Golden 2051 /
 census 348 / 22 unit / 81 IPA, all green.
+
+## M-023e — Full-artifact defect scan + LLM-layer artifact cleanup (2026-08-11) ✅
+
+Ran targeted scans over ALL 34k artifact glosses, not just the stress-test
+samples. Found and fixed:
+
+1. **LLM-layer `</think>`/`<tool_call>` tokens leaked into gloss VALUES (10
+   entries).** acte, adjaceo, concupisco, condico, fuco, futurus, piger,
+   quintus, torquatus, unctus had reasoning output inside the gloss ("to
+   paint or dye</think>To color..."). Stripped everything after the artifact
+   marker at the data layer (55 llm entries cleaned total). Invisible to
+   cross-author stress tests — only a whole-artifact token scan catches it.
+2. **L&S parenthetical Latin examples survived extraction (2):** coma
+   "(hence barba comaeque, M. 7, 288)", sphaera "(pure Lat. globus. N. D.
+   2, 18, 47)" → core overrides "the hair of the head" / "a ball, globe,
+   sphere".
+3. **L&S senses[1+] beating senses[0] on score + fragment tail (2):** altanus
+   "the sea winds were so called quod ab alto spirant)" → "a south-southwest
+   wind"; statarius "...Heaut. prol. 36 sq." → "stationary, standing firm".
+4. **Dangling-comma tail (1):** armus "the fore quarter , and" → "the
+   shoulder, fore quarter".
+
+Full-artifact heuristics also confirmed non-issues: "a kind of X" species
+glosses, relative-clause proper-noun glosses, and [~ dare => destroy] WORDS
+metaphor notation are all legitimate.
+
+**Status: FIXED.** Artifact 34,412 lemmas / 449 KB / L&S 89.8%. Tests:
+22 unit + 81 IPA + 2056 golden + 348 census, all green.

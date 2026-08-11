@@ -14378,5 +14378,40 @@
       "contains": "Latona"
     },
     "note": "Ovid Met. 1 (M-023d)"
+  },
+  {
+    "lemma": "coma",
+    "expect": {
+      "contains": "hair"
+    },
+    "note": "paren-example cleanup (M-023e)"
+  },
+  {
+    "lemma": "sphaera",
+    "expect": {
+      "contains": "ball"
+    },
+    "note": "paren-example cleanup (M-023e)"
+  },
+  {
+    "lemma": "armus",
+    "expect": {
+      "contains": "shoulder"
+    },
+    "note": "fragment-tail cleanup (M-023e)"
+  },
+  {
+    "lemma": "altanus",
+    "expect": {
+      "contains": "wind"
+    },
+    "note": "fragment cleanup (M-023e)"
+  },
+  {
+    "lemma": "statarius",
+    "expect": {
+      "contains": "standing"
+    },
+    "note": "fragment cleanup (M-023e)"
   }
 ]
