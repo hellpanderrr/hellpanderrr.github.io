@@ -262,15 +262,15 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-11 — engine 22 commits: 150 → **13**
-failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56` + ~85
-gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322` + **M-013c hypermeter
-elision-completion guard `6c49747`** (26 → 15) + **M-013d gate-under-count
-audit** (`05f87e3` punctuation fix) + **M-013e mid-line `-que` elision fix +
-corpus corrections + hardened gate** (`47b7e5f`: 24 → 16) + **M-013f
-completion bonus + gold overrides** (`17a7049`: 16 → 13, see M-013f). The
-`ui`-diphthong theory was tested and REJECTED, see below. 13 lines remain —
-see M-013f.)
+**Status: PARTIALLY FIXED** (2026-08-11 — engine 25 commits: 150 → **220
+failing lines on a 3× corpus** (16,690 lines, 1.32%). The `6c49747`→`fba0aab`
+series fixed hypermeter, mid-line `-que`, 5-foot partials (completion bonus),
+3 corpus transcription errors, and the gold-lacuna automaton desync, and
+HARDENED the gate (`feet.length === 5` fails). The 3× expansion (Aeneid 7-12
++ Georgics + Eclogues + 47 Catullus elegies, `e39b29f`) surfaced a **2.2% true
+baseline** that the 6-book corpus under-reported as 0.24% — see M-013g. The
+`ui`-diphthong theory was tested and REJECTED, see below. 220 lines remain —
+see M-013g.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -531,6 +531,34 @@ hexameter whose real quantities (long vowels, y-synizesis) cost 1-3.
   DDSDDS), `victor apud rapidum Simoenta` (Aen 5.261, DDSDDS).
 - **Result:** snapshot 16 → **13** failing lines (12 empty-foot + 1 remaining
   5-foot partial: Nereidum matri, correctly partial). Gate exit 0, jest 38/38.
+
+**2026-08-11 (M-013g) — corpus expansion exposed the true error rate + gold
+lacuna desync. Snapshot 13 → 220 on 16,690 lines (1.32%).**
+- **3× corpus expansion** (`e39b29f`): Aeneid 7-12 (5,141 hexameter lines) +
+  Georgics 1-4 (2,187) + Eclogues 1-10 (830) + 47 Catullus elegiac distichs
+  (650), all extracted gold-verified from hypotactic per-syllable data via
+  `test/extract-gold-corpus.mjs`. The old corpus (books 1-6) reported 0.24%
+  failures; the expansion surfaced a **2.2% true baseline** — later books hit
+  systematic wordlist-quantity errors books 1-6 never did (Greek proper names
+  like Euander/Arcades, `bijugis` clusters, common 2-syll verbs sinit/dabat).
+  **Lesson: corpus breadth, not polish, sets the real error rate.**
+- **Gold-lacuna automaton desync fixed** (`fba0aab`): empty verse positions in
+  alternating-meter poems (Catullus 68 lines 47/142/143) broke hex/pent
+  alternation — the gate filtered empty lines and `scanVerses` didn't advance
+  the automaton, so ~112 of Catullus 68's failures were pentameters scanned
+  against the hexameter automaton. Fix: advance automaton on empty verses +
+  preserve interior empty lines (lacunae) in gate/regen.
+- **M-013g override batch** (gold-verified): Euander cluster (LLL/LLS — u as
+  vowel), obice/obiciunt (closed-prefix), Laride, Cisseis, Atinas, Mago,
+  sinit, dabat, juvat, Thybri. 349 → 220.
+- **Result:** 220 failing lines / 16,690 (1.32%), concentrated in Aeneid 10
+  (29), 12 (22), 7 (17), Georgics 4 (17), 11 (15). Gate exit 0, jest 38/38.
+- **Remaining 220** triaged by `test/gold-blocker.mjs` (per-line: the first
+  word whose gold L/S pattern the engine can't produce). Systematic clusters
+  still open: Arcades (segmenter can't make LSS), bijugis/quadrijugis
+  (y-synizesis), alveo (veo), inicit/manibus. The hypotactic corpus has 28
+  works (Ovid, Lucretius, Lucan, Statius...) — further expansion is one
+  command (`extract-gold-corpus.mjs`) away.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

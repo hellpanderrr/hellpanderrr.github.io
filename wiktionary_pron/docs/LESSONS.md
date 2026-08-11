@@ -482,6 +482,36 @@ non-obvious method lessons, in the order they bit:
   consonantizes; alveo LL — `veo` always 3-syll). Diagnose by checking whether
   ANY `_`/`^` marking of the word gives the gold L/S pattern via
   `possibleScans`; if none does, it's a segmenter limitation, not an override.
+  ✅ **enforced by `test/gold-blocker.mjs`** (2026-08-11) — automates exactly
+  this diagnosis per failing line and reports the first blocked word.
+
+## A "low scansion error rate" is only as meaningful as corpus breadth (2026-08-11, M-013g expansion)
+
+- **A corpus of Aeneid 1-6 under-reports the error rate by ~10x.** The old
+  5,478-line corpus (books 1-6 + 7 Catullus poems) measured 0.24% failures.
+  Expanding to Aeneid 7-12 + Georgics + Eclogues + 47 Catullus elegies
+  (16,690 lines, extracted from hypotactic gold via `test/extract-gold-corpus.mjs`)
+  surfaced a **2.2% true baseline** — later books hit systematic
+  wordlist-quantity errors books 1-6 never did (Greek proper names like
+  Euander/Arcades, `bijugis` clusters, common 2-syll verbs like sinit/dabat).
+  Lesson: sample breadth matters more than polish; a headline "0.24% error"
+  claim is only as good as the texts it was measured on. Every metric needs
+  the corpus composition attached.
+- **Gold lacunae desync alternating-meter automata** (`fba0aab`). An empty
+  verse position with a line number (Catullus 68 lines 47/142/143 — 3 lacunae)
+  broke the hex/pent alternation of elegiac distichs: the gate FILTERED empty
+  lines, and `scanVerses` did NOT advance the automaton on empty verses, so
+  every subsequent pentameter was scanned against the hexameter automaton —
+  ~112 of Catullus 68's failures were that single desync. Fix: advance the
+  automaton on empty verses (harmless for single-meter corpora where the index
+  wraps) AND preserve interior empty lines in the gate/regen (drop only the
+  trailing file-final newline). **When a gold-extracted corpus file has fewer
+  lines than gold, suspect lacunae before suspecting the engine.**
+- **The hypotactic gold data lives in the OS temp dir — back it up.** It was
+  purged mid-session by a disk-full cleanup; recovered from
+  `hypotactic_data.zip` (the original download). The gold JSONs are the
+  verification substrate for all of M-013; losing them means re-downloading
+  100MB+ per work. Keep a copy outside temp.
 
 ## Closing the two-family audit loop (2026-08-10, M-022 closure)
 

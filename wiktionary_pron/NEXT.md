@@ -5,45 +5,35 @@ _Updated 2026-08-11 — branch `main`_
 ## State
 Two tracks, both verified by their own gates (`npm test` exit 0, scansion gate
 exit 0):
-- **Scansion (M-013b/c/d/e/f) is the active front**: 150 → 13 snapshot failures
-  over 22 engine commits, ~85 gold-verified `ACCENT_OVERRIDES` + hypermeter
-  support. **M-013e (`47b7e5f`)** fixed the mid-line `-que` elision leak
-  (24 → 16), 3 corpus transcription errors (Cat 64.204 `ecens`→`exposcens`,
-  64.293 `aerea`→`aeria`, 64.346 restored `campī`), and **hardened the gate**
-  (5-foot partials now fail, not just empty feet). **M-013f (`17a7049`)** added
-  a bounded completion bonus (=3, one HIATUS/SYNEZIS) + gold overrides
-  (ilio LSS, euryalus LSSL), resolving 3 of the 4 five-foot partials
-  (16 → 13). Hypermeter preserved. Details: ISSUES.md M-013d/e/f.
-- **Gloss (M-005 → M-023)**: full 3-family audit + closure re-audit + full
-  two-family intersection processed. **M-023 (2026-08-11) re-opened the
-  numbered-homograph hole**: 236 corrupt numbered keys stripped from the llm
-  layer + 24 numbered core overrides (manlius2, pilus2, cillo2, porus2,
-  praes2, uber2...). Artifact 34,342 lemmas / 448 KB gz / L&S 89.7%. Tests:
-  22 unit + 81 IPA + 2016 golden + 348 census. ~22 commits unpushed.
+- **Scansion (M-013a→g)**: 150 → **220 failing lines on a 3× corpus** (16,690
+  lines, 1.32%). The `6c49747`→`fba0aab` series fixed hypermeter, mid-line
+  `-que`, 5-foot partials (bounded completion bonus), 3 corpus transcription
+  errors, and the gold-lacuna automaton desync; the gate now fails on
+  `feet.length === 5`. The 3× expansion (Aeneid 7-12 + Georgics + Eclogues +
+  47 Catullus elegies, `e39b29f`) surfaced a 2.2% true baseline the 6-book
+  corpus under-reported. Details: ISSUES.md M-013d/e/f/g.
+- **Gloss (M-005 → M-023d)**: closed; site fully pushed to origin/main (0
+  ahead). Artifact 34,342 lemmas / 448 KB gz / L&S 89.7%. The engine repo has
+  26 scansion commits unpushed (not deployed; engine is a local dev repo).
 
 ## Open threads
-- **The 13 remaining snapshot lines are mostly segmenter limitations, not
-  overrides.** Diagnosed against gold (hypotactic per-syllable): the blockers
-  are the segmenter's inability to produce gold patterns (malesuāda SSLS —
-  `sua` always splits; Dryopes SSLS — `y` always consonantizes; alveo LL —
-  `veo` always 3-syll; Nereidum gold path is pen6 above the cheap path, so a
-  bounded bonus correctly leaves it a 5-foot partial). These need segmenter
-  work, not `ACCENT_OVERRIDES` — each is risky and needs a full-gate
-  regression check. The one candidate that may be an ENGINE fix (not
-  segmenter): `nomen et arma` (Aen 6.507) needs elision to NOT cross
-  punctuation (`tē, amīce` — comma blocks elision, but the engine skips
-  punctuation when computing followingSegment). Verify against Python
-  reference before attempting; punctuation-elision is a deliberate deviation.
-- **Push to GitHub Pages** — ~22 commits unpushed (M-021/M-022/M-023 gloss
-  series + scansion M-013b/c/d/e/f). Live site serves pre-M-021. `git push
-  origin main`, verify live after.
+- **Chase the 220 snapshot failures with `test/gold-blocker.mjs`** — for each
+  failing line it reports the first word whose gold L/S pattern the engine
+  can't produce. Systematic clusters: Arcades (segmenter can't make LSS),
+  bijugis/quadrijugis (y-synizesis), alveo (veo), inicit/manibus (common
+  verbs). Run it, then batch the override-able words (verify each form via
+  `possibleScans` before adding). Start: `node test/gold-blocker.mjs`.
+- **Expansion roadmap**: the hypotactic corpus has 28 works (Ovid 263MB,
+  Lucretius, Lucan, Statius, Silius, Propertius, Tibullus, Juvenal, Persius,
+  Martial...). `node test/extract-gold-corpus.mjs` pulls any of them into the
+  corpus (add a `--work` mode for non-Vergil/Catullus). Each new work will
+  surface fresh wordlist gaps — that's the point.
+- **Engine not pushed** (26 ahead of origin) — push only if the user asks.
 
 ## Running / unfinished
 Nothing running. Scansion snapshot: `test/data/scansion-failures-snapshot.json`
-(13), regenerate with `node test/regen-snapshot.mjs` after an intended change.
-Gold data (temp): hypotactic `vergil.json`/`catullus.json` (per-syllable).
-Gloss audit outputs in `tmp/` (never commit) — all already applied to
-`utils/llm_glosses.tsv` and committed.
+(220), regenerate with `node test/regen-snapshot.mjs` after an intended change.
+Gold data (temp): hypotactic at `C:/Users/HELLPA~1/AppData/Local/Temp/hypotactic_data_6_17_2025/` (recovered from `hypotactic_data.zip` after a purge — **back it up**, it's the verification substrate). New corpus files + extractor + blocker are committed (`e39b29f`).
 
 ## Don't redo
 - **Judge scansion by the whole-file gate ONLY** — per-line runs differ
@@ -51,28 +41,27 @@ Gloss audit outputs in `tmp/` (never commit) — all already applied to
 - **Never corrupt vowel quantities to make a line scan**; print chosen forms,
   check against the edition.
 - **Gold per-syllable data > surface macrons** (rēligiō). Brute-force `_`/`^`
-  forms against the L/S pattern.
+  forms against the L/S pattern; if none produces the gold pattern, it's a
+  segmenter limitation, not an override (`gold-blocker.mjs` automates this).
 - **Hypermeter = verse-final -que dual #/V candidate, never splice lines.**
-  The elision-completion guard (`6c49747`) finishes the meter. **Do NOT apply
-  the min-penalty merge to mid-line -que** (27-line regression). `verseFinalQue`
-  detection must skip punctuation (`05f87e3`). **Mid-line -que before a
-  consonant must not offer the V (eliding) reading at all** (`47b7e5f` — the
-  spurious `que[]` cheap-penalty leak flipped 6 lines to 5-foot partials).
+  `6c49747` finishes the meter. **Do NOT apply the min-penalty merge to
+  mid-line -que** (27-line regression). `verseFinalQue` detection skips
+  punctuation (`05f87e3`). **Mid-line -que before a consonant must not offer
+  the V reading** (`47b7e5f`).
 - **No global h-position rule** — gold is inconsistent; use per-word overrides.
 - **Completion bonus must be bounded (< cost of a corrupt alternative).** The
-  bonus (=3, one HIATUS/SYNEZIS) fixes hexameters within one concession but
-  must NOT be 6+ — that forced Nereidum to complete with wrong 12-syllable
-  quantities. Verify every fixed line uses GOLD forms, not just any 6-foot
-  path (`17a7049`).
+  bonus (=3) fixes hexameters within one concession but must NOT be 6+ —
+  that forced Nereidum to complete with wrong quantities (`17a7049`).
 - **Overridden wordforms clear isUnknown** (the Cymodoce all-long trap).
 - **Corpus text errors → fix the corpus, not the engine** (verify vs gold).
-- **Gloss don't-redo**: the two-family intersection is ~80% FP — both models
-  share wrong-POS/twin-sense errors; agreement is a filter, never a verdict,
-  only the L&S-primary cross-check decides. Adverb-POS is invisible to
-  word-overlap L&S filters (L&S adverbs open "Fin.") — detect via wordlist POS.
-  Numbered homographs → L&S key authoritative, never generate for them.
-  Numbered L&S key ≠ wordlist numbered sense (porus2 wordlist "pore" = L&S
-  porus1). Never put numbered keys in the llm layer — strip them (M-023). Fix
-  waves carry ~2.5-5% L&S-contradiction — re-run the applied-vs-L&S scan after
-  every batch. POS guard in `build_glosses.cjs` is live; don't "fix" what it
-  bypasses.
+- **Gold lacunae = real verse positions.** When a gold-extracted corpus file
+  has fewer lines than gold, suspect lacunae (empty entries with line numbers)
+  before suspecting the engine — they desync alternating-meter automata
+  (`fba0aab`). Preserve interior empty lines in the gate.
+- **A "low error rate" is corpus-breadth-dependent.** 0.24% on books 1-6 was
+  really 2.2% over 3× the texts. State the corpus composition with any metric.
+- **Gloss don't-redo**: two-family intersection is ~80% FP; agreement is a
+  filter, never a verdict — only the L&S-primary cross-check decides.
+  Adverb-POS is invisible to word-overlap filters. Numbered homographs → L&S
+  key authoritative; never put numbered keys in the llm layer (M-023). Re-run
+  the applied-vs-L&S scan after every fix batch.
