@@ -262,14 +262,15 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-11 — engine 21 commits: 150 → **16**
+**Status: PARTIALLY FIXED** (2026-08-11 — engine 22 commits: 150 → **13**
 failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56` + ~85
 gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322` + **M-013c hypermeter
 elision-completion guard `6c49747`** (26 → 15) + **M-013d gate-under-count
 audit** (`05f87e3` punctuation fix) + **M-013e mid-line `-que` elision fix +
-corpus corrections + hardened gate** (`47b7e5f`: 24 → 16, see M-013e). The
-`ui`-diphthong theory was tested and REJECTED, see below. 16 lines remain —
-see M-013e.)
+corpus corrections + hardened gate** (`47b7e5f`: 24 → 16) + **M-013f
+completion bonus + gold overrides** (`17a7049`: 16 → 13, see M-013f). The
+`ui`-diphthong theory was tested and REJECTED, see below. 13 lines remain —
+see M-013f.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -510,6 +511,26 @@ not a missing quantity:
 - **Result:** snapshot 24 → **16** failing lines (12 empty-foot + 4 remaining
   5-foot partials). Gate exit 0, jest 38/38, hypermeter (Aen 5.826 Cymodoce)
   still scans 6 feet. True error rate: 16/5,478 (0.29%).
+
+**2026-08-11 (M-013f) — the completion bonus for 5-foot partials: 16 → 13.**
+The DP treats "stop early" as free (0 penalty), so a 5-foot partial that
+avoids phonological penalties by not finishing beats a complete 6-foot
+hexameter whose real quantities (long vowels, y-synizesis) cost 1-3.
+- **Fix:** `COMPLETIONBONUS = 3` in `scanVerse` — a reading ending at state 0
+  gets up to one HIATUS/SYNEZIS penalty off. This prefers a genuine hexameter
+  within one concession, and **does NOT force multi-corruption completions**
+  (Nereidum matri: gold complete is pen6 above the cheap path, so it stays a
+  correct 5-foot partial rather than completing with wrong 12-syllable
+  quantities — verified, not corrupted). A hemistich has no complete path, so
+  the bonus never invents completion. (Engine `17a7049`.)
+- **Overrides added** (gold-verified, hypotactic per-syllable): `ilio`
+  (`i_li^o^`, LSS for Aen 5.261); `euryalus`/`euryalum` gain the
+  y-as-consonant 4-syllable reading (`e^u^ry^a^lu_s`, LSSL for Aen 5.337).
+- **Resolved 3 of the 4 remaining five-foot partials**, all gold-consistent:
+  `Tune ille Aeneas` (Aen 1.617, SSSDSS), `emicat Euryalus` (Aen 5.337,
+  DDSDDS), `victor apud rapidum Simoenta` (Aen 5.261, DDSDDS).
+- **Result:** snapshot 16 → **13** failing lines (12 empty-foot + 1 remaining
+  5-foot partial: Nereidum matri, correctly partial). Gate exit 0, jest 38/38.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

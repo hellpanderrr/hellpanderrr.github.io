@@ -463,6 +463,25 @@ non-obvious method lessons, in the order they bit:
   an elision/optional-syllable candidate that is phonologically impossible in a
   context silently wins on cheap penalty; gate candidate *generation* by the
   same phonological condition the meter assumes.
+- **A flat "prefer completion" bonus corrupts; a bounded one is safe** (2026-08-11,
+  M-013f, `17a7049`). The DP treats "stop early" as free, so a complete 6-foot
+  hexameter whose real quantities cost 3-6 penalty loses to a 5-foot partial.
+  But a LARGE completion bonus (6) forces WRONG completions: Nereidum matri
+  completed as a corrupt 12-syllable all-spondee `SSSSSS` using short forms
+  (`ma_tri_` as L, `neptu_no_` as LL) instead of the gold 13-syllable
+  `DSSSSS` (nē-rē-i-dum 4-syll). Bounding the bonus at 3 (one HIATUS/SYNEZIS
+  penalty) fixed Tune ille + victor Simoenta (complete paths within 3 penalty)
+  while Nereidum correctly stayed a 5-foot partial (its gold path is pen6
+  above — completing would corrupt). Lesson: a "prefer X" heuristic must be
+  bounded below the cost of a corrupt alternative, and every fixed line must
+  be verified to use GOLD forms, not just any 6-foot path. A "fix" that makes
+  a line scan by corrupting quantities is worse than leaving it failing.
+- **Wordlist quantity errors vs segmenter limitations.** Many remaining
+  empty-foot lines are NOT override-fixable: the segmenter can't produce the
+  gold pattern (malesuāda SSLS — `sua` always splits; Dryopes SSLS — `y` always
+  consonantizes; alveo LL — `veo` always 3-syll). Diagnose by checking whether
+  ANY `_`/`^` marking of the word gives the gold L/S pattern via
+  `possibleScans`; if none does, it's a segmenter limitation, not an override.
 
 ## Closing the two-family audit loop (2026-08-10, M-022 closure)
 
