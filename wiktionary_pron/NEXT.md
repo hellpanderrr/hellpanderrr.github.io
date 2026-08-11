@@ -8,10 +8,12 @@ exit 0):
 - **Scansion (M-013b/c/d) is the active front**: 150 → 12 snapshot failures
   over 19 engine commits, ~85 gold-verified `ACCENT_OVERRIDES` + hypermeter
   support. See M-013c/d notes below and ISSUES.md M-013.
-- **Gloss (M-005 → M-022) is CLOSED at its plateau**: full 3-family audit +
-  closure re-audit + full two-family intersection (460 lemmas) processed to
-  zero. Artifact 34,338 lemmas / 448 KB gz / L&S 89.8%. Tests: 22 unit + 81
-  IPA + 1992 golden + 348 census. ~21 commits unpushed.
+- **Gloss (M-005 → M-023)**: full 3-family audit + closure re-audit + full
+  two-family intersection processed. **M-023 (2026-08-11) re-opened the
+  numbered-homograph hole**: 236 corrupt numbered keys stripped from the llm
+  layer + 24 numbered core overrides (manlius2, pilus2, cillo2, porus2,
+  praes2, uber2...). Artifact 34,342 lemmas / 448 KB gz / L&S 89.7%. Tests:
+  22 unit + 81 IPA + 2016 golden + 348 census. ~22 commits unpushed.
 
 ## Open threads
 - **Harden the scansion gate to catch partial scans — highest value.** The gate
@@ -52,7 +54,9 @@ Gloss audit outputs in `tmp/` (never commit) — all already applied to
   share wrong-POS/twin-sense errors; agreement is a filter, never a verdict,
   only the L&S-primary cross-check decides. Adverb-POS is invisible to
   word-overlap L&S filters (L&S adverbs open "Fin.") — detect via wordlist POS.
-  Numbered homographs → L&S key authoritative, never generate for them. Fix
+  Numbered homographs → L&S key authoritative, never generate for them.
+  Numbered L&S key ≠ wordlist numbered sense (porus2 wordlist "pore" = L&S
+  porus1). Never put numbered keys in the llm layer — strip them (M-023). Fix
   waves carry ~2.5-5% L&S-contradiction — re-run the applied-vs-L&S scan after
   every batch. POS guard in `build_glosses.cjs` is live; don't "fix" what it
   bypasses.

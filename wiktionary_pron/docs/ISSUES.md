@@ -728,3 +728,41 @@ its plateau.
 **Pipeline lesson** (M-022a…m): every LLM fix wave must close with a full
 re-audit of the FIXED artifact + L&S primary cross-check on all changes;
 intersection-of-families is a filter, never a verdict.
+
+## M-023 — Numbered-homograph hole in the LLM layer (2026-08-11) ✅
+
+**Symptom.** The llm everyday-gloss layer (`utils/llm_glosses.tsv`) carried 236
+numbered-homograph keys, and `resolve()` returns the llm gloss for a numbered
+lemma before the L&S/WORDS path. Since the llm layer has no POS/numbering
+signal, numbered entries were systematically corrupt: `manlius2`→"to manage
+affairs competently" (proper-noun Manlius), `araneus2`→"to be spider-like",
+`cujus2`→"of whom or whose" (not a gloss), `pilus2`→"a new word, primipilus...
+was formed)" (citation fragment), `cillo2`→"sodomite" (L&S cillo2 empty →
+WORDS noise), `convector2`→"the deity..." (sense of convector1, not the
+fellow-passenger of convector2), `uber2`→"cf. ibid. II. C.], rich..." (crossref
+fragment), `adeo2`→"who restrained his anger so little that" (citation).
+
+**Root cause.** The memory rule "numbered → L&S authoritative, never generate
+for them" was enforced only at the *audit* layer; the llm *layer itself* was
+never stripped. Also, the wordlist (Morpheus/Perseus) and L&S number homographs
+independently, so a numbered L&S key is NOT the wordlist's numbered sense
+(`porus2` wordlist "a pore" = L&S `porus1`; L&S `porus2` is "tufa"). And ~93
+numbered wordlist lemmas are unassimilated compound verbs with no L&S/WORDS
+sense at all (abcedo2, adfrigo2, conpario2, inmoror2...).
+
+**Fix.**
+1. Stripped all 236 numbered keys from `llm_glosses.tsv` — the llm layer now
+   covers bare lemmas only.
+2. 18 numbered core overrides + 6 restored-numbered (porus2 "a pore",
+   praes2 "at hand", varicus2 "straddling", tropa2 "turning", disvulgo2,
+   inmoror2) in `utils/core_gloss.json` (now 1943 entries) — each with a
+   golden row (now 2016).
+3. Left the ~93 unassimilated compound verbs to fall through to "—" (no gloss
+   beats a hallucination).
+
+**Result.** Artifact 34,342 lemmas / 448 KB / L&S 89.7% (from 34,338 / 89.8% —
+net L&S share essentially flat, corruption removed). Tests: 22 unit + 81 IPA +
+2016 golden + 348 census, all green. One numbered gap remains by design:
+numbered homographs whose signatures differ from the bare twin and whose L&S
+numbered sense is the wrong (rarer/etymological) one need a core override, not
+a parse-rule change — that's a curation tail, not a bug.
