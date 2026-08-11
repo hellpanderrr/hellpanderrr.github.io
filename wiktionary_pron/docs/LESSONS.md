@@ -640,3 +640,36 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - **Heuristic scans of the whole artifact are mostly false-positive.** "First token ends in -is/-it/-am" flags 1707 glosses but they're English verbs ("drive", "made", "cattle"). "relative-clause openers" flags proper nouns whose L&S gloss genuinely starts "who...". The reliable scans were: LLM-artifact tokens (zero false positives), parenthetical-Latin-citation (2 real), dangling-comma-tail (1 real, armus). Measure the class before fixing it.
 - **WORDS `[~ X => Y]` is a legitimate metaphor notation** ("pessum → to the lowest part, [~ dare => destroy, ruin]"), not LLM junk — don't strip it.
 - **Artifact after M-023e: 34,412 lemmas / 449 KB / L&S 89.8%. Golden 2056 / census 348, all green.**
+
+## The isSpurious homograph guard (2026-08-11, M-023f) — biggest gloss fix in weeks
+
+- **isSpurious() was too aggressive: it collapsed real L&S numbered homographs
+  to their bare twin.** The dual-signature test (form+accent AND form+tag both
+  match the bare twin) correctly catches wordlist DUPLICATES (paro2 = paro), but
+  it ALSO fires for genuine homographs whose inflections are identical — mora2
+  "the echeneis fish" vs mora "a delay", labes2 "a stain" vs labes "a fall",
+  munificus2 "on duty" vs munificus "bountiful", olor2 "a smell" vs olor "a swan".
+  These identical-form homographs passed BOTH signatures and got collapsed to
+  the bare sense. 94 such lemmas had their own L&S numbered key with distinct
+  senses, and 327 artifact glosses changed once the guard was added.
+- **The fix is a guard BEFORE the dual-signature test: if the L&S NUMBERED key
+  (mora2) has its own senses, the wordlist lemma X2 is a real homograph, never
+  spurious.** Falls through to the dual-signature test only when L&S has no
+  numbered key (true duplicates like paro2). This preserves every regression
+  case (testis2 "testicle", levo2 "smooth", populus2 "poplar") while fixing
+  mora2/labes2/olor2/munificus2/carmen2/etc.
+- **The numbered pairs are now correct across the board**: carmen "a prophecy"/
+  carmen2 "a card"; mora "delay"/mora2 "fish"; labes "fall"/labes2 "stain";
+  populus "people"/populus2 "poplar"; levo "lift"/levo2 "smooth"; testis
+  "witness"/testis2 "testicle"; hostio "to make even"/hostio2 "to strike".
+- **Two old core keys were themselves wrong**: core['acer']="sharp, keen,
+  piercing (adj.); the maple tree" mixed both homographs (acer1 maple, acer2
+  sharp) — fixed to "sharp, keen, piercing". Added core['altus']="high, deep,
+  lofty" (WORDS had given "a polar word meaning both high and deep").
+- **Post-guard check for fragment regressions caught 2**: aenus3 "a bronze
+  vessel" (L&S primary is "of copper or bronze"; parser picked the Lit. tail),
+  fabrefacio "perh. to be written separately fabre facio)" (L&S senses[0] tail).
+  Both core-fixed.
+- **Artifact after M-023f: 34,411 lemmas / 450 KB / L&S 89.8%. Golden 2066 /
+  census 348, all green.** ~310 numbered homographs now carry their own sense
+  instead of the bare twin's.

@@ -747,9 +747,9 @@
   {
     "lemma": "acer",
     "expect": {
-      "contains": "sharp, keen, piercing (adj.); the maple tree"
+      "contains": "sharp"
     },
-    "note": "core_gloss"
+    "note": "core polish (M-023f)"
   },
   {
     "lemma": "ad",
@@ -14413,5 +14413,75 @@
       "contains": "standing"
     },
     "note": "fragment cleanup (M-023e)"
+  },
+  {
+    "lemma": "arcte",
+    "expect": {
+      "contains": "closely"
+    },
+    "note": "single-word POS fix (M-023f)"
+  },
+  {
+    "lemma": "aperto",
+    "expect": {
+      "contains": "bare"
+    },
+    "note": "single-word POS fix (M-023f)"
+  },
+  {
+    "lemma": "catus",
+    "expect": {
+      "contains": "sharp"
+    },
+    "note": "numbered-homograph mismatch (M-023f)"
+  },
+  {
+    "lemma": "catus2",
+    "expect": {
+      "contains": "cat"
+    },
+    "note": "numbered-homograph mismatch (M-023f)"
+  },
+  {
+    "lemma": "catellus2",
+    "expect": {
+      "contains": "chain"
+    },
+    "note": "numbered-homograph mismatch (M-023f)"
+  },
+  {
+    "lemma": "campus2",
+    "expect": {
+      "contains": "sea-horse"
+    },
+    "note": "numbered-homograph mismatch (M-023f)"
+  },
+  {
+    "lemma": "hostio2",
+    "expect": {
+      "contains": "strike"
+    },
+    "note": "numbered-homograph mismatch (M-023f)"
+  },
+  {
+    "lemma": "aenus3",
+    "expect": {
+      "contains": "copper"
+    },
+    "note": "homograph-guard sense pick (M-023f)"
+  },
+  {
+    "lemma": "aenus",
+    "expect": {
+      "contains": "copper"
+    },
+    "note": "homograph-guard sense pick (M-023f)"
+  },
+  {
+    "lemma": "fabrefacio",
+    "expect": {
+      "contains": "skilfully"
+    },
+    "note": "homograph-guard sense pick (M-023f)"
   }
 ]

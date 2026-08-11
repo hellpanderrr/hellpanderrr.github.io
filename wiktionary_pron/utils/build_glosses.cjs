@@ -700,6 +700,19 @@ function isSpurious(l) {
   const m = l.match(/^(.*?)(\d+)$/);
   if (!m) return false;
   const bare = m[1];
+  // HOMOGRAPH GUARD (M-023f): a wordlist numbered lemma (mora2, labes2) whose
+  // L&S NUMBERED key has its OWN senses is a real homograph, NOT a spurious
+  // duplicate — even when the form+accent AND form+tag signatures match the bare
+  // twin. mora2 "the echeneis fish" vs mora "a delay"; labes2 "a stain" vs labes
+  // "a fall"; munificus2 "on duty" vs munificus "bountiful". The dual-signature
+  // test can't distinguish these (identical inflection), but the L&S numbered
+  // key's independent sense is the authority. Falls back to the dual-signature
+  // test below when L&S has no numbered key (true duplicates like paro2).
+  const lsNum = lsByKey.get(l);
+  if (lsNum && Array.isArray(lsNum.senses) && lsNum.senses.length && typeof lsNum.senses[0] === "string") {
+    // numbered key has own senses → homograph (never spurious)
+    return false;
+  }
   // A numbered lemma is a wordlist DUPLICATE only when it matches the bare twin
   // on BOTH signatures — form+accent AND form+tag. A distinct homograph (testis2
   // "testicle" vs testis "witness", levo2 "smooth" vs levo "lift") differs on at

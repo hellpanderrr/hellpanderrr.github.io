@@ -954,3 +954,28 @@ metaphor notation are all legitimate.
 
 **Status: FIXED.** Artifact 34,412 lemmas / 449 KB / L&S 89.8%. Tests:
 22 unit + 81 IPA + 2056 golden + 348 census, all green.
+
+## M-023f — isSpurious homograph guard + full-artifact numbered audit (2026-08-11) ✅
+
+**Symptom.** 94 numbered wordlist lemmas were glossed with their BARE twin's
+sense instead of their own L&S homograph sense. isSpurious() collapsed mora2
+(the echeneis fish) to mora (a delay), labes2 (a stain) to labes (a fall),
+munificus2 (on duty) to munificus (bountiful), olor2 (a smell) to olor (a
+swan), carmen2 (a card) to carmen (a prophecy). The dual-signature test
+(form+accent AND form+tag matching the bare twin) can't distinguish identical-
+form homographs from true duplicates.
+
+**Fix.** Added a homograph guard at the top of isSpurious(): if the L&S
+NUMBERED key (mora2) has its own senses, the lemma is a real homograph — never
+spurious. Falls through to the dual-signature test only when L&S has no
+numbered key (true duplicates like paro2). 327 numbered glosses changed; all
+regression cases (testis2, levo2, populus2, paro2) preserved.
+
+Also fixed from the audit: core['acer'] mixed both homographs (now "sharp,
+keen, piercing"); added core['altus']="high, deep, lofty" (WORDS had given a
+nonsense gloss); aenus3/fabrefacio fragment tails (parser picked the Lit.
+secondary) → core.
+
+**Status: FIXED.** Artifact 34,411 lemmas / 450 KB / L&S 89.8%. Tests: 22 unit
++ 81 IPA + 2066 golden + 348 census, all green. ~310 numbered homographs now
+carry their own sense.
