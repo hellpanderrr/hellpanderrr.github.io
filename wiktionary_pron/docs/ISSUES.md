@@ -979,3 +979,18 @@ secondary) → core.
 **Status: FIXED.** Artifact 34,411 lemmas / 450 KB / L&S 89.8%. Tests: 22 unit
 + 81 IPA + 2066 golden + 348 census, all green. ~310 numbered homographs now
 carry their own sense.
+
+## M-023f.2 — post-guard verification: infucatus2 (2026-08-11) ✅
+
+After the homograph guard, verified all 94 restored numbered homographs
+against L&S. One residual wrong: infucatus2 (wordlist homograph) got "colored"
+(from infucatus1/fuco) instead of L&S infucatus2 = "not painted (late Lat.)".
+The guard let it through (numbered key has own senses) but the L&S sense
+extraction for infucatus2 (gated by the "(late Lat.)" era note) returned null,
+so it fell back. Core override added.
+
+Common-numbered-lemma sanity: 0 common numbered homographs (corpus freq ≥2) now
+carry a rare/obscure sense — the guard correctly routes every frequent word to
+its everyday meaning.
+
+**Status: FIXED.** Golden 2067 / census 348 / 22 unit / 81 IPA, all green.

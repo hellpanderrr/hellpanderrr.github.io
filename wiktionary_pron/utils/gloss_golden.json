@@ -14483,5 +14483,12 @@
       "contains": "skilfully"
     },
     "note": "homograph-guard sense pick (M-023f)"
+  },
+  {
+    "lemma": "infucatus2",
+    "expect": {
+      "contains": "not painted"
+    },
+    "note": "homograph sense (M-023f)"
   }
 ]
