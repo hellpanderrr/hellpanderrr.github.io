@@ -82,7 +82,7 @@ const STRONG_OPEN = /^(?:to\s|a\s|an\s|the\s|one who\s|that which\s|a person who
 // grammar-abbrev density — the tell of a usage note ("The rel. freq. agrees with
 // the foll. word") vs a real gloss ("All, every", "who? which?"). Also author
 // names glued to the end of an example clause ("...dissolverunt?Cic").
-const GRAMMAR_ABBR = /\b(?:neutr|plur|sing|freq|rel|foll|subst|interrog|impers|gen|dat|acc|abl|voc|nom|gramm|ellipt|collect|perh|esp|opp)\b\.?/i;
+const GRAMMAR_ABBR = /\b(?:neutr|plur|sing|freq|rel|foll|subst|interrog|impers|gen|dat|acc|abl|voc|nom|gramm|ellipt|collect|esp|opp)\b\.?/i;
 const TRAIL_AUTHOR_BARE = /(?:Cic|Liv|Plaut|Ter|Verg|Virg|Ov|Hor|Caes|Sen|Tac|Cat|Juv|Stat|Plin|Suet|Lucr|Tert|Gell|Curt|Varr|Enn|Isid|Amm|Charis|Prisc|Donat|Serv|Pan|App|Front|Lampr|Ambros|Val|Macr|Nep|Aus|Flor|Hier|Cassiod|Sid|Pall|Quint|Colum)\b\.?\s*$/i;
 const WEAK_OPEN = /^(?:of\s|in\s|by\s|for\s|from\s|with\s|at\s|on\s|into\s|against\s|around\s|before\s|beyond\s|per\s|and\s|also\s|such\s|same\s|hence\s|esp\.\s|perh\.\s|that\s|those\s|this\s)/i;
 const LATIN_FORM = /(?:isse|asse|unt|erit|tur|mus|tis|ium|ibus|arum|orum|ens)$/;
@@ -805,6 +805,7 @@ function resolve(lemma, pos, depth = 0) {
       inpleo: "impleo", inlido: "illido", inlustris: "illustris",
       obfero: "offero", obcurro: "occurro", obsisto: "obsisto",
       disfero: "differo", deerigo: "dirigo", exfodio: "effodio",
+      deedo: "desum", interedo: "intersum", praeedo: "praesum",
       absteneo: "abstineo", adquaero: "acquiro", reteneo: "retineo",
       adplico: "applico", uto: "utor", vocifero: "vociferor", adnosco: "agnosco",
       praeterveho: "praetervehor", obsido: "obsideo", adpello: "appello",

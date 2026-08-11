@@ -528,3 +528,41 @@ non-obvious method lessons, in the order they bit:
   means changing the wordlist/Morpheus pipeline, not the gloss artifact.
 - **Artifact after M-023 stress fixes:** 34,343 lemmas / 448 KB / L&S 89.7%.
   Golden 2020 / census 348, all green.
+
+## Full Bellum Gallicum I stress test (2026-08-11, M-023b)
+
+- **The proper-noun case fallback was the big structural win.** The wordlist
+  keys proper nouns lowercase (`harudes`, `leuci`) while L&S keys them
+  Capitalized (`Harudes`, `Leuci`). `lsByKey` lowercases every key at load, so
+  a naive `lsByKey.get("Harudes")` always misses. Fix: keep an
+  original-case map (`lsByOrig`) and add `lsByCapitalized(word)` — fires only
+  when the lowercase key misses, so it can't override a common-word gloss.
+  +20 proper-noun lemmas recovered (harudes, leuci, leucus, hermandica,
+  querquedula, ostrya...).
+- **`perh.` (perhaps) is a frequency hedge, not a grammar abbreviation — but
+  it was in GRAMMAR_ABBR (−4).** A proper-noun gloss "A Germanic tribe in the
+  army of Ariovistus, perh. the same as the Charudes..." scored STRONG_OPEN +3
+  − GRAMMAR_ABBR −4 = −1, and the citation tail "1, 51, 2 Monum" (score 0)
+  won by tiebreak. Removing `perh` from GRAMMAR_ABBR fixed harudes and ~20
+  other proper nouns/words, at the cost of 2 regressions (laquearius,
+  olivarius — both now core overrides). Re-run the applied-vs-L&S scan after
+  any score-table change.
+- **The build's lemma set is the WORDLIST (macrons.txt), not the corpus.** A
+  full-text stress test must resolve form→wordlist-lemma→artifact-gloss. The
+  LemmaEngine treebank lemmatizes differently (`quod`→quod vs wordlist
+  `quod`→qui) and misses verb forms the wordlist has.
+- **Unassimilated compound table needs the de-/inter-/prae- set.** `deesset`
+  → wordlist lemma `deedo`, which needs `deedo→desum`, `interedo→intersum`,
+  `praeedo→praesum` in the TABLE (WORDS has neither the lemma nor the forms).
+  After adding: deedo "to fail, be wanting", interedo "to be between",
+  praeedo "to superintend".
+- **Adverb/particle lemmas that ARE the wordform need core overrides.**
+  `commode` (adv "conveniently"), `necne` "or not", `neve` "and not, nor",
+  `tanto` "by so much", `dubium` "doubtfully", `stipendiarius` "tributary" —
+  L&S opens them with usage-notes (adverb-POS class) or empty senses, and the
+  wordlist lemma = the wordform itself, so a core key on the lemma works.
+  (plerumque's lemma is plerusque, so a core key on plerumque is dead.)
+- **Full BG 1 result: 1926/1929 lemmas glossed (99.8%).** The last 3
+  (ide→idem, jamque→jam, pleraque→plerusque) are Morpheus-rescued forms whose
+  lemmas ARE glossed in the artifact — the popup resolves them correctly.
+  Artifact 34,379 lemmas / 449 KB / L&S 89.7%. Golden 2034 / census 348.

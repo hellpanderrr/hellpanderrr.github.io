@@ -842,3 +842,31 @@ Non-gloss gaps (lemmatization, out of scope): `quod`→qui (conjunction
 
 **Status: FIXED.** Artifact 34,343 lemmas / 448 KB / L&S 89.7%. Golden 2020 /
 census 348 / 22 unit / 81 IPA, all green.
+
+## M-023c — Full Bellum Gallicum I stress test (2026-08-11) ✅
+
+Ran the ENTIRE Caesar BG 1 (8186 tokens, 1929 unique lemmas) through the
+popup lemma path (form → wordlist lemma → artifact gloss). Two structural
+finds + one score-table fix + coverage tail:
+
+1. **Proper-noun case mismatch (390 lemmas affected).** Wordlist keys proper
+   nouns lowercase, L&S Capitalized. `lsByCapitalized()` fallback + `lsByOrig`
+   original-case map recovered +20 proper-noun lemmas (harudes, leuci, leucus,
+   hermandica, querquedula, ostrya, pagurus, regaliolus...).
+2. **`perh` in GRAMMAR_ABBR was a −4 penalty that killed proper-noun glosses.**
+   "A Germanic tribe in the army of Ariovistus, perh. the same as the
+   Charudes..." scored +3 −4 = −1; the citation tail "1, 51, 2 Monum" (score
+   0) won by tiebreak → harudes MISSING. Removed `perh` from GRAMMAR_ABBR
+   (it's a frequency hedge, not a grammar note). +~20 lemmas, 2 regressions
+   (laquearius, olivarius) → core overrides.
+3. **Unassimilated compound table extended**: deedo→desum, interedo→intersum,
+   praeedo→praesum.
+4. **Adverb/particle core overrides**: commode, dubium, necne, neve, plerusque,
+   tanto, stipendiarius (wordlist lemma = wordform; L&S opens with usage-notes).
+5. **Tribal proper-noun core overrides**: rauracum, rauracis, tolosates, norici,
+   lingonus.
+
+**Status: FIXED.** 1926/1929 lemmas glossed (99.8%). Last 3 (ide→idem,
+jamque→jam, pleraque→plerusque) are Morpheus-rescued forms whose lemmas are
+glossed in the artifact — the popup resolves them. Artifact 34,379 lemmas /
+449 KB / L&S 89.7%. Tests: 22 unit + 81 IPA + 2034 golden + 348 census green.

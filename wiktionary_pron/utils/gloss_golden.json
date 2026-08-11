@@ -7466,8 +7466,10 @@
   },
   {
     "lemma": "stipendiarius",
-    "expect": null,
-    "note": "core_gloss"
+    "expect": {
+      "contains": "tributary"
+    },
+    "note": "Caesar BG full-text (M-023b)"
   },
   {
     "lemma": "stratiotes",
@@ -14153,5 +14155,103 @@
       "contains": "long"
     },
     "note": "Caesar BG 1.1 longissime (M-023)"
+  },
+  {
+    "lemma": "laquearius",
+    "expect": {
+      "contains": "ceiling"
+    },
+    "note": "perh-fix regression (M-023b)"
+  },
+  {
+    "lemma": "olivarius",
+    "expect": {
+      "contains": "olive"
+    },
+    "note": "perh-fix regression (M-023b)"
+  },
+  {
+    "lemma": "commode",
+    "expect": {
+      "contains": "conveniently"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "dubium",
+    "expect": {
+      "contains": "doubtfully"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "necne",
+    "expect": {
+      "contains": "or not"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "neve",
+    "expect": {
+      "contains": "nor"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "plerumque",
+    "expect": {
+      "contains": "generally"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "plerusque",
+    "expect": {
+      "contains": "most"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "tanto",
+    "expect": {
+      "contains": "much"
+    },
+    "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "rauracum",
+    "expect": {
+      "contains": "Rauraci"
+    },
+    "note": "Caesar BG full-text tribe (M-023b)"
+  },
+  {
+    "lemma": "tolosates",
+    "expect": {
+      "contains": "Tolosa"
+    },
+    "note": "Caesar BG full-text tribe (M-023b)"
+  },
+  {
+    "lemma": "norici",
+    "expect": {
+      "contains": "Noricum"
+    },
+    "note": "Caesar BG full-text tribe (M-023b)"
+  },
+  {
+    "lemma": "lingonus",
+    "expect": {
+      "contains": "Lingones"
+    },
+    "note": "Caesar BG full-text tribe (M-023b)"
+  },
+  {
+    "lemma": "rauracis",
+    "expect": {
+      "contains": "Rauraci"
+    },
+    "note": "Caesar BG full-text tribe (M-023b)"
   }
 ]
