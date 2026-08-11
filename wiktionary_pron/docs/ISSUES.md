@@ -262,15 +262,17 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-11 — engine 25 commits: 150 → **220
-failing lines on a 3× corpus** (16,690 lines, 1.32%). The `6c49747`→`fba0aab`
+**Status: PARTIALLY FIXED** (2026-08-11 — engine 26 commits: 150 → **47
+failing lines on a 3× corpus** (16,690 lines, 0.28%). The `6c49747`→`aedfa89`
 series fixed hypermeter, mid-line `-que`, 5-foot partials (completion bonus),
-3 corpus transcription errors, and the gold-lacuna automaton desync, and
-HARDENED the gate (`feet.length === 5` fails). The 3× expansion (Aeneid 7-12
-+ Georgics + Eclogues + 47 Catullus elegies, `e39b29f`) surfaced a **2.2% true
-baseline** that the 6-book corpus under-reported as 0.24% — see M-013g. The
-`ui`-diphthong theory was tested and REJECTED, see below. 220 lines remain —
-see M-013g.)
+3 corpus transcription errors, the gold-lacuna automaton desync, and 2 large
+override batches (M-013h/i, ~140 gold-verified entries) that cut the 3× corpus
+from 220 → 47. The 3× expansion (Aeneid 7-12 + Georgics + Eclogues + 47
+Catullus elegies, `e39b29f`) surfaced a **2.2% true baseline** that the 6-book
+corpus under-reported as 0.24% — see M-013g. The `ui`-diphthong theory was
+tested and REJECTED, see below. 47 lines remain in two engine-limitation
+classes: `veo`/`eo`/`ua` synizesis (segmenter) + `-que` chains where gold
+scans the enclitic long in arsis (tokenizer convention) — see M-013h.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -559,6 +561,62 @@ lacuna desync. Snapshot 13 → 220 on 16,690 lines (1.32%).**
   (y-synizesis), alveo (veo), inicit/manibus. The hypotactic corpus has 28
   works (Ovid, Lucretius, Lucan, Statius...) — further expansion is one
   command (`extract-gold-corpus.mjs`) away.
+
+**2026-08-11 (M-013h + M-013i) — blocker tool rework + 2 override batches.
+Snapshot 220 → 47 on 16,690 lines (0.28%).**
+- **gold-blocker.mjs rework** (`aedfa89`):
+  - `--snapshot` mode: loads gold + scans only the files in the failure
+    snapshot (was OOM loading all 12 Aeneid books at once).
+  - `?`-gold wildcard matching: a `?` in the gold pattern marks a syllable the
+    annotator was unsure of — it is a wildcard, NOT a blocker. Previously every
+    `L?`/`S?` word was reported as a blocker false-positive.
+  - **`bruteForceForms`**: for each blocker word, enumerate every `_` (long) /
+    `^` (short) marking on each vowel and keep the forms whose `possibleScans`
+    produces the gold pattern in the line's *actual* following segment. This
+    turns every failure into a concrete ACCENT_OVERRIDE candidate — no more
+    hand-deriving forms from L&S.
+  - **Georgics/Eclogues gold mapping**: the index only handled aeneid +
+    catullus; 68 of the 102 residual failures were in unmapped files and the
+    blocker silently reported no blocker for them.
+- **M-013h batch** (~84 entries, Aeneid 7-12 + Catullus 64-116): closed-class
+  verbs get a long final the wordlist never offers (erit/erat/canit/petit/
+  habet/procul/dolor/domitor/ebur/stabat/replet/revinxit), iacio-compounds
+  (adiciam/adicias/inicit/disice/disicit/reicit/reiciunt/conicite/subiit),
+  bijugis/quadrijugis y-synizesis (corrected — the v1 batch used `bijugis`
+  which is SSL only before consonants; `bijugi_s` forces it in all segments),
+  Greek names (Cissea/Thymbre/Rhoetea/Idomenei/Orithyia/Tethyi/Lavinia),
+  mānibus (LSS — long-a dative/abl, distinct from manibus=SSL).
+- **M-013g form BUGS fixed**: the original `sinit` (`si^ni^t`) and `dabat`
+  (`da^ba^t`) overrides were all-short (SS) and never produced the gold SL —
+  corrected to `si^ni_t`/`da^ba_t` (final long). `euandrum` (`e_u_a^ndru^m`)
+  produced LLLL (4 syll) not gold LLL — now plain `euandrum` (LLL in all
+  segments).
+- **M-013i batch** (50 entries, Georgics + Eclogues): surfaced once the gold
+  mapping was fixed (amazones, atlantides, pleiadas, mareotides, oceanitides,
+  labor, melior, facit, fultus, gravidus, puer, qui, vale, tondebat, etc.).
+- **Corpus fix**: `aeneid-4.txt` had a stray `Aeneid IV` title line that
+  shifted gold-vs-corpus line alignment by 1 for the whole book — the blocker
+  was analyzing every Aen 4 line against the wrong gold. Removed the title
+  (the gate's non-verse placeholder handling already ignores it).
+- **Aen 4.361 hemistich**: "Italiam non sponte sequor" is a genuine fragment;
+  with `sequor` given the long-final `se^quo_r` reading it now scans as a
+  1-4-foot partial (gate-accepted fragment) instead of EMPTY.
+- **Result:** 47 failing lines / 16,690 (0.28%), spread thin across 21 files
+  (max 5/file). Gate exit 0, jest 38/38, all 22 golden lines pass.
+- **Remaining 47 triaged** into two genuine engine limitations, neither
+  override-able:
+  1. **`veo`/`eo`/`ua` synizesis** (~14 words, segmenter limitation): alveo/
+     aureo (al-vēo = 2 syll, gold LL), menestheo/eurystheo/orphea (final -eo
+     absorbs to one syllable), malesuada/nemorosa (SSLS), deerit/deerunt/
+     deerraverat (dē-er-it = 2 syll), ponite (LSS), praeoptarit, dabis, daphnim.
+  2. **`-que` chains** (gold scans the enclitic LONG in arsis, e.g. Aen 12.89
+     ēnsemque=LLL; the engine tokenizes `ensem`+`que` and possibleScans yields
+     only short que). **Blocker blind spot**: gold fuses Xque, the engine
+     splits X+que, so the blocker's word-alignment skips the mismatch and
+     reports "no word-level blocker" — the true blocker is `que` needing L.
+     The gold stream itself scans to a complete hexameter through the
+     automaton, so this is a tokenizer/scansion-convention gap, not a meter
+     bug.
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

@@ -5,37 +5,43 @@ _Updated 2026-08-11 — branch `main`_
 ## State
 Two tracks, both verified by their own gates (`npm test` exit 0, scansion gate
 exit 0):
-- **Scansion (M-013a→g)**: 150 → **220 failing lines on a 3× corpus** (16,690
-  lines, 1.32%). The `6c49747`→`fba0aab` series fixed hypermeter, mid-line
-  `-que`, 5-foot partials (bounded completion bonus), 3 corpus transcription
-  errors, and the gold-lacuna automaton desync; the gate now fails on
-  `feet.length === 5`. The 3× expansion (Aeneid 7-12 + Georgics + Eclogues +
-  47 Catullus elegies, `e39b29f`) surfaced a 2.2% true baseline the 6-book
-  corpus under-reported. Details: ISSUES.md M-013d/e/f/g.
-- **Gloss (M-005 → M-023f)**: cross-author stress (Caesar/Cicero/Vergil/Ovid,
-  ~99% glossed) + full-artifact scans + the isSpurious homograph guard
-  (94 numbered homographs restored, 327 glosses corrected). Artifact 34,411
-  lemmas / 450 KB gz / L&S 89.8%. Tests 22 unit + 81 IPA + 2067 golden + 348
-  census. 4 commits unpushed (M-023c/d/e/f + f.2).
+- **Scansion (M-013a→i)**: **47 failing lines on a 3× corpus** (16,690 lines,
+  0.28%) — down from 220. The `6c49747`→`aedfa89` series fixed hypermeter,
+  mid-line `-que`, 5-foot partials, the gold-lacuna automaton desync, and 2
+  large override batches (M-013h/i, ~140 gold-verified entries). The blocker
+  tool now brute-forces override forms per word and handles `?`-wildcard gold.
+  Details: ISSUES.md M-013d/e/f/g/h/i.
+- **Gloss (M-005 → M-023f)**: cross-author stress + full-artifact scans +
+  isSpurious homograph guard (94 numbered homographs restored, 327 glosses
+  corrected). Artifact 34,411 lemmas / 450 KB gz / L&S 89.8%. Tests 22 unit +
+  81 IPA + 2067 golden + 348 census. 4 commits unpushed.
 
 ## Open threads
-- **Chase the 220 snapshot failures with `test/gold-blocker.mjs`** — for each
-  failing line it reports the first word whose gold L/S pattern the engine
-  can't produce. Systematic clusters: Arcades (segmenter can't make LSS),
-  bijugis/quadrijugis (y-synizesis), alveo (veo), inicit/manibus (common
-  verbs). Run it, then batch the override-able words (verify each form via
-  `possibleScans` before adding). Start: `node test/gold-blocker.mjs`.
-- **Expansion roadmap**: the hypotactic corpus has 28 works (Ovid 263MB,
-  Lucretius, Lucan, Statius, Silius, Propertius, Tibullus, Juvenal, Persius,
-  Martial...). `node test/extract-gold-corpus.mjs` pulls any of them into the
-  corpus (add a `--work` mode for non-Vergil/Catullus). Each new work will
-  surface fresh wordlist gaps — that's the point.
-- **Engine not pushed** (26 ahead of origin) — push only if the user asks.
+- **Remaining 47 failures** are two genuine engine limitations, neither
+  override-able:
+  1. **`veo`/`eo`/`ua` synizesis** (segmenter): alveo/aureo (al-vēo=2 syll),
+     menestheo/eurystheo/orphea (final -eo absorbs), malesuada/nemorosa,
+     deerit/deerunt/deerraverat (dē-er-it=2 syll), ponite, praeoptarit, dabis,
+     daphnim. Fix = segmenter or special-casing, not ACCENT_OVERRIDES.
+  2. **`-que` chains** (~12 lines): gold scans the enclitic LONG in arsis
+     (Aen 12.89 ēnsemque=LLL) but the engine tokenizes `ensem`+`que` and can
+     only produce short que. **Blocker blind spot**: gold fuses Xque, engine
+     splits X+que, so gold-blocker's alignment skips it and reports "no word-
+     level blocker". The gold stream DOES scan through the hexameter automaton
+     — the gap is tokenizer/scansion-convention, not the meter. Fix would
+     likely be a `-que`-specific handling (offer long when in arsis).
+  Start: `node --max-old-space-size=4096 test/gold-blocker.mjs --snapshot
+  test/data/scansion-failures-snapshot.json`.
+- **Expansion roadmap**: hypotactic corpus has 28 works (Ovid 263MB, Lucretius,
+  Lucan, Statius, Silius, Propertius, Tibullus, Juvenal, Persius, Martial...).
+  `node test/extract-gold-corpus.mjs` pulls any of them in (add a `--work`
+  mode for non-Vergil/Catullus). Each new work surfaces fresh wordlist gaps.
+- **Engine not pushed** (27 ahead of origin) — push only if the user asks.
 
 ## Running / unfinished
 Nothing running. Scansion snapshot: `test/data/scansion-failures-snapshot.json`
-(220), regenerate with `node test/regen-snapshot.mjs` after an intended change.
-Gold data (temp): hypotactic at `C:/Users/HELLPA~1/AppData/Local/Temp/hypotactic_data_6_17_2025/` (recovered from `hypotactic_data.zip` after a purge — **back it up**, it's the verification substrate). New corpus files + extractor + blocker are committed (`e39b29f`).
+(47), regenerate with `node test/regen-snapshot.mjs` after an intended change.
+Gold data (temp): hypotactic at `C:/Users/HELLPA~1/AppData/Local/Temp/hypotactic_data_6_17_2025/` (recovered from `hypotactic_data.zip` after a purge — **back it up**, it's the verification substrate). Blocker tool + extractor committed (`e39b29f`, reworked `aedfa89`).
 
 ## Don't redo
 - **Judge scansion by the whole-file gate ONLY** — per-line runs differ
@@ -45,6 +51,19 @@ Gold data (temp): hypotactic at `C:/Users/HELLPA~1/AppData/Local/Temp/hypotactic
 - **Gold per-syllable data > surface macrons** (rēligiō). Brute-force `_`/`^`
   forms against the L/S pattern; if none produces the gold pattern, it's a
   segmenter limitation, not an override (`gold-blocker.mjs` automates this).
+  **`?` in a gold pattern is a wildcard (uncertain syllable), not a blocker.**
+- **Override forms must produce the gold in the line's ACTUAL segment** — a
+  form like `bijugis` gives SSL only before consonants; `bijugi_s` (forced
+  long final) gives it everywhere. Verify with `possibleScans` in the failing
+  line's segment before adding.
+- **Check existing overrides before "fixing" a symptom**: M-013g's `sinit`
+  (`si^ni^t`) and `dabat` (`da^ba^t`) were all-short and NEVER produced the
+  gold SL — a blocker that survives an override may mean the override form is
+  wrong, not that the line is unfixable.
+- **Corpus files can carry title lines** (aeneid-4.txt had `Aeneid IV`) that
+  shift gold-vs-corpus line alignment by 1 for the whole book — the blocker
+  then analyzes every line against the wrong gold. Check the first line when a
+  file's failures look odd.
 - **Hypermeter = verse-final -que dual #/V candidate, never splice lines.**
   `6c49747` finishes the meter. **Do NOT apply the min-penalty merge to
   mid-line -que** (27-line regression). `verseFinalQue` detection skips
@@ -55,7 +74,6 @@ Gold data (temp): hypotactic at `C:/Users/HELLPA~1/AppData/Local/Temp/hypotactic
   bonus (=3) fixes hexameters within one concession but must NOT be 6+ —
   that forced Nereidum to complete with wrong quantities (`17a7049`).
 - **Overridden wordforms clear isUnknown** (the Cymodoce all-long trap).
-- **Corpus text errors → fix the corpus, not the engine** (verify vs gold).
 - **Gold lacunae = real verse positions.** When a gold-extracted corpus file
   has fewer lines than gold, suspect lacunae (empty entries with line numbers)
   before suspecting the engine — they desync alternating-meter automata
