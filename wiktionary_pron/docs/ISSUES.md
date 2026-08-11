@@ -262,13 +262,14 @@ compares the RFTagger POS against the active reading's POS and shows a
 note when they disagree.
 
 ## M-013 — Scansion wordlist-gap miner + corpus (found, not fixed)
-**Status: PARTIALLY FIXED** (2026-08-10 — engine 19 commits: 150 → **12**
+**Status: PARTIALLY FIXED** (2026-08-11 — engine 21 commits: 150 → **16**
 failing lines. `-ērunt/-ĕrunt` alternation + `y`-synizesis `c8fcf56` + ~85
 gold-verified `ACCENT_OVERRIDES` + hypermeter `2ee8322` + **M-013c hypermeter
 elision-completion guard `6c49747`** (26 → 15) + **M-013d gate-under-count
-audit** (`05f87e3` punctuation fix). The `ui`-diphthong theory was tested and
-REJECTED, see below. 12 hard lines remain + 13 hidden 5-foot partials the
-gate under-counts — see M-013d.)
+audit** (`05f87e3` punctuation fix) + **M-013e mid-line `-que` elision fix +
+corpus corrections + hardened gate** (`47b7e5f`: 24 → 16, see M-013e). The
+`ui`-diphthong theory was tested and REJECTED, see below. 16 lines remain —
+see M-013e.)
 `test/miner-scansion.mjs` + `test/data/corpus/` feed Aeneid 1–6 + Catullus
 (5,507 lines) through the macronizer and flag lines whose scansion returns
 empty — the italorum signature. **153 lines flagged** after corpus cleanup
@@ -479,6 +480,36 @@ checks `feet === ''` only. **32 lines scan 5 feet of a hexameter and pass.**
   failure. That surfaces the 13 instead of hiding them; then chase the 9
   brute-fixable quantity overrides. True error rate today: 25/5,478 (0.46%),
   not the gate-reported 0.22%.
+
+**2026-08-11 (M-013e) — the mid-line `-que` elision leak: 24 → 16.** The
+root cause of SIX of the 13 hidden 5-foot partials was a spurious candidate,
+not a missing quantity:
+- **Bug:** the hypermeter branch offered `possibleScans(cands, 'V')` as an
+  extra reading for ANY `-que`, even a MID-LINE `-que` followed by a
+  consonant. That injected an empty-scansion `que[]` candidate (pen 0). The DP
+  then preferred `que[]` + incomplete path over the correct complete
+  hexameter, because the `complete` flag only breaks penalty TIES:
+  `cum tacet omnis... pictaeque volucres`: `que[S]+volucres[SLL]` = 6ft pen1
+  (complete) loses to `que[]+volucres[SSL]` = 5ft pen0 (incomplete).
+- **Fix:** the extra `#/V` reading is only offered when `followingSegment ===
+  'V'` (real hypermeter into the next line's vowel, or mid-line `atque`/
+  `namque` before a vowel). A mid-line `-que` before a consonant cannot elide
+  — no extra candidate. (`src/core/Scansion.ts`, engine `47b7e5f`.)
+- **Resolved 6 lines**, two of which M-013d had misclassified as "structural /
+  no 6-foot solution": `rursum ex diverso` (Aen 3.232) and `sive deae` (Aen
+  3.262) are genuine complete hexameters the leak was masking.
+- **3 corpus transcription errors fixed** (gold-verified against hypotactic
+  per-syllable data): Cat 64.204 `ecens` → `exposcens`; Cat 64.293 `aerea` →
+  `aeria` (āeriā, "airy"); Cat 64.346 missing final word `campī` restored.
+  These resolve `supplicium`, `flammati Phaethontis`, `cum Phrygii Teucro`.
+- **Gate hardened** (the M-013d action): `test-scansion-corpus.mjs` treats
+  `feet.length === 5` (hexameter) as a failure, not just `feet === ''`. This
+  surfaces 5-foot partials going forward. `regen-snapshot.mjs` mirrors the
+  criteria exactly. `gold-diag.mjs` Catullus path fixed (poem 64 under
+  `Catullus.Poems.poems`).
+- **Result:** snapshot 24 → **16** failing lines (12 empty-foot + 4 remaining
+  5-foot partials). Gate exit 0, jest 38/38, hypermeter (Aen 5.826 Cymodoce)
+  still scans 6 feet. True error rate: 16/5,478 (0.29%).
 
 ## M-014 — Dark-mode `—` chip for unscannable verse is indistinguishable
 **Status: FIXED** (2026-08-06, site `fcfd1bc`/`e5fa491`)

@@ -5,9 +5,13 @@ _Updated 2026-08-11 — branch `main`_
 ## State
 Two tracks, both verified by their own gates (`npm test` exit 0, scansion gate
 exit 0):
-- **Scansion (M-013b/c/d) is the active front**: 150 → 12 snapshot failures
-  over 19 engine commits, ~85 gold-verified `ACCENT_OVERRIDES` + hypermeter
-  support. See M-013c/d notes below and ISSUES.md M-013.
+- **Scansion (M-013b/c/d/e) is the active front**: 150 → 16 snapshot failures
+  over 21 engine commits, ~85 gold-verified `ACCENT_OVERRIDES` + hypermeter
+  support. **M-013e (`47b7e5f`)** fixed the mid-line `-que` elision leak
+  (24 → 16), 3 corpus transcription errors (Cat 64.204 `ecens`→`exposcens`,
+  64.293 `aerea`→`aeria`, 64.346 restored `campī`), and **hardened the gate**
+  (5-foot partials now fail, not just empty feet). Hyperameter preserved.
+  Details: ISSUES.md M-013d/e.
 - **Gloss (M-005 → M-023)**: full 3-family audit + closure re-audit + full
   two-family intersection processed. **M-023 (2026-08-11) re-opened the
   numbered-homograph hole**: 236 corrupt numbered keys stripped from the llm
@@ -16,22 +20,24 @@ exit 0):
   22 unit + 81 IPA + 2016 golden + 348 census. ~22 commits unpushed.
 
 ## Open threads
-- **Harden the scansion gate to catch partial scans — highest value.** The gate
-  checks `feet === ''` only, so a hexameter scanning 5 feet (`SSDDD`) passes.
-  M-013d audit: 13 genuine 5-foot partials hidden this way. Change
-  `test/e2e/test-scansion-corpus.mjs` to treat `feet.length < 6` as a failure,
-  regenerate the snapshot, then chase the 9 brute-fixable overrides (Nereidum
-  matri, apparet Camerina, cum tacet omnis, ductores, victor Simoenta, scrupea,
-  supplicium, flammati Phaethontis, cum Phrygii Teucro). Corpus fix: Cat 64.204
-  `ecens` → `exposcens`. Start: `test/brute-line.mjs` + `test/gold-diag.mjs`.
-  Details: ISSUES M-013d.
-- **Push to GitHub Pages** — 21 commits unpushed (M-021/M-022 gloss series +
-  scansion M-013b/c/d). Live site serves pre-M-021. `git push origin main`,
-  verify live after.
+- **Chase the last 5-foot partials — the non-empty-foot snapshot lines.**
+  The hardened gate surfaces 5-foot partials; the snapshot now holds 16 lines
+  (12 empty-foot + 4 remaining 5-foot). Of the original 13, six were the
+  mid-line `-que` leak (fixed) and three were corpus errors (fixed). Remaining
+  partials to verify against gold: **Nereidum matri** (Aen 3.74),
+  **victor apud rapidum Simoenta** (Aen 5.261), **Tune ille Aeneas** (Aen
+  1.617), **discedam explebo** (Aen 6.545). Note the brute-force solutions for
+  the first two use NON-gold quantities (diphthong splits) — verify against
+  hypotactic per-syllable gold before adding overrides. Start:
+  `test/brute-line.mjs` + `test/gold-diag.mjs` (fixed Catullus path). Details:
+  ISSUES M-013d/e.
+- **Push to GitHub Pages** — ~22 commits unpushed (M-021/M-022/M-023 gloss
+  series + scansion M-013b/c/d/e). Live site serves pre-M-021. `git push
+  origin main`, verify live after.
 
 ## Running / unfinished
 Nothing running. Scansion snapshot: `test/data/scansion-failures-snapshot.json`
-(12), regenerate with `node test/regen-snapshot.mjs` after an intended change.
+(16), regenerate with `node test/regen-snapshot.mjs` after an intended change.
 Gold data (temp): hypotactic `vergil.json`/`catullus.json` (per-syllable).
 Gloss audit outputs in `tmp/` (never commit) — all already applied to
 `utils/llm_glosses.tsv` and committed.
@@ -46,7 +52,9 @@ Gloss audit outputs in `tmp/` (never commit) — all already applied to
 - **Hypermeter = verse-final -que dual #/V candidate, never splice lines.**
   The elision-completion guard (`6c49747`) finishes the meter. **Do NOT apply
   the min-penalty merge to mid-line -que** (27-line regression). `verseFinalQue`
-  detection must skip punctuation (`05f87e3`).
+  detection must skip punctuation (`05f87e3`). **Mid-line -que before a
+  consonant must not offer the V (eliding) reading at all** (`47b7e5f` — the
+  spurious `que[]` cheap-penalty leak flipped 6 lines to 5-foot partials).
 - **No global h-position rule** — gold is inconsistent; use per-word overrides.
 - **Overridden wordforms clear isUnknown** (the Cymodoce all-long trap).
 - **Corpus text errors → fix the corpus, not the engine** (verify vs gold).

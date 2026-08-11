@@ -427,9 +427,11 @@ non-obvious method lessons, in the order they bit:
     partials** the gate reports as passing — the true error count was 12
     snapshot + 13 remaining partials = 25/5,478 (0.46%), not 0.22%. ~19 of
     them were caused by a `verseFinalQue` punctuation bug (see below) and are
-    now complete. **The gate STILL does not check foot completeness** — a
-    hexameter that scans 5 feet passes. Fixing that (`feet.length < 6` → fail)
-    is the highest-value next step (ISSUES M-013d).
+    now complete. ✅ **FIXED 2026-08-11 (M-013e):** the gate now treats
+    `feet.length === 5` (hexameter) as a failure — 5-foot partials are no
+    longer masked. Of the 13, six more were a mid-line `-que` elision leak (see
+    the next lesson) and three were corpus transcription errors; 16 lines
+    remain (0.29%).
 - **Heredocs in Git Bash eat backslashes** — a `ROOT.replace(/\/g, '/')` in a
   `<<'EOF'` heredoc became `/\/g` and broke the script. Use the Write tool for
   any JS with regexes.
@@ -444,6 +446,23 @@ non-obvious method lessons, in the order they bit:
   at a word (mid-line) or newline/end (verse-final). **This is exactly why the
   gate needs a foot-completeness check** — a `-que.` regression is invisible
   to `feet === ''`.
+- **Mid-line -que before a consonant must NOT offer the eliding (V) reading**
+  (2026-08-11, M-013e, `47b7e5f`). The hypermeter branch offered
+  `possibleScans(cands, 'V')` as an extra candidate for ANY `-que` — but that
+  reading is only meaningful when the following sound is a VOWEL (hypermeter
+  into the next line, or `atque`/`namque` before a vowel). A mid-line `-que`
+  before a consonant (`pictaeque volucres`, `campique Geloi`) cannot elide, so
+  the extra `que[]` empty-scansion candidate was spurious. Its cheap penalty
+  (0) let the DP skip the syllable and pick an INCOMPLETE 5-foot scan over the
+  correct complete hexameter, because the `complete` tie-break only fires on
+  EQUAL penalty: `que[S]+volucres[SLL]` = 6ft pen1 loses to `que[]+volucres[SSL]`
+  = 5ft pen0. Fix: only compute the extra reading when `followingSegment ===
+  'V'`. **Resolved 6 lines** the M-013d audit misclassified — including
+  `rursum ex diverso` and `sive deae`, which it called "structural/no 6-foot
+  solution" but are genuine complete hexameters the leak was masking. Lesson:
+  an elision/optional-syllable candidate that is phonologically impossible in a
+  context silently wins on cheap penalty; gate candidate *generation* by the
+  same phonological condition the meter assumes.
 
 ## Closing the two-family audit loop (2026-08-10, M-022 closure)
 
