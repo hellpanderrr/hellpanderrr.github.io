@@ -870,3 +870,31 @@ finds + one score-table fix + coverage tail:
 jamque→jam, pleraque→plerusque) are Morpheus-rescued forms whose lemmas are
 glossed in the artifact — the popup resolves them. Artifact 34,379 lemmas /
 449 KB / L&S 89.7%. Tests: 22 unit + 81 IPA + 2034 golden + 348 census green.
+
+## M-023d — Cross-author stress tests: Cicero, Vergil, Ovid (2026-08-11) ✅
+
+Extended the Caesar BG 1 stress gate to 3 more full texts (Cicero In Catilinam
+I, Vergil Aeneid I, Ovid Metamorphoses I), all through the popup lemma path.
+
+Coverage: Caesar 99.8%, Cicero 99.4%, Vergil 98.6%, Ovid 99.4%. Total ~21k
+tokens / 7,941 unique lemmas.
+
+Fixes:
+- **Unassimilated TABLE** (+14 mappings): adsedeo→assideo, confor→confero,
+  exlapso→elabor, quaestiono→quaestio, nemen→nemo, exduco→educo, extulo→
+  effero, adforo→affor, inrego→irrigo, introgradior→introgredior, perfor→
+  perfero, baco→bacatus, distulo→differo, obstupeo→stupeo, subcubo→subcumbo,
+  transsum→transeo.
+- **Core overrides** (+14): commode, dubium, necne, neve, plerusque, tanto,
+  stipendiarius, simila, totiens, ecquis, quodam (Cicero); dehinc, venatrix,
+  miserabile, opos (Vergil); semideus, priores, pyrrhe + proper nouns pyrrha,
+  erinys, latonia, latonius, scythia, parnasius, maenala, phoce, lerne (Ovid).
+- **Vergil proper-noun case mismatch** confirmed the lsByCapitalized() fix
+  from M-023c; remaining Vergil misses are patronymics L&S keys under another
+  lemma (Helena/helene, Idalium/idalia) — lexicographic, not gloss bugs.
+
+Remaining misses per text are mytho-geographical patronymics (no L&S entry)
+and Morpheus-rescued forms whose lemmas ARE glossed (ide→idem, jamque→jam).
+
+**Status: FIXED.** Artifact 34,412 lemmas / 450 KB / L&S 89.8%. Golden 2051 /
+census 348 / 22 unit / 81 IPA, all green.

@@ -7426,8 +7426,10 @@
   },
   {
     "lemma": "semideus",
-    "expect": null,
-    "note": "core_gloss"
+    "expect": {
+      "contains": "demigod"
+    },
+    "note": "Ovid Met. 1 (M-023d)"
   },
   {
     "lemma": "serapias",
@@ -7446,8 +7448,10 @@
   },
   {
     "lemma": "simila",
-    "expect": null,
-    "note": "core_gloss"
+    "expect": {
+      "contains": "flour"
+    },
+    "note": "Cicero Cat. 1 (M-023d)"
   },
   {
     "lemma": "solonium",
@@ -7608,8 +7612,10 @@
   },
   {
     "lemma": "venatrix",
-    "expect": null,
-    "note": "core_gloss"
+    "expect": {
+      "contains": "huntress"
+    },
+    "note": "Vergil Aen. 1 (M-023d)"
   },
   {
     "lemma": "verticula",
@@ -14253,5 +14259,124 @@
       "contains": "Rauraci"
     },
     "note": "Caesar BG full-text tribe (M-023b)"
+  },
+  {
+    "lemma": "totiens",
+    "expect": {
+      "contains": "often"
+    },
+    "note": "Cicero Cat. 1 (M-023d)"
+  },
+  {
+    "lemma": "ecquis",
+    "expect": {
+      "contains": "any"
+    },
+    "note": "Cicero Cat. 1 (M-023d)"
+  },
+  {
+    "lemma": "quodam",
+    "expect": {
+      "contains": "certain"
+    },
+    "note": "Cicero Cat. 1 (M-023d)"
+  },
+  {
+    "lemma": "dehinc",
+    "expect": {
+      "contains": "henceforth"
+    },
+    "note": "Vergil Aen. 1 (M-023d)"
+  },
+  {
+    "lemma": "miserabile",
+    "expect": {
+      "contains": "pitifully"
+    },
+    "note": "Vergil Aen. 1 (M-023d)"
+  },
+  {
+    "lemma": "opos",
+    "expect": {
+      "contains": "wealth"
+    },
+    "note": "Vergil Aen. 1 (M-023d)"
+  },
+  {
+    "lemma": "priores",
+    "expect": {
+      "contains": "former"
+    },
+    "note": "Ovid Met. 1 (M-023d)"
+  },
+  {
+    "lemma": "pyrrha",
+    "expect": {
+      "contains": "Pyrrha"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "erinys",
+    "expect": {
+      "contains": "Fury"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "latonia",
+    "expect": {
+      "contains": "Latona"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "scythia",
+    "expect": {
+      "contains": "Scythia"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "parnasius",
+    "expect": {
+      "contains": "Parnassus"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "maenala",
+    "expect": {
+      "contains": "Arcadia"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "phoce",
+    "expect": {
+      "contains": "Phocis"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "lerne",
+    "expect": {
+      "contains": "Lerna"
+    },
+    "note": "Ovid Met. 1 proper noun (M-023d)"
+  },
+  {
+    "lemma": "pyrrhe",
+    "expect": {
+      "contains": "Pyrrha"
+    },
+    "note": "Ovid Met. 1 (M-023d)"
+  },
+  {
+    "lemma": "latonius",
+    "expect": {
+      "contains": "Latona"
+    },
+    "note": "Ovid Met. 1 (M-023d)"
   }
 ]

@@ -566,3 +566,38 @@ non-obvious method lessons, in the order they bit:
   (ide→idem, jamque→jam, pleraque→plerusque) are Morpheus-rescued forms whose
   lemmas ARE glossed in the artifact — the popup resolves them correctly.
   Artifact 34,379 lemmas / 449 KB / L&S 89.7%. Golden 2034 / census 348.
+
+## Cross-author stress tests (2026-08-11, M-023d)
+
+Ran 4 full books through the popup lemma path: Caesar BG 1, Cicero In
+Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
+
+| Text | tokens | lemmas | glossed | % | missing |
+|------|--------|--------|---------|---|---------|
+| Caesar BG 1 | 8186 | 1929 | 1926 | 99.8% | 3 |
+| Cicero Cat. 1 | ~3600 | 1299 | 1291 | 99.4% | 8 |
+| Vergil Aen. 1 | ~4400 | 2322 | 2289 | 98.6% | 33 |
+| Ovid Met. 1 | ~5900 | 2391 | 2376 | 99.4% | 15 |
+
+- **The remaining misses are LEXICOGRAPHIC coverage, not gloss bugs.** The
+  bulk of each text's missing lemmas are (a) mythological patronymics/geographical
+  epithets L&S keys under a DIFFERENT lemma (Helena not helene, Idalium not
+  idalia, Teucer not teucrus, Mycenae not mycene, Pyrrha not pyrrhe), (b)
+  Morpheus-rescued forms whose lemma IS glossed (ide→idem, jamque→jam), and
+  (c) rare unassimilated compound forms. A core override fixes the common ones;
+  the patronymic tail is not recoverable without a dedicated proper-noun lexicon.
+- **Unassimilated TABLE grows per-author.** Cicero: adsedeo→assideo, confor→
+  confero, exlapso→elabor, quaestiono→quaestio, nemen→nemo, exduco→educo,
+  extulo→effero. Ovid: distulo→differo, obstupeo→stupeo, subcubo→subcumbo,
+  transsum→transeo. Vergil: adforo→affor, inrego→irrigo, introgradior→
+  introgredior, perfor→perfero, baco→bacatus. Each is a hand-verified
+  wordlist-form→assimilated-lemma mapping; the entry in the artifact must exist.
+- **The adverb/particle class (wordform = lemma) recurs across authors.** Each
+  text surfaced a few: commode/necne/neve/tanto/dubium/stipendiarius (Cicero),
+  dehinc/venatrix/miserabile (Vergil), semideus/priores (Ovid). Same fix:
+  core override where the wordlist lemma = the wordform.
+- **Prose (Cicero/Caesar) has a distinct miss profile from verse (Vergil/Ovid).**
+  Prose misses are verb forms + unassimilated compounds; verse misses are
+  mytho-geographical proper nouns. Both are ~1-2% of lemmas and hand-curatable
+  via core overrides, but the verse tail (patronymics) has no L&S entry at all.
+- **Golden now 2051 rows; artifact 34,412 lemmas / 450 KB / L&S 89.8%.**
