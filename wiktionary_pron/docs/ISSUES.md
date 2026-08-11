@@ -797,3 +797,27 @@ net L&S share essentially flat, corruption removed). Tests: 22 unit + 81 IPA +
 numbered homographs whose signatures differ from the bare twin and whose L&S
 numbered sense is the wrong (rarer/etymological) one need a core override, not
 a parse-rule change — that's a curation tail, not a bug.
+
+## M-023b — Caesar BG 1.1 stress test re-run (2026-08-11) ✅
+
+Re-ran the real-text quality gate (the Caesar passage) after M-023. Three
+real gloss defects found and fixed:
+
+1. **garumna → "—"** (MISSING). L&S has it ("a river of Gaul, the Garonne"),
+   but senses[0] opens with a gender+author+book fragment ("Fem., Aus. Mos.
+   483), = ... Strab., a river of Gaul") that masks the gloss and trips the
+   gates. Only 1 such wordlist entry exists (garumna); core override added
+   + golden. (Amisia "the Ems" is the same shape but not in the wordlist.)
+2. **longe/longissime ("far") → "Long, stretched out"** (adjective). Wordlist
+   lemmatizes the adverb forms under `longus`. Core override on `longus`
+   ("long, tall; far, at a distance") covers the adverb forms too. A core key
+   on `longe` would be dead — no such lemma exists.
+3. **differunt ("they differ") → "to carry away, remove"** (literal disfero).
+   Everyday sense is WORDS's "differ, disagree". Core override `disfero`.
+
+Non-gloss gaps (lemmatization, out of scope): `quod`→qui (conjunction
+"because" vs pronoun), `matrona`→"married woman" (river vs common noun),
+`minimeque`/`proximique` (enclitic -que, Morpheus-rescued).
+
+**Status: FIXED.** Artifact 34,343 lemmas / 448 KB / L&S 89.7%. Golden 2020 /
+census 348 / 22 unit / 81 IPA, all green.

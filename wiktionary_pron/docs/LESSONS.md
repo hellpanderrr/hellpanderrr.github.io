@@ -478,3 +478,34 @@ non-obvious method lessons, in the order they bit:
 - **~93 numbered wordlist lemmas are unassimilated compound verbs with no L&S/WORDS sense** (abcedo2, adfrigo2, conpario2, inmoror2...). No gloss is better than a hallucinated one — they fall to "—" (skipped). Hand-curate the real, attestable ones (porus2 "a pore", praes2 "at hand", varicus2 "straddling") as core overrides.
 - **The wordlist-vs-L&S numbering mismatch is exactly what the isSpurious dual-signature check is FOR** — a numbered key that matches the bare twin on BOTH signatures is a duplicate and resolves to the bare sense (safe). The failures are the ones where the signatures DIFFER (cupa2 vs cupa: formSets sizes differ) but the numbered key is still the *wordlist's* intended common sense — there the bare twin is a *different* L&S entry entirely and WORDS fills the gap with noise. These need core overrides, not a parse-rule change.
 - **Result:** 18 numbered core overrides + 6 restored-numbered (porus2/praes2/varicus2/tropa2/disvulgo2/inmoror2) + 236 llm numbered stripped. Artifact 34,342 lemmas / 448 KB / L&S 89.7%. Golden 2016 / census 348, all green.
+
+## Caesar stress test re-run (2026-08-11, M-023)
+
+- **The popup lemma path is the WORDLIST lemma, not the treebank lemma.** A
+  LemmaEngine (treebank-corpus) lemmatizer gives `quod`→lemma "quod" (freq 103)
+  and `incolunt`→(missing) — but the popup uses `glossFor(p.lemma)` where
+  p.lemma comes from the wordlist (macrons.txt) entry, which maps `quod`→`qui`
+  and `longissime`→`longus`. The right stress-test harness is
+  form→wordlist-lemma→artifact-gloss, not the treebank path.
+- **Proper-noun L&S entries can die on a leading gender+author fragment.**
+  `Garumna` (the Garonne, a river of Gaul — L&S has it) was MISSING from the
+  artifact because senses[0] opens `"Fem., Aus. Mos. 483), = ... Strab., a
+  river of Gaul, the Garonne"` — the gender+author+book prefix masks the gloss
+  and the gates reject the clause. Only 1 such entry is in the wordlist
+  (garumna), so a core override beats a parser change. `Amisia` (the Ems) has
+  the same shape but isn't in the wordlist.
+- **Adverb forms can be lemmatized under the adjective.** `longe`/`longissime`
+  ("far") are wordlist forms of lemma `longus` (adverb d-tag under the
+  adjective). A core override on `longus` ("long, tall; far, at a distance")
+  covers all three; a core key on `longe` is dead because no such lemma exists.
+- **differunt ("they differ") resolves to L&S's literal disfero** ("carry
+  away, spread abroad") — the everyday sense is WORDS's "differ, disagree".
+  Core override `disfero` = "to differ, be different, disagree; to spread
+  abroad".
+- **Remaining stress-test gaps are lemmatization, not glosses**: `quod`→qui
+  (conjunction "because" vs pronoun), `matrona`→"married woman" (the river
+  Matrona vs the common noun), `minimeque`/`proximique` (enclitic -que forms
+  out of the wordlist; Morpheus rescues them to minime/proximus). Fixing those
+  means changing the wordlist/Morpheus pipeline, not the gloss artifact.
+- **Artifact after M-023 stress fixes:** 34,343 lemmas / 448 KB / L&S 89.7%.
+  Golden 2020 / census 348, all green.

@@ -14125,5 +14125,33 @@
       "contains": "remain"
     },
     "note": "numbered unassimilated core fix (M-023)"
+  },
+  {
+    "lemma": "garumna",
+    "expect": {
+      "contains": "Garonne"
+    },
+    "note": "Caesar BG 1.1 proper noun (M-023)"
+  },
+  {
+    "lemma": "longe",
+    "expect": {
+      "contains": "far"
+    },
+    "note": "Caesar BG 1.1 adverb (M-023)"
+  },
+  {
+    "lemma": "disfero",
+    "expect": {
+      "contains": "differ"
+    },
+    "note": "Caesar BG 1.1 differunt (M-023)"
+  },
+  {
+    "lemma": "longus",
+    "expect": {
+      "contains": "long"
+    },
+    "note": "Caesar BG 1.1 longissime (M-023)"
   }
 ]
