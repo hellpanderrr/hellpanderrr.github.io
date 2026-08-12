@@ -1325,10 +1325,27 @@
             sheetScrim.style.display = 'none';
             positionPopup(span);
         }
+        wirePopupDetails();
         // Move focus into the popup only on explicit activation (keyboard/tap/button) —
         // never on hover, which would interrupt reading flow.
         if (focus) popupEl.focus();
         announceReadings(span);
+    }
+
+    // Opening/closing the "Analysis details" <details> changes the popup height, but
+    // positionPopup measured it before the collapse and set a fixed maxHeight with
+    // overflowY:visible — so the expanded details overflow the viewport bottom.
+    // Reposition on toggle so the clamp tracks the new height. toggle does NOT
+    // bubble, so the listener must attach directly to the details element — and
+    // re-run whenever the popup HTML is rebuilt (showPopupFor AND the gloss
+    // rebuild in ensureGlosses().then, both of which replace innerHTML and drop
+    // any previously-attached listener).
+    function wirePopupDetails() {
+        const details = popupEl.querySelector('details.popup-analysis');
+        if (!details) return;
+        details.addEventListener('toggle', () => {
+            if (!popupEl.classList.contains('sheet')) positionPopup(popupSpan);
+        });
     }
 
     // Viewport coordinates — the popup is position:fixed, so no scroll offsets here.
@@ -1715,6 +1732,7 @@
                         popupSpan.__token, plain, popupSpan.__enclitic || '');
                     popupEl.innerHTML = popupSpan.__popupHtml;
                     popupEl.setAttribute('aria-label', `Readings for ${popupSpan.textContent}`);
+                    wirePopupDetails();
                 }
                 for (const tr of document.querySelectorAll('#resultText tr.line')) {
                     const td = tr.querySelector('td');

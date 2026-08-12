@@ -1086,3 +1086,22 @@ fetch fires during init, before the user ever hovers.
 
 **Status: FIXED.** 18 macronizer e2e + 6 popup + 22 unit + 81 IPA + 2067
 golden + 348 census, all green.
+
+## M-023h — Popup overflows viewport when Analysis details expand (2026-08-12) ✅
+
+**Symptom.** Expanding the popup's "Analysis details" made it overflow the
+viewport bottom (bottom 934 vs 900); the expanded rows were unreachable.
+
+**Root cause.** `positionPopup` sizes the popup only at open time. Expanding the
+`<details>` grows it past the fixed `maxHeight`, and `overflowY:visible` (set
+because the pre-expansion height was under the clamp) lets it spill. The direct
+issue: `toggle` does NOT bubble, and the popup HTML is `innerHTML`-replaced both
+on open and by the gloss rebuild, dropping any one-time listener.
+
+**Fix.** `wirePopupDetails()` attaches a direct `toggle` listener calling
+`positionPopup()` when floating; called from both `showPopupFor` and the gloss
+rebuild. Permanent regression test asserts the open-details popup stays within
+the viewport (verified at 1600x900 and 800x600).
+
+**Status: FIXED.** 7 popup + 18 macronizer e2e + 22 unit + 81 IPA + 2067 golden
++ 348 census, all green.

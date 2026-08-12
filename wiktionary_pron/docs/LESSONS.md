@@ -697,3 +697,24 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - **Lesson.** Any lazy-loaded glossary/asset that a building step snapshots into
   per-element HTML creates this class of bug: snapshot-then-render must be
   invalidated on load, not just the "currently visible" instance.
+
+## Popup overflow: <details> toggle isn't captured by the position clamp (2026-08-12)
+
+- **Symptom.** Expanding "Analysis details" in the popup made it overflow the
+  viewport bottom (bottom ~934 vs 900 viewport) — the expanded content was
+  unreachable and overflowed visibly.
+- **Root cause.** positionPopup measures `popupEl.offsetHeight` and sets a fixed
+  `maxHeight` + `overflowY` — but only runs when the popup OPENS. Expanding the
+  <details> after that grows the popup past the clamp, and `overflowY:visible`
+  (set because the pre-expansion height was under maxHeight) lets it spill.
+- **The trap:** the `toggle` event does NOT bubble, so a delegated listener on
+  the popup container never fires. It must attach directly to the `<details>` —
+  AND the popup HTML is replaced (innerHTML) both on open and by the gloss-
+  rebuild, which drops the listener. So the listener must be re-attached after
+  every rebuild. Wrapped in `wirePopupDetails()` called from both sites.
+- **Fix.** `wirePopupDetails()` attaches a direct `toggle` listener that calls
+  `positionPopup(popupSpan)` when not docked; called from `showPopupFor` and the
+  `ensureGlosses().then()` rebuild. Verified at 1600x900 and 800x600 with
+  details open — popup stays inside the viewport.
+- **Lesson.** Any non-bubbling structural event on dynamically-rebuilt DOM needs
+  a "wire after every rebuild" helper, not a one-time delegated listener.
