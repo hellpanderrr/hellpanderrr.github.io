@@ -249,12 +249,12 @@ test("CSV split button exports per word (default) and per line from the dropdown
   expect(lineDownload2.suggestedFilename()).toMatch(/\.csv$/);
 });
 
-test("popup renders above the word, survives details toggle, stays in viewport", async () => {
-  // Regression for M-023h (+ .1, + .3): the popup is anchored ABOVE the word so
-  // expanding "Analysis details" grows it downward, away from the cursor. The
-  // toggle reposition must (a) not dismiss the popup, (b) stay in the viewport,
-  // and (c) settle on ONE position — a reflow race previously flashed it at the
-  // old spot then moved it. Deferring positionPopup to the next frame fixes (c).
+test("popup renders above the word, details toggle keeps it in place", async () => {
+  // Regression for M-023h (+ .1–.4): expanding "Analysis details" must NOT move
+  // the popup. Growing it upward (when floating above the word) drags the just-
+  // clicked <summary> out from under the cursor — the "popup jumps up" complaint.
+  // The fix keeps the popup's top pinned and clamps the expanded content into the
+  // space below with an internal scrollbar; collapsing restores normal placement.
   const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
@@ -272,7 +272,7 @@ test("popup renders above the word, survives details toggle, stays in viewport",
   expect(before.y + before.height).toBeLessThanOrEqual(wordRect.y + wordRect.height + 1);
   const summary = page.locator(".word-popup details.popup-analysis summary");
   const sb = await summary.boundingBox();
-  // sample the popup position around the click — must settle on ONE y, not flash
+  // sample the popup y around the click — the top must NOT move at all (no jump)
   const ys = [];
   const poll = (async () => {
     for (let t = 0; t < 8; t++) {
@@ -283,10 +283,15 @@ test("popup renders above the word, survives details toggle, stays in viewport",
   })();
   await page.mouse.click(sb.x + sb.width / 2, sb.y + sb.height / 2);
   await poll;
-  // still visible after the toggle reposition
+  // still visible after the toggle
   await expect(page.locator(".word-popup")).toBeVisible({ timeout: 5000 });
-  expect(new Set(ys).size).toBeLessThanOrEqual(1); // no jump
-  const box = await page.locator(".word-popup").boundingBox();
+  const unique = [...new Set(ys)];
+  expect(unique.length).toBeLessThanOrEqual(1);
+  if (unique.length) expect(Math.abs(unique[0] - Math.round(before.y))).toBeLessThanOrEqual(1);
+  // collapse restores normal placement (top comes back if it had been clamped)
+  await page.mouse.click(sb.x + sb.width / 2, sb.y + sb.height / 2);
+  await page.waitForTimeout(400);
+  const after = await page.locator(".word-popup").boundingBox();
   const vh = await page.evaluate(() => window.innerHeight);
-  expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);
+  expect(after.y + after.height).toBeLessThanOrEqual(vh + 1);
 });

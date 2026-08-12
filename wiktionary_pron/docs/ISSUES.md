@@ -1159,3 +1159,24 @@ stable position (no flash/jump) and no viewport overflow.
 
 **Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
 + 348 census, all green.
+
+## M-023h.4 — Details toggle dragged the popup (and summary) up (2026-08-12) ✅
+
+**Symptom.** On words near the bottom (e.g. "qui" in a full sentence), clicking
+"Analysis details" made the popup jump up: the just-clicked <summary> slid
+~250px out from under the cursor. The rAF fix (h.3) removed the two-frame
+flash but the FINAL position itself moved, because growing a popup that floats
+ABOVE the word extends it upward.
+
+**Root cause.** Repositioning on expand recomputed top for the new, taller
+height — the top moved up and the popup grew away from the cursor.
+
+**Fix.** On expand, do NOT reposition: keep the popup's top pinned where it is
+and clamp the expanded content into the room below (`maxHeight = viewport -
+offsetTop`, `overflowY:auto`). The <summary> stays under the cursor; extra
+detail scrolls internally. On collapse, restore normal placement (so a stale
+tall maxHeight doesn't persist). Verified across 7 words: top stays within
+1px on both expand and collapse, never hidden, never out of viewport.
+
+**Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
++ 348 census, all green.
