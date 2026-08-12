@@ -592,10 +592,16 @@ non-obvious method lessons, in the order they bit:
   L&S opens them with usage-notes (adverb-POS class) or empty senses, and the
   wordlist lemma = the wordform itself, so a core key on the lemma works.
   (plerumque's lemma is plerusque, so a core key on plerumque is dead.)
-- **Full BG 1 result: 1926/1929 lemmas glossed (99.8%).** The last 3
-  (ide→idem, jamque→jam, pleraque→plerusque) are Morpheus-rescued forms whose
-  lemmas ARE glossed in the artifact — the popup resolves them correctly.
-  Artifact 34,379 lemmas / 449 KB / L&S 89.7%. Golden 2034 / census 348.
+- **Full BG 1 result: 1926/1929 lemmas glossed (99.8%).** The last 3 were
+  CORRECTED in M-023j (2026-08-12): `ide` was a true false-positive (`idem`
+  resolves via the glossed `idem` lemma, not its Mt.-Ida proper-noun homograph
+  `Ide`), but `iamque` and `plerumque` were REAL popup gaps — the analysis lemma
+  for `iamque` is `jamque` (not `jam`) and for `plerumque` is `pleraque` (not
+  `plerusque`), and neither was in the artifact. Fixed with core overrides
+  `jamque`→"and now, and already" + `pleraque`→"the greater part..." (each with a
+  golden row). The form→lemma→gloss path is NOT visible to the data suite —
+  verify it in the browser (e2e/popup-check.spec.js Caesar-stragglers test).
+  Artifact 34,413 lemmas / 450 KB / L&S 89.8%. Golden 2069 / census 348.
 
 ## Cross-author stress tests (2026-08-11, M-023d)
 
@@ -613,7 +619,8 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   bulk of each text's missing lemmas are (a) mythological patronymics/geographical
   epithets L&S keys under a DIFFERENT lemma (Helena not helene, Idalium not
   idalia, Teucer not teucrus, Mycenae not mycene, Pyrrha not pyrrhe), (b)
-  Morpheus-rescued forms whose lemma IS glossed (ide→idem, jamque→jam), and
+  Morpheus-rescued forms whose lemma IS glossed (ide→idem — but note jamque
+  and pleraque were NOT: those were real gaps fixed in M-023j), and
   (c) rare unassimilated compound forms. A core override fixes the common ones;
   the patronymic tail is not recoverable without a dedicated proper-noun lexicon.
 - **Unassimilated TABLE grows per-author.** Cicero: adsedeo→assideo, confor→

@@ -1382,6 +1382,13 @@
     "note": "core_gloss"
   },
   {
+    "lemma": "jamque",
+    "expect": {
+      "contains": "and now"
+    },
+    "note": "Caesar full-text iamque (M-023j)"
+  },
+  {
     "lemma": "jus",
     "expect": {
       "contains": "right, law, justice"
@@ -14203,6 +14210,13 @@
       "contains": "nor"
     },
     "note": "Caesar full-text adverb/particle (M-023b)"
+  },
+  {
+    "lemma": "pleraque",
+    "expect": {
+      "contains": "greater part"
+    },
+    "note": "Caesar full-text wordlist twin of plerusque (M-023j)"
   },
   {
     "lemma": "plerumque",

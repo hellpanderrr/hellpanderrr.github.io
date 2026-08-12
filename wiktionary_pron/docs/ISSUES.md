@@ -1180,3 +1180,34 @@ tall maxHeight doesn't persist). Verified across 7 words: top stays within
 
 **Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
 + 348 census, all green.
+
+## M-023j — Caesar full-text stragglers: jamque + pleraque real popup gaps (2026-08-12) ✅
+
+**Symptom.** Full Bellum Gallicum I through the popup lemma path (form →
+wordlist lemma → artifact gloss) reported 1926/1929; the 3 flags were
+`ide`/`jamque`/`pleraque`. M-023b had dismissed all 3 as "the popup resolves
+them correctly."
+
+**Root cause.** That dismissal was wrong for 2 of 3. The popup shows
+`glossFor(analysis-lemma)`, and the analysis lemma for `iamque` is `jamque`
+(not `jam`), for `plerumque` is `pleraque` (not `plerusque`) — neither was in
+the artifact, so both rendered "—". Only `ide` was a true false-positive: the
+form `idem` also carries the glossed `idem` lemma (the `Ide` flag is the
+Mt.-Ida proper-noun homograph). A wordlist scan found the wider unglossed
+enclitic-lemma class: jamque, pleraque, qualiscumque, quotcumque, quotiensque.
+
+**Fix.** Core overrides `jamque`→"and now, and already" and `pleraque`→"the
+greater part, most, very many (neut. pl. of plerusque)", each with a golden
+row (2067→2069). Rebuilt artifact (34,413 lemmas / 450 KB / L&S 89.8%).
+Browser probe confirmed all 3 words now gloss; the straggler case is locked
+in e2e/popup-check.spec.js as a 8th serial test (form→lemma→gloss path is
+invisible to the data suite).
+
+**Lesson.** The data suite resolves the LEMMA directly, so it can't see a
+form that resolves to a DIFFERENT (unglossed) lemma than the one the golden
+row tests. The browser e2e is the only gate on form→lemma→gloss. Also: a
+"99.8% lemmas glossed" claim for a text can hide real popup "—"s in the
+analysis-lemma stratum.
+
+**Status: FIXED.** 8 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2069
+golden + 348 census, all green.

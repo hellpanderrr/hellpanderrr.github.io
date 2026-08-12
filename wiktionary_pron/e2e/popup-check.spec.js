@@ -150,6 +150,41 @@ test("v/u words cycle reversibly — divisa's original spelling must come back",
   await expect(span).toHaveAttribute("content", initial);
 });
 
+test("Caesar BG I stragglers gloss in the popup — idem, iamque, plerumque", async () => {
+  // M-023j: the full-text stress test flagged these as no-gloss. The wordlist
+  // lemmas are idem/`jamque`/pleraque — glosses now land via core overrides
+  // (iamque → jamque → "and now, and already"; plerumque → pleraque → "the
+  // greater part"; idem was already glossed but its proper-noun homograph Ide
+  // isn't). Regression-locks the form→lemma→gloss path the data suite can't see.
+  const page = sharedPage;
+  test.setTimeout(300_000);
+  await page.goto(PAGE);
+  await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
+
+  await page.fill("#text_to_macronize", "idem iamque plerumque");
+  await page.click("#macronize_btn");
+  const spans = page.locator("#resultText .ipa");
+  await expect(spans).toHaveCount(3, { timeout: 120_000 });
+
+  const expectations = [
+    { word: "īdem", gloss: "the same" },
+    { word: "iamque", gloss: "and now" },
+    { word: "plērumque", gloss: "greater part" },
+  ];
+  for (let i = 0; i < expectations.length; i++) {
+    const span = spans.nth(i);
+    await expect(span).toHaveText(expectations[i].word, { timeout: 5000 });
+    await span.hover();
+    const defCells = page.locator(".word-popup table.readings td.r-def");
+    await expect(defCells.first()).toBeVisible({ timeout: 10_000 });
+    const defs = (await defCells.allTextContents()).join(" | ");
+    expect(defs).toContain(expectations[i].gloss);
+    // dismiss the popup between words
+    await page.mouse.move(5, 5);
+    await page.waitForTimeout(150);
+  }
+});
+
 test("prose shows no grey placeholders; numbered verse scans after line-number strip", async () => {
   const page = sharedPage;
   test.setTimeout(300_000);
