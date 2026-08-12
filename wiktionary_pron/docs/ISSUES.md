@@ -1141,3 +1141,21 @@ Regression test now asserts the popup opens above the word.
 
 **Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
 + 348 census, all green.
+
+## M-023h.3 — Popup flashes at old spot then jumps on details toggle (2026-08-12) ✅
+
+**Symptom.** On some words, clicking "Analysis details" made the popup briefly
+render at its collapsed-height spot, then jump to the expanded position.
+
+**Root cause.** The `<details>` `toggle` event fires BEFORE the browser has laid
+out the new height, so `positionPopup` read `offsetHeight` of the still-collapsed
+popup and placed it for the wrong height; the next frame the details grew and the
+popup visibly re-settled. A one-frame reflow race.
+
+**Fix.** Defer the reposition to `requestAnimationFrame` in the toggle handler, so
+`offsetHeight` reflects the expanded height before we place the popup. Verified:
+sampling the popup's y around the click across a wrapped sentence shows a single
+stable position (no flash/jump) and no viewport overflow.
+
+**Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
++ 348 census, all green.

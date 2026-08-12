@@ -250,11 +250,11 @@ test("CSV split button exports per word (default) and per line from the dropdown
 });
 
 test("popup renders above the word, survives details toggle, stays in viewport", async () => {
-  // Regression for M-023h (+ .1): the popup is now anchored ABOVE the word by
-  // default so expanding "Analysis details" grows it downward, away from the
-  // cursor — it can't jump out from under the pointer and dismiss itself via
-  // mouseleave. Assert: opens above the word, is still visible after the toggle,
-  // and never overflows the viewport.
+  // Regression for M-023h (+ .1, + .3): the popup is anchored ABOVE the word so
+  // expanding "Analysis details" grows it downward, away from the cursor. The
+  // toggle reposition must (a) not dismiss the popup, (b) stay in the viewport,
+  // and (c) settle on ONE position — a reflow race previously flashed it at the
+  // old spot then moved it. Deferring positionPopup to the next frame fixes (c).
   const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
@@ -270,10 +270,22 @@ test("popup renders above the word, survives details toggle, stays in viewport",
   const before = await page.locator(".word-popup").boundingBox();
   // above the word (its bottom edge sits at/above the top of the word's row)
   expect(before.y + before.height).toBeLessThanOrEqual(wordRect.y + wordRect.height + 1);
-  await page.locator(".word-popup details.popup-analysis summary").click();
-  await page.waitForTimeout(800);
+  const summary = page.locator(".word-popup details.popup-analysis summary");
+  const sb = await summary.boundingBox();
+  // sample the popup position around the click — must settle on ONE y, not flash
+  const ys = [];
+  const poll = (async () => {
+    for (let t = 0; t < 8; t++) {
+      await page.waitForTimeout(16);
+      const b = await page.locator(".word-popup").boundingBox();
+      if (b) ys.push(Math.round(b.y));
+    }
+  })();
+  await page.mouse.click(sb.x + sb.width / 2, sb.y + sb.height / 2);
+  await poll;
   // still visible after the toggle reposition
   await expect(page.locator(".word-popup")).toBeVisible({ timeout: 5000 });
+  expect(new Set(ys).size).toBeLessThanOrEqual(1); // no jump
   const box = await page.locator(".word-popup").boundingBox();
   const vh = await page.evaluate(() => window.innerHeight);
   expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);

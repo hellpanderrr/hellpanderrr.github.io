@@ -1350,7 +1350,15 @@
             // Pin while the analysis is open so reading it can't be dismissed by the
             // cursor slipping off; unpin on collapse so hover-out closes it again.
             popupPinned = details.open;
-            positionPopup(popupSpan);
+            // Defer to the next frame: the <details> height change hasn't been laid
+            // out yet when 'toggle' fires, so offsetHeight would read the OLD (collapsed)
+            // size and we'd place the popup for the wrong height — visible as a jump
+            // (popup flashes at the old spot, then repositions) on some words.
+            requestAnimationFrame(() => {
+                if (popupEl.style.display === 'block' && !popupEl.classList.contains('sheet')) {
+                    positionPopup(popupSpan);
+                }
+            });
         });
     }
 
