@@ -673,3 +673,27 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - **Artifact after M-023f: 34,411 lemmas / 450 KB / L&S 89.8%. Golden 2066 /
   census 348, all green.** ~310 numbered homographs now carry their own sense
   instead of the bare twin's.
+
+## Popup gloss race: stale "—" for every word hovered before the download finished (2026-08-12)
+
+- **Symptom.** Full sentences showed glosses for the FIRST word(s) only; all
+  others rendered "—" even after the glosses.tsv.gz download completed. Single
+  words ("Gallia est") worked. The user could close+reopen and still get "—".
+- **Root cause.** `span.__popupHtml` is built ONCE when the result renders
+  (`macronizer.html` `buildPopupHtml(token, ...)` at span creation). If
+  glossCache was still null (download in flight), the html captured "—" permanently.
+  `ensureGlosses().then()` rebuilt ONLY the popup that happened to be open when
+  the download resolved — every other span kept its stale html, and hovers just
+  re-rendered it. Clicking a reading row rebuilt it (`__cycle`), but a plain
+  hover never did.
+- **Fix.** After `glossCache` is populated, iterate `#resultText tr.line td .ipa`
+  and rebuild every span's `__popupHtml` from the now-populated cache. Idempotent
+  and cheap (~a few hundred spans). Also covers spans whose popup was never opened.
+- **Test.** `e2e/popup-check.spec.js` "glosses land in every reading row even
+  when popups open before the download finishes" — hovers every word of
+  "Gallia est omnis divisa in partes tres" with only 120ms between, waits for the
+  download, re-hovers, asserts zero "—". This is browser-only (Playwright); the
+  Node gloss suite can't see it because there's no async download.
+- **Lesson.** Any lazy-loaded glossary/asset that a building step snapshots into
+  per-element HTML creates this class of bug: snapshot-then-render must be
+  invalidated on load, not just the "currently visible" instance.

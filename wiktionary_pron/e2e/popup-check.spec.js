@@ -86,6 +86,39 @@ test("dictionary gloss disambiguates homographs in the readings popup", async ()
   expect(defs.every((d) => d.trim() && d.trim() !== "—")).toBeTruthy();
 });
 
+test("glosses land in every reading row even when popups open before the download finishes", async () => {
+  const page = sharedPage;
+  test.setTimeout(300_000);
+  await page.goto(PAGE);
+  await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
+
+  // Race: hover every word IMMEDIATELY after the result renders, while the
+  // glosses.tsv.gz download is still in flight. Every span's __popupHtml was
+  // built with a "—" placeholder; the fix must rebuild them all once the
+  // gloss cache lands, not just the popup open at that instant.
+  await page.fill("#text_to_macronize", "Gallia est omnis divisa in partes tres");
+  await page.click("#macronize_btn");
+  const spans = page.locator("#resultText .ipa");
+  await expect(spans.first()).toBeVisible({ timeout: 120_000 });
+  for (let i = 0; i < (await spans.count()); i++) {
+    await spans.nth(i).hover();
+    await page.waitForTimeout(120);
+  }
+  // Let the gloss download finish, then re-hover and assert no "—" survives.
+  await page.waitForTimeout(10_000);
+  const failures = [];
+  for (let i = 0; i < (await spans.count()); i++) {
+    const tok = (await spans.nth(i).textContent()).trim();
+    await spans.nth(i).hover();
+    await page.waitForTimeout(300);
+    const defs = await page.locator(".word-popup table.readings td.r-def").allTextContents();
+    if (!defs.length || defs.some((d) => !d.trim() || d.trim() === "—")) {
+      failures.push(`${tok}: [${defs.join(" | ")}]`);
+    }
+  }
+  expect(failures).toEqual([]);
+});
+
 test("v/u words cycle reversibly — divisa's original spelling must come back", async () => {
   const page = sharedPage;
   test.setTimeout(300_000);

@@ -1697,12 +1697,28 @@
                 // The r-def column was rendered with a "—" placeholder while this was
                 // loading; re-render the open popup in place (no re-dock/re-position)
                 // so the glosses appear without disrupting a touch sheet.
+                // Also rebuild EVERY rendered .ipa span's __popupHtml: without this, any
+                // span whose popup was first built before the download finished keeps a
+                // stale "—" definition forever (later hovers just re-render that stale
+                // html). The glossCache is now populated, so rebuild is both safe and
+                // idempotent.
+                var plain = popupSpan.textContent;
                 if (popupIsOpenFor(popupSpan) && popupSpan.__token) {
-                    var plain = popupSpan.textContent;
                     popupSpan.__popupHtml = buildPopupHtml(
                         popupSpan.__token, plain, popupSpan.__enclitic || '');
                     popupEl.innerHTML = popupSpan.__popupHtml;
                     popupEl.setAttribute('aria-label', `Readings for ${popupSpan.textContent}`);
+                }
+                for (const tr of document.querySelectorAll('#resultText tr.line')) {
+                    const td = tr.querySelector('td');
+                    if (!td) continue;
+                    for (const span of td.querySelectorAll('.ipa')) {
+                        if (!span.__token) continue;
+                        // keep the currently-open span's rebuilt html (above) authoritative
+                        if (span === popupSpan) continue;
+                        span.__popupHtml = buildPopupHtml(
+                            span.__token, span.textContent, span.__enclitic || '');
+                    }
                 }
             })
             .catch(function () { glossPromise = null; });   // transient failure: retry next popup

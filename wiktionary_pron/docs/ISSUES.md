@@ -1052,3 +1052,24 @@ carry a rare/obscure sense — the guard correctly routes every frequent word to
 its everyday meaning.
 
 **Status: FIXED.** Golden 2067 / census 348 / 22 unit / 81 IPA, all green.
+
+## M-023g — Popup gloss race: "—" for words hovered before download finished (2026-08-12) ✅
+
+**Symptom.** Full sentences ("Gallia est omnis divisa in partes tres") showed a
+gloss only for the first word(s); every other reading row rendered "—" and
+stayed that way even after close/reopen and across re-hovers. Single/two-word
+inputs ("Gallia est") worked, because the glosses.tsv.gz download had finished
+before the result rendered.
+
+**Root cause.** `span.__popupHtml` is snapshot once at result-render time with a
+"—" placeholder while glossCache is still null. `ensureGlosses().then()` rebuilt
+only the popup open at the moment the download resolved; every other span kept
+its stale html. A plain hover re-rendered only that stale html, so the "—"
+never cleared for non-first words.
+
+**Fix.** In `ensureGlosses().then()`, after populating glossCache, rebuild
+`__popupHtml` for every `.ipa` span in `#resultText` (idempotent; the 
+already-open popup is rebuilt first). Permanent Playwright regression test added
+to `e2e/popup-check.spec.js`.
+
+**Status: FIXED.** 22 unit + 81 IPA + 2067 golden + 348 census + 17 e2e green.
