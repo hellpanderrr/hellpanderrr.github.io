@@ -884,6 +884,13 @@
     async function init() {
         showWlProgress('Initializing...', 0);
         window.__setupStatus('Preparing the wordlist…');
+        // Warm the gloss dictionary side-by-side with the wordlist (M-023g.1): the
+        // glosses.tsv.gz is ~460 KB vs the ~4 MB wordlist and 2.3 MB cruncher, so it
+        // lands long before the first popup. This removes the old "first hover
+        // triggers a lazy download, every word hovered before it finishes shows —"
+        // race; the rebuild-on-load fix stays as a backstop. Fire-and-forget: not
+        // awaited, so init never blocks on it.
+        ensureGlosses();
         try {
             await api.initialize((percent, message) => {
                 showWlProgress(message, percent);

@@ -1073,3 +1073,16 @@ already-open popup is rebuilt first). Permanent Playwright regression test added
 to `e2e/popup-check.spec.js`.
 
 **Status: FIXED.** 22 unit + 81 IPA + 2067 golden + 348 census + 17 e2e green.
+
+## M-023g.1 — Warm glosses at init instead of lazy-on-first-hover (2026-08-12) ✅
+
+The M-023g race fix rebuilt stale "__popupHtml" after the gloss download
+landed, but the download itself was still triggered lazily by the first popup.
+Warming the gloss dictionary during `init()` — fire-and-forget, parallel with
+the ~4 MB wordlist + 2.3 MB cruncher — makes the 460 KB gloss file land long
+before any popup can open, so the race window essentially disappears (the
+rebuild fix stays as a backstop). Verified via a request-spy e2e that the
+fetch fires during init, before the user ever hovers.
+
+**Status: FIXED.** 18 macronizer e2e + 6 popup + 22 unit + 81 IPA + 2067
+golden + 348 census, all green.
