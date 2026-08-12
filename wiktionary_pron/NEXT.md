@@ -11,10 +11,12 @@ exit 0):
   large override batches (M-013h/i, ~140 gold-verified entries). The blocker
   tool now brute-forces override forms per word and handles `?`-wildcard gold.
   Details: ISSUES.md M-013d/e/f/g/h/i.
-- **Gloss (M-005 → M-023f)**: cross-author stress + full-artifact scans +
-  isSpurious homograph guard (94 numbered homographs restored, 327 glosses
-  corrected). Artifact 34,411 lemmas / 450 KB gz / L&S 89.8%. Tests 22 unit +
-  81 IPA + 2067 golden + 348 census. 4 commits unpushed.
+- **Gloss (M-005 → M-023h)**: cross-author stress (Caesar/Cicero/Vergil/Ovid
+  ~99% glossed), isSpurious homograph guard (94 numbered homographs, 327 glosses
+  corrected), LLM-artifact cleanup, plus the popup series (gloss race, warm-at-
+  init, details-toggle overflow/jump). Artifact 34,411 lemmas / 450 KB gz /
+  L&S 89.8%. Tests 22 unit + 81 IPA + 2067 golden + 348 census + 19 macronizer
+  e2e (7 popup). All pushed (0 unpushed).
 
 ## Open threads
 - **Remaining 47 failures** are two genuine engine limitations, neither
@@ -85,3 +87,9 @@ Gold data (temp): hypotactic at `C:/Users/HELLPA~1/AppData/Local/Temp/hypotactic
   Adverb-POS is invisible to word-overlap filters. Numbered homographs → L&S
   key authoritative; never put numbered keys in the llm layer (M-023). Re-run
   the applied-vs-L&S scan after every fix batch.
+- **Popup don't-redo** (M-023g→h.4): glosses warm at init — don't move back to
+  lazy-on-first-hover. Popup anchors ABOVE the word; expanding details must NOT
+  reposition (keeps the clicked summary under the cursor) — internal scroll
+  clamps it. `toggle` does not bubble and the popup innerHTML is rebuilt on
+  open+gloss-load, so any per-details listener must be re-wired via
+  `wirePopupDetails()`. These are e2e-locked in `e2e/popup-check.spec.js`.
