@@ -15,6 +15,7 @@
     "test:gloss": "node utils/test_gloss_regression.cjs",
     "test:census": "node utils/gloss_census.cjs",
     "build:gloss": "node utils/build_glosses.cjs",
+    "build:gloss-fixture": "node utils/build_ls_fixture.cjs",
     "serve": "http-server .. -p 8993 -s",
     "build:ext": "node utils/sync_extension.cjs"
   },

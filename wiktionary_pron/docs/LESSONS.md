@@ -718,3 +718,11 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   details open — popup stays inside the viewport.
 - **Lesson.** Any non-bubbling structural event on dynamically-rebuilt DOM needs
   a "wire after every rebuild" helper, not a one-time delegated listener.
+
+## The golden gloss suite never ran in CI — it needed the gitignored 30MB L&S dump (2026-08-12)
+
+- **Symptom.** CI `node-tests` failing only on `test:gloss`: `2000 passed, 67 failed`, every `got: null`. Locally green. `e2e`, `unit`, `ipa`, `census` all fine.
+- **Root cause.** `test_gloss_regression.cjs` evals the head of `build_glosses.cjs` and resolves golden rows through the extractor's **live defs**. Those defs populate `lsByKey` from `utils/ext_tmp/ls_*.json` — the 30MB Lewis & Short dump, **gitignored** ("build input, not shipped"). A fresh CI checkout has no `ext_tmp`, so every L&S-dependent lemma (`terra`, `qui`, `venio`, the numbered homographs…) resolved to `null`. The suite was added 2026-08-08 and **both** CI runs since failed — it had simply never been green. Nothing caught it because `npm test` is green locally, where the 30MB sits on disk.
+- **Lesson.** A test that evals production build code inherits every file dependency that code has. If any of those files are gitignored, the test can only ever be green on the author's machine. CI is the truth-teller: check what a fresh checkout actually has.
+- **Fix.** `utils/build_ls_fixture.cjs` extracts the ~95 Lewis & Short entries the 2067 golden rows can *reach* (fixpoint over the eval'd defs, growing by missed-key base-families → 253KB) into **committed** `utils/ls_golden_fixture.json`. The test always resolves through the fixture (`makeDefs(true)`), giving identical semantics in CI and locally; when `utils/ext_tmp/` IS present, a **drift guard** re-runs against the full dump and errors with "run `npm run build:gloss-fixture`" if the fixture stops reproducing it. Regenerate after golden edits: `npm run build:gloss-fixture`, commit the fixture in the same commit.
+- **Lesson.** Two-source divergence is the failure mode to kill: making the committed fixture the *authoritative* source (not "full data locally, fixture in CI") is what prevents "passes locally, red in CI". The drift guard only exists to catch the fixture going stale locally, before it ships.
