@@ -1372,22 +1372,25 @@
         const spaceBelow = window.innerHeight - rect.bottom - GAP - MARGIN;
         const spaceAbove = rect.top - GAP - MARGIN;
 
-        // Put it wherever it fits; if it fits nowhere, take the roomier side and let the
-        // popup scroll inside itself. Because it is position:fixed, the PAGE cannot scroll
-        // to reveal an overflowing popup — so it must never exceed the viewport.
+        // Prefer placing the popup ABOVE the word: expanding "Analysis details"
+        // then grows it downward, away from the cursor, so a small popup never
+        // jumps out from under the pointer (which fired mouseleave and dismissed
+        // it). Only fall back to below — or to the roomier side — when the word is
+        // too close to the top. Because position:fixed, the page can't scroll to
+        // reveal an overflowing popup, so it must never exceed the viewport.
         let top, maxHeight;
-        if (ph <= spaceBelow) {
-            top = rect.bottom + GAP;
-            maxHeight = spaceBelow;
-        } else if (ph <= spaceAbove) {
+        if (ph <= spaceAbove) {
             top = rect.top - ph - GAP;
             maxHeight = spaceAbove;
-        } else if (spaceBelow >= spaceAbove) {
+        } else if (ph <= spaceBelow) {
             top = rect.bottom + GAP;
             maxHeight = spaceBelow;
-        } else {
+        } else if (spaceAbove >= spaceBelow) {
             maxHeight = spaceAbove;
             top = rect.top - maxHeight - GAP;
+        } else {
+            top = rect.bottom + GAP;
+            maxHeight = spaceBelow;
         }
 
         maxHeight = Math.max(120, maxHeight);           // never squash it to nothing

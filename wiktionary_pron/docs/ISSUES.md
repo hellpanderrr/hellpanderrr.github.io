@@ -1124,3 +1124,20 @@ toggle, not just inside the viewport.
 
 **Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
 + 348 census, all green.
+
+## M-023h.2 — Anchor the popup ABOVE the word by default (2026-08-12) ✅
+
+The small-popup-dismissal fix (h.1) pinned while details were open, but the
+root annoyance remained: opening details moved a below-word popup upward and
+under the cursor boundary. Better fix: **anchor the popup above the word** by
+default (previously it preferred the space below). Expanding details then grows
+it downward, away from the cursor — no jump, no cursor-slip mouseleave, and the
+pin becomes a minor backstop. Falls back below (or the roomier side) only when
+the word is near the top.
+
+Verified over a 16-word wrapped sentence at 900x700: every popup opened above
+its word, stayed visible after the toggle, never left the viewport, 0 failures.
+Regression test now asserts the popup opens above the word.
+
+**Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
++ 348 census, all green.

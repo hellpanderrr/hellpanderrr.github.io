@@ -249,17 +249,16 @@ test("CSV split button exports per word (default) and per line from the dropdown
   expect(lineDownload2.suggestedFilename()).toMatch(/\.csv$/);
 });
 
-test("popup with Analysis details open stays visible and inside the viewport", async () => {
-  // Regression for M-023h + M-023h.1: expanding the details grew the popup past
-  // its open-time maxHeight (overflow spilled out of the viewport), and on a SMALL
-  // popup (single short word) the reposition to fit moved it away from the cursor,
-  // firing mouseleave which hid it entirely. The toggle must reposition + re-clamp
-  // AND pin while the analysis is open so a slip of the cursor doesn't dismiss it.
+test("popup renders above the word, survives details toggle, stays in viewport", async () => {
+  // Regression for M-023h (+ .1): the popup is now anchored ABOVE the word by
+  // default so expanding "Analysis details" grows it downward, away from the
+  // cursor — it can't jump out from under the pointer and dismiss itself via
+  // mouseleave. Assert: opens above the word, is still visible after the toggle,
+  // and never overflows the viewport.
   const page = sharedPage;
   test.setTimeout(300_000);
   await page.goto(PAGE);
   await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
-  // single short word => small popup at the bottom of its row
   await page.fill("#text_to_macronize", "in");
   await page.click("#macronize_btn");
   const span = page.locator("#resultText .ipa").first();
@@ -267,11 +266,14 @@ test("popup with Analysis details open stays visible and inside the viewport", a
   await page.waitForTimeout(8000); // glosses load
   await span.hover();
   await page.waitForTimeout(800);
+  const wordRect = await span.boundingBox();
+  const before = await page.locator(".word-popup").boundingBox();
+  // above the word (its bottom edge sits at/above the top of the word's row)
+  expect(before.y + before.height).toBeLessThanOrEqual(wordRect.y + wordRect.height + 1);
   await page.locator(".word-popup details.popup-analysis summary").click();
   await page.waitForTimeout(800);
-  // The popup must not have been dismissed by the reposition's cursor slip.
+  // still visible after the toggle reposition
   await expect(page.locator(".word-popup")).toBeVisible({ timeout: 5000 });
-  // ...and it must fit the viewport.
   const box = await page.locator(".word-popup").boundingBox();
   const vh = await page.evaluate(() => window.innerHeight);
   expect(box.y + box.height).toBeLessThanOrEqual(vh + 1);
