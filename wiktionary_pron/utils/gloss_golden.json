@@ -1375,6 +1375,13 @@
     "note": "core_gloss"
   },
   {
+    "lemma": "itis",
+    "expect": {
+      "contains": "you (pl.) go"
+    },
+    "note": "Caesar gloss audit (M-023l)"
+  },
+  {
     "lemma": "jam",
     "expect": {
       "contains": "now, already; soon"
@@ -2995,6 +3002,13 @@
       "contains": "a catapult, engine for hurling missiles"
     },
     "note": "core_gloss"
+  },
+  {
+    "lemma": "barba",
+    "expect": {
+      "contains": "beard"
+    },
+    "note": "Caesar gloss audit (M-023l)"
   },
   {
     "lemma": "caesar",
@@ -4759,6 +4773,13 @@
     "note": "core_gloss"
   },
   {
+    "lemma": "leucus",
+    "expect": {
+      "contains": "the Leuci, a people of Gallia Belgica"
+    },
+    "note": "Caesar gloss audit (M-023l)"
+  },
+  {
     "lemma": "ligdus",
     "expect": {
       "contains": "the husband of Telethusa, and father of Iphis"
@@ -5436,6 +5457,13 @@
       "contains": "the wife of Olenus, turned to stone for her pride"
     },
     "note": "core_gloss"
+  },
+  {
+    "lemma": "leuci",
+    "expect": {
+      "contains": "the Leuci, a people of Gallia Belgica"
+    },
+    "note": "Caesar gloss audit (M-023l)"
   },
   {
     "lemma": "leucon",
@@ -11209,6 +11237,13 @@
     "note": "core_gloss"
   },
   {
+    "lemma": "impetus",
+    "expect": {
+      "contains": "an attack, assault, onset, charge"
+    },
+    "note": "Caesar gloss audit (M-023l)"
+  },
+  {
     "lemma": "distribuo",
     "expect": {
       "contains": "to divide, distribute, assign"
@@ -11970,6 +12005,13 @@
       "contains": "to repent, regret, be dissatisfied"
     },
     "note": "core_gloss"
+  },
+  {
+    "lemma": "pagus",
+    "expect": {
+      "contains": "a district, canton, commune"
+    },
+    "note": "Caesar gloss audit (M-023l)"
   },
   {
     "lemma": "misereo",

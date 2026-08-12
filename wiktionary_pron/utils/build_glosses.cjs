@@ -266,6 +266,11 @@ function cleanOne(t) {
   // the "de or" inside English words — "asiDE OR away" → declino "to turn asi",
   // "disquietUDE OR confusion" → interturbo "To produce disquietu".
   t = t.replace(/[.,;:]\s+\bde\s+Or\.?[\s\S]*$/i,"").trim();
+  // "Gai 2, 190", "Gai Inst. 1, 115 sq" — Gaius is cited WITHOUT the period (so
+  // the 3+-letter CIT author list and CIT_FULL miss it), leaving "Gai Inst" or a
+  // bare "Gai 2" in the gloss (certioro "...used by Ulpian), Gai 2"; astipulator
+  // "...stipulation, Gai Inst"). Strip the whole ", Gai…" citation to the end.
+  t = t.replace(/[.,;:]\s*Gai(?:us)?[\s\S]*$/,"").trim();
   t = t.replace(CIT,"");
   t = t.replace(/\([^)]*\)\s*$/,"").trim();
   t = t.replace(/\([^)]*$/,"").trim();   // unclosed trailing paren (clause-split broke "(syn.: ...)" across clauses)
@@ -566,7 +571,7 @@ function isGlossyOpen(raw) {
   return first.length >= 3 && (EN_WORDS.has(first) || BIO_WORDS.has(first) || /(?:ous|ful|able|ible|ive|ish|less|like|some|ed|ing)$/.test(first));
 }
 function bestClause(s, pos) {
-  const clauses = s.split(/[;:]/).flatMap(c => c.split(/,\s+(?=to\s|a\s|an\s|the\s|of\s|in\s|by\s|for\s|from\s|with\s|who\s|which\s|one\s|that\s|much\b|few\b|little\b|many\b|great\b|upper\b|lower\b|former\b|latter\b)/))
+  const clauses = s.split(/[;:]/).flatMap(c => c.split(/(?<!perh\.)(?<!whence)(?<!i\.e\.)(?<!viz\.)(?<!scil\.),\s+(?=to\s|a\s|an\s|the\s|of\s|in\s|by\s|for\s|from\s|with\s|who\s|which\s|one\s|that\s|much\b|few\b|little\b|many\b|great\b|upper\b|lower\b|former\b|latter\b)/))
     // definitions that follow a closing etymology bracket: "Engl. else], another, other"
     .flatMap(c => c.split(/\]\s*,?\s+(?=a\b|an\b|the\b|one\b|who\b|which\b|what\b|to\b|another\b|other\b)/))
     // L&S chains subordinate notes with an em-dash ("a probe, Cels. 7, 17.—Hence,

@@ -760,3 +760,33 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   or BEHIND the upstream `latin-macronizer-wasm` repo. Before editing, diff the two
   to learn which is the source of truth — do NOT `npm run build` + sync blindly, or
   you'll clobber whichever side carries the newer fixes.
+
+## A whole-corpus LLM audit is mostly noise for a good pipeline — but the real finds are worth it (2026-08-13)
+
+- **Symptom.** Full Caesar BG-I gloss audit (1,968 lemmas, gemini-3.5-flash-lite
+  batch audit) → 383 flags (19.5%).
+- **Triage lesson.** ~300 of the 383 were **candidate-lemma collisions** — the
+  wordlist maps a common form to a proper-noun/ghost lemma (`sine`→`Sinis`,
+  `eos`→`Eos`, `more`→`morus`, `saepe`→`saepes`). The audit flags the *candidate
+  universe* (my prep script collected ALL lemmas a form maps to), but the popup
+  shows the *ranked reading*. A live browser probe of 16 high-frequency words
+  proved the ranking suppresses every wrong candidate — **verify candidate-class
+  flags in the browser, never trust lemma-universe counts.**
+- **The real finds were gloss-quality defects invisible to lemma-level checks**:
+  `impetus`→"a fit, paroxysm" (extractor picked rare sense[3] over sense[0]),
+  `pagus`→"the country" (context-primary mismatch), `barba`→a WORDS narrative
+  clause, `leucus`→truncated "whence, perh", `itis`→"Day" (L&S Tuscan ghost),
+  `certioro`→trailing ", Gai 2".
+- **Two build traps hit while fixing the truncation:**
+  1. Removing `the\s` from the `bestClause` split lookahead changed **698 rows**
+     (68 lost glosses) — the ", the X" split is load-bearing. The narrow fix is a
+     **lookbehind before the comma** (`(?<!perh\.)(?<!whence)(?<!i\.e\.)(?<!viz\.)
+     (?<!scil\.),`) — and a lookbehind placed AFTER `,\s+` checks the wrong
+     position (past the whitespace), silently doing nothing.
+  2. Adding "Gai" to the CIT author list stripped ", Gai" but left a bare
+     number ("…Ulpian) 2"); and a case-INSENSITIVE `Gai(?:us)?` ate "gain" and
+     "gait" in 7 real glosses (merito2 "To earn, gain"→"To earn"). The working
+     form is a case-sensitive citation-tail strip: `[.,;:]\s*Gai(?:us)?[\s\S]*$`.
+- **Lesson.** When a build change "fixes" a rare case, always diff the FULL
+  artifact before/after (the 698-row and 7-row blow-ups only showed up there),
+  and keep new citation strippers case-sensitive with a sentence-boundary anchor.

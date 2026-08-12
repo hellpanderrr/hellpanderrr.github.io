@@ -1233,3 +1233,38 @@ src/core/Tokenization.ts.
 **Status: FIXED.** New popup e2e test (Germanis → "The Germans", not "full
 sister"); 9 popup + macronizer e2e + 22 unit + 81 IPA + 2069 golden + 348
 census, all green.
+
+## M-023l — Caesar gloss audit: fix confirmed defects (2026-08-13) ✅
+
+**Symptom.** A whole-BG-I gloss audit (1,968 lemmas via gemini-3.5-flash-lite,
+batch 40, concurrency 16) flagged 383 rows (19.5%). Triage with a live browser
+probe showed the bulk were candidate-lemma collisions the popup ranking
+suppresses (sine→Sinis, eos→Eos, more→morus…) and auditor false-positives
+(explorator "a prying person" is L&S's own sense[0]). The real defects:
+
+- **impetus** → "a fit, paroxysm" (rare sense[3]); L&S sense[0] is "an attack,
+  assault, onset". Shows on every impetus/impetum in Caesar.
+- **pagus** → "the country"; Caesar means "a district, canton".
+- **barba** → "The ancient Romans allowed the beard to grow long" (WORDS
+  narrative first clause); should be "beard".
+- **leucus/leuci** → truncated "…whence, perh" (clause-split at ", the mod.
+  Liège" orphaned the dangling hedge); should be a clean ethnic gloss.
+- **itis** → "Day" (L&S Tuscan ghost); should be "you (pl.) go, proceed" (2pl
+  of eo).
+- **certioro** → trailing ", Gai 2" (Gaius cited WITHOUT a period, so the
+  citation strips miss it).
+
+**Fix.**
+- Core overrides for impetus, pagus, barba, leucus, leuci, itis (each with a
+  golden row; golden 2069→2075).
+- `bestClause` clause-split guard: don't split ",\s+the X" after an appositive
+  hedge (perh./whence/i.e./viz./scil.) — fixes the leuci truncation mechanism
+  (was: split at ", the mod. Liège"). Verified: only leucus/leuci affected.
+- Gai citation-tail strip (`[.,;:]\s*Gai(?:us)?[\s\S]*$`, case-sensitive):
+  removes "Gai 2, 190" / "Gai Inst. 1, 115 sq" from 13 juristic-gloss rows.
+  NOT a CIT-list entry — "Gai" in CIT left a bare-number remnant ("…Ulpian) 2")
+  and case-insensitive matching ate "gain"/"gait" in 7 real glosses.
+
+**Status: FIXED.** Artifact 34,413 lemmas / 450 KB / L&S 89.8%; golden 2075,
+census 348, Caesar BG-I 1928/1929 (only the ide proper-noun false-positive);
+9 popup e2e green.
