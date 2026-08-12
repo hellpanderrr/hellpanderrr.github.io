@@ -1105,3 +1105,22 @@ the viewport (verified at 1600x900 and 800x600).
 
 **Status: FIXED.** 7 popup + 18 macronizer e2e + 22 unit + 81 IPA + 2067 golden
 + 348 census, all green.
+
+## M-023h.1 — Small popup dismissed by reposition-on-toggle (2026-08-12) ✅
+
+**Symptom.** On a SMALL popup (single short word like "in"), expanding
+Analysis details made the popup jump up to fit the new height, moving it away
+from the cursor → `mouseleave` fired → `scheduleHidePopup` hid it entirely
+250ms later. Reported as "pопап перемещается вверх и потом исчезает".
+
+**Root cause.** M-023h's toggle reposition was correct about height, but moving
+a small popup away from the cursor under it triggers the hover-out close.
+
+**Fix.** Pin the popup while the analysis details are open (`popupPinned =
+details.open` in the toggle handler) so a cursor slip can't dismiss it while
+reading; unpin on collapse so hover-out works again. Permanent regression test
+now uses a single short word and asserts the popup is still visible after the
+toggle, not just inside the viewport.
+
+**Status: FIXED.** 7 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2067 golden
++ 348 census, all green.

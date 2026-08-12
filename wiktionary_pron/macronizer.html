@@ -1344,7 +1344,13 @@
         const details = popupEl.querySelector('details.popup-analysis');
         if (!details) return;
         details.addEventListener('toggle', () => {
-            if (!popupEl.classList.contains('sheet')) positionPopup(popupSpan);
+            if (popupEl.classList.contains('sheet')) return;
+            // Reposition for the new height — expanding may move the popup up, away
+            // from the cursor, which fires mouseleave and (on a small popup) hides it.
+            // Pin while the analysis is open so reading it can't be dismissed by the
+            // cursor slipping off; unpin on collapse so hover-out closes it again.
+            popupPinned = details.open;
+            positionPopup(popupSpan);
         });
     }
 
