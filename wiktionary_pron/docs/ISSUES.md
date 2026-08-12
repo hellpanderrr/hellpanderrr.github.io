@@ -1211,3 +1211,25 @@ analysis-lemma stratum.
 
 **Status: FIXED.** 8 popup + 19 macronizer e2e + 22 unit + 81 IPA + 2069
 golden + 348 census, all green.
+
+## M-023k — Germanis read "full sister" instead of "the Germans" (2026-08-12) ✅
+
+**Symptom.** The popup's reading #1 for a capitalized `Germanis` was
+`germana · noun · pl · fem · abl · full sister`. In Caesar it means "the
+Germans" (dative/abl. pl. of the proper noun Germani).
+
+**Root cause.** The wordlist has 4 lemmas for `germanis` (germana, Germani,
+Germanus, germanus) but all macronize to the SAME form `germa_ni_s`.
+`getAccents`' single-distinct-accented fast path attached `entries[0]` (the
+first row in macrons.txt file order = germana) without running the
+case-aware (casedist/tagdist/lemdist) ranking the multi-accented path uses.
+
+**Fix.** Rank every entry unconditionally; the single-accented case keeps the
+one spelling but takes its lemma/tag from the best-ranked candidate
+(capitalized Germanis → Germani, matching both case and RFTagger's tag).
+Text output unchanged. Mirrored in upstream latin-macronizer-wasm
+src/core/Tokenization.ts.
+
+**Status: FIXED.** New popup e2e test (Germanis → "The Germans", not "full
+sister"); 9 popup + macronizer e2e + 22 unit + 81 IPA + 2069 golden + 348
+census, all green.

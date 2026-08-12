@@ -733,3 +733,30 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - **Lesson.** A test that evals production build code inherits every file dependency that code has. If any of those files are gitignored, the test can only ever be green on the author's machine. CI is the truth-teller: check what a fresh checkout actually has.
 - **Fix.** `utils/build_ls_fixture.cjs` extracts the ~95 Lewis & Short entries the 2067 golden rows can *reach* (fixpoint over the eval'd defs, growing by missed-key base-families → 253KB) into **committed** `utils/ls_golden_fixture.json`. The test always resolves through the fixture (`makeDefs(true)`), giving identical semantics in CI and locally; when `utils/ext_tmp/` IS present, a **drift guard** re-runs against the full dump and errors with "run `npm run build:gloss-fixture`" if the fixture stops reproducing it. Regenerate after golden edits: `npm run build:gloss-fixture`, commit the fixture in the same commit.
 - **Lesson.** Two-source divergence is the failure mode to kill: making the committed fixture the *authoritative* source (not "full data locally, fixture in CI") is what prevents "passes locally, red in CI". The drift guard only exists to catch the fixture going stale locally, before it ships.
+
+## The single-accented fast path skipped the case-aware ranking — Germanis read "full sister" (2026-08-12)
+
+- **Symptom.** In the popup, `Germanis` (capitalized, "the Germans" in Caesar) showed
+  reading #1 as `germana · noun · pl · fem · abl · full sister`.
+- **Root cause.** The wordlist has FOUR lemmas for `germanis` — `germana` (full
+  sister), `Germani` (the Germans), `Germanus`, `germanus` — but they ALL macronize
+  to the same form `germa_ni_s`. `getAccents` in `dist/core/Tokenization.js` had a
+  fast path for "every entry shares one accented form" that attached
+  `entries[0]` — the first row in **macrons.txt file order**, which is `germana` —
+  WITHOUT running the (casedist/tagdist/lemdist) ranking the multi-accented path
+  uses. The token's own best lemma was `Germani`; the ranking would have picked it
+  (casedist 0 for the title-case lemma vs 1 for germana); the fast path bypassed both.
+- **Lesson.** Any per-form analysis with a "fast path when the answer looks
+  unambiguous" must still run the disambiguation — the *macronization* was
+  unambiguous (one spelling), but the *reading's identity* (lemma/tag) was not.
+  "Same output spelling" ≠ "same reading".
+- **Fix.** Rank every entry unconditionally; the single-accented case keeps
+  `accented = [the one form]` but attaches the **best-ranked** candidate's
+  lemma/tag. Text output unchanged (same spelling); only the popup's lemma/gloss
+  column changes. Capitalized `Germanis` → `Germani · noun · pl · masc · abl ·
+  "The Germans (people)"`. Mirrored in the upstream `latin-macronizer-wasm`
+  `src/core/Tokenization.ts` so the next engine sync doesn't lose it.
+- **Lesson.** `macronizer/dist/` is the compiled engine; the site copy can be AHEAD
+  or BEHIND the upstream `latin-macronizer-wasm` repo. Before editing, diff the two
+  to learn which is the source of truth — do NOT `npm run build` + sync blindly, or
+  you'll clobber whichever side carries the newer fixes.

@@ -547,18 +547,13 @@ export class Tokenization {
                 // Python formtoaccenteds stores accented.lower(); the unique check and
                 // the single-candidate result both use the LOWERCASED accented form.
                 const loweredAccenteds = entries.map(e => e.accentedUnderscore.toLowerCase());
-                if (entries.length > 0 && new Set(loweredAccenteds).size === 1) {
-                    accented = [loweredAccenteds[0]];
-                    accentedSources = [{
-                            accented: loweredAccenteds[0],
-                            lemma: entries[0].lemma,
-                            tag: entries[0].tag
-                        }];
-                }
-                else if (entries.length > 0) {
-                    // Multiple candidates: rank exactly like Python candidates.sort() on
-                    // the tuple (casedist, tagdist, lemdist, accented) — the accented
-                    // string is the final tiebreaker.
+                if (entries.length > 0) {
+                    // Rank every entry exactly like Python candidates.sort() on the
+                    // tuple (casedist, tagdist, lemdist, accented). Even when every
+                    // entry shares ONE accented form, the ranking decides the
+                    // reading's lemma/tag — Germanis must read "the Germans"
+                    // (Germani), not entries[0]'s "full sister" (germana), which is
+                    // only first in macrons.txt file order.
                     const candidates = [];
                     for (const entry of entries) {
                         const lexLemma = entry.lemma;
@@ -575,16 +570,29 @@ export class Tokenization {
                         (a.tagdist - b.tagdist) ||
                         (a.lemdist - b.lemdist) ||
                         (a.accented < b.accented ? -1 : a.accented > b.accented ? 1 : 0));
-                    // Python: append unseen accenteds while casedist == best casedist
-                    const bestCasedist = candidates[0].casedist;
-                    accented = [];
-                    for (const c of candidates) {
-                        if (c.casedist === bestCasedist && !accented.includes(c.accented)) {
-                            accented.push(c.accented);
-                            accentedSources.push({ accented: c.accented, lemma: c.lemma, tag: c.lexTag });
-                        }
+                    if (new Set(loweredAccenteds).size === 1) {
+                        // Single accented form — the macronization is unambiguous.
+                        // Attach the BEST-RANKED candidate's lemma/tag so the popup
+                        // shows the case-aware reading (Germanis → Germani).
+                        accented = [loweredAccenteds[0]];
+                        accentedSources = [{
+                                accented: loweredAccenteds[0],
+                                lemma: candidates[0].lemma,
+                                tag: candidates[0].lexTag
+                            }];
                     }
-                    isAmbiguous = accented.length > 1;
+                    else {
+                        // Python: append unseen accenteds while casedist == best casedist
+                        const bestCasedist = candidates[0].casedist;
+                        accented = [];
+                        for (const c of candidates) {
+                            if (c.casedist === bestCasedist && !accented.includes(c.accented)) {
+                                accented.push(c.accented);
+                                accentedSources.push({ accented: c.accented, lemma: c.lemma, tag: c.lexTag });
+                            }
+                        }
+                        isAmbiguous = accented.length > 1;
+                    }
                 }
                 else {
                     // Unknown word — Python: accented = [token.text]; if it has vowels,

@@ -185,6 +185,35 @@ test("Caesar BG I stragglers gloss in the popup — idem, iamque, plerumque", as
   }
 });
 
+test("capitalized proper noun Germanis reads the Germans, not 'full sister'", async () => {
+  // M-023k: the wordlist has 4 lemmas for germanis (germana "full sister",
+  // Germani "the Germans", Germanus, germanus) but ALL macronize to the same
+  // form germa_ni_s. The single-accented fast path used to attach entries[0]
+  // (file order → germana "full sister") without ranking. The ranking is
+  // case-aware (casedist): a CAPITALIZED Germanis must resolve to the title-case
+  // Germani → "the Germans (people)", which also matches RFTagger's tag.
+  const page = sharedPage;
+  test.setTimeout(300_000);
+  await page.goto(PAGE);
+  await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
+
+  await page.fill("#text_to_macronize", "Germanis");
+  await page.click("#macronize_btn");
+  const span = page.locator("#resultText .ipa").first();
+  await expect(span).toBeVisible({ timeout: 120_000 });
+  await span.hover();
+
+  const defCells = page.locator(".word-popup table.readings td.r-def");
+  await expect(defCells.first()).toBeVisible({ timeout: 10_000 });
+  const defs = (await defCells.allTextContents()).join(" | ");
+  expect(defs).toContain("The Germans");
+  expect(defs).not.toContain("full sister");
+
+  // the lemma column of the active row carries Germani
+  const activeLemma = page.locator(".word-popup table.readings tr.active td.r-lemma");
+  await expect(activeLemma).toContainText("Germani", { timeout: 5000 });
+});
+
 test("prose shows no grey placeholders; numbered verse scans after line-number strip", async () => {
   const page = sharedPage;
   test.setTimeout(300_000);
