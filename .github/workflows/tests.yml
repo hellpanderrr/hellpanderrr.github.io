@@ -9,6 +9,10 @@ on:
       - "wiktionary_pron/e2e/**"
       - "wiktionary_pron/package.json"
       - "wiktionary_pron/playwright.config.js"
+      # gloss build script + data drive test:gloss (golden) + test:census —
+      # they ship in the artifact, so CI must verify them on data changes.
+      - "wiktionary_pron/utils/**"
+      - "wiktionary_pron/macronizer/glosses.tsv.gz"
       - ".github/workflows/tests.yml"
   pull_request:
   workflow_dispatch:
