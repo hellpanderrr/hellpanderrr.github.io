@@ -760,6 +760,8 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   or BEHIND the upstream `latin-macronizer-wasm` repo. Before editing, diff the two
   to learn which is the source of truth — do NOT `npm run build` + sync blindly, or
   you'll clobber whichever side carries the newer fixes.
+- ✅ enforced by the popup e2e `e2e/popup-check.spec.js` "capitalized proper noun
+  Germanis reads the Germans" test + the engine-repo commit `f34735c`.
 
 ## A whole-corpus LLM audit is mostly noise for a good pipeline — but the real finds are worth it (2026-08-13)
 
@@ -818,3 +820,5 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   metrical diff. The full-Catullus gold now lives in the engine repo at
   `test/data/gold/catullus/` (decoupled from the harness corpus), with the
   blocker tool `test/catullus-blocker.mjs`.
+- ✅ enforced by the engine-repo commit `0af77d6` (gold + blocker tool + the 8
+  ACCENT_OVERRIDES, each verified to unblock its line).

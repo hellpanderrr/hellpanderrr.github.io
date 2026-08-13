@@ -1268,3 +1268,38 @@ suppresses (sine→Sinis, eos→Eos, more→morus…) and auditor false-positive
 **Status: FIXED.** Artifact 34,413 lemmas / 450 KB / L&S 89.8%; golden 2075,
 census 348, Caesar BG-I 1928/1929 (only the ide proper-noun false-positive);
 9 popup e2e green.
+
+## M-023m — Full-Catullus scansion gold → 8 wordlist fixes; remaining blockers need triage (2026-08-13) ✅ (fixes) / ⏳ (triage)
+
+**Deliverable (FIXED, engine repo `0af77d6`).** Downloaded the complete
+negenborn.net scanned Catullus (118 poems, full long+short marks) → gold at
+`latin-macronizer-wasm/test/data/gold/catullus/<meter>/`, decoupled from the
+harness corpus. The actionable scan-based comparison
+(`test/catullus-blocker.mjs`: per failing line, first word whose gold L/S
+pattern no engine candidate can produce, brute-forced `_`/`^` FIX) found 24
+candidates; **8 gold-confirmed wordlist quantity bugs fixed** via
+ACCENT_OVERRIDES: erechthei (synizesis SLL), aerea, lasarpiciferis, reiecta,
+sic, liquisse, deprensa, pegaseo. Overrides only ADD candidates (monotonic).
+
+**Method lesson (the advisor's catch, now enforced):** a per-vowel prose
+`accented[0]` vs metrical-gold diff gives ~70% "agreement" that's a trivial
+~30%-position-length baseline and is not actionable — only the failing-line
+scan comparison isolates real bugs.
+
+**OPEN — remaining blockers needing human triage.** ~247 failing lines across
+the gold (dominated by the iambic poems: catullus-IV/VIII/XXII/XXIX/XXXI/
+XXXVII/XXXIX/XLIV/XXV = 12-26 each). ~17 of these have a brute-forced FIX but
+were NOT applied because the gold quantity is metrical/editorial, not lexical
+— `tu`, `hoc`, `ridete`, `vorago`, `totius`, `inepte`, `inusta`, `meneni`,
+`penetrales`, `abice`, `iniciens`, `essent`, `renidere` etc. The rest are
+final-syllable/elision cases the segmenter can't resolve (no `_`/`^` form
+produces the gold pattern).
+
+**How to resume:** `cd /f/projects/latin-macronizer-wasm && node
+test/catullus-blocker.mjs` → `C:/Users/HELLPA~1/AppData/Local/Temp/catullus-blocker.txt`.
+Each `FIX:` line is a candidate ACCENT_OVERRIDE; verify against the gold word
+in context before adding (a gold mark at anceps/final-syllable is metrical,
+not a wordlist error).
+
+**Status: FIXED (8 overrides) + OPEN (triage ~17 more).** Engine unit tests
+8/8; site 22 unit + 81 IPA + 2075 gloss + 348 census + 9 popup e2e green.
