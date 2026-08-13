@@ -790,3 +790,31 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - **Lesson.** When a build change "fixes" a rare case, always diff the FULL
   artifact before/after (the 698-row and 7-row blow-ups only showed up there),
   and keep new citation strippers case-sensitive with a sentence-boundary anchor.
+
+## Prose lexical quantity vs metrical gold — comparing them is the wrong layer (M-023m, 2026-08-13)
+
+- **Goal:** use the negenborn full-Catullus scansion gold (every vowel marked
+  long/short) to find macronizer bugs.
+- **First attempt failed (advisor-flagged).** A per-vowel comparison of the
+  engine's `accented[0]` (prose layer) against the gold gave ~70% "agreement"
+  that is NOT a quality signal: ~30% of Latin syllables are long-by-position
+  (lepidum→`le^pi^dum` is nature-short; the gold marks it long at -um/consonant),
+  so the engine is right on almost all the "disagreements". Worse, `accented[0]`
+  is the tagger's RANKED candidate — short-biased (`^` sorts before `_` in the
+  candidate tiebreak) and context-flipping (tribus, patrona reorder with context).
+- **The actionable method (M-013's gold-blocker, reused):** for each line that
+  FAILS to scan, align engine words to gold words and report the FIRST word
+  whose gold L/S pattern no engine candidate can produce, then brute-force the
+  `_`/`^` form that unlocks it. That found 24 concrete wordlist-quantity bugs;
+  8 were gold-confirmed and fixed via ACCENT_OVERRIDES (erechthei synizesis,
+  aerea, lasarpiciferis, reiecta, sic, liquisse, deprensa, pegaseo). Overrides
+  only ADD candidates, so they're monotonic — can't regress scan completion.
+- **The rest of the "disagreements" are NOT bugs.** catullus-I scans 100% clean
+  despite ~26 per-vowel mismatches (Cōrnēlī, nāmquĕ, iām all metrical). ~247
+  remaining failing lines are dominated by iambic poems + final-syllable/elision
+  cases the segmenter can't resolve.
+- **Lesson:** "compare the macronizer against the gold" should be *scan-based*
+  (gold disambiguates lines that FAIL to scan), never a per-vowel prose-vs-
+  metrical diff. The full-Catullus gold now lives in the engine repo at
+  `test/data/gold/catullus/` (decoupled from the harness corpus), with the
+  blocker tool `test/catullus-blocker.mjs`.
