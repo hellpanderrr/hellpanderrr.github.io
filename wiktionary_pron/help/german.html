@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>German IPA Transcription - Help</title>
+    <title>German Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="German pronunciation in IPA: long and short vowels, umlauts, the ich- and ach-sounds, final devoicing and uvular r, with a free German-to-IPA converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/german.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="German Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="German pronunciation in IPA: long and short vowels, umlauts, the ich- and ach-sounds, final devoicing and uvular r, with a free German-to-IPA converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/german.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"German Pronunciation and IPA Transcription Guide","description":"German pronunciation in IPA: long and short vowels, umlauts, the ich- and ach-sounds, final devoicing and uvular r, with a free German-to-IPA converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/german.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"German"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"German","item":"https://hellpanderrr.github.io/wiktionary_pron/help/german.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,7 +24,7 @@
 </head>
 <body>
 <div id="content">
-    <h1>German IPA Transcription - Help</h1>
+    <h1>German Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=German">← Back to German transcription</a></span>
@@ -59,12 +70,14 @@
                 <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
             </ul>
         </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
         <li><strong>For Developers</strong>
             <ul>
                 <li><a href="#technical">Implementation Details</a></li>
                 <li><a href="#issues">Common Issues & Limitations</a></li>
             </ul>
         </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
     <h2 id="about">About This Tool</h2>
@@ -1465,6 +1478,20 @@
     </table>
 
 
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Why does the output for a word differ from the examples on this page?</h3>
+    <p>The examples illustrate the rules of the pronunciation module. In the Phonemic form the app looks a word up in the Wiktionary lexicon first and uses the rules only when the word is missing, so a dictionary word shows the Wiktionary transcription, including stress, vowel length and exceptions that the rules do not know. See <a href="#variants">Multiple Pronunciation Variants</a>. <a href="../?lang=German&amp;text=Vater">Open in the converter</a></p>
+
+    <h3>Should I use the Phonemic or the Phonetic form?</h3>
+    <p>Phonemic consults the lexicon first and then the rules; Phonetic uses the rules only and never consults the lexicon. A word that the rules transcribe wrongly is therefore not corrected by the lexicon in the Phonetic form. See <a href="#forms">Phonemic vs Phonetic</a>.</p>
+
+    <h3>A word is transcribed incorrectly. What can I do?</h3>
+    <p>The table under <a href="#issues">Common Issues &amp; Limitations</a> lists words that the rules get wrong, among them <em>Vater</em> (rule output <span class="ipa">/ˈvaːtɐ/</span>, where <span class="ipa">/ˈfaːtɐ/</span> is correct), <em>Buch</em>, <em>das</em>, <em>Saal</em> and <em>Obst</em>. In the Phonemic form such a word is normally taken from the lexicon; the faulty rule output appears in the Phonetic form and for words that are not in the lexicon.</p>
+
+    <h3>Can the lexicon be switched off?</h3>
+    <p>Not from the interface; the app has no setting for it. The lexicon is used by default, and opening the converter with <code>dict=false</code> in the address (for example <code>?lang=German&amp;dict=false</code>) turns it off, so that every word is transcribed by the rules. This is useful for seeing what the rules alone produce for a word.</p>
+
     <h2 id="technical">Implementation Details (for Developers)</h2>
 
     <ol>
@@ -2052,44 +2079,37 @@
         <tbody>
         <tr>
             <td>Abenteuer</td>
-            <td>/apˈbɛntɔɪ̯ɐ/</td>
+            <td>/ˈap(ʔ)ɛntˌʔɔɪ̯ɐ/</td>
             <td>/ˈaːbəntɔɪ̯ɐ/</td>
             <td>False prefix detection (ab-)</td>
             <td>Check Wiktionary; report if incorrect</td>
         </tr>
         <tr>
             <td>anhand</td>
-            <td>/ˈanhant/</td>
+            <td>/ˈanˌhant/</td>
             <td>/anˈhant/</td>
-            <td>Missing glottal stop between components</td>
+            <td>Treated as a compound, with secondary stress on the second component</td>
             <td>Use phonetic mode; check stress position</td>
         </tr>
         <tr>
             <td>Ingrid</td>
-            <td>/ˈɪŋɡʁiːt/</td>
+            <td>/ˈɪŋʁɪt/</td>
             <td>/ˈɪŋɡʁɪt/</td>
-            <td>Vowel length rule (long in open syllable)</td>
+            <td><em>ng</em> is read as the single sound /ŋ/, so the /ɡ/ is lost</td>
             <td>Verify with Wiktionary; known limitation</td>
         </tr>
         <tr>
             <td>Abakus</td>
-            <td>/ˈapakʊs/</td>
+            <td>/ˈapˌʔaːkʊs/</td>
             <td>/ˈabakʊs/</td>
             <td>False prefix detection</td>
             <td>Foreign words may need manual correction</td>
         </tr>
         <tr>
-            <td>Animation</td>
-            <td>/ˈanimat͡si̯oːn/</td>
-            <td>/animaˈt͡si̯oːn/</td>
-            <td>False prefix detection (an-)</td>
-            <td>Check Wiktionary for stress pattern</td>
-        </tr>
-        <tr>
             <td>Familie</td>
-            <td>/faˈmiːliːə/</td>
+            <td>/famiˈliː/</td>
             <td>/faˈmiːli̯ə/</td>
-            <td>Wrong syllable division (li-ə vs li̯ə)</td>
+            <td><em>ie</em> is read as long /iː/ and stressed, so the final syllable is lost</td>
             <td>Known bug; check phonetic mode output</td>
         </tr>
         <tr>
@@ -2101,28 +2121,70 @@
         </tr>
         <tr>
             <td>Yves</td>
-            <td>/yːf/</td>
+            <td>/ˈyːvəs/</td>
             <td>/iːf/</td>
             <td>Y interpreted as German /y/ not French /i/</td>
             <td>Foreign names often transcribed incorrectly</td>
         </tr>
         <tr>
             <td>Myanmar</td>
-            <td>/ˈmyːanmaːʁ/</td>
+            <td>/ˈmyːanmaʁ/</td>
             <td>/ˈmi̯anmaːʁ/</td>
             <td>y in hiatus position</td>
             <td>Foreign place names; verify externally</td>
         </tr>
         <tr>
             <td>Adlatus</td>
-            <td>/ˈadlaːtʊs/</td>
+            <td>/ˈaːdlatʊs/</td>
             <td>/ˈatlaːtʊs/</td>
-            <td>Syllable division (dl vs tl)</td>
+            <td><em>d</em> is kept voiced before <em>l</em> and the first vowel is made long</td>
             <td>Latin loans; check Wiktionary</td>
+        </tr>
+                <tr>
+            <td>Vater</td>
+            <td>/ˈvaːtɐ/</td>
+            <td>/ˈfaːtɐ/</td>
+            <td>Word-initial <em>v</em> is always read as /v/; the rules do not know the native words in which it is /f/</td>
+            <td>Rule-based output only. The Phonemic form normally takes the word from the dictionary; the Phonetic form and words missing from the dictionary use these rules.</td>
+        </tr>
+        <tr>
+            <td>Buch</td>
+            <td>/bʊx/</td>
+            <td>/buːx/</td>
+            <td>A vowel before <em>ch</em> is treated as short, as in a closed syllable</td>
+            <td>Rule-based output only. The Phonemic form normally takes the word from the dictionary; the Phonetic form and words missing from the dictionary use these rules.</td>
+        </tr>
+        <tr>
+            <td>das</td>
+            <td>/daːs/</td>
+            <td>/das/</td>
+            <td>A monosyllable ending in one consonant is given a long vowel; short function words are not recognised</td>
+            <td>Rule-based output only. The Phonemic form normally takes the word from the dictionary; the Phonetic form and words missing from the dictionary use these rules.</td>
+        </tr>
+        <tr>
+            <td>Saal</td>
+            <td>/zaˈaːl/</td>
+            <td>/zaːl/</td>
+            <td>The double vowel <em>aa</em> is split into two syllables instead of read as one long vowel</td>
+            <td>Rule-based output only. The Phonemic form normally takes the word from the dictionary; the Phonetic form and words missing from the dictionary use these rules.</td>
+        </tr>
+        <tr>
+            <td>Obst</td>
+            <td>/ɔpst/</td>
+            <td>/oːpst/</td>
+            <td>A vowel before a consonant cluster is treated as short</td>
+            <td>Rule-based output only. The Phonemic form normally takes the word from the dictionary; the Phonetic form and words missing from the dictionary use these rules.</td>
         </tr>
         </tbody>
     </table>
 
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for related languages in this tool:</p>
+    <ul>
+        <li><a href="icelandic.html">Icelandic</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
@@ -2131,4 +2193,4 @@
         repository</a>.</small></p>
 </div>
 </body>
-</html>
+</html>

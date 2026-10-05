@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bulgarian IPA Transcription - Help</title>
+    <title>Bulgarian Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Bulgarian pronunciation in IPA: stress and vowel reduction, ъ, щ and дж, soft consonants and final devoicing, with a free Bulgarian-to-IPA converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/bulgarian.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Bulgarian Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Bulgarian pronunciation in IPA: stress and vowel reduction, ъ, щ and дж, soft consonants and final devoicing, with a free Bulgarian-to-IPA converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/bulgarian.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Bulgarian Pronunciation and IPA Transcription Guide","description":"Bulgarian pronunciation in IPA: stress and vowel reduction, ъ, щ and дж, soft consonants and final devoicing, with a free Bulgarian-to-IPA converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/bulgarian.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Bulgarian"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Bulgarian","item":"https://hellpanderrr.github.io/wiktionary_pron/help/bulgarian.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,42 +24,1437 @@
 </head>
 <body>
 <div id="content">
-    <h1>Bulgarian IPA Transcription - Help</h1>
+    <h1>Bulgarian Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Bulgarian">← Back to Bulgarian transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+<div class="algo-alert">
+        <strong>Mark the stress yourself.</strong> This tool does <em>not</em> look words up in a dictionary and does
+        <em>not</em> know where the stress falls. Bulgarian stress is free and is not written in ordinary spelling, so
+        you have to type it: put a <strong>combining acute accent (U+0301)</strong> right after the stressed vowel.
+        What happens to the vowels depends on it:
+        <ul>
+            <li><strong>No stress mark, word with two or more vowels:</strong> <em>every</em> vowel is treated as
+                unstressed and reduced (а, ъ → <span class="ipa">ɐ</span>; о, у → <span class="ipa">o</span>), and no
+                <span class="ipa">ˈ</span> is printed: <em>добър</em> <span class="ipa">/dobɐr/</span>. Only <span class="ipa">ɛ</span> and
+                <span class="ipa">i</span> are left alone.
+            </li>
+            <li><strong>With the acute accent:</strong> the marked vowel keeps its full quality and the stress mark is
+                placed at the start of the syllable: <em>до́бър</em> <span class="ipa">/ˈdɔbɐr/</span>.
+            </li>
+            <li><strong>Word with a single vowel and no mark</strong> is not reduced: <em>кон</em> <span class="ipa">/kɔn/</span>, <em>хляб</em> <span class="ipa">/xlʲa̟p/</span>.</li>
+        </ul>
+        Use the <em>acute</em> accent only. A <em>grave</em> accent (secondary stress) is accepted only together with an
+        acute one: <em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span>; a grave on its own makes the module raise an error and the text comes back unchanged
+        (see <a href="#issues">Common Issues</a>).
+    </div>
 
-    <p>This <a href="../?lang=Bulgarian">Bulgarian transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:bg-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
-        Bulgarian
-        Pronunciation Module</a> to generate phonemic transcriptions for Bulgarian text.</p>
-
-    <p>The system processes Bulgarian text through a rule-based approach that handles Bulgarian phonological patterns
-        and orthographic conventions.</p>
-
-    <h2>Dialects Supported</h2>
+    <h2>Table of Contents</h2>
     <ul>
-        <li><strong>Default</strong> - Standard Bulgarian pronunciation patterns</li>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects & Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Bulgarian Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#stress-input">Typing the Stress</a></li>
+                <li><a href="#vowels-guide">Vowels and Unstressed Reduction</a></li>
+                <li><a href="#soft-consonants">Soft Consonants: я, ю, ь</a></li>
+                <li><a href="#affricates">Ц, Ч, Щ, ДЖ and ДЗ</a></li>
+                <li><a href="#voicing">Voicing Assimilation</a></li>
+                <li><a href="#final-devoicing">Final Devoicing</a></li>
+                <li><a href="#hard-l">Hard L</a></li>
+                <li><a href="#nasals">Nasal Assimilation: ŋ and ɱ</a></li>
+                <li><a href="#clusters">Consonant Cluster Simplification</a></li>
+                <li><a href="#input-handling">Spaces, Hyphens and Unsupported Characters</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#syllabification">Syllabification and Hyphenation (not used by the app)</a></li>
+                <li><a href="#issues">Common Issues & Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
-    <h2>Transcription Forms</h2>
-    <ul>
+    <h2 id="about">About This Tool</h2>
+    <p>This <a href="../?lang=Bulgarian">Bulgarian transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:bg-pronunciation" target="_blank"
+            rel="noopener noreferrer">Wiktionary Bulgarian Pronunciation Module</a> (the local copy is
+        <code>lua_modules/bg-pron_wasm.lua</code>) to generate phonemic transcriptions for Bulgarian text. IPA
+        (International Phonetic Alphabet) is a standardized system for transcribing speech sounds using symbols based on
+        the Latin alphabet. This tool converts Bulgarian Cyrillic spelling into IPA, helping learners, linguists, and
+        developers understand pronunciation.</p>
 
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+    <p>The conversion is <strong>purely rule-based</strong>: the page calls <code>window.bg_ipa.toIPA(cleanText)</code>
+        and nothing else. There is <strong>no lexicon</strong> and no stress dictionary, so the result is only as good
+        as the input you give it. The rules cover letter-to-sound mapping, the movement of the stress mark to a syllable
+        onset, vowel reduction around the stress, palatalization before я/ю/ь, voicing assimilation, final devoicing,
+        hard <span class="ipa">ɫ</span>, nasal assimilation and a few consonant-cluster simplifications. They are
+        described step by step in <a href="#technical">Implementation Details</a>.</p>
+
+    <h2 id="dialects">Dialects & Limitations</h2>
+    <ul>
+        <li><strong>Supported:</strong> Standard (literary) Bulgarian, one style: <em>Default</em>.</li>
+        <li><strong>Not supported:</strong> Regional dialects; the output describes the standard literary
+            pronunciation only.
+        </li>
+        <li><strong>No automatic stress:</strong> stress must be typed with a combining acute accent; see the box at the
+            top of this page.
+        </li>
+        <li><strong>Edge cases:</strong> Loanwords with non-standard sounds, words where a stressed
+            <em>а/я</em> in an ending is really pronounced <span class="ipa">ɤ</span>, and proper names are not
+            handled specially.
+        </li>
+        <li><strong>Input cleaning:</strong> before transcription the app removes everything except letters, combining
+            marks, hyphens and apostrophes (see <a href="#input-handling">Spaces, Hyphens and Unsupported
+                Characters</a>).
         </li>
     </ul>
 
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic</strong> (the only form offered): a broad transcription that shows the sounds that
+            distinguish words. In practice the module is a little more detailed than a pure phonemic transcription: it
+            marks the reduced vowel <span class="ipa">ɐ</span>, the fronted vowels after soft consonants
+            (<span class="ipa">a̟</span>), hard <span class="ipa">ɫ</span> and the nasal allophones
+            <span class="ipa">ŋ</span>, <span class="ipa">ɱ</span>.
+        </li>
+        <li><strong>Phonetic</strong>: not available for Bulgarian. The handler returns nothing for any other form
+            (<code>if (langForm !== "Phonemic") return null;</code>).
+        </li>
+    </ul>
 
-    <h2>Technical Information</h2>
-    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:bg-pronunciation"
-                                              target="_blank" rel="noopener noreferrer">Wiktionary Bulgarian
-        pronunciation module</a>, which
-        provides comprehensive coverage of Bulgarian phonological rules and orthographic patterns.</p>
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning.</dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning, e.g. the hard <span
+                class="ipa">ɫ</span> versus the plain <span class="ipa">l</span>.
+        </dd>
+
+        <dt>Stress</dt>
+        <dd>Bulgarian stress is free (can fall on any syllable) and is not marked in ordinary spelling. This tool needs
+            you to supply it with a combining acute accent after the vowel. Shown in IPA as <span
+                    class="ipa">ˈ</span> placed before the stressed syllable: <em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span>.
+        </dd>
+
+        <dt>Vowel Reduction</dt>
+        <dd>Unstressed vowels become weaker and more central. Here: а and ъ become <span class="ipa">ɐ</span>, о and у
+            become <span class="ipa">o</span>: <em>вода́</em> <span class="ipa">/voˈda/</span>.
+        </dd>
+
+        <dt>Schwa-like Vowel (ъ)</dt>
+        <dd>The letter ъ is the Bulgarian mid-central vowel <span class="ipa">ɤ</span> when stressed
+            (<em>зъ́б</em> <span class="ipa">/ˈzɤp/</span>) and <span class="ipa">ɐ</span> when unstressed.
+        </dd>
+
+        <dt>Palatalization</dt>
+        <dd>Softening of a consonant before я, ю or ь, written <span class="ipa">ʲ</span>: <em>ля́ва</em> <span class="ipa">/ˈlʲa̟vɐ/</span>, <em>ми́ля</em> <span class="ipa">/ˈmilʲɐ/</span>.</dd>
+
+        <dt>Fronted Vowel</dt>
+        <dd>A back vowel moved forward after a soft or postalveolar consonant, written with the advanced diacritic
+            <span class="ipa">◌̟</span>: <em>ша́пка</em> <span class="ipa">/ˈʃa̟pkɐ/</span>.
+        </dd>
+
+        <dt>Affricate</dt>
+        <dd>A stop released as a fricative, written with a tie bar: <span class="ipa">t͡s</span> (ц),
+            <span class="ipa">t͡ʃ</span> (ч): <em>ци́рк</em> <span class="ipa">/ˈt͡sirk/</span>, <em>чо́век</em> <span class="ipa">/ˈt͡ʃɔvɛk/</span>.
+        </dd>
+
+        <dt>Tie Bar</dt>
+        <dd>The combining mark <span class="ipa">͡</span> joining the two halves of an affricate into one sound.</dd>
+
+        <dt>Voicing Assimilation</dt>
+        <dd>A consonant takes the voicing of the consonant after it: <em>про́сба</em> <span class="ipa">/ˈprɔzbɐ/</span> (с before б becomes
+            <span class="ipa">z</span>), <em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span> (з before к becomes <span class="ipa">s</span>).
+        </dd>
+
+        <dt>Final Devoicing</dt>
+        <dd>Voiced obstruents are pronounced voiceless at the end of a word: <em>гра́д</em> <span class="ipa">/ˈɡrat/</span>, <em>хле́б</em> <span class="ipa">/ˈxlɛp/</span>.</dd>
+
+        <dt>Velar Nasal</dt>
+        <dd><span class="ipa">ŋ</span>, the "ng" of English "sing", used for н before к or г: <em>ба́нка</em> <span class="ipa">/ˈbaŋkɐ/</span>.</dd>
+
+        <dt>Labiodental Nasal</dt>
+        <dd><span class="ipa">ɱ</span>, used for м before ф or в: <em>ка́мфор</em> <span class="ipa">/ˈkaɱfor/</span>.</dd>
+
+        <dt>Hard L</dt>
+        <dd><span class="ipa">ɫ</span>, the "dark l" used before back vowels and consonants and at the end of a word:
+            <em>хоте́л</em> <span class="ipa">/xoˈtɛɫ/</span>. Before е, и or a soft sign the plain <span class="ipa">l</span> is kept: <em>ле́ка</em> <span class="ipa">/ˈlɛkɐ/</span>.
+        </dd>
+
+        <dt>Combining Acute (U+0301)</dt>
+        <dd>The character you type after a vowel to mark primary stress. Mapped internally to
+            <span class="ipa">ˈ</span>.
+        </dd>
+
+        <dt>Combining Grave (U+0300)</dt>
+        <dd>Marks secondary stress (mapped to <span class="ipa">ˌ</span>). Only allowed in a word that also has an
+            acute accent.
+        </dd>
+
+        <dt>Dot Below (U+0323)</dt>
+        <dd>Typed under а or я to force the sound <span class="ipa">ɤ</span> (as if it were ъ):
+            <em>пътя̣́т</em> <span class="ipa">/pɐˈtʲɤ̟t/</span>, compare <em>пътя́т</em> <span class="ipa">/pɐˈtʲa̟t/</span>.
+        </dd>
+
+        <dt>Clitic</dt>
+        <dd>A short word that leans on its neighbour. Single-letter prepositions в and с are transcribed alone as
+            <em>в</em> <span class="ipa">/f/</span> and <em>с</em> <span class="ipa">/s/</span>.
+        </dd>
+
+        <dt>NFD</dt>
+        <dd>Unicode Normalization Form Decomposed. The module decomposes the input so that accents become separate
+            characters it can see.
+        </dd>
+
+        <dt>Obstruent / Sonorant</dt>
+        <dd>Obstruents (stops, fricatives, affricates) can be voiced or voiceless. Sonorants (<span
+                class="ipa">m n l r j</span>) are always voiced and never trigger voicing assimilation.
+        </dd>
+
+        <dt>Syllable Onset</dt>
+        <dd>The consonants at the start of a syllable. The stress mark is placed before the onset, not directly before
+            the vowel: the mark goes in front of the whole onset (see <em>гра́д</em> <span class="ipa">/ˈɡrat/</span>), not directly before the vowel.
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This section lists the symbols that the engine actually emits for Bulgarian (collected by running a broad word
+        list through it). For each symbol there is an example and an approximate English equivalent.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">a</span></td>
+            <td><em>ба́ба</em> <span class="ipa">/ˈbabɐ/</span></td>
+            <td>"father"</td>
+            <td>Stressed а, also stressed я after a soft consonant</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɐ</span></td>
+            <td><em>вода́</em> <span class="ipa">/voˈda/</span></td>
+            <td>"cut" / "sofa"</td>
+            <td>Unstressed а and unstressed ъ (the reduced vowel)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɛ</span></td>
+            <td><em>ве́чер</em> <span class="ipa">/ˈvɛt͡ʃɛr/</span></td>
+            <td>"bed"</td>
+            <td>е in every position. Never reduced by this module</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">i</span></td>
+            <td><em>ми́р</em> <span class="ipa">/ˈmir/</span></td>
+            <td>"machine"</td>
+            <td>и in every position. Never reduced by this module</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɔ</span></td>
+            <td><em>мо́ре</em> <span class="ipa">/ˈmɔrɛ/</span></td>
+            <td>"thought" (UK)</td>
+            <td>Stressed о</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">o</span></td>
+            <td><em>рабо́та</em> <span class="ipa">/rɐˈbɔtɐ/</span></td>
+            <td>"go" (without glide)</td>
+            <td>Unstressed о and unstressed у</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">u</span></td>
+            <td><em>ту́ка</em> <span class="ipa">/ˈtukɐ/</span></td>
+            <td>"food"</td>
+            <td>Stressed у (and ю after a consonant, with ʲ)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɤ</span></td>
+            <td><em>зъ́б</em> <span class="ipa">/ˈzɤp/</span></td>
+            <td>No English equivalent; "bird" without r-colouring</td>
+            <td>Stressed ъ</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">p b t d k ɡ</span></td>
+            <td><em>па́рче</em> <span class="ipa">/ˈpart͡ʃɛ/</span>, <em>ба́ба</em> <span class="ipa">/ˈbabɐ/</span></td>
+            <td>"spin", "bad", "stop", "do", "sky", "go"</td>
+            <td>Plain stops (unaspirated). The symbol <span class="ipa">ɡ</span> is the IPA single-storey g.</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">f v s z</span></td>
+            <td><em>ва́жен</em> <span class="ipa">/ˈvaʒɛn/</span>, <em>со́фия</em> <span class="ipa">/ˈsɔfijɐ/</span></td>
+            <td>"five", "van", "see", "zoo"</td>
+            <td>Subject to voicing assimilation and final devoicing</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʃ</span></td>
+            <td><em>ша́пка</em> <span class="ipa">/ˈʃa̟pkɐ/</span></td>
+            <td>"shoe"</td>
+            <td>ш; also the first half of щ</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʒ</span></td>
+            <td><em>жа́ба</em> <span class="ipa">/ˈʒa̟bɐ/</span></td>
+            <td>"measure"</td>
+            <td>ж</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">x</span></td>
+            <td><em>хле́б</em> <span class="ipa">/ˈxlɛp/</span></td>
+            <td>Scottish "loch"</td>
+            <td>х. Voiced to <span class="ipa">ɣ</span> before б, д, г, з, ж</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɣ</span></td>
+            <td><em>бе́хдом</em> <span class="ipa">/ˈbɛɣdom/</span></td>
+            <td>No English equivalent</td>
+            <td>Voiced allophone of х, only before a voiced obstruent</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">t͡s</span></td>
+            <td><em>ци́рк</em> <span class="ipa">/ˈt͡sirk/</span></td>
+            <td>"cats"</td>
+            <td>ц, affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">t͡ʃ</span></td>
+            <td><em>чо́век</em> <span class="ipa">/ˈt͡ʃɔvɛk/</span></td>
+            <td>"church"</td>
+            <td>ч, affricate</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʃt</span></td>
+            <td><em>ща́стие</em> <span class="ipa">/ˈʃtastiɛ/</span></td>
+            <td>"fish tank"</td>
+            <td>щ is written as two sounds, with no tie bar</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">m n</span></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span>, <em>не́бе</em> <span class="ipa">/ˈnɛbɛ/</span></td>
+            <td>"man", "no"</td>
+            <td>Plain nasals</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ŋ</span></td>
+            <td><em>ба́нка</em> <span class="ipa">/ˈbaŋkɐ/</span></td>
+            <td>"sing"</td>
+            <td>н before к or г</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɱ</span></td>
+            <td><em>ко́мфорт</em> <span class="ipa">/ˈkɔɱfort/</span></td>
+            <td>"symphony" (the m before f)</td>
+            <td>м before ф or в</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">l</span></td>
+            <td><em>ле́ка</em> <span class="ipa">/ˈlɛkɐ/</span></td>
+            <td>"leaf"</td>
+            <td>Before е, и and ʲ</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɫ</span></td>
+            <td><em>ма́ла</em> <span class="ipa">/ˈmaɫɐ/</span></td>
+            <td>"full" (dark l)</td>
+            <td>л elsewhere</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">r</span></td>
+            <td><em>ра́бота</em> <span class="ipa">/ˈrabotɐ/</span></td>
+            <td>Spanish "pero" (tap or trill)</td>
+            <td>р</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">j</span></td>
+            <td><em>ма́йка</em> <span class="ipa">/ˈmajkɐ/</span>, <em>ю́ли</em> <span class="ipa">/ˈju̟li/</span></td>
+            <td>"yes"</td>
+            <td>й; also я/ю/ь after a vowel or at the start of a word</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʲ</span></td>
+            <td><em>ми́ля</em> <span class="ipa">/ˈmilʲɐ/</span></td>
+            <td>The "y" glide in "million"</td>
+            <td>Softness (palatalization) of the preceding consonant</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">w</span></td>
+            <td><em>ўт</em> <span class="ipa">/wt/</span></td>
+            <td>"water"</td>
+            <td>Only for the non-standard letter ў; not a regular Bulgarian letter</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis; placed before the stressed syllable's onset. Produced from the combining acute U+0301</td>
+            <td><em>ра́дио</em> <span class="ipa">/ˈradio/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˌ</span></td>
+            <td>Secondary stress</td>
+            <td>Weaker emphasis. Produced from the combining grave U+0300, only valid together with an acute</td>
+            <td><em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʲ</span></td>
+            <td>Palatalization</td>
+            <td>The consonant before it is soft</td>
+            <td><em>ля́ва</em> <span class="ipa">/ˈlʲa̟vɐ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">◌̟</span></td>
+            <td>Advanced</td>
+            <td>Vowel moved forward after ʃ, ʒ, ʲ or j</td>
+            <td><em>ша́рлатан</em> <span class="ipa">/ˈʃa̟rɫɐtɐn/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">◌͡◌</span></td>
+            <td>Tie bar</td>
+            <td>Two segments form one affricate</td>
+            <td><em>ча́й</em> <span class="ipa">/ˈt͡ʃa̟j/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> the Bulgarian module returns exactly one transcription per
+            word, so there is nothing to cycle through.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support). The browser or Edge voice reads
+            the Cyrillic text, not the IPA.
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>Bulgarian produces <strong>one</strong> transcription per input. If a word can be stressed in more than one way
+        (for example homographs such as <em>за́мък</em> "castle" and <em>замъ́к</em> "lock"), you get a different
+        result by typing the stress mark in a different position; the tool cannot offer both for you to cycle through.
+    </p>
+
+    <h2>Bulgarian Pronunciation Guide</h2>
+
+    <p>Bulgarian spelling is close to phonemic: almost every letter has one sound. The exceptions are the free stress
+        (which is not written), the reduction of unstressed vowels, and a set of voicing and softening rules. This guide
+        explains what the engine does, in the order a reader meets the rules.</p>
+
+    <h3 id="stress-input">Typing the Stress</h3>
+    <p>Because Bulgarian dictionaries mark stress and ordinary text does not, the module reads the stress from the
+        input:</p>
+    <ul>
+        <li><strong>Acute accent U+0301 after the vowel:</strong> <em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span> and <em>мама́</em> <span class="ipa">/mɐˈma/</span> have the same letters but
+            different stress and therefore different vowels: the first vowel of the second word is reduced.
+        </li>
+        <li><strong>Where the mark ends up:</strong> the accent is moved to the beginning of the syllable. It jumps over
+            the vowel, over a soft sign or <em>й</em>, and over a single consonant, plus the clusters
+            described in <a href="#technical">stage 7</a>: <em>ра́бота</em> <span class="ipa">/ˈrabotɐ/</span>, <em>сла́дко</em> <span class="ipa">/ˈsɫatko/</span>, <em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span>, <em>хле́б</em> <span class="ipa">/ˈxlɛp/</span>.
+        </li>
+        <li><strong>Word-initial consonants:</strong> if only consonants precede the stressed vowel, the mark goes to
+            the very start of the word: <em>гра́д</em> <span class="ipa">/ˈɡrat/</span>, <em>хле́б</em> <span class="ipa">/ˈxlɛp/</span>.
+        </li>
+        <li><strong>Prefixes:</strong> the prefixes <em>без-, въз-, из-, раз-</em> and a few others keep the stress mark
+            after the prefix: <em>безбра́чие</em> <span class="ipa">/bɛzˈbrat͡ʃiɛ/</span>, <em>разка́з</em> <span class="ipa">/rɐsˈkas/</span>.
+        </li>
+        <li><strong>Two stress marks:</strong> allowed and both are printed: <em>ма́ма́</em> <span class="ipa">/ˈmaˈma/</span>. Secondary stress with the grave
+            accent: <em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span>.
+        </li>
+    </ul>
+
+    <h3 id="vowels-guide">Vowels and Unstressed Reduction</h3>
+    <p>The module reduces vowels <em>around</em> the stress, not just before it:</p>
+    <ul>
+        <li><strong>Before the stress:</strong> everything before the stress mark is reduced: <span class="ipa">a, ɤ
+            → ɐ</span> and <span class="ipa">ɔ, u → o</span>: <em>вода́</em> <span class="ipa">/voˈda/</span>, <em>ръка́</em> <span class="ipa">/rɐˈka/</span>.
+        </li>
+        <li><strong>After the stress:</strong> every vowel after the stressed one is reduced in the same way:
+            <em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span>, <em>ра́бота</em> <span class="ipa">/ˈrabotɐ/</span>, <em>ма́ймуна</em> <span class="ipa">/ˈmajmonɐ/</span>.
+        </li>
+        <li><strong>Never reduced:</strong> <span class="ipa">ɛ</span> and <span class="ipa">i</span> stay as they are
+            in all positions: <em>кафе́</em> <span class="ipa">/kɐˈfɛ/</span>, <em>ми́лион</em> <span class="ipa">/ˈmilion/</span>.
+        </li>
+        <li><strong>No stress mark and more than one vowel:</strong> the whole word counts as "before the stress", so
+            all vowels are reduced: <em>добър</em> <span class="ipa">/dobɐr/</span> against <em>до́бър</em> <span class="ipa">/ˈdɔbɐr/</span>. A word with exactly one vowel letter is never
+            reduced: <em>кон</em> <span class="ipa">/kɔn/</span>, <em>съм</em> <span class="ipa">/sɤm/</span>.
+        </li>
+        <li><strong>The vowel count is made on the whole input</strong> (letters а ъ о у е и ѝ ю я), not per word. If you
+            paste two words into one call, two vowels are enough to reduce both.
+        </li>
+    </ul>
+
+    <div class="example">
+        <strong>Same letters, three results:</strong> <em>ябълка</em> <span class="ipa">/jɐbɐɫkɐ/</span> (no mark: all reduced),
+        <em>я́бълка</em> <span class="ipa">/ˈja̟bɐɫkɐ/</span> (stress on я), <em>ябъ́лка</em> <span class="ipa">/jɐˈbɤɫkɐ/</span> (stress on ъ).
+    </div>
+
+    <h3 id="soft-consonants">Soft Consonants: я, ю, ь</h3>
+    <ul>
+        <li><strong>я = ʲa and ю = ʲu.</strong> After a consonant the <span class="ipa">ʲ</span> softens that
+            consonant: <em>ля́ва</em> <span class="ipa">/ˈlʲa̟vɐ/</span>, <em>лю́бов</em> <span class="ipa">/ˈlʲu̟bof/</span>, <em>ми́ля</em> <span class="ipa">/ˈmilʲɐ/</span>.
+        </li>
+        <li><strong>After a vowel or at the beginning of a word</strong> the glide becomes a full
+            <span class="ipa">j</span>: <em>ю́ли</em> <span class="ipa">/ˈju̟li/</span>, <em>я́вор</em> <span class="ipa">/ˈja̟vor/</span>, <em>ма́я</em> <span class="ipa">/ˈmajɐ/</span>, <em>ра́дио</em> <span class="ipa">/ˈradio/</span>.
+        </li>
+        <li><strong>ь</strong> is written only before о (<em>ьо</em>) in Bulgarian. After a consonant it gives
+            <span class="ipa">ʲ</span>: <em>ка́ньон</em> <span class="ipa">/ˈkanʲo̟n/</span>, <em>шофьо́р</em> <span class="ipa">/ʃo̟ˈfʲɔr/</span>; after a vowel it gives
+            <span class="ipa">j</span>: <em>ма́ьо</em> <span class="ipa">/ˈmajo̟/</span>.
+        </li>
+        <li><strong>Fronting:</strong> the vowels <span class="ipa">a, o, u, ɤ</span> immediately after
+            <span class="ipa">ʃ, ʒ, ʲ, j</span> get the advanced diacritic: <em>ша́пка</em> <span class="ipa">/ˈʃa̟pkɐ/</span>, <em>жа́ба</em> <span class="ipa">/ˈʒa̟bɐ/</span>, <em>ча́й</em> <span class="ipa">/ˈt͡ʃa̟j/</span> (the ʃ of
+            ч counts), <em>ля́ва</em> <span class="ipa">/ˈlʲa̟vɐ/</span>. The stressed ɔ and the reduced ɐ are not fronted.
+        </li>
+        <li><strong>Unstressed я/ю:</strong> they reduce along with the vowel: <em>ми́ля</em> <span class="ipa">/ˈmilʲɐ/</span> ends in
+            <span class="ipa">ʲɐ</span>; <em>любо́в</em> <span class="ipa">/lʲo̟ˈbɔf/</span> gives <span class="ipa">ʲo̟</span>.
+        </li>
+    </ul>
+
+    <h3 id="affricates">Ц, Ч, Щ, ДЖ and ДЗ</h3>
+    <ul>
+        <li><strong>ц = t͡s, ч = t͡ʃ</strong> (with tie bar): <em>ци́рк</em> <span class="ipa">/ˈt͡sirk/</span>, <em>чо́век</em> <span class="ipa">/ˈt͡ʃɔvɛk/</span>.</li>
+        <li><strong>щ = ʃt</strong> (two sounds, no tie bar): <em>ща́стие</em> <span class="ipa">/ˈʃtastiɛ/</span>, <em>пе́щ</em> <span class="ipa">/ˈpɛʃt/</span>. Because щ is expanded
+            before the later rules run, the t can be lost in clusters (see <a href="#clusters">Consonant Cluster
+                Simplification</a>): <em>по́щна</em> <span class="ipa">/ˈpɔʃnɐ/</span>.
+        </li>
+        <li><strong>дж and дз</strong> are <em>not</em> treated as single affricate letters by the transcription rules.
+            They are simply д + ж and д + з: <em>дже́м</em> <span class="ipa">/ˈdʒɛm/</span>, <em>джо́б</em> <span class="ipa">/ˈdʒɔp/</span>, <em>дзи́ндзър</em> <span class="ipa">/ˈdzindzɐr/</span>. The result has no tie bar,
+            unlike ц and ч. Voicing assimilation and final devoicing apply to д and ж separately: <em>хо́дж</em> <span class="ipa">/ˈxɔtʃ/</span>.
+        </li>
+    </ul>
+
+    <h3 id="voicing">Voicing Assimilation</h3>
+    <p>A group of voiced obstruents (б в г д ж з) before a voiceless one (п т к с ш ф х) or at the end of the word
+        becomes voiceless; a voiceless obstruent before б, д, г, з, ж becomes voiced.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Process</th>
+            <th>Pairs</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Regressive devoicing (voiced before voiceless)</td>
+            <td><span class="ipa">b→p d→t ɡ→k z→s ʒ→ʃ v→f</span></td>
+            <td><em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span>, <em>ре́дко</em> <span class="ipa">/ˈrɛtko/</span>, <em>вто́рник</em> <span class="ipa">/ˈftɔrnik/</span>, <em>сле́дващ</em> <span class="ipa">/ˈslɛdvɐʃt/</span></td>
+        </tr>
+        <tr>
+            <td>Regressive voicing (voiceless before б д г з ж)</td>
+            <td><span class="ipa">p→b t→d k→ɡ s→z ʃ→ʒ x→ɣ f→v</span></td>
+            <td><em>про́сба</em> <span class="ipa">/ˈprɔzbɐ/</span>, <em>се́здесет</em> <span class="ipa">/ˈsɛzdɛsɛt/</span>, <em>бе́хдом</em> <span class="ipa">/ˈbɛɣdom/</span></td>
+        </tr>
+        <tr>
+            <td>Voiced consonant before a sonorant or vowel</td>
+            <td>unchanged</td>
+            <td><em>тра́вма</em> <span class="ipa">/ˈtravmɐ/</span>, <em>ра́жда</em> <span class="ipa">/ˈraʒdɐ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The letter в is devoiced like б, г, д, ж, з: <em>вто́рник</em> <span class="ipa">/ˈftɔrnik/</span> (в before т). Unlike them it does <em>not</em>
+        trigger voicing in the consonant before it: <em>ква́рта</em> <span class="ipa">/ˈkvartɐ/</span> keeps its к.</p>
+
+    <h3 id="final-devoicing">Final Devoicing</h3>
+    <p>At the end of a word, voiced obstruents are devoiced. The same rule that does voicing assimilation handles it,
+        because the word-boundary symbol <code>#</code> is in the "voiceless" set.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Final</th>
+            <th>Elsewhere</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>б</td>
+            <td><span class="ipa">p</span></td>
+            <td><span class="ipa">b</span></td>
+            <td><em>хле́б</em> <span class="ipa">/ˈxlɛp/</span></td>
+        </tr>
+        <tr>
+            <td>в</td>
+            <td><span class="ipa">f</span></td>
+            <td><span class="ipa">v</span></td>
+            <td><em>ръка́в</em> <span class="ipa">/rɐˈkaf/</span>, <em>лю́бов</em> <span class="ipa">/ˈlʲu̟bof/</span></td>
+        </tr>
+        <tr>
+            <td>г</td>
+            <td><span class="ipa">k</span></td>
+            <td><span class="ipa">ɡ</span></td>
+            <td><em>кни́га</em> <span class="ipa">/ˈkniɡɐ/</span> (medial), <em>ю́г</em> <span class="ipa">/ˈju̟k/</span></td>
+        </tr>
+        <tr>
+            <td>д</td>
+            <td><span class="ipa">t</span></td>
+            <td><span class="ipa">d</span></td>
+            <td><em>гра́д</em> <span class="ipa">/ˈɡrat/</span></td>
+        </tr>
+        <tr>
+            <td>ж</td>
+            <td><span class="ipa">ʃ</span></td>
+            <td><span class="ipa">ʒ</span></td>
+            <td><em>гара́ж</em> <span class="ipa">/ɡɐˈraʃ/</span>, <em>гара́жът</em> <span class="ipa">/ɡɐˈraʒɐt/</span></td>
+        </tr>
+        <tr>
+            <td>з</td>
+            <td><span class="ipa">s</span></td>
+            <td><span class="ipa">z</span></td>
+            <td><em>зъ́б</em> <span class="ipa">/ˈzɤp/</span> (initial з), <em>ска́з</em> <span class="ipa">/ˈskas/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="hard-l">Hard L</h3>
+    <p>The letter л is <span class="ipa">ɫ</span> unless the next symbol is <span class="ipa">ɛ</span>,
+        <span class="ipa">i</span> or the softness mark <span class="ipa">ʲ</span>. This includes the end of a word
+        and l before another consonant:</p>
+    <ul>
+        <li>Plain <span class="ipa">l</span>: <em>ле́ка</em> <span class="ipa">/ˈlɛkɐ/</span>, <em>ли́ст</em> <span class="ipa">/ˈlist/</span>, <em>ми́ля</em> <span class="ipa">/ˈmilʲɐ/</span>, <em>лю́лка</em> <span class="ipa">/ˈlʲu̟ɫkɐ/</span>.</li>
+        <li>Dark <span class="ipa">ɫ</span>: <em>ма́ла</em> <span class="ipa">/ˈmaɫɐ/</span>, <em>хоте́л</em> <span class="ipa">/xoˈtɛɫ/</span>, <em>ма́лко</em> <span class="ipa">/ˈmaɫko/</span>, <em>сла́дко</em> <span class="ipa">/ˈsɫatko/</span>, <em>ко́лело</em> <span class="ipa">/ˈkɔlɛɫo/</span>.</li>
+    </ul>
+
+    <h3 id="nasals">Nasal Assimilation: ŋ and ɱ</h3>
+    <ul>
+        <li><strong>н → ŋ</strong> before к or г: <em>ба́нка</em> <span class="ipa">/ˈbaŋkɐ/</span>, <em>тъ́нко</em> <span class="ipa">/ˈtɤŋko/</span>, <em>ме́нгеме</em> <span class="ipa">/ˈmɛŋɡɛmɛ/</span>.</li>
+        <li><strong>м → ɱ</strong> before ф or в: <em>ка́мфор</em> <span class="ipa">/ˈkaɱfor/</span>, <em>ко́мвинат</em> <span class="ipa">/ˈkɔɱvinɐt/</span>.</li>
+    </ul>
+
+    <h3 id="clusters">Consonant Cluster Simplification</h3>
+    <ul>
+        <li><strong>Sibilant assimilation:</strong> с/з before ш, ж or the ш of щ and ч becomes the same sibilant
+            as the one that follows: <em>безшу́мен</em> <span class="ipa">/bɛʃˈʃu̟mɛn/</span>, <em>разшири́</em> <span class="ipa">/rɐʃʃiˈri/</span>, <em>изчи́стя</em> <span class="ipa">/iʃˈt͡ʃistʲɐ/</span>, <em>изжи́вея</em> <span class="ipa">/iʒˈʒivɛjɐ/</span>.
+        </li>
+        <li><strong>Loss of т or д after a sibilant:</strong> a т/д after с, з, ш, ж and before т, д, к, н, м, л is
+            dropped: <em>че́стно</em> <span class="ipa">/ˈt͡ʃɛsno/</span>, <em>по́здно</em> <span class="ipa">/ˈpɔzno/</span>, <em>ра́здна</em> <span class="ipa">/ˈraznɐ/</span>, <em>ща́стлив</em> <span class="ipa">/ˈʃtaslif/</span>. Since щ = ʃt, the same applies to щ:
+            <em>по́щна</em> <span class="ipa">/ˈpɔʃnɐ/</span> but <em>по́щенски</em> <span class="ipa">/ˈpɔʃtɛnski/</span> (the vowel е blocks it).
+        </li>
+        <li>Double consonants are kept as written: <em>кла́сс</em> <span class="ipa">/ˈkɫass/</span>.</li>
+    </ul>
+
+    <h3 id="input-handling">Spaces, Hyphens and Unsupported Characters</h3>
+    <ul>
+        <li><strong>Spaces and punctuation are deleted</strong> by the app before the module sees the text (only
+            letters, combining marks, hyphen, apostrophe survive). Two words in one call become one word:
+            <em>до́бър де́н</em> <span class="ipa">/ˈdɔbɐrˈdɛn/</span>. Transcribe one word at a time for meaningful results.
+        </li>
+        <li><strong>Hyphens are kept</strong> in the output and are not treated as word boundaries:
+            <em>вя́тър-ма́йстор</em> <span class="ipa">/ˈvʲa̟tɐr-ˈmajstor/</span>. Stress is processed for the whole string, so a hyphenated compound with no mark at
+            all is reduced in both halves: <em>добре-дошли</em> <span class="ipa">/dobrɛ-doʃli/</span>.
+        </li>
+        <li><strong>Capitals</strong> are lowercased, so <em>Бурга́с</em> <span class="ipa">/borˈɡas/</span> and <em>бурга́с</em> give the same result.</li>
+        <li><strong>Letters that are not in the mapping pass through unchanged</strong> to the output: Latin letters
+            (<em>hello</em> <span class="ipa">/heɫɫo/</span>), Russian ы (<em>ды́лбя</em>), digits are removed by the cleaning step.
+        </li>
+    </ul>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>These tables reflect the rules the engine applies. Letters are listed with their basic mapping and the changes
+        caused by context.</p>
+
+    <h3>1. Vowels</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Stressed</th>
+            <th>Example (stressed)</th>
+            <th>Unstressed</th>
+            <th>Example (unstressed)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>а</strong></td>
+            <td><span class="ipa">a</span></td>
+            <td><em>ба́ба</em> <span class="ipa">/ˈbabɐ/</span></td>
+            <td><span class="ipa">ɐ</span></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ъ</strong></td>
+            <td><span class="ipa">ɤ</span></td>
+            <td><em>гъ́ска</em> <span class="ipa">/ˈɡɤskɐ/</span></td>
+            <td><span class="ipa">ɐ</span></td>
+            <td><em>къща́та</em> <span class="ipa">/kɐʃˈtatɐ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>о</strong></td>
+            <td><span class="ipa">ɔ</span></td>
+            <td><em>по́ле</em> <span class="ipa">/ˈpɔlɛ/</span></td>
+            <td><span class="ipa">o</span></td>
+            <td><em>вода́</em> <span class="ipa">/voˈda/</span></td>
+        </tr>
+        <tr>
+            <td><strong>у</strong></td>
+            <td><span class="ipa">u</span></td>
+            <td><em>су́мка</em> <span class="ipa">/ˈsumkɐ/</span></td>
+            <td><span class="ipa">o</span></td>
+            <td><em>уча́т</em> <span class="ipa">/oˈt͡ʃa̟t/</span></td>
+        </tr>
+        <tr>
+            <td><strong>е</strong></td>
+            <td><span class="ipa">ɛ</span></td>
+            <td><em>ме́со</em> <span class="ipa">/ˈmɛso/</span></td>
+            <td><span class="ipa">ɛ</span></td>
+            <td><em>нейно́</em> <span class="ipa">/nɛjˈnɔ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>и</strong></td>
+            <td><span class="ipa">i</span></td>
+            <td><em>ни́</em> <span class="ipa">/ˈni/</span></td>
+            <td><span class="ipa">i</span></td>
+            <td><em>интерне́т</em> <span class="ipa">/intɛrˈnɛt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>я</strong></td>
+            <td><span class="ipa">ʲa̟</span></td>
+            <td><em>тя́</em> <span class="ipa">/ˈtʲa̟/</span></td>
+            <td><span class="ipa">ʲɐ</span></td>
+            <td><em>ми́ля</em> <span class="ipa">/ˈmilʲɐ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ю</strong></td>
+            <td><span class="ipa">ʲu̟</span></td>
+            <td><em>лю́лка</em> <span class="ipa">/ˈlʲu̟ɫkɐ/</span></td>
+            <td><span class="ipa">ʲo̟</span></td>
+            <td><em>любо́в</em> <span class="ipa">/lʲo̟ˈbɔf/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Word-initially and after a vowel, я and ю start with <span class="ipa">j</span> instead of <span
+            class="ipa">ʲ</span>: <em>я́вор</em> <span class="ipa">/ˈja̟vor/</span>, <em>ю́жен</em> <span class="ipa">/ˈju̟ʒɛn/</span>, <em>ма́я</em> <span class="ipa">/ˈmajɐ/</span>.</p>
+
+    <h3>2. Single Consonant Letters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Basic IPA</th>
+            <th>Example</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>б</strong></td><td><span class="ipa">b</span></td><td><em>ба́ба</em> <span class="ipa">/ˈbabɐ/</span></td><td>Final: p</td></tr>
+        <tr><td><strong>в</strong></td><td><span class="ipa">v</span></td><td><em>ва́рна</em> <span class="ipa">/ˈvarnɐ/</span></td><td>Final or before voiceless: f</td></tr>
+        <tr><td><strong>г</strong></td><td><span class="ipa">ɡ</span></td><td><em>го́ра</em> <span class="ipa">/ˈɡɔrɐ/</span></td><td>Final: k</td></tr>
+        <tr><td><strong>д</strong></td><td><span class="ipa">d</span></td><td><em>да́ма</em> <span class="ipa">/ˈdamɐ/</span></td><td>Final: t</td></tr>
+        <tr><td><strong>ж</strong></td><td><span class="ipa">ʒ</span></td><td><em>жи́вот</em> <span class="ipa">/ˈʒivot/</span></td><td>Final: ʃ</td></tr>
+        <tr><td><strong>з</strong></td><td><span class="ipa">z</span></td><td><em>зъ́б</em> <span class="ipa">/ˈzɤp/</span></td><td>Final: s</td></tr>
+        <tr><td><strong>й</strong></td><td><span class="ipa">j</span></td><td><em>йо́гурт</em> <span class="ipa">/ˈjɔɡort/</span></td><td>Also in the diphthong-like sequences: <em>ни́кой</em> <span class="ipa">/ˈnikoj/</span></td></tr>
+        <tr><td><strong>к</strong></td><td><span class="ipa">k</span></td><td><em>ку́пя</em> <span class="ipa">/ˈkupʲɐ/</span></td><td>Before б д г з ж: ɡ</td></tr>
+        <tr><td><strong>л</strong></td><td><span class="ipa">ɫ</span> / <span class="ipa">l</span></td><td><em>ма́лко</em> <span class="ipa">/ˈmaɫko/</span>, <em>ле́ка</em> <span class="ipa">/ˈlɛkɐ/</span></td><td>l only before ɛ, i, ʲ</td></tr>
+        <tr><td><strong>м</strong></td><td><span class="ipa">m</span></td><td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td><td>Before ф/в: ɱ</td></tr>
+        <tr><td><strong>н</strong></td><td><span class="ipa">n</span></td><td><em>не́бе</em> <span class="ipa">/ˈnɛbɛ/</span></td><td>Before к/г: ŋ</td></tr>
+        <tr><td><strong>п</strong></td><td><span class="ipa">p</span></td><td><em>па́рче</em> <span class="ipa">/ˈpart͡ʃɛ/</span></td><td>Before б д г з ж: b</td></tr>
+        <tr><td><strong>р</strong></td><td><span class="ipa">r</span></td><td><em>ра́бота</em> <span class="ipa">/ˈrabotɐ/</span></td><td>No variants</td></tr>
+        <tr><td><strong>с</strong></td><td><span class="ipa">s</span></td><td><em>се́дем</em> <span class="ipa">/ˈsɛdɛm/</span></td><td>Before б д г з ж: z</td></tr>
+        <tr><td><strong>т</strong></td><td><span class="ipa">t</span></td><td><em>то́й</em> <span class="ipa">/ˈtɔj/</span></td><td>Before б д г з ж: d</td></tr>
+        <tr><td><strong>ф</strong></td><td><span class="ipa">f</span></td><td><em>ко́фа</em> <span class="ipa">/ˈkɔfɐ/</span></td><td>Before б д г з ж: v</td></tr>
+        <tr><td><strong>х</strong></td><td><span class="ipa">x</span></td><td><em>хле́б</em> <span class="ipa">/ˈxlɛp/</span></td><td>Before б д г з ж: ɣ</td></tr>
+        <tr><td><strong>ш</strong></td><td><span class="ipa">ʃ</span></td><td><em>ша́пка</em> <span class="ipa">/ˈʃa̟pkɐ/</span></td><td>Before б д г з ж: ʒ</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. Digraphs and Composite Letters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>ц</strong></td><td><span class="ipa">t͡s</span></td><td><em>ци́гани</em> <span class="ipa">/ˈt͡siɡɐni/</span></td><td>Affricate with tie bar</td></tr>
+        <tr><td><strong>ч</strong></td><td><span class="ipa">t͡ʃ</span></td><td><em>чи́чо</em> <span class="ipa">/ˈt͡ʃit͡ʃo̟/</span></td><td>Affricate with tie bar</td></tr>
+        <tr><td><strong>щ</strong></td><td><span class="ipa">ʃt</span></td><td><em>ща́м</em> <span class="ipa">/ˈʃtam/</span></td><td>Two sounds; the t may drop in clusters</td></tr>
+        <tr><td><strong>дж</strong></td><td><span class="ipa">dʒ</span></td><td><em>джа́ма</em> <span class="ipa">/ˈdʒa̟mɐ/</span></td><td>д + ж, no tie bar</td></tr>
+        <tr><td><strong>дз</strong></td><td><span class="ipa">dz</span></td><td><em>дзвъ́нец</em> <span class="ipa">/ˈdzvɤnɛt͡s/</span></td><td>д + з, no tie bar</td></tr>
+        <tr><td><strong>ьо</strong></td><td><span class="ipa">ʲɔ</span> / <span class="ipa">jɔ</span></td><td><em>ньо́ки</em> <span class="ipa">/ˈnʲɔki/</span>, <em>ко́ньо</em> <span class="ipa">/ˈkɔnʲo̟/</span></td><td>ь is ʲ after a consonant, j after a vowel or word-initially</td></tr>
+        </tbody>
+    </table>
+
+    <h3>4. Context-Dependent Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Result</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>Voiced obstruent before voiceless obstruent</td><td>devoiced</td><td><em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span></td></tr>
+        <tr><td>Voiceless obstruent before б д г з ж</td><td>voiced</td><td><em>про́сба</em> <span class="ipa">/ˈprɔzbɐ/</span></td></tr>
+        <tr><td>Word-final voiced obstruent</td><td>devoiced</td><td><em>гра́д</em> <span class="ipa">/ˈɡrat/</span></td></tr>
+        <tr><td>н before к, г</td><td><span class="ipa">ŋ</span></td><td><em>ба́нка</em> <span class="ipa">/ˈbaŋkɐ/</span></td></tr>
+        <tr><td>м before ф, в</td><td><span class="ipa">ɱ</span></td><td><em>ка́мфор</em> <span class="ipa">/ˈkaɱfor/</span></td></tr>
+        <tr><td>с/з before ш, ж, ч</td><td>copies the following sibilant</td><td><em>разшири́</em> <span class="ipa">/rɐʃʃiˈri/</span></td></tr>
+        <tr><td>с/з/ш/ж + т/д + т д к н м л</td><td>the т/д is dropped</td><td><em>че́стно</em> <span class="ipa">/ˈt͡ʃɛsno/</span></td></tr>
+        <tr><td>а, о, у, ъ after ш, ж, ʲ, j</td><td>advanced (<span class="ipa">◌̟</span>)</td><td><em>жа́ба</em> <span class="ipa">/ˈʒa̟bɐ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>5. Stress Marks and Where They Land</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Input pattern</th>
+            <th>Mark placed</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>V́ preceded by one consonant</td><td>before that consonant</td><td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td></tr>
+        <tr><td>V́ preceded by obstruent + л/р</td><td>before the pair (e.g. хл, кр)</td><td><em>хле́б</em> <span class="ipa">/ˈxlɛp/</span>, <em>кра́ва</em> <span class="ipa">/ˈkravɐ/</span></td></tr>
+        <tr><td>V́ preceded by к/г + в</td><td>before the pair</td><td><em>ква́рта</em> <span class="ipa">/ˈkvartɐ/</span></td></tr>
+        <tr><td>V́ preceded by с/з + stop or sonorant</td><td>before the pair</td><td><em>сла́дко</em> <span class="ipa">/ˈsɫatko/</span>, <em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span></td></tr>
+        <tr><td>V́ preceded only by consonants</td><td>word start</td><td><em>гра́д</em> <span class="ipa">/ˈɡrat/</span></td></tr>
+        <tr><td>V́ after a prefix such as без-, из-, раз-</td><td>after the prefix</td><td><em>безбра́чие</em> <span class="ipa">/bɛzˈbrat͡ʃiɛ/</span></td></tr>
+        <tr><td>Grave + acute</td><td>ˌ and ˈ</td><td><em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. Palatalization and Fronting</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>consonant + я</td><td>ʲa (a advanced if stressed)</td><td><em>дя́до</em> <span class="ipa">/ˈdʲa̟do/</span></td></tr>
+        <tr><td>consonant + ю</td><td>ʲu (u advanced if stressed)</td><td><em>лю́бен</em> <span class="ipa">/ˈlʲu̟bɛn/</span></td></tr>
+        <tr><td>word start / vowel + я, ю</td><td>j + vowel</td><td><em>я́вор</em> <span class="ipa">/ˈja̟vor/</span>, <em>ма́я</em> <span class="ipa">/ˈmajɐ/</span></td></tr>
+        <tr><td>ʃ, ʒ + a, o, u, ɤ</td><td>advanced vowel</td><td><em>шо́фьор</em> <span class="ipa">/ˈʃɔfʲo̟r/</span></td></tr>
+        <tr><td>consonant + ь + о</td><td>ʲ + о</td><td><em>ка́ньон</em> <span class="ipa">/ˈkanʲo̟n/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>How do I mark the stress, and what happens if I do not?</h3>
+    <p>Type a combining acute accent (U+0301) directly after the stressed vowel: <em>до́бър</em> <span class="ipa">/ˈdɔbɐr/</span>. In a word with more than one vowel and no mark, every vowel is reduced and no stress sign is printed; a word with a single vowel is not reduced: <em>кон</em> <span class="ipa">/kɔn/</span>. See <a href="#stress-input">Typing the Stress</a>.</p>
+
+    <h3>Why is there only one transcription for each word?</h3>
+    <p>The module returns one result per input and consults no dictionary. When homographs differ in stress, such as <em>за́мък</em> <span class="ipa">/ˈzamɐk/</span> and <em>замъ́к</em> <span class="ipa">/zɐˈmɤk/</span>, the position of the mark you type selects the reading. See <a href="#variants">Multiple Pronunciation Variants</a>.</p>
+
+    <h3>Why can the output differ from a dictionary transcription?</h3>
+    <p>The rules work from the spelling and the typed stress alone. For example, the stressed ending of third-person plural verbs is pronounced with <span class="ipa">ɤ</span>, which the engine produces only if a dot below (U+0323) is typed under the vowel: <em>говоря́т</em> <span class="ipa">/ɡovoˈrʲa̟t/</span>, <em>говоря̣́т</em> <span class="ipa">/ɡovoˈrʲɤ̟t/</span>. Dialects, loanword exceptions and proper names are not handled specially. See <a href="#issues">Common Issues &amp; Limitations</a>. <a href="../?lang=Bulgarian&amp;text=%D0%B3%D0%BE%D0%B2%D0%BE%D1%80%D1%8F%CC%A3%CC%81%D1%82">Open in the converter</a></p>
+
+    <h3>Is the transcription phonemic or phonetic?</h3>
+    <p>Only a phonemic form is offered. It is a broad transcription that nevertheless marks a few predictable details: the reduced vowel <span class="ipa">ɐ</span>, vowels fronted after soft consonants, dark <span class="ipa">ɫ</span> and the nasals <span class="ipa">ŋ</span> and <span class="ipa">ɱ</span>. See <a href="#forms">Phonemic vs Phonetic</a>.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>Everything the app uses lives in the single function <code>export.toIPA(term, endschwa)</code> of
+        <code>lua_modules/bg-pron_wasm.lua</code>. It is a chain of Lua string substitutions (<code>rsub</code> is a
+        wrapper over <code>mw.ustring.gsub</code> that returns only the string; <code>rsub_repeatedly</code> repeats
+        until nothing changes). The tables <code>phonetic_chars_map</code>, <code>devoicing</code>,
+        <code>voicing</code> and <code>IPA_prefixes</code> drive the substitutions. The stages below follow the code
+        in execution order.</p>
+
+    <ol>
+        <li><strong>Input cleaning (JavaScript, before Lua):</strong> <code>sanitize()</code> in
+            <code>scripts/utils.js</code> removes everything except <code>\p{L}</code>, <code>\p{M}</code>,
+            apostrophes and hyphens, then NFKC-normalizes. The Bulgarian handler calls
+            <code>window.bg_ipa.toIPA(cleanText)</code> only when the form is Phonemic.
+        </li>
+        <li><strong>Normalization:</strong> the term is lowercased and decomposed (NFD); <em>у + breve</em> is
+            recomposed to <code>ў</code> and <em>и + breve</em> to <code>й</code>.
+        </li>
+        <li><strong>Grave-accent check:</strong> a grave without any acute raises a Lua error.</li>
+        <li><strong>Dot-below shortcut:</strong> <code>а + U+0323</code> becomes <code>ъ</code>, and
+            <code>я + U+0323</code> becomes <code>ʲɤ</code>; this is the same as the <code>endschwa</code> option, but
+            written in the input.
+        </li>
+        <li><strong>Letter mapping:</strong> every character is replaced via <code>phonetic_chars_map</code>.</li>
+        <li><strong>Word boundaries:</strong> whitespace runs are wrapped in <code>#</code> and the term itself gets a
+            <code>#</code> at both ends.
+        </li>
+        <li><strong>endschwa:</strong> if the Lua argument is set, a stressed final <code>a(ˈ)t?#</code> becomes
+            <code>ɤ</code>.
+        </li>
+        <li><strong>Soft sign normalization:</strong> <code>ʲ</code> after a vowel or <code>#</code> becomes
+            <code>j</code>.
+        </li>
+        <li><strong>Stress movement:</strong> the accents are moved leftward in a fixed series of substitutions (see
+            the table).
+        </li>
+        <li><strong>Vowel reduction:</strong> two substitutions with <code>reduce_vowel()</code>.</li>
+        <li><strong>Fronting:</strong> <code>([ʃʒʲj])([aouɤ])</code> gets U+031F.</li>
+        <li><strong>Hard L:</strong> <code>rsub_repeatedly("l([^ʲɛi])", "ɫ%1")</code>.</li>
+        <li><strong>Voicing assimilation and nasals:</strong> devoicing, voicing, ŋ, ɱ.</li>
+        <li><strong>Sibilant assimilation.</strong></li>
+        <li><strong>Cluster reduction.</strong></li>
+        <li><strong>Strip <code>#</code>:</strong> the result is returned.</li>
+    </ol>
+
+    <h3>Stage 1-2: Input Cleaning and Normalization</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>sanitize()</code></td>
+            <td><em>до́бър де́н</em></td>
+            <td><em>до́бър де́н</em> <span class="ipa">/ˈdɔbɐrˈdɛn/</span></td>
+            <td>The space is removed before Lua is called, so the two words are processed as one.</td>
+        </tr>
+        <tr>
+            <td><code>mw.ustring.lower</code></td>
+            <td><em>Бурга́с</em></td>
+            <td><em>Бурга́с</em> <span class="ipa">/borˈɡas/</span></td>
+            <td>Capital letters become lowercase.</td>
+        </tr>
+        <tr>
+            <td>NFD + recompose й, ў</td>
+            <td><em>ча́й</em></td>
+            <td><em>ча́й</em> <span class="ipa">/ˈt͡ʃa̟j/</span></td>
+            <td>The breve is rejoined with и or у so that й and ў are single symbols.</td>
+        </tr>
+        <tr>
+            <td>Grave check</td>
+            <td><em>ма̀ма</em></td>
+            <td><em>ма̀ма</em> <span class="ipa">/ма̀ма/</span></td>
+            <td><code>error("Use acute accent, not grave accent, for primary stress")</code> is raised; the handler
+                then returns the input unchanged (observed). The precomposed ѝ decomposes to и + grave and fails the
+                same way.
+            </td>
+        </tr>
+        <tr>
+            <td>Dot below</td>
+            <td><em>пътя̣́т</em></td>
+            <td><em>пътя̣́т</em> <span class="ipa">/pɐˈtʲɤ̟t/</span></td>
+            <td>я + U+0323 becomes <code>ʲɤ</code>; compare <em>пътя́т</em> <span class="ipa">/pɐˈtʲa̟t/</span> with a plain я.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 5: Character Mapping (<code>phonetic_chars_map</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>One-to-one letters</td>
+            <td><em>а б в г д е ж з и й к л м н о п р с т у ф х ш ъ</em></td>
+            <td><span class="ipa">a b v ɡ d ɛ ʒ z i j k l m n ɔ p r s t u f x ʃ ɤ</span></td>
+            <td>Straight table lookup. <code>ў</code> becomes <code>w</code>.</td>
+        </tr>
+        <tr>
+            <td>Affricates and щ</td>
+            <td><em>ц ч щ</em></td>
+            <td><span class="ipa">t͡s t͡ʃ ʃt</span></td>
+            <td>ц and ч include the tie bar U+0361; щ is two sounds.</td>
+        </tr>
+        <tr>
+            <td>Soft vowels</td>
+            <td><em>я ю ь</em></td>
+            <td><span class="ipa">ʲa ʲu ʲ</span></td>
+            <td>Softness is a separate segment <code>ʲ</code> placed before the vowel.</td>
+        </tr>
+        <tr>
+            <td>Accents</td>
+            <td>U+0301, U+0300</td>
+            <td><span class="ipa">ˈ ˌ</span></td>
+            <td>The mark is first emitted <em>after</em> the vowel (where it was typed), then moved in stage 9.</td>
+        </tr>
+        <tr>
+            <td>Not mapped</td>
+            <td>Latin letters, ы</td>
+            <td>unchanged</td>
+            <td>Characters not in the table fall through as they are: <em>hello</em> <span class="ipa">/heɫɫo/</span>.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 8: Soft Sign Normalization</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>([vowels#]accent?)ʲ → %1j</code></td>
+            <td><em>ю́ли</em></td>
+            <td><em>ю́ли</em> <span class="ipa">/ˈju̟li/</span></td>
+            <td>ʲ at the start of a word or after a vowel becomes a real <code>j</code>.</td>
+        </tr>
+        <tr>
+            <td>same</td>
+            <td><em>ма́я</em></td>
+            <td><em>ма́я</em> <span class="ipa">/ˈmajɐ/</span></td>
+            <td>After a vowel the я gives <code>ja</code>.</td>
+        </tr>
+        <tr>
+            <td>not applied after a consonant</td>
+            <td><em>ля́ва</em></td>
+            <td><em>ля́ва</em> <span class="ipa">/ˈlʲa̟vɐ/</span></td>
+            <td>The ʲ stays and softens the л.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 9: Stress Movement</h3>
+    <p>The accent is moved leftward by a series of substitutions, each applied once to the whole string.
+        The numbers below follow the order in the source (the tie-bar repair is folded into 7):</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1. over the vowel</td>
+            <td><em>ма́ма</em></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td>
+            <td><code>(vowel)(accent) → accent vowel</code></td>
+        </tr>
+        <tr>
+            <td>2. over <code>j</code> or <code>ʲ</code></td>
+            <td><em>ля́ва</em></td>
+            <td><em>ля́ва</em> <span class="ipa">/ˈlʲa̟vɐ/</span></td>
+            <td>The mark moves in front of the soft sign.</td>
+        </tr>
+        <tr>
+            <td>3. over a single consonant</td>
+            <td><em>ра́бота</em></td>
+            <td><em>ра́бота</em> <span class="ipa">/ˈrabotɐ/</span></td>
+            <td>The mark lands before the consonant (CV onset).</td>
+        </tr>
+        <tr>
+            <td>4. over obstruent + <code>l</code>/<code>r</code></td>
+            <td><em>хле́б</em></td>
+            <td><em>хле́б</em> <span class="ipa">/ˈxlɛp/</span></td>
+            <td>Cl/Cr clusters with C in <code>bdɡptkxfv</code>: the whole cluster is the onset.</td>
+        </tr>
+        <tr>
+            <td>5. over <code>kv</code>/<code>ɡv</code></td>
+            <td><em>ква́рта</em></td>
+            <td><em>ква́рта</em> <span class="ipa">/ˈkvartɐ/</span></td>
+            <td>The cluster is treated as one onset.</td>
+        </tr>
+        <tr>
+            <td>6. over s/z + C</td>
+            <td><em>сла́дко</em></td>
+            <td><em>сла́дко</em> <span class="ipa">/ˈsɫatko/</span></td>
+            <td>C in <code>bdɡptkvlrmn</code>. Example with a stop: <em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span>.</td>
+        </tr>
+        <tr>
+            <td>7. over <code>t͡s</code>, <code>t͡ʃ</code> (ц, ч) or d + sibilant before a vowel</td>
+            <td><em>чо́век</em></td>
+            <td><em>чо́век</em> <span class="ipa">/ˈt͡ʃɔvɛk/</span></td>
+            <td><code>[td]͡?</code> + <code>[szʃʒ]</code> + vowel or ʲ: the affricate counts as one onset. If the mark still ends up
+                inside a tied affricate it is moved to its right. Another example: <em>ци́рк</em> <span class="ipa">/ˈt͡sirk/</span>. Because дж has no tie bar the
+                same pattern keeps it together: <em>джо́б</em> <span class="ipa">/ˈdʒɔp/</span>.
+            </td>
+        </tr>
+        <tr>
+            <td>8. word-initial consonants</td>
+            <td><em>гра́д</em></td>
+            <td><em>гра́д</em> <span class="ipa">/ˈɡrat/</span></td>
+            <td><code>#(C*)(accent) → #accent C*</code>: the mark goes to the start of the word.</td>
+        </tr>
+        <tr>
+            <td>9. <code>IPA_prefixes</code> correction</td>
+            <td><em>безбра́чие</em></td>
+            <td><em>безбра́чие</em> <span class="ipa">/bɛzˈbrat͡ʃiɛ/</span></td>
+            <td>Prefixes <code>bɛz, vɤz, vɤzproiz, iz, naiz, poiz, prɛvɤz, proiz, raz</code>: if the mark moved into the
+                prefix's last consonant, it is moved back after it. Another example: <em>разка́з</em> <span class="ipa">/rɐsˈkas/</span>.
+            </td>
+        </tr>
+        <tr>
+            <td>Explicit <code>.</code> boundary</td>
+            <td>(not reachable)</td>
+            <td>-</td>
+            <td>Code supports a dot typed in the consonant cluster to force the syllable break, then removes any dots.
+                The app's cleaning step strips dots, so only direct calls to the Lua function can use it.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 10: Vowel Reduction</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>reduce_vowel</code> map</td>
+            <td><span class="ipa">a ɔ ɤ u</span></td>
+            <td><span class="ipa">ɐ o ɐ o</span></td>
+            <td>The table <code>{a="ɐ", ɔ="o", ɤ="ɐ", u="o"}</code>. ɛ and i are not in it.</td>
+        </tr>
+        <tr>
+            <td>Before the accent: <code>(#[^#accents]*)(.-#)</code></td>
+            <td><em>вода́</em></td>
+            <td><em>вода́</em> <span class="ipa">/voˈda/</span></td>
+            <td>Everything from the word start up to the first accent is reduced. If the word has no accent at all this
+                is the whole word, <em>unless</em> <code>count_vowels(origterm) &lt;= 1</code>: <em>добър</em> <span class="ipa">/dobɐr/</span> against the
+                single-vowel <em>кон</em> <span class="ipa">/kɔn/</span>. The FIXME in the source points out that the single-vowel test was meant for
+                monosyllables.
+            </td>
+        </tr>
+        <tr>
+            <td>After the accent: <code>(accent[^aɛiɔuɤ#]*[aɛiɔuɤ])([^#accents]*)</code></td>
+            <td><em>ра́бота</em></td>
+            <td><em>ра́бота</em> <span class="ipa">/ˈrabotɐ/</span></td>
+            <td>The first vowel after the accent (the stressed one) is skipped; every following vowel up to the next
+                accent is reduced.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 11-12: Fronting and Hard L</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>([ʃʒʲj])([aouɤ]) → %1%2U+031F</code></td>
+            <td><em>ша́пка</em></td>
+            <td><em>ша́пка</em> <span class="ipa">/ˈʃa̟pkɐ/</span></td>
+            <td>Runs after reduction, so the reduced <code>o</code> is advanced but <code>ɐ</code> and stressed
+                <code>ɔ</code> are not: <em>шофьо́р</em> <span class="ipa">/ʃo̟ˈfʲɔr/</span>.
+            </td>
+        </tr>
+        <tr>
+            <td><code>l([^ʲɛi]) → ɫ%1</code> (repeated)</td>
+            <td><em>ма́лко</em></td>
+            <td><em>ма́лко</em> <span class="ipa">/ˈmaɫko/</span></td>
+            <td>Includes word-final l (followed by <code>#</code>).</td>
+        </tr>
+        <tr>
+            <td>l before ɛ, i, ʲ</td>
+            <td><em>ле́ка</em></td>
+            <td><em>ле́ка</em> <span class="ipa">/ˈlɛkɐ/</span></td>
+            <td>Stays <code>l</code>.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 13: Voicing Assimilation and Nasals</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Devoicing: <code>([bdɡzʒv͡]*)(accent?[ptksʃfx#])</code> through the <code>devoicing</code> table</td>
+            <td><em>ска́зка</em></td>
+            <td><em>ска́зка</em> <span class="ipa">/ˈskaskɐ/</span></td>
+            <td>The whole run of voiced obstruents before a voiceless one or <code>#</code> is devoiced:
+                <code>b→p d→t ɡ→k z→s ʒ→ʃ v→f</code>. Also yields final devoicing: <em>гра́д</em> <span class="ipa">/ˈɡrat/</span>.
+            </td>
+        </tr>
+        <tr>
+            <td>Voicing: <code>([ptksʃfx͡]*)(accent?[bdɡzʒ])</code> through the <code>voicing</code> table</td>
+            <td><em>про́сба</em></td>
+            <td><em>про́сба</em> <span class="ipa">/ˈprɔzbɐ/</span></td>
+            <td><code>p→b t→d k→ɡ s→z ʃ→ʒ x→ɣ f→v</code>. The trigger set does not include <code>v</code>.</td>
+        </tr>
+        <tr>
+            <td><code>n(accent?[ɡk]+) → ŋ</code></td>
+            <td><em>ба́нка</em></td>
+            <td><em>ба́нка</em> <span class="ipa">/ˈbaŋkɐ/</span></td>
+            <td>Velar nasal before к/г.</td>
+        </tr>
+        <tr>
+            <td><code>m(accent?[fv]+) → ɱ</code></td>
+            <td><em>ка́мфор</em></td>
+            <td><em>ка́мфор</em> <span class="ipa">/ˈkaɱfor/</span></td>
+            <td>Labiodental nasal before ф/в.</td>
+        </tr>
+        <tr>
+            <td>The two substitutions run in this order</td>
+            <td><em>се́здесет</em></td>
+            <td><em>се́здесет</em> <span class="ipa">/ˈsɛzdɛsɛt/</span></td>
+            <td>Devoicing first, then voicing. A commented-out block about clitic с and в (с/в as a prefix of the next
+                word) is present in the source but disabled: <em>в</em> <span class="ipa">/f/</span>, <em>с</em> <span class="ipa">/s/</span> stay as single letters.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 14-16: Sibilants, Clusters and Cleanup</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>[sz](accent?[td]?͡?)([ʃʒ]) → %2%1%2</code></td>
+            <td><em>разшири́</em></td>
+            <td><em>разшири́</em> <span class="ipa">/rɐʃʃiˈri/</span></td>
+            <td>Sibilant assimilation: the s/z copies the following ʃ/ʒ. The ч case: <em>изчи́стя</em> <span class="ipa">/iʃˈt͡ʃistʲɐ/</span>; the ж case:
+                <em>изжи́вея</em> <span class="ipa">/iʒˈʒivɛjɐ/</span>.
+            </td>
+        </tr>
+        <tr>
+            <td><code>([szʃʒ])[td](accent?)([tdknml]) → %2%1%3</code></td>
+            <td><em>че́стно</em></td>
+            <td><em>че́стно</em> <span class="ipa">/ˈt͡ʃɛsno/</span></td>
+            <td>Deletes т or д between a sibilant and another stop or nasal. Note that the replacement puts the accent
+                <em>before</em> the sibilant. Further examples: <em>по́здно</em> <span class="ipa">/ˈpɔzno/</span>, <em>ща́стлив</em> <span class="ipa">/ˈʃtaslif/</span>, <em>по́щна</em> <span class="ipa">/ˈpɔʃnɐ/</span>.
+            </td>
+        </tr>
+        <tr>
+            <td><code>#</code> removal</td>
+            <td>-</td>
+            <td>-</td>
+            <td>All boundary markers are deleted and the string is returned.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Additional Notes for Developers</h3>
+    <ul>
+        <li><strong>Debug output at load time:</strong> the last line of the module before <code>return export</code> is
+            a stray <code>print(export.toIPA("Съединени американски щати"))</code>. It runs once when the module is
+            required and writes to the console; it does not affect results.
+        </li>
+        <li><strong>endschwa is not exposed:</strong> the page never passes the second argument. A direct call
+            <code>toIPA("говоря́т", true)</code> would give the stressed <em>ят</em> as <span class="ipa">ʲɤ</span>
+            (the dot-below spelling in <a href="#issues">Common Issues</a> gives the same result with the app).
+        </li>
+        <li><strong>Tables of unused code:</strong> <code>export.show</code>, <code>export.show_hyphenation</code>,
+            <code>export.remove_pron_notations</code> and <code>get_anntext</code> exist for the Wiktionary templates
+            <code>{{bg-IPA}}</code> and <code>{{bg-hyph}}</code> and are not called by the app.
+        </li>
+        <li><strong>Constants:</strong> <code>vowels = "aɤɔuɛiɐo"</code> and <code>cons</code> (including the tie bar)
+            define the character classes used by the stress-movement rules; <code>accents</code> is the pair
+            <code>ˈ ˌ</code>.
+        </li>
+    </ul>
+
+    <h3 id="syllabification">Syllabification and Hyphenation (not used by the app)</h3>
+    <p>The same Lua file also contains a sonority-based syllabifier and a hyphenation routine (ported from a project
+        by "Chernorizets"). The transcription app does <strong>not</strong> call them, and <code>toIPA</code> does not
+        depend on them, so they have no effect on the IPA you see. They are exported for the Wiktionary
+        <code>{{bg-hyph}}</code> template. For completeness:</p>
+    <table>
+        <thead>
+        <tr><th>Part</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>export.syllabify(term)</code> / <code>syllabify_word</code></td>
+            <td>Splits a word into syllables (joined by ‧ U+2027). A word with one vowel is returned whole. Otherwise,
+                between two vowels: no consonants - break before the second vowel; one consonant - it starts the next
+                syllable; two or more - the break is placed where the sonority stops rising.
+            </td>
+        </tr>
+        <tr>
+            <td>Sonority ranks (<code>get_sonority_rank</code>)</td>
+            <td>fricatives 1; stops and affricates 2; sonorants 3; vowels 4. <code>щ</code> counts as ш + т; <code>дж</code>
+                counts as one stop-rank unit; <code>ь</code> is ignored.
+            </td>
+        </tr>
+        <tr>
+            <td><code>sonority_exception_break</code></td>
+            <td>Clusters broken even though sonority rises (км, гм, дм, вм, зм, дн, вн, тн, зд, жд, ... and
+                three-letter ones such as згн, здн, вдж), with the break offset for each.
+            </td>
+        </tr>
+        <tr>
+            <td><code>sonority_exception_keep</code></td>
+            <td>Clusters kept as the onset: <code>ств, св, вс</code>. A <code>щ</code> + sonorant onset is also
+                specially handled.
+            </td>
+        </tr>
+        <tr>
+            <td><code>prefixes</code> table</td>
+            <td>Prefixes (без, из, въз, раз, от, екс, таз, дис, пред and combinations) that are kept as a first
+                syllable when followed by a consonant of higher sonority.
+            </td>
+        </tr>
+        <tr>
+            <td><code>export.hyphenate(syllabification)</code></td>
+            <td>Applies the official Bulgarian hyphenation rules to a syllabification (never leave a single vowel at a
+                line edge, keep дж together, and so on).
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Examples of the syllabifier output (from <code>export.syllabify</code>, shown as plain text; these are not IPA):
+        безбрачие → без‧бра‧чи‧е, изкуство → из‧ку‧ство, сладко → слад‧ко. Hyphenation of ябълка gives ябъл‧ка.
+        The "keep" rule for <em>ств</em> is not available to the IPA stress-movement code, which is why the mark can
+        fall in a different place in a word like <em>изкуство́</em> <span class="ipa">/iskostˈvɔ/</span>.</p>
+
+    <h2 id="issues">Common Issues & Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may be wrong or surprising. Every output below
+        was produced by the real engine.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>добър (no stress mark)</td>
+            <td><em>добър</em> <span class="ipa">/dobɐr/</span></td>
+            <td><em>до́бър</em> <span class="ipa">/ˈdɔbɐr/</span></td>
+            <td>Without a stress mark all vowels are treated as unstressed and reduced, and no <span class="ipa">ˈ</span> is printed</td>
+            <td>Type a combining acute after the stressed vowel</td>
+        </tr>
+        <tr>
+            <td>България (capital, no stress mark)</td>
+            <td><em>България</em> <span class="ipa">/bɐɫɡɐrijɐ/</span></td>
+            <td><em>Бълга́рия</em> <span class="ipa">/bɐɫˈɡarijɐ/</span></td>
+            <td>Same cause; capitals are lowercased and do not mark stress</td>
+            <td>Mark the stress</td>
+        </tr>
+        <tr>
+            <td>ма̀ма (grave accent only)</td>
+            <td><em>ма̀ма</em> <span class="ipa">/ма̀ма/</span></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td>
+            <td>The module raises an error for a grave without an acute, and the input comes back unchanged (not IPA)</td>
+            <td>Use the acute accent U+0301 for the primary stress</td>
+        </tr>
+        <tr>
+            <td>говоря́т (stressed ending)</td>
+            <td><em>говоря́т</em> <span class="ipa">/ɡovoˈrʲa̟t/</span></td>
+            <td><em>говоря̣́т</em> <span class="ipa">/ɡovoˈrʲɤ̟t/</span></td>
+            <td>In 3rd person plural verbs the stressed ending <em>-ят/-ат</em> is pronounced with <span class="ipa">ɤ</span>; the engine only knows that if you ask for it</td>
+            <td>Put a dot below (U+0323) under the я or а</td>
+        </tr>
+        <tr>
+            <td>джоб</td>
+            <td><em>джо́б</em> <span class="ipa">/ˈdʒɔp/</span></td>
+            <td>The same string but with a tie bar, <span class="ipa">d͡ʒ</span> instead of <span class="ipa">dʒ</span></td>
+            <td>дж and дз are treated as д + ж / д + з, with no affricate marking</td>
+            <td>Accept, or correct by hand; no input will change it</td>
+        </tr>
+        <tr>
+            <td>изкуство (stress on the last vowel)</td>
+            <td><em>изкуство́</em> <span class="ipa">/iskostˈvɔ/</span></td>
+            <td>By the module's own syllabifier the whole onset <em>ств</em> belongs to the stressed syllable, so the mark should precede it; the engine puts it after the t, inside the cluster</td>
+            <td>The stress-movement rules cover Cl/Cr, kv/gv and s+C but not s+t+v</td>
+            <td>Treat the position of the mark as approximate in three-consonant clusters</td>
+        </tr>
+        <tr>
+            <td>ма́ма́ (two acute accents)</td>
+            <td><em>ма́ма́</em> <span class="ipa">/ˈmaˈma/</span></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td>
+            <td>No validation: every accent is moved and printed</td>
+            <td>Use one acute per word (and a grave for secondary stress)</td>
+        </tr>
+        <tr>
+            <td>До́бър де́н (two words in one string)</td>
+            <td><em>до́бър де́н</em> <span class="ipa">/ˈdɔbɐrˈdɛn/</span></td>
+            <td>Transcribe each word separately</td>
+            <td>The cleaning step deletes the space, so both words are merged</td>
+            <td>Enter one word per call</td>
+        </tr>
+        <tr>
+            <td>чéрен typed with a Latin é (U+00E9)</td>
+            <td><em>чéрен</em> <span class="ipa">/t͡ʃeˈrɛn/</span></td>
+            <td><em>че́рен</em> <span class="ipa">/ˈt͡ʃɛrɛn/</span></td>
+            <td>Letters that are not Bulgarian (here Latin e) are passed through unchanged into the IPA</td>
+            <td>Type the acute as a combining accent U+0301 on a Cyrillic letter; do not use precomposed Latin letters</td>
+        </tr>
+        <tr>
+            <td>hello (Latin script)</td>
+            <td><em>hello</em> <span class="ipa">/heɫɫo/</span></td>
+            <td>Not a Bulgarian word</td>
+            <td>No script check; the letters not in the mapping are copied</td>
+            <td>Check the input is Cyrillic</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for other Slavic languages in this tool:</p>
+    <ul>
+        <li><a href="russian.html">Russian</a></li>
+        <li><a href="ukrainian.html">Ukrainian</a></li>
+        <li><a href="belorussian.html">Belarusian</a></li>
+        <li><a href="polish.html">Polish</a></li>
+        <li><a href="czech.html">Czech</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

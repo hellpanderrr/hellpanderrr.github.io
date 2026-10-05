@@ -41,12 +41,17 @@ const PLAN = {
     argsList: ["Portuguese;Brazil;Phonetic", "Portuguese;Portugal;Phonemic"],
     words: ["obrigado", "cidade", "água", "amigo"],
   },
+  Irish: {
+    code: "ga",
+    argsList: ["Irish;Connacht;Phonemic", "Irish;Munster;Phonemic", "Irish;Ulster;Phonemic"],
+    words: ["caisleán", "cailín", "anam", "Gaeilge", "uisce", "baile"],
+  },
 };
 
 // Languages whose Lua modules are known not to load under the Node shim.
 // Anything else failing to load is a regression — fail generation loudly
 // instead of silently dropping the language from golden.json.
-const NODE_UNSUPPORTED = new Set(["Czech"]);
+const NODE_UNSUPPORTED = new Set();
 
 const golden = {};
 for (const [lang, { code, argsList, words }] of Object.entries(PLAN)) {

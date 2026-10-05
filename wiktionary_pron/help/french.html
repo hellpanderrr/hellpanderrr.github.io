@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>French IPA Transcription - Help</title>
+    <title>French Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="French pronunciation in IPA: nasal vowels, silent final letters, schwa, semivowels and spelling rules, with a free French-to-IPA converter and lexicon.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/french.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="French Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="French pronunciation in IPA: nasal vowels, silent final letters, schwa, semivowels and spelling rules, with a free French-to-IPA converter and lexicon.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/french.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"French Pronunciation and IPA Transcription Guide","description":"French pronunciation in IPA: nasal vowels, silent final letters, schwa, semivowels and spelling rules, with a free French-to-IPA converter and lexicon.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/french.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"French"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"French","item":"https://hellpanderrr.github.io/wiktionary_pron/help/french.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
@@ -128,35 +139,100 @@
 </head>
 <body>
 <div id="content">
-    <h1>French IPA Transcription - Help</h1>
+    <h1>French Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=French">← Back to French transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>French Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Oral Vowels and Accents</a></li>
+                <li><a href="#nasals">Nasal Vowels</a></li>
+                <li><a href="#schwa">Mute E (Schwa)</a></li>
+                <li><a href="#silent-finals">Silent Final Letters</a></li>
+                <li><a href="#consonants-guide">Consonant Rules</a></li>
+                <li><a href="#glides">Glides, Y and ILL</a></li>
+                <li><a href="#liaison">Apostrophes, Hyphens and Liaison</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
+    </ul>
 
+    <h2 id="about">About This Tool</h2>
     <p>This <a href="../?lang=French">French transcription app</a> uses the <a
             href="https://en.wiktionary.org/wiki/Module:fr-pron" target="_blank" rel="noopener noreferrer">Wiktionary
-        French Pronunciation
-        Module</a> to generate phonemic transcriptions for French text.</p>
+        French Pronunciation Module</a> to generate phonemic transcriptions for French text. IPA (International
+        Phonetic Alphabet) is a standardized system for transcribing speech sounds using symbols based on the Latin
+        alphabet. The tool converts French orthography into IPA. A phonemic transcription represents the abstract sound
+        system of the language (<a href="#glossary">phonemes</a>), as opposed to the actual speech variants
+        (<a href="#glossary">allophones</a>).</p>
 
     <p>The system uses comprehensive Wiktionary data dumps<a
             href="https://kaikki.org/frwiktionary/"><sup>[1]</sup></a><a
             href="https://kaikki.org/dictionary/French/index.html"><sup>[2]</sup></a> as a lexicon to first retrieve
         transcriptions from the dictionary. When a word is not found in the lexicon, it falls back to generating
-        transcriptions using the pronunciation module's rule-based approach.</p>
+        transcriptions with the rules of the pronunciation module.</p>
 
-    <h2>Dialects Supported</h2>
+    <p>The text is transcribed word by word: the converter splits the input at spaces and transcribes each word on its
+        own. Liaison and elision between separate words are therefore not applied (see
+        <a href="#liaison">Apostrophes, Hyphens and Liaison</a>).</p>
+
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+    <ul>
+        <li><strong>Supported:</strong> two style options for Metropolitan French, <em>Default</em> and
+            <em>Parisian (experimental)</em>, described below.
+        </li>
+        <li><strong>Not supported:</strong> separate profiles for other varieties of French (Quebec, Belgian, Swiss,
+            southern French and others).
+        </li>
+        <li><strong>Edge cases:</strong> loanwords, proper names, and words whose pronunciation is an exception to the
+            spelling rules may be transcribed incorrectly when they are not in the lexicon (see
+            <a href="#issues">Common Issues &amp; Limitations</a>).
+        </li>
+        <li><strong>Technical limit:</strong> each word is processed independently, and characters other than letters,
+            the apostrophe, the hyphen and the liaison mark ‿ are removed from the input before transcription.
+        </li>
+    </ul>
+
+    <h3>Available Style Profiles</h3>
     <ul>
         <li>
-            <strong>Default - Standard French pronunciation</strong>
-            <p>This option generates IPA based on a traditional or conservative standard of French. This pronunciation
-                maintains the historical distinctions between all four of the language's nasal vowels. It is a
-                pronunciation still widely heard in <strong>Belgian French</strong>, <strong>Quebecois French</strong>,
-                and is often used in dictionaries for etymological clarity.</p>
-            <p>This setting preserves the four-vowel system:</p>
+            <strong>Default - conservative standard French</strong>
+            <p>This option keeps all four nasal vowels distinct, a contrast that is retained in some varieties of
+                French, for example Quebec and Belgian French, and is common in dictionary transcriptions.</p>
             <ul>
                 <li><em>br<strong>un</strong></em> is pronounced <strong>/bʁœ̃/</strong>
                     <span class="ipa-block"><button class="audio-top" onclick="playAudio('brun_ca')"
@@ -180,18 +256,15 @@
                 </li>
             </ul>
         </li>
-        <br>
         <li>
-            <strong>Parisian (experimental) - Parisian French pronunciation patterns</strong>
-            <p>This option implements the major phonological shifts characteristic of modern Parisian and Metropolitan
-                French. It transforms the traditional four-vowel system into a new three-vowel system through a series
-                of mergers and shifts. </p>
-            <p>This setting applies the following crucial changes in a specific order:</p>
+            <strong>Parisian (experimental) - Parisian nasal-vowel pattern</strong>
+            <p>This option rewrites the nasal vowels of the Default result so that the four-vowel system becomes a
+                three-vowel system. It is a fixed substitution on the transcription, not a separate pronunciation
+                module, and it changes nothing but nasal vowels. The substitutions run in this order:</p>
             <ul>
                 <li>
-                    <strong>The "un/in" Merger:</strong> The distinction between <code>/œ̃/</code> (in <em>brun</em>)
-                    and <code>/ɛ̃/</code> (in <em>brin</em>) is completely lost. Both sounds are merged into a single,
-                    open nasal vowel, transcribed as <code>/ɑ̃/</code>.
+                    <strong>The "un/in" merger:</strong> <code>/œ̃/</code> (in <em>brun</em>) and <code>/ɛ̃/</code>
+                    (in <em>brin</em>) both become <code>/ɑ̃/</code>.
                     <ul>
                         <li><em>brun</em>:
                             <span class="ipa-block"><button class="audio-top" onclick="playAudio('brun_ca')"
@@ -211,19 +284,18 @@
                                                             title="Parisian (merged)"><i
                               class="icon icon-volume"></i></button><code>/bʁɑ̃/</code></span>
                         </li>
-                        <li><strong>Result: <em>brun</em> and <em>brin</em> become perfect homophones.</strong></li>
+                        <li><strong>Result: <em>brun</em> and <em>brin</em> become homophones.</strong></li>
                     </ul>
                 </li>
                 <li>
-                    <strong>The "an/on" Chain Shift:</strong> This is a two-step process where one vowel shifts, and
-                    another moves into its former place. It is <strong>not a simple merger</strong>.
+                    <strong>The "an/on" chain shift:</strong> This is a two-step shift, not a merger.
                     <ol>
-                        <li>First, the original vowel <code>/ɔ̃/</code> (as in <em>b<strong>on</strong></em>) is
-                            modified to <code>/õ/</code>. This is a subtle phonetic shift, often involving a change in
-                            vowel height or rounding, and is represented by a different IPA symbol.
+                        <li>First, <code>/ɔ̃/</code> (as in <em>b<strong>on</strong></em>) is replaced by
+                            <code>/õ/</code> (the letter o with a tilde).
                         </li>
-                        <li>Then, the original vowel <code>/ɑ̃/</code> (as in <em>bl<strong>anc</strong></em>) shifts to
-                            take the now-vacant phonetic space of the original <code>/ɔ̃/</code>.
+                        <li>Then <code>/ɑ̃/</code> (as in <em>bl<strong>anc</strong></em>) is replaced by
+                            <code>/ɔ̃/</code>. Because this step runs after the first one, the <code>/ɔ̃/</code> that
+                            it produces is not changed again.
                         </li>
                     </ol>
                     <ul>
@@ -243,625 +315,1769 @@
                             <span class="ipa-block"><button class="audio-top" onclick="playAudio('blanc_fr')"
                                                             title="Parisian (shifted)"><i class="icon icon-volume"></i></button><code>/blɔ̃/</code></span>
                         </li>
-                        <li><strong>Result: Crucially, <em>bon</em> and <em>blanc</em> remain distinct.</strong> Their
-                            vowel qualities have shifted, but they have not merged into one sound.
-                        </li>
+                        <li><strong>Result: <em>bon</em> and <em>blanc</em> remain distinct.</strong></li>
                     </ul>
                 </li>
             </ul>
+            <p>The substitution is applied to the Default result whether it came from the lexicon or from the rules.
+                No other Parisian feature is modelled.</p>
         </li>
     </ul>
-    <h2>Transcription Forms</h2>
-    <ul>
 
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+    <h3>General Limitations</h3>
+    <ul>
+        <li>No liaison, elision or h aspiré handling between separate words (each word is transcribed alone).</li>
+        <li>The rules know no exceptions of their own beyond those listed under
+            <a href="#technical">Implementation Details</a>; irregular words are correct only when the lexicon
+            contains them.
+        </li>
+        <li>Digits, punctuation and other symbols are discarded.</li>
     </ul>
 
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic</strong> (with dictionary support): A simplified, broad transcription that shows only the
+            sounds that are essential for distinguishing meaning (phonemes). It represents the abstract sound system of
+            the language. Uses the Wiktionary lexicon when the word is in it and falls back to the rules otherwise.
+        </li>
+        <li><strong>Phonetic</strong>: not available for French. Only the Phonemic form exists.</li>
+    </ul>
 
-    <h2>Technical Information</h2>
-    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:fr-pron" target="_blank"
-                                           rel="noopener noreferrer">Wiktionary
-        French pronunciation module</a> with a comprehensive lexicon extracted from Wiktionary data dumps, providing
-        both high accuracy for common words and broad coverage through rule-based generation.</p>
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning (e.g., /p/ vs. /b/ in English "pat" vs.
+            "bat").
+        </dd>
 
-    <h2>Wiktionary French pronunciation module Pipeline Overview</h2>
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning (e.g., aspirated [pʰ] vs. unaspirated
+            [p]).
+        </dd>
 
+        <dt>Nasal Vowel</dt>
+        <dd>A vowel pronounced with air passing through the nose, written with a combining tilde: <em>pain</em>
+            <span class="ipa">/pɛ̃/</span>. French has four: <span class="ipa">/ɑ̃/</span>, <span class="ipa">/ɛ̃/</span>,
+            <span class="ipa">/ɔ̃/</span>, <span class="ipa">/œ̃/</span>.
+        </dd>
 
-    <!-- STEP 1 -->
+        <dt>Schwa (Mute E)</dt>
+        <dd>The reduced vowel <span class="ipa">ə</span>, written e: <em>le</em> <span class="ipa">/lə/</span>. In many
+            positions it is not pronounced: <em>samedi</em> <span class="ipa">/sam.di/</span>.
+        </dd>
+
+        <dt>Optional Schwa</dt>
+        <dd>A schwa shown in parentheses, <span class="ipa">(ə)</span>, may be pronounced or dropped:
+            <em>porte-monnaie</em> <span class="ipa">/pɔʁ.t(ə).mɔ.nɛ/</span>.
+        </dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>A dot (.) showing where syllables divide.</dd>
+
+        <dt>Liaison</dt>
+        <dd>The pronunciation of a normally silent final consonant before a following vowel. The module marks the
+            junction with the undertie <span class="ipa">‿</span>.
+        </dd>
+
+        <dt>Elision</dt>
+        <dd>The loss of a final vowel before a vowel, written with an apostrophe: <em>l'arbre</em> <span class="ipa">/l‿aʁbʁ/</span>.
+        </dd>
+
+        <dt>Aspirated H (h aspiré)</dt>
+        <dd>An initial h that behaves like a consonant and blocks liaison and elision. The rules treat every h as
+            silent: <em>homme</em> <span class="ipa">/ɔm/</span>, <em>haricot</em> <span class="ipa">/a.ʁi.ko/</span>.
+        </dd>
+
+        <dt>Glide (Semivowel)</dt>
+        <dd>A consonant-like vowel sound: <span class="ipa">/j/</span> in <em>pied</em> <span class="ipa">/pje/</span>,
+            <span class="ipa">/w/</span> in <em>oui</em> <span class="ipa">/wi/</span>, <span
+              class="ipa">/ɥ/</span> in <em>nuit</em> <span class="ipa">/nɥi/</span>.
+        </dd>
+
+        <dt>Hiatus</dt>
+        <dd>Two vowels in adjacent syllables with no glide between them: <em>théâtre</em> <span class="ipa">/te.atʁ/</span>.
+        </dd>
+
+        <dt>Diaeresis (tréma)</dt>
+        <dd>The two dots in ë, ï, ü, marking a vowel that is pronounced separately from the preceding one:
+            <em>maïs</em> <span class="ipa">/ma.i/</span>.
+        </dd>
+
+        <dt>Uvular R</dt>
+        <dd>The French r, <span class="ipa">/ʁ/</span>, produced at the back of the mouth, not with the tip of the tongue
+            as in English.
+        </dd>
+
+        <dt>Silent Letter</dt>
+        <dd>A letter that is written but not pronounced, most often a word-final consonant.</dd>
+
+        <dt>Geminate</dt>
+        <dd>A doubled consonant letter. In French it is read as a single consonant: <em>terre</em> <span class="ipa">/tɛʁ/</span>.
+        </dd>
+
+        <dt>Devoicing</dt>
+        <dd>The change of a voiced consonant to a voiceless one. The module writes b as p before s or t:
+            <em>absurde</em> <span class="ipa">/ap.syʁd/</span>.
+        </dd>
+
+        <dt>Assibilation</dt>
+        <dd>The change of t to s before i and a vowel in some endings: <em>nation</em> <span class="ipa">/na.sjɔ̃/</span>.
+            It is blocked after s: <em>question</em> <span class="ipa">/kɛs.tjɔ̃/</span>.
+        </dd>
+
+        <dt>Voiced and Voiceless S</dt>
+        <dd>Between vowels a single s is voiced, a double ss is voiceless: <em>poison</em> <span class="ipa">/pwa.zɔ̃/</span>,
+            <em>poisson</em> <span class="ipa">/pwa.sɔ̃/</span>.
+        </dd>
+
+        <dt>Open and Closed Vowels</dt>
+        <dd>French has paired mid vowels, closed <span class="ipa">/o/</span>, <span class="ipa">/ø/</span> and open
+            <span class="ipa">/ɔ/</span>, <span class="ipa">/œ/</span>, whose choice depends on the position in the word:
+            <em>jeu</em> <span class="ipa">/ʒø/</span>, <em>peur</em> <span class="ipa">/pœʁ/</span>.
+        </dd>
+
+        <dt>Ligature œ</dt>
+        <dd>The written combination of o and e, read as the vowel of <em>cœur</em> <span class="ipa">/kœʁ/</span>.</dd>
+
+        <dt>Respelling</dt>
+        <dd>Typing a different spelling to obtain a different transcription, for example <em>vile</em> <span
+          class="ipa">/vil/</span> for <em>ville</em>. See <a href="#issues">Common Issues &amp; Limitations</a>.
+        </dd>
+
+        <dt>Lexicon and Rules</dt>
+        <dd>The lexicon is the stored Wiktionary transcription of a word. The rules are the spelling-to-sound
+            algorithm of the pronunciation module, used when the word is not in the lexicon.
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>The tables list the symbols that the French rules produce, with approximate English equivalents where they
+        exist. The examples are rule output.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td><em>chat</em> <span class="ipa">/ʃa/</span></td>
+            <td>"father" (short)</td>
+            <td>Front open vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>été</em> <span class="ipa">/e.te/</span></td>
+            <td>"say" (without glide)</td>
+            <td>Closed e</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td><em>père</em> <span class="ipa">/pɛʁ/</span></td>
+            <td>"bed"</td>
+            <td>Open e</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ə/</span></td>
+            <td><em>le</em> <span class="ipa">/lə/</span></td>
+            <td>"about"</td>
+            <td>Schwa, often dropped</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span></td>
+            <td><em>ami</em> <span class="ipa">/a.mi/</span></td>
+            <td>"see"</td>
+            <td>Written i, î, y</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/y/</span></td>
+            <td><em>rue</em> <span class="ipa">/ʁy/</span></td>
+            <td>No English equivalent</td>
+            <td>Lips rounded as for /u/, tongue as for /i/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>chaud</em> <span class="ipa">/ʃo/</span></td>
+            <td>"go" (without glide)</td>
+            <td>Closed o</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td><em>porte</em> <span class="ipa">/pɔʁt/</span></td>
+            <td>"law" (UK)</td>
+            <td>Open o</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ø/</span></td>
+            <td><em>deux</em> <span class="ipa">/dø/</span></td>
+            <td>No English equivalent</td>
+            <td>Lips rounded as for /o/, tongue as for /e/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/œ/</span></td>
+            <td><em>peur</em> <span class="ipa">/pœʁ/</span></td>
+            <td>No English equivalent</td>
+            <td>Open counterpart of /ø/</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td><em>vous</em> <span class="ipa">/vu/</span></td>
+            <td>"food" (without glide)</td>
+            <td>Written ou, où, oû</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɑ̃/</span></td>
+            <td><em>blanc</em> <span class="ipa">/blɑ̃/</span></td>
+            <td>No English equivalent</td>
+            <td>Nasal vowel, written an, am, en, em</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ̃/</span></td>
+            <td><em>pain</em> <span class="ipa">/pɛ̃/</span></td>
+            <td>No English equivalent</td>
+            <td>Nasal vowel, written in, im, ain, ein</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ̃/</span></td>
+            <td><em>bon</em> <span class="ipa">/bɔ̃/</span></td>
+            <td>No English equivalent</td>
+            <td>Nasal vowel, written on, om</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/œ̃/</span></td>
+            <td><em>brun</em> <span class="ipa">/bʁœ̃/</span></td>
+            <td>No English equivalent</td>
+            <td>Nasal vowel, written un, um</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/õ/</span></td>
+            <td><em>bon</em> (Parisian)</td>
+            <td>No English equivalent</td>
+            <td>Only in the Parisian (experimental) style, in place of /ɔ̃/</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The module also generates the back vowel <span class="ipa">/ɑ/</span> (for <em>â</em> and
+        final <em>as</em>, <em>az</em>) as a second variant. The app uses the first variant, which has <span
+          class="ipa">/a/</span>, so a bare /ɑ/ does not occur in rule output; the nasal <span
+          class="ipa">/ɑ̃/</span> is not affected.</p>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/p/</span>, <span class="ipa">/t/</span>, <span class="ipa">/k/</span></td>
+            <td><em>porte</em> <span class="ipa">/pɔʁt/</span>, <em>coq</em> <span class="ipa">/kɔk/</span></td>
+            <td>"spin", "stop", "skip"</td>
+            <td>Voiceless stops, not aspirated</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/b/</span>, <span class="ipa">/d/</span>, <span class="ipa">/ɡ/</span></td>
+            <td><em>table</em> <span class="ipa">/tabl/</span>, <em>gare</em> <span class="ipa">/ɡaʁ/</span></td>
+            <td>"bat", "dog", "go"</td>
+            <td>Voiced stops</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/f/</span>, <span class="ipa">/v/</span></td>
+            <td><em>vite</em> <span class="ipa">/vit/</span></td>
+            <td>"fat", "vat"</td>
+            <td>Written f, ph and v</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span>, <span class="ipa">/z/</span></td>
+            <td><em>sauce</em> <span class="ipa">/sos/</span>, <em>rose</em> <span class="ipa">/ʁoz/</span></td>
+            <td>"sit", "zoo"</td>
+            <td>Written s, ss, c, ç, t (+ion) and s between vowels, z</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʃ/</span></td>
+            <td><em>chat</em> <span class="ipa">/ʃa/</span></td>
+            <td>"shoe"</td>
+            <td>Written ch, sh, sch</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td><em>geai</em> <span class="ipa">/ʒɛ/</span></td>
+            <td>"measure"</td>
+            <td>Written j, g before e, i, y</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/m/</span>, <span class="ipa">/n/</span></td>
+            <td><em>mère</em> <span class="ipa">/mɛʁ/</span>, <em>reine</em> <span class="ipa">/ʁɛn/</span></td>
+            <td>"man", "no"</td>
+            <td>Not after a vowel that is followed by a consonant or the end of the word; there the vowel is nasalized instead</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td><em>agneau</em> <span class="ipa">/a.ɲo/</span></td>
+            <td>"canyon"</td>
+            <td>Palatal nasal, written gn</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td><em>parking</em> <span class="ipa">/paʁ.kiŋ/</span></td>
+            <td>"sing"</td>
+            <td>Only in the ending -ing of loanwords</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l/</span></td>
+            <td><em>lent</em> <span class="ipa">/lɑ̃/</span></td>
+            <td>"light"</td>
+            <td>Light l, never "dark" l</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td><em>rue</em> <span class="ipa">/ʁy/</span></td>
+            <td>No English equivalent</td>
+            <td>Uvular r, written r, rr, rh</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td><em>fille</em> <span class="ipa">/fij/</span>, <em>yeux</em> <span class="ipa">/jø/</span></td>
+            <td>"yes"</td>
+            <td>Glide, written y, i before a vowel, ill, final il</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/w/</span></td>
+            <td><em>oui</em> <span class="ipa">/wi/</span></td>
+            <td>"we"</td>
+            <td>Glide, written ou before a vowel, oi</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɥ/</span></td>
+            <td><em>nuit</em> <span class="ipa">/nɥi/</span></td>
+            <td>No English equivalent</td>
+            <td>Glide, written u before a vowel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">&#x0303;</span></td>
+            <td>Combining tilde</td>
+            <td>Nasalization of the preceding vowel</td>
+            <td><em>pain</em> <span class="ipa">/pɛ̃/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">.</span></td>
+            <td>Syllable boundary</td>
+            <td>Division between syllables</td>
+            <td><em>ami</em> <span class="ipa">/a.mi/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">‿</span></td>
+            <td>Undertie</td>
+            <td>Liaison or elision junction; appears only when the input has an apostrophe or the mark itself</td>
+            <td><em>c'est</em> <span class="ipa">/s‿ɛ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">( )</span></td>
+            <td>Parentheses</td>
+            <td>The enclosed schwa is optional</td>
+            <td><em>porte-monnaie</em> <span class="ipa">/pɔʁ.t(ə).mɔ.nɛ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The French output has no stress marks and no length marks.</p>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Some words have more than one transcription in the lexicon.
+            Click a transcribed word to see the alternatives.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use the PDF or CSV buttons to save transcriptions.</li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <ul>
+        <li><strong>Lexicon entries:</strong> A lexicon entry may hold several readings. The first is displayed and a
+            click cycles through the others.
+        </li>
+        <li><strong>Rule output:</strong> The module itself can generate alternatives (for example
+            <code>/pa/</code> and <code>/pɑ/</code> for <em>pas</em>; <code>/sɔ.sja.lism/</code> and
+            <code>/sɔ.sja.lizm/</code> for <em>socialisme</em>; <code>/tjɛ.nɑ̃/</code> and <code>/tje.nɑ̃/</code> for
+            <em>tiennent</em>), but the app displays only the first one.
+        </li>
+        <li><strong>Lexicon vs. rules:</strong> Dictionary lookup and rule-based generation may produce different
+            results for the same word.
+        </li>
+    </ul>
+
+    <h2 id="pronunciation-guide">French Pronunciation Guide</h2>
+    <p>This guide describes what the module does with a word typed in ordinary spelling. The examples were generated
+        by the rules alone; in the app a word that is in the lexicon shows its Wiktionary transcription instead, which
+        may differ.</p>
+
+    <h3 id="vowels-guide">Oral Vowels and Accents</h3>
+
+    <h4>Accents</h4>
+    <ul>
+        <li><strong>é</strong> is <span class="ipa">/e/</span>: <em>été</em> <span class="ipa">/e.te/</span>,
+            <em>musée</em> <span class="ipa">/my.ze/</span></li>
+        <li><strong>è, ê</strong> are <span class="ipa">/ɛ/</span>: <em>père</em> <span class="ipa">/pɛʁ/</span>,
+            <em>tête</em> <span class="ipa">/tɛt/</span></li>
+        <li><strong>à, ù, î</strong> do not change the vowel: <em>là</em> <span class="ipa">/la/</span>,
+            <em>où</em> <span class="ipa">/u/</span></li>
+        <li><strong>â</strong> is the back vowel <span class="ipa">/ɑ/</span> in the second variant only, so the
+            app shows <span class="ipa">/a/</span>: <em>âme</em> <span class="ipa">/am/</span></li>
+        <li><strong>ô</strong> is always <span class="ipa">/o/</span>: <em>hôtel</em> <span class="ipa">/o.tɛl/</span>,
+            <em>rôle</em> <span class="ipa">/ʁol/</span></li>
+        <li><strong>û</strong> is <span class="ipa">/y/</span>: <em>mûr</em> <span class="ipa">/myʁ/</span>
+            (<em>jeûne</em> <span class="ipa">/ʒøn/</span> has /ø/)
+        </li>
+        <li><strong>ë, ï, ü</strong> mark a separate vowel; the dots are then dropped: <em>Noël</em>
+            <span class="ipa">/nɔ.ɛl/</span>, <em>naïf</em> <span class="ipa">/na.if/</span></li>
+    </ul>
+
+    <h4>The Letter E</h4>
+    <ul>
+        <li><strong>e before a doubled consonant</strong> is <span class="ipa">/ɛ/</span>, but initial e + double
+            consonant gives <span class="ipa">/e/</span>: <em>terre</em> <span class="ipa">/tɛʁ/</span>,
+            <em>serrer</em> <span class="ipa">/sɛ.ʁe/</span>, <em>effacer</em> <span class="ipa">/e.fa.se/</span></li>
+        <li><strong>e before a final d, g, p, t (optionally + s)</strong> is <span class="ipa">/ɛ/</span>:
+            <em>permet</em> <span class="ipa">/pɛʁ.mɛ/</span>, <em>legs</em> <span class="ipa">/lɛ/</span>
+        </li>
+        <li><strong>ai, ei</strong> are <span class="ipa">/ɛ/</span>: <em>maison</em> <span class="ipa">/mɛ.zɔ̃/</span>,
+            <em>neige</em> <span class="ipa">/nɛʒ/</span></li>
+        <li><strong>-er, -ez, -es (short words)</strong> are <span class="ipa">/e/</span>: <em>parler</em>
+            <span class="ipa">/paʁ.le/</span>, <em>nez</em> <span class="ipa">/ne/</span>, <em>les</em> <span
+              class="ipa">/le/</span>; in a one-syllable word -er is <span class="ipa">/ɛʁ/</span>: <em>fer</em>
+            <span class="ipa">/fɛʁ/</span>, <em>mer</em> <span class="ipa">/mɛʁ/</span></li>
+    </ul>
+
+    <h4>Vowel Digraphs</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ou</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td><em>vous</em> <span class="ipa">/vu/</span>, <em>loup</em> <span class="ipa">/lu/</span></td>
+        </tr>
+        <tr>
+            <td><strong>au, eau</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>chaud</em> <span class="ipa">/ʃo/</span>, <em>beau</em> <span class="ipa">/bo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>au before r</strong> (not eaur)</td>
+            <td><span class="ipa">/ɔ/</span></td>
+            <td><em>dinosaure</em> <span class="ipa">/di.no.zɔʁ/</span>, <em>restaurant</em> <span class="ipa">/ʁɛs.tɔ.ʁɑ̃/</span>,
+                <em>Beauregard</em> <span class="ipa">/boʁ.ɡaʁ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>eu, œu</strong> (final, word-initial, before z or t)</td>
+            <td><span class="ipa">/ø/</span></td>
+            <td><em>deux</em> <span class="ipa">/dø/</span>, <em>jeu</em> <span class="ipa">/ʒø/</span>, <em>Europe</em>
+                <span class="ipa">/ø.ʁɔp/</span></td>
+        </tr>
+        <tr>
+            <td><strong>eu, œu</strong> (elsewhere)</td>
+            <td><span class="ipa">/œ/</span></td>
+            <td><em>peur</em> <span class="ipa">/pœʁ/</span>, <em>cœur</em> <span class="ipa">/kœʁ/</span>,
+                <em>neuf</em> <span class="ipa">/nœf/</span></td>
+        </tr>
+        <tr>
+            <td><strong>oi</strong></td>
+            <td><span class="ipa">/wa/</span></td>
+            <td><em>moi</em> <span class="ipa">/mwa/</span>, <em>trois</em> <span class="ipa">/tʁwa/</span></td>
+        </tr>
+        <tr>
+            <td><strong>u</strong></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><em>rue</em> <span class="ipa">/ʁy/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Open and Closed O</h4>
+    <p>The letter o is closed <span class="ipa">/o/</span> when it ends the word or precedes z, and open
+        <span class="ipa">/ɔ/</span> elsewhere. The accent ô is always closed.</p>
+    <ul>
+        <li>Closed: <em>zéro</em> <span class="ipa">/ze.ʁo/</span>, <em>chose</em> <span class="ipa">/ʃoz/</span>,
+            <em>trop</em> <span class="ipa">/tʁo/</span></li>
+        <li>Open: <em>porte</em> <span class="ipa">/pɔʁt/</span>, <em>sol</em> <span class="ipa">/sɔl/</span></li>
+    </ul>
+
+    <h3 id="nasals">Nasal Vowels</h3>
+    <p>A vowel followed by n before a consonant or at the end of a word is nasalized and the n is not pronounced. A
+        vowel followed by m is nasalized before b, p and f, and in final -om and -aim/-eim.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>an, am, en, em</strong></td>
+            <td><span class="ipa">/ɑ̃/</span></td>
+            <td><em>blanc</em> <span class="ipa">/blɑ̃/</span>, <em>champ</em> <span class="ipa">/ʃɑ̃/</span>,
+                <em>dent</em> <span class="ipa">/dɑ̃/</span>, <em>ensemble</em> <span class="ipa">/ɑ̃.sɑ̃bl/</span></td>
+        </tr>
+        <tr>
+            <td><strong>in, im, yn, ym, ain, aim, ein</strong></td>
+            <td><span class="ipa">/ɛ̃/</span></td>
+            <td><em>pain</em> <span class="ipa">/pɛ̃/</span>, <em>faim</em> <span class="ipa">/fɛ̃/</span>,
+                <em>sympa</em> <span class="ipa">/sɛ̃.pa/</span>, <em>syndicat</em> <span class="ipa">/sɛ̃.di.ka/</span></td>
+        </tr>
+        <tr>
+            <td><strong>on, om</strong></td>
+            <td><span class="ipa">/ɔ̃/</span></td>
+            <td><em>bon</em> <span class="ipa">/bɔ̃/</span>, <em>nom</em> <span class="ipa">/nɔ̃/</span>,
+                <em>plomb</em> <span class="ipa">/plɔ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>un, um</strong></td>
+            <td><span class="ipa">/œ̃/</span></td>
+            <td><em>brun</em> <span class="ipa">/bʁœ̃/</span>, <em>lundi</em> <span class="ipa">/lœ̃.di/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ien</strong> (final)</td>
+            <td><span class="ipa">/jɛ̃/</span></td>
+            <td><em>bien</em> <span class="ipa">/bjɛ̃/</span>, <em>chien</em> <span class="ipa">/ʃjɛ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>oin</strong></td>
+            <td><span class="ipa">/wɛ̃/</span></td>
+            <td><em>loin</em> <span class="ipa">/lwɛ̃/</span>, <em>point</em> <span class="ipa">/pwɛ̃/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <ul>
+        <li><strong>No nasalization</strong> before a vowel or before a doubled n or m: <em>année</em> <span
+          class="ipa">/a.ne/</span>, <em>inutile</em> <span class="ipa">/i.ny.til/</span>, <em>femme</em> <span
+          class="ipa">/fɛm/</span>, <em>bonne</em> <span class="ipa">/bɔn/</span></li>
+        <li><strong>Final -um</strong> is <span class="ipa">/ɔm/</span>: <em>maximum</em> <span class="ipa">/mak.si.mɔm/</span>,
+            <em>album</em> <span class="ipa">/al.bɔm/</span></li>
+        <li>In the Parisian (experimental) style the nasal vowels are rewritten; see
+            <a href="#dialects">Dialects &amp; Limitations</a>.
+        </li>
+    </ul>
+
+    <h3 id="schwa">Mute E (Schwa)</h3>
+    <ul>
+        <li><strong>Final e after a consonant is dropped</strong> in a word of two or more syllables: <em>porte</em>
+            <span class="ipa">/pɔʁt/</span>, <em>table</em> <span class="ipa">/tabl/</span>, <em>femme</em> <span
+              class="ipa">/fɛm/</span>, <em>rose</em> <span class="ipa">/ʁoz/</span></li>
+        <li><strong>In a one-syllable word</strong> the schwa is kept: <em>le</em> <span class="ipa">/lə/</span>,
+            <em>je</em> <span class="ipa">/ʒə/</span>, <em>de</em> <span class="ipa">/də/</span></li>
+        <li><strong>In the first syllable</strong> the schwa is kept: <em>petit</em> <span class="ipa">/pə.ti/</span>,
+            <em>venir</em> <span class="ipa">/və.niʁ/</span>, <em>leçon</em> <span class="ipa">/lə.sɔ̃/</span></li>
+        <li><strong>Inside a word, between a vowel and a single consonant followed by another consonant</strong>, the
+            schwa is dropped: <em>samedi</em> <span class="ipa">/sam.di/</span>, <em>médecin</em> <span
+              class="ipa">/med.sɛ̃/</span></li>
+        <li><strong>The schwa is kept</strong> where dropping it would create a cluster that the module lists as
+            impossible (ʁʁ, ɲʁ, ɲl): <em>agnelet</em> <span class="ipa">/a.ɲə.lɛ/</span>, <em>indignerez</em> <span
+              class="ipa">/ɛ̃.di.ɲə.ʁe/</span>, <em>déchirerez</em> <span class="ipa">/de.ʃi.ʁə.ʁe/</span>; and after a
+            consonant plus ʁ: <em>vendredi</em> <span class="ipa">/vɑ̃.dʁə.di/</span></li>
+        <li><strong>Undecided cases</strong> are shown as optional: <em>porte-monnaie</em> <span class="ipa">/pɔʁ.t(ə).mɔ.nɛ/</span></li>
+    </ul>
+
+    <h3 id="silent-finals">Silent Final Letters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Final letter</th>
+            <th>Rule</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>d, g, p, t, s, z</strong></td>
+            <td>Silent</td>
+            <td><em>grand</em> <span class="ipa">/ɡʁɑ̃/</span>, <em>long</em> <span class="ipa">/lɔ̃/</span>,
+                <em>trop</em> <span class="ipa">/tʁo/</span>, <em>petit</em> <span class="ipa">/pə.ti/</span>,
+                <em>nez</em> <span class="ipa">/ne/</span>, <em>gros</em> <span class="ipa">/ɡʁo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>x</strong></td>
+            <td>Silent after i, u, eu; otherwise /ks/</td>
+            <td><em>prix</em> <span class="ipa">/pʁi/</span>, <em>deux</em> <span class="ipa">/dø/</span>,
+                <em>lynx</em> <span class="ipa">/lɛ̃ks/</span></td>
+        </tr>
+        <tr>
+            <td><strong>c, f, k, l, q, r</strong></td>
+            <td>Pronounced</td>
+            <td><em>sac</em> <span class="ipa">/sak/</span>, <em>chef</em> <span class="ipa">/ʃɛf/</span>,
+                <em>mal</em> <span class="ipa">/mal/</span>, <em>coq</em> <span class="ipa">/kɔk/</span>,
+                <em>tard</em> <span class="ipa">/taʁ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-st, -kt, -ct</strong></td>
+            <td>The t is kept</td>
+            <td><em>ouest</em> <span class="ipa">/wɛst/</span>, <em>respect</em> <span class="ipa">/ʁɛs.pɛkt/</span>,
+                <em>strict</em> <span class="ipa">/stʁikt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-nct</strong></td>
+            <td>Both c and t are silent</td>
+            <td><em>instinct</em> <span class="ipa">/ɛ̃s.tɛ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-ngt</strong></td>
+            <td>Read as nt, so g is silent</td>
+            <td><em>vingt</em> <span class="ipa">/vɛ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-mb, -mp</strong></td>
+            <td>Silent, after nasalizing the vowel</td>
+            <td><em>plomb</em> <span class="ipa">/plɔ̃/</span>, <em>champ</em> <span class="ipa">/ʃɑ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-er</strong></td>
+            <td>/e/ in words of two or more syllables</td>
+            <td><em>parler</em> <span class="ipa">/paʁ.le/</span>, <em>premier</em> <span class="ipa">/pʁə.mje/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The rules do not know words in which one of these letters is pronounced anyway (<em>os</em>, <em>fils</em>,
+        <em>huit</em>, <em>cinq</em>); see <a href="#issues">Common Issues &amp; Limitations</a>.</p>
+
+    <h3 id="consonants-guide">Consonant Rules</h3>
+
+    <h4>C and Ç</h4>
+    <ul>
+        <li>c is <span class="ipa">/s/</span> before e, i, y and <span class="ipa">/k/</span> elsewhere:
+            <em>cinéma</em> <span class="ipa">/si.ne.ma/</span>, <em>cygne</em> <span class="ipa">/siɲ/</span>,
+            <em>coq</em> <span class="ipa">/kɔk/</span></li>
+        <li>ç is always <span class="ipa">/s/</span>: <em>ça</em> <span class="ipa">/sa/</span>, <em>garçon</em>
+            <span class="ipa">/ɡaʁ.sɔ̃/</span></li>
+        <li>œ before c does not soften it in <em>cœur</em> <span class="ipa">/kœʁ/</span></li>
+    </ul>
+
+    <h4>G, GU and GN</h4>
+    <ul>
+        <li>g is <span class="ipa">/ʒ/</span> before e, i, y: <em>manger</em> <span class="ipa">/mɑ̃.ʒe/</span>,
+            <em>gymnase</em> <span class="ipa">/ʒim.naz/</span>; ge before a, o, u also gives /ʒ/: <em>geai</em>
+            <span class="ipa">/ʒɛ/</span></li>
+        <li>g is <span class="ipa">/ɡ/</span> elsewhere: <em>gare</em> <span class="ipa">/ɡaʁ/</span>, <em>gorge</em>
+            <span class="ipa">/ɡɔʁʒ/</span></li>
+        <li>gu + vowel is <span class="ipa">/ɡ/</span>: <em>guerre</em> <span class="ipa">/ɡɛʁ/</span>, <em>guitare</em>
+            <span class="ipa">/ɡi.taʁ/</span>; with a diaeresis the u is kept: <em>aigüe</em> <span
+              class="ipa">/ɛ.ɡy/</span></li>
+        <li>gn is <span class="ipa">/ɲ/</span>: <em>agneau</em> <span class="ipa">/a.ɲo/</span>, <em>ignorer</em>
+            <span class="ipa">/i.ɲɔ.ʁe/</span></li>
+    </ul>
+
+    <h4>QU</h4>
+    <p>qu is <span class="ipa">/k/</span>: <em>qui</em> <span class="ipa">/ki/</span>, <em>quelque</em> <span
+      class="ipa">/kɛlk/</span>, <em>quoi</em> <span class="ipa">/kwa/</span>.</p>
+
+    <h4>CH, PH and TH</h4>
+    <ul>
+        <li>ch is <span class="ipa">/ʃ/</span>: <em>chat</em> <span class="ipa">/ʃa/</span>, <em>machine</em> <span
+          class="ipa">/ma.ʃin/</span>; before r, l, n it is <span class="ipa">/k/</span>: <em>chrétien</em> <span
+          class="ipa">/kʁe.sjɛ̃/</span>, <em>chlore</em> <span class="ipa">/klɔʁ/</span>, <em>technique</em> <span
+          class="ipa">/tɛk.nik/</span></li>
+        <li>ph is <span class="ipa">/f/</span>: <em>pharmacie</em> <span class="ipa">/faʁ.ma.si/</span></li>
+        <li>th is read as t, because the h is silent: <em>thé</em> <span class="ipa">/te/</span></li>
+    </ul>
+
+    <h4>S and SS</h4>
+    <ul>
+        <li>Between vowels a single s is <span class="ipa">/z/</span>: <em>maison</em> <span class="ipa">/mɛ.zɔ̃/</span>,
+            <em>désert</em> <span class="ipa">/de.zɛʁ/</span>, <em>poison</em> <span class="ipa">/pwa.zɔ̃/</span></li>
+        <li>Elsewhere, and for ss, it is <span class="ipa">/s/</span>: <em>sauce</em> <span class="ipa">/sos/</span>,
+            <em>basse</em> <span class="ipa">/bas/</span>, <em>poisson</em> <span class="ipa">/pwa.sɔ̃/</span></li>
+    </ul>
+
+    <h4>X</h4>
+    <ul>
+        <li>ex before a vowel, and initial x, are <span class="ipa">/ɡz/</span>: <em>examen</em> <span class="ipa">/ɛɡ.za.mɑ̃/</span>,
+            <em>exact</em> <span class="ipa">/ɛɡ.zakt/</span>, <em>xylophone</em> <span class="ipa">/ɡzi.lɔ.fɔn/</span></li>
+        <li>Other x is <span class="ipa">/ks/</span>: <em>taxi</em> <span class="ipa">/tak.si/</span>, <em>texte</em>
+            <span class="ipa">/tɛkst/</span>, <em>excellent</em> <span class="ipa">/ɛk.sɛ.lɑ̃/</span></li>
+    </ul>
+
+    <h4>H</h4>
+    <p>h is silent: <em>homme</em> <span class="ipa">/ɔm/</span>, <em>hôtel</em> <span class="ipa">/o.tɛl/</span>,
+        <em>bonheur</em> <span class="ipa">/bɔ.nœʁ/</span>. The rules do not distinguish h muet from h aspiré.</p>
+
+    <h4>T Before I (Assibilation)</h4>
+    <p>ti is <span class="ipa">/si/</span> before on, en, al, el when the t does not follow s, x or ç and does not start
+        the word: <em>nation</em> <span class="ipa">/na.sjɔ̃/</span>, <em>action</em> <span class="ipa">/ak.sjɔ̃/</span>,
+        <em>patient</em> <span class="ipa">/pa.sjɑ̃/</span>, <em>initial</em> <span class="ipa">/i.ni.sjal/</span>.
+        After s the t stays: <em>question</em> <span class="ipa">/kɛs.tjɔ̃/</span>. Other ti is
+        <span class="ipa">/tj/</span> or <span class="ipa">/ti/</span>: <em>amitié</em> <span class="ipa">/a.mi.tje/</span>,
+        <em>entier</em> <span class="ipa">/ɑ̃.tje/</span>.</p>
+
+    <h4>B Before S or T</h4>
+    <p>b before s or t is pronounced as voiceless <span class="ipa">/p/</span>: <em>absurde</em> <span class="ipa">/ap.syʁd/</span>, <em>obtenir</em>
+        <span class="ipa">/ɔp.tə.niʁ/</span>, <em>subtil</em> <span class="ipa">/syp.til/</span>.</p>
+
+    <h4>Doubled Consonants</h4>
+    <p>A doubled consonant letter is read as one consonant: <em>terre</em> <span class="ipa">/tɛʁ/</span>, <em>pomme</em>
+        <span class="ipa">/pɔm/</span>, <em>bonne</em> <span class="ipa">/bɔn/</span>.</p>
+
+    <h3 id="glides">Glides, Y and ILL</h3>
+
+    <h4>I, U and OU Before a Vowel</h4>
+    <ul>
+        <li>i + vowel: <span class="ipa">/j/</span>: <em>pied</em> <span class="ipa">/pje/</span>, <em>lieu</em>
+            <span class="ipa">/ljø/</span></li>
+        <li>u + vowel: <span class="ipa">/ɥ/</span>: <em>nuit</em> <span class="ipa">/nɥi/</span>, <em>cuire</em> <span
+          class="ipa">/kɥiʁ/</span></li>
+        <li>ou + vowel: <span class="ipa">/w/</span>: <em>oui</em> <span class="ipa">/wi/</span>, <em>jouer</em> <span
+          class="ipa">/ʒwe/</span></li>
+        <li>After a consonant plus l or r, i and ou stay full vowels, with a separate glide or vowel after them:
+            <em>crier</em> <span class="ipa">/kʁi.je/</span>, <em>prier</em> <span class="ipa">/pʁi.je/</span>,
+            <em>brouette</em> <span class="ipa">/bʁu.ɛt/</span>. The glide /ɥ/ is kept before i: <em>fruit</em>
+            <span class="ipa">/fʁɥi/</span>, <em>bruit</em> <span class="ipa">/bʁɥi/</span></li>
+    </ul>
+
+    <h4>The Letter Y</h4>
+    <ul>
+        <li>Initial y before a vowel is <span class="ipa">/j/</span>: <em>yeux</em> <span class="ipa">/jø/</span></li>
+        <li>Initial y before a consonant, or y between consonants, is <span class="ipa">/i/</span>: <em>yttrium</em>
+            <span class="ipa">/i.tʁi.jɔm/</span>, <em>cycle</em> <span class="ipa">/sikl/</span></li>
+        <li>Y between vowels counts as i plus j: <em>voyage</em> <span class="ipa">/vwa.jaʒ/</span>, <em>crayon</em>
+            <span class="ipa">/kʁɛ.jɔ̃/</span>, <em>payer</em> <span class="ipa">/pɛ.je/</span>, <em>joyeux</em> <span
+              class="ipa">/ʒwa.jø/</span></li>
+        <li>Final -ay is read as -ai: <em>Gamay</em> <span class="ipa">/ɡa.mɛ/</span></li>
+    </ul>
+
+    <h4>ILL and IL</h4>
+    <ul>
+        <li>ill after a consonant is <span class="ipa">/ij/</span>: <em>fille</em> <span class="ipa">/fij/</span>,
+            <em>famille</em> <span class="ipa">/fa.mij/</span></li>
+        <li>ill after a vowel is <span class="ipa">/j/</span>: <em>travailler</em> <span class="ipa">/tʁa.va.je/</span>,
+            <em>bouteille</em> <span class="ipa">/bu.tɛj/</span>, <em>pavillon</em> <span class="ipa">/pa.vi.jɔ̃/</span></li>
+        <li>uill after a consonant: <span class="ipa">/ɥij/</span>; <em>cuillère</em> <span class="ipa">/kɥi.jɛʁ/</span>,
+            <em>juillet</em> <span class="ipa">/ʒɥi.jɛ/</span></li>
+        <li>Final il after a vowel is <span class="ipa">/j/</span>: <em>soleil</em> <span class="ipa">/sɔ.lɛj/</span>,
+            <em>travail</em> <span class="ipa">/tʁa.vaj/</span>; after a consonant the l is pronounced:
+            <em>fil</em> <span class="ipa">/fil/</span>, <em>avril</em> <span class="ipa">/a.vʁil/</span></li>
+    </ul>
+
+    <h4>Hiatus</h4>
+    <p>A diaeresis, or two vowels that no rule joins, gives two syllables: <em>naïf</em> <span class="ipa">/na.if/</span>,
+        <em>haïr</em> <span class="ipa">/a.iʁ/</span>, <em>théâtre</em> <span class="ipa">/te.atʁ/</span>,
+        <em>aïe</em> <span class="ipa">/a.i/</span>.</p>
+
+    <h3 id="liaison">Apostrophes, Hyphens and Liaison</h3>
+    <p>The converter transcribes each space-separated word on its own. Liaison, elision and h aspiré <em>between</em>
+        words are therefore not applied: <em>les</em> and <em>amis</em> are transcribed independently. Only material
+        inside one written word is joined.</p>
+
+    <h4>Apostrophe</h4>
+    <p>An apostrophe inside a word marks elision. It becomes the junction mark ‿ in the output, and a consonant that
+        precedes it is kept:</p>
+    <ul>
+        <li><em>l'arbre</em> <span class="ipa">/l‿aʁbʁ/</span>, <em>l'homme</em> <span class="ipa">/l‿ɔm/</span></li>
+        <li><em>c'est</em> <span class="ipa">/s‿ɛ/</span>, <em>n'est</em> <span class="ipa">/n‿ɛ/</span>,
+            <em>s'il</em> <span class="ipa">/s‿il/</span></li>
+        <li><em>qu'on</em> <span class="ipa">/k‿ɔ̃/</span>, <em>jusqu'à</em> <span class="ipa">/ʒys.k‿a/</span>,
+            <em>aujourd'hui</em> <span class="ipa">/o.ʒuʁ.d‿ɥi/</span></li>
+    </ul>
+
+    <h4>Hyphen</h4>
+    <p>Each part of a hyphenated word is processed as a word of its own, so silent final letters of the first part are
+        dropped: <em>grand-père</em> <span class="ipa">/ɡʁɑ̃.pɛʁ/</span>, <em>peut-être</em> <span class="ipa">/pø.ɛtʁ/</span>,
+        <em>porte-monnaie</em> <span class="ipa">/pɔʁ.t(ə).mɔ.nɛ/</span>.</p>
+
+    <h4>Typed Liaison Mark</h4>
+    <p>The input filter keeps the undertie ‿ (U+203F). If it is typed or pasted between two parts of a word, the module
+        applies liaison to the first part. Results of the rules:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>Consonant of liaison</th>
+            <th>IPA</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>grand‿homme</code></td>
+            <td>d is read /t/</td>
+            <td><span class="ipa">/ɡʁɑ̃.t‿ɔm/</span></td>
+        </tr>
+        <tr>
+            <td><code>neuf‿heures</code></td>
+            <td>f is read /v/</td>
+            <td><span class="ipa">/nœ.v‿œʁ/</span></td>
+        </tr>
+        <tr>
+            <td><code>les‿amis</code>, <code>beaux‿arts</code></td>
+            <td>s and x are read /z/</td>
+            <td><span class="ipa">/le.z‿a.mi/</span>, <span class="ipa">/bo.z‿aʁ/</span></td>
+        </tr>
+        <tr>
+            <td><code>y‿a</code></td>
+            <td>a glide /j/ is inserted after i</td>
+            <td><span class="ipa">/i.j‿a/</span></td>
+        </tr>
+        <tr>
+            <td><code>mon‿ami</code>, <code>un‿ami</code></td>
+            <td>nasal vowel kept, n pronounced</td>
+            <td><span class="ipa">/mɔ̃.n‿a.mi/</span>, <span class="ipa">/œ̃.n‿a.mi/</span></td>
+        </tr>
+        <tr>
+            <td><code>bon‿ami</code></td>
+            <td>vowel denasalized, n pronounced</td>
+            <td><span class="ipa">/bɔ.n‿a.mi/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The nasal vowel is kept in the words matched by mon, ton, son, on, en, bien, rien, un and similar endings, and
+        dropped before a liaison n in other words (<em>bon</em>, <em>certain</em>).</p>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>These tables summarize the spelling-to-sound rules of the module as applied to a single word. Examples are rule
+        output.</p>
+
+    <h3>1. Vowels (Monophthongs and Digraphs)</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Context</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>a, à</strong></td>
+            <td><span class="ipa">/a/</span></td>
+            <td><em>chat</em> <span class="ipa">/ʃa/</span></td>
+            <td>Default</td>
+        </tr>
+        <tr>
+            <td><strong>â, final as, az</strong></td>
+            <td><span class="ipa">/a/</span></td>
+            <td><em>pas</em> <span class="ipa">/pa/</span>, <em>gaz</em> <span class="ipa">/ɡa/</span></td>
+            <td>The back-vowel variant /ɑ/ is the second alternative</td>
+        </tr>
+        <tr>
+            <td><strong>é</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>été</em> <span class="ipa">/e.te/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>è, ê, ai, ei</strong></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td><em>mère</em> <span class="ipa">/mɛʁ/</span>, <em>reine</em> <span class="ipa">/ʁɛn/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td><em>terre</em> <span class="ipa">/tɛʁ/</span>, <em>permet</em> <span class="ipa">/pɛʁ.mɛ/</span></td>
+            <td>Before a doubled consonant or a final d, g, p, t</td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>parler</em> <span class="ipa">/paʁ.le/</span>, <em>assez</em> <span class="ipa">/a.se/</span></td>
+            <td>Final -er (polysyllabic), -ez</td>
+        </tr>
+        <tr>
+            <td><strong>e</strong></td>
+            <td><span class="ipa">/ə/</span> or silent</td>
+            <td><em>petit</em> <span class="ipa">/pə.ti/</span>, <em>samedi</em> <span class="ipa">/sam.di/</span></td>
+            <td>Unstressed e; see <a href="#schwa">Mute E</a></td>
+        </tr>
+        <tr>
+            <td><strong>i, î</strong></td>
+            <td><span class="ipa">/i/</span></td>
+            <td><em>ami</em> <span class="ipa">/a.mi/</span></td>
+            <td>Not before a vowel</td>
+        </tr>
+        <tr>
+            <td><strong>o</strong></td>
+            <td><span class="ipa">/ɔ/</span> or <span class="ipa">/o/</span></td>
+            <td><em>porte</em> <span class="ipa">/pɔʁt/</span>, <em>trop</em> <span class="ipa">/tʁo/</span></td>
+            <td>/o/ when final or before z</td>
+        </tr>
+        <tr>
+            <td><strong>ô</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>rôle</em> <span class="ipa">/ʁol/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>au, eau</strong></td>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>sauce</em> <span class="ipa">/sos/</span>, <em>beau</em> <span class="ipa">/bo/</span></td>
+            <td>/ɔ/ before r</td>
+        </tr>
+        <tr>
+            <td><strong>ou</strong></td>
+            <td><span class="ipa">/u/</span></td>
+            <td><em>foule</em> <span class="ipa">/ful/</span></td>
+            <td>Not before a vowel</td>
+        </tr>
+        <tr>
+            <td><strong>eu, œu</strong></td>
+            <td><span class="ipa">/ø/</span> or <span class="ipa">/œ/</span></td>
+            <td><em>jeu</em> <span class="ipa">/ʒø/</span>, <em>fleur</em> <span class="ipa">/flœʁ/</span></td>
+            <td>/ø/ when final, initial or before z, t</td>
+        </tr>
+        <tr>
+            <td><strong>oi</strong></td>
+            <td><span class="ipa">/wa/</span></td>
+            <td><em>roi</em> <span class="ipa">/ʁwa/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>u, û</strong></td>
+            <td><span class="ipa">/y/</span></td>
+            <td><em>mûr</em> <span class="ipa">/myʁ/</span></td>
+            <td>Not before a vowel</td>
+        </tr>
+        <tr>
+            <td><strong>ui</strong></td>
+            <td><span class="ipa">/ɥi/</span></td>
+            <td><em>suite</em> <span class="ipa">/sɥit/</span></td>
+            <td>Always</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Nasal Vowels</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Context</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>an, am, en, em</strong></td>
+            <td><span class="ipa">/ɑ̃/</span></td>
+            <td><em>enfant</em> <span class="ipa">/ɑ̃.fɑ̃/</span>, <em>temps</em> <span class="ipa">/tɑ̃/</span></td>
+            <td>Before a consonant or at the end of the word</td>
+        </tr>
+        <tr>
+            <td><strong>in, im, yn, ym, ain, aim, ein</strong></td>
+            <td><span class="ipa">/ɛ̃/</span></td>
+            <td><em>vin</em> <span class="ipa">/vɛ̃/</span>, <em>train</em> <span class="ipa">/tʁɛ̃/</span></td>
+            <td>Before a consonant or at the end of the word</td>
+        </tr>
+        <tr>
+            <td><strong>on, om</strong></td>
+            <td><span class="ipa">/ɔ̃/</span></td>
+            <td><em>maison</em> <span class="ipa">/mɛ.zɔ̃/</span>, <em>nom</em> <span class="ipa">/nɔ̃/</span></td>
+            <td>om only before b, p, f or finally</td>
+        </tr>
+        <tr>
+            <td><strong>un, um</strong></td>
+            <td><span class="ipa">/œ̃/</span></td>
+            <td><em>un</em> <span class="ipa">/œ̃/</span>, <em>brun</em> <span class="ipa">/bʁœ̃/</span></td>
+            <td>-um at the end of a word is /ɔm/</td>
+        </tr>
+        <tr>
+            <td><strong>ien</strong></td>
+            <td><span class="ipa">/jɛ̃/</span></td>
+            <td><em>rien</em> <span class="ipa">/ʁjɛ̃/</span></td>
+            <td>At the end of a word</td>
+        </tr>
+        <tr>
+            <td><strong>oin</strong></td>
+            <td><span class="ipa">/wɛ̃/</span></td>
+            <td><em>coin</em> <span class="ipa">/kwɛ̃/</span></td>
+            <td>Always</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>3. Consonants and Digraphs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Context</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>c</strong></td>
+            <td><span class="ipa">/s/</span> or <span class="ipa">/k/</span></td>
+            <td><em>cible</em> <span class="ipa">/sibl/</span>, <em>sac</em> <span class="ipa">/sak/</span></td>
+            <td>/s/ before e, i, y</td>
+        </tr>
+        <tr>
+            <td><strong>ç</strong></td>
+            <td><span class="ipa">/s/</span></td>
+            <td><em>leçon</em> <span class="ipa">/lə.sɔ̃/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>g</strong></td>
+            <td><span class="ipa">/ʒ/</span> or <span class="ipa">/ɡ/</span></td>
+            <td><em>gorge</em> <span class="ipa">/ɡɔʁʒ/</span>, <em>agenda</em> <span class="ipa">/a.ʒɑ̃.da/</span></td>
+            <td>/ʒ/ before e, i, y</td>
+        </tr>
+        <tr>
+            <td><strong>gu, qu</strong></td>
+            <td><span class="ipa">/ɡ/</span>, <span class="ipa">/k/</span></td>
+            <td><em>guitare</em> <span class="ipa">/ɡi.taʁ/</span>, <em>qui</em> <span class="ipa">/ki/</span></td>
+            <td>Before a vowel</td>
+        </tr>
+        <tr>
+            <td><strong>j</strong></td>
+            <td><span class="ipa">/ʒ/</span></td>
+            <td><em>jaune</em> <span class="ipa">/ʒon/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>gn</strong></td>
+            <td><span class="ipa">/ɲ/</span></td>
+            <td><em>peigne</em> <span class="ipa">/pɛɲ/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>ch</strong></td>
+            <td><span class="ipa">/ʃ/</span> or <span class="ipa">/k/</span></td>
+            <td><em>bouche</em> <span class="ipa">/buʃ/</span>, <em>chrono</em> <span class="ipa">/kʁɔ.no/</span></td>
+            <td>/k/ before r, l, n</td>
+        </tr>
+        <tr>
+            <td><strong>ph</strong></td>
+            <td><span class="ipa">/f/</span></td>
+            <td><em>pharmacie</em> <span class="ipa">/faʁ.ma.si/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>s</strong></td>
+            <td><span class="ipa">/s/</span> or <span class="ipa">/z/</span></td>
+            <td><em>sauce</em> <span class="ipa">/sos/</span>, <em>rose</em> <span class="ipa">/ʁoz/</span></td>
+            <td>/z/ between vowels</td>
+        </tr>
+        <tr>
+            <td><strong>x</strong></td>
+            <td><span class="ipa">/ks/</span> or <span class="ipa">/ɡz/</span></td>
+            <td><em>taxi</em> <span class="ipa">/tak.si/</span>, <em>exact</em> <span class="ipa">/ɛɡ.zakt/</span></td>
+            <td>/ɡz/ in initial x and in ex- before a vowel</td>
+        </tr>
+        <tr>
+            <td><strong>h</strong></td>
+            <td>silent</td>
+            <td><em>homme</em> <span class="ipa">/ɔm/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>r, rr, rh</strong></td>
+            <td><span class="ipa">/ʁ/</span></td>
+            <td><em>rue</em> <span class="ipa">/ʁy/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>w</strong></td>
+            <td><span class="ipa">/w/</span></td>
+            <td><em>whisky</em> <span class="ipa">/wis.ki/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td><strong>b, d, f, k, l, m, n, p, t, v, z</strong></td>
+            <td><span class="ipa">/b d f k l m n p t v z/</span></td>
+            <td><em>vite</em> <span class="ipa">/vit/</span>, <em>club</em> <span class="ipa">/klyb/</span></td>
+            <td>Unchanged; doubled letters count once</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4. Context-Dependent and Special Rules</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Pattern</th>
+            <th>Effect</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>ti + on, en, al, el</strong></td>
+            <td>/si/ unless the t follows s, x, ç</td>
+            <td><em>nation</em> <span class="ipa">/na.sjɔ̃/</span>, <em>question</em> <span class="ipa">/kɛs.tjɔ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>b + s, t</strong></td>
+            <td>b is written p</td>
+            <td><em>absurde</em> <span class="ipa">/ap.syʁd/</span></td>
+        </tr>
+        <tr>
+            <td><strong>(h)ex- before a vowel</strong></td>
+            <td>/ɛɡz/</td>
+            <td><em>examen</em> <span class="ipa">/ɛɡ.za.mɑ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>trans-, intrans- + vowel</strong></td>
+            <td>s is /z/</td>
+            <td><em>intransigeant</em> <span class="ipa">/ɛ̃.tʁɑ̃.zi.ʒɑ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>désh-</strong></td>
+            <td>s is /z/</td>
+            <td><em>déshabiller</em> <span class="ipa">/de.za.bi.je/</span></td>
+        </tr>
+        <tr>
+            <td><strong>eu- at the start, neur-</strong></td>
+            <td>/ø/ even before r</td>
+            <td><em>Europe</em> <span class="ipa">/ø.ʁɔp/</span>, <em>neuro</em> <span class="ipa">/nø.ʁo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>hyper-, super-</strong></td>
+            <td>er is /ɛʁ/</td>
+            <td><em>supermarché</em> <span class="ipa">/sy.pɛʁ.maʁ.ʃe/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-emment</strong></td>
+            <td>/a.mɑ̃/</td>
+            <td><em>évidemment</em> <span class="ipa">/e.vi.da.mɑ̃/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-ing</strong> after a consonant</td>
+            <td>/iŋ/</td>
+            <td><em>parking</em> <span class="ipa">/paʁ.kiŋ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>psych-</strong></td>
+            <td>/psik/</td>
+            <td><em>psychologie</em> <span class="ipa">/psi.kɔ.lɔ.ʒi/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-ied, -ieds</strong></td>
+            <td>/je/</td>
+            <td><em>pied</em> <span class="ipa">/pje/</span></td>
+        </tr>
+        <tr>
+            <td><strong>Final -ill, -il after a vowel</strong></td>
+            <td>/j/</td>
+            <td><em>soleil</em> <span class="ipa">/sɔ.lɛj/</span></td>
+        </tr>
+        <tr>
+            <td><strong>Final d, g, p, t, s, z</strong></td>
+            <td>Silent</td>
+            <td><em>grand</em> <span class="ipa">/ɡʁɑ̃/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Why does the output for a word differ from the rules described on this page?</h3>
+    <p>The app looks a word up in the Wiktionary lexicon first and uses the rules of the pronunciation module only when the word is missing, so a dictionary word shows the Wiktionary transcription, including exceptions that the rules do not know. <a href="../?lang=French&amp;text=maison">Open in the converter</a></p>
+
+    <h3>What exactly does the Parisian (experimental) style change?</h3>
+    <p>It is not a separate module but a post-processing step applied to the Default output, whether that output came from the lexicon or from the rules. Only nasal vowels are rewritten, in this order: <span class="ipa">/ɔ̃/</span> becomes <span class="ipa">/õ/</span>, then <span class="ipa">/ɑ̃/</span> becomes <span class="ipa">/ɔ̃/</span>, then <span class="ipa">/œ̃/</span> and <span class="ipa">/ɛ̃/</span> both become <span class="ipa">/ɑ̃/</span>. Because the steps run in sequence, the <span class="ipa">/ɔ̃/</span> that results from <span class="ipa">/ɑ̃/</span> is not changed again. For <em>maison</em> the rules alone give <span class="ipa">/mɛ.zɔ̃/</span> in Default and <span class="ipa">/mɛ.zõ/</span> in Parisian. See <a href="#dialects">Dialects Supported</a>.</p>
+
+    <h3>Is there a phonetic transcription?</h3>
+    <p>No. Only the Phonemic form exists for French; see <a href="#forms">Transcription Forms</a>.</p>
+
+    <h3>Can the lexicon be switched off?</h3>
+    <p>Not from the interface; the app has no setting for it. The lexicon is used by default, and opening the converter with <code>dict=false</code> in the address (for example <code>?lang=French&amp;dict=false</code>) turns it off, so that every word is transcribed by the rules. This is useful for seeing what the rules alone produce for a word.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <h3>Processing in the App</h3>
+    <ol>
+        <li><strong>Input filter:</strong> The converter splits the text at spaces. Each word is then reduced to
+            letters, combining marks, the apostrophe (the typographic ’ is converted to '), the hyphen and the mark ‿,
+            and is normalized to NFKC. Digits and other symbols are discarded.
+        </li>
+        <li><strong>Lexicon lookup:</strong> In the Phonemic form, if the lexicon
+            <code>french_lexicon_v3.zip</code> is loaded, the word is looked up with every character except letters,
+            marks and hyphens removed (so an apostrophe is removed from the key), first as typed and then in lower
+            case. A hit is used as the result and may hold several readings.
+        </li>
+        <li><strong>Rule generation:</strong> If there is no hit, the result is the first alternative returned by
+            <code>fr_ipa.show(word)</code> of the Wiktionary module. No part-of-speech argument is passed.
+        </li>
+        <li><strong>Parisian (experimental) post-processing:</strong> if that style is selected and a result exists,
+            the string is rewritten as described below.
+        </li>
+    </ol>
+    <p>The lexicon is on by default. Opening the converter with <code>dict=false</code> in the address turns it off
+        and leaves only step 3. There is no interface setting for this.</p>
+
+    <h3>Parisian Post-processing</h3>
+    <p>Three replacements run in sequence on the whole result string:</p>
+    <ol>
+        <li><code>ɔ̃</code> is replaced by <code>õ</code> (o with tilde).</li>
+        <li><code>ɑ̃</code> is replaced by <code>ɔ̃</code>.</li>
+        <li><code>œ̃</code> and <code>ɛ̃</code> are replaced by <code>ɑ̃</code>.</li>
+    </ol>
+    <p>Because of the order, the <code>ɔ̃</code> created in step 2 is not changed by step 1, and the <code>ɑ̃</code>
+        created in step 3 is not changed by step 2. Example: <em>lundi</em> goes <code>/lœ̃.di/</code> to
+        <code>/lɑ̃.di/</code>.</p>
+
+    <h3>Module Pipeline (fr-pron)</h3>
+    <p>The module works on one string with string-replacement rules. The stages below follow the order in the code.</p>
+
+    <!-- STAGE 1 -->
     <div class="step-container">
-        <h3>1. Initialization & Normalization</h3>
-        <p>The input string is prepared and normalized to remove orthographic variance that does not affect
-            pronunciation.</p>
+        <h4>1. Initialization and Normalization</h4>
         <ul>
-            <li><strong>Boundary Markers:</strong> The symbol <code>⁀</code> is added to the start and end of every word
-                (e.g., <code>⁀mot⁀</code>).
+            <li><strong>Lower case and boundary markers:</strong> The word is lower-cased and the symbol <code>⁀</code>
+                is added at its start and end and around hyphens (e.g., <code>⁀mot⁀</code>). Markers are removed at
+                the end.
             </li>
-            <li><strong>Liaison conversion:</strong> All apostrophes (e.g., <em>l'arbre, c'est</em>) are converted to
-                the liaison marker <code>‿</code>.
-            </li>
-            <li><strong>Accent Normalization:</strong>
-                <ul>
-                    <li><strong>Strip:</strong> <code>à</code> &rarr; <code>a</code>, <code>ù</code> &rarr;
-                        <code>u</code>, <code>î</code> &rarr; <code>i</code> (These accents do not change vowel quality
-                        in this system).
-                    </li>
-                    <li><strong>Keep:</strong> <code>â</code> (Posterior A), <code>ô</code> (Closed O), <code>ê</code>
-                        (Open E) are preserved as they alter the phoneme.
-                    </li>
-                </ul>
-            </li>
-            <li><strong>Special Case (Qu'):</strong> The sequence <code>qu'</code> is mapped to <code>k'</code>
-                (preventing false nasalization in <em>qu'on</em>).
+            <li><strong>Ligatures:</strong> <code>œu</code> and <code>oeu</code> become a placeholder <code>Eu</code>;
+                <code>œil</code> becomes <code>Euil</code>; any other <code>œ</code> becomes <code>æ</code>.
+                <div class="algo-alert">
+                    <strong>Why?</strong> The capital E does not trigger the softening of c. <em>cœur</em> keeps a hard
+                    /k/: <em>cœur</em> <span class="ipa">/kœʁ/</span>. A plain <em>oeil</em> is not covered:
+                    <em>oeil</em> <span class="ipa">/ɔ.ɛj/</span> (see <a href="#issues">Common Issues</a>).
+                </div>
             </li>
         </ul>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- STAGE 2 -->
     <div class="step-container">
-        <h3>2. Early Consonant Mutations</h3>
-        <p>Fixing ambiguous consonants based on the following vowel.</p>
-        <h3>2.1. The "Capital E" Protection</h3>
-        <p>The digraphs <code>œu</code> and <code>oeu</code> are converted to a placeholder <code>Eu</code>.</p>
+        <h4>2. Soft C and G</h4>
+        <ul>
+            <li><strong>Soft c:</strong> <code>c</code> + e, i, y, é, è, ê, æ &rarr; <code>ç</code> (later /s/).</li>
+            <li><strong>Soft g:</strong> <code>g</code> + e, i, y &rarr; <code>j</code> (later /ʒ/).</li>
+            <li><strong>Forced soft g:</strong> <code>ge</code> + a, o, u (and accented forms) &rarr; <code>j</code>; the
+                e is orthographic and is removed (<em>geai</em> <span class="ipa">/ʒɛ/</span>).
+            </li>
+        </ul>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div class="step-container">
+        <h4>3. Verb Overrides (only with pos="v")</h4>
+        <p>When the module is called with the part of speech <code>v</code> it applies verb rules: final <code>ai</code>
+            becomes <code>é</code>; <code>ti</code> before <code>ons/ens</code> and <code>t</code> before
+            <code>ienne(nt)</code> are protected from assibilation; and final <code>-ent</code> becomes silent
+            <code>e</code> (or <code>ət</code> before a liaison mark).</p>
         <div class="algo-alert">
-            <strong>Why?</strong> This prevents the letter C from softening.
-            <br><em>Example:</em> <em>cœur</em> &rarr; <code>cEu...</code> &rarr; C remains hard /k/ because it is not
-            followed by a lowercase 'e' or 'œ'.
+            <strong>Not used by the app.</strong> The app calls the module without a part of speech, so these rules do
+            not run: the app gives <em>parlent</em> <span class="ipa">/paʁ.lɑ̃/</span> and <em>portions</em>
+            <span class="ipa">/pɔʁ.sjɔ̃/</span>. Called with <code>pos="v"</code> the module returns
+            <code>/paʁl/</code> and <code>/pɔʁ.tjɔ̃/</code> (checked in the test harness).
         </div>
-        <h3>2.2. C and G Logic</h3>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div class="step-container">
+        <h4>4. Orthographic Substitutions</h4>
         <ul>
-            <li><strong>Soft C:</strong> <code>c</code> + <em>e, i, y</em> &rarr; <code>ç</code> (later /s/).</li>
-            <li><strong>Soft G:</strong> <code>g</code> + <em>e, i, y</em> &rarr; <code>j</code> (later /ʒ/).</li>
-            <li><strong>Forced Soft G:</strong> <code>ge</code> + <em>a, o, u</em> &rarr; <code>j</code> (The 'e' is
-                purely orthographic and is deleted).
+            <li><strong>Accents:</strong> <code>à</code>, <code>ù</code>, <code>î</code> lose the accent; <code>û</code>
+                becomes <code>u</code>, and <code>eû</code> becomes <code>ø</code>. <code>â</code>, <code>ô</code>,
+                <code>ê</code> are kept because they change the vowel.
             </li>
-            <li><strong>Hardening:</strong>
-                <ul>
-                    <li><code>qu</code> + Vowel &rarr; <code>k</code>.</li>
-                    <li><code>gu</code> + Vowel &rarr; <code>g</code>. (Exception: If diaeresis exists like
-                        <em>aigüe</em>, keep the 'u').
-                    </li>
-                </ul>
+            <li><strong>Final as, az:</strong> <code>as</code>, <code>az</code> &rarr; <code>â</code> (second variant
+                /ɑ/; <em>pas</em> <span class="ipa">/pa/</span>, <em>gaz</em> <span class="ipa">/ɡa/</span>).
             </li>
-        </ul>
-        <h3>2.3. Consonant Devoicing</h3>
-        <p><strong>Rule:</strong> The letter <code>b</code> is devoiced to <code>p</code> when immediately followed by
-            <strong>s</strong> or <strong>t</strong>.</p>
-        <ul>
-            <li><em>Example:</em> <em>absurde</em> &rarr; <code>apsurde</code> &rarr; <span class="ipa">/ap.syʁd/</span>.
+            <li><strong>Devoicing:</strong> <code>b</code> before s or t (not at a word end) &rarr; <code>p</code>:
+                <em>absurde</em> <span class="ipa">/ap.syʁd/</span>, <em>obtenir</em> <span class="ipa">/ɔp.tə.niʁ/</span>.
             </li>
-            <li><em>Example:</em> <em>obtenir</em> &rarr; <code>optenir</code> &rarr; <span
-                    class="ipa">/ɔp.tə.niʁ/</span>.
+            <li><strong>Digraphs:</strong> <code>ph</code> &rarr; <code>f</code>; <code>gn</code> &rarr;
+                <code>ɲ</code>; <code>compt</code> &rarr; <code>cont</code>; <code>psych</code> &rarr;
+                <code>psik</code>; <code>ch</code> before r, l, n &rarr; <code>c</code> (later /k/): <em>chlore</em>
+                <span class="ipa">/klɔʁ/</span>, <em>chrétien</em> <span class="ipa">/kʁe.sjɛ̃/</span>.
+            </li>
+            <li><strong>aur:</strong> <code>aur</code> not preceded by e &rarr; <code>or</code>: <em>dinosaure</em>
+                <span class="ipa">/di.no.zɔʁ/</span>, but <em>Beauregard</em> <span class="ipa">/boʁ.ɡaʁ/</span>.
+            </li>
+            <li><strong>Word-initial patterns:</strong>
+                <table>
+                    <tr>
+                        <th>Pattern</th>
+                        <th>Logic</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td><strong>eu- / neur-</strong></td>
+                        <td>/ø/ even before r.</td>
+                        <td><em>Europe</em> <span class="ipa">/ø.ʁɔp/</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>hyper- / super-</strong></td>
+                        <td>er is /ɛʁ/ (otherwise /e/).</td>
+                        <td><em>supermarché</em> <span class="ipa">/sy.pɛʁ.maʁ.ʃe/</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>trans- / intrans-</strong> + vowel</td>
+                        <td>s is voiced /z/.</td>
+                        <td><em>intransigeant</em> <span class="ipa">/ɛ̃.tʁɑ̃.zi.ʒɑ̃/</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>désh-</strong></td>
+                        <td>s is voiced /z/.</td>
+                        <td><em>déshabiller</em> <span class="ipa">/de.za.bi.je/</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>et, es, est</strong> (whole words)</td>
+                        <td>/e/, /ɛ/, /ɛ/ (final t, s are then silent).</td>
+                        <td><em>est</em> <span class="ipa">/ɛ/</span></td>
+                    </tr>
+                </table>
+            </li>
+            <li><strong>Endings:</strong> <code>-emment</code> &rarr; <code>-amment</code> (<em>évidemment</em>
+                <span class="ipa">/e.vi.da.mɑ̃/</span>); <code>-ied(s)</code> &rarr; <code>-ié</code>
+                (<em>pied</em> <span class="ipa">/pje/</span>); <code>e</code> before a final d, g, p, t (+ s)
+                &rarr; <code>è</code> (<em>permet</em> <span class="ipa">/pɛʁ.mɛ/</span>); <code>-ez</code> &rarr;
+                <code>-éz</code>; <code>-er</code> &rarr; <code>-ér</code> (<em>premier</em> <span class="ipa">/pʁə.mje/</span>)
+                but <code>-èr</code> in a one-syllable word or before a liaison mark (<em>fer</em>
+                <span class="ipa">/fɛʁ/</span>); <code>ien</code> at the end of a word &rarr; <code>iɛn</code>
+                (<em>bien</em> <span class="ipa">/bjɛ̃/</span>).
             </li>
         </ul>
     </div>
 
-    <!-- STEP 3 -->
+    <!-- STAGE 5 -->
     <div class="step-container">
-        <h3>3. Verb Morphology Overrides (pos="v")</h3>
-        <p>Applied strictly when the module input is tagged as a verb.</p>
+        <h4>5. S, C, G, Q and T Handling</h4>
         <ul>
-            <li><strong>Final "-ai":</strong> Forces <code>ai</code> &rarr; <code>é</code> (Standard French distinction
-                /e/ vs /ɛ/).
+            <li><strong>s between vowels</strong> &rarr; <code>z</code> (<em>maison</em> <span class="ipa">/mɛ.zɔ̃/</span>).</li>
+            <li><strong>qu</strong> &rarr; <code>k</code> (<code>qu'</code> &rarr; <code>k'</code>, preventing false
+                nasalization in <em>qu'on</em> <span class="ipa">/k‿ɔ̃/</span>).
             </li>
-            <li><strong>Anti-Assibilation (The T-Blocker):</strong>
-                <p>The script inserts a separator <code>_</code> to prevent T from turning into S in specific verb
-                    endings:</p>
-                <ul>
-                    <li><code>ti</code> + <em>ons/ens</em> &rarr; <code>t_i</code> (e.g., <em>portions</em> &rarr; <span
-                            class="ipa">/pɔʁtjɔ̃/</span>).
-                    </li>
-                    <li><code>t</code> + <em>ienne(nt)</em> &rarr; <code>t_ienne</code> (e.g., <em>tiennent</em> &rarr;
-                        <span class="ipa">/tjɛn/</span>, preventing /sjɛn/).
-                    </li>
-                </ul>
+            <li><strong>gu</strong> + vowel &rarr; <code>g</code>; with a diaeresis the u is kept
+                (<em>aigüe</em> <span class="ipa">/ɛ.ɡy/</span>).
             </li>
-            <li><strong>The "-ent" Ending:</strong>
-                <ul>
-                    <li>Standard: <code>ent</code> &rarr; <code>e</code> (silent/schwa).</li>
-                    <li><strong>Liaison Exception:</strong> If followed by a liaison marker <code>‿</code>, it becomes
-                        <code>ət‿</code>.
-                    </li>
-                    <li><em>Example:</em> <em>parlent-ils</em> &rarr; <span class="ipa">/paʁlət.il/</span>.</li>
-                </ul>
+            <li><strong>-ing</strong> after a consonant &rarr; <code>iŋ</code> (<em>parking</em> <span class="ipa">/paʁ.kiŋ/</span>);
+                <code>ngt</code> &rarr; <code>nt</code> (<em>vingt</em> <span class="ipa">/vɛ̃/</span>).
+            </li>
+            <li><strong>j</strong> &rarr; <code>ʒ</code>; <code>sh</code>, <code>sch</code>, <code>ch</code> &rarr;
+                <code>ʃ</code>; remaining <code>c</code>, <code>q</code> &rarr; <code>k</code>.
+            </li>
+            <li><strong>Assibilation:</strong> <code>ti</code> + <code>on, en</code> and <code>ti</code> +
+                <code>al, el</code> become <code>si</code>. It is blocked when the t follows s, ç, x or starts the
+                word: <em>nation</em> <span class="ipa">/na.sjɔ̃/</span>, <em>question</em> <span class="ipa">/kɛs.tjɔ̃/</span>.
             </li>
         </ul>
     </div>
 
-    <!-- STEP 4 -->
-    <!-- STEP 4 -->
+    <!-- STAGE 6 -->
     <div class="step-container">
-        <h3>4. Orthographic Standardization</h3>
-        <p>Mapping lexical exceptions and fixed spelling patterns.</p>
-        <h3>4.1 Assibilation (T &rarr; S)</h3>
-        <p><strong>Rule:</strong> <code>ti</code> becomes <code>si</code> before <em>on, en, al, el</em>.</p>
-        <p><strong>Exceptions (Blockers):</strong> Assibilation is cancelled if the T is preceded by:</p>
-        <ul>
-            <li><strong>s</strong> (e.g., <em>question</em>)</li>
-            <li><strong>x</strong> (e.g., <em>mixtion</em>)</li>
-            <li><strong>ç</strong> (script safety check)</li>
-        </ul>
-
-        <h3>4.2. Special Prefix/Suffix Logic</h3>
-        <table>
-            <tr>
-                <th>Pattern</th>
-                <th>Logic</th>
-                <th>Example</th>
-            </tr>
-            <tr>
-                <td><strong>eu- / neuro-</strong></td>
-                <td>Force <code>eu</code> to closed <span class="ipa">/ø/</span> even before R.</td>
-                <td><em>Europe</em> &rarr; <span class="ipa">/ø.ʁɔp/</span></td>
-            </tr>
-            <tr>
-                <td><strong>hyper- / super-</strong></td>
-                <td>Force <code>er</code> to open <span class="ipa">/ɛʁ/</span> (preventing /e/).</td>
-                <td><em>supermarché</em> &rarr; <span class="ipa">/sy.pɛʁ.../</span></td>
-            </tr>
-            <tr>
-                <td><strong>trans- / intrans-</strong></td>
-                <td>Force <code>s</code> to voiced <span class="ipa">/z/</span> before vowel.</td>
-                <td><em>intransigeant</em> &rarr; <span class="ipa">/ɛ̃.tʁɑ̃.zi.ʒɑ̃/</span></td>
-            </tr>
-            <tr>
-                <td><strong>(h)ex-</strong></td>
-                <td>Initial <code>ex</code> or <code>in+ex</code> &rarr; <span class="ipa">/gz/</span> (Must be followed
-                    by vowel/h).
-                </td>
-                <td><em>examen</em> &rarr; <span class="ipa">/ɛg.za.mɛ̃/</span></td>
-            </tr>
-            <tr>
-                <td><strong>désh-</strong></td>
-                <td>Force <code>s</code> to voiced <span class="ipa">/z/</span>.</td>
-                <td><em>déshabiller</em> &rarr; <span class="ipa">/de.za.bi.je/</span></td>
-            </tr>
-        </table>
-
-        <h3>4.3. Basic Digraphs</h3>
-        <ul>
-            <li><strong>ph</strong> &rarr; <code>f</code></li>
-            <li><strong>gn</strong> &rarr; <code>ɲ</code></li>
-            <li><strong>psych-</strong> &rarr; <code>psik</code> (e.g., <em>psychologie</em>).</li>
-            <li><strong>ch</strong> &rarr;
-                <ul>
-                    <li>Becomes <code>k</code> before <strong>r, l, n</strong> (e.g., <em>chrétien, chlore</em>).</li>
-                    <li>Becomes <code>ʃ</code> elsewhere.</li>
-                </ul>
-            </li>
-            <li><strong>-ing</strong> &rarr; <span class="ipa">/iŋ/</span> (Loanwords).</li>
-            <li><strong>-emment</strong> &rarr; <span class="ipa">/a.mɑ̃/</span> (Adverbs).</li>
-        </ul>
-        <h3>4.4. Posterior A Shift</h3>
-        <ul>
-            <li><code>as, az</code> (Final) &rarr; <code>â</code> <span class="ipa">/ɑ/</span>.</li>
-            <li><em>Example:</em> <em>pas</em> &rarr; <span class="ipa">/pɑ/</span>, <em>gaz</em> &rarr; <span
-                    class="ipa">/gɑz/</span>.
-            </li>
-        </ul>
-    </div>
-
-
-    <!-- STEP 5 -->
-    <!-- STEP 5 -->
-    <div class="step-container">
-        <h3>5. Vowels, Ligatures, and Nasalization</h3>
-
-        <h3>5.1. Base Mappings</h3>
-        <ul>
-            <li><strong>au, eau</strong> &rarr; <code>O</code> (Closed /o/)</li>
-            <li><strong>eu, œu</strong> &rarr; <code>ø</code> (Closed /ø/)</li>
-            <li><strong>oi</strong> &rarr; <code>wA</code> (Generally <span class="ipa">/wa/</span>).</li>
-            <li><strong>ou</strong> &rarr; <code>U</code> (High back /u/)</li>
-        </ul>
-
-        <h3>5.2. Nasalization Engine</h3>
-        <p><strong>Logic:</strong> The script scans for <code>Vowel + n/m</code> followed by a Consonant or End-of-Word.
-        </p>
-
-        <div class="algo-alert">
-            <strong>The "Coin" Exception:</strong>
-            If the sequence is specifically <code>oi</code> + <code>n</code> (and satisfying nasal conditions), the
-            script overrides the standard output to <strong>/wɛ̃/</strong>.
-            <br><em>Example:</em> <em>point</em> &rarr; <span class="ipa">/pwɛ̃/</span> (Not /pwɑ̃/).
-        </div>
-
-        <ul>
-            <li><strong>a, e</strong> + n/m &rarr; <span class="ipa">/ɑ̃/</span></li>
-            <li><strong>o</strong> + n/m &rarr; <span class="ipa">/ɔ̃/</span></li>
-            <li><strong>i, ɛ, y</strong> + n/m &rarr; <span class="ipa">/ɛ̃/</span> (Includes <em>pain, syndicat</em>).
-            </li>
-            <li><strong>u</strong> + n/m &rarr; <span class="ipa">/œ̃/</span></li>
-        </ul>
-
-        <h3>5.3. Special Consonant Handling in Nasals</h3>
-        <ul>
-            <li><strong>-um:</strong> Maps to <span class="ipa">/ɔm/</span> (e.g., <em>maximum</em>).</li>
-            <li><strong>mb, mp:</strong> The script converts these to <code>mB, mP</code>. The vowel nasalizes due to
-                the M, and the B/P are subsequently deleted.
-                <br><em>Example:</em> <em>plomb</em> &rarr; <span class="ipa">/plɔ̃/</span>.
-            </li>
-        </ul>
-    </div>
-    <!-- STEP 6 -->
-    <!-- STEP 6 -->
-    <div class="step-container">
-        <h3>6. Structural Logic: Y and ILL</h3>
-        <p>Handling the complex context-dependency of Y and the "Liquid L" digraphs.</p>
-
-        <h3>6.1. The Y Hierarchy</h3>
-        <p>The script determines whether <code>y</code> functions as a vowel /i/ or a semi-vowel /j/.</p>
-        <ul>
-            <li><strong>The "Yi" Hiatus:</strong> <code>yi</code> + Vowel &rarr; <code>y.y</code> + Vowel.
-                <br><em>Logic:</em> Forces a syllable split rather than a glide (e.g., <em>yin</em>).
-            </li>
-            <li><strong>Contextual Vowel /i/:</strong>
-                <ul>
-                    <li><strong>Initial Y + Consonant:</strong> &rarr; <span class="ipa">/i/</span> (e.g.,
-                        <em>yttrium</em>).
-                    </li>
-                    <li><strong>Consonant + Y + Consonant:</strong> &rarr; <span class="ipa">/i/</span> (e.g.,
-                        <em>cycle</em>).
-                    </li>
-                    <li><strong>Consonant + Y + Vowel:</strong> Maps to <code>i</code> temporarily to ensure
-                        syllabification, often becoming <span class="ipa">/j/</span> later.
-                    </li>
-                </ul>
-            </li>
-            <li><strong>Standard Glide /j/:</strong> Any other <code>y</code> (especially Initial + Vowel like
-                <em>yeux</em>) becomes <span class="ipa">/j/</span>.
-            </li>
-            <li><strong>Exceptions:</strong>
-                <ul>
-                    <li><code>ay</code> &rarr; <code>ai</code> (e.g., <em>Gamay</em> &rarr; <span
-                            class="ipa">/ga.mɛ/</span>).
-                    </li>
-                    <li><code>éy</code> &rarr; <code>éj</code> (Used in specific respellings).</li>
-                </ul>
-            </li>
-        </ul>
-
-        <h3>6.2. The ILL Logic (Liquid L)</h3>
-        <p>The script processes <code>ill</code> sequences in a strict order of operations:</p>
+        <h4>6. ILL, IL and Related Sequences</h4>
+        <p>The rules run in this order:</p>
         <ol>
-            <li><strong>Consonant + uill:</strong> &rarr; <span class="ipa">/ɥij/</span>.
-                <br><em>Example:</em> <em>cuillère</em> &rarr; <span class="ipa">/kɥi.jɛʁ/</span>.
+            <li><code>oel</code>, <code>oêl</code> and <code>oil</code> (not before another l) &rarr;
+                <code>wal</code>: <em>poil</em> <span class="ipa">/pwal/</span>.
             </li>
-            <li><strong>Vowel + ill:</strong> &rarr; <span class="ipa">/j/</span>.
-                <br><em>Example:</em> <em>travailler</em> &rarr; <span class="ipa">/tʁa.va.je/</span> (The L is
-                absorbed).
-            </li>
-            <li><strong>Standard ill:</strong> &rarr; <span class="ipa">/ij/</span>.
-                <br><em>Example:</em> <em>fille</em> &rarr; <span class="ipa">/fij/</span>.
-            </li>
-            <li><strong>Final Vowel + il:</strong> &rarr; <span class="ipa">/j/</span>.
-                <br><em>Example:</em> <em>soleil</em> &rarr; <span class="ipa">/sɔ.lɛj/</span>.
+            <li>Consonant + <code>uill</code> &rarr; <code>ɥij</code>: <em>cuillère</em> <span class="ipa">/kɥi.jɛʁ/</span>.</li>
+            <li>Vowel + <code>ill</code> &rarr; <code>j</code>: <em>travailler</em> <span class="ipa">/tʁa.va.je/</span>.</li>
+            <li>Any other <code>ill</code> not at the start of a word &rarr; <code>ij</code>: <em>fille</em> <span class="ipa">/fij/</span>.</li>
+            <li>Final or pre-consonant vowel + <code>il</code> &rarr; <code>j</code>: <em>soleil</em> <span class="ipa">/sɔ.lɛj/</span>.
+                After a consonant <code>il</code> keeps the l: <em>fil</em> <span class="ipa">/fil/</span>.
             </li>
         </ol>
     </div>
 
-    <!-- STEP 7 -->
+    <!-- STAGE 7 -->
     <div class="step-container">
-        <h3>7. Word Endings (Deletions)</h3>
-        <p>Removing silent letters at word boundaries (<code>⁀</code>).</p>
-
-        <h3>7.1. Standard List</h3>
-        <p>Delete: <strong>d, g, p, t, s, z</strong>.</p>
-
-        <h3>7.2. Complex Deletions</h3>
+        <h4>7. The Letter Y</h4>
         <ul>
-            <li><strong>x:</strong> Silent only after <code>i, u, ø</code> (e.g., <em>prix, vœux</em>). Pronounced
-                <code>/ks/</code> or <code>/s/</code> otherwise.
+            <li>Final <code>ay</code> &rarr; <code>ai</code> (<em>Gamay</em> <span class="ipa">/ɡa.mɛ/</span>);
+                <code>éy</code> &rarr; <code>éj</code> (used in respellings).
             </li>
-            <li><strong>-nct:</strong> Both C and T are silent (e.g., <em>instinct</em> &rarr; <span class="ipa">/ɛ̃s.tɛ̃/</span>).
+            <li>Vowel + <code>y</code> &rarr; vowel + <code>iy</code>, so that <em>voyage</em>, <em>crayon</em> get
+                <span class="ipa">/j/</span>: <em>crayon</em> <span class="ipa">/kʁɛ.jɔ̃/</span>. <code>yi</code> +
+                vowel &rarr; <code>y.y</code>.
             </li>
-            <li><strong>-r:</strong> Silent in polysyllabic words ending in <code>-er</code> (becomes <span class="ipa">/e/</span>).
-                Pronounced in monosyllables (<em>fer, mer</em>).
+            <li>Between consonants, before a final e, and at the start of a word before a consonant, <code>y</code>
+                &rarr; <code>i</code>: <em>cycle</em> <span class="ipa">/sikl/</span>, <em>yttrium</em> <span class="ipa">/i.tʁi.jɔm/</span>.
             </li>
-        </ul>
-
-        <h3>7.3. Protections</h3>
-        <ul>
-            <li><strong>-st:</strong> T is kept (e.g., <em>est</em>).</li>
-            <li><strong>-kt:</strong> T is kept (e.g., <em>strict</em>).</li>
-        </ul>
-        <h3>7.4 Special Endings</h3>
-        <ul>
-            <li><strong>-ez:</strong> Treated as <span class="ipa">/e/</span> (e.g., <em>assez</em>).</li>
-            <li><strong>-ied:</strong> Treated as <span class="ipa">/je/</span> (e.g., <em>pied, assieds</em>).</li>
-        </ul>
-    </div>
-
-    <!-- STEP 8 -->
-    <div class="step-container">
-        <h3>8. E-Rules & Syllabification</h3>
-
-        <h3>8.1. E + Double Consonant</h3>
-        <p><strong>Rule:</strong> <code>e</code> + CC &rarr; <code>è</code> + C.</p>
-        <ul>
-            <li>The vowel opens to <span class="ipa">/ɛ/</span> before the double consonant is reduced.</li>
-            <li><em>Example:</em> <em>terre</em> &rarr; <span class="ipa">/tɛʁ/</span>.</li>
-        </ul>
-
-        <h3>8.2. Syllabification Engine</h3>
-        <ul>
-            <li><strong>V.CV:</strong> Break before single consonant.</li>
-            <li><strong>VC.CV:</strong> Break between consonants.</li>
-            <li><strong>Onset Maximization:</strong> If C2 is a liquid (L/R) and C1 is an obstruent, break before C1
-                (e.g., <em>ta.bleau</em>).
-            </li>
-        </ul>
-
-        <h3>8.3. Schwa (ə) Logic</h3>
-        <ul>
-            <li><strong>Word Final:</strong> Deleted (unless monosyllable).</li>
-            <li><strong>Internal (VCəCV):</strong> Deleted, <strong>unless</strong> the resulting consonant cluster is
-                forbidden.
-            </li>
-            <li><strong>Forbidden Clusters:</strong> The script checks a lookup table (e.g., <code>ʁʁ, ɲʁ</code>). If
-                the pair is found, the schwa is preserved.
+            <li>Consonant + <code>y</code> + vowel &rarr; <code>i</code> (later a glide where the rules allow); every
+                other <code>y</code> becomes <code>j</code> (<em>yeux</em> <span class="ipa">/jø/</span>).
             </li>
         </ul>
     </div>
 
-    <!-- STEP 9 -->
+    <!-- STAGE 8 -->
     <div class="step-container">
-        <h3>9. Glides and Reversion (Cluster Protection)</h3>
-        <p>Converting high vowels to semi-vowels contextually.</p>
-
-        <h3>9.1. Conversion</h3>
+        <h4>8. Liaison Preparation</h4>
+        <p>These rules matter only where a liaison mark <code>‿</code> is present, from the input or from an
+            apostrophe.</p>
         <ul>
-            <li><code>i</code> + Vowel &rarr; <span class="ipa">/j/</span></li>
-            <li><code>ou</code> + Vowel &rarr; <span class="ipa">/w/</span></li>
-            <li><code>u</code> + Vowel &rarr; <span class="ipa">/ɥ/</span></li>
-        </ul>
-
-        <h3>9.2. The Reversion Rule (Missing from most guides)</h3>
-        <div class="algo-alert">
-            <strong>Script Safety Check:</strong>
-            If converting a vowel to a glide creates an unpronounceable onset (Consonant + Liquid + Glide), the script
-            <strong>reverts</strong> it to a full vowel.
-        </div>
-        <ul>
-            <li><em>Input:</em> <code>brouette</code> (br + ou + ette).</li>
-            <li><em>Attempt:</em> <span class="ipa">/bʁwɛt/</span> (Cluster /bʁw/ is considered too heavy).</li>
-            <li><em>Reversion:</em> <span class="ipa">/bʁu.ɛt/</span> (Maintains separation).</li>
-        </ul>
-    </div>
-
-    <!-- STEP 10 -->
-    <div class="step-container">
-        <h3>10. Final Harmonization</h3>
-        <p>Final polish of the IPA string.</p>
-        <ul>
-            <li><strong>R standardization:</strong> All rhotic sounds &rarr; <span class="ipa">/ʁ/</span>.</li>
-            <li><strong>Loi de Position (Aperture):</strong>
-                <ul>
-                    <li><strong>O:</strong> <span class="ipa">/o/</span> (closed) only if final or before z. Else <span
-                            class="ipa">/ɔ/</span>.
-                    </li>
-                    <li><strong>EU:</strong> <span class="ipa">/ø/</span> (closed) only if final or before z/t. Else
-                        <span class="ipa">/œ/</span>.
-                    </li>
-                    <li><strong>AU:</strong> Opens to <span class="ipa">/ɔ/</span> before R (e.g., <em>dinosaure</em>).
-                    </li>
-                </ul>
+            <li><code>d‿</code> &rarr; <code>t‿</code>; <code>s‿</code>, <code>x‿</code> &rarr; <code>z‿</code>;
+                <code>f‿</code> &rarr; <code>v‿</code>; <code>i‿</code> &rarr; <code>ij‿</code>.
             </li>
-            <li><strong>Remove hyphens:</strong> Clean up remaining structural artifacts.</li>
-            <li><strong>Diaeresis Removal:</strong> Any remaining internal markers like <code>ï</code> or <code>ë</code>
-                are converted to their standard IPA vowel equivalents (e.g., <code>ï</code> &rarr; <code>i</code>).
+            <li>A liaison consonant that would normally be silent (b, d, g, k, p, s, t, x, z) is treated as if it
+                stood outside the word, so the preceding letters still follow their final-position rules.
             </li>
-
-        </ul>
-    </div>
-
-    <!-- STEP 11 -->
-    <div class="step-container">
-        <h3>11. Liaison Mutations (Sandhi)</h3>
-        <p>When a silent final consonant becomes pronounced due to liaison (<code>‿</code>), or when vowels clash at
-            boundaries, mutations occur.</p>
-
-        <h3>11.1 Consonant Mutations</h3>
-        <table>
-            <tr>
-                <th>Letter</th>
-                <th>Mutation</th>
-                <th>Example</th>
-                <th>IPA Result</th>
-            </tr>
-            <tr>
-                <td><strong>D</strong></td>
-                <td>Becomes <strong>/t/</strong></td>
-                <td><em>grand‿homme</em></td>
-                <td><span class="ipa">/gʁɑ̃.tɔm/</span></td>
-            </tr>
-            <tr>
-                <td><strong>F</strong></td>
-                <td>Becomes <strong>/v/</strong></td>
-                <td><em>neuf‿heures</em></td>
-                <td><span class="ipa">/nœ.vœʁ/</span></td>
-            </tr>
-            <tr>
-                <td><strong>S, X</strong></td>
-                <td>Becomes <strong>/z/</strong></td>
-                <td><em>beaux‿arts</em></td>
-                <td><span class="ipa">/bo.zaʁ/</span></td>
-            </tr>
-            <tr>
-                <td><strong>I</strong></td>
-                <td>Inserts <strong>/j/</strong></td>
-                <td><em>y a-t-il</em> (i‿a)</td>
-                <td><span class="ipa">/i.ja.t‿il/</span></td>
-            </tr>
-        </table>
-
-        <h3>11.2 The Nasal Bridge</h3>
-        <p>The script distinguishes between words that keep their nasal quality in liaison and those that
-            denasalize.</p>
-        <ul>
-            <li><strong>Group A (Nasal Preserved):</strong> <em>un, on, en, mon, ton, son, bien, rien</em>.
-                <ul>
-                    <li>The script appends a marker to force both nasalization and the consonant.</li>
-                    <li><em>Example:</em> <em>mon‿ami</em> &rarr; <span class="ipa">/mɔ̃.na.mi/</span>.</li>
-                </ul>
-            </li>
-            <li><strong>Group B (Denasalized):</strong> <em>bon, certain</em> (and most other adjectives).
-                <ul>
-                    <li>The script prevents nasalization of the vowel, resulting in an oral vowel + N.</li>
-                    <li><em>Example:</em> <em>bon‿ami</em> &rarr; <span class="ipa">/bɔ.na.mi/</span> (Not /bɔ̃/).</li>
-                </ul>
+            <li><strong>Nasal bridge:</strong> <code>n‿</code> after <em>on</em> at the start of a word (<em>mon, ton,
+                son, on</em>), after <em>'on</em>, and after <em>en, ɛn, un</em> is marked so that the vowel stays
+                nasal and the n is pronounced (<em>mon‿ami</em> <span class="ipa">/mɔ̃.n‿a.mi/</span>). Any other
+                <code>n‿</code> is marked so that the vowel stays oral (<em>bon‿ami</em> <span class="ipa">/bɔ.n‿a.mi/</span>).
             </li>
         </ul>
     </div>
+
+    <!-- STAGE 9 -->
     <div class="step-container">
-        <h2>12. Reference: Complete IPA Symbol Map</h2>
-        <p>This table lists every phonetic symbol generated by the script, mapping the French orthography to the
-            specific IPA character output.</p>
-
-        <table>
-            <thead>
-            <tr>
-                <th>Category</th>
-                <th>IPA Symbol</th>
-                <th>Description</th>
-                <th>Typical Orthography</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Oral Vowels -->
-            <tr>
-                <td rowspan="9"><strong>Oral Vowels</strong></td>
-                <td><span class="ipa">/a/</span></td>
-                <td>Anterior A</td>
-                <td>a, à (standard)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ɑ/</span></td>
-                <td>Posterior A</td>
-                <td>â, as, az</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/e/</span></td>
-                <td>Closed E</td>
-                <td>é, er, ez, ai (final verb)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ɛ/</span></td>
-                <td>Open E</td>
-                <td>è, ê, ai, ei, e (+consonant)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ə/</span></td>
-                <td>Schwa (Mute E)</td>
-                <td>e (unaccented)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/i/</span></td>
-                <td>High Front Vowel</td>
-                <td>i, î, y</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/y/</span></td>
-                <td>High Front Rounded</td>
-                <td>u, û</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/o/</span> vs <span class="ipa">/ɔ/</span></td>
-                <td>Closed O vs Open O</td>
-                <td><strong>/o/:</strong> ô, au, eau, o (+z)<br><strong>/ɔ/:</strong> o (standard)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ø/</span> vs <span class="ipa">/œ/</span></td>
-                <td>Closed EU vs Open EU</td>
-                <td><strong>/ø/:</strong> eu, œu (final/z/t)<br><strong>/œ/:</strong> eu, œu (standard)</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><span class="ipa">/u/</span></td>
-                <td>High Back Vowel</td>
-                <td>ou, où</td>
-            </tr>
-
-            <!-- Nasal Vowels -->
-            <tr>
-                <td rowspan="4"><strong>Nasal Vowels</strong></td>
-                <td><span class="ipa">/ɑ̃/</span></td>
-                <td>Nasal A</td>
-                <td>an, en, am, em</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ɛ̃/</span></td>
-                <td>Nasal I</td>
-                <td>in, ain, ein, yn</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ɔ̃/</span></td>
-                <td>Nasal O</td>
-                <td>on, om</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/œ̃/</span></td>
-                <td>Nasal U</td>
-                <td>un, um (often merges with /ɛ̃/)</td>
-            </tr>
-
-            <!-- Semi-Vowels -->
-            <tr>
-                <td rowspan="3"><strong>Semi-Vowels</strong></td>
-                <td><span class="ipa">/j/</span></td>
-                <td>Yod glide</td>
-                <td>y, il, ill, i (+vowel)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/w/</span></td>
-                <td>W glide</td>
-                <td>oi (/wa/), ou (+vowel)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ɥ/</span></td>
-                <td>U glide</td>
-                <td>u (+vowel)</td>
-            </tr>
-
-            <!-- Consonants -->
-            <tr>
-                <td rowspan="5"><strong>Complex Consonants</strong></td>
-                <td><span class="ipa">/ʃ/</span></td>
-                <td>Sh sound</td>
-                <td>ch, sh</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ʒ/</span></td>
-                <td>Soft J</td>
-                <td>j, g (+e/i/y)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ɲ/</span></td>
-                <td>Palatal N</td>
-                <td>gn</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ŋ/</span></td>
-                <td>Velar Nasal</td>
-                <td>ng (in -ing)</td>
-            </tr>
-            <tr>
-                <td><span class="ipa">/ʁ/</span></td>
-                <td>Uvular R</td>
-                <td>r, rr, rh</td>
-            </tr>
-
-            <!-- Standard Consonants -->
-            <tr>
-                <td><strong>Standard Consonants</strong></td>
-                <td><span class="ipa">/b/ /d/ /f/ /ɡ/ /k/ /l/ /m/ /n/ /p/ /s/ /t/ /v/ /z/</span></td>
-                <td>Invariant Mapping</td>
-                <td>b, d, f, g (hard), c (hard)/k/qu, l, m, n, p, s/ç, t, v, z/s(voiced)</td>
-            </tr>
-            </tbody>
-        </table>
+        <h4>9. Word Endings (Deletions) and X</h4>
+        <ul>
+            <li><strong>Silent letters:</strong> final <code>s</code>, <code>z</code> are deleted first, then
+                <code>x</code> after i, u, ø (<em>prix</em> <span class="ipa">/pʁi/</span>); <code>nc(t)</code> &rarr;
+                <code>n</code> (<em>instinct</em> <span class="ipa">/ɛ̃s.tɛ̃/</span>); final <code>kt</code>, <code>st</code>
+                keep the t (<em>ouest</em> <span class="ipa">/wɛst/</span>); <code>ér</code> &rarr; <code>é</code>; final
+                <code>mb</code>, <code>mp</code> keep a placeholder that lets the vowel nasalize and are then removed
+                (<em>plomb</em> <span class="ipa">/plɔ̃/</span>); finally <code>d, g, p, t</code> are deleted.
+            </li>
+            <li><strong>Final e:</strong> deleted after a doubled consonant, after a consonant cluster starting with m
+                or n, and after a vowel with at most one consonant. After <code>n</code> or <code>m</code> following a
+                vowel it is replaced by a marker so that the consonant is pronounced (<em>bonne</em> <span class="ipa">/bɔn/</span>,
+                <em>femme</em> <span class="ipa">/fɛm/</span>).
+            </li>
+            <li><strong>ç</strong> &rarr; <code>s</code> (after the final-s deletion, so ç can force an s).</li>
+            <li><strong>x:</strong> (h)ex- before a vowel, in- + ex-, and initial x &rarr; <code>gz</code>; every other
+                x &rarr; <code>ks</code>. <em>examen</em> <span class="ipa">/ɛɡ.za.mɑ̃/</span>, <em>xylophone</em>
+                <span class="ipa">/ɡzi.lɔ.fɔn/</span>, <em>taxi</em> <span class="ipa">/tak.si/</span>.
+            </li>
+        </ul>
     </div>
 
+    <!-- STAGE 10 -->
+    <div class="step-container">
+        <h4>10. Double Consonants</h4>
+        <ul>
+            <li>Initial <code>enn-</code>, <code>emm-</code> + vowel &rarr; <code>en_</code> (keeps the nasal).</li>
+            <li>Initial e + doubled consonant &rarr; <code>é</code>: <em>effacer</em> <span class="ipa">/e.fa.se/</span>.</li>
+            <li>Other e + doubled consonant &rarr; <code>è</code>: <em>terre</em> <span class="ipa">/tɛʁ/</span>.</li>
+            <li>Any remaining doubled consonant becomes single.</li>
+        </ul>
+    </div>
+
+    <!-- STAGE 11 -->
+    <div class="step-container">
+        <h4>11. Vowel Digraphs</h4>
+        <ul>
+            <li><code>ou</code> &rarr; <code>U</code> (later /u/); <code>au</code>, <code>eau</code> &rarr;
+                <code>O</code> (later closed /o/).
+            </li>
+            <li><code>eu</code>, <code>œu</code> &rarr; <code>ø</code> before z or t, before a final <code>h</code> or at
+                the end of a word; <code>œ</code> elsewhere.
+            </li>
+            <li><code>ai</code>, <code>ei</code> &rarr; <code>ɛ</code>.</li>
+        </ul>
+    </div>
+
+    <!-- STAGE 12 -->
+    <div class="step-container">
+        <h4>12. Nasalization, OI and Silent H</h4>
+        <ul>
+            <li><code>nh</code> &rarr; <code>n</code>, except initial <code>enh-</code> (<em>inhérent</em> keeps the
+                n before the vowel: <span class="ipa">/i.ne.ʁɑ̃/</span>).
+            </li>
+            <li><strong>Nasalization:</strong> a vowel plus <code>n</code> before a non-vowel, plus <code>m</code> before
+                b, p, f, or final <code>om</code>, <code>ɛm</code>, is nasalized. The vowel maps as follows:
+                a, e &rarr; <span class="ipa">/ɑ̃/</span>; ɛ, i &rarr; <span class="ipa">/ɛ̃/</span> (a y has already become i); o &rarr;
+                <span class="ipa">/ɔ̃/</span>; u, ø, œ &rarr; <span class="ipa">/œ̃/</span>.
+            </li>
+            <li><strong>The oin exception:</strong> <code>oi</code> + n/m: <span class="ipa">/wɛ̃/</span>, as in <em>point</em>
+                <span class="ipa">/pwɛ̃/</span>, not /pwɑ̃/.
+            </li>
+            <li><code>um</code> before a non-vowel &rarr; <code>ɔm</code>: <em>maximum</em> <span class="ipa">/mak.si.mɔm/</span>.</li>
+            <li><code>oi</code> &rarr; <code>wA</code> (/wa/), done after nasalization so that <em>noi</em> sequences
+                are not nasalized.
+            </li>
+            <li>h is deleted, except after i or u, where an underscore keeps the vowel from becoming a glide.</li>
+        </ul>
+    </div>
+
+    <!-- STAGE 13 -->
+    <div class="step-container">
+        <h4>13. Syllabification</h4>
+        <ul>
+            <li><strong>V.CV:</strong> break before a single consonant.</li>
+            <li><strong>VC.CV:</strong> break between two consonants.</li>
+            <li><strong>Onset maximization:</strong> a consonant pair stays together as an onset when the second is l
+                or r and the first is one of b, k, d, f, g, p, s, t, v; or when the pair is dʒ, or a consonant plus j,
+                w, ɥ (<em>tableau</em> <span class="ipa">/ta.blo/</span>). A break is restored between consonants that
+                cannot start a syllable, except s before p, t, k (<em>esprit</em> <span class="ipa">/ɛs.pʁi/</span>).
+            </li>
+            <li>Diaeresis vowels (ä, ë, ï, ö, ü, ÿ) are converted to plain vowels after this step.</li>
+        </ul>
+    </div>
+
+    <!-- STAGE 14 -->
+    <div class="step-container">
+        <h4>14. Single Vowels and Consonants</h4>
+        <ul>
+            <li><code>â</code> &rarr; <code>ɑ</code>; e at the end of a word, or at the end of a syllable before a
+                single consonant and a vowel, becomes <code>ə</code>; remaining e, è, ê, æ &rarr; <code>ɛ</code>; é &rarr; <code>e</code>.
+            </li>
+            <li><strong>Aperture of o:</strong> o at the end of a word, or before z, is closed (<code>O</code>); other
+                o is <code>ɔ</code>; <code>ô</code> is <code>o</code>. <code>u</code> &rarr; <code>y</code>.
+            </li>
+            <li>r &rarr; <code>ʁ</code>; g &rarr; <code>ɡ</code> (IPA g, U+0261).</li>
+        </ul>
+    </div>
+
+    <!-- STAGE 15 -->
+    <div class="step-container">
+        <h4>15. Schwa Deletion</h4>
+        <ul>
+            <li><strong>Final schwa:</strong> deleted in the last word of a polysyllabic word, before a following vowel
+                (also across a liaison mark), and after a vowel. One-syllable words keep it.
+            </li>
+            <li><strong>Internal VCəCV:</strong> deleted when neither vowel is a schwa, unless the consonant pair is
+                <code>ʁʁ</code>, <code>ɲʁ</code> or <code>ɲl</code>. A schwa before a consonant plus l or ʁ followed by
+                a schwa is also deleted (<em>palefrenier</em>, <em>vilebrequin</em>).
+            </li>
+            <li><strong>Optional schwa:</strong> in other VCəCV sequences the schwa is shown as <code>(ə)</code>,
+                except between consonants that are the same apart from voicing; after two consonants a final schwa is
+                kept as <code>ə</code> after an obstruent + approximant or m/n/l + r, and otherwise written
+                <code>(ə)</code>.
+            </li>
+        </ul>
+    </div>
+
+    <!-- STAGE 16 -->
+    <div class="step-container">
+        <h4>16. Glides and Reversion</h4>
+        <ul>
+            <li>Working from right to left: <code>i</code> + vowel &rarr; <span class="ipa">/j/</span>;
+                <code>ou</code> + vowel &rarr; <span class="ipa">/w/</span>; <code>u</code> + vowel &rarr;
+                <span class="ipa">/ɥ/</span>.
+            </li>
+            <li><strong>Reversion:</strong> after a consonant plus l or ʁ, the glide from i or ou is replaced by a full
+                vowel (<em>brouette</em> <span class="ipa">/bʁu.ɛt/</span> instead of /bʁwɛt/; <em>crier</em>
+                <span class="ipa">/kʁi.je/</span>). <code>ɥ</code> reverts to y only before a vowel other than i
+                (<em>fruit</em> <span class="ipa">/fʁɥi/</span>).
+            </li>
+        </ul>
+    </div>
+
+    <!-- STAGE 17 -->
+    <div class="step-container">
+        <h4>17. Final Cleanup and Alternatives</h4>
+        <ul>
+            <li>Apostrophes are rewritten as <code>‿</code>, hyphens and the <code>⁀</code> markers are removed, and
+                temporary capital letters are lower-cased.
+            </li>
+            <li><strong>Alternatives:</strong> the module returns additional readings in these cases: e/ɛ harmonized
+                before a syllable boundary; <code>-ism</code> as <code>-izm</code>; and <code>ɑ</code> as <code>a</code>
+                (the <code>a</code> form is listed first). The app takes the first reading only.
+            </li>
+        </ul>
+    </div>
+
+    <h3>Internal Notation</h3>
+    <p>The module uses temporary symbols that do not appear in the final output.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Meaning</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>⁀</code></td>
+            <td>Word boundary, added at the start and end and around hyphens.</td>
+        </tr>
+        <tr>
+            <td><code>‿</code></td>
+            <td>Liaison or elision mark. This one remains in the output.</td>
+        </tr>
+        <tr>
+            <td><code>_</code></td>
+            <td>Separator that blocks a rule (for example <code>en_h</code>); removed before syllabification ends.</td>
+        </tr>
+        <tr>
+            <td><code>E, O, U, A, N, M, B, P, T, J, W, Ə</code></td>
+            <td>Capital placeholders that stop a later rule from firing on the output of an earlier one; lower-cased near
+                the end.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>The table lists words that the rules transcribe incorrectly. System Output is the rule output (the test harness
+        has no lexicon). In the Phonemic form a word that is in the lexicon is normally taken from it; the output shown
+        here appears for words that are not in the lexicon, and for every word when the lexicon is switched off. The
+        last column shows a respelling and its engine output.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ville</td>
+            <td>/vij/</td>
+            <td><em>vile</em> <span class="ipa">/vil/</span></td>
+            <td><em>ill</em> after a consonant is always read as /ij/; the rules have no list of exceptions (<em>mille</em>, <em>tranquille</em>)</td>
+            <td>Respell with a single l</td>
+        </tr>
+        <tr>
+            <td>hiver</td>
+            <td>/i.ve/</td>
+            <td><em>hivèr</em> <span class="ipa">/i.vɛʁ/</span></td>
+            <td>Final <em>-er</em> of a word of two or more syllables is read as /e/, as in infinitives (<em>amer</em>, <em>cancer</em> are affected too)</td>
+            <td>Respell with è</td>
+        </tr>
+        <tr>
+            <td>fils</td>
+            <td>/fil/</td>
+            <td><em>fiss</em> <span class="ipa">/fis/</span></td>
+            <td>Final <em>s</em> is always dropped</td>
+            <td>Double the final s (also <em>os</em>, <em>ours</em>)</td>
+        </tr>
+        <tr>
+            <td>os</td>
+            <td>/o/</td>
+            <td><em>oss</em> <span class="ipa">/ɔs/</span></td>
+            <td>Final <em>s</em> is dropped, and the o is then final and therefore closed</td>
+            <td>Double the final s</td>
+        </tr>
+        <tr>
+            <td>huit</td>
+            <td>/ɥi/</td>
+            <td><em>huite</em> <span class="ipa">/ɥit/</span></td>
+            <td>Final <em>t</em> is always dropped</td>
+            <td>Add a final e</td>
+        </tr>
+        <tr>
+            <td>cinq</td>
+            <td>/sɛ̃/</td>
+            <td><em>cinque</em> <span class="ipa">/sɛ̃k/</span></td>
+            <td>The rule that silences <em>c</em> and <em>t</em> in <em>-nct</em> also removes the final k sound of <em>-nq</em></td>
+            <td>Respell with a final e</td>
+        </tr>
+        <tr>
+            <td>parlent</td>
+            <td>/paʁ.lɑ̃/</td>
+            <td><em>parle</em> <span class="ipa">/paʁl/</span></td>
+            <td>The silent verb ending <em>-ent</em> needs the part of speech, which the app does not pass to the module</td>
+            <td>Type <em>parle</em>, which is pronounced the same</td>
+        </tr>
+        <tr>
+            <td>tient</td>
+            <td>/tjɑ̃/</td>
+            <td><em>tiain</em> <span class="ipa">/tjɛ̃/</span></td>
+            <td>Final <em>-ient</em> in verb forms is not covered; the module notes that these need respelling</td>
+            <td>Respell with <em>iain</em></td>
+        </tr>
+        <tr>
+            <td>orchestre</td>
+            <td>/ɔʁ.ʃɛstʁ/</td>
+            <td><em>orkestre</em> <span class="ipa">/ɔʁ.kɛstʁ/</span></td>
+            <td><em>ch</em> is /k/ only before r, l, n; Greek-origin <em>ch</em> elsewhere (<em>chaos</em>, <em>écho</em>) is read /ʃ/</td>
+            <td>Respell with k</td>
+        </tr>
+        <tr>
+            <td>football</td>
+            <td>/fɔ.ɔt.bal/</td>
+            <td><em>foutbol</em> <span class="ipa">/fut.bɔl/</span></td>
+            <td>English loanword read by French rules; <em>oo</em> is split into two vowels</td>
+            <td>Respell phonetically</td>
+        </tr>
+        <tr>
+            <td>second</td>
+            <td>/sə.kɔ̃/</td>
+            <td><em>segond</em> <span class="ipa">/sə.ɡɔ̃/</span></td>
+            <td>c is always /k/ before a consonant or back vowel; the exceptional /ɡ/ is not known</td>
+            <td>Respell with g</td>
+        </tr>
+        <tr>
+            <td>oeil</td>
+            <td>/ɔ.ɛj/</td>
+            <td><em>œil</em> <span class="ipa">/œj/</span></td>
+            <td>Only the ligature spelling <em>œil</em> and the sequence <em>oeu</em> are recognized</td>
+            <td>Use the ligature œ</td>
+        </tr>
+        <tr>
+            <td>enivrer</td>
+            <td>/ə.ni.vʁe/</td>
+            <td><em>ennivrer</em> <span class="ipa">/ɑ̃.ni.vʁe/</span></td>
+            <td>The vowel is nasalized only before a consonant, so <em>en</em> before a vowel stays oral</td>
+            <td>Double the n</td>
+        </tr>
+        <tr>
+            <td>femme</td>
+            <td>/fɛm/</td>
+            <td><em>famme</em> <span class="ipa">/fam/</span></td>
+            <td><em>e</em> before a doubled consonant is always open /ɛ/; the irregular /a/ is not known</td>
+            <td>Respell with a</td>
+        </tr>
+        <tr>
+            <td>doigt</td>
+            <td>/dwaɡ/</td>
+            <td><em>doit</em> <span class="ipa">/dwa/</span></td>
+            <td>Only the last of final <em>gt</em> is dropped (except in <em>ngt</em>), so g remains</td>
+            <td>Type the homophone <em>doit</em></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Respelling</h3>
+    <p>A transcription can be changed by typing a different spelling, as in the table. Only ordinary letters, the
+        accents, the apostrophe, the hyphen and ‿ survive the input filter, so the bracket and underscore notations
+        of the Wiktionary template are not available. Example of a typed liaison mark: see
+        <a href="#liaison">Apostrophes, Hyphens and Liaison</a>.</p>
+
+    <h3>Limitations</h3>
+    <ul>
+        <li>Liaison, elision and h aspiré between separate words are not applied, because each word is transcribed
+            alone.
+        </li>
+        <li>Only the first reading generated by the module is shown.</li>
+        <li>Words with irregular pronunciation are correct only when they are in the lexicon.</li>
+        <li>There are no stress marks or length marks.</li>
+    </ul>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for related languages in this tool:</p>
+    <ul>
+        <li><a href="spanish.html">Spanish</a></li>
+        <li><a href="portuguese.html">Portuguese</a></li>
+        <li><a href="latin.html">Latin</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

@@ -4,6 +4,58 @@ Date-stamped, append-only notes of non-obvious gotchas that cost real debugging
 time. The one-line versions live in `CLAUDE.md` (loaded every session); this
 file keeps the detail.
 
+## 2026-10-05 — Help pages: engine-verified rewrite of all 17 language pages
+
+- **Help-page IPA drifts from the engine silently.** The old pages (Polish, Spanish,
+  Latin, Irish, Armenian, German) were written in a notation the tool does not
+  emit (Polish without syllable dots and with ʲ before i; Spanish `po.ˈe.ma` vs the
+  engine's `poˈe.ma`), and German's known-issues table had 8 of 10 rows whose
+  "System Output" no longer matched the engine (one, Animation, was already
+  fixed). Any page edit must re-run `scripts/tests/verify_help_page.mjs` (word +
+  IPA pairs) AND `scripts/tests/verify_issue_tables.mjs` (table rows). Generate
+  examples with `scripts/tests/ipa_cli.mjs`, never from memory.
+- **The checkers have known blind spots — verify the instrument before quoting a
+  count.** `verify_help_page.mjs` mis-pairs: English labels before symbol spans
+  ("as /p/"), comma lists ("ласка, ліс | /ɫaska/, /lʲis/"), letters split by
+  inline emphasis (`<strong>b</strong>ok`; now stripped), precomposed vs
+  combining accents (now NFC), `word → /ipa/` arrows (now supported). Latin-script
+  pages always keep English-label noise; triage by reading the word column.
+  `verify_issue_tables.mjs` flags letter-mapping rows (b | /p/) — ignore those.
+- **A "sync to engine" must not override correct pages.** Closest-variant sync
+  across multiple styles picked the wrong form for Latin (phonemic where the table
+  illustrated phonetic tense/lax) and mangled hyphenated syllable examples. Sync
+  only notation-level differences, exclude hyphenated teaching forms, and read
+  every substantive diff by hand — several turned out to be page errors
+  (inmigración, cantan, correr stress/trill) and some engine errors (Polish
+  past-tense -śmy stress), which belong in Known Issues instead.
+- **App-layer filters defeat module features.** `sanitize()` stripped the
+  Armenian stress mark ՛ (U+055B) that hy-pron reads; the ru/uk handlers stressed
+  every vowel of already-stressed input (double stress); the Russian
+  single-vowel regex lacked lowercase ы. ✅ fixed in `scripts/utils.js`, enforced
+  by `scripts/tests/unit/sanitize.test.js` and golden.json. pt-pron failed on
+  Brazilian -io (rio, tio) and Portuguese -le because wasmoon's Lua 5.4 has no
+  global `unpack`; ✅ fixed with `local unpack = unpack or table.unpack`
+  (hy/grc define their own local unpack; it-pron uses table.unpack).
+- **`golden/generate.js` silently drops Irish** (not in its PLAN) — regenerating
+  golden.json deleted the hand-added Irish block. ✅ fixed: Irish added to PLAN;
+  regeneration verified to change nothing but the added Czech block.
+- **"Czech doesn't run under Node" was a test-shim bug, not a Czech problem.**
+  `cs-pron_wasm.lua` began with a UTF-8 BOM; Lua's `load()` rejects it, and the
+  shim's `load(resp)()` turned the compile error into "attempt to call a nil
+  value". The browser never saw it because `fetch().text()` strips a leading BOM.
+  ✅ fixed: BOM removed from the file, and `scripts/tests/init.js` now decodes
+  like the browser (strips U+FEFF). Czech is in golden.json (7 words) and its
+  help page was machine-verified for the first time — which immediately found
+  page errors (vzorek, trh, podzim). Lesson: never accept "X can't be tested" —
+  get the actual error (`load()` returns nil + message) before excluding anything.
+- **Playwright's bundled browser may be missing on this machine** ("Executable
+  doesn't exist … chrome-headless-shell"). Run `npx playwright test -c playwright.chrome.config.js` (system Chrome) rather than downloading browsers.
+- **Help-page prose standard (user ruling):** reference-grammar register; no
+  "overview"/snippet-bait sections (removed by request); "Using the Tool:
+  Practical Notes" (`id="faq"`) and "Related Pronunciation Guides"
+  (`id="related"`) on every language page; agents ignored a heading retitle once
+  — grep the headings after delegated edits.
+
 ## 2026-08-07 — M-005 dictionary-gloss pipeline
 
 - **`fetchAsset(path)` always appends `.gz`.** Calling `fetchAsset('macronizer/glosses')`

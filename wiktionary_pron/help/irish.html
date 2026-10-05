@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Irish IPA Transcription - Help</title>
+    <title>Irish (Gaeilge) Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Irish pronunciation in IPA for Connacht, Munster and Ulster: broad and slender consonants, vowel digraphs and mutations, with a free converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/irish.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Irish (Gaeilge) Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Irish pronunciation in IPA for Connacht, Munster and Ulster: broad and slender consonants, vowel digraphs and mutations, with a free converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/irish.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Irish (Gaeilge) Pronunciation and IPA Transcription Guide","description":"Irish pronunciation in IPA for Connacht, Munster and Ulster: broad and slender consonants, vowel digraphs and mutations, with a free converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/irish.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Irish"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Irish","item":"https://hellpanderrr.github.io/wiktionary_pron/help/irish.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,7 +24,7 @@
 </head>
 <body>
 <div id="content">
-    <h1>Irish IPA Transcription - Help</h1>
+    <h1>Irish (Gaeilge) Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Irish">← Back to Irish transcription</a></span>
@@ -64,12 +75,14 @@
                 <li><a href="#dialect-ulster">Ulster Features</a></li>
             </ul>
         </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
         <li><strong>For Developers</strong>
             <ul>
                 <li><a href="#technical">Implementation Details</a></li>
                 <li><a href="#issues">Common Issues & Limitations</a></li>
             </ul>
         </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
     <h2 id="about">About This Tool</h2>
@@ -705,7 +718,7 @@
             <td><span class="ipa">l̪ˠɑːn̪ˠ</span></td>
             <td>full</td>
             <td>léan</td>
-            <td><span class="ipa">l̠ʲeːn̪ˠ</span></td>
+            <td><span class="ipa">l̠ʲeːnˠ</span></td>
             <td>sorrow</td>
         </tr>
         <tr>
@@ -1041,28 +1054,23 @@
     </table>
 
     <h3>2. Vowel Digraphs</h3>
+    <p>Each row gives a word containing the digraph and the transcription the tool produces for it in each dialect. In several words the digraph is only a spelling device: in <em>scoil</em> the <em>i</em> marks the following <em>l</em> as slender, and in <em>cuid</em> the <em>u</em> marks the <em>c</em> as broad, so neither contains a diphthong.</p>
     <table>
         <thead>
-        <tr>
-            <th>Digraph</th>
-            <th>Connacht</th>
-            <th>Munster</th>
-            <th>Ulster</th>
-            <th>Example</th>
-        </tr>
+        <tr><th>Digraph</th><th>Example</th><th>Connacht</th><th>Munster</th><th>Ulster</th></tr>
         </thead>
         <tbody>
-        <tr><td>ao</td><td><span class="ipa">iː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">iː</span></td><td>aos <span class="ipa">/iːsˠ/</span></td></tr>
-        <tr><td>ai</td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td>caint <span class="ipa">/kan̠ʲtʲ/</span></td></tr>
-        <tr><td>ea</td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td><span class="ipa">a</span></td><td>bean <span class="ipa">/bʲan̪ˠ/</span></td></tr>
-        <tr><td>eo</td><td><span class="ipa">oː</span></td><td><span class="ipa">oː</span></td><td><span class="ipa">ɔː</span></td><td>beo <span class="ipa">/bʲoː/</span></td></tr>
-        <tr><td>ío</td><td><span class="ipa">iː</span></td><td><span class="ipa">iː</span></td><td><span class="ipa">iː</span></td><td>críochnaigh <span class="ipa">/kɾʲiːxn̪ˠiː/</span></td></tr>
-        <tr><td>oi</td><td><span class="ipa">ɔ</span></td><td><span class="ipa">ɔi</span></td><td><span class="ipa">ɔi</span></td><td>scol <span class="ipa">/skɔl̪ˠ/</span></td></tr>
-        <tr><td>ui</td><td><span class="ipa">ʊ</span></td><td><span class="ipa">ʊi</span></td><td><span class="ipa">ʊi</span></td><td>subh <span class="ipa">/sˠʊw/</span></td></tr>
-        <tr><td>ua</td><td><span class="ipa">uə</span></td><td><span class="ipa">uə</span></td><td><span class="ipa">uə</span></td><td>cuan <span class="ipa">/kuən̪ˠ/</span></td></tr>
-        <tr><td>ia</td><td><span class="ipa">iə</span></td><td><span class="ipa">iə</span></td><td><span class="ipa">iə</span></td><td>fia <span class="ipa">/fʲiə/</span></td></tr>
-        <tr><td>éi</td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td>éis <span class="ipa">/eːʃ/</span></td></tr>
-        <tr><td>ae</td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td><span class="ipa">eː</span></td><td>tae <span class="ipa">/t̪ˠeː/</span></td></tr>
+        <tr><td>ao</td><td><em>aos</em></td><td><span class="ipa">/iːsˠ/</span></td><td><span class="ipa">/eːsˠ/</span></td><td><span class="ipa">/iːsˠ/</span></td></tr>
+        <tr><td>ai</td><td><em>caint</em></td><td><span class="ipa">/kaːn̠ʲtʲ/</span></td><td><span class="ipa">/kɑinʲtʲ/</span></td><td><span class="ipa">/kæn̠ʲtʲ/</span></td></tr>
+        <tr><td>ea</td><td><em>bean</em></td><td><span class="ipa">/bʲanˠ/</span></td><td><span class="ipa">/bʲan̪ˠ/</span></td><td><span class="ipa">/bʲanˠ/</span></td></tr>
+        <tr><td>eo</td><td><em>beo</em></td><td><span class="ipa">/bʲoː/</span></td><td><span class="ipa">/bʲoː/</span></td><td><span class="ipa">/bʲɔː/</span></td></tr>
+        <tr><td>ío</td><td><em>síos</em></td><td><span class="ipa">/ʃiːsˠ/</span></td><td><span class="ipa">/ʃiːsˠ/</span></td><td><span class="ipa">/ʃiːsˠ/</span></td></tr>
+        <tr><td>oi</td><td><em>scoil</em></td><td><span class="ipa">/sˠkɔlʲ/</span></td><td><span class="ipa">/sˠkɔlʲ/</span></td><td><span class="ipa">/sˠkɔlʲ/</span></td></tr>
+        <tr><td>ui</td><td><em>cuid</em></td><td><span class="ipa">/kidʲ/</span></td><td><span class="ipa">/kidʲ/</span></td><td><span class="ipa">/kidʲ/</span></td></tr>
+        <tr><td>ua</td><td><em>fuar</em></td><td><span class="ipa">/fˠuəɾˠ/</span></td><td><span class="ipa">/fˠuəɾˠ/</span></td><td><span class="ipa">/fˠuəɾˠ/</span></td></tr>
+        <tr><td>ia</td><td><em>fia</em></td><td><span class="ipa">/fʲiə/</span></td><td><span class="ipa">/fʲiə/</span></td><td><span class="ipa">/fʲiə/</span></td></tr>
+        <tr><td>éi</td><td><em>éis</em></td><td><span class="ipa">/eːʃ/</span></td><td><span class="ipa">/eːʃ/</span></td><td><span class="ipa">/eːʃ/</span></td></tr>
+        <tr><td>ae</td><td><em>tae</em></td><td><span class="ipa">/t̪ˠeː/</span></td><td><span class="ipa">/t̪ˠeː/</span></td><td><span class="ipa">/t̪ˠeː/</span></td></tr>
         </tbody>
     </table>
 
@@ -1173,6 +1181,20 @@
         <li><strong>rs-leveling</strong>: [ɾˠ]+[ʃ] → [ɾˠ]+[sˠ]: <em>tuirseach</em> [ˈt̪ˠʌɾˠsˠax]</li>
         <li><strong>Verbal -im → broad [mˠ]</strong>: <em>éistim</em> [ˈeːʃtʲəmˠ] (including -ím words with strip_fadas)</li>
     </ul>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Which dialect should I choose?</h3>
+    <p>The Connacht, Munster and Ulster settings select which of the three dialect groups the rules model; they change vowel quality, stress placement and several consonant realizations. The tool does not detect the dialect from the text. Connacht is the most thoroughly tuned setting and the fallback if no dialect is recognized. For <em>cailín</em>, Phonemic output is <span class="ipa">/ˈkalʲiːnʲ/</span> in Connacht (initial stress), <span class="ipa">/kɑˈlʲiːnʲ/</span> in Munster (stress attracted to the long vowel) and <span class="ipa">/ˈkælʲinʲ/</span> in Ulster (fronted <em>a</em>, shortened final long vowel). See <a href="#dialects">Dialects: Connacht, Munster &amp; Ulster</a> and the dialect sections that follow it. <a href="../?lang=Irish&amp;text=cail%C3%ADn">Open in the converter</a></p>
+
+    <h3>Do I need to type the fadas?</h3>
+    <p>Yes. The engine reads the spelling literally, and the fada marks vowel length. In Connacht, <em>cailín</em> gives <span class="ipa">/ˈkalʲiːnʲ/</span>, while <em>cailin</em> typed without the accent gives <span class="ipa">/ˈkalʲənʲ/</span>. Capitalization does not change the result. See <a href="#vowel-length">Vowel Length &amp; Quality</a>.</p>
+
+    <h3>How are mutations and phrases handled?</h3>
+    <p>The converter transcribes each space-separated word separately, so no sound changes are applied across word boundaries. A mutated form is transcribed from its spelling as typed: in Connacht, <em>gcathair</em> gives <span class="ipa">/ˈɡahəɾʲ/</span> and <em>bhean</em> gives <span class="ipa">/vʲanˠ/</span>. The engine does not identify the grammatical trigger or restore the unmutated word. Lexicalized phrase contractions are listed among the open problems in <a href="#issues">Common Issues &amp; Limitations</a>; the mutations themselves are described under <a href="#lenition">Lenition</a> and <a href="#eclipsis">Eclipsis</a>.</p>
+
+    <h3>How far can a rule-based transcription be trusted for Irish?</h3>
+    <p>Irish spelling does not by itself determine the pronunciation, which differs between dialects, and there is no Wiktionary Lua module to defer to. The app applies its own rule pipeline and then a per-dialect list of corrections for individual words, roughly one to two thousand per dialect. Words outside these lists, such as rare words, names and loanwords, rely on the rules alone and should be checked against a dictionary or a recording. The benchmark reported under <a href="#technical">Implementation Details</a> shows lower accuracy for the rules alone than for rules with corrections, markedly so for Munster and Ulster. Output is phonemic with some allophonic detail; there is no separate phonetic form (<a href="#forms">Phonemic vs Phonetic</a>).</p>
 
     <h2 id="technical">Implementation Details (for Developers)</h2>
 
@@ -1302,6 +1324,12 @@
         </tr>
         </tbody>
     </table>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for the other languages in this tool:</p>
+    <ul>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

@@ -25,6 +25,10 @@ describe("sanitize", function () {
     assert.strictEqual(sanitize("замо́к"), "замо́к");
   });
 
+  it("keeps the Armenian stress mark", function () {
+    assert.strictEqual(sanitize("մի՛թե"), "մի՛թե");
+  });
+
   it("returns empty string for pure punctuation", function () {
     assert.strictEqual(sanitize("..."), "");
     assert.strictEqual(sanitize("123"), "");

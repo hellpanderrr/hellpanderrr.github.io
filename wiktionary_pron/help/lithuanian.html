@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lithuanian IPA Transcription - Help</title>
+    <title>Lithuanian Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Lithuanian pronunciation in IPA: long and short vowels, diphthongs, palatalization and syllables, with a free converter backed by a Wiktionary lexicon.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/lithuanian.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Lithuanian Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Lithuanian pronunciation in IPA: long and short vowels, diphthongs, palatalization and syllables, with a free converter backed by a Wiktionary lexicon.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/lithuanian.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Lithuanian Pronunciation and IPA Transcription Guide","description":"Lithuanian pronunciation in IPA: long and short vowels, diphthongs, palatalization and syllables, with a free converter backed by a Wiktionary lexicon.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/lithuanian.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Lithuanian"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Lithuanian","item":"https://hellpanderrr.github.io/wiktionary_pron/help/lithuanian.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,44 +24,821 @@
 </head>
 <body>
 <div id="content">
-    <h1>Lithuanian IPA Transcription - Help</h1>
+    <h1>Lithuanian Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Lithuanian">← Back to Lithuanian transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+<div class="algo-alert">
+        <strong>Mark the stress and tone yourself, and type in lowercase.</strong> When a word is <em>not</em> in the
+        dictionary, the rule engine has no idea where the stress falls. A plain word comes out with <strong>no stress
+        mark, no tone and no vowel length</strong> (and with syllable dots left in): <em>labas</em> <span class="ipa">/ɫɐ.bɐs/</span>.
+        To get stress, type an accent mark on the stressed vowel: a tilde (<em>ã</em>) means stressed and long, an
+        acute (<em>á</em>) means stressed with the acute/circumflex tone mark, and a grave (<em>à</em>) means stressed
+        and short. For example <em>lãbas</em> <span class="ipa">/ˈɫaː.bɐs/</span>. Use precomposed letters or combining
+        marks, both work. Vowel length is marked with <em>ą ę į ų ū ė y</em>, not with accents. Capital letters break the
+        rule engine (<em>Kauno</em> <span class="ipa">/k.ɐʊ̯.noː/</span>), so write <em>kauno</em> <span class="ipa">/kɐʊ̯.noː/</span>.
+        See <a href="#stress">Stress and Tone Marks</a> and <a href="#issues">Common Issues</a>.
+    </div>
 
+    <h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Lithuanian Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Vowel Length &amp; Quality</a></li>
+                <li><a href="#stress">Stress and Tone Marks</a></li>
+                <li><a href="#palatalization">Palatalization (Soft Consonants)</a></li>
+                <li><a href="#diphthongs">Diphthongs</a></li>
+                <li><a href="#consonants">Consonant Rules</a></li>
+                <li><a href="#syllables">Syllable Division</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
+    </ul>
+
+    <h2 id="about">About This Tool</h2>
     <p>This <a href="../?lang=Lithuanian">Lithuanian transcription app</a> uses the <a
             href="https://en.wiktionary.org/wiki/Module:lt-pron" target="_blank" rel="noopener noreferrer">Wiktionary
-        Lithuanian Pronunciation
-        Module</a> to generate phonemic transcriptions for Lithuanian text.</p>
+        Lithuanian Pronunciation Module</a> to generate phonemic transcriptions for Lithuanian text. IPA (International
+        Phonetic Alphabet) is a standardized system for transcribing speech sounds. This tool converts Lithuanian
+        spelling into IPA, helping learners, linguists and developers see how a word is pronounced.</p>
 
-    <p>The system uses a comprehensive Wiktionary data dump<a
-            href="https://kaikki.org/dictionary/Lithuanian/index.html"><sup>[1]</sup></a><a
-            href="https://kaikki.org/ruwiktionary/%D0%9B%D0%B8%D1%82%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9/index.html"><sup>[2]</sup></a>
-        as a lexicon to first retrieve transcriptions from the dictionary. When a word is not found in the lexicon, it
-        falls back to generating transcriptions using the pronunciation module's rule-based approach.</p>
+    <p>Every word goes through two steps:</p>
+    <ol>
+        <li><strong>Dictionary lookup.</strong> The app first looks the word up in a lexicon built from a Wiktionary
+            data dump<a href="https://kaikki.org/dictionary/Lithuanian/index.html"><sup>[1]</sup></a><a
+                    href="https://kaikki.org/ruwiktionary/%D0%9B%D0%B8%D1%82%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9/index.html"><sup>[2]</sup></a>
+            (<code>lt_lexicon.zip</code>, about 12,600 headwords, downloaded once, decompressed in your browser and cached
+            in IndexedDB). If the word is found, the dictionary IPA is shown. These entries come from Wiktionary
+            editors, normally include a stress mark, and may list several variants separated by commas. If the first
+            lookup fails, the lookup is retried with the word in lowercase.</li>
+        <li><strong>Rule-based fallback.</strong> If the word is not in the lexicon (and the lexicon is only a small
+            fraction of Lithuanian vocabulary, so this happens often), the app calls the Lua pronunciation module:
+            <code>window.lt_ipa.toIPA(cleanText, true)</code>. The module's <code>toIPA</code> function takes exactly one
+            parameter (<code>text</code>), so the second argument <code>true</code> is accepted and silently ignored; it
+            changes nothing.
+            Everything this page says about the rule engine therefore applies regardless of that argument.</li>
+    </ol>
+    <p><strong>Important:</strong> the examples on this page were produced with the rule engine only (the test harness
+        does not load the lexicon). A word shown here with a stress-less, dotted result may look different in the app if
+        the dictionary contains it. Dictionary results are generally more reliable than rule output, especially for
+        stress, which the rules cannot guess.</p>
+    <p>Before either step the app removes everything except letters, combining marks, apostrophes and hyphens from the
+        word (<code>sanitize()</code> in <code>utils.js</code>) and normalizes it to NFKC.</p>
 
-    <h2>Dialects Supported</h2>
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
     <ul>
-        <li><strong>Default</strong> - Standard Lithuanian pronunciation patterns</li>
+        <li><strong>Supported:</strong> Standard Lithuanian only; the single style is <strong>Default</strong>.</li>
+        <li><strong>Not supported:</strong> Regional dialects (for example Samogitian) and informal speech.</li>
+        <li><strong>No stress guessing:</strong> the rules never decide which syllable is stressed. Only accent marks you
+            type (or a dictionary entry) produce a stress mark.</li>
+        <li><strong>Lowercase only:</strong> the rules look for lowercase letters; capitals confuse them (see <a
+                href="#issues">Common Issues</a>).</li>
+        <li><strong>Not implemented in the module:</strong> voicing assimilation (<em>dubti</em> <span class="ipa">/dʊbʲ.tʲɪ/</span>
+            keeps its <span class="ipa">b</span> voiced), final devoicing, and any special treatment of mixed
+            diphthongs (an, am, al, ar, ir ...). The output is a broad transcription of letters, not of connected speech.</li>
+        <li><strong>Loanwords and names:</strong> letters outside the native alphabet (f, h, x, q, w) and the digraphs
+            dž/ts are handled only partially.</li>
     </ul>
 
-    <h2>Transcription Forms</h2>
+    <h2 id="forms">Phonemic vs Phonetic</h2>
     <ul>
-
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+        <li><strong>Phonemic</strong> (the only form offered): a broad transcription. Dictionary entries are phonemic by
+            nature. The rule engine also emits a few predictable variants (dark <span class="ipa">ɫ</span>, velar
+            <span class="ipa">ŋ</span>, palatalized consonants, <span class="ipa">ɕ ʑ</span>) because they are built into
+            the module, but it does not produce narrow phonetic detail such as aspiration or assimilation.</li>
     </ul>
 
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound that distinguishes meaning (for example /p/ vs /b/ in <em>pãtas</em> vs <em>batas</em>).</dd>
 
-    <h2>Technical Information</h2>
-    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:lt-pron" target="_blank"
-                                           rel="noopener noreferrer">Wiktionary
-        Lithuanian pronunciation module</a> with a comprehensive lexicon extracted from Wiktionary data dumps, providing
-        both high accuracy for common words and broad coverage through rule-based generation.</p>
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that does not change meaning, such as dark <span class="ipa">ɫ</span> vs
+            clear <span class="ipa">lʲ</span>.</dd>
+
+        <dt>Palatalization</dt>
+        <dd>A consonant pronounced with the middle of the tongue raised toward the hard palate, written <span class="ipa">ʲ</span>.
+            In Lithuanian most consonants are soft before i, e and the i-digraphs, e.g. <em>liepa</em> <span class="ipa">/lʲɪə.pɐ/</span>.</dd>
+
+        <dt>Soft / Hard consonant</dt>
+        <dd>A palatalized consonant (<span class="ipa">tʲ</span>) versus a plain one (<span class="ipa">t</span>). Before the vowels
+            a, o, u, ų and ū consonants are hard, for example <em>tavo</em> <span class="ipa">/tɐ.ʋoː/</span>.</dd>
+
+        <dt>Ogonek</dt>
+        <dd>The small hook under ą, ę, į, ų. These letters mark long vowels.</dd>
+
+        <dt>Macron</dt>
+        <dd>The bar over ū (a long u). The letter ė carries a dot above and is a long e.</dd>
+
+        <dt>Tone / Pitch accent</dt>
+        <dd>Lithuanian stressed syllables carry a tone, written with an acute (á), grave (à) or tilde (ã) accent. This tool
+            converts the three marks into a stress sign, vowel length and, for the acute, a circumflex sign on the vowel.</dd>
+
+        <dt>Diphthong</dt>
+        <dd>A single-syllable vowel glide, e.g. <em>kaina</em> <span class="ipa">/kɐɪ.nɐ/</span>, <em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span>.</dd>
+
+        <dt>Schwa</dt>
+        <dd>The neutral vowel <span class="ipa">ə</span>. In this module it appears only as the second element of the
+            diphthongs <em>ie</em> and <em>uo</em>, e.g. <em>siena</em> <span class="ipa">/sʲɪə.nɐ/</span>.</dd>
+
+        <dt>Affricate</dt>
+        <dd>A stop followed by a fricative, written with a tie bar: <span class="ipa">t͡s</span> (c), <span class="ipa">t͡ʃ</span>/<span class="ipa">t͡ɕ</span> (č), <span class="ipa">d͡z</span> (dz).</dd>
+
+        <dt>Velarization (dark l)</dt>
+        <dd>A back-of-the-tongue <span class="ipa">ɫ</span>, used for l before hard vowels and consonants: <em>lapas</em> <span class="ipa">/ɫɐ.pɐs/</span>.</dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>The dot (.) between syllables. This module leaves the dots in its output, so you will see them in rule-generated IPA.</dd>
+
+        <dt>Tie Bar</dt>
+        <dd>The mark ◌͡◌ joining two symbols into one affricate.</dd>
+
+        <dt>Lexicon</dt>
+        <dd>The dictionary of ready-made IPA transcriptions, consulted before the rules.</dd>
+
+        <dt>NFD</dt>
+        <dd>Unicode decomposed form: accented letters are split into a base letter plus combining marks so the module can match the marks.</dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This section lists the symbols this engine actually emits, with an approximate English equivalent.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">/ɐ/</span></td><td><em>batas</em> <span class="ipa">/bɐ.tɐs/</span></td><td>"cut" (open, central)</td><td>Short <em>a</em></td></tr>
+        <tr><td><span class="ipa">/aː/</span></td><td><em>rãtas</em> <span class="ipa">/ˈraː.tɐs/</span></td><td>"father"</td><td>Long, from <em>ã</em> (tilde)</td></tr>
+        <tr><td><span class="ipa">/âː/</span></td><td><em>lába</em> <span class="ipa">/ˈɫâː.bɐ/</span></td><td>"father" with falling pitch</td><td>From <em>á</em> (acute)</td></tr>
+        <tr><td><span class="ipa">/ɛ/</span></td><td><em>medis</em> <span class="ipa">/mʲɛ.dʲɪs/</span></td><td>"bed"</td><td>Short <em>e</em></td></tr>
+        <tr><td><span class="ipa">/eː/</span></td><td><em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span></td><td>"say" (no glide)</td><td>Long, from <em>ė</em></td></tr>
+        <tr><td><span class="ipa">/æː/</span></td><td><em>ęsti</em> <span class="ipa">/æː.sʲtʲɪ/</span></td><td>"cat" (lengthened)</td><td>Long, from <em>ę</em>; also after soft consonants, e.g. <em>miãsa</em> <span class="ipa">/ˈmʲæː.sɐ/</span></td></tr>
+        <tr><td><span class="ipa">/ɪ/</span></td><td><em>tiltas</em> <span class="ipa">/tʲɪɫ.tɐs/</span></td><td>"sit"</td><td>Short <em>i</em></td></tr>
+        <tr><td><span class="ipa">/iː/</span></td><td><em>jį</em> <span class="ipa">/jiː/</span></td><td>"see"</td><td>Long, from <em>į</em> and <em>y</em></td></tr>
+        <tr><td><span class="ipa">/ʊ/</span></td><td><em>kur</em> <span class="ipa">/kʊr/</span></td><td>"put"</td><td>Short <em>u</em></td></tr>
+        <tr><td><span class="ipa">/uː/</span></td><td><em>rūkas</em> <span class="ipa">/ruː.kɐs/</span></td><td>"food"</td><td>Long, from <em>ū</em> and <em>ų</em></td></tr>
+        <tr><td><span class="ipa">/oː/</span></td><td><em>kodas</em> <span class="ipa">/koː.dɐs/</span></td><td>"more" (no glide)</td><td>The letter <em>o</em> is always long</td></tr>
+        <tr><td><span class="ipa">/ə/</span></td><td><em>siena</em> <span class="ipa">/sʲɪə.nɐ/</span></td><td>"about"</td><td>Only inside the diphthongs ie and uo</td></tr>
+        <tr><td><span class="ipa">/ɐɪ/</span></td><td><em>kaina</em> <span class="ipa">/kɐɪ.nɐ/</span></td><td>"eye" (shorter)</td><td>Diphthong <em>ai</em></td></tr>
+        <tr><td><span class="ipa">/ɛɪ/</span></td><td><em>eiti</em> <span class="ipa">/ɛɪ.tʲɪ/</span></td><td>"say" (with i-glide)</td><td>Diphthong <em>ei</em></td></tr>
+        <tr><td><span class="ipa">/ɐʊ̯/</span></td><td><em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span></td><td>"how" (shorter)</td><td>Diphthong <em>au</em></td></tr>
+        <tr><td><span class="ipa">/ɛʊ/</span></td><td><em>kiaulė</em> <span class="ipa">/kʲɛʊ.lʲeː/</span></td><td>No close equivalent</td><td>Diphthong <em>iau</em> (and <em>eu</em>)</td></tr>
+        <tr><td><span class="ipa">/ʊɪ/</span></td><td><em>kuinas</em> <span class="ipa">/kʊɪ.nɐs/</span></td><td>"ooey"</td><td>Diphthong <em>ui</em></td></tr>
+        <tr><td><span class="ipa">/ɪə/</span></td><td><em>miestas</em> <span class="ipa">/mʲɪə.stɐs/</span></td><td>"here" (without r)</td><td>Diphthong <em>ie</em></td></tr>
+        <tr><td><span class="ipa">/ʊə/</span></td><td><em>puodas</em> <span class="ipa">/pʊə.dɐs/</span></td><td>"poor" (without r)</td><td>Diphthong <em>uo</em></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">/p b t d k/</span></td><td><em>pãtas</em> <span class="ipa">/ˈpaː.tɐs/</span>, <em>batas</em> <span class="ipa">/bɐ.tɐs/</span>, <em>tavo</em> <span class="ipa">/tɐ.ʋoː/</span>, <em>kodas</em> <span class="ipa">/koː.dɐs/</span></td><td>"spin", "bat", "stop", "dot", "skin"</td><td>Unaspirated stops</td></tr>
+        <tr><td><span class="ipa">/ɡ/</span></td><td><em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span></td><td>"go"</td><td>From <em>g</em> (not before u, see <a href="#issues">Issues</a>)</td></tr>
+        <tr><td><span class="ipa">/f/</span></td><td><em>fabrikas</em> <span class="ipa">/f.ɐ.bʲrʲɪ.kɐs/</span></td><td>"fan"</td><td>Loanwords only</td></tr>
+        <tr><td><span class="ipa">/ʋ/</span></td><td><em>vasara</em> <span class="ipa">/ʋɐ.sɐ.rɐ/</span></td><td>between "v" and "w"</td><td>From <em>v</em></td></tr>
+        <tr><td><span class="ipa">/s z/</span></td><td><em>stalas</em> <span class="ipa">/stɐ.ɫɐs/</span>, <em>zuikis</em> <span class="ipa">/zʊɪ.kʲɪs/</span></td><td>"sun", "zoo"</td><td></td></tr>
+        <tr><td><span class="ipa">/ʃ ʒ/</span></td><td><em>šaltas</em> <span class="ipa">/ʃɐɫ.tɐs/</span>, <em>žodis</em> <span class="ipa">/ʒoː.dʲɪs/</span></td><td>"shoe", "measure"</td><td>From <em>š</em>, <em>ž</em></td></tr>
+        <tr><td><span class="ipa">/ɕ ʑ/</span></td><td><em>šeši</em> <span class="ipa">/ɕɛ.ɕɪ/</span>, <em>žemė</em> <span class="ipa">/ʑɛ.mʲeː/</span></td><td>soft "sh", soft "zh"</td><td><em>š</em>, <em>ž</em> before a soft vowel</td></tr>
+        <tr><td><span class="ipa">/x/</span></td><td><em>chaosas</em> <span class="ipa">/xɐoː.sɐs/</span></td><td>Scottish "loch"</td><td>From <em>ch</em></td></tr>
+        <tr><td><span class="ipa">/ɣ/</span></td><td><em>hobis</em> <span class="ipa">/ɣ.oː.bʲɪs/</span></td><td>voiced "ch" of "loch"</td><td>From <em>h</em></td></tr>
+        <tr><td><span class="ipa">/t͡s/</span></td><td><em>ciklas</em> <span class="ipa">/t͡sʲɪ.kɫɐs/</span></td><td>"cats"</td><td>From <em>c</em></td></tr>
+        <tr><td><span class="ipa">/t͡ʃ/</span> <span class="ipa">/t͡ɕ/</span></td><td><em>čaga</em> <span class="ipa">/t͡ʃɐ.ɡɐ/</span>, <em>čekis</em> <span class="ipa">/t͡ɕɛ.kʲɪs/</span></td><td>"church", soft "church"</td><td>From <em>č</em></td></tr>
+        <tr><td><span class="ipa">/d͡z/</span></td><td><em>dzeta</em> <span class="ipa">/d͡zʲɛ.tɐ/</span></td><td>"adze"</td><td>From <em>dz</em> (typed <em>ð</em> also works)</td></tr>
+        <tr><td><span class="ipa">/m n/</span></td><td><em>mama</em> <span class="ipa">/mɐ.mɐ/</span>, <em>nosis</em> <span class="ipa">/noː.sʲɪs/</span></td><td>"mom", "no"</td><td></td></tr>
+        <tr><td><span class="ipa">/ŋ/</span></td><td><em>bankas</em> <span class="ipa">/bɐŋ.kɐs/</span></td><td>"sing"</td><td>n before k or g</td></tr>
+        <tr><td><span class="ipa">/l/</span></td><td><em>liepa</em> <span class="ipa">/lʲɪə.pɐ/</span></td><td>"leaf"</td><td>Clear (palatalized) l: <span class="ipa">lʲ</span></td></tr>
+        <tr><td><span class="ipa">/ɫ/</span></td><td><em>lapas</em> <span class="ipa">/ɫɐ.pɐs/</span></td><td>"full" (dark l)</td><td>l before anything except a soft consonant mark</td></tr>
+        <tr><td><span class="ipa">/r/</span></td><td><em>ratas</em> <span class="ipa">/rɐ.tɐs/</span></td><td>Spanish "pero" (tap/trill)</td><td></td></tr>
+        <tr><td><span class="ipa">/j/</span></td><td><em>jis</em> <span class="ipa">/jɪs/</span></td><td>"yes"</td><td></td></tr>
+        <tr><td><span class="ipa">/kʋ/</span></td><td><em>kvaila</em> <span class="ipa">/kʋɐɪ.ɫɐ/</span></td><td>"kv"</td><td>Normal <em>kv</em> cluster</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">ˈ</span></td><td>Primary stress</td><td>Stress is on the following syllable</td><td><em>rankà</em> <span class="ipa">/rɐŋˈkɐ/</span></td></tr>
+        <tr><td><span class="ipa">.</span></td><td>Syllable boundary</td><td>Syllable break (left in rule output)</td><td><em>labas</em> <span class="ipa">/ɫɐ.bɐs/</span></td></tr>
+        <tr><td><span class="ipa">ː</span></td><td>Length mark</td><td>Vowel is long</td><td><em>rãtas</em> <span class="ipa">/ˈraː.tɐs/</span></td></tr>
+        <tr><td><span class="ipa">ʲ</span></td><td>Palatalization</td><td>Consonant is soft</td><td><em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span></td></tr>
+        <tr><td><span class="ipa">̂</span></td><td>Circumflex</td><td>Acute-tone vowel (placed on the vowel before the length mark)</td><td><em>kárta</em> <span class="ipa">/ˈkâːr.tɐ/</span></td></tr>
+        <tr><td><span class="ipa">̯</span></td><td>Non-syllabic</td><td>Glide part of a diphthong</td><td><em>tauta</em> <span class="ipa">/tɐʊ̯.tɐ/</span></td></tr>
+        <tr><td><span class="ipa">͡</span></td><td>Tie bar</td><td>Affricate (single unit)</td><td><em>cukrus</em> <span class="ipa">/cʊ.krʊs/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Some lexicon entries list more than one pronunciation
+            (separated by commas). Click a transcribed word to cycle through them.</li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to a word or
+            line to hear text-to-speech (language code lt-LT; needs browser or Edge TTS voice support).</li>
+        <li><strong>Export results:</strong> Use the PDF or CSV buttons to save transcriptions.</li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <ul>
+        <li><strong>Lexicon entries:</strong> a dictionary headword can carry several transcriptions (for example
+            different stress placements).</li>
+        <li><strong>Lexicon vs. rules:</strong> the dictionary and the rule engine can give different results for the
+            same word; the dictionary wins whenever it has the word.</li>
+        <li><strong>Rule engine:</strong> always returns exactly one result per word.</li>
+    </ul>
+
+    <h2>Lithuanian Pronunciation Guide</h2>
+    <p>This guide describes how the module turns Lithuanian spelling into sounds. Lithuanian spelling is fairly regular,
+        but several things are <em>not</em> written in ordinary text: the stress position and the tone. The module can
+        only reproduce them if you mark them.</p>
+
+    <h3 id="vowels-guide">Vowel Length &amp; Quality</h3>
+    <p>Length is carried by the letter itself: <em>a e i u</em> are short, while <em>ą ę į ų ū ė y</em> are long and
+        <em>o</em> is always long. The exception is <em>ą</em>, which the module leaves unconverted (see <a
+                href="#issues">Common Issues</a>).</p>
+    <table>
+        <thead>
+        <tr><th>Letter</th><th>Short</th><th>Long</th><th>Short Example</th><th>Long Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>a / ą</td><td><span class="ipa">/ɐ/</span></td><td><span class="ipa">/aː/</span> (only via ã)</td><td><em>batas</em> <span class="ipa">/bɐ.tɐs/</span></td><td><em>rãtas</em> <span class="ipa">/ˈraː.tɐs/</span></td></tr>
+        <tr><td>e / ė / ę</td><td><span class="ipa">/ɛ/</span></td><td><span class="ipa">/eː/</span>, <span class="ipa">/æː/</span></td><td><em>medis</em> <span class="ipa">/mʲɛ.dʲɪs/</span></td><td><em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span>, <em>ęsti</em> <span class="ipa">/æː.sʲtʲɪ/</span></td></tr>
+        <tr><td>i / į / y</td><td><span class="ipa">/ɪ/</span></td><td><span class="ipa">/iː/</span></td><td><em>tiltas</em> <span class="ipa">/tʲɪɫ.tɐs/</span></td><td><em>jį</em> <span class="ipa">/jiː/</span>, <em>sakyti</em> <span class="ipa">/sɐ.kʲiː.tʲɪ/</span></td></tr>
+        <tr><td>u / ū / ų</td><td><span class="ipa">/ʊ/</span></td><td><span class="ipa">/uː/</span></td><td><em>kur</em> <span class="ipa">/kʊr/</span></td><td><em>rūkas</em> <span class="ipa">/ruː.kɐs/</span>, <em>rankų</em> <span class="ipa">/rɐŋ.kuː/</span></td></tr>
+        <tr><td>o</td><td>(none)</td><td><span class="ipa">/oː/</span></td><td>-</td><td><em>kodas</em> <span class="ipa">/koː.dɐs/</span></td></tr>
+        </tbody>
+    </table>
+    <p>Short vowels written with the ordinary letter stay short even with a tilde (<em>ẽ ĩ ũ</em>), and the vowel after
+        a soft consonant is fronted: <span class="ipa">ʲɐ</span> becomes <span class="ipa">ʲɛ</span> (<em>tokia</em> <span class="ipa">/toː.kʲɛ/</span>),
+        and a long <span class="ipa">aː</span> becomes <span class="ipa">ʲæː</span> (<em>niãrti</em> <span class="ipa">/ˈnʲæːrʲ.tʲɪ/</span>).</p>
+
+    <h3 id="stress">Stress and Tone Marks</h3>
+    <p>The module reads three accent marks. Per its own source comment: <strong>acute = stressed + circumflex tone</strong>,
+        <strong>tilde = stressed + long</strong>, <strong>grave = stressed + short</strong>. A stress sign
+        <span class="ipa">ˈ</span> is placed before the syllable that contains the mark. Without any mark there is no stress
+        sign at all.</p>
+    <table>
+        <thead>
+        <tr><th>Mark</th><th>No mark</th><th>Acute (á)</th><th>Tilde (ã)</th><th>Grave (à)</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>a</td><td><em>lapas</em> <span class="ipa">/ɫɐ.pɐs/</span></td><td><em>lába</em> <span class="ipa">/ˈɫâː.bɐ/</span></td><td><em>lãbas</em> <span class="ipa">/ˈɫaː.bɐs/</span></td><td><em>màma</em> <span class="ipa">/ˈmɐ.mɐ/</span></td></tr>
+        <tr><td>o</td><td><em>dovana</em> <span class="ipa">/doː.ʋɐ.nɐ/</span></td><td><em>dóvana</em> <span class="ipa">/ˈdôː.ʋɐ.nɐ/</span></td><td><em>dõvana</em> <span class="ipa">/ˈdoː.ʋɐ.nɐ/</span></td><td><em>dòvana</em> <span class="ipa">/ˈdoː.ʋɐ.nɐ/</span></td></tr>
+        <tr><td>ė</td><td><em>mėsa</em> <span class="ipa">/mʲeː.sɐ/</span></td><td><em>mė́sa</em> <span class="ipa">/ˈmʲêː.sɐ/</span></td><td><em>mė̃sa</em> <span class="ipa">/ˈmʲeː.sɐ/</span></td><td><em>mė̀sa</em> <span class="ipa">/ˈmʲeː.sɐ/</span></td></tr>
+        </tbody>
+    </table>
+    <ul>
+        <li>The acute turns the vowel into a circumflex-marked long vowel only for a, o, ė, ę, y, ū, ų, į (written
+            <span class="ipa">âː</span>, <span class="ipa">ôː</span> ...). On a plain short <em>e i u</em> the module
+            does not rewrite the acute and a stray acute stays in the output.</li>
+        <li>The tilde adds length only to <em>a</em>; on <em>e i u</em> it just marks stress: <em>kẽpti</em> <span class="ipa">/ˈkʲɛpʲ.tʲɪ/</span>.</li>
+        <li>The stress sign takes the place of the syllable dot: <em>kartà</em> <span class="ipa">/kɐrˈtɐ/</span>
+            vs <em>kárta</em> <span class="ipa">/ˈkâːr.tɐ/</span> vs <em>kartã</em> <span class="ipa">/kɐrˈtaː/</span>.</li>
+        <li>Every syllable with a mark gets its own <span class="ipa">ˈ</span>: <em>dúonà</em> <span class="ipa">/ˈdʊ̂əˈnɐ/</span>.</li>
+        <li>Macron and breve are not stress marks (<em>ūkis</em> <span class="ipa">/uː.kʲɪs/</span> vs <em>ū̃kis</em> <span class="ipa">/ˈuː.kʲɪs/</span>).</li>
+    </ul>
+
+    <h3 id="palatalization">Palatalization (Soft Consonants)</h3>
+    <p>The module marks a consonant as soft (<span class="ipa">ʲ</span>) in these cases:</p>
+    <ul>
+        <li><strong>Before i, e, ė, ę, į, y and j-vowel combinations:</strong> <em>medis</em> <span class="ipa">/mʲɛ.dʲɪs/</span>,
+            <em>gerti</em> <span class="ipa">/ɡʲɛrʲ.tʲɪ/</span>, <em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span>. The letter
+            <em>y</em> is in this list too, which is a bug for real Lithuanian (<a href="#issues">see Issues</a>).</li>
+        <li><strong>Before the i-digraphs ia, io, iu:</strong> the <em>i</em> disappears and only the softness remains:
+            <em>žiema</em> <span class="ipa">/ʑɪə.mɐ/</span>, <em>čiobrelis</em> <span class="ipa">/t͡ɕoː.bʲrʲɛ.lʲɪs/</span>,
+            <em>giesmė</em> <span class="ipa">/ɡʲɪə.sʲmʲeː/</span>. Exception: <em>iau</em> keeps its <em>i</em> and becomes a diphthong:
+            <em>kiaulė</em> <span class="ipa">/kʲɛʊ.lʲeː/</span>.</li>
+        <li><strong>Consonant clusters:</strong> a soft consonant makes the consonants before it soft too:
+            <em>sveikas</em> <span class="ipa">/sʲʋʲɛɪ.kɐs/</span>, <em>tìlti</em> <span class="ipa">/ˈtʲɪlʲ.tʲɪ/</span>, <em>anglis</em>
+            <span class="ipa">/ɐŋʲ.ɡʲlʲɪs/</span>. The exception is <em>k</em>, which never takes <span class="ipa">ʲ</span> this way
+            (<em>krienas</em> <span class="ipa">/krʲɪə.nɐs/</span> and <em>apniūkti</em> <span class="ipa">/ɐpʲ.nʲuːk.tʲɪ/</span> keep a plain k, and so does the k in <em>skaityti</em> <span class="ipa">/skɐɪ.tʲiː.tʲɪ/</span>).</li>
+        <li><strong>After š and ž:</strong> a soft <span class="ipa">ʃ</span> becomes <span class="ipa">ɕ</span> and a soft
+            <span class="ipa">ʒ</span> becomes <span class="ipa">ʑ</span>: <em>šeši</em> <span class="ipa">/ɕɛ.ɕɪ/</span>,
+            <em>žemė</em> <span class="ipa">/ʑɛ.mʲeː/</span>; <em>č</em> before a soft vowel becomes <span class="ipa">t͡ɕ</span>:
+            <em>čekis</em> <span class="ipa">/t͡ɕɛ.kʲɪs/</span>.</li>
+        <li><strong>Not palatalized:</strong> consonants before a, o, u: <em>tavo</em> <span class="ipa">/tɐ.ʋoː/</span>.
+            The consonant j is never softened.</li>
+    </ul>
+    <p>A missing <em>j</em> is added before an initial <em>ie</em> and between a vowel and <em>ie</em>:
+        <em>ieva</em> <span class="ipa">/jɪə.ʋɐ/</span>, <em>paieška</em> <span class="ipa">/pɐ.jɪə.ʃkɐ/</span>.</p>
+
+    <h3 id="diphthongs">Diphthongs</h3>
+    <p>The module recognizes the following diphthongs (the acute-mark inputs below are illustrative). A tilde on the second vowel is dropped (it marks stress, which the
+        stress step has already handled); an acute adds a circumflex mark on the first element.</p>
+    <table>
+        <thead>
+        <tr><th>Letters</th><th>Unmarked</th><th>With acute</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>ai</td><td><em>kaina</em> <span class="ipa">/kɐɪ.nɐ/</span></td><td><em>káina</em> <span class="ipa">/ˈkɐ̂ɪ.nɐ/</span></td><td></td></tr>
+        <tr><td>au</td><td><em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span></td><td><em>áuga</em> <span class="ipa">/ˈɐ̂ʊ.ɡɐ/</span></td><td></td></tr>
+        <tr><td>ei</td><td><em>eiti</em> <span class="ipa">/ɛɪ.tʲɪ/</span></td><td><em>éiti</em> <span class="ipa">/ˈɛ̂ɪ.tʲɪ/</span></td><td></td></tr>
+        <tr><td>iau</td><td><em>kiauras</em> <span class="ipa">/kʲɛʊ.rɐs/</span></td><td><em>kiáuras</em> <span class="ipa">/ˈkʲæ̂ʊ.rɐs/</span></td><td>The <em>i</em> only softens the consonant</td></tr>
+        <tr><td>ie</td><td><em>miestas</em> <span class="ipa">/mʲɪə.stɐs/</span></td><td><em>píeva</em> <span class="ipa">/ˈpʲɪ̂ə.ʋɐ/</span></td><td>The second element is a schwa</td></tr>
+        <tr><td>uo</td><td><em>puodas</em> <span class="ipa">/pʊə.dɐs/</span></td><td><em>dúona</em> <span class="ipa">/ˈdʊ̂ə.nɐ/</span></td><td></td></tr>
+        <tr><td>ui</td><td><em>kuinas</em> <span class="ipa">/kʊɪ.nɐs/</span></td><td><em>kúinas</em> <span class="ipa">/ˈkʊ̂ɪ.nɐs/</span></td><td></td></tr>
+        </tbody>
+    </table>
+    <p><strong>Limitation:</strong> diphthongs are only matched <em>inside</em> a word. At the end of a word the
+        syllable-division step splits them into two syllables, so the diphthong rules do not fire:
+        <em>vaikai</em> <span class="ipa">/ʋɐɪ.kɐ.ɪ/</span>, <em>vanduo</em> <span class="ipa">/ʋɐn.dʊ.oː/</span>,
+        <em>kaip</em> <span class="ipa">/kɐ.ɪp/</span>. Compare the same diphthong in the middle of a word:
+        <em>vaikas</em> <span class="ipa">/ʋɐɪ.kɐs/</span>. Words like this are the ones most likely to be better served by
+        the dictionary.</p>
+
+    <h3 id="consonants">Consonant Rules</h3>
+    <ul>
+        <li><strong>g, h, c, v, q:</strong> <em>g</em> becomes the IPA <span class="ipa">ɡ</span> (<em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span>);
+            <em>h</em> becomes <span class="ipa">ɣ</span> (<em>hobis</em> <span class="ipa">/ɣ.oː.bʲɪs/</span>); <em>c</em> becomes
+            <span class="ipa">t͡s</span> (<em>ciklas</em> <span class="ipa">/t͡sʲɪ.kɫɐs/</span>); <em>v</em> becomes <span class="ipa">ʋ</span>
+            (<em>vasara</em> <span class="ipa">/ʋɐ.sɐ.rɐ/</span>); <em>q</em> becomes <span class="ipa">k</span>.</li>
+        <li><strong>Digraphs:</strong> <em>ch</em> becomes <span class="ipa">x</span> (<em>chaosas</em> <span class="ipa">/xɐoː.sɐs/</span>);
+            <em>dz</em> becomes <span class="ipa">d͡z</span> (<em>dzeta</em> <span class="ipa">/d͡zʲɛ.tɐ/</span>); <em>č</em> becomes <span class="ipa">t͡ʃ</span>
+            (<em>čaga</em> <span class="ipa">/t͡ʃɐ.ɡɐ/</span>). <em>ts</em> and <em>dž</em> are only half supported: see <a href="#issues">Common Issues</a>.</li>
+        <li><strong>Velar nasal:</strong> n followed by k or ɡ becomes <span class="ipa">ŋ</span>: <em>bankas</em> <span class="ipa">/bɐŋ.kɐs/</span>,
+            <em>langas</em> <span class="ipa">/ɫɐŋ.ɡɐs/</span>. A soft n stays soft: <em>anglis</em> <span class="ipa">/ɐŋʲ.ɡʲlʲɪs/</span>.</li>
+        <li><strong>Dark l:</strong> every <em>l</em> that is not soft becomes <span class="ipa">ɫ</span>: <em>kalnas</em> <span class="ipa">/kɐɫ.nɐs/</span>,
+            but not at the very end of a word: <em>atgal</em> <span class="ipa">/ɐt.ɡɐl/</span>.</li>
+        <li><strong>Voicing:</strong> not modified. Consonants keep their letter-based voicing even in clusters and at the end of a word.</li>
+    </ul>
+
+    <h3 id="syllables">Syllable Division</h3>
+    <p>Syllable dots are left in the final output. The division rule puts a dot before each onset-plus-vowel group, treats
+        stop + sonorant (e.g. <em>br</em>, <em>pl</em>) and <em>s/z</em> + stop as one onset (but splits stop + <em>m/n</em>, e.g. <em>ritmas</em> <span class="ipa">/rʲɪt.mɐs/</span>), and keeps a vowel sequence together
+        unless it is at the end of the word. Examples: <em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span>, <em>sluoksnis</em>
+        <span class="ipa">/sɫʊək.sʲnʲɪs/</span>, <em>aštuoni</em> <span class="ipa">/ɐ.ʃtʊə.nʲɪ/</span>. The letters <em>h f x</em> and
+        <em>q</em> are not recognized as onsets, so they get a stray dot (see <a href="#issues">Common Issues</a>).</p>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+
+    <h3>1. Vowel Letters</h3>
+    <table>
+        <thead><tr><th>Spelling</th><th>Example</th><th>Notes</th></tr></thead>
+        <tbody>
+        <tr><td>a</td><td><em>batas</em> <span class="ipa">/bɐ.tɐs/</span></td><td>Short</td></tr>
+        <tr><td>e</td><td><em>medis</em> <span class="ipa">/mʲɛ.dʲɪs/</span></td><td>Short</td></tr>
+        <tr><td>ė</td><td><em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span></td><td>Long</td></tr>
+        <tr><td>ę</td><td><em>ęsti</em> <span class="ipa">/æː.sʲtʲɪ/</span></td><td>Long, open</td></tr>
+        <tr><td>i</td><td><em>tiltas</em> <span class="ipa">/tʲɪɫ.tɐs/</span></td><td>Short</td></tr>
+        <tr><td>į</td><td><em>jį</em> <span class="ipa">/jiː/</span></td><td>Long</td></tr>
+        <tr><td>y</td><td><em>sakyti</em> <span class="ipa">/sɐ.kʲiː.tʲɪ/</span></td><td>Long (also palatalizes the preceding consonant)</td></tr>
+        <tr><td>o</td><td><em>kodas</em> <span class="ipa">/koː.dɐs/</span></td><td>Always long</td></tr>
+        <tr><td>u</td><td><em>kur</em> <span class="ipa">/kʊr/</span></td><td>Short</td></tr>
+        <tr><td>ų</td><td><em>rankų</em> <span class="ipa">/rɐŋ.kuː/</span></td><td>Long</td></tr>
+        <tr><td>ū</td><td><em>rūkas</em> <span class="ipa">/ruː.kɐs/</span></td><td>Long</td></tr>
+        <tr><td>ą</td><td><em>ąsà</em> <span class="ipa">/ɐ̨ˈsɐ/</span></td><td>Not converted (stray ogonek in output)</td></tr>
+        </tbody>
+    </table>
+
+    <h3>2. Diphthong Letter Pairs</h3>
+    <table>
+        <thead><tr><th>Spelling</th><th>Example</th></tr></thead>
+        <tbody>
+        <tr><td>ai</td><td><em>žaibas</em> <span class="ipa">/ʒɐɪ.bɐs/</span></td></tr>
+        <tr><td>ei</td><td><em>sveikas</em> <span class="ipa">/sʲʋʲɛɪ.kɐs/</span></td></tr>
+        <tr><td>au</td><td><em>kaulas</em> <span class="ipa">/kɐʊ̯.ɫɐs/</span></td></tr>
+        <tr><td>iau</td><td><em>kiaulė</em> <span class="ipa">/kʲɛʊ.lʲeː/</span></td></tr>
+        <tr><td>eu</td><td><em>euras</em> <span class="ipa">/ɛʊ.rɐs/</span></td></tr>
+        <tr><td>ie</td><td><em>lietus</em> <span class="ipa">/lʲɪə.tʊs/</span></td></tr>
+        <tr><td>uo</td><td><em>puodas</em> <span class="ipa">/pʊə.dɐs/</span></td></tr>
+        <tr><td>ui</td><td><em>zuikis</em> <span class="ipa">/zʊɪ.kʲɪs/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. Stress and Tone Marks</h3>
+    <table>
+        <thead><tr><th>Mark</th><th>Meaning in module</th><th>Example</th></tr></thead>
+        <tbody>
+        <tr><td>acute ´ (á)</td><td>stressed, circumflex tone sign</td><td><em>kárta</em> <span class="ipa">/ˈkâːr.tɐ/</span></td></tr>
+        <tr><td>tilde ˜ (ã)</td><td>stressed, long</td><td><em>kartã</em> <span class="ipa">/kɐrˈtaː/</span></td></tr>
+        <tr><td>grave ` (à)</td><td>stressed, short</td><td><em>kartà</em> <span class="ipa">/kɐrˈtɐ/</span></td></tr>
+        <tr><td>none</td><td>no stress mark in output</td><td><em>karta</em> <span class="ipa">/kɐr.tɐ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>4. Consonant Letters</h3>
+    <table>
+        <thead><tr><th>Spelling</th><th>Example</th></tr></thead>
+        <tbody>
+        <tr><td>b</td><td><em>batas</em> <span class="ipa">/bɐ.tɐs/</span></td></tr>
+        <tr><td>c</td><td><em>ciklas</em> <span class="ipa">/t͡sʲɪ.kɫɐs/</span></td></tr>
+        <tr><td>č</td><td><em>čaga</em> <span class="ipa">/t͡ʃɐ.ɡɐ/</span></td></tr>
+        <tr><td>d</td><td><em>kodas</em> <span class="ipa">/koː.dɐs/</span></td></tr>
+        <tr><td>f</td><td><em>fabrikas</em> <span class="ipa">/f.ɐ.bʲrʲɪ.kɐs/</span></td></tr>
+        <tr><td>g</td><td><em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span></td></tr>
+        <tr><td>h</td><td><em>hobis</em> <span class="ipa">/ɣ.oː.bʲɪs/</span></td></tr>
+        <tr><td>j</td><td><em>jis</em> <span class="ipa">/jɪs/</span></td></tr>
+        <tr><td>k</td><td><em>kodas</em> <span class="ipa">/koː.dɐs/</span></td></tr>
+        <tr><td>l</td><td><em>lapas</em> <span class="ipa">/ɫɐ.pɐs/</span></td></tr>
+        <tr><td>m</td><td><em>mama</em> <span class="ipa">/mɐ.mɐ/</span></td></tr>
+        <tr><td>n</td><td><em>nosis</em> <span class="ipa">/noː.sʲɪs/</span></td></tr>
+        <tr><td>p</td><td><em>pãtas</em> <span class="ipa">/ˈpaː.tɐs/</span></td></tr>
+        <tr><td>r</td><td><em>ratas</em> <span class="ipa">/rɐ.tɐs/</span></td></tr>
+        <tr><td>s</td><td><em>stalas</em> <span class="ipa">/stɐ.ɫɐs/</span></td></tr>
+        <tr><td>š</td><td><em>šaltas</em> <span class="ipa">/ʃɐɫ.tɐs/</span></td></tr>
+        <tr><td>t</td><td><em>tavo</em> <span class="ipa">/tɐ.ʋoː/</span></td></tr>
+        <tr><td>v</td><td><em>vasara</em> <span class="ipa">/ʋɐ.sɐ.rɐ/</span></td></tr>
+        <tr><td>z</td><td><em>zuikis</em> <span class="ipa">/zʊɪ.kʲɪs/</span></td></tr>
+        <tr><td>ž</td><td><em>žodis</em> <span class="ipa">/ʒoː.dʲɪs/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>5. Digraphs and Clusters</h3>
+    <table>
+        <thead><tr><th>Spelling</th><th>Example</th><th>Notes</th></tr></thead>
+        <tbody>
+        <tr><td>ch</td><td><em>chaosas</em> <span class="ipa">/xɐoː.sɐs/</span></td><td></td></tr>
+        <tr><td>dz</td><td><em>dzeta</em> <span class="ipa">/d͡zʲɛ.tɐ/</span></td><td>Before u the placeholder leaks, e.g. <em>dzūkas</em> <span class="ipa">/ðuː.kɐs/</span></td></tr>
+        <tr><td>ng / nk</td><td><em>langas</em> <span class="ipa">/ɫɐŋ.ɡɐs/</span>, <em>bankas</em> <span class="ipa">/bɐŋ.kɐs/</span></td><td>n becomes ŋ</td></tr>
+        <tr><td>kv</td><td><em>kvaila</em> <span class="ipa">/kʋɐɪ.ɫɐ/</span></td><td></td></tr>
+        <tr><td>sk / st</td><td><em>skaityti</em> <span class="ipa">/skɐɪ.tʲiː.tʲɪ/</span>, <em>stalas</em> <span class="ipa">/stɐ.ɫɐs/</span></td><td>s + stop is one onset</td></tr>
+        <tr><td>ts</td><td><em>pats</em> <span class="ipa">/pɐć/</span></td><td>Unfinished placeholder (see Issues); write c instead: <em>pac</em> <span class="ipa">/pɐt͡s/</span></td></tr>
+        <tr><td>dž</td><td><em>džemperis</em> <span class="ipa">/ð̌ʲɛmʲ.pʲɛ.rʲɪs/</span></td><td>Unfinished placeholder (see Issues); type þ instead: <em>þemperis</em> <span class="ipa">/d͡ʑɛmʲ.pʲɛ.rʲɪs/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>6. Soft Consonants</h3>
+    <table>
+        <thead><tr><th>Context</th><th>Example</th></tr></thead>
+        <tbody>
+        <tr><td>C + i</td><td><em>pirmas</em> <span class="ipa">/pʲɪr.mɐs/</span></td></tr>
+        <tr><td>C + e</td><td><em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span></td></tr>
+        <tr><td>C + ia / io / iu</td><td><em>žiema</em> <span class="ipa">/ʑɪə.mɐ/</span>, <em>čiobrelis</em> <span class="ipa">/t͡ɕoː.bʲrʲɛ.lʲɪs/</span>, <em>šiuo</em> <span class="ipa">/ɕʊ.oː/</span></td></tr>
+        <tr><td>cluster before soft consonant</td><td><em>sveikas</em> <span class="ipa">/sʲʋʲɛɪ.kɐs/</span>, <em>dviratis</em> <span class="ipa">/dʲʋʲɪ.rɐ.tʲɪs/</span></td></tr>
+        <tr><td>š / ž + soft vowel</td><td><em>šeši</em> <span class="ipa">/ɕɛ.ɕɪ/</span>, <em>žemė</em> <span class="ipa">/ʑɛ.mʲeː/</span></td></tr>
+        <tr><td>č + soft vowel</td><td><em>čekis</em> <span class="ipa">/t͡ɕɛ.kʲɪs/</span></td></tr>
+        <tr><td>C + a / o / u (hard)</td><td><em>tavo</em> <span class="ipa">/tɐ.ʋoː/</span>, <em>kur</em> <span class="ipa">/kʊr/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>7. Whole Words</h3>
+    <table>
+        <thead><tr><th>Word</th><th>Meaning</th></tr></thead>
+        <tbody>
+        <tr><td><em>mokykla</em> <span class="ipa">/moː.kʲiː.kɫɐ/</span></td><td>school</td></tr>
+        <tr><td><em>lietuviškai</em> <span class="ipa">/lʲɪə.tʊ.ʋʲɪ.ʃkɐ.ɪ/</span></td><td>in Lithuanian</td></tr>
+        <tr><td><em>draugas</em> <span class="ipa">/drɐʊ̯.ɡɐs/</span></td><td>friend</td></tr>
+        <tr><td><em>vanduõ</em> <span class="ipa">/ʋɐn.dʊˈoː/</span></td><td>water (with stress marked)</td></tr>
+        <tr><td><em>kalbà</em> <span class="ipa">/kɐɫˈbɐ/</span></td><td>language</td></tr>
+        <tr><td><em>obuolỹs</em> <span class="ipa">/oː.bʊəˈlʲiːs/</span></td><td>apple (stress marked)</td></tr>
+        <tr><td><em>šventė̃</em> <span class="ipa">/ʃʋʲɛnʲˈtʲeː/</span></td><td>holiday (stress marked)</td></tr>
+        <tr><td><em>viršūnė</em> <span class="ipa">/ʋʲɪr.ʃuː.nʲeː/</span></td><td>summit</td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>How do I mark stress and tone for a word that is not in the dictionary?</h3>
+    <p>Type an accent on the stressed vowel: an acute (á) gives stress with a circumflex tone sign, a tilde (ã) gives stress and length, and a grave (à) gives stress and a short vowel. The three words <em>kartà</em> <span class="ipa">/kɐrˈtɐ/</span>, <em>kartã</em> <span class="ipa">/kɐrˈtaː/</span> and <em>kárta</em> <span class="ipa">/ˈkâːr.tɐ/</span> differ only in the mark. See <a href="#stress">Stress and Tone Marks</a>. <a href="../?lang=Lithuanian&amp;text=kart%C3%A0">Open in the converter</a></p>
+
+    <h3>Why do some words show several transcriptions?</h3>
+    <p>A lexicon entry can list more than one pronunciation, for example different stress placements; click the word to cycle through them. The rule engine always returns one result. See <a href="#variants">Multiple Pronunciation Variants</a>.</p>
+
+    <h3>Why can the result differ from the examples on this page?</h3>
+    <p>The dictionary is consulted first and wins whenever it has the word. It covers about 12,600 headwords, so many words fall through to the rules, and the examples here were generated by the rules alone. See <a href="#about">About This Tool</a>.</p>
+
+    <h3>Why does the output contain dots, and why do capital letters cause errors?</h3>
+    <p>The rule engine leaves syllable boundaries in its output as dots. It matches lowercase letters only, so a capital leaves a stray dot: <em>Kauno</em> <span class="ipa">/k.ɐʊ̯.noː/</span> against <em>kauno</em> <span class="ipa">/kɐʊ̯.noː/</span>. See <a href="#issues">Common Issues &amp; Limitations</a>.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The module is <code>lua_modules/lt-pron_wasm.lua</code> (216 lines of Lua, adapted from Wiktionary's
+        <code>Module:lt-pron</code>). It is much shorter than the German module: there is no stress assignment, no
+        morphology and no lexicon logic inside it. The public function used by the app is <code>export.toIPA(text)</code>,
+        which is exactly:</p>
+    <pre><code>pron(ulower(export.syllabify(export.respell(text))))</code></pre>
+    <p>So the pipeline is <strong>respell</strong> (spelling to a half-phonological notation), then
+        <strong>syllabify</strong> (insert dots), then lowercase, then <strong>pron</strong> (notation to IPA). Because
+        lowercasing happens <em>after</em> respell and syllabify, those two steps only recognize lowercase letters. The
+        module also calls <code>print()</code> after respell and after syllabify (and once at load time), so the
+        intermediate forms appear in the console (for example in smoke tests); they are debug output, not the result.
+        The tables below show these real intermediate forms.</p>
+
+    <ol>
+        <li><strong>Application layer</strong> (<code>scripts/utils.js</code>): sanitize, lexicon lookup, then rule fallback.</li>
+        <li><strong>Respelling</strong> (<code>export.respell</code>): decomposition, digraph placeholders, added j, softness marks.</li>
+        <li><strong>Syllabification</strong> (<code>export.syllabify</code>): dots between syllables.</li>
+        <li><strong>Pronunciation</strong> (local function <code>pron</code>): consonants, allophones, stress, diphthongs, single vowels, tones.</li>
+    </ol>
+
+    <h3>Module Tables</h3>
+    <table>
+        <thead><tr><th>Table</th><th>Contents</th></tr></thead>
+        <tbody>
+        <tr><td><code>subs.glyphs</code></td><td>Placeholder substitutions used by <code>respell</code>: ch &rarr; ç, ts &rarr; ć, dz &rarr; ð, dz+caron &rarr; þ, o+breve &rarr; ɔ</td></tr>
+        <tr><td><code>subs.ipa_c</code></td><td>Consonant letters to IPA: č &rarr; t͡ʃ, c &rarr; t͡s, ç &rarr; x, þ &rarr; d͡ʒ, ð &rarr; d͡z, g &rarr; ɡ, h &rarr; ɣ, qu &rarr; kʋ, q &rarr; k, š &rarr; ʃ, v &rarr; ʋ, ž &rarr; ʒ</td></tr>
+        <tr><td><code>subs.ipa_v</code></td><td>a &rarr; ɐ, e &rarr; ɛ, i &rarr; ɪ, u &rarr; ʊ. Defined, but <code>pron</code> never reads it: the same replacements are written out inline.</td></tr>
+        <tr><td><code>vowels</code>, <code>consonants</code></td><td><code>[aeiouy]</code> and <code>[bcdfghklmnprstvzðþx]</code> (j and ç/ć are not in the consonant class)</td></tr>
+        <tr><td><code>accents</code>, <code>diacritics</code></td><td>acute, grave, circumflex, tilde, macron, breve; plus dot above, caron and ogonek</td></tr>
+        </tbody>
+    </table>
+
+    <h3>1. Application Layer</h3>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td><code>sanitize()</code></td><td><code>"mano,"</code></td><td><code>mano</code></td><td>Removes everything except letters, marks, <code>'</code>, <code>’</code>, <code>‿</code>, <code>-</code>; NFKC</td></tr>
+        <tr><td><code>lookupInLexicon()</code></td><td><code>Lietuva</code></td><td>dictionary IPA</td><td>Exact key, then lowercase key; only if the lexicon is loaded</td></tr>
+        <tr><td><code>lt_ipa.toIPA(cleanText, true)</code></td><td><em>labas</em> <span class="ipa">/ɫɐ.bɐs/</span></td><td>see left</td><td>Fallback; the second argument is ignored by the Lua function</td></tr>
+        </tbody>
+    </table>
+
+    <h3>2. Respelling (<code>export.respell</code>)</h3>
+    <h4>2.1 Decomposition</h4>
+    <p><code>udecomp</code> (NFD) splits every accented letter so that marks can be tested separately, e.g. ė becomes e + dot above, ą becomes a + ogonek.</p>
+
+    <h4>2.2 Digraph Placeholders</h4>
+    <p>A pattern matching any character followed by an optional caron, breve, h, s or z is run through <code>subs.glyphs</code>. Pairs found in the table become single placeholder symbols; other pairs are left alone.</p>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output (respelled)</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>ch &rarr; ç</td><td>chaosas</td><td><code>çaosas</code></td><td>Later becomes x</td></tr>
+        <tr><td>ts &rarr; ć</td><td>pats</td><td><code>pać</code></td><td>ć is never converted afterwards (leak)</td></tr>
+        <tr><td>dz &rarr; ð</td><td>dzeta</td><td><code>ðʲeta</code></td><td>Later becomes d͡z</td></tr>
+        <tr><td>dz+caron &rarr; þ</td><td>džemperis</td><td><code>ð̌ʲemʲpʲerʲis</code></td><td>Never fires: the pattern only grabs two characters, so d+z becomes ð and the caron is left behind</td></tr>
+        <tr><td>o+breve &rarr; ɔ</td><td>kŏdas</td><td><code>kɔdas</code></td><td>Passes through <code>pron</code> unchanged</td></tr>
+        </tbody>
+    </table>
+
+    <h4>2.3 Added j</h4>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output (respelled)</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>initial ie &rarr; jie</td><td>ieva</td><td><code>jieva</code></td><td>Pattern <code>^i[acute grave]?e[tilde]?</code></td></tr>
+        <tr><td>V + ie &rarr; V + jie</td><td>paieška</td><td><code>pajieška</code></td><td>Any vowel (with marks) followed by ie</td></tr>
+        </tbody>
+    </table>
+
+    <h4>2.4 Softness Marks</h4>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output (respelled)</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>i + a/o/u &rarr; ʲ + a/o/u</td><td>tokia</td><td><code>tokʲa</code></td><td>Pattern <code>i([aou][accents]*)(.?)</code>; the i is replaced by ʲ</td></tr>
+        <tr><td>... unless the next letter is u (iau)</td><td>kiaulė</td><td><code>kʲiaulʲė</code></td><td>The i stays, so <code>iau</code> can become a diphthong later</td></tr>
+        <tr><td>C + i/e/j/y &rarr; Cʲ + i/e/j/y</td><td>medis</td><td><code>mʲedʲis</code></td><td>Caron letters count as one consonant. <code>y</code> is included in the set</td></tr>
+        <tr><td>cluster before Cʲ</td><td>sveikas</td><td><code>sʲvʲeikas</code></td><td>Each preceding consonant in the run gets ʲ, except <code>k</code></td></tr>
+        <tr><td><code>print(term)</code></td><td>-</td><td>-</td><td>Debug print of the respelled form (not part of the result)</td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. Syllabification (<code>export.syllabify</code>)</h3>
+    <p>One global pattern inserts a dot before each onset+vowel group. The onset may contain <code>s|z</code>, a stop (<code>ptkbdðþgçćc</code>), a sonorant (<code>lmnrvj</code>), each optionally followed by caron or ʲ. Vowels and marks before the dot are carried along. Then three clean-up steps run.</p>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output (syllabified)</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>dot before onset + vowel</td><td>draugas</td><td><code>drau.gas</code></td><td>Vowel runs stay together when followed by onset + vowel</td></tr>
+        <tr><td>strip leading dot</td><td>labas</td><td><code>la.bas</code></td><td><code>^%.</code> removed</td></tr>
+        <tr><td><code>.ʲ</code> &rarr; <code>ʲ.</code></td><td>medis</td><td><code>mʲe.dʲis</code></td><td>The softness mark stays with its consonant</td></tr>
+        <tr><td>stop + m/n split</td><td>ritmas</td><td><code>rʲit.mas</code></td><td><code>%.([ptbdðþ]ʲ?)([mn])</code> moves the dot between the stop and the nasal; otherwise the stop + nasal would form one onset</td></tr>
+        <tr><td>word-final vowel run is split</td><td>vaikai</td><td><code>vai.ka.i</code></td><td>The last vowel gets its own dot because no onset + vowel follows; diphthong rules later cannot match across the dot</td></tr>
+        <tr><td>h, f, x, q not in onset class</td><td>hobis</td><td><code>h.o.bʲis</code></td><td>The dot is inserted after the letter, producing a stray syllable</td></tr>
+        <tr><td><code>print(term)</code></td><td>-</td><td>-</td><td>Debug print of the syllabified form</td></tr>
+        </tbody>
+    </table>
+    <p><code>syllabify(term, table)</code> can also return an iterator over characters when <code>table</code> is truthy; <code>toIPA</code> does not use this.</p>
+
+    <h3>4. Pronunciation (<code>pron</code>)</h3>
+    <p>Input is the lowercased, syllabified string. Substitutions are applied in this order (the order matters: for example the diphthongs run before the single vowels).</p>
+
+    <h4>4.1 Consonant Letters to IPA</h4>
+    <p>A pattern matching one character plus an optional caron or <code>u</code> is looked up in <code>subs.ipa_c</code>. The optional <code>u</code> exists for <code>qu</code>, but it also swallows the u after any consonant. A pair such as <code>gu</code> is not in the table, so it is left <em>unchanged</em>.</p>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>č &rarr; t͡ʃ, š &rarr; ʃ, ž &rarr; ʒ</td><td><code>ča.ga</code></td><td><em>čaga</em> <span class="ipa">/t͡ʃɐ.ɡɐ/</span></td><td>Caron letters</td></tr>
+        <tr><td>c &rarr; t͡s</td><td><code>cʲi.klas</code></td><td><em>ciklas</em> <span class="ipa">/t͡sʲɪ.kɫɐs/</span></td><td></td></tr>
+        <tr><td>ç &rarr; x, ð &rarr; d͡z</td><td><code>çao.sas</code></td><td><em>chaosas</em> <span class="ipa">/xɐoː.sɐs/</span></td><td></td></tr>
+        <tr><td>g &rarr; ɡ, h &rarr; ɣ, v &rarr; ʋ</td><td><code>h.o.bʲis</code></td><td><em>hobis</em> <span class="ipa">/ɣ.oː.bʲɪs/</span></td><td></td></tr>
+        <tr><td>C + u not converted (bug)</td><td><code>gu.drus</code></td><td><em>gudrus</em> <span class="ipa">/gʊ.drʊs/</span></td><td>The u joins the match, the pair <code>gu</code> is not in the table, so g stays ASCII g. Same for <code>vu</code>, <code>cu</code>, <code>hu</code>, <code>ðu</code></td></tr>
+        <tr><td>qu &rarr; kʋ (unreachable)</td><td><code>q.ua.sʲi</code></td><td><em>quasi</em> <span class="ipa">/k.ʊɐ.sʲɪ/</span></td><td>syllabify has already put a dot between q and u</td></tr>
+        <tr><td>ć (from ts) is not converted</td><td><code>pać</code></td><td><em>pats</em> <span class="ipa">/pɐć/</span></td><td>ć has no entry in <code>ipa_c</code> (only the decomposed c+acute does), so it appears raw</td></tr>
+        </tbody>
+    </table>
+
+    <h4>4.2 Consonant Allophones</h4>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>ʃʲ &rarr; ɕ</td><td><code>šʲe.šʲi</code></td><td><em>šeši</em> <span class="ipa">/ɕɛ.ɕɪ/</span></td><td>Also turns t͡ʃʲ into t͡ɕ: <em>čekis</em> <span class="ipa">/t͡ɕɛ.kʲɪs/</span></td></tr>
+        <tr><td>ʒʲ &rarr; ʑ</td><td><code>žʲe.mʲė</code></td><td><em>žemė</em> <span class="ipa">/ʑɛ.mʲeː/</span></td><td></td></tr>
+        <tr><td>l + (not ʲ) &rarr; ɫ</td><td><code>la.pas</code></td><td><em>lapas</em> <span class="ipa">/ɫɐ.pɐs/</span></td><td>Needs a following character, so a word-final l stays plain: <em>atgal</em> <span class="ipa">/ɐt.ɡɐl/</span></td></tr>
+        <tr><td>n (ʲ) (.) + k/ɡ &rarr; ŋ</td><td><code>ban.kas</code></td><td><em>bankas</em> <span class="ipa">/bɐŋ.kɐs/</span></td><td>Works across a syllable dot; relies on the ɡ produced in 4.1, so it fails for ASCII g: <em>ungurys</em> <span class="ipa">/ʊn.gʊ.rʲiːs/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>4.3 Stress Sign</h4>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>first syllable with a mark: add ˈ at the start</td><td><code>lã.bas</code></td><td><em>lãbas</em> <span class="ipa">/ˈɫaː.bɐs/</span></td><td>Pattern looks for acute, grave or tilde before the first dot</td></tr>
+        <tr><td>later syllable with a mark: dot &rarr; ˈ</td><td><code>ran.kà</code></td><td><em>rankà</em> <span class="ipa">/rɐŋˈkɐ/</span></td><td>The syllable dot is consumed by ˈ</td></tr>
+        <tr><td>no mark anywhere</td><td><code>ran.ka</code></td><td><em>ranka</em> <span class="ipa">/rɐŋ.kɐ/</span></td><td>No stress sign; the module does not guess stress</td></tr>
+        </tbody>
+    </table>
+
+    <h4>4.4 Diphthongs</h4>
+    <p>Applied in this order, on the text with marks still present. A trailing tilde is swallowed by the rule.</p>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>iá u &rarr; æ̂ʊ</td><td><code>šʲiáu.rʲė</code></td><td><em>šiáurė</em> <span class="ipa">/ˈɕæ̂ʊ.rʲeː/</span></td><td></td></tr>
+        <tr><td>iau(~) &rarr; ɛʊ</td><td><code>kʲiau.lʲė</code></td><td><em>kiaulė</em> <span class="ipa">/kʲɛʊ.lʲeː/</span></td><td></td></tr>
+        <tr><td>au(~) &rarr; ɐʊ̯</td><td><code>tau.ta</code></td><td><em>tauta</em> <span class="ipa">/tɐʊ̯.tɐ/</span></td><td>The later au &rarr; ɒʊ rule can never fire, because this one runs first</td></tr>
+        <tr><td>ái &rarr; ɐ̂ɪ, ai(~) &rarr; ɐɪ</td><td><code>kai.na</code></td><td><em>kaina</em> <span class="ipa">/kɐɪ.nɐ/</span></td><td></td></tr>
+        <tr><td>éi &rarr; ɛ̂ɪ, ei(~) &rarr; ɛɪ</td><td><code>ei.tʲi</code></td><td><em>eiti</em> <span class="ipa">/ɛɪ.tʲɪ/</span></td><td></td></tr>
+        <tr><td>áu &rarr; â ʊ</td><td><code>áu.ga</code></td><td><em>áuga</em> <span class="ipa">/ˈɐ̂ʊ.ɡɐ/</span></td><td>The a is turned into ɐ by 4.5</td></tr>
+        <tr><td>éu &rarr; ɛ̂ʊ, eu(~) &rarr; ɛʊ</td><td><code>eu.ras</code></td><td><em>euras</em> <span class="ipa">/ɛʊ.rɐs/</span></td><td>Mostly loanwords</td></tr>
+        <tr><td>íe &rarr; î ə, ie(~) &rarr; iə</td><td><code>mʲie.stas</code></td><td><em>miestas</em> <span class="ipa">/mʲɪə.stɐs/</span></td><td>The i is later made ɪ</td></tr>
+        <tr><td>úo &rarr; û ə, uo(~) &rarr; uə</td><td><code>puo.das</code></td><td><em>puodas</em> <span class="ipa">/pʊə.dɐs/</span></td><td>The u is later made ʊ</td></tr>
+        <tr><td>úi &rarr; ʊ̂ɪ, ui(~) &rarr; ʊɪ</td><td><code>kui.nas</code></td><td><em>kuinas</em> <span class="ipa">/kʊɪ.nɐs/</span></td><td></td></tr>
+        <tr><td>óu &rarr; ɔ̂ɪ, úu &rarr; ɔ̂ʊ (rare)</td><td><code>kóu.kas</code></td><td><em>kóukas</em> <span class="ipa">/ˈkɔ̂ɪ.kɐs/</span></td><td>Defined in the code but not Lithuanian spelling (the first one even ends in ɪ); <em>kúukas</em> <span class="ipa">/ˈkɔ̂ʊ.kɐs/</span> gives the second</td></tr>
+        </tbody>
+    </table>
+
+    <h4>4.5 Single Vowels</h4>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>a &rarr; ɐ; ɐ+acute &rarr; âː; ɐ+tilde &rarr; aː</td><td><code>lá.ba</code></td><td><em>lába</em> <span class="ipa">/ˈɫâː.bɐ/</span></td><td>Stress/length from a mark</td></tr>
+        <tr><td>e &rarr; ɛ; ɛ+dot &rarr; eː; ɛ+ogonek &rarr; æː</td><td><code>tʲė.vas</code></td><td><em>tėvas</em> <span class="ipa">/tʲeː.ʋɐs/</span></td><td>ė and ę</td></tr>
+        <tr><td>i &rarr; ɪ; ɪ+ogonek &rarr; iː</td><td><code>jį</code></td><td><em>jį</em> <span class="ipa">/jiː/</span></td><td></td></tr>
+        <tr><td>y &rarr; iː</td><td><code>sa.kʲy.tʲi</code></td><td><em>sakyti</em> <span class="ipa">/sɐ.kʲiː.tʲɪ/</span></td><td></td></tr>
+        <tr><td>u &rarr; ʊ; ʊ+macron / ʊ+ogonek &rarr; uː</td><td><code>rū.kas</code></td><td><em>rūkas</em> <span class="ipa">/ruː.kɐs/</span></td><td>ū and ų</td></tr>
+        <tr><td>o(~) &rarr; oː</td><td><code>ko.das</code></td><td><em>kodas</em> <span class="ipa">/koː.dɐs/</span></td><td>Every o is long</td></tr>
+        <tr><td>ʲaː &rarr; ʲæː; ʲɐ &rarr; ʲɛ</td><td><code>nʲãrʲ.tʲi</code></td><td><em>niãrti</em> <span class="ipa">/ˈnʲæːrʲ.tʲɪ/</span></td><td>Fronting after a soft consonant</td></tr>
+        <tr><td>a+ogonek: no rule (bug)</td><td><code>ą.sà</code></td><td><em>ąsà</em> <span class="ipa">/ɐ̨ˈsɐ/</span></td><td>The vowel is stuck at ɐ with a loose ogonek</td></tr>
+        </tbody>
+    </table>
+
+    <h4>4.6 Tone Clean-up</h4>
+    <table>
+        <thead><tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr></thead>
+        <tbody>
+        <tr><td>ː + acute &rarr; circumflex + ː</td><td><code>mʲė́.sa</code></td><td><em>mė́sa</em> <span class="ipa">/ˈmʲêː.sɐ/</span></td><td>"Acute = stressed + circumflex tone"</td></tr>
+        <tr><td>tilde removed</td><td><code>mʲė̃.sa</code></td><td><em>mė̃sa</em> <span class="ipa">/ˈmʲeː.sɐ/</span></td><td>"Tilde = stressed + long"</td></tr>
+        <tr><td>grave removed</td><td><code>mʲė̀.sa</code></td><td><em>mė̀sa</em> <span class="ipa">/ˈmʲeː.sɐ/</span></td><td>"Grave = stressed + short" (the short is not actually applied to ė)</td></tr>
+        <tr><td>[ʲj]a &rarr; [ʲj]e</td><td><code>jã</code></td><td><em>jã</em> <span class="ipa">/ˈjeː/</span></td><td>Only reaches letters that are still plain a, i.e. the aː created from a tilde</td></tr>
+        </tbody>
+    </table>
+
+    <h4>Other Functions</h4>
+    <ul>
+        <li><code>export.link(term)</code>: Wiktionary link helper, not used by the app.</li>
+        <li><code>export.test_respell(frame)</code> and <code>export.show(frame)</code>: MediaWiki entry points; they are not called by the app.</li>
+        <li>On load the module also runs <code>print(export.toIPA("gyvẽnimas"))</code> as a self-test (console only).</li>
+    </ul>
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues in the rule-based path (words not in the dictionary). "Correct IPA" is the engine
+        output for a corrected input where one exists, otherwise it is described in words:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>labas</td>
+            <td><em>labas</em> <span class="ipa">/ɫɐ.bɐs/</span></td>
+            <td><em>lãbas</em> <span class="ipa">/ˈɫaː.bɐs/</span></td>
+            <td>Unmarked input has no stress or tone information</td>
+            <td>Type the accent mark on the stressed vowel (tilde, acute or grave)</td>
+        </tr>
+        <tr>
+            <td>vyras</td>
+            <td><em>vyras</em> <span class="ipa">/ʋʲiː.rɐs/</span></td>
+            <td>A plain v (no softness mark) before a long i</td>
+            <td><code>y</code> is treated like a front vowel and softens the previous consonant. Also affects <em>rašytojas</em> <span class="ipa">/rɐ.ɕiː.toː.jɐs/</span></td>
+            <td>Use the dictionary result if the word is in it; otherwise ignore the <span class="ipa">ʲ</span>/<span class="ipa">ɕ</span> before y</td>
+        </tr>
+        <tr>
+            <td>Kauno</td>
+            <td><em>Kauno</em> <span class="ipa">/k.ɐʊ̯.noː/</span></td>
+            <td><em>kauno</em> <span class="ipa">/kɐʊ̯.noː/</span></td>
+            <td>Respell/syllabify only match lowercase; the capital leaves a stray dot</td>
+            <td>Type words in lowercase</td>
+        </tr>
+        <tr>
+            <td>džiaugsmas</td>
+            <td><em>džiaugsmas</em> <span class="ipa">/ð̌ʲɛʊɡ.smɐs/</span></td>
+            <td><em>þiaugsmas</em> <span class="ipa">/d͡ʑɛʊɡ.smɐs/</span></td>
+            <td>The dž placeholder is never converted and leaks into the output as <span class="ipa">ð̌</span></td>
+            <td>Type <em>þ</em> in place of dž</td>
+        </tr>
+        <tr>
+            <td>pats</td>
+            <td><em>pats</em> <span class="ipa">/pɐć/</span></td>
+            <td><em>pac</em> <span class="ipa">/pɐt͡s/</span></td>
+            <td>The ts placeholder ć has no IPA mapping and appears raw</td>
+            <td>Type <em>c</em> in place of ts, when the sound is an affricate</td>
+        </tr>
+        <tr>
+            <td>gudrus</td>
+            <td><em>gudrus</em> <span class="ipa">/gʊ.drʊs/</span></td>
+            <td>Same, but with the IPA letter for g (and the proper IPA letters for the v, c and h cases such as <em>vulkanas</em> <span class="ipa">/vʊɫ.kɐ.nɐs/</span>)</td>
+            <td>A consonant followed by u is matched as a pair that is not in the table, so g, v, c, h stay as plain letters</td>
+            <td>No input workaround; check the dictionary</td>
+        </tr>
+        <tr>
+            <td>vaikai</td>
+            <td><em>vaikai</em> <span class="ipa">/ʋɐɪ.kɐ.ɪ/</span></td>
+            <td>The final ai should be one diphthong, as in the unmarked middle of <em>vaikas</em> <span class="ipa">/ʋɐɪ.kɐs/</span></td>
+            <td>Word-final vowel runs are split into two syllables, so the diphthong rule is skipped (same for <em>vanduo</em> <span class="ipa">/ʋɐn.dʊ.oː/</span> and <em>kaip</em> <span class="ipa">/kɐ.ɪp/</span>)</td>
+            <td>Read the two syllables as one diphthong; some such words may be in the dictionary</td>
+        </tr>
+        <tr>
+            <td>ąžuolas</td>
+            <td><em>ąžuolas</em> <span class="ipa">/ɐ̨.ʒʊə.ɫɐs/</span></td>
+            <td>The first vowel should be a long open a, without the stray ogonek</td>
+            <td>No rule converts a+ogonek (e, i, u have one). Also <em>ją</em> <span class="ipa">/jɐ̨/</span></td>
+            <td>Report or use the dictionary; compare with ã: <em>ãžuolas</em> <span class="ipa">/ˈaː.ʒʊə.ɫɐs/</span></td>
+        </tr>
+        <tr>
+            <td>atgal</td>
+            <td><em>atgal</em> <span class="ipa">/ɐt.ɡɐl/</span></td>
+            <td>A dark l (velarized) at the end</td>
+            <td>The ɫ rule needs a character after the l</td>
+            <td>Known limitation of the module</td>
+        </tr>
+        <tr>
+            <td>fabrikas</td>
+            <td><em>fabrikas</em> <span class="ipa">/f.ɐ.bʲrʲɪ.kɐs/</span></td>
+            <td>No dot after f</td>
+            <td>f, h, x and q are not in the syllable-onset set, so a dot follows them (same for <em>hobis</em> <span class="ipa">/ɣ.oː.bʲɪs/</span>)</td>
+            <td>Loanwords: delete the stray dot yourself</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for other languages of the region in this tool:</p>
+    <ul>
+        <li><a href="polish.html">Polish</a></li>
+        <li><a href="belorussian.html">Belarusian</a></li>
+        <li><a href="russian.html">Russian</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

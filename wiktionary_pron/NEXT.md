@@ -1,61 +1,43 @@
 # Next
 
-_Updated 2026-08-13 — branch `main`_
+_Updated 2026-10-05 — help-page work committed on branch `help-pages-engine-verified` (PR open)_
 
 ## State
-Both repos clean, all pushed (0 unpushed). Site `npm test` green: 22 unit + 81
-IPA + 2075 gloss + 348 census + 9 popup e2e.
-- **Gloss (M-023i→l, site `c845beb`..`bd12ae2`)**: CI gloss golden suite now
-  resolves via committed `utils/ls_golden_fixture.json` (was red in CI since
-  2026-08-08); CI trigger widened to `utils/**`. Caesar full-text stragglers
-  (jamque, pleraque) + the Germanis single-accented reading fix + the Caesar
-  LLM-audit defect fixes (impetus, pagus, barba, leuci, itis, Gai-citations).
-  Artifact 34,413 lemmas / 450 KB / L&S 89.8%.
-- **Scansion (M-023m, engine `0af77d6`)**: full-Catullus scansion gold
-  (negenborn, 118 poems, full long+short marks) at
-  `latin-macronizer-wasm/test/data/gold/catullus/`. Scan-based blocker tool
-  (`test/catullus-blocker.mjs`) found 24 wordlist-quantity candidates; **8
-  gold-confirmed fixed** via ACCENT_OVERRIDES (erechthei, aerea,
-  lasarpiciferis, reiecta, sic, liquisse, deprensa, pegaseo). Engine unit
-  tests 8/8.
+All 17 language help pages share one skeleton (TOC, About, Dialects, Forms, Glossary,
+How to Read IPA, Pronunciation Guide, Mapping, **Using the Tool: Practical Notes**
+`id="faq"`, Implementation Details, Common Issues, **Related Pronunciation Guides**
+`id="related"`) plus search metadata (`utils/help_seo_head.mjs`); help index + macronizer
+help have metadata too; sitemap has all help pages. 8 pages written new (ru uk be bg is lt mn pt),
+French restructured, old pages corrected against the engine. App fixes: pt `unpack`,
+ru/uk double stress, ru lowercase ы, Armenian ՛ kept by `sanitize()` (ISSUES H-001).
+Czech now runs under Node (BOM removed; test shim decodes like the browser) and its page is
+verified. Gates green: npm test (23 unit, 88 IPA, 2075 gloss, 348 census), full e2e 37 passed
+(system Chrome config), all pages render with 0 errors / 0 broken anchors.
 
 ## Open threads
-- **Triage the ~17 remaining blocker-FIXes** (ISSUES.md M-023m OPEN): run
-  `cd /f/projects/latin-macronizer-wasm && node test/catullus-blocker.mjs`, read
-  `C:/Users/HELLPA~1/AppData/Local/Temp/catullus-blocker.txt`. Verify each
-  `FIX:` form against the gold word IN CONTEXT before adding (tu/hoc/ridete are
-  metrical/editorial, not wordlist errors). ~247 failing lines total, dominated
-  by the iambic poems.
-- **The site's `macronizer/dist/` is STALE vs the engine repo** — it lacks the
-  M-013b→m ACCENT_OVERRIDES and the Germanis/single-accented engine fix
-  (M-023k touched both, but the site's dist still predates M-013b). Next engine
-  change should sync via upstream `npm run build` (site copy is BEHIND).
-- Prior M-013 scansion threads still open: `veo`/`eo`/`ua` synizesis,
-  `-que`-in-arsis (~12 lines), hypotactic corpus expansion.
+- Merge the help-page PR after review.
+- **Macronizer scansion triage (M-023m, 2026-09-21) is NOT in that PR and NOT committed:**
+  `wiktionary_pron/macronizer/dist/` (synced site copy with the `hoc`/`vorago` overrides) and
+  the engine repo `/f/projects/latin-macronizer-wasm` (`src/core/Tokenization.ts`, `dist/`,
+  `test/catullus-meter-ab.mjs`). Its docs (ISSUES M-023m triage, LESSONS 2026-09-21) are also
+  still uncommitted in the working tree. Commit engine repo first, then the site dist + docs.
+- ISSUES H-002 (module-internal bugs, documented only) and H-003 (Icelandic `special`
+  arg, Brazilian epenthesis) need owner decisions. Czech now runs under Node.
+- Prior macronizer threads (M-023m `meneni`, M-013 scansion) unchanged.
 
 ## Running / unfinished
-Nothing running. No half-done edits. Scansion snapshot (harness) unchanged at
-47 lines — the gold is decoupled from it. Regenerate with
-`node test/regen-snapshot.mjs` only after an intended harness-corpus change
-(the WASM wordlist-persist OOMs a single process after ~11 large files —
-recreate the macronizer per file, as `regen-snapshot.mjs` now does).
+A python http.server may still be running on port 8000 (started for the user).
+Nothing else running.
 
 ## Don't redo
-- **Compare the macronizer to a gold via SCAN, never per-vowel prose.**
-  `accented[0]` is tagger-ranked (short-biased, context-flipping) and ~30% of
-  syllables are long-by-position — a ~70% per-vowel "agreement" is a trivial
-  baseline. Only lines that FAIL to scan are actionable (M-023m).
-- **Override forms must produce the gold in the line's ACTUAL segment** —
-  verify with `possibleScans`. Overrides only ADD candidates (monotonic, prose
-  keeps accented[0]).
-- **Gloss don't-redo**: `test:gloss` needs `utils/ls_golden_fixture.json` —
-  regenerate it in the SAME commit as any `gloss_golden.json`/L&S-key edit
-  (`npm run build:gloss-fixture`) or CI stays red. Numbered homographs → L&S
-  key authoritative. Golden 2075 / census 348.
-- **Popup don't-redo** (M-023g→h.4): glosses warm at init; popup anchors above
-  the word; expanding details must NOT reposition (internal scroll clamps);
-  `toggle` doesn't bubble + innerHTML rebuilds → re-wire via
-  `wirePopupDetails()`. e2e-locked in `e2e/popup-check.spec.js`.
-- **Judge scansion by the whole-file gate only** (per-line RFTagger differs);
-  never corrupt vowel quantities to make a line scan; `?` in a gold pattern is
-  a wildcard, not a blocker.
+- Help-page IPA comes only from `scripts/tests/ipa_cli.mjs`; check with
+  `verify_help_page.mjs` + `verify_issue_tables.mjs` (false positives documented in
+  `docs/LESSONS.md` 2026-10-05: English labels, letter-mapping rows, hyphenated forms).
+- No "Overview"/"At a Glance" sections — removed at the user's request. Prose standard:
+  reference-grammar register, no snippet bait, no FAQ schema markup.
+- `golden/generate.js` now covers Irish and Czech; regenerate freely and review the diff.
+- e2e: Playwright's bundled browser is missing here; run
+  `npx playwright test -c playwright.chrome.config.js` (system Chrome).
+- Macronizer don't-redo items from the previous baton still apply (scan-based gold
+  comparison; L&S headword arbitrates quantity; sync engine to site via
+  `MACRONIZER_SITE_DIR=F:/projects/wiktionary_pron/wiktionary_pron/macronizer node sync-site.cjs`).

@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Icelandic IPA Transcription - Help</title>
+    <title>Icelandic Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Icelandic pronunciation in IPA: vowel length, preaspiration, voiceless sonorants, pre-stopped ll and nn, ð and þ, with a free Icelandic-to-IPA converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/icelandic.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Icelandic Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Icelandic pronunciation in IPA: vowel length, preaspiration, voiceless sonorants, pre-stopped ll and nn, ð and þ, with a free Icelandic-to-IPA converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/icelandic.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Icelandic Pronunciation and IPA Transcription Guide","description":"Icelandic pronunciation in IPA: vowel length, preaspiration, voiceless sonorants, pre-stopped ll and nn, ð and þ, with a free Icelandic-to-IPA converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/icelandic.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Icelandic"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Icelandic","item":"https://hellpanderrr.github.io/wiktionary_pron/help/icelandic.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,44 +24,2191 @@
 </head>
 <body>
 <div id="content">
-    <h1>Icelandic IPA Transcription - Help</h1>
+    <h1>Icelandic Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Icelandic">← Back to Icelandic transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
-
-    <p>This <a href="../?lang=Icelandic">Icelandic transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:is-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
-        Icelandic
-        Pronunciation Module</a> to generate phonemic transcriptions for Icelandic text.</p>
-
-    <p>The system uses a comprehensive Wiktionary data dump<a href="https://kaikki.org/dictionary/Icelandic/index.html"><sup>[1]</sup></a>
-        as a lexicon to first retrieve transcriptions from the dictionary. When a word is not found in the lexicon, it
-        falls back to generating transcriptions using the pronunciation module's rule-based approach.</p>
-
-    <h2>Dialects Supported</h2>
+<h2>Table of Contents</h2>
     <ul>
-        <li><strong>Default</strong> - Standard Icelandic pronunciation patterns</li>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><a href="#guide">Icelandic Pronunciation Guide</a>
+            <ul>
+                <li><a href="#vowels-guide">Vowel Length &amp; Quality</a></li>
+                <li><a href="#diphthongs">Diphthongs</a></li>
+                <li><a href="#stress">Stress and Compounds</a></li>
+                <li><a href="#aspiration">Aspiration (p, t, k)</a></li>
+                <li><a href="#preaspiration">Preaspiration (pp, tt, kk, pl, tn ...)</a></li>
+                <li><a href="#prestopping">Pre-stopping (ll, nn, rl, rn, sl, sn)</a></li>
+                <li><a href="#voiceless-sonorants">Voiceless Sonorants (hl, hn, hr)</a></li>
+                <li><a href="#palatals">Palatal Consonants (k, g, kj, gj, hj)</a></li>
+                <li><a href="#fricatives">Fricatives (g, f, ð, þ, x)</a></li>
+                <li><a href="#nasals">Nasals: ng and nk</a></li>
+                <li><a href="#foreign-letters">Letters Outside the Icelandic Alphabet</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
-    <h2>Transcription Forms</h2>
-    <ul>
+    <h2 id="about">About This Tool</h2>
+    <p>This <a href="../?lang=Icelandic">Icelandic transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:is-pronunciation" target="_blank" rel="noopener noreferrer">Wiktionary
+        Icelandic Pronunciation Module</a> to generate phonemic transcriptions for Icelandic text. IPA (International
+        Phonetic Alphabet) is a standardized system for transcribing speech sounds using symbols based on the Latin
+        alphabet. This tool converts Icelandic orthography (spelling) into IPA, helping learners, linguists, and
+        developers understand pronunciation.</p>
 
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language.
+    <p>The system uses a comprehensive Wiktionary data dump<a
+            href="https://kaikki.org/dictionary/Icelandic/index.html"><sup>[1]</sup></a> as a lexicon (the file
+        <code>is_lexicon.zip</code>, decompressed in your browser and cached in IndexedDB) to first retrieve
+        transcriptions from the dictionary. If the word is found, the dictionary IPA is shown exactly as Wiktionary
+        has it. When a word is not found in the lexicon, the app falls back to the pronunciation module's rule-based
+        approach, which is what most of this page describes. The lexicon is used by default; opening the converter with <code>?dict=false</code> in the address turns it off.</p>
+
+    <div class="algo-alert">
+        <strong>Lexicon vs. rules.</strong> Dictionary entries are written by Wiktionary editors, so they can contain
+        irregular pronunciations that no spelling rule could predict (for example loanwords, names, and compounds).
+        The rule path is a deterministic spelling-to-sound converter: the same spelling always gives the same IPA, and
+        it can be wrong whenever Icelandic pronunciation depends on morphology or etymology that spelling does not
+        show. All IPA examples on this page were produced by the <em>rule path only</em> (the test tool that generated
+        them does not load the lexicon), so a word you type into the app may show a different, dictionary-based
+        transcription.
+    </div>
+
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+    <ul>
+        <li><strong>Supported:</strong> One standard variety (style "Default"). The rules produce, for example, <em>hv</em>
+            as <span class="ipa">/kʰv/</span> and <em>ll</em> as <span class="ipa">/tl̥/</span> in every word.
+        </li>
+        <li><strong>Not supported:</strong> Regional variants. The module has no switch for other pronunciations of
+            the same spelling (such as a northern <em>hv</em>), and no option for fast-speech reductions.
+        </li>
+        <li><strong>Edge cases:</strong> Compounds written as one word, loanwords, and proper names that follow
+            non-Icelandic spelling may not be transcribed correctly (see <a href="#issues">Common Issues</a>).
+        </li>
+        <li><strong>Technical limit:</strong> The module has no dictionary of exceptions and no morphological
+            analysis. It only sees letters.
         </li>
     </ul>
 
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonemic</strong> (the only form offered for Icelandic): Uses the Wiktionary lexicon when the word
+            is listed, falls back to the rules otherwise. Although it is labelled "phonemic", the rule output already
+            contains some detail that is predictable from spelling, such as preaspiration (<span class="ipa">/h/</span>
+            before a stop) and voiceless sonorants (<span class="ipa">/n̥/</span>).
+        </li>
+        <li><strong>Phonetic</strong>: Not available for Icelandic. The module has a single output with no
+            allophonic second pass.
+        </li>
+    </ul>
 
-    <h2>Technical Information</h2>
-    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:is-pronunciation"
-                                           target="_blank" rel="noopener noreferrer">Wiktionary Icelandic pronunciation
-        module</a> with a
-        comprehensive lexicon extracted from Wiktionary data dumps, providing both high accuracy for common words and
-        broad coverage through rule-based generation.</p>
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning (e.g., /p/ vs. /b/ in English "pat" vs.
+            "bat").
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning (e.g., aspirated [pʰ] vs. unaspirated
+            [p]).
+        </dd>
+
+        <dt>Digraph / Trigraph</dt>
+        <dd>Two (or three) letters that together stand for one sound or sound sequence, e.g., <em>hj</em> <span class="ipa">/ˈçau̯ː/</span>
+            or <em>fnt</em> <em>jafnt</em> <span class="ipa">/ˈjam̥t/</span>.
+        </dd>
+
+        <dt>Diphthong</dt>
+        <dd>A gliding vowel sound where the tongue changes position during articulation. Icelandic writes most of them
+            with a single letter, e.g., <em>á</em> <em>sál</em> <span class="ipa">/ˈsau̯ːl/</span>, <em>ó</em> <em>sól</em> <span class="ipa">/ˈsou̯ːl/</span>, <em>æ</em> <em>sæti</em> <span class="ipa">/ˈsai̯ːtɪ/</span>.
+        </dd>
+
+        <dt>Nonsyllabic mark</dt>
+        <dd>The inverted breve below <span class="ipa">/i̯/</span>, <span class="ipa">/u̯/</span>, <span class="ipa">/y̯/</span> marks the second part of a diphthong as a glide (it is not a separate
+            syllable).
+        </dd>
+
+        <dt>Length mark</dt>
+        <dd>The triangular colon <span class="ipa">/ː/</span> marks a long vowel or a long consonant, e.g., <em>hús</em> <span class="ipa">/ˈhuːs/</span>
+            (long) vs <em>hundur</em> <span class="ipa">/ˈhʏntʏr/</span> (short).
+        </dd>
+
+        <dt>Aspiration</dt>
+        <dd>A puff of air after a voiceless stop, written <span class="ipa">/ʰ/</span>. In this module only
+            word-initial <em>p, t, k</em> are aspirated, e.g., <em>pípa</em> <span class="ipa">/ˈpʰiːpa/</span>, <em>tala</em> <span class="ipa">/ˈtʰaːla/</span>, <em>kaka</em> <span class="ipa">/ˈkʰaːka/</span>.
+        </dd>
+
+        <dt>Preaspiration</dt>
+        <dd>A breathy <span class="ipa">/h/</span> before a stop. Icelandic has it in spellings like <em>pp, tt,
+            kk</em>, e.g., <em>hoppa</em> <span class="ipa">/ˈhɔhpa/</span>, <em>þetta</em> <span class="ipa">/ˈθɛhta/</span>, <em>bakki</em> <span class="ipa">/ˈpahcɪ/</span>.
+        </dd>
+
+        <dt>Pre-stopping</dt>
+        <dd>Insertion of a brief stop before a long <em>l</em> or <em>n</em>: <em>ll</em> becomes
+            <span class="ipa">/tl̥/</span>, e.g., <em>kalla</em> <span class="ipa">/ˈkʰatl̥a/</span>; <em>nn</em> after a stressed vowel becomes
+            <span class="ipa">/tn̥/</span>, e.g., <em>steinn</em> <span class="ipa">/ˈstɛi̯tn̥/</span>.
+        </dd>
+
+        <dt>Voiceless sonorant</dt>
+        <dd>An <em>l, n, r, m</em> pronounced without voicing, marked with the ring below <span class="ipa">/l̥/</span>,
+            <span class="ipa">/n̥/</span>, <span class="ipa">/r̥/</span>, <span class="ipa">/m̥/</span>, e.g., <em>hlaupa</em> <span class="ipa">/ˈl̥œy̯ːpa/</span>, <em>hnífur</em> <span class="ipa">/ˈn̥iːvʏr/</span>, <em>hringur</em> <span class="ipa">/ˈr̥iŋkʏr/</span>.
+        </dd>
+
+        <dt>Palatalization</dt>
+        <dd>Fronting of <em>k</em>/<em>g</em> to the palatal stop <span class="ipa">/c/</span> before front vowels,
+            e.g., <em>kyn</em> <span class="ipa">/ˈcʰɪːn/</span>, <em>gera</em> <span class="ipa">/ˈcɛːra/</span>.
+        </dd>
+
+        <dt>Geminate</dt>
+        <dd>A doubled consonant. For most letters the module turns a double into one long consonant, e.g., <em>kaffi</em> <span class="ipa">/ˈkʰafːɪ/</span>.
+        </dd>
+
+        <dt>Compound</dt>
+        <dd>A word made of several components. The module only knows a component boundary if you type a hyphen
+            between the parts, e.g., <em>bóka-búð</em> <span class="ipa">/ˈpou̯ːkaˌpuːð/</span>.
+        </dd>
+
+        <dt>Primary / Secondary stress</dt>
+        <dd>Icelandic stress is almost always on the first syllable of each component. The module writes
+            <span class="ipa">/ˈ/</span> before the first component and <span class="ipa">/ˌ/</span> before later
+            ones.
+        </dd>
+
+        <dt>Lexicon</dt>
+        <dd>The dictionary of known words with human-written IPA, tried before the rules.</dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This table helps you understand the IPA symbols used in Icelandic transcriptions. Every symbol listed below
+        is one that the engine actually emits. Output is shown without slashes in the app; slashes are added here for
+        clarity.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span> / <span class="ipa">/aː/</span></td>
+            <td><em>kalt</em> <span class="ipa">/ˈkʰalt/</span>, <em>tala</em> <span class="ipa">/ˈtʰaːla/</span></td>
+            <td>"father", shorter when short</td>
+            <td>Letter a</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span> / <span class="ipa">/ɛː/</span></td>
+            <td><em>hestur</em> <span class="ipa">/ˈhɛstʏr/</span>, <em>vegur</em> <span class="ipa">/ˈvɛːɣʏr/</span></td>
+            <td>"bed"</td>
+            <td>Letter e</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪ/</span> / <span class="ipa">/ɪː/</span></td>
+            <td><em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span>, <em>vinur</em> <span class="ipa">/ˈvɪːnʏr/</span></td>
+            <td>"sit"</td>
+            <td>Letter i (lax)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span> / <span class="ipa">/iː/</span></td>
+            <td><em>sími</em> <span class="ipa">/ˈsiːmɪ/</span>, <em>lítil</em> <span class="ipa">/ˈliːtɪl/</span></td>
+            <td>"see"</td>
+            <td>Letter í; also i before ng, nk and gi</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʏ/</span> / <span class="ipa">/ʏː/</span></td>
+            <td><em>hundur</em> <span class="ipa">/ˈhʏntʏr/</span>, <em>gul</em> <span class="ipa">/ˈkʏːl/</span></td>
+            <td>No English equivalent</td>
+            <td>Letter u (lax, rounded like <span class="ipa">/ɪ/</span>)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span> / <span class="ipa">/uː/</span></td>
+            <td><em>skúr</em> <span class="ipa">/ˈskuːr/</span>, <em>hús</em> <span class="ipa">/ˈhuːs/</span></td>
+            <td>"food"</td>
+            <td>Letter ú; also u before ng, nk</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/œ/</span> / <span class="ipa">/œː/</span></td>
+            <td><em>öld</em> <span class="ipa">/ˈœlt/</span>, <em>öl</em> <span class="ipa">/ˈœːl/</span></td>
+            <td>No English equivalent</td>
+            <td>Letter ö</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔ/</span> / <span class="ipa">/ɔː/</span></td>
+            <td><em>borg</em> <span class="ipa">/ˈpɔrk/</span>, <em>kona</em> <span class="ipa">/ˈkʰɔːna/</span></td>
+            <td>"law" (UK)</td>
+            <td>Letter o</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/jɛ/</span> / <span class="ipa">/jɛː/</span></td>
+            <td><em>Pétur</em> <span class="ipa">/ˈpʰjɛːtʏr/</span>, <em>myndavél</em> <span class="ipa">/ˈmɪntavjɛl/</span></td>
+            <td>"yet"</td>
+            <td>Letter é: always a glide plus <span class="ipa">/ɛ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛi̯/</span> / <span class="ipa">/ɛi̯ː/</span></td>
+            <td><em>steinn</em> <span class="ipa">/ˈstɛi̯tn̥/</span>, <em>heim</em> <span class="ipa">/ˈhɛi̯ːm/</span></td>
+            <td>"say"</td>
+            <td>Letters ei, ey; e before ng/nk</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ai̯/</span> / <span class="ipa">/ai̯ː/</span></td>
+            <td><em>sæti</em> <span class="ipa">/ˈsai̯ːtɪ/</span>, <em>lagi</em> <span class="ipa">/ˈlai̯cɪ/</span></td>
+            <td>"high"</td>
+            <td>Letter æ; a before gi</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/au̯/</span> / <span class="ipa">/au̯ː/</span></td>
+            <td><em>sál</em> <span class="ipa">/ˈsau̯ːl/</span>, <em>langur</em> <span class="ipa">/ˈlau̯ŋkʏr/</span></td>
+            <td>"how"</td>
+            <td>Letter á; a before ng/nk</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/œy̯/</span> / <span class="ipa">/œy̯ː/</span></td>
+            <td><em>haus</em> <span class="ipa">/ˈhœy̯ːs/</span>, <em>söngur</em> <span class="ipa">/ˈsœy̯ŋkʏr/</span></td>
+            <td>No English equivalent</td>
+            <td>Letters au; ö before ng/nk and gi</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ou̯/</span> / <span class="ipa">/ou̯ː/</span></td>
+            <td><em>sól</em> <span class="ipa">/ˈsou̯ːl/</span>, <em>tók</em> <span class="ipa">/ˈtʰou̯ːk/</span></td>
+            <td>"go"</td>
+            <td>Letter ó</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɔi̯/</span></td>
+            <td><em>bogi</em> <span class="ipa">/ˈpɔi̯cɪ/</span>, <em>kongur</em> <span class="ipa">/ˈkʰɔi̯ŋkʏr/</span></td>
+            <td>"boy"</td>
+            <td>o before gi or ng/nk</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʏi̯/</span></td>
+            <td><em>lugi</em> <span class="ipa">/ˈlʏi̯cɪ/</span></td>
+            <td>No English equivalent</td>
+            <td>u before gi</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ei̯/</span></td>
+            <td><em>degi</em> <span class="ipa">/ˈtei̯cɪ/</span></td>
+            <td>"say"</td>
+            <td>e before gi</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/p/</span></td>
+            <td><em>bók</em> <span class="ipa">/ˈpou̯ːk/</span>, <em>api</em> <span class="ipa">/ˈaːpɪ/</span></td>
+            <td>"spin" (unaspirated)</td>
+            <td>Letter b; also p not at the start of a word</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/pʰ/</span></td>
+            <td><em>pípa</em> <span class="ipa">/ˈpʰiːpa/</span></td>
+            <td>"pin"</td>
+            <td>Aspirated p, word-initial only</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t/</span></td>
+            <td><em>daginn</em> <span class="ipa">/ˈtai̯cɪnː/</span>, <em>vetur</em> <span class="ipa">/ˈvɛːtʏr/</span></td>
+            <td>"stop"</td>
+            <td>Letter d; also t not at the start of a word</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/tʰ/</span></td>
+            <td><em>tala</em> <span class="ipa">/ˈtʰaːla/</span></td>
+            <td>"top"</td>
+            <td>Aspirated t, word-initial only</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/k/</span></td>
+            <td><em>gata</em> <span class="ipa">/ˈkaːta/</span>, <em>borg</em> <span class="ipa">/ˈpɔrk/</span></td>
+            <td>"skin"</td>
+            <td>Letter g (hard); also k not at the start of a word</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/kʰ/</span></td>
+            <td><em>kaka</em> <span class="ipa">/ˈkʰaːka/</span>, <em>hvalur</em> <span class="ipa">/ˈkʰvaːlʏr/</span></td>
+            <td>"kin"</td>
+            <td>Aspirated k, word-initial only; also the start of hv, qu</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/c/</span></td>
+            <td><em>gera</em> <span class="ipa">/ˈcɛːra/</span>, <em>ekki</em> <span class="ipa">/ˈɛhcɪ/</span></td>
+            <td>Hungarian "gy"-like, "cute"</td>
+            <td>Palatal stop (see <a href="#palatals">Palatals</a>)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/cʰ/</span></td>
+            <td><em>kyn</em> <span class="ipa">/ˈcʰɪːn/</span>, <em>kjöt</em> <span class="ipa">/ˈcʰœːt/</span></td>
+            <td>Aspirated palatal stop</td>
+            <td>Word-initial k or kj before a front vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/f/</span></td>
+            <td><em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span>, <em>kaffi</em> <span class="ipa">/ˈkʰafːɪ/</span></td>
+            <td>"fish"</td>
+            <td>Letter f at the start of a word, ff</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/v/</span></td>
+            <td><em>vinur</em> <span class="ipa">/ˈvɪːnʏr/</span>, <em>hafa</em> <span class="ipa">/ˈhaːva/</span></td>
+            <td>"van"</td>
+            <td>Letters v, w; f elsewhere</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɣ/</span></td>
+            <td><em>dagur</em> <span class="ipa">/ˈtaːɣʏr/</span>, <em>sagði</em> <span class="ipa">/ˈsaɣðɪ/</span></td>
+            <td>Spanish "lago"</td>
+            <td>g between vowel and a/u/ð/l/r</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ð/</span></td>
+            <td><em>faðir</em> <span class="ipa">/ˈfaːðɪr/</span>, <em>maður</em> <span class="ipa">/ˈmaːðʏr/</span></td>
+            <td>"this"</td>
+            <td>Letter ð (always)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/θ/</span></td>
+            <td><em>þakka</em> <span class="ipa">/ˈθahka/</span>, <em>þú</em> <span class="ipa">/ˈθuː/</span></td>
+            <td>"thing"</td>
+            <td>Letter þ (always)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/s/</span></td>
+            <td><em>sól</em> <span class="ipa">/ˈsou̯ːl/</span>, <em>zebra</em> <span class="ipa">/ˈsɛːpra/</span></td>
+            <td>"sun"</td>
+            <td>Letters s, z; initial x</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td><em>sagt</em> <span class="ipa">/ˈsaxt/</span>, <em>vax</em> <span class="ipa">/ˈvaxs/</span></td>
+            <td>Scottish "loch"</td>
+            <td>gt, kt, ks; x as <span class="ipa">/xs/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ç/</span></td>
+            <td><em>hjá</em> <span class="ipa">/ˈçau̯ː/</span>, <em>hjartað</em> <span class="ipa">/ˈçartað/</span></td>
+            <td>"huge"</td>
+            <td>Digraph hj</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/h/</span></td>
+            <td><em>hús</em> <span class="ipa">/ˈhuːs/</span>, <em>hoppa</em> <span class="ipa">/ˈhɔhpa/</span></td>
+            <td>"hat"</td>
+            <td>Letter h; preaspiration</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td><em>Jón</em> <span class="ipa">/ˈjou̯ːn/</span>, <em>sjö</em> <span class="ipa">/ˈsjœː/</span></td>
+            <td>"yes"</td>
+            <td>Letter j; also from gi</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td><em>borg</em> <span class="ipa">/ˈpɔrk/</span>, <em>rennur</em> <span class="ipa">/ˈrɛtn̥ʏr/</span></td>
+            <td>Spanish "pero" (trill/tap)</td>
+            <td>Letter r</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r̥/</span></td>
+            <td><em>hringur</em> <span class="ipa">/ˈr̥iŋkʏr/</span>, <em>hrafn</em> <span class="ipa">/ˈr̥avn/</span></td>
+            <td>Voiceless r</td>
+            <td>Digraph hr</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l/</span></td>
+            <td><em>lítil</em> <span class="ipa">/ˈliːtɪl/</span>, <em>kalt</em> <span class="ipa">/ˈkʰalt/</span></td>
+            <td>"let"</td>
+            <td>Letter l</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/l̥/</span></td>
+            <td><em>hlaupa</em> <span class="ipa">/ˈl̥œy̯ːpa/</span>, <em>epli</em> <span class="ipa">/ˈɛhpl̥ɪ/</span></td>
+            <td>Voiceless l</td>
+            <td>Digraph hl; ll, pl, tl, kl</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/m/</span></td>
+            <td><em>maður</em> <span class="ipa">/ˈmaːðʏr/</span>, <em>fimm</em> <span class="ipa">/ˈfɪmː/</span></td>
+            <td>"man"</td>
+            <td>Letter m</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/m̥/</span></td>
+            <td><em>jafnt</em> <span class="ipa">/ˈjam̥t/</span>, <em>kembt</em> <span class="ipa">/ˈcʰɛm̥t/</span></td>
+            <td>Voiceless m</td>
+            <td>fnt, mbt</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n/</span></td>
+            <td><em>nei</em> <span class="ipa">/ˈnɛi̯ː/</span>, <em>hunda</em> <span class="ipa">/ˈhʏnta/</span></td>
+            <td>"no"</td>
+            <td>Letter n</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/n̥/</span></td>
+            <td><em>hnífur</em> <span class="ipa">/ˈn̥iːvʏr/</span>, <em>vatn</em> <span class="ipa">/ˈvahtn̥/</span></td>
+            <td>Voiceless n</td>
+            <td>Digraph hn; nn, rn, sn, pn, tn, kn</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td><em>langur</em> <span class="ipa">/ˈlau̯ŋkʏr/</span>, <em>ungur</em> <span class="ipa">/ˈuŋkʏr/</span></td>
+            <td>"sing"</td>
+            <td>ng, nk</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/tl̥/</span></td>
+            <td><em>kalla</em> <span class="ipa">/ˈkʰatl̥a/</span></td>
+            <td>Stop plus voiceless l</td>
+            <td>ll (pre-stopped)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/tn̥/</span></td>
+            <td><em>steinn</em> <span class="ipa">/ˈstɛi̯tn̥/</span></td>
+            <td>Stop plus voiceless n</td>
+            <td>nn after a stressed vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʰ/</span></td>
+            <td><em>pípa</em> <span class="ipa">/ˈpʰiːpa/</span></td>
+            <td>Puff of air</td>
+            <td>Aspiration marker</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in the word</td>
+            <td><em>borg</em> <span class="ipa">/ˈpɔrk/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˌ</span></td>
+            <td>Secondary stress</td>
+            <td>Start of a later hyphen-separated component</td>
+            <td><em>borgar-stjóri</em> <span class="ipa">/ˈpɔrkarˌstjou̯ːrɪ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Long vowel or long consonant</td>
+            <td><em>hús</em> <span class="ipa">/ˈhuːs/</span>, <em>kaffi</em> <span class="ipa">/ˈkʰafːɪ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̯</span></td>
+            <td>Non-syllabic</td>
+            <td>Glide (second part of a diphthong)</td>
+            <td><em>steinn</em> <span class="ipa">/ˈstɛi̯tn̥/</span>, <em>haus</em> <span class="ipa">/ˈhœy̯ːs/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">̥</span></td>
+            <td>Voiceless</td>
+            <td>Normally voiced sonorant devoiced</td>
+            <td><em>hlaupa</em> <span class="ipa">/ˈl̥œy̯ːpa/</span>, <em>vatn</em> <span class="ipa">/ˈvahtn̥/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʰ</span></td>
+            <td>Aspiration</td>
+            <td>Puff of air after a stop</td>
+            <td><em>tala</em> <span class="ipa">/ˈtʰaːla/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Only applies if a word has several stored transcriptions.
+            Click any transcribed word to see alternative IPA forms if available.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support and an Icelandic voice).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For Icelandic, the rule path returns exactly one transcription per word. Where variants exist they come from
+        the lexicon:</p>
+    <ul>
+        <li><strong>Lexicon vs. generated:</strong> Dictionary lookup and rule-based generation may produce
+            different results for the same word, because the dictionary reflects what editors wrote.
+        </li>
+        <li><strong>Homographs:</strong> Words spelled the same but pronounced differently can only be distinguished
+            by the lexicon, never by the rules.
+        </li>
+    </ul>
+
+    <h2 id="guide">Icelandic Pronunciation Guide</h2>
+
+    <p>This guide explains the pronunciation rules that the engine actually implements. Icelandic spelling is
+        fairly regular, but stress, vowel length, and consonant clusters interact in ways that are worth knowing
+        before reading the IPA. Every rule here corresponds to a rule in the Lua module (see <a
+                href="#technical">Implementation Details</a>).</p>
+
+    <h3 id="vowels-guide">Vowel Length &amp; Quality</h3>
+    <p>Only the <strong>stressed</strong> vowel (the first vowel of each component) gets a length decision. All other
+        vowels are written short.</p>
+
+    <h4>Long Vowels</h4>
+    <p>The stressed vowel is long when the letters after it are:</p>
+    <ul>
+        <li><strong>Nothing, or a single letter:</strong> Word-final or followed by one last letter. Examples:
+            <em>þú</em> <span class="ipa">/ˈθuː/</span>, <em>hús</em> <span class="ipa">/ˈhuːs/</span>, <em>þrír</em> <span class="ipa">/ˈθriːr/</span></li>
+        <li><strong>One consonant followed by a vowel:</strong> Examples: <em>tala</em> <span class="ipa">/ˈtʰaːla/</span>, <em>vinur</em> <span class="ipa">/ˈvɪːnʏr/</span>, <em>kona</em> <span class="ipa">/ˈkʰɔːna/</span></li>
+        <li><strong>A stop or s plus j, r or v:</strong> The clusters b/d/g/k/p/s/t + j/r/v do not shorten the
+            vowel. Examples: <em>Petra</em> <span class="ipa">/ˈpʰɛːtra/</span>, <em>tvisvar</em> <span class="ipa">/ˈtʰvɪːsvar/</span>, <em>sækja</em> <span class="ipa">/ˈsai̯ːca/</span></li>
+    </ul>
+
+    <h4>Short Vowels</h4>
+    <ul>
+        <li><strong>Before two consonants:</strong> Examples: <em>vatn</em> <span class="ipa">/ˈvahtn̥/</span>, <em>mynd</em> <span class="ipa">/ˈmɪnt/</span>, <em>hestur</em> <span class="ipa">/ˈhɛstʏr/</span>, <em>allt</em> <span class="ipa">/ˈatl̥t/</span></li>
+        <li><strong>Before x:</strong> The letter x counts as two consonants. Examples: <em>vax</em> <span class="ipa">/ˈvaxs/</span>, <em>sex</em> <span class="ipa">/ˈsɛxs/</span>, <em>box</em> <span class="ipa">/ˈpɔxs/</span></li>
+        <li><strong>Before a consonant and a hyphen:</strong> The lookahead sees the consonant followed by a hyphen, which is not a vowel, so the vowel stays short (see <a href="#issues">Common Issues</a>). Example: <em>sjón-varp</em> <span class="ipa">/ˈsjou̯nvarp/</span></li>
+        <li><strong>Unstressed syllables:</strong> Examples: <em>tala</em> <span class="ipa">/ˈtʰaːla/</span> (final <span class="ipa">/a/</span>),
+            <em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span> (final <span class="ipa">/ʏr/</span>)</li>
+    </ul>
+
+    <h4>Letter-to-Vowel Pairs</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Long (stressed)</th>
+            <th>Short</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>a</td>
+            <td><em>tala</em> <span class="ipa">/ˈtʰaːla/</span></td>
+            <td><em>kalt</em> <span class="ipa">/ˈkʰalt/</span></td>
+        </tr>
+        <tr>
+            <td>e</td>
+            <td><em>vegur</em> <span class="ipa">/ˈvɛːɣʏr/</span></td>
+            <td><em>hestur</em> <span class="ipa">/ˈhɛstʏr/</span></td>
+        </tr>
+        <tr>
+            <td>i</td>
+            <td><em>vinur</em> <span class="ipa">/ˈvɪːnʏr/</span></td>
+            <td><em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span></td>
+        </tr>
+        <tr>
+            <td>o</td>
+            <td><em>kona</em> <span class="ipa">/ˈkʰɔːna/</span></td>
+            <td><em>borg</em> <span class="ipa">/ˈpɔrk/</span></td>
+        </tr>
+        <tr>
+            <td>u</td>
+            <td><em>gul</em> <span class="ipa">/ˈkʏːl/</span></td>
+            <td><em>hundur</em> <span class="ipa">/ˈhʏntʏr/</span></td>
+        </tr>
+        <tr>
+            <td>ö</td>
+            <td><em>öl</em> <span class="ipa">/ˈœːl/</span></td>
+            <td><em>öld</em> <span class="ipa">/ˈœlt/</span></td>
+        </tr>
+        <tr>
+            <td>á</td>
+            <td><em>sál</em> <span class="ipa">/ˈsau̯ːl/</span></td>
+            <td><em>smátt</em> <span class="ipa">/ˈsmau̯ht/</span></td>
+        </tr>
+        <tr>
+            <td>é</td>
+            <td><em>Pétur</em> <span class="ipa">/ˈpʰjɛːtʏr/</span></td>
+            <td><em>hélt</em> <span class="ipa">/ˈhjɛlt/</span></td>
+        </tr>
+        <tr>
+            <td>ó</td>
+            <td><em>sól</em> <span class="ipa">/ˈsou̯ːl/</span></td>
+            <td><em>stórt</em> <span class="ipa">/ˈstou̯rt/</span></td>
+        </tr>
+        <tr>
+            <td>æ</td>
+            <td><em>sæti</em> <span class="ipa">/ˈsai̯ːtɪ/</span></td>
+            <td><em>ætla</em> <span class="ipa">/ˈai̯htl̥a/</span></td>
+        </tr>
+        <tr>
+            <td>í</td>
+            <td><em>sími</em> <span class="ipa">/ˈsiːmɪ/</span></td>
+            <td><em>hnífnum</em> <span class="ipa">/ˈn̥ivnʏm/</span></td>
+        </tr>
+        <tr>
+            <td>ú</td>
+            <td><em>hús</em> <span class="ipa">/ˈhuːs/</span></td>
+            <td><em>úlfur</em> <span class="ipa">/ˈulvʏr/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The letters í and ú always give <span class="ipa">/i/</span> and <span class="ipa">/u/</span>
+        with no quality change; the length mark is added in the same way as for the other vowels.</p>
+
+    <h3 id="diphthongs">Icelandic Diphthongs</h3>
+    <p>Diphthongs come from three sources: the digraphs <em>au</em> and <em>ei/ey</em>, the single letters
+        <em>á, ó, æ, é</em>, and the context rules for <em>gi</em> and <em>ng/nk</em>.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>au</td>
+            <td><span class="ipa">/œy̯/</span></td>
+            <td><em>haus</em> <span class="ipa">/ˈhœy̯ːs/</span>, <em>auga</em> <span class="ipa">/ˈœy̯ːɣa/</span></td>
+        </tr>
+        <tr>
+            <td>ei, ey</td>
+            <td><span class="ipa">/ɛi̯/</span></td>
+            <td><em>heim</em> <span class="ipa">/ˈhɛi̯ːm/</span>, <em>eyra</em> <span class="ipa">/ˈɛi̯ːra/</span></td>
+        </tr>
+        <tr>
+            <td>á</td>
+            <td><span class="ipa">/au̯/</span></td>
+            <td><em>sál</em> <span class="ipa">/ˈsau̯ːl/</span>, <em>á</em> <span class="ipa">/ˈau̯ː/</span></td>
+        </tr>
+        <tr>
+            <td>ó</td>
+            <td><span class="ipa">/ou̯/</span></td>
+            <td><em>sól</em> <span class="ipa">/ˈsou̯ːl/</span>, <em>ó</em> <span class="ipa">/ˈou̯ː/</span></td>
+        </tr>
+        <tr>
+            <td>æ</td>
+            <td><span class="ipa">/ai̯/</span></td>
+            <td><em>sæti</em> <span class="ipa">/ˈsai̯ːtɪ/</span>, <em>gæs</em> <span class="ipa">/ˈcai̯ːs/</span></td>
+        </tr>
+        <tr>
+            <td>é</td>
+            <td><span class="ipa">/jɛ/</span></td>
+            <td><em>Pétur</em> <span class="ipa">/ˈpʰjɛːtʏr/</span>, <em>ég</em> <span class="ipa">/ˈjɛːk/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Because the digraph <em>au</em> is matched before single letters, a word like <em>haus</em> <span class="ipa">/ˈhœy̯ːs/</span> gets one diphthong
+        rather than <em>a</em> followed by <em>u</em>. The letter <em>y</em> is respelled to <em>i</em> before any of
+        this happens, so <em>ey</em> is simply <em>ei</em>, e.g., <em>keyra</em> <span class="ipa">/ˈcʰɛi̯ːra/</span>.</p>
+
+    <h3 id="stress">Stress and Compounds</h3>
+    <p>The engine puts primary stress <span class="ipa">/ˈ/</span> on the first syllable of the word. It knows
+        nothing about prefixes, suffixes, or compounds unless you type a hyphen:</p>
+    <ul>
+        <li><strong>One word, one stress:</strong> <em>bókabúð</em> <span class="ipa">/ˈpou̯ːkapuð/</span> gets a single stress, so the second component is
+            treated as an unstressed ending (short vowel, no secondary stress).</li>
+        <li><strong>With hyphens:</strong> <em>bóka-búð</em> <span class="ipa">/ˈpou̯ːkaˌpuːð/</span>. Each hyphen starts a new component. The first gets <span class="ipa">/ˈ/</span>, later ones get <span class="ipa">/ˌ/</span>, and the first vowel of each
+            component is treated as stressed (length rules apply to it).</li>
+        <li><strong>Secondary stress dropped:</strong> If both the part before and the part after a <span class="ipa">/ˌ/</span> contain only one syllable, the secondary stress is removed. Compare
+            <em>fót-bolti</em> <span class="ipa">/ˈfou̯tˌpɔltɪ/</span> (kept) with <em>sjón-varp</em> <span class="ipa">/ˈsjou̯nvarp/</span> (dropped).</li>
+        <li><strong>Hyphens reset the "initial" state:</strong> After a hyphen, aspirated initial forms are used
+            again: <em>kaffi-hús</em> <span class="ipa">/ˈkʰafːɪˌhuːs/</span>.</li>
+    </ul>
+
+    <h3 id="aspiration">Aspiration (p, t, k)</h3>
+    <p>Only <em>p, t, k</em> at the start of a word (or right after a hyphen) are aspirated. The letters <em>b, d,
+        g</em> always give unaspirated <span class="ipa">/p/</span>, <span class="ipa">/t/</span>, <span class="ipa">/k/</span>:</p>
+    <ul>
+        <li><em>pípa</em> <span class="ipa">/ˈpʰiːpa/</span>, <em>tala</em> <span class="ipa">/ˈtʰaːla/</span>, <em>kaka</em> <span class="ipa">/ˈkʰaːka/</span>: aspirated</li>
+        <li><em>bók</em> <span class="ipa">/ˈpou̯ːk/</span>, <em>daginn</em> <span class="ipa">/ˈtai̯cɪnː/</span>, <em>gata</em> <span class="ipa">/ˈkaːta/</span>: from b, d, g</li>
+        <li><em>api</em> <span class="ipa">/ˈaːpɪ/</span>, <em>taka</em> <span class="ipa">/ˈtʰaːka/</span>, <em>skip</em> <span class="ipa">/ˈscɪːp/</span>: not word-initial, so not aspirated</li>
+    </ul>
+
+    <h3 id="preaspiration">Preaspiration (pp, tt, kk, pl, tn ...)</h3>
+    <p>Double stops and stop + l/m/n clusters get a preceding <span class="ipa">/h/</span>. If an
+        <em>l, m, n</em> follows, it is voiceless:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>pp, tt, kk</td>
+            <td><span class="ipa">/hp/</span>, <span class="ipa">/ht/</span>, <span class="ipa">/hk/</span></td>
+            <td><em>hoppa</em> <span class="ipa">/ˈhɔhpa/</span>, <em>þetta</em> <span class="ipa">/ˈθɛhta/</span>, <em>bakki</em> <span class="ipa">/ˈpahcɪ/</span></td>
+        </tr>
+        <tr>
+            <td>pl, tl, kl</td>
+            <td><span class="ipa">/hpl̥/</span>, <span class="ipa">/htl̥/</span>, <span class="ipa">/hkl̥/</span></td>
+            <td><em>epli</em> <span class="ipa">/ˈɛhpl̥ɪ/</span>, <em>ætla</em> <span class="ipa">/ˈai̯htl̥a/</span>, <em>Hekla</em> <span class="ipa">/ˈhɛhkl̥a/</span></td>
+        </tr>
+        <tr>
+            <td>pm, tm, km</td>
+            <td><span class="ipa">/hpm̥/</span>, <span class="ipa">/htm̥/</span>, <span class="ipa">/hkm̥/</span></td>
+            <td><em>Kaupmanna-höfn</em> <span class="ipa">/ˈkʰœy̯hpm̥anːaˌhœvn/</span> (pm; no common example for tm, km)</td>
+        </tr>
+        <tr>
+            <td>pn, tn, kn</td>
+            <td><span class="ipa">/hpn̥/</span>, <span class="ipa">/htn̥/</span>, <span class="ipa">/hkn̥/</span></td>
+            <td><em>vopn</em> <span class="ipa">/ˈvɔhpn̥/</span>, <em>vatn</em> <span class="ipa">/ˈvahtn̥/</span>, <em>sakna</em> <span class="ipa">/ˈsahkn̥a/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="prestopping">Pre-stopping (ll, nn, rl, rn, sl, sn)</h3>
+    <ul>
+        <li><strong>ll</strong> always becomes <span class="ipa">/tl̥/</span>: <em>kalla</em> <span class="ipa">/ˈkʰatl̥a/</span>, <em>ull</em> <span class="ipa">/ˈʏtl̥/</span>, <em>fjall</em> <span class="ipa">/ˈfjatl̥/</span></li>
+        <li><strong>rl, rn</strong> become <span class="ipa">/rtl̥/</span> and <span class="ipa">/rtn̥/</span>:
+            <em>perla</em> <span class="ipa">/ˈpʰɛrtl̥a/</span>, <em>barn</em> <span class="ipa">/ˈpartn̥/</span></li>
+        <li><strong>sl, sn</strong> become <span class="ipa">/stl̥/</span> and <span class="ipa">/stn̥/</span>: <em>slá</em> <span class="ipa">/ˈstl̥au̯ː/</span>, <em>snúa</em> <span class="ipa">/ˈstn̥uːa/</span>, <em>íslenska</em> <span class="ipa">/ˈistl̥ɛnska/</span></li>
+        <li><strong>nn</strong> becomes <span class="ipa">/tn̥/</span> only straight after a stressed syllable
+            (the stress mark, optional consonants, and one vowel): <em>steinn</em> <span class="ipa">/ˈstɛi̯tn̥/</span>, <em>hinn</em> <span class="ipa">/ˈhɪtn̥/</span>, <em>rennur</em> <span class="ipa">/ˈrɛtn̥ʏr/</span>. In later
+            positions it becomes a long consonant: <em>kominn</em> <span class="ipa">/ˈkʰɔːmɪnː/</span></li>
+    </ul>
+
+    <h3 id="voiceless-sonorants">Voiceless Sonorants (hl, hn, hr)</h3>
+    <p>The digraphs <em>hl, hn, hr</em> become voiceless <span class="ipa">/l̥/</span>, <span class="ipa">/n̥/</span>, <span class="ipa">/r̥/</span>: <em>hlaupa</em> <span class="ipa">/ˈl̥œy̯ːpa/</span>, <em>hnífur</em> <span class="ipa">/ˈn̥iːvʏr/</span>, <em>hringur</em> <span class="ipa">/ˈr̥iŋkʏr/</span>. The
+        module does <strong>not</strong> devoice a plain <em>l, n, r</em> before a voiceless consonant on its own; only
+        the spellings listed in this guide produce voiceless sonorants. For example <em>kalt</em> <span class="ipa">/ˈkʰalt/</span> and <em>hjálp</em> <span class="ipa">/ˈçau̯lp/</span>
+        keep a voiced <span class="ipa">/l/</span>.</p>
+
+    <h3 id="palatals">Palatal Consonants (k, g, kj, gj, hj)</h3>
+    <ul>
+        <li><strong>k/g before a front vowel</strong> (<span class="ipa">/ɛ/</span>, <span class="ipa">/i/</span>,
+            <span class="ipa">/ɪ/</span>, <span class="ipa">/ai/</span>) become <span class="ipa">/c/</span>
+            (<span class="ipa">/cʰ/</span> when aspirated): <em>kyn</em> <span class="ipa">/ˈcʰɪːn/</span>, <em>gera</em> <span class="ipa">/ˈcɛːra/</span>, <em>gæs</em> <span class="ipa">/ˈcai̯ːs/</span>, <em>ekki</em> <span class="ipa">/ˈɛhcɪ/</span></li>
+        <li><strong>kj</strong> is <span class="ipa">/cʰ/</span> at the start of a word, otherwise <span class="ipa">/c/</span>: <em>kjöt</em> <span class="ipa">/ˈcʰœːt/</span>, <em>skjól</em> <span class="ipa">/ˈscou̯ːl/</span>, <em>tekkja</em> <span class="ipa">/ˈtʰɛhca/</span></li>
+        <li><strong>gj</strong> is <span class="ipa">/c/</span> at the start of a word: <em>gjöf</em> <span class="ipa">/ˈcœːv/</span>, <em>gjá</em> <span class="ipa">/ˈcau̯ː/</span>. Elsewhere
+            it stays as g + j until the later rules: <em>segja</em> <span class="ipa">/ˈsɛi̯ːja/</span></li>
+        <li><strong>hj</strong> is <span class="ipa">/ç/</span>: <em>hjá</em> <span class="ipa">/ˈçau̯ː/</span>, <em>hjól</em> <span class="ipa">/ˈçou̯ːl/</span></li>
+    </ul>
+
+    <h3 id="fricatives">Fricatives (g, f, ð, þ, x)</h3>
+    <h4>g</h4>
+    <ul>
+        <li><strong>After a vowel, before a, u, ð, l, r:</strong> <span class="ipa">/ɣ/</span>: <em>dagar</em> <span class="ipa">/ˈtaːɣar/</span>, <em>dagur</em> <span class="ipa">/ˈtaːɣʏr/</span>,
+            <em>sagði</em> <span class="ipa">/ˈsaɣðɪ/</span>, <em>fugl</em> <span class="ipa">/ˈfʏɣl/</span>, <em>vegur</em> <span class="ipa">/ˈvɛːɣʏr/</span></li>
+        <li><strong>After a vowel, before j or i:</strong> becomes j (then the diphthong rules for <em>gi</em> apply):
+            <em>lagi</em> <span class="ipa">/ˈlai̯cɪ/</span>, <em>segja</em> <span class="ipa">/ˈsɛi̯ːja/</span></li>
+        <li><strong>After a vowel, before t or s:</strong> <span class="ipa">/x/</span>: <em>sagt</em> <span class="ipa">/ˈsaxt/</span>, <em>lagt</em> <span class="ipa">/ˈlaxt/</span>, <em>saks</em> <span class="ipa">/ˈsaxs/</span></li>
+        <li><strong>Elsewhere:</strong> <span class="ipa">/k/</span>: <em>gata</em> <span class="ipa">/ˈkaːta/</span>, <em>borg</em> <span class="ipa">/ˈpɔrk/</span>, <em>sig</em> <span class="ipa">/ˈsɪːk/</span>, <em>skóg</em> <span class="ipa">/ˈskou̯ːk/</span></li>
+    </ul>
+    <h4>f, p, v</h4>
+    <ul>
+        <li><strong>f</strong> is <span class="ipa">/f/</span> at the start of a word and <span class="ipa">/v/</span>
+            elsewhere: <em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span>, <em>hafa</em> <span class="ipa">/ˈhaːva/</span>, <em>afi</em> <span class="ipa">/ˈaːvɪ/</span>, <em>gaf</em> <span class="ipa">/ˈkaːv/</span>. A doubled <em>ff</em> is a long
+            <span class="ipa">/fː/</span>: <em>kaffi</em> <span class="ipa">/ˈkʰafːɪ/</span></li>
+        <li><strong>p, v before t, s, k</strong> after a vowel (p) or anywhere (v) become <span class="ipa">/f/</span>:
+            <em>skipt</em> <span class="ipa">/ˈscɪft/</span>, <em>hepta</em> <span class="ipa">/ˈhɛfta/</span>, <em>afsakið</em> <span class="ipa">/ˈafsacɪð/</span></li>
+    </ul>
+    <h4>ð and þ</h4>
+    <p>Every <em>ð</em> is <span class="ipa">/ð/</span> and every <em>þ</em> is <span class="ipa">/θ/</span>, with no
+        positional variation: <em>þakka</em> <span class="ipa">/ˈθahka/</span>, <em>það</em> <span class="ipa">/ˈθaːð/</span>, <em>faðir</em> <span class="ipa">/ˈfaːðɪr/</span>, <em>maður</em> <span class="ipa">/ˈmaːðʏr/</span>, <em>hundrað</em> <span class="ipa">/ˈhʏntrað/</span>.</p>
+    <h4>x</h4>
+    <p>At the start of a word x is <span class="ipa">/s/</span>, elsewhere it is <span class="ipa">/xs/</span>, and
+        it makes the preceding stressed vowel short: <em>vax</em> <span class="ipa">/ˈvaxs/</span>, <em>taxi</em> <span class="ipa">/ˈtʰaxsɪ/</span>.</p>
+
+    <h3 id="nasals">Nasals: ng and nk</h3>
+    <ul>
+        <li><strong>ng before l or s:</strong> <span class="ipa">/ŋ/</span> with no g: <em>engla</em> <span class="ipa">/ˈɛi̯ŋla/</span></li>
+        <li><strong>nk and other ng:</strong> <span class="ipa">/ŋk/</span>: <em>langur</em> <span class="ipa">/ˈlau̯ŋkʏr/</span>, <em>ungur</em> <span class="ipa">/ˈuŋkʏr/</span>, <em>fingur</em> <span class="ipa">/ˈfiŋkʏr/</span>,
+            <em>ganga</em> <span class="ipa">/ˈkau̯ŋka/</span></li>
+        <li><strong>But n + palatal k:</strong> if k has already become <span class="ipa">/c/</span>, the n is not
+            velarized: <em>banki</em> <span class="ipa">/ˈpau̯ncɪ/</span>, <em>lengi</em> <span class="ipa">/ˈlɛi̯ncɪ/</span></li>
+        <li>The vowel before <em>ng/nk</em> changes quality (<em>a</em> to <span class="ipa">/au̯/</span>,
+            <em>e</em> to <span class="ipa">/ɛi̯/</span>, <em>o</em> to <span class="ipa">/ɔi̯/</span>,
+            <em>ö</em> to <span class="ipa">/œy̯/</span>, <em>u</em> to <span class="ipa">/u/</span>):
+            <em>langur</em> <span class="ipa">/ˈlau̯ŋkʏr/</span>, <em>engla</em> <span class="ipa">/ˈɛi̯ŋla/</span>, <em>kongur</em> <span class="ipa">/ˈkʰɔi̯ŋkʏr/</span>, <em>söngur</em> <span class="ipa">/ˈsœy̯ŋkʏr/</span>, <em>ungur</em> <span class="ipa">/ˈuŋkʏr/</span></li>
+    </ul>
+
+    <h3 id="foreign-letters">Letters Outside the Icelandic Alphabet</h3>
+    <p>Before anything else the module respells a few letters: <em>c</em> before e, é, i, í, y, ö becomes <em>s</em>,
+        other <em>c</em> becomes <em>k</em>, <em>w</em> becomes <em>v</em>, <em>y</em> becomes <em>i</em>, <em>ý</em>
+        becomes <em>í</em>, and <em>z</em> becomes <em>s</em>. Examples: <em>Cecilía</em> <span class="ipa">/ˈsɛːsɪlia/</span>, <em>Coca-Cola</em> <span class="ipa">/ˈkʰɔːkaˌkʰɔːla/</span>, <em>Walter</em> <span class="ipa">/ˈvaltɛr/</span>,
+        <em>zebra</em> <span class="ipa">/ˈsɛːpra/</span>, <em>kýr</em> <span class="ipa">/ˈcʰiːr/</span>.</p>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>The tables below list every letter and sequence that the engine handles, with a real example for each. Output
+        is the engine's output for the example word.</p>
+
+    <h3>1. Vowels (single letters)</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Regular (short / unstressed)</th>
+            <th>Stressed, long</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>a</td>
+            <td><span class="ipa">/a/</span> <em>kalt</em> <span class="ipa">/ˈkʰalt/</span></td>
+            <td><span class="ipa">/aː/</span> <em>tala</em> <span class="ipa">/ˈtʰaːla/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>á</td>
+            <td><span class="ipa">/au̯/</span> <em>smátt</em> <span class="ipa">/ˈsmau̯ht/</span></td>
+            <td><span class="ipa">/au̯ː/</span> <em>sál</em> <span class="ipa">/ˈsau̯ːl/</span></td>
+            <td>Always a diphthong</td>
+        </tr>
+        <tr>
+            <td>e</td>
+            <td><span class="ipa">/ɛ/</span> <em>hestur</em> <span class="ipa">/ˈhɛstʏr/</span></td>
+            <td><span class="ipa">/ɛː/</span> <em>vegur</em> <span class="ipa">/ˈvɛːɣʏr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>é</td>
+            <td><span class="ipa">/jɛ/</span> <em>hélt</em> <span class="ipa">/ˈhjɛlt/</span></td>
+            <td><span class="ipa">/jɛː/</span> <em>Pétur</em> <span class="ipa">/ˈpʰjɛːtʏr/</span></td>
+            <td>Glide + ɛ</td>
+        </tr>
+        <tr>
+            <td>i</td>
+            <td><span class="ipa">/ɪ/</span> <em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span></td>
+            <td><span class="ipa">/ɪː/</span> <em>vinur</em> <span class="ipa">/ˈvɪːnʏr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>í</td>
+            <td><span class="ipa">/i/</span> <em>hnífnum</em> <span class="ipa">/ˈn̥ivnʏm/</span></td>
+            <td><span class="ipa">/iː/</span> <em>sími</em> <span class="ipa">/ˈsiːmɪ/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>o</td>
+            <td><span class="ipa">/ɔ/</span> <em>borg</em> <span class="ipa">/ˈpɔrk/</span></td>
+            <td><span class="ipa">/ɔː/</span> <em>kona</em> <span class="ipa">/ˈkʰɔːna/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ó</td>
+            <td><span class="ipa">/ou̯/</span> <em>stórt</em> <span class="ipa">/ˈstou̯rt/</span></td>
+            <td><span class="ipa">/ou̯ː/</span> <em>sól</em> <span class="ipa">/ˈsou̯ːl/</span></td>
+            <td>Always a diphthong</td>
+        </tr>
+        <tr>
+            <td>u</td>
+            <td><span class="ipa">/ʏ/</span> <em>hundur</em> <span class="ipa">/ˈhʏntʏr/</span></td>
+            <td><span class="ipa">/ʏː/</span> <em>gul</em> <span class="ipa">/ˈkʏːl/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ú</td>
+            <td><span class="ipa">/u/</span> <em>úlfur</em> <span class="ipa">/ˈulvʏr/</span></td>
+            <td><span class="ipa">/uː/</span> <em>hús</em> <span class="ipa">/ˈhuːs/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>æ</td>
+            <td><span class="ipa">/ai̯/</span> <em>ætla</em> <span class="ipa">/ˈai̯htl̥a/</span></td>
+            <td><span class="ipa">/ai̯ː/</span> <em>sæti</em> <span class="ipa">/ˈsai̯ːtɪ/</span></td>
+            <td>Always a diphthong</td>
+        </tr>
+        <tr>
+            <td>ö</td>
+            <td><span class="ipa">/œ/</span> <em>öld</em> <span class="ipa">/ˈœlt/</span></td>
+            <td><span class="ipa">/œː/</span> <em>öl</em> <span class="ipa">/ˈœːl/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>y</td>
+            <td>as i: <span class="ipa">/ɪ/</span> <em>mynd</em> <span class="ipa">/ˈmɪnt/</span></td>
+            <td>as i: <span class="ipa">/ɪː/</span> <em>kyn</em> <span class="ipa">/ˈcʰɪːn/</span></td>
+            <td>Respelled to i first</td>
+        </tr>
+        <tr>
+            <td>ý</td>
+            <td>as í: <span class="ipa">/i/</span> <em>nýtt</em> <span class="ipa">/ˈniht/</span></td>
+            <td>as í: <span class="ipa">/iː/</span> <em>kýr</em> <span class="ipa">/ˈcʰiːr/</span></td>
+            <td>Respelled to í first</td>
+        </tr>
+        <tr>
+            <td>au</td>
+            <td><span class="ipa">/œy̯/</span> <em>auga</em> <span class="ipa">/ˈœy̯ːɣa/</span></td>
+            <td><span class="ipa">/œy̯ː/</span> <em>haus</em> <span class="ipa">/ˈhœy̯ːs/</span></td>
+            <td>Digraph</td>
+        </tr>
+        <tr>
+            <td>ei, ey</td>
+            <td><span class="ipa">/ɛi̯/</span> <em>neinn</em> <span class="ipa">/ˈnɛi̯tn̥/</span></td>
+            <td><span class="ipa">/ɛi̯ː/</span> <em>nei</em> <span class="ipa">/ˈnɛi̯ː/</span></td>
+            <td>Digraph</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Vowels before gi and ng/nk</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Before gi</th>
+            <th>Before ng, nk</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>a</td>
+            <td><span class="ipa">/ai̯/</span> <em>lagi</em> <span class="ipa">/ˈlai̯cɪ/</span></td>
+            <td><span class="ipa">/au̯/</span> <em>langur</em> <span class="ipa">/ˈlau̯ŋkʏr/</span></td>
+        </tr>
+        <tr>
+            <td>e</td>
+            <td><span class="ipa">/ei̯/</span> <em>degi</em> <span class="ipa">/ˈtei̯cɪ/</span></td>
+            <td><span class="ipa">/ɛi̯/</span> <em>engla</em> <span class="ipa">/ˈɛi̯ŋla/</span></td>
+        </tr>
+        <tr>
+            <td>i</td>
+            <td><span class="ipa">/i/</span> <em>ligi</em> <span class="ipa">/ˈlicɪ/</span></td>
+            <td><span class="ipa">/i/</span> <em>fingur</em> <span class="ipa">/ˈfiŋkʏr/</span></td>
+        </tr>
+        <tr>
+            <td>o</td>
+            <td><span class="ipa">/ɔi̯/</span> <em>bogi</em> <span class="ipa">/ˈpɔi̯cɪ/</span></td>
+            <td><span class="ipa">/ɔi̯/</span> <em>kongur</em> <span class="ipa">/ˈkʰɔi̯ŋkʏr/</span></td>
+        </tr>
+        <tr>
+            <td>u</td>
+            <td><span class="ipa">/ʏi̯/</span> <em>lugi</em> <span class="ipa">/ˈlʏi̯cɪ/</span></td>
+            <td><span class="ipa">/u/</span> <em>ungur</em> <span class="ipa">/ˈuŋkʏr/</span></td>
+        </tr>
+        <tr>
+            <td>ö</td>
+            <td><span class="ipa">/œy̯/</span> <em>högi</em> <span class="ipa">/ˈhœy̯cɪ/</span></td>
+            <td><span class="ipa">/œy̯/</span> <em>söngur</em> <span class="ipa">/ˈsœy̯ŋkʏr/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The other vowels (á, é, í, ó, ú, æ, au, ei) have the same value in every context.</p>
+
+    <h3>3. Consonant Digraphs and Trigraphs</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>fnd</td>
+            <td><span class="ipa">/mt/</span></td>
+            <td><em>hefnd</em> <span class="ipa">/ˈhɛmt/</span></td>
+            <td>Trigraph</td>
+        </tr>
+        <tr>
+            <td>fnt</td>
+            <td><span class="ipa">/m̥t/</span></td>
+            <td><em>jafnt</em> <span class="ipa">/ˈjam̥t/</span></td>
+            <td>Trigraph</td>
+        </tr>
+        <tr>
+            <td>mbd</td>
+            <td><span class="ipa">/mt/</span></td>
+            <td><em>kembdi</em> <span class="ipa">/ˈcʰɛmtɪ/</span></td>
+            <td>Trigraph</td>
+        </tr>
+        <tr>
+            <td>mbg</td>
+            <td><span class="ipa">/mk/</span></td>
+            <td>(no common example)</td>
+            <td>Trigraph</td>
+        </tr>
+        <tr>
+            <td>mbs</td>
+            <td><span class="ipa">/ms/</span></td>
+            <td><em>kambs</em> <span class="ipa">/ˈkʰams/</span></td>
+            <td>Trigraph</td>
+        </tr>
+        <tr>
+            <td>mbt</td>
+            <td><span class="ipa">/m̥t/</span></td>
+            <td><em>kembt</em> <span class="ipa">/ˈcʰɛm̥t/</span></td>
+            <td>Trigraph</td>
+        </tr>
+        <tr>
+            <td>ll</td>
+            <td><span class="ipa">/tl̥/</span></td>
+            <td><em>kalla</em> <span class="ipa">/ˈkʰatl̥a/</span></td>
+            <td>Always pre-stopped</td>
+        </tr>
+        <tr>
+            <td>ff</td>
+            <td><span class="ipa">/fː/</span></td>
+            <td><em>kaffi</em> <span class="ipa">/ˈkʰafːɪ/</span></td>
+            <td>Long f</td>
+        </tr>
+        <tr>
+            <td>gj</td>
+            <td><span class="ipa">/c/</span> initially, g + j elsewhere</td>
+            <td><em>gjöf</em> <span class="ipa">/ˈcœːv/</span>, <em>segja</em> <span class="ipa">/ˈsɛi̯ːja/</span></td>
+            <td>Table value with two forms</td>
+        </tr>
+        <tr>
+            <td>kj</td>
+            <td><span class="ipa">/cʰ/</span> initially, <span class="ipa">/c/</span> elsewhere</td>
+            <td><em>kjöt</em> <span class="ipa">/ˈcʰœːt/</span>, <em>tekkja</em> <span class="ipa">/ˈtʰɛhca/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>rl</td>
+            <td><span class="ipa">/rtl̥/</span></td>
+            <td><em>perla</em> <span class="ipa">/ˈpʰɛrtl̥a/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>rn</td>
+            <td><span class="ipa">/rtn̥/</span></td>
+            <td><em>barn</em> <span class="ipa">/ˈpartn̥/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>sl</td>
+            <td><span class="ipa">/stl̥/</span></td>
+            <td><em>slá</em> <span class="ipa">/ˈstl̥au̯ː/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>sn</td>
+            <td><span class="ipa">/stn̥/</span></td>
+            <td><em>snúa</em> <span class="ipa">/ˈstn̥uːa/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>qu</td>
+            <td><span class="ipa">/kʰv/</span></td>
+            <td><em>queen</em> <span class="ipa">/ˈkʰvɛːn/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hv</td>
+            <td><span class="ipa">/kʰv/</span></td>
+            <td><em>hvalur</em> <span class="ipa">/ˈkʰvaːlʏr/</span>, <em>eitthvað</em> <span class="ipa">/ˈɛi̯htkʰvað/</span></td>
+            <td>Always, even inside a word</td>
+        </tr>
+        <tr>
+            <td>hl</td>
+            <td><span class="ipa">/l̥/</span></td>
+            <td><em>hlaupa</em> <span class="ipa">/ˈl̥œy̯ːpa/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hn</td>
+            <td><span class="ipa">/n̥/</span></td>
+            <td><em>hnífur</em> <span class="ipa">/ˈn̥iːvʏr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hr</td>
+            <td><span class="ipa">/r̥/</span></td>
+            <td><em>hringur</em> <span class="ipa">/ˈr̥iŋkʏr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hj</td>
+            <td><span class="ipa">/ç/</span></td>
+            <td><em>hjá</em> <span class="ipa">/ˈçau̯ː/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>pp, tt, kk</td>
+            <td><span class="ipa">/hp/</span>, <span class="ipa">/ht/</span>, <span class="ipa">/hk/</span></td>
+            <td><em>hoppa</em> <span class="ipa">/ˈhɔhpa/</span>, <em>þetta</em> <span class="ipa">/ˈθɛhta/</span>, <em>bakki</em> <span class="ipa">/ˈpahcɪ/</span></td>
+            <td>Preaspiration</td>
+        </tr>
+        <tr>
+            <td>pl, pm, pn</td>
+            <td><span class="ipa">/hpl̥/</span>, <span class="ipa">/hpm̥/</span>, <span class="ipa">/hpn̥/</span></td>
+            <td><em>epli</em> <span class="ipa">/ˈɛhpl̥ɪ/</span>, <em>Kaupmanna-höfn</em> <span class="ipa">/ˈkʰœy̯hpm̥anːaˌhœvn/</span>, <em>vopn</em> <span class="ipa">/ˈvɔhpn̥/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>tl, tm, tn</td>
+            <td><span class="ipa">/htl̥/</span>, <span class="ipa">/htm̥/</span>, <span class="ipa">/htn̥/</span></td>
+            <td><em>ætla</em> <span class="ipa">/ˈai̯htl̥a/</span>, <em>vatn</em> <span class="ipa">/ˈvahtn̥/</span> (no common example for tm)</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>kl, km, kn</td>
+            <td><span class="ipa">/hkl̥/</span>, <span class="ipa">/hkm̥/</span>, <span class="ipa">/hkn̥/</span></td>
+            <td><em>Hekla</em> <span class="ipa">/ˈhɛhkl̥a/</span>, <em>sakna</em> <span class="ipa">/ˈsahkn̥a/</span> (no common example for km)</td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4. Single Consonant Letters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Word-initial</th>
+            <th>Elsewhere</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>b</td>
+            <td><span class="ipa">/p/</span> <em>bók</em> <span class="ipa">/ˈpou̯ːk/</span></td>
+            <td><span class="ipa">/p/</span> <em>tvöfaldur</em> <span class="ipa">/ˈtʰvœːvaltʏr/</span></td>
+        </tr>
+        <tr>
+            <td>d</td>
+            <td><span class="ipa">/t/</span> <em>daginn</em> <span class="ipa">/ˈtai̯cɪnː/</span></td>
+            <td><span class="ipa">/t/</span> <em>hundur</em> <span class="ipa">/ˈhʏntʏr/</span></td>
+        </tr>
+        <tr>
+            <td>g</td>
+            <td><span class="ipa">/k/</span> <em>gata</em> <span class="ipa">/ˈkaːta/</span></td>
+            <td><span class="ipa">/k/</span> <em>borg</em> <span class="ipa">/ˈpɔrk/</span> (or <span class="ipa">/ɣ/</span>, <span class="ipa">/x/</span>, <span class="ipa">/j/</span> by context)</td>
+        </tr>
+        <tr>
+            <td>p</td>
+            <td><span class="ipa">/pʰ/</span> <em>pípa</em> <span class="ipa">/ˈpʰiːpa/</span></td>
+            <td><span class="ipa">/p/</span> <em>api</em> <span class="ipa">/ˈaːpɪ/</span></td>
+        </tr>
+        <tr>
+            <td>t</td>
+            <td><span class="ipa">/tʰ/</span> <em>tala</em> <span class="ipa">/ˈtʰaːla/</span></td>
+            <td><span class="ipa">/t/</span> <em>vetur</em> <span class="ipa">/ˈvɛːtʏr/</span></td>
+        </tr>
+        <tr>
+            <td>k</td>
+            <td><span class="ipa">/kʰ/</span> <em>kaka</em> <span class="ipa">/ˈkʰaːka/</span></td>
+            <td><span class="ipa">/k/</span> <em>taka</em> <span class="ipa">/ˈtʰaːka/</span></td>
+        </tr>
+        <tr>
+            <td>q</td>
+            <td><span class="ipa">/kʰ/</span> (qu is <span class="ipa">/kʰv/</span>)</td>
+            <td><span class="ipa">/k/</span> (qu is <span class="ipa">/kʰv/</span>)</td>
+        </tr>
+        <tr>
+            <td>x</td>
+            <td><span class="ipa">/s/</span> <em>xylofon</em> <span class="ipa">/ˈsɪːlɔvɔn/</span></td>
+            <td><span class="ipa">/xs/</span> <em>vax</em> <span class="ipa">/ˈvaxs/</span></td>
+        </tr>
+        <tr>
+            <td>f</td>
+            <td><span class="ipa">/f/</span> <em>fiskur</em> <span class="ipa">/ˈfɪskʏr/</span></td>
+            <td><span class="ipa">/v/</span> <em>hafa</em> <span class="ipa">/ˈhaːva/</span></td>
+        </tr>
+        <tr>
+            <td>þ</td>
+            <td><span class="ipa">/θ/</span> <em>þakka</em> <span class="ipa">/ˈθahka/</span></td>
+            <td><span class="ipa">/θ/</span> <em>ennþá</em> <span class="ipa">/ˈɛtn̥θau̯/</span></td>
+        </tr>
+        <tr>
+            <td>ð</td>
+            <td>(not word-initial)</td>
+            <td><span class="ipa">/ð/</span> <em>faðir</em> <span class="ipa">/ˈfaːðɪr/</span></td>
+        </tr>
+        <tr>
+            <td>j</td>
+            <td><span class="ipa">/j/</span> <em>Jón</em> <span class="ipa">/ˈjou̯ːn/</span></td>
+            <td><span class="ipa">/j/</span> <em>sjö</em> <span class="ipa">/ˈsjœː/</span></td>
+        </tr>
+        <tr>
+            <td>h, l, m, n, r, s, v</td>
+            <td>unchanged <em>hús</em> <span class="ipa">/ˈhuːs/</span>, <em>lítil</em> <span class="ipa">/ˈliːtɪl/</span>, <em>maður</em> <span class="ipa">/ˈmaːðʏr/</span>, <em>nei</em> <span class="ipa">/ˈnɛi̯ː/</span>, <em>rennur</em> <span class="ipa">/ˈrɛtn̥ʏr/</span>, <em>sól</em> <span class="ipa">/ˈsou̯ːl/</span>, <em>vinur</em> <span class="ipa">/ˈvɪːnʏr/</span></td>
+            <td>unchanged</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Letters that are not in any table (digits, other punctuation, and anything else) are copied to the output as
+        they are, e.g., <em>2024</em> <span class="ipa">/2024/</span>.</p>
+
+    <h3>5. Context-dependent Consonants</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Context</th>
+            <th>Result</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>vowel + g + a, u, ð, l, r</td>
+            <td><span class="ipa">/ɣ/</span></td>
+            <td><em>dagur</em> <span class="ipa">/ˈtaːɣʏr/</span>, <em>sagði</em> <span class="ipa">/ˈsaɣðɪ/</span>, <em>fugl</em> <span class="ipa">/ˈfʏɣl/</span></td>
+        </tr>
+        <tr>
+            <td>vowel + g + j or i</td>
+            <td>j</td>
+            <td><em>segja</em> <span class="ipa">/ˈsɛi̯ːja/</span></td>
+        </tr>
+        <tr>
+            <td>vowel + k/g + t or s</td>
+            <td><span class="ipa">/x/</span></td>
+            <td><em>sagt</em> <span class="ipa">/ˈsaxt/</span>, <em>tukt</em> <span class="ipa">/ˈtʰʏxt/</span>, <em>saks</em> <span class="ipa">/ˈsaxs/</span></td>
+        </tr>
+        <tr>
+            <td>vowel + p + t, s, k</td>
+            <td><span class="ipa">/f/</span></td>
+            <td><em>skipt</em> <span class="ipa">/ˈscɪft/</span>, <em>hepta</em> <span class="ipa">/ˈhɛfta/</span></td>
+        </tr>
+        <tr>
+            <td>v + t, s, k</td>
+            <td><span class="ipa">/f/</span></td>
+            <td><em>afsakið</em> <span class="ipa">/ˈafsacɪð/</span></td>
+        </tr>
+        <tr>
+            <td>ng + l or s</td>
+            <td><span class="ipa">/ŋ/</span></td>
+            <td><em>engla</em> <span class="ipa">/ˈɛi̯ŋla/</span></td>
+        </tr>
+        <tr>
+            <td>k + front vowel</td>
+            <td><span class="ipa">/c/</span></td>
+            <td><em>kyn</em> <span class="ipa">/ˈcʰɪːn/</span>, <em>ekki</em> <span class="ipa">/ˈɛhcɪ/</span></td>
+        </tr>
+        <tr>
+            <td>nk</td>
+            <td><span class="ipa">/ŋk/</span> (<span class="ipa">/nc/</span> before a front vowel)</td>
+            <td><em>danka</em> <span class="ipa">/ˈtau̯ŋka/</span>, <em>banki</em> <span class="ipa">/ˈpau̯ncɪ/</span></td>
+        </tr>
+        <tr>
+            <td>stressed syllable + nn</td>
+            <td><span class="ipa">/tn̥/</span></td>
+            <td><em>steinn</em> <span class="ipa">/ˈstɛi̯tn̥/</span>, <em>hann</em> <span class="ipa">/ˈhatn̥/</span></td>
+        </tr>
+        <tr>
+            <td>other nn, double letters</td>
+            <td>long consonant</td>
+            <td><em>kominn</em> <span class="ipa">/ˈkʰɔːmɪnː/</span>, <em>pabbi</em> <span class="ipa">/ˈpʰapːɪ/</span></td>
+        </tr>
+        <tr>
+            <td>any other g</td>
+            <td><span class="ipa">/k/</span></td>
+            <td><em>rigning</em> <span class="ipa">/ˈrɪkniŋk/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>6. Letters Respelled Before Processing</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Input letter</th>
+            <th>Becomes</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>c before e, é, i, í, y, ö</td>
+            <td>s</td>
+            <td><em>Cecilía</em> <span class="ipa">/ˈsɛːsɪlia/</span></td>
+        </tr>
+        <tr>
+            <td>c elsewhere</td>
+            <td>k</td>
+            <td><em>Coca-Cola</em> <span class="ipa">/ˈkʰɔːkaˌkʰɔːla/</span></td>
+        </tr>
+        <tr>
+            <td>w</td>
+            <td>v</td>
+            <td><em>Walter</em> <span class="ipa">/ˈvaltɛr/</span></td>
+        </tr>
+        <tr>
+            <td>y</td>
+            <td>i</td>
+            <td><em>kyn</em> <span class="ipa">/ˈcʰɪːn/</span></td>
+        </tr>
+        <tr>
+            <td>ý</td>
+            <td>í</td>
+            <td><em>kýr</em> <span class="ipa">/ˈcʰiːr/</span></td>
+        </tr>
+        <tr>
+            <td>z</td>
+            <td>s</td>
+            <td><em>zebra</em> <span class="ipa">/ˈsɛːpra/</span>, <em>pizza</em> <span class="ipa">/ˈpʰɪsːa/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Does the tool use a dictionary or spelling rules?</h3>
+    <p>Both, in that order. A word found in the Wiktionary lexicon is shown as the dictionary gives it; any other word is transcribed by the rules, which see only letters. The lexicon is consulted by default; <code>?dict=false</code> in the converter's address turns it off. See <a href="#about">About This Tool</a>.</p>
+
+    <h3>Why does a compound come back with a single stress?</h3>
+    <p>The rules know no component boundaries, so a compound written as one word is treated as one word: <em>bókabúð</em> gives <span class="ipa">/ˈpou̯ːkapuð/</span>, with a short vowel and no secondary stress in the second part. Typing a hyphen between the components, <em>bóka-búð</em> <span class="ipa">/ˈpou̯ːkaˌpuːð/</span>, supplies the boundary. <a href="../?lang=Icelandic&amp;text=b%C3%B3ka-b%C3%BA%C3%B0">Open in the converter</a></p>
+
+    <h3>Does hyphenating always improve the result?</h3>
+    <p>No. A hyphen before a single consonant leaves the preceding vowel short and drops the secondary stress when both parts have one syllable, so <em>sjón-varp</em> still gives <span class="ipa">/ˈsjou̯nvarp/</span>. A trailing hyphen makes the module fail and the text is returned unchanged. See <a href="#stress">Stress and Compounds</a> and <a href="#issues">Common Issues</a>.</p>
+
+    <h3>Can I choose a dialect or a phonetic form?</h3>
+    <p>No. Icelandic has one style and one form, and regional variants are not modelled; see <a href="#forms">Phonemic vs Phonetic</a> and <a href="#dialects">Dialects &amp; Limitations</a>.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The module is <code>lua_modules/is-pron_wasm.lua</code> (about 400 lines, a copy of the Wiktionary Icelandic
+        pronunciation module). It is a pure Lua string pipeline: no morphological analysis, no dictionary, no phonetic
+        second pass. The code path is:</p>
+
+    <ol>
+        <li><strong>Lexicon lookup (JavaScript, <code>scripts/utils.js</code>):</strong> The handler in the
+            "Lexicon Lookup with Generation Fallback" group looks the (cleaned) word up in <code>is_lexicon.zip</code>
+            first (decompressed client-side, stored in IndexedDB chunks).</li>
+        <li><strong>Rule fallback:</strong> If nothing is found, <code>window.is_ipa.toIPA(cleanText, "", "")</code> is
+            called.</li>
+        <li><strong>Lua pipeline (<code>export.toIPA</code>):</strong> respelling, left-to-right scan, three sets of
+            rewrite rules, and cleanup, as described below.</li>
+    </ol>
+
+    <h3>Additional Key Processes</h3>
+
+    <h4>Lexicon Lookup</h4>
+    <p>Before rule-based processing, the app checks the Wiktionary data dump (Kaikki.org). If the word is found, the
+        dictionary entry is used as is. Only words that are missing go through the Lua module. The lexicon is
+        consulted only for the "Phonemic" form, which is the only form for Icelandic.</p>
+
+    <h4>The Two Empty-String Arguments</h4>
+    <p>The call is <code>toIPA(term, accent, special)</code>. The app passes <code>""</code> for both optional
+        arguments, and each has a surprising effect in the code:</p>
+    <ul>
+        <li><strong><code>accent</code></strong> is ignored. The first line of the function body is
+            <code>local accent = export.markAccent(term, nil)</code>, which overwrites the argument with a default
+            array of <code>"1"</code> entries (one per component). Only <code>export.show</code> (the Wiktionary
+            template entry point) would ever produce a custom accent array, and even that is overwritten.</li>
+        <li><strong><code>special</code></strong> is meant to be a boolean. With <code>special == true</code> the
+            digraph <em>ll</em> is output as plain <span class="ipa">/ll/</span> instead of <span class="ipa">/tl̥/</span>, and rule set 2 is skipped. The app passes an empty string, which is
+            <strong>truthy</strong> in Lua. So <code>special == true</code> is false (<em>ll</em> still becomes
+            <span class="ipa">/tl̥/</span>), but the check <code>if not (special and i == 2)</code> sees a
+            truthy value, so <strong>rule set 2 is skipped in the app</strong>. Set 2 would delete <em>v</em>/<em>ɣ</em>
+            after <span class="ipa">/u/</span>; because it is skipped, <em>múgur</em> <span class="ipa">/ˈmuːɣʏr/</span> keeps its <span class="ipa">/ɣ/</span>.</li>
+    </ul>
+
+    <h4>1. Respelling</h4>
+    <p>The term is lowercased, then letters are respelled to ones that share their sound. This is done before the
+        scan, so the rest of the module never sees <em>c, w, y, ý, z</em>.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>lower()</td>
+            <td><em>Jón</em></td>
+            <td><span class="ipa">/ˈjou̯ːn/</span></td>
+            <td>Capitals never matter</td>
+        </tr>
+        <tr>
+            <td>c([eéiíyö]) → s</td>
+            <td><em>Cecilía</em></td>
+            <td><span class="ipa">/ˈsɛːsɪlia/</span></td>
+            <td>Soft c</td>
+        </tr>
+        <tr>
+            <td>c → k</td>
+            <td><em>Coca-Cola</em></td>
+            <td><span class="ipa">/ˈkʰɔːkaˌkʰɔːla/</span></td>
+            <td>Other c</td>
+        </tr>
+        <tr>
+            <td>w → v</td>
+            <td><em>Walter</em></td>
+            <td><span class="ipa">/ˈvaltɛr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>y → i</td>
+            <td><em>kyn</em></td>
+            <td><span class="ipa">/ˈcʰɪːn/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>ý → í</td>
+            <td><em>kýr</em></td>
+            <td><span class="ipa">/ˈcʰiːr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>z → s</td>
+            <td><em>zebra</em></td>
+            <td><span class="ipa">/ˈsɛːpra/</span></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>2. Component Stress (<code>markAccent</code>)</h4>
+    <p><code>markAccent(term, nil)</code> counts the hyphens and spaces in the term and returns an array with one
+        <code>"1"</code> per component (so a word with no hyphen has one entry). (A custom accent string with commas
+        is supported in <code>markAccent</code> but is never used in this app.) In the scan loop, whenever the
+        current component's accent counter is 1, the module writes <code>ˈ</code> (first component) or
+        <code>ˌ</code> (later ones) and decrements the counter. The stressed vowel is the first vowel written after
+        the mark: the counter has reached 0 at that moment, and <code>determineVowel</code> receives
+        <code>is_stressed = (current_accent == 0)</code>.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ˈ before the first letter</td>
+            <td><em>borg</em></td>
+            <td><span class="ipa">/ˈpɔrk/</span></td>
+            <td>Initial stress</td>
+        </tr>
+        <tr>
+            <td>ˌ after each "-"</td>
+            <td><em>borgar-stjóri</em></td>
+            <td><span class="ipa">/ˈpɔrkarˌstjou̯ːrɪ/</span></td>
+            <td>Later components</td>
+        </tr>
+        <tr>
+            <td>"-" resets is_initial</td>
+            <td><em>kaffi-hús</em></td>
+            <td><span class="ipa">/ˈkʰafːɪˌhuːs/</span></td>
+            <td>Aspirated forms are used again</td>
+        </tr>
+        <tr>
+            <td>trailing "-" is an error</td>
+            <td><em>bóka-</em></td>
+            <td><span class="ipa">/bóka-/</span></td>
+            <td>Lua error, caught by the app; the word is returned as typed</td>
+        </tr>
+        <tr>
+            <td>leading "-"</td>
+            <td><em>-bóka</em></td>
+            <td><span class="ipa">/ˈˌpou̯ːka/</span></td>
+            <td>Both marks are written</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>3. Left-to-Right Scan</h4>
+    <p>The main <code>while</code> loop walks the respelled string one position at a time. At each position it tries
+        these matchers <strong>in this order</strong>, takes the first that matches, and advances:</p>
+    <ol>
+        <li>consonant trigraph (<code>data.trigraphs</code>)</li>
+        <li>consonant digraph (<code>data.digraphs</code>)</li>
+        <li>the vowel digraphs <em>au</em> and <em>ei</em></li>
+        <li>single consonant (<code>data.single</code>)</li>
+        <li>single vowel (<code>data.vowels</code>)</li>
+        <li>hyphen (starts a new component)</li>
+        <li>anything else: copied unchanged (this includes <em>h, j, l, m, n, r, s, v, ð</em>, digits and
+            punctuation)</li>
+    </ol>
+    <p>A variable <code>is_initial</code> is true at the start of the word and right after a hyphen, and is set to
+        false by every other step. Table entries that hold two values use the first when <code>is_initial</code> is
+        true and the second otherwise. This is why the order matters: <em>hv</em> is matched as a digraph before the
+        single letter <em>h</em>, and <em>au</em> before <em>a</em>.</p>
+
+    <h4>4. Trigraphs</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>fnd → mt</td>
+            <td><em>hefnd</em></td>
+            <td><span class="ipa">/ˈhɛmt/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>fnt → m̥t</td>
+            <td><em>jafnt</em></td>
+            <td><span class="ipa">/ˈjam̥t/</span></td>
+            <td>Voiceless m</td>
+        </tr>
+        <tr>
+            <td>mbd → mt</td>
+            <td><em>kembdi</em></td>
+            <td><span class="ipa">/ˈcʰɛmtɪ/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>mbg → mk</td>
+            <td>(no common example)</td>
+            <td>n/a</td>
+            <td>Present in the table</td>
+        </tr>
+        <tr>
+            <td>mbs → ms</td>
+            <td><em>kambs</em></td>
+            <td><span class="ipa">/ˈkʰams/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>mbt → m̥t</td>
+            <td><em>kembt</em></td>
+            <td><span class="ipa">/ˈcʰɛm̥t/</span></td>
+            <td>Voiceless m</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>5. Digraphs (<code>data.digraphs</code>)</h4>
+    <p>A fixed table, plus entries generated by a loop: for each letter <em>a</em> in <em>p, t, k</em>, the table
+        gets <code>aa → h+a</code> and, for each <em>b</em> in <em>l, m, n</em>, <code>ab → h+a+b̥</code>.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ll → tl̥</td>
+            <td><em>kalla</em></td>
+            <td><span class="ipa">/ˈkʰatl̥a/</span></td>
+            <td>Pre-stopping</td>
+        </tr>
+        <tr>
+            <td>ff → ff</td>
+            <td><em>kaffi</em></td>
+            <td><span class="ipa">/ˈkʰafːɪ/</span></td>
+            <td>Later made long by rule set 3</td>
+        </tr>
+        <tr>
+            <td>gj → c (initial) / gj</td>
+            <td><em>gjöf</em></td>
+            <td><span class="ipa">/ˈcœːv/</span></td>
+            <td>Two-valued entry</td>
+        </tr>
+        <tr>
+            <td>kj → cʰ (initial) / c</td>
+            <td><em>skjól</em></td>
+            <td><span class="ipa">/ˈscou̯ːl/</span></td>
+            <td>Not initial after s</td>
+        </tr>
+        <tr>
+            <td>rl → rtl̥</td>
+            <td><em>perla</em></td>
+            <td><span class="ipa">/ˈpʰɛrtl̥a/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>rn → rtn̥</td>
+            <td><em>barn</em></td>
+            <td><span class="ipa">/ˈpartn̥/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>sl → stl̥</td>
+            <td><em>slá</em></td>
+            <td><span class="ipa">/ˈstl̥au̯ː/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>sn → stn̥</td>
+            <td><em>snúa</em></td>
+            <td><span class="ipa">/ˈstn̥uːa/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>qu, hv → kʰv</td>
+            <td><em>hvalur</em></td>
+            <td><span class="ipa">/ˈkʰvaːlʏr/</span></td>
+            <td>Also inside words</td>
+        </tr>
+        <tr>
+            <td>hl → l̥</td>
+            <td><em>hlaupa</em></td>
+            <td><span class="ipa">/ˈl̥œy̯ːpa/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hn → n̥</td>
+            <td><em>hnífur</em></td>
+            <td><span class="ipa">/ˈn̥iːvʏr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hr → r̥</td>
+            <td><em>hringur</em></td>
+            <td><span class="ipa">/ˈr̥iŋkʏr/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>hj → ç</td>
+            <td><em>hjá</em></td>
+            <td><span class="ipa">/ˈçau̯ː/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>pp, tt, kk → hp, ht, hk</td>
+            <td><em>hoppa</em></td>
+            <td><span class="ipa">/ˈhɔhpa/</span></td>
+            <td>Generated preaspiration</td>
+        </tr>
+        <tr>
+            <td>pl, tl, kl → hpl̥, htl̥, hkl̥</td>
+            <td><em>epli</em></td>
+            <td><span class="ipa">/ˈɛhpl̥ɪ/</span></td>
+            <td>Generated</td>
+        </tr>
+        <tr>
+            <td>pm, tm, km → hpm̥, htm̥, hkm̥</td>
+            <td><em>Kaupmanna-höfn</em></td>
+            <td><span class="ipa">/ˈkʰœy̯hpm̥anːaˌhœvn/</span></td>
+            <td>Generated (pm shown)</td>
+        </tr>
+        <tr>
+            <td>pn, tn, kn → hpn̥, htn̥, hkn̥</td>
+            <td><em>vopn</em></td>
+            <td><span class="ipa">/ˈvɔhpn̥/</span></td>
+            <td>Generated</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The special-case check inside the digraph branch (<code>special == true</code> and <em>ll</em> → plain
+        <code>ll</code>) is dead code in the app, as explained above.</p>
+
+    <h4>6. Single Consonants (<code>data.single</code>)</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>b → p</td>
+            <td><em>bók</em></td>
+            <td><span class="ipa">/ˈpou̯ːk/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>d → t</td>
+            <td><em>daginn</em></td>
+            <td><span class="ipa">/ˈtai̯cɪnː/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>g → k (initial) / g</td>
+            <td><em>gata</em></td>
+            <td><span class="ipa">/ˈkaːta/</span></td>
+            <td>Non-initial g is revised by rule sets 1 and 3</td>
+        </tr>
+        <tr>
+            <td>p, t, k → pʰ, tʰ, kʰ (initial) / p, t, k</td>
+            <td><em>pípa</em></td>
+            <td><span class="ipa">/ˈpʰiːpa/</span></td>
+            <td>Aspiration</td>
+        </tr>
+        <tr>
+            <td>q → kʰ / k</td>
+            <td><em>quasi</em></td>
+            <td><span class="ipa">/ˈkʰvaːsɪ/</span></td>
+            <td>"qu" is matched earlier as a digraph</td>
+        </tr>
+        <tr>
+            <td>x → s (initial) / xs</td>
+            <td><em>vax</em></td>
+            <td><span class="ipa">/ˈvaxs/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>f → f (initial) / v</td>
+            <td><em>hafa</em></td>
+            <td><span class="ipa">/ˈhaːva/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>þ → θ</td>
+            <td><em>þakka</em></td>
+            <td><span class="ipa">/ˈθahka/</span></td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>7. Vowel Quality (<code>determineVowel</code>)</h4>
+    <p>Each vowel looks at the next two characters of the respelled term (<code>sub(term, pos+1, pos+2)</code>)
+        and picks one of the three table columns of <code>data.vowels</code>:</p>
+    <ol>
+        <li>If the next two characters are <code>ng</code> or <code>nk</code>: column 3.</li>
+        <li>Else if they are <code>gi</code>: column 2.</li>
+        <li>Else column 1, and if the vowel is the stressed one, <code>determineLength</code> is applied to it.</li>
+    </ol>
+    <p>Note that the <em>ng/nk</em> and <em>gi</em> checks apply to stressed and unstressed vowels alike, but length is
+        only added in the third case, so a vowel before <em>ng</em>, <em>nk</em> or <em>gi</em> never gets the length
+        mark.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>column 1 (default)</td>
+            <td><em>hestur</em></td>
+            <td><span class="ipa">/ˈhɛstʏr/</span></td>
+            <td>a → a, e → ɛ, i → ɪ, o → ɔ, u → ʏ, ö → œ</td>
+        </tr>
+        <tr>
+            <td>column 1, diphthong letters</td>
+            <td><em>sól</em></td>
+            <td><span class="ipa">/ˈsou̯ːl/</span></td>
+            <td>á, ó, æ, é, au, ei</td>
+        </tr>
+        <tr>
+            <td>column 2 (before gi)</td>
+            <td><em>bogi</em></td>
+            <td><span class="ipa">/ˈpɔi̯cɪ/</span></td>
+            <td>a → ai̯, e → ei̯, o → ɔi̯, u → ʏi̯, ö → œy̯</td>
+        </tr>
+        <tr>
+            <td>column 3 (before ng, nk)</td>
+            <td><em>langur</em></td>
+            <td><span class="ipa">/ˈlau̯ŋkʏr/</span></td>
+            <td>a → au̯, e → ɛi̯, o → ɔi̯, u → u, ö → œy̯</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>8. Vowel Length (<code>determineLength</code>)</h4>
+    <p>For a stressed vowel in the default column, the function inspects the same two following characters
+        (<code>next_chars</code>), in this order:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>next_chars contains x → short</td>
+            <td><em>vax</em></td>
+            <td><span class="ipa">/ˈvaxs/</span></td>
+            <td>x counts as two consonants</td>
+        </tr>
+        <tr>
+            <td>1 or 0 characters left → long</td>
+            <td><em>þú</em></td>
+            <td><span class="ipa">/ˈθuː/</span></td>
+            <td>Word-final, or one letter left</td>
+        </tr>
+        <tr>
+            <td>consonant + non-consonant → long</td>
+            <td><em>tala</em></td>
+            <td><span class="ipa">/ˈtʰaːla/</span></td>
+            <td>One consonant then a vowel. "-" does not count as a consonant, but also blocks the match</td>
+        </tr>
+        <tr>
+            <td>[bdgkpst] + [jrv] → long</td>
+            <td><em>Petra</em></td>
+            <td><span class="ipa">/ˈpʰɛːtra/</span></td>
+            <td>Stop clusters that don't shorten</td>
+        </tr>
+        <tr>
+            <td>otherwise → short</td>
+            <td><em>vatn</em></td>
+            <td><span class="ipa">/ˈvahtn̥/</span></td>
+            <td>Two consonants</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The length mark <span class="ipa">/ː/</span> is appended after the whole vowel, including the nonsyllabic
+        part, e.g., <em>sól</em> <span class="ipa">/ˈsou̯ːl/</span>.</p>
+
+    <h4>9. Rewrite Rules, Set 1</h4>
+    <p>After the scan, the pieces are concatenated into one string. The module then runs three <em>sets</em> of
+        regular-expression rewrites with <code>gsub</code>, each rule in the order written. Set 1:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>(ˈ C* V) nn → tn̥</td>
+            <td><em>steinn</em></td>
+            <td><span class="ipa">/ˈstɛi̯tn̥/</span></td>
+            <td>After a stressed syllable only</td>
+        </tr>
+        <tr>
+            <td>(ˈ C* V) nn, aspirated initial</td>
+            <td><em>kunnum</em></td>
+            <td><span class="ipa">/ˈkʰʏnːʏm/</span></td>
+            <td>The consonant class has no ʰ, so after kʰ, pʰ, tʰ the rule does not match and nn becomes a long n instead</td>
+        </tr>
+        <tr>
+            <td>V + g + (a, ʏ, ð, l, r) → ɣ</td>
+            <td><em>dagur</em></td>
+            <td><span class="ipa">/ˈtaːɣʏr/</span></td>
+            <td>Fricative g</td>
+        </tr>
+        <tr>
+            <td>V + g + (j, i) → j</td>
+            <td><em>segja</em></td>
+            <td><span class="ipa">/ˈsɛi̯ːja/</span></td>
+            <td>Becomes a glide (see set 3)</td>
+        </tr>
+        <tr>
+            <td>V + (k, g) + (t, s) → x</td>
+            <td><em>sagt</em></td>
+            <td><span class="ipa">/ˈsaxt/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>V + p + (t, s, k) → f</td>
+            <td><em>skipt</em></td>
+            <td><span class="ipa">/ˈscɪft/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>v + (t, s, k) → f</td>
+            <td><em>afsakið</em></td>
+            <td><span class="ipa">/ˈafsacɪð/</span></td>
+            <td>f was already turned into v</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>10. Rewrite Rules, Set 2 (not applied in the app)</h4>
+    <p>Two rules, which only run when <code>special</code> is falsy:</p>
+    <ul>
+        <li><code>(u̯?ː?)[vɣ] → %1</code>: delete a <em>v</em> or <em>ɣ</em> after <span class="ipa">/u/</span>
+            (so <em>múgur</em> would be <span class="ipa">/muːʏr/</span> without the <span class="ipa">/ɣ/</span>).</li>
+        <li><code>kʏ(ː?)ð → kvʏ%1ð</code>: insert <span class="ipa">/v/</span> in <em>kuð-</em>.</li>
+    </ul>
+    <p>Because the app's empty string is truthy, neither rule is applied: <em>múgur</em> <span class="ipa">/ˈmuːɣʏr/</span>, <em>kuðungur</em> <span class="ipa">/ˈkʰʏːðuŋkʏr/</span>.</p>
+
+    <h4>11. Rewrite Rules, Set 3</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ng + (l, s) → ŋ</td>
+            <td><em>engla</em></td>
+            <td><span class="ipa">/ˈɛi̯ŋla/</span></td>
+            <td>g dropped</td>
+        </tr>
+        <tr>
+            <td>g → k</td>
+            <td><em>borg</em></td>
+            <td><span class="ipa">/ˈpɔrk/</span></td>
+            <td>Every remaining g (ɣ is unaffected)</td>
+        </tr>
+        <tr>
+            <td>k(ʰ)(ɛ, i, ɪ) → c</td>
+            <td><em>kyn</em></td>
+            <td><span class="ipa">/ˈcʰɪːn/</span></td>
+            <td>Palatalization, also keeps the ʰ</td>
+        </tr>
+        <tr>
+            <td>k(ʰ)(ai) → c</td>
+            <td><em>gæs</em></td>
+            <td><span class="ipa">/ˈcai̯ːs/</span></td>
+            <td>Palatalization before ai̯</td>
+        </tr>
+        <tr>
+            <td>kj → c</td>
+            <td><em>tekkja</em></td>
+            <td><span class="ipa">/ˈtʰɛhca/</span></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>(ː) jj → i̯ ː j</td>
+            <td><em>segja</em></td>
+            <td><span class="ipa">/ˈsɛi̯ːja/</span></td>
+            <td>Glide from gj after a vowel</td>
+        </tr>
+        <tr>
+            <td>nk → ŋk</td>
+            <td><em>langur</em></td>
+            <td><span class="ipa">/ˈlau̯ŋkʏr/</span></td>
+            <td>Not after the palatal c</td>
+        </tr>
+        <tr>
+            <td>kc → cː</td>
+            <td>(no common example)</td>
+            <td>n/a</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>(.)(same) → long</td>
+            <td><em>kaffi</em></td>
+            <td><span class="ipa">/ˈkʰafːɪ/</span></td>
+            <td>Any doubled character becomes long</td>
+        </tr>
+        <tr>
+            <td>(.)(same) → long</td>
+            <td><em>Selfoss</em></td>
+            <td><span class="ipa">/ˈsɛlvɔsː/</span></td>
+            <td>Includes ss</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>12. Secondary-stress Cleanup</h4>
+    <p>A final <code>gsub</code> looks for a primary part followed by a <code>ˌ</code> part. Syllables are counted
+        with <code>countSyllables</code> (each run of vowel symbols, with an optional nonsyllabic mark and length
+        mark, is one syllable). If both parts have exactly one syllable, the <code>ˌ</code> is removed.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1 + 1 syllable → remove ˌ</td>
+            <td><em>sjón-varp</em></td>
+            <td><span class="ipa">/ˈsjou̯nvarp/</span></td>
+            <td>Dropped</td>
+        </tr>
+        <tr>
+            <td>otherwise keep ˌ</td>
+            <td><em>fót-bolti</em></td>
+            <td><span class="ipa">/ˈfou̯tˌpɔltɪ/</span></td>
+            <td>Second part has two syllables</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>13. Punctuation Cleanup</h4>
+    <p>The last step removes full stops and commas: <code>gsub(pron, "[%.,]", "")</code>. Other characters pass
+        through.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>remove "." and ","</td>
+            <td><em>ég.</em></td>
+            <td><span class="ipa">/ˈjɛːk/</span></td>
+            <td>Final full stop removed</td>
+        </tr>
+        <tr>
+            <td>everything else is kept</td>
+            <td><em>2024</em></td>
+            <td><span class="ipa">/2024/</span></td>
+            <td>Digits are not read out</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Parts of the module the app does not use</h4>
+    <ul>
+        <li><code>export.show</code>, <code>export.tag_text</code>, <code>export.link</code>: Wiktionary template
+            entry points that depend on MediaWiki modules.</li>
+        <li><code>getRhyme</code>: an internal function that is never called (it indexes a string as if it were a
+            table).</li>
+        <li>The file ends with a test line that prints the transcription of <em>þorn</em> when the module loads. It
+            has no effect on the app.</li>
+    </ul>
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may be incorrect. All "System Output" values
+        are real engine output; where "Correct IPA" is an IPA string it is the engine's output for the corrected
+        input, and otherwise it is described in words.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><em>bókabúð</em></td>
+            <td><span class="ipa">/ˈpou̯ːkapuð/</span></td>
+            <td><em>bóka-búð</em> <span class="ipa">/ˈpou̯ːkaˌpuːð/</span></td>
+            <td>Compound written as one word: second component treated as an unstressed ending (short vowel, no secondary stress)</td>
+            <td>Insert a hyphen between components</td>
+        </tr>
+        <tr>
+            <td><em>Selfoss</em></td>
+            <td><span class="ipa">/ˈsɛlvɔsː/</span></td>
+            <td><em>Sel-foss</em> <span class="ipa">/ˈsɛlfɔsː/</span></td>
+            <td>Any f that is not word-initial is read as v; the module does not know about the component boundary</td>
+            <td>Insert a hyphen</td>
+        </tr>
+        <tr>
+            <td><em>sjónvarp</em></td>
+            <td><span class="ipa">/ˈsjou̯nvarp/</span></td>
+            <td>A long first vowel (<span class="ipa">/ou̯ː/</span>) and a secondary stress before <em>varp</em></td>
+            <td>Even with the hyphen (<em>sjón-varp</em> <span class="ipa">/ˈsjou̯nvarp/</span>), the vowel before a consonant plus hyphen is short, and the secondary stress is dropped because both parts have one syllable</td>
+            <td>No workaround in the app; check the lexicon or Wiktionary</td>
+        </tr>
+        <tr>
+            <td><em>beygja</em></td>
+            <td><span class="ipa">/ˈpɛi̯i̯ːja/</span></td>
+            <td>A single <span class="ipa">/ɛi̯ː/</span> followed by <span class="ipa">/j/</span>, with no doubled glide</td>
+            <td>The y becomes i, then g + j becomes jj, which the jj-rule turns into an extra glide</td>
+            <td>Check Wiktionary; the same happens for <em>beigja</em> <span class="ipa">/ˈpɛi̯i̯ːja/</span></td>
+        </tr>
+        <tr>
+            <td><em>nafn</em></td>
+            <td><span class="ipa">/ˈnavn/</span></td>
+            <td>Typically a p-like stop before the n instead of a fricative (not given as IPA here)</td>
+            <td>The module has no rule for f before n or l, so it reads v. Compare the respelling <em>nabn</em> <span class="ipa">/ˈnapn/</span></td>
+            <td>Report if it affects a common word; also seen in <em>stofna</em> <span class="ipa">/ˈstɔvna/</span></td>
+        </tr>
+        <tr>
+            <td><em>café</em></td>
+            <td><span class="ipa">/ˈkʰaːvjɛ/</span></td>
+            <td>Pronunciation as in the source language (not given as IPA here)</td>
+            <td>Loanword spelling read as Icelandic: é is always <span class="ipa">/jɛ/</span> and f between vowels is <span class="ipa">/v/</span></td>
+            <td>Check Wiktionary</td>
+        </tr>
+        <tr>
+            <td><em>Chile</em></td>
+            <td><span class="ipa">/ˈkʰhɪːlɛ/</span></td>
+            <td>Pronunciation as in the source language (not given as IPA here)</td>
+            <td>No foreign-word rules: c becomes k and h is copied</td>
+            <td>Respell phonetically before transcribing</td>
+        </tr>
+        <tr>
+            <td><em>Xavier</em></td>
+            <td><span class="ipa">/ˈsaːvɪɛr/</span></td>
+            <td>Pronunciation as in the source language (not given as IPA here)</td>
+            <td>Letter x at the start is always <span class="ipa">/s/</span>; names are read as Icelandic</td>
+            <td>Respell phonetically before transcribing</td>
+        </tr>
+        <tr>
+            <td><em>bóka-</em></td>
+            <td><span class="ipa">/bóka-/</span></td>
+            <td>Valid transcription of the word <em>bóka</em></td>
+            <td>A trailing hyphen makes the Lua code raise an error (invalid stress position) and the app returns the text unchanged</td>
+            <td>Remove the trailing hyphen: <em>bóka</em> <span class="ipa">/ˈpou̯ːka/</span></td>
+        </tr>
+        <tr>
+            <td><em>-bóka</em></td>
+            <td><span class="ipa">/ˈˌpou̯ːka/</span></td>
+            <td>A single primary stress: <em>bóka</em> <span class="ipa">/ˈpou̯ːka/</span></td>
+            <td>A leading hyphen writes both a primary and a secondary stress mark</td>
+            <td>Do not start a word with a hyphen</td>
+        </tr>
+        <tr>
+            <td><em>2024</em></td>
+            <td><span class="ipa">/2024/</span></td>
+            <td>The number in words, e.g. <em>tvö þúsund tuttugu og fjögur</em> (the module does not expand digits)</td>
+            <td>Digits are copied unchanged</td>
+            <td>Spell out numbers before transcribing</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for other languages in this tool:</p>
+    <ul>
+        <li><a href="german.html">German</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
