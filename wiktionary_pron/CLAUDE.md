@@ -30,7 +30,8 @@ Golden files: `scripts/tests/golden/golden.json` holds expected IPA for ~50 word
 Help pages (`help/*.html`): every IPA example must be real engine output. Run from `scripts/tests/`:
 `node ipa_cli.mjs <Language> <Style> <Form> word…` (or `--raw <code> <luaFn> word… [--extra '[args]']`) to generate,
 `node verify_help_page.mjs ../../help/x.html <Language> <Style[,…]> <Form[,…]>` and `node verify_issue_tables.mjs …` to check
-(known false positives: English labels, letter-mapping rows — see `docs/LESSONS.md` 2026-10-05). Search metadata:
+(known false positives: English labels, letter-mapping rows — see `docs/LESSONS.md` 2026-10-05);
+`node check_help_links.mjs` checks every link and anchor in the help pages. Search metadata:
 `node utils/help_seo_head.mjs <page…>` (from `wiktionary_pron/`). Every language page has `id="faq"` "Using the Tool:
 Practical Notes" and `id="related"`; no overview sections (user ruling).
 
