@@ -4,6 +4,25 @@ Date-stamped, append-only notes of non-obvious gotchas that cost real debugging
 time. The one-line versions live in `CLAUDE.md` (loaded every session); this
 file keeps the detail.
 
+## 2026-10-06 — Help-page links; Pullfrog on free Cline models
+
+- **Help pages contained invented reference links**, not just dead ones:
+  `Template:IPA/Irish` and `Module:pl-pron` never existed, and the "Polish
+  Pronouncing Dictionary (Rhapsody)" site has no trace on the web. Run
+  `node scripts/tests/check_help_links.mjs` after any help edit; the one standing
+  false positive is internationalphoneticassociation.org (429 captcha to bots).
+  Polish's upstream is now `Module:zlw-lch-IPA` (`{{pl-pr}}` invokes it).
+- **Pullfrog (`.github/workflows/pullfrog.yml`) cannot run on free Cline models
+  as of 2026-10-06.** Probed with a real account: the current free models
+  (`cline-free/mimo-v2.6-flash`, `…/muse-spark-1.3-contributor`) return 403 "only
+  available via Cline product surfaces" to a plain OpenAI-style request — they
+  answer only with the VS Code extension headers that `notebooks/test_cline.py`
+  sends — and `stealth/space-bunny-alpha` (which reviewed YTSubExtract until
+  2026-10-05) left the free list and now returns 402 insufficient credits. A
+  Pullfrog failure is diagnosed from the run log (`gh run view <id> --log`), not
+  from the workflow file. Don't claim a provider can't work before probing it:
+  the free model *had* worked days earlier.
+
 ## 2026-10-05 — Help pages: engine-verified rewrite of all 17 language pages
 
 - **Help-page IPA drifts from the engine silently.** The old pages (Polish, Spanish,
@@ -55,6 +74,56 @@ file keeps the detail.
   Practical Notes" (`id="faq"`) and "Related Pronunciation Guides"
   (`id="related"`) on every language page; agents ignored a heading retitle once
   — grep the headings after delegated edits.
+
+## 2026-09-21 — M-023m scansion blocker triage (gold mark ≠ lexical quantity)
+
+- **A blocker `FIX:` candidate is a hypothesis, not a bug.** The scan-based
+  blocker brute-forces ANY `_`/`^` change that makes a failing line scan — so
+  metrical licenses (iambic short tŭ, anceps-lengthened ǐnepte/ǐnusta,
+  ictus-lengthened ǎbice/pĕnetrales) and editor quirks (negenborn's
+  archaizing tŏtĭŭs diaeresis, all-breve `esses`) surface as FIXes. The triage
+  test is LEXICAL: does the correction match the dictionary/morphological
+  quantity in EVERY context, or only this verse? If only here → reject.
+- **Verify every candidate fix against the L&S HEADWORD (quantity marks),
+  not against morphology guesses.** First-pass triage applied 5 fixes on
+  grammatical reasoning (Enmann's law, 3rd-decl -ō, reduplication short ĭ);
+  dictionary check then REVERTED 3 of them and APPLIED one it first dropped:
+  L&S prints rĪdĕo (long ī, so `ridete` short-i was wrong — and a
+  hendecasyllable's first syllable is FIXED-long, not anceps), vĒsānus (long
+  ē, `vesaniente` wrong), rĕnīdĒo 2nd-conj (long dē, `renidere` wrong). But
+  the L&S headword vŏrāgo actually CONFIRMS the gold's short final ŏ (wordlist
+  `vo^ra_go_` marks it long) → `vorago` was a genuine bug that a first-pass
+  misreading had dropped, and got RE-APPLIED. `hoc` stayed because it fixes
+  the homograph SELECTION (nom hŏc vs abl hōc), contradicting no dictionary
+  quantity. Net 2 applied. Perseus L&S page titles carry the headword marks
+  (`…entry=vorago` → "vŏrāgo") — cheap authoritative check. Two traps: L&S
+  macrons are authoritative but WIKTIONARY's are orthographic (treat with
+  care); and re-read the wordlist accent string before concluding a fix is
+  redundant (`_`=long, `^`=short — `vo^ra_go_` is vŏrāGŌ, so it did NOT
+  already carry the short ŏ).
+- **A gold word at line-end or line-initial anceps is the least reliable
+  evidence of quantity** — first-position and last-position marks are exactly
+  where the meter is free.
+- **Verify the blocker's METER BIN before trusting a single count from it.**
+  `catullus-blocker.mjs` keys each poem off its directory in
+  `gold/catullus/<meter>/`, but 7 of the 13 files in `iambic/` are actually
+  hendecasyllables (VIII, XVII, XXII, XXV, XXXI, XXXVII, XXXIX) — scanning an
+  11-syllable hendecasyllable with iambic 6/4-foot templates never completes,
+  so every "iambic poem" blocker was meter noise, not wordlist bugs. A/B probe
+  `test/catullus-meter-ab.mjs` shows those poems scan 0-fail as hendecasyllable
+  but 13–26-fail as iambic.
+- **Accent-notation gotchas:** `^` = SHORT (breve), `_` = long, `_^` = an
+  ambiguous pair. A candidate whose markers sit on a CONSONANT (e.g.
+  `vo_ra_go` after the proposed `vora_go^`) silently changes nothing — always
+  verify the fix actually produces the gold pattern before believing the
+  blocker said "FIX". Similarly `ri_de_te` "fixes" nothing over the wordlist's
+  own form — the marker has to MOVE to the right vowel (`ri^de_te`).
+- **Corpus scansion harness OOMs end-to-end on this machine** (even the
+  per-file-macronizer regen + 6-8GB heap; ~13 large Aeneid books is the wall).
+  Functional gate for Catullus-scale changes = `test/catullus-blocker.mjs`
+  re-run (blocker line count drops, fixed words vanish from BLOCKER lines).
+  Monotonicity argument makes regression safe: overrides only ADD candidates
+  and the Viterbi takes the min.
 
 ## 2026-08-07 — M-005 dictionary-gloss pipeline
 

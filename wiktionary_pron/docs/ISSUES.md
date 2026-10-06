@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-05): 6 open, 1 needs-decision, 33 fixed; 42 entries.
+Totals (machine-counted from `**Status:**` lines, 2026-10-05): 6 open, 1 needs-decision, 33 fixed; 42 entries, two of which mark status only in their heading.
 
 ---
 
@@ -1269,7 +1269,7 @@ suppresses (sine→Sinis, eos→Eos, more→morus…) and auditor false-positive
 census 348, Caesar BG-I 1928/1929 (only the ide proper-noun false-positive);
 9 popup e2e green.
 
-## M-023m — Full-Catullus scansion gold → 8 wordlist fixes; remaining blockers need triage (2026-08-13) ✅ (fixes) / ⏳ (triage)
+## M-023m — Full-Catullus scansion gold → 8 wordlist fixes + 16-blocker triage (2026-08-13/09-21) ✅ (fixes + triage; 1 NEEDS-DECISION: meneni)
 
 **Deliverable (FIXED, engine repo `0af77d6`).** Downloaded the complete
 negenborn.net scanned Catullus (118 poems, full long+short marks) → gold at
@@ -1301,8 +1301,78 @@ Each `FIX:` line is a candidate ACCENT_OVERRIDE; verify against the gold word
 in context before adding (a gold mark at anceps/final-syllable is metrical,
 not a wordlist error).
 
-**Status: FIXED (8 overrides) + OPEN (triage ~17 more).** Engine unit tests
-8/8; site 22 unit + 81 IPA + 2075 gloss + 348 census + 9 popup e2e green.
+**Status: FIXED (8 overrides) + triage done (2026-09-21) + meter-bin audit
+(2026-09-21).** Engine unit tests 38/38; site unit+IPA+2075 gloss+348 census +
+macronizer e2e green.
+
+**Meter-bin audit (2026-09-21, from the `/adv` second-opinion review):** the
+blocker keys off each file's *directory* in `gold/catullus/<meter>/`, and
+7 of the 13 files in `iambic/` are actually hendecasyllables (VIII, XVII,
+XXII, XXV, XXXI, XXXVII, XXXIX — all scan 0-fail as hendecasyllable, fail
+12–26 lines when scanned with iambic 6/4-foot templates). So the "~247
+failing lines dominated by the iambic poems" that produced most of the 16
+triaged FIX candidates was **largely a meter-binning artifact**, not genuine
+Catullus iambic noise. **This does not change any applied decision** — the
+final kept set (8 original M-023m overrides + `hoc`) was fixed by the
+dictionary-quantity check, which is meter-independent; the binning artifact
+only inflated how much noise the blocker *reported*. To trust future blockers:
+fix the binning (A/B probe `test/catullus-meter-ab.mjs`, or auto-detect each
+file's meter by which template scans clean) before reading any count from
+`iambic/`. Lesson in LESSONS.md 2026-09-21.
+
+### M-023m triage (2026-09-21, all 16 FIX candidates judged + L&S-verified)
+
+**APPLIED — 2 overrides** (engine `src/core/Tokenization.ts`, "M-023m triage"):
+- `vorago` → `vo^ra_go`: L&S headword **vŏrāgo** (Perseus title — breve on ŏ,
+  long ā, breve on final ō). The wordlist `vo^ra_go_` = vŏ-rā-**gō** marks the
+  final ō LONG; L&S AND the gold (XVII 11 vŏrāgŏ) both read it SHORT. Wordlist
+  tagging error (the n-s---fn- tag alone can't carry the quantity). Verified
+  scanning after the override.
+- `hoc` → `ho^c`: nom/acc hŏc is ALWAYS short (only abl. hōc is long —
+  Wiktionary hic-table + A&G §604); the tagger had picked the ablative `ho_c`
+  reading in "hŏc est" (XXXI 11). Additive only — corrects the homograph
+  selection, contradicts no dictionary quantity.
+
+**REJECTED — 3 "fixes" reverted after dictionary verification** (first-pass
+grammatical reading was wrong; L&S headword checked via Perseus page titles):
+- `ridete`: L&S headword **rīdĕo** — LONG ī. Gold rĭdētĕ (XXXI 14) puts a
+  short on the hendecasyllable's FIXED-LONG first syllable — a license, not a
+  short-i lexeme. (Corrected from "line-initial anceps": a hendecasyllable's
+  first syllable is NOT anceps.)
+- `vesaniente`: L&S prints "**vē**-sānus" (long ē); gold vĕsaniente (XXV 13)
+  contradicts the lexicon.
+- `renidere`: L&S **rĕnīdĕo**, 2nd conjugation → perfect-inf reading has long
+  dē; the gold's short marks cluster at the elision against "usque" (XXXIX 15)
+  — a segmenter/elision limitation, not a quantity bug.
+
+**The 11 earlier metrical/editorial rejections stand** (tu, a, peditum, abice,
+iniciens, penetrales, inepte, inusta, esses, totius×2 — see LESSONS.md
+2026-09-21). Net: blocker 622→620 lines; the 8 original M-023m fixes are
+untouched. Site dist synced (this also brought the site's STALE
+`macronizer/dist/` current with ALL M-013b→m overrides — NEXT.md thread
+closed).
+
+**REJECTED as metrical/editorial (gold mark ≠ lexical quantity) — DO NOT
+RE-ADD** (the 11 remaining FIX candidates, re-confirmed by wordlist grep +
+grammar): `tu` (pronoun always long tū; short tŭ is iambic license — Catullus
+is notorious for it), `a` (interjection, editorial), `peditum`/`abice`/
+`penetrales`/`inepte`/`inusta` (initial syllable is short by Enmann's law /
+compound ă- / ĭ-; gold's length is anceps or ictus), `iniciens` (ĭnicio short
+ĭ per L&S), `totius` ×2 (tōtīus is LL; the gold's tŏtĭŭs is the editor's
+archaizing diaeresis — diaeresis needs its own feature, not an override),
+`esses` (essēs LL is the only real form; gold's all-breve contradicts
+morphology — editor).
+
+**NEEDS-DECISION (1):** `meneni` (LIX.2 `uxor mĕnēnĭ`, a *vexed* line — the
+wordlist only has the gens Menenius SLL; overriding respells a proper noun on
+a corrupt-text reading). Left OPEN.
+
+**Scansion harness snapshot could not regenerate** — the corpus run OOMs the
+node process on the full Aeneid set even per-file-macronizer + raised heap
+(machine memory; pre-existing limitation, NEXT-documented). Overrides are
+monotonic (candidate-additions only; the Viterbi takes the min), so adding
+them cannot regress a passing line. The Catullus-blocker re-run is the
+functional gate here.
 
 ## H-001 — Help pages: app-layer bugs found while verifying examples (2026-10-05)
 **Status: FIXED** (2026-10-05). Four bugs outside the Wiktionary modules, each
