@@ -157,6 +157,8 @@ for (const key of process.argv.slice(2)) {
     `    ${END}`,
   ].join("\n");
 
+  if (!/<title>[^<]*<\/title>/.test(html)) throw new Error(`${key}: no plain <title> found`);
+  if (!/<h1>[^<]*<\/h1>/.test(html)) throw new Error(`${key}: no plain <h1> found`);
   html = html.replace(/<title>[^<]*<\/title>/, `<title>${esc(p.title)}</title>`);
   html = html.replace(/<h1>[^<]*<\/h1>/, `<h1>${esc(p.title)}</h1>`);
   if (html.includes(START)) {

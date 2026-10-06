@@ -482,7 +482,7 @@
     </table>
 
     <h4>2. Before Fricatives (Retained Nasal Diphthong)</h4>
-    <p>Before fricatives (<em>f, v, s, z, sz, ż, rz, ś, ź, ch, h</em>), the nasalization cannot resolve into a distinct nasal stop. Instead, it is pronounced as an oral vowel followed by a nasalized labiovelar approximant: <strong>ą</strong> → <span class="ipa">[ɔw̃]</span>, <strong>ę</strong> → <span class="ipa">[ɛw̃]</span>. E.g., <em>wąski</em> <span class="ipa">[ˈvɔw̃s.ki]</span>, <em>węch</em> <span class="ipa">[vɛw̃x]</span>.</p>
+    <p>Before fricatives (<em>f, v, s, z, sz, ż, rz, ch, h</em>), the nasalization cannot resolve into a distinct nasal stop. Instead, it is pronounced as an oral vowel followed by a nasalized labiovelar approximant: <strong>ą</strong> → <span class="ipa">[ɔw̃]</span>, <strong>ę</strong> → <span class="ipa">[ɛw̃]</span>. E.g., <em>wąski</em> <span class="ipa">[ˈvɔw̃s.ki]</span>, <em>węch</em> <span class="ipa">[vɛw̃x]</span>. The alveolo-palatal fricatives <em>ś</em> and <em>ź</em> are the exception: before them the module gives an oral vowel followed by <span class="ipa">[ɲ]</span>, as in <em>gęś</em> <span class="ipa">[ɡɛɲɕ]</span> and <em>gałąź</em> <span class="ipa">[ˈɡa.wɔɲɕ]</span>.</p>
 
     <h4>3. Before Laterals and Approximants (Denasalization)</h4>
     <p>Before the letters <strong>l</strong> and <strong>ł</strong>, the nasal vowels completely lose their nasality. <strong>ą</strong> becomes standard <span class="ipa">[ɔ]</span> and <strong>ę</strong> becomes <span class="ipa">[ɛ]</span>. This is handled at the grapheme-to-phoneme conversion stage — the <code>letters2phones</code> table has explicit entries for <code>ą + l</code>, <code>ą + ł</code>, <code>ę + l</code>, <code>ę + ł</code> that produce denasalized output directly. E.g., <em>wziął</em> <span class="ipa">[vʑɔw]</span>, <em>wzięli</em> <span class="ipa">[ˈvʑɛ.li]</span>.</p>
@@ -624,7 +624,7 @@
             <td><span class="ipa">[ˈrɔ.bjɔw̃]</span></td>
         </tr>
         <tr>
-            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, ś, ź, f, w, ch</em>)</td>
+            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, f, w, ch</em>; before <em>ś, ź</em> the result is a vowel + <span class="ipa">ɲ</span>)</td>
             <td>wąski</td>
             <td><span class="ipa">[ˈvɔw̃s.ki]</span></td>
         </tr>
@@ -667,7 +667,7 @@
         </tr>
         <tr>
             <td><span class="ipa">/ɛw̃/</span></td>
-            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, ś, ź, f, w, ch</em>)</td>
+            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, f, w, ch</em>; before <em>ś, ź</em> the result is a vowel + <span class="ipa">ɲ</span>)</td>
             <td>węch</td>
             <td><span class="ipa">[vɛw̃x]</span></td>
         </tr>

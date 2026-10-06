@@ -1192,7 +1192,7 @@
         </thead>
         <tbody>
         <tr><td>([aɛiɪuɔ])([ˈˌ]) → \2\1</td><td>ї́жа</td><td><span class="ipa">/ˈjiʒɐ/</span></td><td>The stress mark moves in front of its vowel (final placement is Stage 11).</td></tr>
-        <tr><td>One-vowel word and <code>allow_unstressed</code> is false → insert <code>⁀</code> before the vowel</td><td>сад (called without the flag)</td><td><span class="ipa">/sad/</span></td><td>The marker makes the vowel count as stressed for reduction, then is deleted. With the flag set (as in the app), the same word gives <span class="ipa">/sɐd/</span>.</td></tr>
+        <tr><td>One-vowel word and <code>allow_unstressed</code> is false → insert <code>⁀</code> before the vowel</td><td>сад (called without the flag)</td><td><span class="ipa">/sad/</span></td><td>The marker makes the vowel count as stressed for reduction, then is deleted. With the flag set, an unmarked one-vowel word stays unstressed and gives <span class="ipa">/sɐd/</span>. The app never sends such a word: its handler adds a stress mark to any one-vowel word first, so <em>сад</em> appears in the app as <span class="ipa">/ˈsad/</span>.</td></tr>
         </tbody>
     </table>
 
