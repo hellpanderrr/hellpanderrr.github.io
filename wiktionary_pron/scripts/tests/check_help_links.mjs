@@ -1,10 +1,11 @@
 // Check every href/src in help/*.html: external URLs by HTTP status, local paths by file (+ #anchor) existence.
 // Run: node scripts/tests/check_help_links.mjs   (internationalphoneticassociation.org answers 429/captcha to bots — not dead)
 import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import path from "node:path";
 
-const HELP = "F:/projects/wiktionary_pron/wiktionary_pron/help";
-const SITE_ROOT = "F:/projects/wiktionary_pron";
+const HELP = fileURLToPath(new URL("../../help/", import.meta.url));
+const SITE_ROOT = fileURLToPath(new URL("../../../", import.meta.url));
 const pages = readdirSync(HELP).filter((f) => f.endsWith(".html"));
 
 const ext = new Map(); // url -> [page,...]
