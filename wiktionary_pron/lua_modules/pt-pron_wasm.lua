@@ -13,6 +13,7 @@ local ulower = mw.ustring.lower
 local uupper = mw.ustring.upper
 local usub = mw.ustring.sub
 local ulen = mw.ustring.len
+local unpack = unpack or table.unpack -- Lua 5.4 (wasmoon) has no global unpack
 
 local AC = u(0x0301) -- acute =  ́
 local GR = u(0x0300) -- grave =  ̀ = open vowel quality without stress in Portugal only

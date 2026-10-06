@@ -13,7 +13,7 @@ async function asyncMapStrict(arr, fn) {
 
 function sanitize(text) {
   return text
-      .replace(/[^\p{L}\p{M}'’‿-]/gu, "")
+      .replace(/[^\p{L}\p{M}'’‿՛-]/gu, "") // U+055B: Armenian stress mark, read by hy-pron
       .replaceAll("’", "'")
       .normalize("NFKC");
 }
@@ -264,6 +264,12 @@ const ipaHandlers = {
     }
 
     // --- Stage 2: If not in dictionary, analyze and process ---
+    // A word the user already stressed is transcribed as typed; generating a variant
+    // per vowel on top of it would add a second stress mark.
+    if (/́/.test(cleanText)) {
+      const ipa = window.uk_ipa.pronunciation(cleanText, true);
+      return ipa ? `/${ipa}/` : null;
+    }
     const VOWEL_REGEX = /[аеиіоуєюяї]/i;
     const STRESS_MARK = "\u0301";
     const applyStress = (vowel) => vowel + STRESS_MARK;
@@ -350,6 +356,12 @@ const ipaHandlers = {
     }
 
     // --- Stage 2: Fallback logic for words not in the dictionary  ---
+    // Stress already given (acute, or ё which is always stressed): transcribe as typed,
+    // otherwise the per-vowel variants below would add a second stress mark.
+    if (/[́ёЁ]/.test(cleanText)) {
+      const ipa = window.ru_ipa.ipa_string(cleanText);
+      return ipa ? `/${ipa}/` : null;
+    }
     const VOWEL_REGEX = /[аэиуеюяёоы]/i; // Russian vowels
     const STRESS_MARK = "\u0301";
     const applyStress = (vowel) => vowel + STRESS_MARK;
@@ -361,7 +373,7 @@ const ipaHandlers = {
     if (syllableCount <= 1) {
       const stressedText =
         syllableCount === 1
-          ? cleanText.replace(/[аэиуеюяёоАЭИУЕЮЯЁОЫ]/, applyStress) // Russian vowel set
+          ? cleanText.replace(/[аэиуеюяёоыАЭИУЕЮЯЁОЫ]/, applyStress) // Russian vowel set
           : cleanText;
       const singleIpa = window.ru_ipa.ipa_string(stressedText); // Russian IPA function
       return singleIpa ? `/${singleIpa}/` : null;

@@ -1,4 +1,48 @@
 {
+  "Czech": [
+    {
+      "text": "dobrý",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈdobriː"
+    },
+    {
+      "text": "den",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈdɛn"
+    },
+    {
+      "text": "přítel",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈpr̝̊iːtɛl"
+    },
+    {
+      "text": "město",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈmɲɛsto"
+    },
+    {
+      "text": "hrad",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈɦrat"
+    },
+    {
+      "text": "voda",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈvoda"
+    },
+    {
+      "text": "čeština",
+      "args": "Czech;Default;Phonemic",
+      "status": "success",
+      "value": "ˈt͡ʃɛʃcɪna"
+    }
+  ],
   "Lithuanian": [
     {
       "text": "labas",
@@ -202,7 +246,7 @@
       "text": "вода́",
       "args": "Russian;Default;Phonetic",
       "status": "success",
-      "value": "/ˈvoˈda/,/vɐˈda/"
+      "value": "/vɐˈda/"
     },
     {
       "text": "стол",
@@ -214,7 +258,7 @@
       "text": "кни́га",
       "args": "Russian;Default;Phonetic",
       "status": "success",
-      "value": "/ˈknʲiɡə/,/ˈknʲiˈɡa/"
+      "value": "/ˈknʲiɡə/"
     },
     {
       "text": "дом",
@@ -228,7 +272,7 @@
       "text": "вода́",
       "args": "Ukrainian;Default;Phonetic",
       "status": "success",
-      "value": "/ˈwɔˈda/,/wɔˈdaˈ/"
+      "value": "/wɔˈda/"
     },
     {
       "text": "стіл",
@@ -240,7 +284,7 @@
       "text": "кни́га",
       "args": "Ukrainian;Default;Phonetic",
       "status": "success",
-      "value": "/ˈknɪˈɦɐ/,/ˈknɪˈɦa/"
+      "value": "/ˈknɪɦɐ/"
     },
     {
       "text": "дім",
@@ -307,50 +351,14 @@
       "value": "ˈkiʃlʲɑːnˠ"
     },
     {
-      "text": "caisleán",
-      "args": "Irish;Munster;Phonemic",
-      "status": "success",
-      "value": "kəˈʃlʲɑːn̪ˠ"
-    },
-    {
-      "text": "caisleán",
-      "args": "Irish;Ulster;Phonemic",
-      "status": "success",
-      "value": "ˈkaʃl̠ʲanˠ"
-    },
-    {
       "text": "cailín",
       "args": "Irish;Connacht;Phonemic",
       "status": "success",
       "value": "ˈkalʲiːnʲ"
     },
     {
-      "text": "cailín",
-      "args": "Irish;Munster;Phonemic",
-      "status": "success",
-      "value": "kɑˈlʲiːnʲ"
-    },
-    {
-      "text": "cailín",
-      "args": "Irish;Ulster;Phonemic",
-      "status": "success",
-      "value": "ˈkælʲinʲ"
-    },
-    {
       "text": "anam",
       "args": "Irish;Connacht;Phonemic",
-      "status": "success",
-      "value": "ˈanˠəmˠ"
-    },
-    {
-      "text": "anam",
-      "args": "Irish;Munster;Phonemic",
-      "status": "success",
-      "value": "ˈɑn̪ˠəmˠ"
-    },
-    {
-      "text": "anam",
-      "args": "Irish;Ulster;Phonemic",
       "status": "success",
       "value": "ˈanˠəmˠ"
     },
@@ -361,10 +369,70 @@
       "value": "ˈɡeːl̠ʲɟɪ"
     },
     {
+      "text": "uisce",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈiʃcə"
+    },
+    {
+      "text": "baile",
+      "args": "Irish;Connacht;Phonemic",
+      "status": "success",
+      "value": "ˈbˠalʲə"
+    },
+    {
+      "text": "caisleán",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "kəˈʃlʲɑːn̪ˠ"
+    },
+    {
+      "text": "cailín",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "kɑˈlʲiːnʲ"
+    },
+    {
+      "text": "anam",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈɑn̪ˠəmˠ"
+    },
+    {
       "text": "Gaeilge",
       "args": "Irish;Munster;Phonemic",
       "status": "success",
       "value": "ˈɡeːl̪ˠənʲ"
+    },
+    {
+      "text": "uisce",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈiʃcə"
+    },
+    {
+      "text": "baile",
+      "args": "Irish;Munster;Phonemic",
+      "status": "success",
+      "value": "ˈbˠalʲə"
+    },
+    {
+      "text": "caisleán",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈkaʃl̠ʲanˠ"
+    },
+    {
+      "text": "cailín",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈkælʲinʲ"
+    },
+    {
+      "text": "anam",
+      "args": "Irish;Ulster;Phonemic",
+      "status": "success",
+      "value": "ˈanˠəmˠ"
     },
     {
       "text": "Gaeilge",
@@ -374,33 +442,9 @@
     },
     {
       "text": "uisce",
-      "args": "Irish;Connacht;Phonemic",
-      "status": "success",
-      "value": "ˈiʃcə"
-    },
-    {
-      "text": "uisce",
-      "args": "Irish;Munster;Phonemic",
-      "status": "success",
-      "value": "ˈiʃcə"
-    },
-    {
-      "text": "uisce",
       "args": "Irish;Ulster;Phonemic",
       "status": "success",
       "value": "ˈiʃcə"
-    },
-    {
-      "text": "baile",
-      "args": "Irish;Connacht;Phonemic",
-      "status": "success",
-      "value": "ˈbˠalʲə"
-    },
-    {
-      "text": "baile",
-      "args": "Irish;Munster;Phonemic",
-      "status": "success",
-      "value": "ˈbˠalʲə"
     },
     {
       "text": "baile",

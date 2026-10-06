@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polish IPA Transcription - Help</title>
+    <title>Polish Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Polish pronunciation in IPA: nasal vowels ą and ę, soft consonants, sz and cz against ś and ć, devoicing and penultimate stress, with a free converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/polish.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Polish Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Polish pronunciation in IPA: nasal vowels ą and ę, soft consonants, sz and cz against ś and ć, devoicing and penultimate stress, with a free converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/polish.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Polish Pronunciation and IPA Transcription Guide","description":"Polish pronunciation in IPA: nasal vowels ą and ę, soft consonants, sz and cz against ś and ć, devoicing and penultimate stress, with a free converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/polish.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Polish"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Polish","item":"https://hellpanderrr.github.io/wiktionary_pron/help/polish.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,7 +24,7 @@
 </head>
 <body>
 <div id="content">
-    <h1>Polish IPA Transcription - Help</h1>
+    <h1>Polish Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Polish">← Back to Polish transcription</a></span>
@@ -53,6 +64,7 @@
                 <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
             </ul>
         </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
         <li><strong>For Developers</strong>
             <ul>
                 <li><a href="#technical">How the Lua Module Works</a></li>
@@ -63,14 +75,13 @@
             </ul>
         </li>
         <li><a href="#reference-links">References & Further Reading</a></li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
     <hr>
 
     <h2 id="about">About This Tool</h2>
-    <p>This <a href="../?lang=Polish">Polish transcription app</a> uses a modified version of the <a
-      href="https://en.wiktionary.org/wiki/Module:pl-pron" target="_blank"
-      rel="noopener noreferrer">Wiktionary Polish Pronunciation Module</a> (<code>pl-pron_wasm.lua</code>) running inside the browser via <a href="https://github.com/ceifa/wasmoon" target="_blank" rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 WebAssembly). It converts standard Polish orthography into the International Phonetic Alphabet (IPA).</p>
+    <p>This <a href="../?lang=Polish">Polish transcription app</a> uses a modified version of the Wiktionary Polish pronunciation module (<code>pl-pron_wasm.lua</code>; on Wiktionary its successor is <a href="https://en.wiktionary.org/wiki/Module:zlw-lch-IPA" target="_blank" rel="noopener noreferrer">Module:zlw-lch-IPA</a>, which <code>{{pl-pr}}</code> calls) running inside the browser via <a href="https://github.com/ceifa/wasmoon" target="_blank" rel="noopener noreferrer">Wasmoon</a> (Lua 5.4 WebAssembly). It converts standard Polish orthography into the International Phonetic Alphabet (IPA).</p>
     <p>Polish spelling is highly phonetic and rule-governed — far more so than English or even German. The tool simulates the exact phonetic transformations (devoicing, assimilation, palatalization, and nasal vowel decomposition) applied by native speakers, producing both phonemic and narrow phonetic transcriptions <strong>without requiring a lookup dictionary</strong>. This rule-based approach means it can transcribe any Polish word, including neologisms and rare compounds.</p>
 
     <h2 id="dialects">Dialects & Limitations</h2>
@@ -183,7 +194,7 @@
         <tr>
             <td><span class="ipa">/i/</span></td>
             <td>i</td>
-            <td>p<strong>i</strong>ć <span class="ipa">[pʲit͡ɕ]</span></td>
+            <td>p<strong>i</strong>ć <span class="ipa">[pit͡ɕ]</span></td>
             <td>m<strong>ee</strong>t (shortened)</td>
             <td>Close front unrounded vowel</td>
         </tr>
@@ -211,7 +222,7 @@
         <tr>
             <td><span class="ipa">/ɔw̃/</span></td>
             <td>ą (word-final / before fricatives)</td>
-            <td>s<strong>ą</strong> <span class="ipa">[sɔw̃]</span>, v<strong>ą</strong>ski <span class="ipa">[ˈvɔw̃skʲi]</span></td>
+            <td>s<strong>ą</strong> <span class="ipa">[sɔw̃]</span>, w<strong>ą</strong>ski <span class="ipa">[ˈvɔw̃s.ki]</span></td>
             <td>French "on" + English "w"</td>
             <td>Nasalized back rounded diphthong</td>
         </tr>
@@ -269,21 +280,21 @@
         <tr>
             <td><span class="ipa">/s/</span>, <span class="ipa">/z/</span></td>
             <td>s, z</td>
-            <td><strong>s</strong>yn <span class="ipa">[sɨn]</span>, <strong>z</strong>oolog <span class="ipa">[zɔˈɔlɔk]</span></td>
+            <td><strong>s</strong>yn <span class="ipa">[sɨn]</span>, <strong>z</strong>oolog <span class="ipa">[zɔˈɔ.lɔk]</span></td>
             <td><strong>s</strong>ee, <strong>z</strong>oo</td>
             <td>Dental sibilants</td>
         </tr>
         <tr>
             <td><span class="ipa">/ʂ/</span>, <span class="ipa">/ʐ/</span></td>
             <td>sz, ż, rz</td>
-            <td><strong>sz</strong>um <span class="ipa">[ʂum]</span>, <strong>ż</strong>aba <span class="ipa">[ˈʐaba]</span></td>
+            <td><strong>sz</strong>um <span class="ipa">[ʂum]</span>, <strong>ż</strong>aba <span class="ipa">[ˈʐa.ba]</span></td>
             <td>ha<strong>sh</strong>, vi<strong>si</strong>on (but retracted)</td>
             <td>Voiceless/voiced retroflex fricatives</td>
         </tr>
         <tr>
             <td><span class="ipa">/ɕ/</span>, <span class="ipa">/ʑ/</span></td>
             <td>ś, si</td>
-            <td><strong>ś</strong>miech <span class="ipa">[ɕmʲɛx]</span>, <strong>zi</strong>emia <span class="ipa">[ˈʑɛmʲa]</span></td>
+            <td><strong>ś</strong>miech <span class="ipa">[ɕmjɛx]</span>, <strong>zi</strong>emia <span class="ipa">[ˈʑɛ.mja]</span></td>
             <td><strong>sh</strong>eet, a<strong>z</strong>ure (hissing/soft)</td>
             <td>Voiceless/voiced alveolo-palatal fricatives</td>
         </tr>
@@ -318,14 +329,14 @@
         <tr>
             <td><span class="ipa">/m/</span>, <span class="ipa">/n/</span></td>
             <td>m, n</td>
-            <td><strong>m</strong>ama <span class="ipa">[ˈmama]</span>, <strong>n</strong>oc <span class="ipa">[nɔt͡s]</span></td>
+            <td><strong>m</strong>ama <span class="ipa">[ˈma.ma]</span>, <strong>n</strong>oc <span class="ipa">[nɔt͡s]</span></td>
             <td><strong>m</strong>ore, <strong>n</strong>o</td>
             <td>Bilabial, dental nasals</td>
         </tr>
         <tr>
             <td><span class="ipa">/ɲ/</span></td>
             <td>ń, ni</td>
-            <td>ko<strong>ń</strong> <span class="ipa">[kɔɲ]</span>, <strong>ni</strong>ebo <span class="ipa">[ˈɲɛbɔ]</span></td>
+            <td>ko<strong>ń</strong> <span class="ipa">[kɔɲ]</span>, <strong>ni</strong>ebo <span class="ipa">[ˈɲɛ.bɔ]</span></td>
             <td>ca<strong>ny</strong>on, Spanish <strong>ñ</strong></td>
             <td>Alveolo-palatal nasal</td>
         </tr>
@@ -346,21 +357,21 @@
         <tr>
             <td><span class="ipa">/w/</span></td>
             <td>ł</td>
-            <td><strong>ł</strong>adny <span class="ipa">[ˈwadnɨ]</span></td>
+            <td><strong>ł</strong>adny <span class="ipa">[ˈwad.nɨ]</span></td>
             <td><strong>w</strong>et</td>
             <td>Labio-velar approximant</td>
         </tr>
         <tr>
             <td><span class="ipa">/j/</span></td>
             <td>j</td>
-            <td><strong>j</strong>utro <span class="ipa">[ˈjutrɔ]</span></td>
+            <td><strong>j</strong>utro <span class="ipa">[ˈjut.rɔ]</span></td>
             <td><strong>y</strong>es</td>
             <td>Palatal approximant</td>
         </tr>
         <tr>
             <td><span class="ipa">/r/</span></td>
             <td>r</td>
-            <td><strong>r</strong>ęka <span class="ipa">[ˈrɛŋka]</span></td>
+            <td><strong>r</strong>ęka <span class="ipa">[ˈrɛŋ.ka]</span></td>
             <td>Spanish <strong>r</strong> (rolled)</td>
             <td>Alveolar trill</td>
         </tr>
@@ -394,7 +405,7 @@
             <td><span class="ipa">ʲ</span></td>
             <td>Palatalization marker</td>
             <td>Indicates secondary narrowing of the vocal tract (softening)</td>
-            <td><em>pies</em> <span class="ipa">/pʲjɛs/</span></td>
+            <td><em>pies</em> <span class="ipa">/pjɛs/</span></td>
         </tr>
         <tr>
             <td><span class="ipa">͡</span></td>
@@ -455,7 +466,7 @@
             <td><span class="ipa">[ɔɲ]</span></td>
             <td><span class="ipa">[ɛɲ]</span></td>
             <td>pięć, dociąć</td>
-            <td><span class="ipa">[pʲjɛɲt͡ɕ]</span>, <span class="ipa">[ˈdɔt͡ɕɔɲt͡ɕ]</span></td>
+            <td><span class="ipa">[pjɛɲt͡ɕ]</span>, <span class="ipa">[ˈdɔt͡ɕɔɲt͡ɕ]</span></td>
         </tr>
         <tr>
             <td>g, k</td>
@@ -463,21 +474,21 @@
             <td><span class="ipa">[ɔŋ]</span></td>
             <td><span class="ipa">[ɛŋ]</span></td>
             <td>mąka, ręka</td>
-            <td><span class="ipa">[ˈmɔŋka]</span>, <span class="ipa">[ˈrɛŋka]</span></td>
+            <td><span class="ipa">[ˈmɔŋka]</span>, <span class="ipa">[ˈrɛŋ.ka]</span></td>
         </tr>
         </tbody>
     </table>
 
     <h4>2. Before Fricatives (Retained Nasal Diphthong)</h4>
-    <p>Before fricatives (<em>f, v, s, z, sz, ż, rz, ś, ź, ch, h</em>), the nasalization cannot resolve into a distinct nasal stop. Instead, it is pronounced as an oral vowel followed by a nasalized labiovelar approximant: <strong>ą</strong> → <span class="ipa">[ɔw̃]</span>, <strong>ę</strong> → <span class="ipa">[ɛw̃]</span>. E.g., <em>wąski</em> <span class="ipa">[ˈvɔw̃skʲi]</span>, <em>węch</em> <span class="ipa">[vɛw̃x]</span>.</p>
+    <p>Before fricatives (<em>f, v, s, z, sz, ż, rz, ch, h</em>), the nasalization cannot resolve into a distinct nasal stop. Instead, it is pronounced as an oral vowel followed by a nasalized labiovelar approximant: <strong>ą</strong> → <span class="ipa">[ɔw̃]</span>, <strong>ę</strong> → <span class="ipa">[ɛw̃]</span>. E.g., <em>wąski</em> <span class="ipa">[ˈvɔw̃s.ki]</span>, <em>węch</em> <span class="ipa">[vɛw̃x]</span>. The alveolo-palatal fricatives <em>ś</em> and <em>ź</em> are the exception: before them the module gives an oral vowel followed by <span class="ipa">[ɲ]</span>, as in <em>gęś</em> <span class="ipa">[ɡɛɲɕ]</span> and <em>gałąź</em> <span class="ipa">[ˈɡa.wɔɲɕ]</span>.</p>
 
     <h4>3. Before Laterals and Approximants (Denasalization)</h4>
-    <p>Before the letters <strong>l</strong> and <strong>ł</strong>, the nasal vowels completely lose their nasality. <strong>ą</strong> becomes standard <span class="ipa">[ɔ]</span> and <strong>ę</strong> becomes <span class="ipa">[ɛ]</span>. This is handled at the grapheme-to-phoneme conversion stage — the <code>letters2phones</code> table has explicit entries for <code>ą + l</code>, <code>ą + ł</code>, <code>ę + l</code>, <code>ę + ł</code> that produce denasalized output directly. E.g., <em>wziął</em> <span class="ipa">[vʑɔw]</span>, <em>wzięli</em> <span class="ipa">[ˈvʑɛlʲi]</span>.</p>
+    <p>Before the letters <strong>l</strong> and <strong>ł</strong>, the nasal vowels completely lose their nasality. <strong>ą</strong> becomes standard <span class="ipa">[ɔ]</span> and <strong>ę</strong> becomes <span class="ipa">[ɛ]</span>. This is handled at the grapheme-to-phoneme conversion stage — the <code>letters2phones</code> table has explicit entries for <code>ą + l</code>, <code>ą + ł</code>, <code>ę + l</code>, <code>ę + ł</code> that produce denasalized output directly. E.g., <em>wziął</em> <span class="ipa">[vʑɔw]</span>, <em>wzięli</em> <span class="ipa">[ˈvʑɛ.li]</span>.</p>
 
     <h4>4. Word-Final Position</h4>
     <ul>
-        <li><strong>Final ą:</strong> Retains its nasalization, realized as a nasal diphthong <span class="ipa">[ɔw̃]</span>. E.g., <em>robią</em> <span class="ipa">[ˈrɔbʲɔw̃]</span>.</li>
-        <li><strong>Final ę:</strong> Denasalizes completely to a simple oral vowel <span class="ipa">[ɛ]</span> in standard, relaxed pronunciation. Realizing final <em>ę</em> as fully nasal <span class="ipa">[ɛw̃]</span> is considered hypercorrect or archaic. E.g., <em>idę</em> <span class="ipa">[ˈidɛ]</span>.</li>
+        <li><strong>Final ą:</strong> Retains its nasalization, realized as a nasal diphthong <span class="ipa">[ɔw̃]</span>. E.g., <em>robią</em> <span class="ipa">[ˈrɔ.bjɔw̃]</span>.</li>
+        <li><strong>Final ę:</strong> Denasalizes completely to a simple oral vowel <span class="ipa">[ɛ]</span> in standard, relaxed pronunciation. Realizing final <em>ę</em> as fully nasal <span class="ipa">[ɛw̃]</span> is considered hypercorrect or archaic. E.g., <em>idę</em> <span class="ipa">[ˈi.dɛ]</span>.</li>
     </ul>
 
     <h3 id="palatalization">Palatalization & Soft Consonants</h3>
@@ -486,8 +497,8 @@
         <li><strong>Diacritics:</strong> Consonants with acute accents (<em>ć, dź, ś, ź, ń</em>) are inherently soft alveolo-palatal sounds (/t͡ɕ, d͡ʑ, ɕ, ʑ, ɲ/).</li>
         <li><strong>The letter <em>i</em>:</strong>
             <ul>
-                <li>If followed by another vowel, the <em>i</em> is silent and acts purely as a softening marker for the preceding consonant. E.g., <em>pies</em> <span class="ipa">[pʲjɛs]</span>.</li>
-                <li>If followed by a consonant or at the end of a word, the <em>i</em> both softens the preceding consonant and acts as the vowel nucleus <span class="ipa">[i]</span>. E.g., <em>pili</em> <span class="ipa">[ˈpʲilʲi]</span>.</li>
+                <li>If followed by another vowel, the <em>i</em> is silent and acts purely as a softening marker for the preceding consonant. E.g., <em>pies</em> <span class="ipa">[pjɛs]</span>.</li>
+                <li>If followed by a consonant or at the end of a word, the <em>i</em> is the vowel nucleus <span class="ipa">[i]</span>. The consonant before it is slightly palatalized in speech, which the module does not mark. E.g., <em>pili</em> <span class="ipa">[ˈpi.li]</span>.</li>
             </ul>
         </li>
     </ol>
@@ -500,7 +511,7 @@
         <li><strong>Regressive Voicing Assimilation:</strong> In a sequence of obstruents, the voicing of the final obstruent in the cluster dictates the voicing of the entire cluster.
             <ul>
                 <li>Voiceless + Voiced → Voiced: <em>prośba</em> (ś + b) → <span class="ipa">[ˈprɔʑba]</span></li>
-                <li>Voiced + Voiceless → Voiceless: <em>odpowiedź</em> (d + p) → <span class="ipa">[ɔtˈpɔvʲɛt͡ɕ]</span></li>
+                <li>Voiced + Voiceless → Voiceless: <em>odpowiedź</em> (d + p) → <span class="ipa">[ɔtˈpɔ.vjɛt͡ɕ]</span></li>
             </ul>
         </li>
     </ul>
@@ -512,26 +523,22 @@
             <ul>
                 <li><em>kwiat</em> (k + w) → <span class="ipa">[kfjat]</span> (not [kvʲjat])</li>
                 <li><em>trzy</em> (t + rz) → <span class="ipa">[tʂɨ]</span> (not [tʐɨ])</li>
-                <li><em>przepiórka</em> (p + rz) → <span class="ipa">[pʂɛˈpʲurka]</span></li>
+                <li><em>przepiórka</em> (p + rz) → <span class="ipa">[pʂɛˈpjur.ka]</span></li>
             </ul>
         </li>
         <li><strong>Neutral Sonorants:</strong> Sonorants (<em>m, n, ń, l, ł, r, j</em>) do not trigger voicing or devoicing of neighboring obstruents, but they can themselves be voiceless (allophonically) when sandwiched between voiceless sounds.</li>
     </ul>
 
     <h3 id="stress">Stress Patterns & Exceptions</h3>
-    <p>Polish stress is predominantly fixed on the <strong>penultimate</strong> (second-to-last) syllable. E.g., <em>do-MU</em> <span class="ipa">[ˈdɔmu]</span>, <em>war-SZA-wa</em> <span class="ipa">[varˈʂawa]</span>. The Lua module supports several grammatical exceptions:</p>
+    <p>Polish stress is predominantly fixed on the <strong>penultimate</strong> (second-to-last) syllable, e.g. <em>domu</em> <span class="ipa">[ˈdɔ.mu]</span>, <em>warszawa</em> <span class="ipa">[varˈʂa.va]</span>. The Lua module recognises one group of grammatical exceptions, the conditional endings, by matching the end of the word against two lists (<code>third_last_syllable_stress</code> and <code>fourth_last_syllable_stress</code>):</p>
     <ul>
-        <li><strong>Verbs in the Conditional Mood:</strong> The particles <em>-by, -byś, -by, -byśmy, -byście</em> do not shift the lexical stress.
+        <li><strong>Verbs in the Conditional Mood:</strong> The particles <em>-by, -byś, -byśmy, -byście</em> do not shift the lexical stress.
             <ul>
-                <li><em>zrobiłby</em> (3rd person sing. cond.) → stressed on the antepenultimate (3rd from last): <em>ZRO-bił-by</em> <span class="ipa">[ˈzrɔbʲiwbɨ]</span>.</li>
-                <li><em>zrobilibyśmy</em> (1st person plur. cond.) → stressed on the preantepenultimate (4th from last): <em>zro-BI-li-byś-my</em> <span class="ipa">[zrɔˈbʲilʲibɨɕmɨ]</span>.</li>
+                <li><em>zrobiłby</em> (3rd person sing. cond.) is stressed on the antepenultimate (third from last) syllable: <em>zrobiłby</em> <span class="ipa">[ˈzrɔ.biw.bɨ]</span>.</li>
+                <li><em>zrobilibyśmy</em> (1st person plur. cond.) is stressed on the fourth syllable from the end: <em>zrobilibyśmy</em> <span class="ipa">[zrɔˈbi.li.bɨɕ.mɨ]</span>.</li>
             </ul>
         </li>
-        <li><strong>Past Tense Plural Inflections:</strong> The suffixes <em>-śmy</em> and <em>-ście</em> in the past tense plural do not shift the stress:
-            <ul>
-                <li><em>zrobiliśmy</em> → stressed on the antepenultimate: <em>zro-BI-li-śmy</em> <span class="ipa">[zrɔˈbʲilʲiɕmɨ]</span>.</li>
-            </ul>
-        </li>
+        <li><strong>Past Tense Plural (not implemented):</strong> In the prescriptive norm the past-tense endings <em>-śmy</em> and <em>-ście</em> also leave the stress in place, giving antepenultimate stress in <em>zrobiliśmy</em> (zro-BI-li-śmy). The module has no rule for these endings and applies the default penultimate stress instead: <em>zrobiliśmy</em> <span class="ipa">[zrɔ.biˈliɕ.mɨ]</span>. This matches common colloquial usage but not the standard. To get the prescriptive form, type an apostrophe before the stressed syllable: <em>zro'biliśmy</em> <span class="ipa">[zrɔˈbiliɕmɨ]</span>. A manually marked word is output without syllable dots, and an acute accent (<em>í</em>) is not understood as a stress mark.</li>
         <li><strong>Classical loanwords:</strong> Words borrowed from Latin, Greek, or other languages may retain non-standard stress patterns (e.g., <em>uniwersytet</em> stressed on the third syllable). The module defaults to penultimate stress when no exception matches.</li>
     </ul>
 
@@ -570,7 +577,7 @@
             <td><span class="ipa">/i/</span></td>
             <td>Vowel nucleus (when not preceding another vowel)</td>
             <td>mit</td>
-            <td><span class="ipa">[mʲit]</span></td>
+            <td><span class="ipa">[mit]</span></td>
         </tr>
         <tr>
             <td><strong>o</strong></td>
@@ -598,26 +605,26 @@
             <td><span class="ipa">/aw/</span></td>
             <td>Vowel + glide (loanwords, e.g., <em>auto</em>)</td>
             <td>auto</td>
-            <td><span class="ipa">[ˈawtɔ]</span></td>
+            <td><span class="ipa">[ˈaw.tɔ]</span></td>
         </tr>
         <tr>
             <td><strong>eu</strong></td>
             <td><span class="ipa">/ɛw/</span></td>
             <td>Vowel + glide (loanwords, e.g., <em>euro</em>)</td>
             <td>euro</td>
-            <td><span class="ipa">[ˈɛwrɔ]</span></td>
+            <td><span class="ipa">[ˈɛw.rɔ]</span></td>
         </tr>
         <tr>
             <td rowspan="7"><strong>ą</strong></td>
             <td rowspan="2"><span class="ipa">/ɔw̃/</span></td>
             <td>Word-final position (nasal diphthong)</td>
             <td>robią</td>
-            <td><span class="ipa">[ˈrɔbʲɔw̃]</span></td>
+            <td><span class="ipa">[ˈrɔ.bjɔw̃]</span></td>
         </tr>
         <tr>
-            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, ś, ź, f, w, ch</em>)</td>
+            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, f, w, ch</em>; before <em>ś, ź</em> the result is a vowel + <span class="ipa">ɲ</span>)</td>
             <td>wąski</td>
-            <td><span class="ipa">[ˈvɔw̃skʲi]</span></td>
+            <td><span class="ipa">[ˈvɔw̃s.ki]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɔm/</span></td>
@@ -641,7 +648,7 @@
             <td><span class="ipa">/ɔŋ/</span></td>
             <td>Before velar stops (<em>k, g</em>)</td>
             <td>mąka</td>
-            <td><span class="ipa">[ˈmɔŋka]</span></td>
+            <td><span class="ipa">[ˈmɔŋ.ka]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɔ/</span></td>
@@ -654,11 +661,11 @@
             <td><span class="ipa">/ɛ/</span></td>
             <td>Word-final position (standard denasalization)</td>
             <td>idę</td>
-            <td><span class="ipa">[ˈidɛ]</span></td>
+            <td><span class="ipa">[ˈi.dɛ]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɛw̃/</span></td>
-            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, ś, ź, f, w, ch</em>)</td>
+            <td>Before fricatives (e.g., <em>s, z, sz, ż, rz, f, w, ch</em>; before <em>ś, ź</em> the result is a vowel + <span class="ipa">ɲ</span>)</td>
             <td>węch</td>
             <td><span class="ipa">[vɛw̃x]</span></td>
         </tr>
@@ -666,31 +673,31 @@
             <td><span class="ipa">/ɛm/</span></td>
             <td>Before bilabial stops (<em>p, b</em>)</td>
             <td>zęby</td>
-            <td><span class="ipa">[ˈzɛmbɨ]</span></td>
+            <td><span class="ipa">[ˈzɛm.bɨ]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɛn/</span></td>
             <td>Before dental/alveolar stops/affricates (<em>t, d, c, dz, cz, dż</em>)</td>
             <td>chętny</td>
-            <td><span class="ipa">[ˈxɛntnɨ]</span></td>
+            <td><span class="ipa">[ˈxɛn.tnɨ]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɛɲ/</span></td>
             <td>Before alveolo-palatal affricates/stops (<em>ć, dź, ci, dzi</em>)</td>
             <td>pięć</td>
-            <td><span class="ipa">[pʲjɛɲt͡ɕ]</span></td>
+            <td><span class="ipa">[pjɛɲt͡ɕ]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɛŋ/</span></td>
             <td>Before velar stops (<em>k, g</em>)</td>
             <td>ręka</td>
-            <td><span class="ipa">[ˈrɛŋka]</span></td>
+            <td><span class="ipa">[ˈrɛŋ.ka]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ɛ/</span></td>
             <td>Before laterals and semivowels (<em>l, ł</em>) (denasalized)</td>
             <td>wzięli</td>
-            <td><span class="ipa">[ˈvʑɛlʲi]</span></td>
+            <td><span class="ipa">[ˈvʑɛ.li]</span></td>
         </tr>
         </tbody>
     </table>
@@ -755,14 +762,14 @@
             <td><span class="ipa">/f/</span></td>
             <td>Voiceless labiodental fricative</td>
             <td>fala</td>
-            <td><span class="ipa">[ˈfala]</span></td>
+            <td><span class="ipa">[ˈfa.la]</span></td>
         </tr>
         <tr>
             <td><strong>w</strong></td>
             <td><span class="ipa">/v/</span></td>
             <td>Voiced labiodental fricative</td>
             <td>woda</td>
-            <td><span class="ipa">[ˈvɔda]</span></td>
+            <td><span class="ipa">[ˈvɔ.da]</span></td>
         </tr>
         <tr>
             <td><strong>s</strong></td>
@@ -790,7 +797,7 @@
             <td><span class="ipa">/m/</span></td>
             <td>Bilabial nasal</td>
             <td>mama</td>
-            <td><span class="ipa">[ˈmama]</span></td>
+            <td><span class="ipa">[ˈma.ma]</span></td>
         </tr>
         <tr>
             <td><strong>n</strong></td>
@@ -811,7 +818,7 @@
             <td><span class="ipa">/w/</span></td>
             <td>Labiovelar semivowel</td>
             <td>ładny</td>
-            <td><span class="ipa">[ˈwadnɨ]</span></td>
+            <td><span class="ipa">[ˈwad.nɨ]</span></td>
         </tr>
         <tr>
             <td><strong>r</strong></td>
@@ -825,7 +832,7 @@
             <td><span class="ipa">/j/</span></td>
             <td>Palatal approximant (semivowel)</td>
             <td>jutro</td>
-            <td><span class="ipa">[ˈjutrɔ]</span></td>
+            <td><span class="ipa">[ˈjut.rɔ]</span></td>
         </tr>
         </tbody>
     </table>
@@ -883,14 +890,14 @@
             <td><span class="ipa">/ʐ/</span></td>
             <td>Voiced retroflex fricative</td>
             <td>żona</td>
-            <td><span class="ipa">[ˈʐɔna]</span></td>
+            <td><span class="ipa">[ˈʐɔ.na]</span></td>
         </tr>
         <tr>
             <td rowspan="2"><strong>rz</strong></td>
             <td><span class="ipa">/ʐ/</span></td>
             <td>Voiced retroflex fricative (standard context)</td>
             <td>rzeka</td>
-            <td><span class="ipa">[ˈʐɛka]</span></td>
+            <td><span class="ipa">[ˈʐɛ.ka]</span></td>
         </tr>
         <tr>
             <td><span class="ipa">/ʂ/</span></td>
@@ -910,14 +917,14 @@
             <td><span class="ipa">/d͡ʑ/</span></td>
             <td>Voiced alveolo-palatal affricate</td>
             <td>dźwig</td>
-            <td><span class="ipa">[d͡ʑvʲik]</span></td>
+            <td><span class="ipa">[d͡ʑvik]</span></td>
         </tr>
         <tr>
             <td><strong>ś</strong></td>
             <td><span class="ipa">/ɕ/</span></td>
             <td>Voiceless alveolo-palatal fricative</td>
             <td>śpi</td>
-            <td><span class="ipa">[ɕpʲi]</span></td>
+            <td><span class="ipa">[ɕpi]</span></td>
         </tr>
         <tr>
             <td><strong>ź</strong></td>
@@ -937,7 +944,7 @@
     </table>
 
     <h3>4. Palatalized (Soft) Consonants Before "i"</h3>
-    <p>When consonants are followed by the letter <strong>i</strong>, they undergo palatalization. If <em>i</em> is followed by a vowel, it remains a silent palatal glide marker (marked as <span class="ipa">/ʲ/</span> or <span class="ipa">/j/</span>). If followed by a consonant or word-finally, it acts both as the softening marker and the vowel nucleus <span class="ipa">/i/</span>:</p>
+    <p>Before a vowel letter, <strong>i</strong> is not a vowel of its own. After the coronals <em>c, dz, s, z, n</em> it turns them into the separate soft consonants <span class="ipa">t͡ɕ, d͡ʑ, ɕ, ʑ, ɲ</span>; after labials and velars the module writes it as the glide <span class="ipa">j</span>. Before a consonant or at the end of a word, <em>i</em> is the vowel <span class="ipa">i</span>. Consonants before <span class="ipa">i</span> and <span class="ipa">j</span> are slightly palatalized in speech, but the module does not mark this with <span class="ipa">ʲ</span>:</p>
     <table>
         <thead>
         <tr>
@@ -951,101 +958,101 @@
         <tbody>
         <tr>
             <td><strong>ci</strong></td>
-            <td><span class="ipa">/t͡ɕ/</span></td>
-            <td>ciasto <span class="ipa">[ˈt͡ɕastɔ]</span></td>
             <td><span class="ipa">/t͡ɕi/</span></td>
-            <td>cicho <span class="ipa">[ˈt͡ɕixɔ]</span></td>
+            <td>ciasto <span class="ipa">[ˈt͡ɕas.tɔ]</span></td>
+            <td><span class="ipa">/t͡ɕi/</span></td>
+            <td>cicho <span class="ipa">[ˈt͡ɕi.xɔ]</span></td>
         </tr>
         <tr>
             <td><strong>dzi</strong></td>
-            <td><span class="ipa">/d͡ʑ/</span></td>
-            <td>działo <span class="ipa">[ˈd͡ʑawɔ]</span></td>
             <td><span class="ipa">/d͡ʑi/</span></td>
-            <td>dziki <span class="ipa">[ˈd͡ʑikʲi]</span></td>
+            <td>działo <span class="ipa">[ˈd͡ʑa.wɔ]</span></td>
+            <td><span class="ipa">/d͡ʑi/</span></td>
+            <td>dziki <span class="ipa">[ˈd͡ʑi.ki]</span></td>
         </tr>
         <tr>
             <td><strong>si</strong></td>
             <td><span class="ipa">/ɕ/</span></td>
-            <td>siarka <span class="ipa">[ˈɕarka]</span></td>
+            <td>siarka <span class="ipa">[ˈɕar.ka]</span></td>
             <td><span class="ipa">/ɕi/</span></td>
-            <td>siła <span class="ipa">[ˈɕiwa]</span></td>
+            <td>siła <span class="ipa">[ˈɕi.wa]</span></td>
         </tr>
         <tr>
             <td><strong>zi</strong></td>
             <td><span class="ipa">/ʑ/</span></td>
-            <td>ziarno <span class="ipa">[ˈʑarnɔ]</span></td>
+            <td>ziarno <span class="ipa">[ˈʑar.nɔ]</span></td>
             <td><span class="ipa">/ʑi/</span></td>
-            <td>zima <span class="ipa">[ˈʑima]</span></td>
+            <td>zima <span class="ipa">[ˈʑi.ma]</span></td>
         </tr>
         <tr>
             <td><strong>ni</strong></td>
             <td><span class="ipa">/ɲ/</span></td>
-            <td>niebo <span class="ipa">[ˈɲɛbɔ]</span></td>
+            <td>niebo <span class="ipa">[ˈɲɛ.bɔ]</span></td>
             <td><span class="ipa">/ɲi/</span></td>
-            <td>niski <span class="ipa">[ˈɲiskʲi]</span></td>
+            <td>niski <span class="ipa">[ˈɲis.ki]</span></td>
         </tr>
         <tr>
             <td><strong>bi</strong></td>
-            <td><span class="ipa">/bʲ/</span> or <span class="ipa">/bʲj/</span></td>
-            <td>biały <span class="ipa">[ˈbʲawɨ]</span></td>
-            <td><span class="ipa">/bʲi/</span></td>
-            <td>bitwa <span class="ipa">[ˈbʲitfa]</span></td>
+            <td><span class="ipa">/bj/</span></td>
+            <td>biały <span class="ipa">[ˈbja.wɨ]</span></td>
+            <td><span class="ipa">/bi/</span></td>
+            <td>bitwa <span class="ipa">[ˈbit.fa]</span></td>
         </tr>
         <tr>
             <td><strong>pi</strong></td>
-            <td><span class="ipa">/pʲ/</span> or <span class="ipa">/pʲj/</span></td>
-            <td>pies <span class="ipa">[pʲjɛs]</span></td>
-            <td><span class="ipa">/pʲi/</span></td>
-            <td>piwo <span class="ipa">[ˈpʲivɔ]</span></td>
+            <td><span class="ipa">/pj/</span></td>
+            <td>pies <span class="ipa">[pjɛs]</span></td>
+            <td><span class="ipa">/pi/</span></td>
+            <td>piwo <span class="ipa">[ˈpi.vɔ]</span></td>
         </tr>
         <tr>
             <td><strong>wi</strong></td>
-            <td><span class="ipa">/vʲ/</span> or <span class="ipa">/vʲj/</span></td>
-            <td>wiatr <span class="ipa">[vʲjatr]</span></td>
-            <td><span class="ipa">/vʲi/</span></td>
-            <td>wino <span class="ipa">[ˈvʲinɔ]</span></td>
+            <td><span class="ipa">/vj/</span></td>
+            <td>wiatr <span class="ipa">[vjatr]</span></td>
+            <td><span class="ipa">/vi/</span></td>
+            <td>wino <span class="ipa">[ˈvi.nɔ]</span></td>
         </tr>
         <tr>
             <td><strong>fi</strong></td>
-            <td><span class="ipa">/fʲ/</span> or <span class="ipa">/fʲj/</span></td>
-            <td>fiord <span class="ipa">[fʲjɔrt]</span></td>
-            <td><span class="ipa">/fʲi/</span></td>
-            <td>figa <span class="ipa">[ˈfʲiɡa]</span></td>
+            <td><span class="ipa">/fj/</span></td>
+            <td>fiord <span class="ipa">[fjɔrt]</span></td>
+            <td><span class="ipa">/fi/</span></td>
+            <td>figa <span class="ipa">[ˈfi.ɡa]</span></td>
         </tr>
         <tr>
             <td><strong>mi</strong></td>
-            <td><span class="ipa">/mʲ/</span> or <span class="ipa">/mʲj/</span></td>
-            <td>miasto <span class="ipa">[ˈmʲastɔ]</span></td>
-            <td><span class="ipa">/mʲi/</span></td>
-            <td>mili <span class="ipa">[ˈmʲilʲi]</span></td>
+            <td><span class="ipa">/mj/</span></td>
+            <td>miasto <span class="ipa">[ˈmjas.tɔ]</span></td>
+            <td><span class="ipa">/mi/</span></td>
+            <td>mili <span class="ipa">[ˈmi.li]</span></td>
         </tr>
         <tr>
             <td><strong>ki</strong></td>
-            <td><span class="ipa">/kʲ/</span> or <span class="ipa">/kʲj/</span></td>
-            <td>kiedy <span class="ipa">[ˈkʲɛdɨ]</span></td>
-            <td><span class="ipa">/kʲi/</span></td>
-            <td>kino <span class="ipa">[ˈkʲinɔ]</span></td>
+            <td><span class="ipa">/kj/</span></td>
+            <td>kiedy <span class="ipa">[ˈkjɛ.dɨ]</span></td>
+            <td><span class="ipa">/ki/</span></td>
+            <td>kino <span class="ipa">[ˈki.nɔ]</span></td>
         </tr>
         <tr>
             <td><strong>gi</strong></td>
-            <td><span class="ipa">/ɡʲ/</span> or <span class="ipa">/ɡʲj/</span></td>
-            <td>giąć <span class="ipa">[ɡʲɔɲt͡ɕ]</span></td>
-            <td><span class="ipa">/ɡʲi/</span></td>
-            <td>gips <span class="ipa">[ɡʲips]</span></td>
+            <td><span class="ipa">/ɡj/</span></td>
+            <td>giąć <span class="ipa">[ɡjɔɲt͡ɕ]</span></td>
+            <td><span class="ipa">/ɡi/</span></td>
+            <td>gips <span class="ipa">[ɡips]</span></td>
         </tr>
         <tr>
             <td><strong>hi, chi</strong></td>
-            <td><span class="ipa">/xʲ/</span> or <span class="ipa">/xʲj/</span></td>
-            <td>hiena <span class="ipa">[ˈxʲɛna]</span></td>
-            <td><span class="ipa">/xʲi/</span></td>
-            <td>chichot <span class="ipa">[ˈxʲixɔt]</span></td>
+            <td><span class="ipa">/xj/</span></td>
+            <td>hiena <span class="ipa">[ˈxjɛ.na]</span></td>
+            <td><span class="ipa">/xi/</span></td>
+            <td>chichot <span class="ipa">[ˈxi.xɔt]</span></td>
         </tr>
         <tr>
             <td><strong>li</strong></td>
-            <td><span class="ipa">/lʲ/</span></td>
-            <td>liść <span class="ipa">[lʲiɕt͡ɕ]</span></td>
-            <td><span class="ipa">/lʲi/</span></td>
-            <td>list <span class="ipa">[lʲist]</span></td>
+            <td><span class="ipa">/lj/</span></td>
+            <td>liana <span class="ipa">[ˈlja.na]</span></td>
+            <td><span class="ipa">/li/</span></td>
+            <td>list <span class="ipa">[list]</span></td>
         </tr>
         </tbody>
     </table>
@@ -1075,7 +1082,7 @@
         <tr>
             <td>Regressive (before voiceless consonant)</td>
             <td>babka</td>
-            <td><span class="ipa">[ˈbapka]</span></td>
+            <td><span class="ipa">[ˈbap.ka]</span></td>
         </tr>
         <tr>
             <td rowspan="2"><strong>d</strong></td>
@@ -1088,7 +1095,7 @@
         <tr>
             <td>Regressive (before voiceless consonant)</td>
             <td>wódka</td>
-            <td><span class="ipa">[ˈvutka]</span></td>
+            <td><span class="ipa">[ˈvut.ka]</span></td>
         </tr>
         <tr>
             <td rowspan="2"><strong>g</strong></td>
@@ -1101,7 +1108,7 @@
         <tr>
             <td>Regressive (before voiceless consonant)</td>
             <td>lekki</td>
-            <td><span class="ipa">[ˈlɛkʲi]</span></td>
+            <td><span class="ipa">[ˈlɛk.ki]</span></td>
         </tr>
         <tr>
             <td rowspan="2"><strong>w</strong></td>
@@ -1127,7 +1134,7 @@
         <tr>
             <td>Regressive (before voiceless consonant)</td>
             <td>rozkaz</td>
-            <td><span class="ipa">[ˈrɔskas]</span></td>
+            <td><span class="ipa">[ˈrɔs.kas]</span></td>
         </tr>
         <tr>
             <td rowspan="2"><strong>ż, rz</strong></td>
@@ -1140,7 +1147,7 @@
         <tr>
             <td>Regressive (before voiceless consonant)</td>
             <td>drzewko</td>
-            <td><span class="ipa">[ˈdʐɛfkɔ]</span></td>
+            <td><span class="ipa">[ˈdʐɛf.kɔ]</span></td>
         </tr>
         <tr>
             <td><strong>dz</strong></td>
@@ -1164,7 +1171,7 @@
             <td><span class="ipa">/ɕ/</span></td>
             <td>Word-final (devoicing)</td>
             <td>gałąź</td>
-            <td><span class="ipa">[ˈɡawɔɲɕ]</span></td>
+            <td><span class="ipa">[ˈɡa.wɔɲɕ]</span></td>
         </tr>
         <tr>
             <td><strong>k</strong></td>
@@ -1172,7 +1179,7 @@
             <td><span class="ipa">/ɡ/</span></td>
             <td>Regressive voicing (before voiced obstruent)</td>
             <td>także</td>
-            <td><span class="ipa">[ˈtaɡʐɛ]</span></td>
+            <td><span class="ipa">[ˈtaɡ.ʐɛ]</span></td>
         </tr>
         <tr>
             <td><strong>p</strong></td>
@@ -1180,7 +1187,7 @@
             <td><span class="ipa">/b/</span></td>
             <td>Regressive voicing (before voiced obstruent)</td>
             <td>jakby</td>
-            <td><span class="ipa">[ˈjaɡbɨ]</span></td>
+            <td><span class="ipa">[ˈjaɡ.bɨ]</span></td>
         </tr>
         <tr>
             <td><strong>t</strong></td>
@@ -1188,7 +1195,7 @@
             <td><span class="ipa">/d/</span></td>
             <td>Regressive voicing (before voiced obstruent)</td>
             <td>liczba</td>
-            <td><span class="ipa">[ˈlʲid͡ʐba]</span> (with cz → dż)</td>
+            <td><span class="ipa">[ˈlid͡ʐ.ba]</span> (with cz → dż)</td>
         </tr>
         <tr>
             <td><strong>ś</strong></td>
@@ -1196,7 +1203,7 @@
             <td><span class="ipa">/ʑ/</span></td>
             <td>Regressive voicing (before voiced obstruent)</td>
             <td>prośba</td>
-            <td><span class="ipa">[ˈprɔʑba]</span></td>
+            <td><span class="ipa">[ˈprɔʑ.ba]</span></td>
         </tr>
         <tr>
             <td><strong>ch, h</strong></td>
@@ -1204,7 +1211,7 @@
             <td><span class="ipa">/ɣ/</span></td>
             <td>Regressive voicing (before voiced obstruent)</td>
             <td>niechże</td>
-            <td><span class="ipa">[ˈɲɛɣʐɛ]</span></td>
+            <td><span class="ipa">[ˈɲɛɣ.ʐɛ]</span></td>
         </tr>
         </tbody>
     </table>
@@ -1227,7 +1234,7 @@
             <td><span class="ipa">/ks/</span></td>
             <td>Decomposed to /k/ + /s/</td>
             <td>xero</td>
-            <td><span class="ipa">[ˈksɛrɔ]</span></td>
+            <td><span class="ipa">[ˈksɛ.rɔ]</span></td>
         </tr>
         <tr>
             <td><strong>q</strong></td>
@@ -1241,14 +1248,14 @@
             <td><span class="ipa">/v/</span></td>
             <td>Mapped directly to voiced labiodental fricative (same as <em>w</em>)</td>
             <td>video</td>
-            <td><span class="ipa">[viˈdɛɔ]</span></td>
+            <td><span class="ipa">[viˈdɛ.ɔ]</span></td>
         </tr>
         <tr>
             <td><strong>th</strong></td>
             <td><span class="ipa">/t/</span> + <span class="ipa">/x/</span></td>
             <td>Not a digraph; t maps to /t/, h maps to /x/</td>
             <td>theatre</td>
-            <td><span class="ipa">[txɛˈatrɛ]</span></td>
+            <td><span class="ipa">[txɛˈat.rɛ]</span></td>
         </tr>
         <tr>
             <td><strong>ph</strong></td>
@@ -1262,10 +1269,26 @@
             <td><span class="ipa">/kf/</span></td>
             <td>q+u mapped to /k/+/v/; /v/ devoices to /f/ after voiceless /k/</td>
             <td>quasi</td>
-            <td><span class="ipa">[ˈkfaɕi]</span></td>
+            <td><span class="ipa">[ˈkfa.ɕi]</span></td>
         </tr>
         </tbody>
     </table>
+
+    <hr>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Why is the stress in a verb form not where I expect it?</h3>
+    <p>The module works from spelling alone and places stress on the penultimate syllable by default. It recognises the conditional endings <em>-by, -byś, -byśmy, -byście</em> but not the past-tense endings <em>-śmy</em> and <em>-ście</em>, so <em>zrobiliśmy</em> is output as <span class="ipa">[zrɔ.biˈliɕ.mɨ]</span> rather than with the prescriptive antepenultimate stress. See <a href="#stress">Stress Patterns &amp; Exceptions</a>. <a href="../?lang=Polish&amp;text=zrobili%C5%9Bmy">Open in the converter</a></p>
+
+    <h3>How do I force the stress onto a particular syllable?</h3>
+    <p>Type an apostrophe directly before the stressed syllable: <em>zro'biliśmy</em> gives <span class="ipa">[zrɔˈbiliɕmɨ]</span>. A word marked in this way is output without syllable dots, and an acute accent on a vowel is not understood as a stress mark. Details are in <a href="#stress">Stress Patterns &amp; Exceptions</a>.</p>
+
+    <h3>Does the tool use a dictionary?</h3>
+    <p>No. Polish transcription is generated entirely from spelling rules, so every word receives exactly one transcription and there are no variants to cycle through. Words whose stress or pronunciation is not covered by the rules, such as some loanwords and compounds, are transcribed by the default rules; see <a href="#issues">Known Issues &amp; Limitations</a>.</p>
+
+    <h3>Why are consonants before <em>i</em> not marked as palatalized?</h3>
+    <p>Consonants before <em>i</em> are slightly palatalized in speech, but the module does not mark this with <span class="ipa">ʲ</span>; <em>pili</em> is output as <span class="ipa">[ˈpi.li]</span>. See <a href="#palatalization">Palatalization &amp; Soft Consonants</a>.</p>
 
     <hr>
 
@@ -1446,7 +1469,7 @@ Raw Polish Word
         <tbody>
         <tr>
             <td><em>Rzeczpospolita</em></td>
-            <td><span class="ipa">[ˈʐɛt͡ʂpɔspɔlʲita]</span></td>
+            <td><span class="ipa">[ʐɛt͡ʂ.pɔs.pɔˈli.ta]</span></td>
             <td>Stress on <em>-po-</em></td>
             <td>Compound boundary not detected; defaults to penultimate</td>
         </tr>
@@ -1458,7 +1481,7 @@ Raw Polish Word
         </tr>
         <tr>
             <td><em>partner</em></td>
-            <td><span class="ipa">[ˈpartnɛr]</span></td>
+            <td><span class="ipa">[ˈpar.tnɛr]</span></td>
             <td><span class="ipa">[ˈpartnɛr]</span></td>
             <td>Correct — but stress may vary in casual speech</td>
         </tr>
@@ -1477,8 +1500,16 @@ Raw Polish Word
     <ul>
         <li><a href="https://en.wikipedia.org/wiki/Polish_phonology" target="_blank" rel="noopener noreferrer">Polish Phonology (Wikipedia)</a></li>
         <li><a href="https://www.internationalphoneticassociation.org" target="_blank" rel="noopener noreferrer">International Phonetic Association (IPA)</a></li>
-        <li><a href="https://rhapsody.wz.uw.edu.pl/" target="_blank" rel="noopener noreferrer">Polish Pronouncing Dictionary (Rhapsody)</a></li>
+        
     </ul>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for other Slavic languages in this tool:
+        <a href="czech.html">Czech</a>,
+        <a href="russian.html">Russian</a>,
+        <a href="ukrainian.html">Ukrainian</a>,
+        <a href="belorussian.html">Belarusian</a>,
+        <a href="index.html">all languages</a>.</p>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

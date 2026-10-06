@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portuguese IPA Transcription - Help</title>
+    <title>Brazilian and European Portuguese Pronunciation: IPA Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Portuguese pronunciation in IPA for Brazil (Rio) and Portugal: stress, open and closed e and o, nasal vowels, t and d before i, coda s and l.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/portuguese.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Brazilian and European Portuguese Pronunciation: IPA Guide">
+    <meta property="og:description" content="Portuguese pronunciation in IPA for Brazil (Rio) and Portugal: stress, open and closed e and o, nasal vowels, t and d before i, coda s and l.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/portuguese.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Brazilian and European Portuguese Pronunciation: IPA Guide","description":"Portuguese pronunciation in IPA for Brazil (Rio) and Portugal: stress, open and closed e and o, nasal vowels, t and d before i, coda s and l.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/portuguese.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Portuguese"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Portuguese","item":"https://hellpanderrr.github.io/wiktionary_pron/help/portuguese.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,146 +24,1510 @@
 </head>
 <body>
 <div id="content">
-    <h1>Portuguese IPA Transcription - Help</h1>
+    <h1>Brazilian and European Portuguese Pronunciation: IPA Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Portuguese">← Back to Portuguese transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+<h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#errors">Important Note: Why You Might See an Error</a>
+                    <ul>
+                        <li><a href="#err-stress">1. Ambiguous Stressed Vowels (e and o)</a></li>
+                        <li><a href="#err-x">2. The Irregular Letter x</a></li>
+                        <li><a href="#err-display">3. What the App Shows When It Fails</a></li>
+                        <li><a href="#err-input">4. What You Can (and Cannot) Type</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Portuguese Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#respelling">Spelling, Accent Marks and Respelling</a></li>
+                <li><a href="#stress">Stress Patterns</a></li>
+                <li><a href="#open-closed">Open and Closed e / o</a></li>
+                <li><a href="#reduction">Unstressed Vowels and Vowel Reduction</a></li>
+                <li><a href="#nasals">Nasal Vowels and Nasal Diphthongs</a></li>
+                <li><a href="#diphthongs">Oral Diphthongs</a></li>
+                <li><a href="#hiatus">Hiatus and Glides</a></li>
+                <li><a href="#palatalization">t / d Before i (Brazil)</a></li>
+                <li><a href="#sibilants">S and Z</a></li>
+                <li><a href="#rhotics">R Sounds</a></li>
+                <li><a href="#laterals">L Sounds</a></li>
+                <li><a href="#consonant-letters">c, g, q, h, ch, lh, nh and Double Letters</a></li>
+                <li><a href="#x-rules">The Letter x</a></li>
+                <li><a href="#stops">Voiced Stops in Portugal (Phonetic Form)</a></li>
+                <li><a href="#syllables">Syllable Division</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a>
+                    <ul>
+                        <li><a href="#map-vowels">1. Vowel Letters</a></li>
+                        <li><a href="#map-nasal">2. Nasal Vowels and Nasal Diphthongs</a></li>
+                        <li><a href="#map-oral-diph">3. Oral Diphthongs</a></li>
+                        <li><a href="#map-consonants">4. Consonant Letters</a></li>
+                        <li><a href="#map-digraphs">5. Digraphs and Doubled Letters</a></li>
+                        <li><a href="#map-s-r-l">6. Context-Dependent s, z, r, l</a></li>
+                        <li><a href="#map-x">7. The Letter x</a></li>
+                        <li><a href="#map-dialect-table">8. Full Dialect Comparison (Quick Reference)</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
+    </ul>
 
+    <h2 id="about">About This Tool</h2>
     <p>This <a href="../?lang=Portuguese">Portuguese transcription app</a> uses the <a
             href="https://en.wiktionary.org/wiki/Module:pt-pronunc" target="_blank" rel="noopener noreferrer">Wiktionary
-        Portuguese Pronunciation
-        Module</a> to generate phonetic/phonemic transcriptions for Portuguese text.</p>
+        Portuguese Pronunciation Module</a> (<code>pt-pronunc</code>, shipped here as
+        <code>lua_modules/pt-pron_wasm.lua</code>) to generate phonetic and phonemic IPA transcriptions for Portuguese
+        text. IPA (International Phonetic Alphabet) is a standardized system for transcribing speech sounds. Phonemic
+        transcription represents the abstract sound system (<a href="#glossary">phonemes</a>), while phonetic
+        transcription shows actual speech variations (<a href="#glossary">allophones</a>).</p>
 
-    <p>The system is exceptionally powerful, capable of modeling numerous regional dialects and subtle phonetic
-        variations. However, it requires specific user input for words with ambiguous pronunciation.</p>
+    <p>Unlike several other languages in this app, Portuguese is <strong>purely rule-based</strong>: there is
+        <strong>no lexicon</strong> and no dictionary lookup. Every word is transcribed from its spelling by the
+        Wiktionary module, which was designed for editors who type a <em>respelling</em> (for example <code>cinêma</code>)
+        whenever the ordinary spelling does not determine the pronunciation. The consequence: where Portuguese spelling is
+        genuinely ambiguous (most notably a stressed <em>e</em> or <em>o</em>, and the letter <em>x</em>), the engine
+        refuses to guess and the app shows an error instead of a possibly wrong answer. See
+        <a href="#errors">Important Note: Why You Might See an Error</a>.</p>
 
-    <h2>Dialects Supported in this App</h2>
-    <p>This tool offers two main dialect choices that represent the major varieties of Portuguese.</p>
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
+    <p>The app offers two dialect choices. Behind them, the app calls the module as
+        <code>window.pt_ipa.IPA(word, region)</code> with <code>region = "rio"</code> for <strong>Brazil</strong> and
+        <code>region = "pt"</code> for <strong>Portugal</strong>.</p>
     <ul>
-        <li><strong>Brazil</strong>: This option generates a transcription based on the <strong>Rio de Janeiro (<em>Carioca</em>)</strong>
-            accent. This is a widely recognized standard known for its palatalized "chiado" 's' sound.
+        <li><strong>Brazil</strong> means specifically the <strong>Rio de Janeiro (<em>carioca</em>)</strong> profile
+            (<code>rio</code>), not a generic "Brazilian" accent. What that implies in practice:
+            <ul>
+                <li>Syllable-final (coda) <em>s</em>/<code>z</code> is <span class="ipa">ʃ</span>/<span class="ipa">ʒ</span>
+                    (the <em>chiado</em>): <em>pastas</em> <span class="ipa">/ˈpaʃ.tɐʃ/</span>. Other Brazilian accents keep <span class="ipa">s</span> there;
+                    those profiles are not selectable here.</li>
+                <li>The "strong r" (<code>rr</code>, initial r, coda r) is <span class="ipa">ʁ</span> phonemically and a voiceless
+                    <span class="ipa">χ</span> phonetically: <em>carro</em> <span class="ipa">/ˈka.ʁu/</span> <em>carro</em> <span class="ipa">[ˈka.χu]</span>.</li>
+                <li><em>t</em>/<em>d</em> before <em>i</em> become affricates: <em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span>.</li>
+                <li>Coda <code>l</code> is <span class="ipa">w</span>: <em>animal</em> <span class="ipa">/a.niˈmaw/</span>.</li>
+                <li>Unstressed final <em>e</em>, <em>o</em>, <code>a</code> are <span class="ipa">i</span>, <span class="ipa">u</span>,
+                    <span class="ipa">ɐ</span>: <em>bonito</em> <span class="ipa">/boˈni.tu/</span>, <em>casa</em> <span class="ipa">/ˈka.zɐ/</span>.</li>
+            </ul>
         </li>
-        <li><strong>Portugal</strong>: This option generates a transcription based on the <strong>General / Standard
-            European Portuguese</strong> accent, often based on the pronunciation of Lisbon.
-        </li>
+        <li><strong>Portugal</strong> means a <strong>generic European Portuguese</strong> transcription. The module has
+            its own profiles named <code>gpt</code> (general Portugal), <code>cpt</code> (central) and <code>spt</code>
+            (southern), but the app passes the code <code>pt</code>, which is <em>not</em> one of them. The module treats
+            any style that is not Brazilian as "Portugal" and applies its extra regional rules only for exact style
+            names: the lowering of <code>ei</code> to <span class="ipa">ɐj</span> only for <code>gpt</code>, and the
+            monophthongization of <em>ei</em>/<em>ou</em> only for <code>spt</code>. With <code>pt</code> neither fires,
+            so the output equals that of <code>cpt</code>: for example <em>beijo</em> <span class="ipa">/ˈbej.ʒu/</span> keeps <span class="ipa">ej</span>.</li>
     </ul>
 
-    <h2>Transcription Forms</h2>
-    <p>You can choose between two levels of detail for the IPA transcription, depending on your needs.</p>
+    <h3>Profiles Inside the Module (Not All Selectable)</h3>
+    <p>The module defines <strong>seven</strong> styles (<code>export.all_styles</code>). The older version of this page
+        listed an eighth, <code>npt</code> (Northern Portugal); the code does not contain it.</p>
+    <table>
+        <thead>
+        <tr><th>Code</th> <th>Group</th> <th>What it does in the module</th> <th>Used by this app?</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><code>gbr</code></td> <td>Brazil</td> <td>General Brazilian: coda s stays <span class="ipa">s</span>/<span class="ipa">z</span>; phonetic strong r is <span class="ipa">h</span>/<span class="ipa">ɦ</span></td> <td>No</td></tr>
+        <tr><td><code>rio</code></td> <td>Brazil</td> <td>Rio de Janeiro (Carioca): coda s is <span class="ipa">ʃ</span>/<span class="ipa">ʒ</span>; phonetic strong r is <span class="ipa">χ</span>/<span class="ipa">ʁ</span></td> <td><strong>Yes</strong> (the "Brazil" option)</td></tr>
+        <tr><td><code>sp</code></td> <td>Brazil</td> <td>São Paulo (Paulistano): coda r stays a tap <span class="ipa">ɾ</span></td> <td>No</td></tr>
+        <tr><td><code>sbr</code></td> <td>Brazil</td> <td>Southern Brazil: no raising of final <em>e</em>/<code>o</code>, coda r is <span class="ipa">ɻ</span>, no nasalization of a stressed vowel before m/n/nh</td> <td>No</td></tr>
+        <tr><td><code>gpt</code></td> <td>Portugal</td> <td>General Portugal: <code>ei</code> lowered to <span class="ipa">ɐj</span></td> <td>No (the app's "Portugal" is plain <code>pt</code>)</td></tr>
+        <tr><td><code>cpt</code></td> <td>Portugal</td> <td>Central Portugal outside Lisbon (no rules of its own in this version)</td> <td>No (but identical in output to the app's "Portugal")</td></tr>
+        <tr><td><code>spt</code></td> <td>Portugal</td> <td>Southern Portugal: <em>ei</em> and <em>ou</em> become monophthongs</td> <td>No</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Limitations</h3>
     <ul>
-        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
-            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said. For example, it will
-            show the fricative pronunciation of 'b' between vowels in Portugal, as in <em>saber</em>
-            <code>[sɐˈβeɾ]</code>.
-        </li>
+        <li><strong>Supported:</strong> Rio de Janeiro Portuguese (Brazil) and a generic European Portuguese (Portugal).</li>
+        <li><strong>Not selectable:</strong> São Paulo, southern Brazilian, <code>gpt</code>-specific, southern Portuguese, African or
+            Asian varieties, and every other regional accent.</li>
+        <li><strong>No lexicon:</strong> loanwords, names and irregular words are transcribed from their spelling, so many
+            need a respelling (see <a href="#issues">Common Issues</a>).</li>
+        <li><strong>One word at a time:</strong> the app splits your text at spaces and transcribes every word on its own, so
+            rules that look across word boundaries (for example <code>s</code> becoming <span class="ipa">z</span> before a
+            vowel in the next word) never apply.</li>
+        <li><strong>Only the first variant is shown:</strong> see <a href="#variants">Multiple Pronunciation Variants</a>.</li>
+        <li><strong>Two engine bugs</strong> make some ordinary words fail: Brazilian words ending in stressed
+            <em>-io(s)</em> and Portuguese words ending in <em>-le</em>. See <a href="#issues">Common Issues</a>.</li>
+    </ul>
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <p>On this page <code>/slashes/</code> mark a phonemic transcription and <code>[square brackets]</code> a phonetic one; the app itself prints the bare IPA without either symbol.</p>
+    <ul>
         <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language. For example,
-            <em>saber</em> would be shown as <code>/sɐˈbeɾ/</code>.
+            for distinguishing meaning (phonemes). It represents the abstract sound system of the language. Optional
+            sounds are shown in parentheses, for example the optional final vowel in the Portugal transcription
+            <em>cidade</em> <span class="ipa">/siˈda.d(ɨ)/</span>.
+        </li>
+        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
+            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said. In the module,
+            phonetic output is the phonemic output plus a short list of allophonic rules.
+        </li>
+    </ul>
+    <p>Both forms are produced by the same code path, only with a <code>phonetic</code> flag. The phonetic form differs
+        from the phonemic form in exactly these ways:</p>
+    <table>
+        <thead>
+        <tr><th>Dialect</th> <th>Difference in the phonetic form</th> <th>Phonemic</th> <th>Phonetic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil</td> <td>Second part of a diphthong is a short glide <span class="ipa">ɪ̯</span>/<span class="ipa">ʊ̯</span> instead of <span class="ipa">j</span>/<span class="ipa">w</span></td> <td><em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td><em>mau</em> <span class="ipa">[ˈmaʊ̯]</span></td></tr>
+        <tr><td>Brazil</td> <td>Strong r is <span class="ipa">χ</span> (or <span class="ipa">ʁ</span> before a voiced consonant) instead of <span class="ipa">ʁ</span></td> <td><em>rato</em> <span class="ipa">/ˈʁa.tu/</span></td> <td><em>rato</em> <span class="ipa">[ˈχa.tu]</span></td></tr>
+        <tr><td>Brazil</td> <td>Non-initial <code>nh</code> is a nasal glide <span class="ipa">j̃</span> instead of <span class="ipa">ɲ</span></td> <td><em>banho</em> <span class="ipa">/ˈbɐ̃.ɲu/</span></td> <td><em>banho</em> <span class="ipa">[ˈbɐ̃.j̃u]</span></td></tr>
+        <tr><td>Brazil</td> <td>Unstressed <em>i</em>/<code>u</code> before another vowel are lax <span class="ipa">ɪ</span>/<span class="ipa">ʊ</span></td> <td><em>ciúme</em> <span class="ipa">/siˈũ.mi/</span></td> <td><em>ciúme</em> <span class="ipa">[sɪˈũ.mi]</span></td></tr>
+        <tr><td>Portugal</td> <td>Voiced stops <code>b d g</code> become fricatives <span class="ipa">β ð ɣ</span> (except in the contexts described under <a href="#stops">Voiced Stops in Portugal</a>)</td> <td><em>cidade</em> <span class="ipa">/siˈda.d(ɨ)/</span></td> <td><em>cidade</em> <span class="ipa">[siˈða.ð(ɨ)]</span></td></tr>
+        <tr><td>Portugal</td> <td>Coda <code>l</code> is dark <span class="ipa">ɫ</span> instead of <span class="ipa">l</span></td> <td><em>animal</em> <span class="ipa">/ɐ.niˈmal/</span></td> <td><em>animal</em> <span class="ipa">[ɐ.niˈmaɫ]</span></td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="errors">Important Note: Why You Might See an Error</h2>
+    <p>This transcription engine is designed not to guess. Because Portuguese spelling is not always perfectly phonetic,
+        the engine will <strong>intentionally refuse</strong> to transcribe a word when the spelling leaves a sound
+        undetermined. To fix this, you need to provide a <strong>"respelling"</strong> in the input box that clarifies
+        the intended sound. The two most common reasons are described below.</p>
+
+    <h3 id="err-stress">1. Ambiguous Stressed Vowels (e and o)</h3>
+    <p>This is the most common cause of errors. In Portuguese, a stressed <em>e</em> or <code>o</code> can be open
+        (<span class="ipa">ɛ</span>, <span class="ipa">ɔ</span>) or closed (<span class="ipa">e</span>, <span class="ipa">o</span>),
+        but standard spelling often does not use an accent mark to show which. There is <strong>no default</strong>: the
+        engine does not pick one.</p>
+    <p><strong>Example:</strong> The word <em>governo</em> has stress on the <em>e</em>, but the engine cannot know whether
+        it is open or closed, so it fails: <em>governo</em> (error). The same happens for <em>ele</em> (error),
+        <em>hoje</em> (error), <em>mesa</em> (error) and <em>saber</em> (error).</p>
+    <p><strong>Solution:</strong> Add an accent mark to the stressed vowel to specify its quality.</p>
+    <ul>
+        <li>For a <strong>closed</strong> sound, use a circumflex: <code>govêrno</code> gives <em>govêrno</em> <span class="ipa">/ɡoˈveʁ.nu/</span> in Brazil and
+            <em>govêrno</em> <span class="ipa">/ɡuˈveɾ.nu/</span> in Portugal.</li>
+        <li>For an <strong>open</strong> sound, use an acute accent: <code>féra</code> gives <em>féra</em> <span class="ipa">/ˈfɛ.ɾɐ/</span> and
+            <em>féra</em> <span class="ipa">/ˈfɛ.ɾɐ/</span>; <code>hóje</code> gives <em>hóje</em> <span class="ipa">/ˈɔ.ʒi/</span> and <em>hóje</em> <span class="ipa">/ˈɔ.ʒ(ɨ)/</span>.</li>
+    </ul>
+    <div class="algo-alert">
+        <strong>When no accent is needed.</strong> The engine fills in the vowel quality by itself in several situations, so
+        you only need to mark the cases that remain: a stressed <em>e</em>/<em>o</em> that is nasal (<em>homem</em> <span class="ipa">/ˈõ.mẽj̃/</span>,
+        <em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span>), part of a diphthong (<em>leite</em> <span class="ipa">/ˈlej.t͡ʃi/</span>, <em>pouco</em> <span class="ipa">/ˈpo(w).ku/</span>), in the endings <em>-dor/-tor/-sor</em> and
+        <em>-oso/-osa</em> (<em>invasor</em> <span class="ipa">/ĩ.vaˈzoʁ/</span>, <em>gostoso</em> <span class="ipa">/ɡoʃˈto.zu/</span>, <em>gostosa</em> <span class="ipa">/ɡoʃˈtɔ.zɐ/</span>), or in a hiatus (<em>boa</em> <span class="ipa">/ˈbo.ɐ/</span>). A stressed
+        <em>a</em> never needs a mark. See <a href="#open-closed">Open and Closed e / o</a>.
+    </div>
+    <p>Internally the error text is "Stressed e or o not occurring nasalized or in a diphthong must be marked for quality
+        using é/ê or ó/ô". The app does not display that text; see <a href="#err-display">below</a>.</p>
+
+    <h3 id="err-x">2. The Irregular Letter x</h3>
+    <p>The letter <code>x</code> has several possible pronunciations (<span class="ipa">ʃ</span>, <span class="ipa">z</span>,
+        <span class="ipa">ks</span>, <span class="ipa">s</span>), and in many positions the engine cannot reliably choose.
+        It resolves <em>x</em> only in the cases listed in <a href="#x-rules">The Letter x</a> (initial, final, after
+        <em>ai/ei/oi/ou/en</em>, and before a consonant after <em>e</em>) and fails everywhere else.</p>
+    <p><strong>Example:</strong> The engine fails on <em>exame</em> (error), <em>táxi</em> (error) and
+        <em>lixo</em> (error), but succeeds on <em>caixa</em> <span class="ipa">/ˈkaj.ʃɐ/</span> (because <em>x</em> after <code>ai</code> is
+        always <span class="ipa">ʃ</span>) and on <em>enxame</em> <span class="ipa">/ẽˈʃɐ̃.mi/</span>. The older version of this page listed
+        <em>caixa</em> as a failing example; it does not fail.</p>
+    <p><strong>Solution:</strong> Replace the <em>x</em> with its phonetic equivalent in the input.</p>
+    <ul>
+        <li>For the <span class="ipa">z</span> sound in <em>exame</em>, enter <code>ezame</code>: <em>ezame</em> <span class="ipa">/eˈzɐ̃.mi/</span> (Brazil),
+            <em>ezame</em> <span class="ipa">/iˈzɐ.m(ɨ)/</span> (Portugal).</li>
+        <li>For the <span class="ipa">ks</span> sound in <em>táxi</em>, enter <code>tácsi</code>: <em>tácsi</em> <span class="ipa">/ˈtak.si/</span>,
+            <em>tácsi</em> <span class="ipa">/ˈta.ksi/</span>.</li>
+        <li>For the <span class="ipa">ʃ</span> sound in <em>lixo</em>, enter <code>lisho</code>: <em>lisho</em> <span class="ipa">/ˈli.ʃu/</span>.</li>
+    </ul>
+    <p>The internal error text is "x must be respelled z, sh, cs, ss or similar".</p>
+
+    <h3 id="err-display">3. What the App Shows When It Fails</h3>
+    <p>When the module raises an error, the app catches it and <strong>returns your input word unchanged, marked with the
+        error style</strong> (the word appears as plain, untranscribed text instead of IPA). The explanatory message above
+        is written only to the browser's developer console. Nothing else on the line is affected: every other word is
+        still transcribed.</p>
+
+    <h3 id="err-input">4. What You Can (and Cannot) Type</h3>
+    <p>Before transcription the app removes everything that is not a letter, a combining accent, an apostrophe or a
+        hyphen. This matters for respellings, because the module has an extended respelling notation that therefore
+        cannot be used in this app:</p>
+    <table>
+        <thead>
+        <tr><th>You type</th> <th>Works in the app?</th> <th>Notes</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Accents <code>á é í ó ú â ê ô ã õ ç ü</code></td> <td>Yes</td> <td>Precomposed and combining accents are both accepted. Capital letters are lowercased automatically.</td></tr>
+        <tr><td>Letter substitutions: <code>z</code>, <code>sh</code>, <code>cs</code>, <code>ss</code>, <code>h</code></td> <td>Yes</td> <td>For example <code>marh</code> forces a final r to stay pronounced without parentheses (see <a href="#rhotics">R Sounds</a>).</td></tr>
+        <tr><td>Hyphen <code>-</code></td> <td>Yes</td> <td>Splits a word into components; each component gets its own stress and earlier ones become secondary stress: <em>guarda-chuva</em> <span class="ipa">/ˌɡwaʁ.dɐˈʃu.vɐ/</span>.</td></tr>
+        <tr><td>Apostrophe <code>'</code></td> <td>Yes</td> <td>Becomes a tie mark: <em>d'água</em> <span class="ipa">/ˈd‿a.ɡwɐ/</span>.</td></tr>
+        <tr><td>Grave accent / macron (<code>à</code>, <code>ō</code>)</td> <td>Portugal only</td> <td>In the module these mean "explicitly unstressed open / closed vowel" for Portugal only. In Brazil they are deleted, so <code>sòlo</code> fails in Brazil (stressed o unmarked) but gives <em>sòlo</em> <span class="ipa">/sɔ.lu/</span> in Portugal.</td></tr>
+        <tr><td>Dot <code>.</code>, <code>^</code>, <code>*</code>, <code>+</code>, <code>:</code>, <code>#</code>, comma, digits, <code>?</code>, <code>!</code></td> <td>No</td> <td>These are stripped before the engine sees them, so the module's syllable-forcing dot, optional-vowel markers (<code>e^</code>, <code>i^</code>) and component markers (<code>+</code>, <code>:</code>) are unavailable. <code>ri.o</code> becomes <code>rio</code>.</td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound in a language that distinguishes meaning (e.g., /p/ vs. /b/ in "pata" vs. "bata").
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning (e.g., <span class="ipa">b</span>
+            vs. <span class="ipa">β</span> in Portugal).
+        </dd>
+
+        <dt>Respelling</dt>
+        <dd>An alternative spelling you type to tell the engine how a word is pronounced, for example
+            <code>govêrno</code> for <em>governo</em> or <code>ezame</code> for <em>exame</em>. The module was built around
+            respellings.
+        </dd>
+
+        <dt>Open / Closed Vowel</dt>
+        <dd>Portuguese distinguishes open <span class="ipa">ɛ ɔ</span> from closed <span class="ipa">e o</span> in stressed
+            syllables. Spelling marks them with an acute (é, ó) and a circumflex (ê, ô).
+        </dd>
+
+        <dt>Oxytone / Paroxytone</dt>
+        <dd>A word stressed on its last syllable (<em>feliz</em> <span class="ipa">/feˈliʃ/</span>) or on its second-to-last syllable
+            (<em>casa</em> <span class="ipa">/ˈka.zɐ/</span>).
+        </dd>
+
+        <dt>Vowel Reduction</dt>
+        <dd>Weakening of unstressed vowels. In Portugal it is strong (<code>e</code> to <span class="ipa">ɨ</span>, <code>a</code> to
+            <span class="ipa">ɐ</span>, <code>o</code> to <span class="ipa">u</span>); in Brazil it is mostly limited to the
+            word end (final <code>e</code> to <span class="ipa">i</span>, <code>o</code> to <span class="ipa">u</span>).
+        </dd>
+
+        <dt>Schwa-like Vowel ɨ</dt>
+        <dd>A close central unrounded vowel; in this module the reduced form of unstressed <code>e</code> in Portugal. It is
+            often dropped, which the output shows as <span class="ipa">(ɨ)</span>.
+        </dd>
+
+        <dt>Nasal Vowel</dt>
+        <dd>A vowel pronounced with air also passing through the nose, marked with a tilde: <span class="ipa">ɐ̃ ẽ ĩ õ ũ</span>.
+            Spelled with <em>ã/õ</em> or with <em>m</em>/<em>n</em> after the vowel.
+        </dd>
+
+        <dt>Nasal Diphthong</dt>
+        <dd>A nasal vowel followed by a nasal glide: <span class="ipa">ɐ̃w̃</span> (<code>ão</code>), <span class="ipa">ɐ̃j̃</span>
+            (<code>ãe</code>), <span class="ipa">õj̃</span> (<code>õe</code>), <span class="ipa">ẽj̃</span> (<em>-em</em>).
+        </dd>
+
+        <dt>Diphthong / Glide</dt>
+        <dd>A vowel plus a short non-syllabic <span class="ipa">j</span> or <span class="ipa">w</span> (written <em>i/u</em>) in the
+            same syllable, e.g. <em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>mau</em> <span class="ipa">/ˈmaw/</span>.
+        </dd>
+
+        <dt>Hiatus</dt>
+        <dd>Two vowels in adjacent syllables with no consonant between them, e.g. <em>saída</em> <span class="ipa">/saˈi.dɐ/</span>. In some
+            contexts the second vowel may be pronounced as a glide.
+        </dd>
+
+        <dt>Palatalization</dt>
+        <dd>Shift of a sound towards the hard palate; in Brazil <em>t</em>/<em>d</em> before <code>i</code> become
+            <span class="ipa">t͡ʃ</span>/<span class="ipa">d͡ʒ</span>.
+        </dd>
+
+        <dt>Affricate / Tie Bar</dt>
+        <dd>A stop released as a fricative, written with a tie bar over the two symbols: <span class="ipa">t͡ʃ</span>,
+            <span class="ipa">d͡ʒ</span>.
+        </dd>
+
+        <dt>Tap</dt>
+        <dd>A single quick tongue-tip flap, <span class="ipa">ɾ</span>, as in the middle of <em>caro</em> <span class="ipa">/ˈka.ɾu/</span>.
+        </dd>
+
+        <dt>Strong R</dt>
+        <dd>The "rr" sound, <span class="ipa">ʁ</span> in the phonemic form, as in <em>carro</em> <span class="ipa">/ˈka.ʁu/</span>. In Rio it is
+            phonetically the voiceless uvular fricative <span class="ipa">χ</span>.
+        </dd>
+
+        <dt>Chiado</dt>
+        <dd>The "hushing" pronunciation of syllable-final <em>s</em>/<code>z</code> as <span class="ipa">ʃ</span>/<span class="ipa">ʒ</span>,
+            typical of Rio and of Portugal.
+        </dd>
+
+        <dt>Velarized L</dt>
+        <dd>The dark <span class="ipa">ɫ</span> that Portugal uses for coda <code>l</code> in the phonetic form; Brazil vocalizes it
+            to <span class="ipa">w</span>.
+        </dd>
+
+        <dt>Fricativized Stop</dt>
+        <dd>In Portugal's phonetic form, <code>b d g</code> between vowels are pronounced <span class="ipa">β ð ɣ</span>.
+        </dd>
+
+        <dt>Epenthesis</dt>
+        <dd>Insertion of a sound. The Brazilian output inserts an optional <span class="ipa">(j)</span> after a stressed vowel
+            before final <em>s</em>/<em>z</em>, e.g. <em>faz</em> <span class="ipa">/ˈfa(j)ʃ/</span>. (Epenthetic <span class="ipa">i</span> inside
+            consonant clusters is <em>not</em> inserted automatically.)
+        </dd>
+
+        <dt>Coda / Onset</dt>
+        <dd>The final consonant(s) / initial consonant(s) of a syllable.
+        </dd>
+
+        <dt>Syllable Boundary</dt>
+        <dd>The marker <span class="ipa">.</span> placed between syllables in the output.
+        </dd>
+
+        <dt>Primary / Secondary Stress</dt>
+        <dd>Marked <span class="ipa">ˈ</span> and <span class="ipa">ˌ</span> before the stressed syllable. Only the last
+            stressed syllable of a word keeps primary stress; earlier ones (for example in compounds, prefixes and
+            <em>-mente</em> adverbs) are downgraded to secondary.
+        </dd>
+
+        <dt>Unstressed Word (Clitic)</dt>
+        <dd>A short word that carries no stress of its own: articles, many prepositions and object pronouns (<em>o, a, de,
+            que, me, se</em> ...). The module has fixed lists of them and treats them with or without vowel reduction.
+        </dd>
+
+        <dt>Optional Sound</dt>
+        <dd>A sound shown in parentheses, e.g. <span class="ipa">(j)</span>, <span class="ipa">(ɨ)</span>, <span class="ipa">(ʁ)</span>:
+            it may or may not be pronounced.
+        </dd>
+
+        <dt>NFD</dt>
+        <dd>Unicode Normalization Form Decomposed: letters with accents are split into base letter plus combining accent for
+            processing (except <em>ç</em> and <em>ü</em>, which are re-composed).
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This section lists the IPA symbols that the engine actually emits for the "Brazil" (Rio) and "Portugal" options
+        and gives approximate English equivalents where possible. Examples are real engine output; the column or note says
+        which dialect and form each one comes from.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr><th>IPA</th> <th>Example</th> <th>English Approximation</th> <th>Notes</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">a</span></td> <td><em>pá</em> <span class="ipa">/ˈpa/</span></td> <td>"father"</td> <td>Open front vowel; the only quality of a stressed <em>a</em> without special context</td></tr>
+        <tr><td><span class="ipa">ɐ</span></td> <td><em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td>"sofa" (last vowel)</td> <td>Near-open central vowel; unstressed final <em>-a</em> in Brazil; in Portugal also unstressed <em>a</em> anywhere and stressed <em>a</em> before <em>m/n/nh</em>: <em>cama</em> <span class="ipa">/ˈkɐ.mɐ/</span></td></tr>
+        <tr><td><span class="ipa">e</span></td> <td><em>pê</em> <span class="ipa">/ˈpe/</span></td> <td>"say" (without glide)</td> <td>Closed e (spelled <em>ê</em>, or automatically in nasal and diphthong contexts)</td></tr>
+        <tr><td><span class="ipa">ɛ</span></td> <td><em>pé</em> <span class="ipa">/ˈpɛ/</span></td> <td>"bed"</td> <td>Open e (spelled <em>é</em>)</td></tr>
+        <tr><td><span class="ipa">i</span></td> <td><em>pi</em> <span class="ipa">/ˈpi/</span></td> <td>"see"</td> <td>Also the Brazilian reduction of unstressed final <em>-e</em>: <em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span></td></tr>
+        <tr><td><span class="ipa">ɨ</span></td> <td><em>pela</em> <span class="ipa">/pɨ.lɐ/</span></td> <td>No English equivalent</td> <td>Portugal only: reduced unstressed <code>e</code>, often optional <span class="ipa">(ɨ)</span> at the word end</td></tr>
+        <tr><td><span class="ipa">o</span></td> <td><em>pô</em> <span class="ipa">/ˈpo/</span></td> <td>"go" (without glide)</td> <td>Closed o (spelled <em>ô</em>, or automatic)</td></tr>
+        <tr><td><span class="ipa">ɔ</span></td> <td><em>pó</em> <span class="ipa">/ˈpɔ/</span></td> <td>"thought" (UK)</td> <td>Open o (spelled <em>ó</em>)</td></tr>
+        <tr><td><span class="ipa">u</span></td> <td><em>pu</em> <span class="ipa">/ˈpu/</span></td> <td>"food"</td> <td>Also the reduction of unstressed final <em>-o</em>: <em>bonito</em> <span class="ipa">/boˈni.tu/</span>; in Portugal also unstressed <em>o</em> elsewhere: <em>bonito</em> <span class="ipa">/buˈni.tu/</span></td></tr>
+        <tr><td><span class="ipa">ɐ̃</span></td> <td><em>lã</em> <span class="ipa">/ˈlɐ̃/</span></td> <td>Nasalized "sofa"</td> <td>Nasal <em>ã</em>, <em>an/am</em> before a consonant</td></tr>
+        <tr><td><span class="ipa">ẽ</span></td> <td><em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span></td> <td>Nasalized "say"</td> <td>Nasal <em>e</em> before <em>m/n</em></td></tr>
+        <tr><td><span class="ipa">ĩ</span></td> <td><em>sim</em> <span class="ipa">/ˈsĩ/</span></td> <td>Nasalized "see"</td> <td>Nasal <em>i</em></td></tr>
+        <tr><td><span class="ipa">õ</span></td> <td><em>bom</em> <span class="ipa">/ˈbõ/</span></td> <td>Nasalized "go"</td> <td>Nasal <em>o</em>, <em>õ</em></td></tr>
+        <tr><td><span class="ipa">ũ</span></td> <td><em>mundo</em> <span class="ipa">/ˈmũ.du/</span></td> <td>Nasalized "food"</td> <td>Nasal <em>u</em></td></tr>
+        <tr><td><span class="ipa">ɛ̃</span>, <span class="ipa">ɔ̃</span></td> <td><em>ténis</em> <span class="ipa">/ˈtɛ̃.niʃ/</span>, <em>hónra</em> <span class="ipa">/ˈɔ̃.ʁɐ/</span></td> <td>Nasalized "bed", "thought"</td> <td>An acute accent makes the stressed vowel open: before <em>m/n</em> in the same syllable (both dialects, e.g. <em>hónra</em>) or in the next syllable (Brazil only, e.g. <em>ténis</em>)</td></tr>
+        <tr><td><span class="ipa">ɪ</span>, <span class="ipa">ʊ</span></td> <td><em>ciúme</em> <span class="ipa">[sɪˈũ.mi]</span>, <em>juízo</em> <span class="ipa">[ʒʊˈi.zu]</span></td> <td>"sit", "put"</td> <td>Brazil, phonetic form only: <em>i</em>/<em>u</em> in hiatus before a vowel</td></tr>
+        <tr><td><span class="ipa">j</span>, <span class="ipa">w</span></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td>"yes", "wow"</td> <td>Glides forming diphthongs; Brazil's phonetic form uses <span class="ipa">ɪ̯</span>, <span class="ipa">ʊ̯</span> instead: <em>pai</em> <span class="ipa">[ˈpaɪ̯]</span>, <em>mau</em> <span class="ipa">[ˈmaʊ̯]</span></td></tr>
+        <tr><td><span class="ipa">j̃</span>, <span class="ipa">w̃</span></td> <td><em>mãe</em> <span class="ipa">/ˈmɐ̃j̃/</span>, <em>pão</em> <span class="ipa">/ˈpɐ̃w̃/</span></td> <td>Nasal glides</td> <td>Second part of nasal diphthongs</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr><th>IPA</th> <th>Example</th> <th>English Approximation</th> <th>Notes</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">p b t d k ɡ</span></td> <td><em>pato</em> <span class="ipa">/ˈpa.tu/</span>, <em>bato</em> <span class="ipa">/ˈba.tu/</span>, <em>tato</em> <span class="ipa">/ˈta.tu/</span>, <em>dado</em> <span class="ipa">/ˈda.du/</span>, <em>cato</em> <span class="ipa">/ˈka.tu/</span>, <em>gato</em> <span class="ipa">/ˈɡa.tu/</span></td> <td>"spin", "bin", "stun", "dune", "skin", "go"</td> <td>Plain stops, unaspirated. The engine prints <span class="ipa">ɡ</span> (U+0261). Brazil replaces <em>t, d</em> before <em>i</em> by affricates</td></tr>
+        <tr><td><span class="ipa">f v s z</span></td> <td><em>fato</em> <span class="ipa">/ˈfa.tu/</span>, <em>vaca</em> <span class="ipa">/ˈva.kɐ/</span>, <em>sapo</em> <span class="ipa">/ˈsa.pu/</span>, <em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td>"fat", "van", "sap", "zoo"</td> <td>As in English</td></tr>
+        <tr><td><span class="ipa">ʃ</span></td> <td><em>chuva</em> <span class="ipa">/ˈʃu.vɐ/</span></td> <td>"ship"</td> <td>Spelled <em>ch</em>, <em>x</em>; also coda <em>s</em> in Rio and Portugal: <em>pasta</em> <span class="ipa">/ˈpaʃ.tɐ/</span></td></tr>
+        <tr><td><span class="ipa">ʒ</span></td> <td><em>júri</em> <span class="ipa">/ˈʒu.ɾi/</span></td> <td>"measure"</td> <td>Spelled <em>j</em>, <em>g</em> before e/i; also coda <em>z</em>/<em>s</em> before a voiced consonant: <em>asma</em> <span class="ipa">/ˈaʒ.mɐ/</span></td></tr>
+        <tr><td><span class="ipa">t͡ʃ</span>, <span class="ipa">d͡ʒ</span></td> <td><em>tia</em> <span class="ipa">/ˈt͡ʃi.ɐ/</span>, <em>dia</em> <span class="ipa">/ˈd͡ʒi.ɐ/</span></td> <td>"cheese", "judge"</td> <td>Brazil only (before <em>i</em>); <code>dj</code> gives <span class="ipa">d͡ʒ</span> in both dialects: <em>djézz</em> <span class="ipa">/ˈd͡ʒɛʃ/</span></td></tr>
+        <tr><td><span class="ipa">m n</span></td> <td><em>mapa</em> <span class="ipa">/ˈma.pɐ/</span>, <em>nada</em> <span class="ipa">/ˈna.dɐ/</span></td> <td>"map", "nap"</td> <td>Coda <em>m/n</em> after a vowel nasalize the vowel instead and are not pronounced</td></tr>
+        <tr><td><span class="ipa">ɲ</span></td> <td><em>ninho</em> <span class="ipa">/ˈnĩ.ɲu/</span></td> <td>"canyon", Spanish <em>ñ</em></td> <td>Spelled <code>nh</code>; Brazil's phonetic form shows <span class="ipa">j̃</span> inside words: <em>ninho</em> <span class="ipa">[ˈnĩ.j̃u]</span></td></tr>
+        <tr><td><span class="ipa">l</span></td> <td><em>lá</em> <span class="ipa">/ˈla/</span></td> <td>"leaf"</td> <td>Onset <em>l</em>; coda <code>l</code> is <span class="ipa">w</span> in Brazil and <span class="ipa">l</span> (phonetic <span class="ipa">ɫ</span>) in Portugal</td></tr>
+        <tr><td><span class="ipa">ʎ</span></td> <td><em>filho</em> <span class="ipa">/ˈfi.ʎu/</span></td> <td>"million" (Italian <em>gli</em>)</td> <td>Spelled <em>lh</em></td></tr>
+        <tr><td><span class="ipa">ɫ</span></td> <td><em>animal</em> <span class="ipa">[ɐ.niˈmaɫ]</span></td> <td>"full" (dark l)</td> <td>Portugal, phonetic form only, coda <em>l</em></td></tr>
+        <tr><td><span class="ipa">ɾ</span></td> <td><em>caro</em> <span class="ipa">/ˈka.ɾu/</span></td> <td>"butter" (American flap)</td> <td>Tap; also coda <em>r</em> in Portugal: <em>pórta</em> <span class="ipa">/ˈpɔɾ.tɐ/</span></td></tr>
+        <tr><td><span class="ipa">ʁ</span></td> <td><em>carro</em> <span class="ipa">/ˈka.ʁu/</span></td> <td>French <em>r</em></td> <td>Strong r; in Brazil's phonetic form it is <span class="ipa">χ</span> except before a voiced consonant: <em>carro</em> <span class="ipa">[ˈka.χu]</span>, <em>bórdo</em> <span class="ipa">[ˈbɔʁ.du]</span></td></tr>
+        <tr><td><span class="ipa">χ</span></td> <td><em>rato</em> <span class="ipa">[ˈχa.tu]</span></td> <td>Scottish "loch", but further back in the throat</td> <td>Brazil, phonetic form only (the Rio realization of strong r)</td></tr>
+        <tr><td><span class="ipa">β ð ɣ</span></td> <td><em>sabêr</em> <span class="ipa">[sɐˈβeɾ]</span>, <em>cidade</em> <span class="ipa">[siˈða.ð(ɨ)]</span>, <em>órgão</em> <span class="ipa">[ˈɔɾ.ɣɐ̃w̃]</span></td> <td>Spanish <em>haber, cada, lago</em></td> <td>Portugal, phonetic form only: fricative <em>b d g</em></td></tr>
+        <tr><td><span class="ipa">k s</span> (from <em>x</em>)</td> <td><em>clímax</em> <span class="ipa">/ˈklĩ.maks/</span></td> <td>"mix"</td> <td>Final <code>x</code> gives <span class="ipa">ks</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr><th>Symbol</th> <th>Name</th> <th>Meaning</th> <th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">ˈ</span></td> <td>Primary stress</td> <td>Main emphasis; placed at the start of the stressed syllable</td> <td><em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span></td></tr>
+        <tr><td><span class="ipa">ˌ</span></td> <td>Secondary stress</td> <td>Weaker emphasis (compounds, prefixes, <em>-mente</em>, <em>-zinho</em>)</td> <td><em>rapidamente</em> <span class="ipa">/ʁaˌpi.daˈmẽ.t͡ʃi/</span></td></tr>
+        <tr><td><span class="ipa">.</span></td> <td>Syllable boundary</td> <td>Separates syllables</td> <td><em>saída</em> <span class="ipa">/saˈi.dɐ/</span></td></tr>
+        <tr><td><span class="ipa">̃</span></td> <td>Tilde (nasalization)</td> <td>Vowel or glide is nasal</td> <td><em>irmão</em> <span class="ipa">/iʁˈmɐ̃w̃/</span></td></tr>
+        <tr><td><span class="ipa">̯</span></td> <td>Non-syllabic</td> <td>Glide (Brazil, phonetic form)</td> <td><em>pai</em> <span class="ipa">[ˈpaɪ̯]</span></td></tr>
+        <tr><td><span class="ipa">͡</span></td> <td>Tie bar</td> <td>Affricate (single unit)</td> <td><em>dia</em> <span class="ipa">/ˈd͡ʒi.ɐ/</span></td></tr>
+        <tr><td><span class="ipa">( )</span></td> <td>Parentheses</td> <td>Optional sound</td> <td><em>peixe</em> <span class="ipa">/ˈpe(j).ʃi/</span>, <em>peixe</em> <span class="ipa">/ˈpej.ʃ(ɨ)/</span></td></tr>
+        <tr><td><span class="ipa">‿</span></td> <td>Tie</td> <td>Linked words (from an apostrophe)</td> <td><em>d'água</em> <span class="ipa">/ˈd‿a.ɡwɐ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support). The Portuguese language entry is
+            configured with the <code>pt-BR</code> voice code, so the audio does not change when you switch between the
+            "Brazil" and "Portugal" options.
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+        <li><strong>No variant cycling:</strong> unlike German, Portuguese words never carry alternative IPA forms in the
+            app, so clicking a word does not cycle anything (see below).
         </li>
     </ul>
 
-    <hr>
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>The module itself can return <em>several</em> pronunciations for one input, each labelled with a qualifier. For
+        example, in Brazil the initial <code>es-</code> before a consonant can be <span class="ipa">i</span> or
+        <span class="ipa">e</span>, initial <code>em-/en-</code> can be careful <span class="ipa">ẽ</span> or natural
+        <span class="ipa">ĩ</span>, hiatus <em>i/u</em> can be a full vowel or a glide ("faster pronunciation"), and in
+        Portugal <em>-sC</em> clusters have "careful" and "natural" forms.</p>
+    <p><strong>The app displays only the first variant</strong>: the handler returns <code>result[0]</code>. For example,
+        <em>estar</em> <span class="ipa">/iʃˈta(ʁ)/</span> shows the <span class="ipa">i</span>-variant; the <span class="ipa">e</span>-variant is not reachable.
+        Likewise <em>criança</em> <span class="ipa">/kɾiˈɐ̃.sɐ/</span> shows the full-vowel variant, never the glide one.</p>
 
-    <h2>Important Note: Why You Might See an Error</h2>
-    <p>This transcription engine is designed to be highly accurate. Because Portuguese spelling is not always perfectly
-        phonetic, the engine will <strong>intentionally produce an error</strong> when it encounters an ambiguous word.
-        This prevents it from guessing and generating an incorrect pronunciation.</p>
-    <p>To fix this, you need to provide a <strong>"respelling"</strong> in the input box to clarify the intended sound.
-        Here are the most common reasons for errors:</p>
+    <h2>Portuguese Pronunciation Guide</h2>
 
-    <h3>1. Ambiguous Stressed Vowels ('e' and 'o')</h3>
-    <p>This is the most common cause of errors. In Portuguese, a stressed 'e' or 'o' can be open or closed, but standard
-        spelling often doesn't use an accent mark to show this.</p>
-    <p><strong>Example:</strong> The word <code>governo</code> has stress on the 'e', but the script doesn't know if
-        it's open or closed.</p>
-    <p><strong>Solution:</strong> You must add an accent mark to the vowel in your input to specify the quality.</p>
+    <p>This guide explains the pronunciation rules that the engine implements. Portuguese spelling is fairly regular once
+        you know where the stress falls and how open or closed the stressed vowel is, which is exactly the information
+        the engine asks you to supply when it cannot determine it. Brazil and Portugal differ most in vowel reduction,
+        nasality and a handful of consonants; the sections below show both side by side.</p>
+
+    <h3 id="respelling">Spelling, Accent Marks and Respelling</h3>
+    <p>In Portuguese the written accents do two jobs at once: they mark <strong>which syllable is stressed</strong> and
+        they fix the <strong>vowel quality</strong>. The engine reads them in the same way, so you should put an accent only
+        on the stressed vowel.</p>
+    <table>
+        <thead>
+        <tr><th>Mark</th> <th>Effect in the engine</th> <th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Acute <em>á é ó</em></td> <td>Stressed open vowel (<span class="ipa">a ɛ ɔ</span>)</td> <td><em>pára</em> <span class="ipa">/ˈpa.ɾɐ/</span>, <em>pé</em> <span class="ipa">/ˈpɛ/</span></td></tr>
+        <tr><td>Circumflex <em>â ê ô</em></td> <td>Stressed closed vowel (<span class="ipa">ɐ e o</span>)</td> <td><em>pâra</em> <span class="ipa">/ˈpɐ.ɾɐ/</span>, <em>pê</em> <span class="ipa">/ˈpe/</span></td></tr>
+        <tr><td>Tilde <em>ã õ</em></td> <td>Nasal vowel; the last tilde syllable receives stress unless an accent says otherwise</td> <td><em>irmão</em> <span class="ipa">/iʁˈmɐ̃w̃/</span>, <em>manhã</em> <span class="ipa">/mɐ̃ˈɲɐ̃/</span></td></tr>
+        <tr><td>Cedilla <em>ç</em></td> <td><span class="ipa">s</span></td> <td><em>ça</em> <span class="ipa">/ˈsa/</span></td></tr>
+        <tr><td>Diaeresis <em>ü</em></td> <td>Silent diacritic: <em>ü</em> is read as <em>u</em> (pronounced after <em>g/q</em>)</td> <td><em>agüentar</em> <span class="ipa">/a.ɡwẽˈta(ʁ)/</span></td></tr>
+        <tr><td>Grave <em>à</em> / macron <em>ō</em></td> <td>Portugal only: explicitly unstressed open / closed vowel. Deleted in Brazil</td> <td><em>sòlo</em> <span class="ipa">/sɔ.lu/</span>, <em>pōlo</em> <span class="ipa">/po.lu/</span></td></tr>
+        <tr><td>Letters <em>z, sh, cs, ss, h</em></td> <td>Respelling devices for <em>x</em>, final <em>r</em>, and so on</td> <td><em>ezame</em> <span class="ipa">/eˈzɐ̃.mi/</span>, <em>marh</em> <span class="ipa">/ˈmaʁ/</span></td></tr>
+        </tbody>
+    </table>
+    <p>The module is case-insensitive: capitals are lowercased first, so names like <em>Maria</em> <span class="ipa">/maˈɾi.ɐ/</span> need no special
+        treatment. Letters that are not part of Portuguese spelling pass through unchanged (for example <em>w</em> and
+        <em>k</em>), which is why loanwords usually need a respelling, as explained under
+        <a href="#issues">Common Issues</a>.</p>
+
+    <h3 id="stress">Stress Patterns</h3>
+    <p>Word stress is assigned after syllable division, in this order (the first rule that applies wins):</p>
+    <ol>
+        <li><strong>An acute or circumflex accent</strong> marks the stressed syllable:
+            <em>lápis</em> <span class="ipa">/ˈla.piʃ/</span>, <em>café</em> <span class="ipa">/kaˈfɛ/</span>, <em>você</em> <span class="ipa">/voˈse/</span>.</li>
+        <li><strong>A tilde</strong> without an accent: the <em>last</em> syllable that contains a tilde is stressed:
+            <em>irmão</em> <span class="ipa">/iʁˈmɐ̃w̃/</span>, <em>manhã</em> <span class="ipa">/mɐ̃ˈɲɐ̃/</span>, <em>pão-de-ló</em> <span class="ipa">/ˌpɐ̃w̃.d͡ʒiˈlɔ/</span> (the last component keeps primary stress).</li>
+        <li><strong>The default rule:</strong>
+            <ul>
+                <li>Words ending in <em>-a, -e, -o</em> (with or without <em>-s</em>), <em>-am</em>, <em>-em</em>, <em>-ens</em> or <em>-ans</em>
+                    are stressed on the <strong>second-to-last</strong> syllable (paroxytone): <em>casa</em> <span class="ipa">/ˈka.zɐ/</span>,
+                    <em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span>, <em>pastas</em> <span class="ipa">/ˈpaʃ.tɐʃ/</span>, <em>cantam</em> <span class="ipa">/ˈkɐ̃.tɐ̃w̃/</span>, <em>item</em> <span class="ipa">/ˈi.tẽj̃/</span>.</li>
+                <li><strong>All other</strong> words are stressed on the <strong>last</strong> syllable (oxytone): <em>feliz</em> <span class="ipa">/feˈliʃ/</span>,
+                    <em>azul</em> <span class="ipa">/aˈzuw/</span>, <em>cantar</em> <span class="ipa">/kɐ̃ˈta(ʁ)/</span>, <em>jardim</em> <span class="ipa">/ʒaʁˈd͡ʒĩ/</span>, <em>tatu</em> <span class="ipa">/taˈtu/</span>, <em>aqui</em> <span class="ipa">/aˈki/</span>, <em>algum</em> <span class="ipa">/awˈɡũ/</span>.</li>
+            </ul>
+        </li>
+    </ol>
+    <p>The default rule assumes the dictionary stress for regular words only: anything that breaks it (for example
+        <em>órgão</em>, <em>lápis</em>, <em>bênção</em>) is written with an accent in standard orthography and the engine
+        trusts that accent.</p>
+
+    <h4>-mente, -zinho and Hyphenated Components</h4>
     <ul>
-        <li>For a <strong>closed</strong> sound, use a circumflex: <code>gov<strong>ê</strong>rno</code>.</li>
-        <li>For an <strong>open</strong> sound, use an acute accent: <code>f<strong>é</strong>rro</code>.</li>
+        <li>Adverbs in <em>-mente</em> and diminutives in <em>-zinho/-zinha(s)</em> are split into two parts and each part is
+            stressed separately; the first becomes secondary stress: <em>rapidamente</em> <span class="ipa">/ʁaˌpi.daˈmẽ.t͡ʃi/</span>, <em>rapazinho</em> <span class="ipa">/ˌʁa.paˈzĩ.ɲu/</span>. A stressed
+            <em>e</em>/<em>o</em> in the first part must be marked just as in the base word:
+            <em>certamente</em> fails, <em>cértamente</em> works: <em>cértamente</em> <span class="ipa">/ˌsɛʁ.taˈmẽ.t͡ʃi/</span>.</li>
+        <li>A hyphen splits a word into components that are stressed independently, and every primary stress except the
+            last becomes secondary: <em>guarda-chuva</em> <span class="ipa">/ˌɡwaʁ.dɐˈʃu.vɐ/</span>, <em>bem-vindo</em> <span class="ipa">/ˌbẽj̃ˈvĩ.du/</span>.</li>
+        <li>A prefix typed with a trailing hyphen is treated as unstressed with vowel reduction (it has no accent): <em>anti-</em> <span class="ipa">/ɐ̃.t͡ʃi/</span>.</li>
     </ul>
-    <blockquote>The script will typically show an error like: <em>"Stressed e or o... must be marked for quality using
-        é/ê or ó/ô"</em></blockquote>
 
-    <h3>2. The Irregular Letter 'x'</h3>
-    <p>The letter 'x' has four possible pronunciations, and the script cannot reliably guess which one to use.</p>
-    <p><strong>Example:</strong> The script will fail on words like <code>exame</code> or <code>táxi</code>.</p>
-    <p><strong>Solution:</strong> Replace the 'x' with its phonetic equivalent in the input.</p>
+    <h4>Unstressed Words (Clitics)</h4>
+    <p>Short function words have no stress of their own. The module keeps three fixed lists:</p>
+    <table>
+        <thead>
+        <tr><th>List</th> <th>Words</th> <th>Brazil</th> <th>Portugal</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Reduced in both dialects</td> <td><em>o, os, me, te, se, lhe(s), nos, vos, mo(s), to(s), lho(s), lo(s), no, vo, que, e, de, do, dos, por, pelo(s), pela(s)</em></td> <td><em>que</em> <span class="ipa">/ki/</span>, <em>de</em> <span class="ipa">/d͡ʒi/</span>, <em>o</em> <span class="ipa">/u/</span></td> <td><em>que</em> <span class="ipa">/k(ɨ)/</span>, <em>de</em> <span class="ipa">/d(ɨ)/</span>, <em>o</em> <span class="ipa">/u/</span></td></tr>
+        <tr><td>Reduced in Portugal only</td> <td><em>a, as, ma(s), ta(s), lha(s), la(s), na(s), da(s)</em></td> <td><em>da</em> <span class="ipa">/da/</span>, <em>a</em> <span class="ipa">/a/</span></td> <td><em>da</em> <span class="ipa">/dɐ/</span>, <em>a</em> <span class="ipa">/ɐ/</span></td></tr>
+        <tr><td>Never reduced</td> <td><em>um, uns, meu, teu, seu (and plurals), ou, ao, aos, à, às, em, com</em></td> <td><em>meu</em> <span class="ipa">/mew/</span>, <em>ao</em> <span class="ipa">/aw/</span>, <em>um</em> <span class="ipa">/ũ/</span></td> <td><em>meu</em> <span class="ipa">/mew/</span>, <em>ao</em> <span class="ipa">/aw/</span>, <em>um</em> <span class="ipa">/ũ/</span></td></tr>
+        </tbody>
+    </table>
+    <p>Two special pronunciations are hard-coded: <em>ao(s)</em> is read as <code>au(s)</code> (<span class="ipa">aw</span>)
+        and <em>por</em> as <em>pur</em>: <em>por</em> <span class="ipa">/puʁ/</span>.</p>
+
+    <h3 id="open-closed">Open and Closed e / o</h3>
+    <p>A stressed <em>e</em> or <code>o</code> must end up as one of <span class="ipa">e ɛ</span> or <span class="ipa">o ɔ</span>.
+        The engine determines the quality in this order and raises the error described
+        <a href="#err-stress">above</a> if none applies:</p>
+    <table>
+        <thead>
+        <tr><th>Situation</th> <th>Result</th> <th>Examples</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Written <em>é / ó</em></td> <td>Open <span class="ipa">ɛ ɔ</span></td> <td><em>féra</em> <span class="ipa">/ˈfɛ.ɾɐ/</span>, <em>avó</em> <span class="ipa">/aˈvɔ/</span></td></tr>
+        <tr><td>Written <em>ê / ô</em></td> <td>Closed <span class="ipa">e o</span></td> <td><em>fêra</em> <span class="ipa">/ˈfe.ɾɐ/</span>, <em>avô</em> <span class="ipa">/aˈvo/</span></td></tr>
+        <tr><td>Stressed vowel + <em>m / n / nh</em> in the next syllable (<em>ano, cena, sono, banho</em>)</td> <td>Circumflexed automatically: closed (and, in Brazil, nasalized)</td> <td><em>cena</em> <span class="ipa">/ˈsẽ.nɐ/</span> / <em>cena</em> <span class="ipa">/ˈse.nɐ/</span>; <em>sono</em> <span class="ipa">/ˈsõ.nu/</span> / <em>sono</em> <span class="ipa">/ˈso.nu/</span></td></tr>
+        <tr><td>Nasal vowel with a tilde or <em>m/n</em> in the same syllable</td> <td>Closed</td> <td><em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span>, <em>homem</em> <span class="ipa">/ˈõ.mẽj̃/</span></td></tr>
+        <tr><td><em>ei, eu, oi, ou</em></td> <td>Closed first element (<em>êi, êu, ôi, ôu</em>)</td> <td><em>leite</em> <span class="ipa">/ˈlej.t͡ʃi/</span>, <em>boi</em> <span class="ipa">/ˈboj/</span>, <em>pouco</em> <span class="ipa">/ˈpo(w).ku/</span></td></tr>
+        <tr><td><em>ai, au</em></td> <td>Becomes <code>ái, áu</code>, always <span class="ipa">a</span></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>fauna</em> <span class="ipa">/ˈfaw.nɐ/</span></td></tr>
+        <tr><td>Stressed <em>o</em> in <em>-dor, -tor, -sor</em> (and feminine/plural)</td> <td>Closed <span class="ipa">o</span></td> <td><em>cantor</em> <span class="ipa">/kɐ̃ˈtoʁ/</span>, <em>invasor</em> <span class="ipa">/ĩ.vaˈzoʁ/</span>, <em>ganhadora</em> <span class="ipa">/ɡɐ̃.ɲaˈdo.ɾɐ/</span>, <em>autores</em> <span class="ipa">/awˈto.ɾiʃ/</span></td></tr>
+        <tr><td>Stressed <em>o</em> in <em>-oso</em></td> <td>Closed <span class="ipa">o</span></td> <td><em>gostoso</em> <span class="ipa">/ɡoʃˈto.zu/</span></td></tr>
+        <tr><td>Stressed <em>o</em> in <em>-osa, -osos, -osas</em></td> <td>Open <span class="ipa">ɔ</span></td> <td><em>gostosa</em> <span class="ipa">/ɡoʃˈtɔ.zɐ/</span>, <em>gostosos</em> <span class="ipa">/ɡoʃˈtɔ.zuʃ/</span></td></tr>
+        <tr><td>Stressed <em>o</em> in hiatus</td> <td>Closed <span class="ipa">o</span></td> <td><em>boa</em> <span class="ipa">/ˈbo.ɐ/</span>, <em>voo</em> <span class="ipa">/ˈvo.u/</span></td></tr>
+        <tr><td>Anything else</td> <td><strong>Error</strong>: the word must be respelled with <em>é/ê/ó/ô</em></td> <td><em>ele</em> (error), <em>governo</em> (error), <em>amor</em> (error)</td></tr>
+        </tbody>
+    </table>
+    <p>The acute accent on final <em>-em/-ens</em> (<em>além, também, parabéns</em>) does <em>not</em> open the vowel: the
+        module turns it into a circumflex: <em>parabéns</em> <span class="ipa">/pa.ɾaˈbẽj̃ʃ/</span>.</p>
+
+    <h3 id="reduction">Unstressed Vowels and Vowel Reduction</h3>
+    <p>This is where the two dialects differ most. Unstressed <em>a, e, o</em> without an accent become:</p>
+    <table>
+        <thead>
+        <tr><th>Position</th> <th>Brazil (Rio)</th> <th>Portugal</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Final <em>-a(s)</em></td> <td><span class="ipa">ɐ</span>: <em>casas</em> <span class="ipa">/ˈka.zɐʃ/</span></td> <td><span class="ipa">ɐ</span>: <em>casas</em> <span class="ipa">/ˈka.zɐʃ/</span></td></tr>
+        <tr><td>Final <em>-e(s)</em></td> <td><span class="ipa">i</span>: <em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span></td> <td><span class="ipa">(ɨ)</span>, optional: <em>cidade</em> <span class="ipa">/siˈda.d(ɨ)/</span></td></tr>
+        <tr><td>Final <em>-o(s)</em></td> <td><span class="ipa">u</span>: <em>bonito</em> <span class="ipa">/boˈni.tu/</span></td> <td><span class="ipa">u</span>: <em>bonito</em> <span class="ipa">/buˈni.tu/</span></td></tr>
+        <tr><td>Other unstressed <em>a</em></td> <td>Stays <span class="ipa">a</span>: <em>sapato</em> <span class="ipa">/saˈpa.tu/</span></td> <td><span class="ipa">ɐ</span>: <em>sapato</em> <span class="ipa">/sɐˈpa.tu/</span></td></tr>
+        <tr><td>Other unstressed <em>e</em></td> <td>Stays <span class="ipa">e</span>: <em>frequente</em> <span class="ipa">/fɾeˈkẽ.t͡ʃi/</span></td> <td><span class="ipa">ɨ</span>: <em>frequente</em> <span class="ipa">/fɾɨˈkẽ.t(ɨ)/</span></td></tr>
+        <tr><td>Other unstressed <em>o</em></td> <td>Stays <span class="ipa">o</span>: <em>professor</em> <span class="ipa">/pɾo.feˈsoʁ/</span></td> <td><span class="ipa">u</span>: <em>professor</em> <span class="ipa">/pɾu.fɨˈsoɾ/</span></td></tr>
+        <tr><td>Initial unstressed <em>e</em></td> <td><span class="ipa">e</span>: <em>elefante</em> <span class="ipa">/e.leˈfɐ̃.t͡ʃi/</span></td> <td><span class="ipa">i</span>: <em>elefante</em> <span class="ipa">/i.lɨˈfɐ̃.t(ɨ)/</span></td></tr>
+        <tr><td>Initial unstressed <em>o</em> in a word that contains another vowel</td> <td><span class="ipa">o</span>: <em>obrigado</em> <span class="ipa">/o.bɾiˈɡa.du/</span></td> <td><span class="ipa">ɔ</span>: <em>obrigado</em> <span class="ipa">/ɔ.bɾiˈɡa.du/</span></td></tr>
+        <tr><td>Initial <em>es-</em> + consonant</td> <td><span class="ipa">i</span> (first variant): <em>estar</em> <span class="ipa">/iʃˈta(ʁ)/</span></td> <td><span class="ipa">(i)</span>: <em>estar</em> <span class="ipa">/(i)ʃˈtaɾ/</span></td></tr>
+        <tr><td>Unstressed vowel before coda <em>l</em></td> <td>Unchanged; <code>l</code> becomes <span class="ipa">w</span>: <em>alface</em> <span class="ipa">/awˈfa.si/</span></td> <td>Opened to <span class="ipa">a</span>, <span class="ipa">ɛ</span>, <span class="ipa">o</span>: <em>alface</em> <span class="ipa">/alˈfa.s(ɨ)/</span>, <em>solteiro</em> <span class="ipa">/solˈtej.ɾu/</span></td></tr>
+        <tr><td>Final unstressed <em>-r</em> (<em>dólar, líder</em>)</td> <td>Preceding <code>a</code> becomes <span class="ipa">ɐ</span>, others stay: <em>dólar</em> <span class="ipa">/ˈdɔ.lɐʁ/</span>, <em>líder</em> <span class="ipa">/ˈli.deʁ/</span></td> <td>Preceding vowel is opened: <em>dólar</em> <span class="ipa">/ˈdɔ.laɾ/</span>, <em>líder</em> <span class="ipa">/ˈli.dɛɾ/</span></td></tr>
+        <tr><td>Final unstressed <em>-ar</em> (<em>açúcar</em>)</td> <td><span class="ipa">ɐ</span>: <em>açúcar</em> <span class="ipa">/aˈsu.kɐʁ/</span></td> <td><span class="ipa">a</span>: <em>açúcar</em> <span class="ipa">/ɐˈsu.kaɾ/</span></td></tr>
+        <tr><td>Unstressed <em>ie</em> (hiatus)</td> <td>Full vowels, with hiatus: <em>série</em> <span class="ipa">/ˈsɛ.ɾi.i/</span></td> <td>Glide + open e: <em>série</em> <span class="ipa">/ˈsɛ.ɾjɛ/</span></td></tr>
+        </tbody>
+    </table>
+    <p>The final <em>e</em> in Portugal is shown in parentheses because it can be dropped in connected speech. The module
+        also removes it before a following vowel, but since the app transcribes one word at a time you will only see the
+        optional form.</p>
+
+    <h3 id="nasals">Nasal Vowels and Nasal Diphthongs</h3>
+    <p>Nasality is derived from spelling in a fixed order:</p>
+    <ol>
+        <li>Final unstressed <em>-am</em> (third-person plural verbs) is treated like <em>-ão</em>: <em>cantam</em> <span class="ipa">/ˈkɐ̃.tɐ̃w̃/</span>, <em>falam</em> <span class="ipa">/ˈfa.lɐ̃w̃/</span>.</li>
+        <li>In Portugal a final <code>-n</code> is a real <span class="ipa">n</span> and the unstressed vowel before it is open: <em>hífen</em> <span class="ipa">/ˈi.fɛn/</span> (compare Brazil <em>hífen</em> <span class="ipa">/ˈi.fẽj̃/</span>).</li>
+        <li>A vowel followed by <em>m</em> or <em>n</em> in the same syllable is nasalized and the consonant is not
+            pronounced: <em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span>, <em>lindo</em> <span class="ipa">/ˈlĩ.du/</span>, <em>compra</em> <span class="ipa">/ˈkõ.pɾɐ/</span>, <em>mundo</em> <span class="ipa">/ˈmũ.du/</span>.</li>
+        <li>A non-high vowel nasalized this way gets a circumflex (closed): <em>canto</em> <span class="ipa">/ˈkɐ̃.tu/</span>, <em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span>.</li>
+        <li>In <strong>Brazil</strong> a stressed vowel before <em>m/n</em> in the <em>next</em> syllable is also nasalized:
+            <em>cama</em> <span class="ipa">/ˈkɐ̃.mɐ/</span> <em>ano</em> <span class="ipa">/ˈɐ̃.nu/</span>; all vowels before <em>nh</em> are nasalized and, in the phonetic form, <code>nh</code> becomes
+            <span class="ipa">j̃</span>: <em>banho</em> <span class="ipa">/ˈbɐ̃.ɲu/</span> <em>banho</em> <span class="ipa">[ˈbɐ̃.j̃u]</span>. Portugal only closes the vowel: <em>cama</em> <span class="ipa">/ˈkɐ.mɐ/</span>, <em>banho</em> <span class="ipa">/ˈbɐ.ɲu/</span>.</li>
+        <li><em>ão</em>, <em>ãe</em>, <em>õe</em>, and <em>-ui</em> in <em>muit-</em> are nasal diphthongs ending in a nasal
+            glide: <em>pão</em> <span class="ipa">/ˈpɐ̃w̃/</span>, <em>mãe</em> <span class="ipa">/ˈmɐ̃j̃/</span>, <em>põe</em> <span class="ipa">/ˈpõj̃/</span>, <em>muito</em> <span class="ipa">/ˈmũj̃.tu/</span>, <em>limões</em> <span class="ipa">/liˈmõj̃ʃ/</span>.</li>
+        <li>Final <em>-em</em> and <code>-ens</code> are <span class="ipa">ẽj̃(s)</span>: <em>bem</em> <span class="ipa">/ˈbẽj̃/</span>, <em>homem</em> <span class="ipa">/ˈõ.mẽj̃/</span>, <em>parabéns</em> <span class="ipa">/pa.ɾaˈbẽj̃ʃ/</span>.</li>
+        <li>In Portugal a circumflex on final <em>-em</em> (<em>vêm, têm, mantêm</em>) signals the special double nasal
+            ending: <em>têm</em> <span class="ipa">/ˈtẽj̃.ẽj̃/</span> versus <em>têm</em> <span class="ipa">/ˈtẽj̃/</span>; and <em>põem</em> gets a hiatus: <em>põem</em> <span class="ipa">/ˈpõj̃.ẽj̃/</span> versus <em>põem</em> <span class="ipa">/ˈpõj̃/</span>.</li>
+        <li>In Brazil an initial unstressed <code>em-/en-</code> before a consonant is <span class="ipa">ẽ</span> (careful variant,
+            shown) or <span class="ipa">ĩ</span>: <em>enxame</em> <span class="ipa">/ẽˈʃɐ̃.mi/</span>.</li>
+    </ol>
+
+    <h3 id="diphthongs">Oral Diphthongs</h3>
+    <p>The glides <span class="ipa">j</span> and <span class="ipa">w</span> arise from <em>i</em> and <em>u</em> after
+        <em>a, e, o</em> in the same syllable (see <a href="#syllables">Syllable Division</a> for when a diphthong splits).
+        The first vowel is automatically closed for <code>e/o</code> and always <span class="ipa">a</span> for <em>a</em> (see
+        <a href="#open-closed">Open and Closed e / o</a>).</p>
+    <table>
+        <thead>
+        <tr><th>Spelling</th> <th>Brazil</th> <th>Portugal</th> <th>Note</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><em>ai</em>, <em>au</em></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td>Same in both</td></tr>
+        <tr><td><em>ei</em></td> <td><em>leite</em> <span class="ipa">/ˈlej.t͡ʃi/</span></td> <td><em>beijo</em> <span class="ipa">/ˈbej.ʒu/</span></td> <td>In Brazil <em>ei</em> before <em>r, j, g, x</em> gets an optional glide: <em>beijo</em> <span class="ipa">/ˈbe(j).ʒu/</span>; in Portugal it is a plain diphthong (in the unselectable <code>gpt</code> profile it would be lowered)</td></tr>
+        <tr><td><em>eu</em>, <em>oi</em></td> <td><em>ateu</em> <span class="ipa">/aˈtew/</span>, <em>boi</em> <span class="ipa">/ˈboj/</span></td> <td><em>ateu</em> <span class="ipa">/ɐˈtew/</span>, <em>boi</em> <span class="ipa">/ˈboj/</span></td> <td>Same in both</td></tr>
+        <tr><td><em>ou</em></td> <td><em>pouco</em> <span class="ipa">/ˈpo(w).ku/</span></td> <td><em>pouco</em> <span class="ipa">/ˈpo(w).ku/</span></td> <td>The glide is optional in both: <span class="ipa">o(w)</span></td></tr>
+        <tr><td><em>iu</em>, <em>ui</em></td> <td><em>viu</em> <span class="ipa">/ˈviw/</span>, <em>fui</em> <span class="ipa">/ˈfuj/</span></td> <td><em>viu</em> <span class="ipa">/ˈviw/</span>, <em>fui</em> <span class="ipa">/ˈfuj/</span></td> <td>Final <em>-iu(s)</em>, <em>-ui(s)</em> stay a single syllable</td></tr>
+        </tbody>
+    </table>
+    <p>In Brazil's phonetic form the glides are <span class="ipa">ɪ̯</span> and <span class="ipa">ʊ̯</span>:
+        <em>pai</em> <span class="ipa">[ˈpaɪ̯]</span>, <em>pouco</em> <span class="ipa">[ˈpo(ʊ̯).ku]</span>.</p>
+
+    <h3 id="hiatus">Hiatus and Glides</h3>
+    <p>Two adjacent vowels are normally split into two syllables. The dialects then treat an unstressed <em>i/u/e/o</em>
+        before the second vowel differently:</p>
+    <table>
+        <thead>
+        <tr><th>Word</th> <th>Brazil (phonemic)</th> <th>Portugal (phonemic)</th> <th>What happens</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><em>teatro</em></td> <td><em>teatro</em> <span class="ipa">/teˈa.tɾu/</span></td> <td><em>teatro</em> <span class="ipa">/ˈtja.tɾu/</span></td> <td>Portugal turns unstressed <em>e./i.</em> or <em>o./u.</em> before a vowel into a glide, merging the syllables; Brazil keeps the hiatus</td></tr>
+        <tr><td><em>gíria</em></td> <td><em>gíria</em> <span class="ipa">/ˈʒi.ɾi.ɐ/</span></td> <td><em>gíria</em> <span class="ipa">/ˈʒi.ɾjɐ/</span></td> <td>Same rule at the end of a word</td></tr>
+        <tr><td><em>ciência</em></td> <td><em>ciência</em> <span class="ipa">/siˈẽ.si.ɐ/</span></td> <td><em>ciência</em> <span class="ipa">/ˈsjẽ.sjɐ/</span></td> <td>The same, after a consonant and before a stressed vowel</td></tr>
+        <tr><td><em>saída</em></td> <td><em>saída</em> <span class="ipa">/saˈi.dɐ/</span></td> <td><em>saída</em> <span class="ipa">/sɐˈi.dɐ/</span></td> <td>A stressed <em>i/u</em> always keeps its hiatus</td></tr>
+        <tr><td><em>proteína</em></td> <td><em>proteína</em> <span class="ipa">/pɾo.teˈĩ.nɐ/</span></td> <td><em>proteína</em> <span class="ipa">/pɾu.tɐˈi.nɐ/</span></td> <td>Portugal only: <em>e</em> before an <em>i</em> in hiatus becomes <code>a</code>-like (<span class="ipa">ɐ</span>)</td></tr>
+        <tr><td><em>iate</em></td> <td><em>iate</em> <span class="ipa">/ˈja.t͡ʃi/</span></td> <td><em>iate</em> <span class="ipa">/ˈja.t(ɨ)/</span></td> <td>Initial <code>i</code> + vowel is a glide <span class="ipa">j</span>, unless the <em>i</em> is stressed: <em>ia</em> <span class="ipa">/ˈi.ɐ/</span></td></tr>
+        <tr><td><em>juízo</em></td> <td><em>juízo</em> <span class="ipa">/ʒuˈi.zu/</span></td> <td><em>juízo</em> <span class="ipa">/ˈʒwi.zu/</span></td> <td>Brazil keeps <span class="ipa">u.i</span>; Portugal glides after an unstressed <em>u</em></td></tr>
+        </tbody>
+    </table>
+    <p>Brazilian <em>-io</em> with a stressed <em>i</em> (<em>rio, tio, frio, vazio, navio</em>) has two pronunciations in the module, a hiatus and a glide. The app shows the first: <em>rio</em> <span class="ipa">/ˈʁi.u/</span>. Typing the glide spelling gives the second: <em>riu</em> <span class="ipa">/ˈʁiw/</span>.</p>
+
+    <h3 id="palatalization">t / d Before i (Brazil)</h3>
+    <p>In Brazil, <em>t</em> and <em>d</em> before a high front vowel (<em>i</em>, a final <code>e</code> that has been raised
+        to <span class="ipa">i</span>, a glide <em>y</em>, a nasal <code>ĩ</code>) become the affricates
+        <span class="ipa">t͡ʃ</span> and <span class="ipa">d͡ʒ</span>. Raising happens first, which is why a final
+        <em>-te</em>/<em>-de</em> is palatalized as well. Portugal never palatalizes.</p>
+    <table>
+        <thead>
+        <tr><th>Word</th> <th>Brazil</th> <th>Portugal</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><em>tia</em>, <em>dia</em></td> <td><em>tia</em> <span class="ipa">/ˈt͡ʃi.ɐ/</span>, <em>dia</em> <span class="ipa">/ˈd͡ʒi.ɐ/</span></td> <td><em>tia</em> <span class="ipa">/ˈti.ɐ/</span>, <em>dia</em> <span class="ipa">/ˈdi.ɐ/</span></td></tr>
+        <tr><td><em>cidade</em> (raised final e)</td> <td><em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span></td> <td><em>cidade</em> <span class="ipa">/siˈda.d(ɨ)/</span></td></tr>
+        <tr><td><em>jardim</em> (nasal i)</td> <td><em>jardim</em> <span class="ipa">/ʒaʁˈd͡ʒĩ/</span></td> <td><em>jardim</em> <span class="ipa">/ʒɐɾˈdĩ/</span></td></tr>
+        <tr><td><em>de</em>, <em>te</em> (clitics)</td> <td><em>de</em> <span class="ipa">/d͡ʒi/</span>, <em>te</em> <span class="ipa">/t͡ʃi/</span></td> <td><em>de</em> <span class="ipa">/d(ɨ)/</span>, <em>te</em> <span class="ipa">/t(ɨ)/</span></td></tr>
+        <tr><td><em>adjetivo</em> (written <em>dj</em>)</td> <td><em>adjetivo</em> <span class="ipa">/ad.ʒeˈt͡ʃi.vu/</span></td> <td><em>adjetivo</em> <span class="ipa">/ɐ.d͡ʒɨˈti.vu/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="sibilants">S and Z</h3>
     <ul>
-        <li>For the /z/ sound in <em>exame</em>, enter: <code>e<strong>z</strong>ame</code>.</li>
-        <li>For the /ks/ sound in <em>táxi</em>, enter: <code>tá<strong>cs</strong>i</code>.</li>
-        <li>For the /ʃ/ sound in <em>caixa</em>, enter: <code>cai<strong>sh</strong>a</code>.</li>
+        <li><strong>Initial <em>s</em>, <em>ss</em>, <em>ç</em>, <em>c</em> before e/i, <em>sc</em>:</strong>
+            <span class="ipa">s</span>: <em>sapo</em> <span class="ipa">/ˈsa.pu/</span>, <em>passa</em> <span class="ipa">/ˈpa.sɐ/</span>, <em>ça</em> <span class="ipa">/ˈsa/</span>. After a nasal vowel <em>s</em> stays
+            voiceless: <em>pensar</em> <span class="ipa">/pẽˈsa(ʁ)/</span>.</li>
+        <li><strong>Between vowels (or before a voiced consonant):</strong> <span class="ipa">z</span>:
+            <em>casa</em> <span class="ipa">/ˈka.zɐ/</span>. An exception is <em>trans-</em> + vowel: <em>transar</em> <span class="ipa">/tɾɐ̃ˈza(ʁ)/</span>.</li>
+        <li><strong>Coda <em>s/z</em> before a consonant or at the end of the word:</strong> in Rio and in Portugal it becomes
+            <span class="ipa">ʃ</span> (voiceless context) or <span class="ipa">ʒ</span> (before a voiced consonant); it
+            stays <span class="ipa">s</span>/<span class="ipa">z</span> only in word-initial position:
+            <em>pasta</em> <span class="ipa">/ˈpaʃ.tɐ/</span>, <em>asma</em> <span class="ipa">/ˈaʒ.mɐ/</span>, <em>casas</em> <span class="ipa">/ˈka.zɐʃ/</span>, <em>feliz</em> <span class="ipa">/feˈliʃ/</span>.</li>
+        <li><strong>Brazilian epenthetic <span class="ipa">(j)</span>:</strong> after a stressed oral vowel (not <em>i</em>) before final
+            <em>s/z</em> the Rio output inserts an optional glide: <em>luz</em> <span class="ipa">/ˈlu(j)ʃ/</span>, <em>mês</em> <span class="ipa">/ˈme(j)ʃ/</span>, <em>faz</em> <span class="ipa">/ˈfa(j)ʃ/</span>, but not after
+            <em>i</em> (<em>feliz</em> <span class="ipa">/feˈliʃ/</span>), not in nasal vowels or diphthongs, and not in unstressed words
+            (<em>mas</em> <span class="ipa">/maʃ/</span>, <em>os</em> <span class="ipa">/uʃ/</span>). Portugal has none: <em>luz</em> <span class="ipa">/ˈluʃ/</span>.</li>
+        <li><strong>Two sibilants in a row</strong> reduce to one in Rio: <em>desc-</em>, <em>nasc-</em> give
+            <em>nascêr</em> <span class="ipa">/naˈse(ʁ)/</span>; in Portugal the first variant keeps both (<span class="ipa">ʃs</span>): <em>nascêr</em> <span class="ipa">/nɐʃˈseɾ/</span>.</li>
+        <li><strong><em>ex</em> + consonant:</strong> <span class="ipa">s</span> in Brazil but <span class="ipa">ejʃ</span> in
+            Portugal: <em>excelente</em> <span class="ipa">/e.seˈlẽ.t͡ʃi/</span> / <em>excelente</em> <span class="ipa">/ejʃ.sɨˈlẽ.t(ɨ)/</span>, <em>têxtil</em> <span class="ipa">/ˈteʃ.t͡ʃiw/</span> / <em>têxtil</em> <span class="ipa">/ˈtejʃ.til/</span>.</li>
     </ul>
-    <blockquote>The script will typically show an error like: <em>"x must be respelled z, sh, cs, ss or similar"</em>
-    </blockquote>
-    <hr>
+    <p>A word-initial <em>s</em> followed by a consonant is <em>not</em> shushed: <em>spray</em> <span class="ipa">/ˈspɾaj/</span>, <em>slide</em> <span class="ipa">/ˈsli.d͡ʒi/</span>.</p>
 
-    <h2>Implementation Details</h2>
-
-
-    <h3>Underlying Dialect Profiles in the Engine</h3>
-    <p>While this app provides two primary options for simplicity, the core engine is capable of modeling eight distinct
-        dialect profiles. The available profiles are:</p>
+    <h3 id="rhotics">R Sounds</h3>
     <ul>
-        <li><strong>Brazilian Profiles:</strong>
-            <ul>
-                <li><code>gbr</code>: General Brazilian (a standardized variety).</li>
-                <li><code>rio</code>: <strong>Rio de Janeiro (Carioca)</strong> - The dialect used for the "Brazil"
-                    option in this app.
-                </li>
-                <li><code>sp</code>: São Paulo (Paulistano).</li>
-                <li><code>sbr</code>: Southern Brazil (Gáucho).</li>
-            </ul>
-        </li>
-        <li><strong>European Profiles:</strong>
-            <ul>
-                <li><code>gpt</code>: <strong>General Portuguese</strong> - The dialect used for the "Portugal" option
-                    in this app.
-                </li>
-                <li><code>cpt</code>: Central Portugal.</li>
-                <li><code>spt</code>: Southern Portugal (Alentejo/Algarve).</li>
-                <li><code>npt</code>: Northern Portugal (Porto/Minho).</li>
-            </ul>
-        </li>
+        <li><strong>Strong r</strong> <span class="ipa">ʁ</span>: written <em>rr</em>, word-initial <em>r</em>, and
+            <em>r</em> after <em>n, l, s, z</em> (and after a nasal vowel): <em>carro</em> <span class="ipa">/ˈka.ʁu/</span>, <em>rato</em> <span class="ipa">/ˈʁa.tu/</span>, <em>honra</em> <span class="ipa">/ˈõ.ʁɐ/</span>, <em>genro</em> <span class="ipa">/ˈʒẽ.ʁu/</span>.</li>
+        <li><strong>Tap</strong> <span class="ipa">ɾ</span>: <em>r</em> between vowels or in a cluster after a consonant:
+            <em>caro</em> <span class="ipa">/ˈka.ɾu/</span>, <em>prato</em> <span class="ipa">/ˈpɾa.tu/</span>.</li>
+        <li><strong>Coda <em>r</em></strong> (before a consonant or at the end): Brazil (Rio) gives <span class="ipa">ʁ</span>
+            phonemically; Portugal gives the tap <span class="ipa">ɾ</span>: <em>pórta</em> <span class="ipa">/ˈpɔʁ.tɐ/</span>, <em>pórta</em> <span class="ipa">/ˈpɔɾ.tɐ/</span>.</li>
+        <li><strong>Rio phonetic form</strong>: strong r is <span class="ipa">χ</span>, or <span class="ipa">ʁ</span> when a voiced
+            consonant follows: <em>rua</em> <span class="ipa">[ˈχu.ɐ]</span>, <em>pórta</em> <span class="ipa">[ˈpɔχ.tɐ]</span>, <em>bórdo</em> <span class="ipa">[ˈbɔʁ.du]</span>.</li>
+        <li><strong>Final <em>r</em> after a stressed <em>a, ɛ, e, i</em></strong> (infinitives, but also <em>mar</em>) is shown
+            optional in Brazil, because it is often dropped: <em>falar</em> <span class="ipa">/faˈla(ʁ)/</span>, <em>partir</em> <span class="ipa">/paʁˈt͡ʃi(ʁ)/</span>, <em>mar</em> <span class="ipa">/ˈma(ʁ)/</span>. Respell with a
+            silent <em>h</em> to keep it fixed: <em>marh</em> <span class="ipa">/ˈmaʁ/</span>. After other vowels it is always written: <em>pôr</em> <span class="ipa">/ˈpoʁ/</span>.
+            Portugal keeps the tap: <em>falar</em> <span class="ipa">/fɐˈlaɾ/</span>.</li>
     </ul>
 
-    <h2>Dialectal Differences (Between App Options)</h2>
-    <p>This is a summary of the key differences between the two available options:</p>
+    <h3 id="laterals">L Sounds</h3>
     <ul>
-        <li><strong>Brazil (Rio de Janeiro Accent)</strong>
-            <ul>
-                <li><strong>Coda 's' (Chiado)</strong>: Pronounced <code>[ʃ]</code> or <code>[ʒ]</code> (e.g., <em>pastas</em>
-                    → <code>[ˈpaʃ.tɐʃ]</code>).
-                </li>
-                <li><strong>Unstressed 'e'/'o'</strong>: Raised to <code>[i]</code> and <code>[u]</code> (e.g.,
-                    <em>ele</em> → <code>[ˈe.li]</code>).
-                </li>
-                <li><strong>'t'/'d' before 'i'</strong>: Palatalized to <code>[tʃ]</code> and <code>[dʒ]</code> (e.g.,
-                    <em>dia</em> → <code>[ˈdʒi.ɐ]</code>).
-                </li>
-                <li><strong>Coda 'l'</strong>: Vocalized to <code>[w]</code> (e.g., <em>sol</em> → <code>[sɔw]</code>).
-                </li>
-            </ul>
-        </li>
-        <li><strong>Portugal (General Accent)</strong>
-            <ul>
-                <li><strong>Coda 's' (Chiado)</strong>: Also pronounced <code>[ʃ]</code> or <code>[ʒ]</code>, similar to
-                    Rio (e.g., <em>pastas</em> → <code>[ˈpaʃ.tɐʃ]</code>).
-                </li>
-                <li><strong>Unstressed 'e'</strong>: Reduced to <code>[ɨ]</code> or deleted, not raised to [i] (e.g.,
-                    <em>ele</em> → <code>[ˈel(ɨ)]</code>).
-                </li>
-                <li><strong>'t'/'d' before 'i'</strong>: Not palatalized, remain <code>[t]</code> and <code>[d]</code>
-                    (e.g., <em>dia</em> → <code>[ˈdi.ɐ]</code>).
-                </li>
-                <li><strong>Coda 'l'</strong>: Pronounced as a dark <code>[ɫ]</code> (e.g., <em>sol</em> →
-                    <code>[sɔɫ]</code>).
-                </li>
-            </ul>
-        </li>
+        <li><strong>Onset <em>l</em></strong> is <span class="ipa">l</span> in both dialects: <em>lá</em> <span class="ipa">/ˈla/</span>.</li>
+        <li><strong><em>lh</em></strong> is <span class="ipa">ʎ</span>: <em>filho</em> <span class="ipa">/ˈfi.ʎu/</span>.</li>
+        <li><strong>Coda <em>l</em></strong> (before a consonant or at the end) is vocalized to <span class="ipa">w</span> in
+            Brazil: <em>sól</em> <span class="ipa">/ˈsɔw/</span>, <em>animal</em> <span class="ipa">/a.niˈmaw/</span>, <em>Brasil</em> <span class="ipa">/bɾaˈziw/</span>; in Portugal it stays <span class="ipa">l</span> phonemically and
+            becomes dark <span class="ipa">ɫ</span> phonetically: <em>sól</em> <span class="ipa">/ˈsɔl/</span> <em>sól</em> <span class="ipa">[ˈsɔɫ]</span>.</li>
+        <li><strong><em>ou</em> + <em>l</em></strong>: the optional glide of <em>ou</em> is handled before coda <em>l</em>,
+            so <code>ol</code> remains a true <span class="ipa">ow</span> in Brazil: <em>sôl</em> <span class="ipa">/ˈsow/</span>.</li>
+    </ul>
+
+    <h3 id="consonant-letters">c, g, q, h, ch, lh, nh and Double Letters</h3>
+    <table>
+        <thead>
+        <tr><th>Spelling</th> <th>Rule</th> <th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><em>c</em> before e, i; <em>ç</em></td> <td><span class="ipa">s</span></td> <td><em>cinêma</em> <span class="ipa">/siˈnẽ.mɐ/</span>, <em>ça</em> <span class="ipa">/ˈsa/</span></td></tr>
+        <tr><td><em>c</em>, <em>k</em>, <em>q</em> elsewhere</td> <td><span class="ipa">k</span></td> <td><em>cato</em> <span class="ipa">/ˈka.tu/</span>, <em>kilo</em> <span class="ipa">/ˈki.lu/</span></td></tr>
+        <tr><td><em>qu</em> before e, i</td> <td><span class="ipa">k</span> (u silent)</td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span></td></tr>
+        <tr><td><em>qu</em> before a, o; <em>gu</em> before a, o; <em>ü</em></td> <td><span class="ipa">kw</span>, <span class="ipa">ɡw</span></td> <td><em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span>, <em>água</em> <span class="ipa">/ˈa.ɡwɐ/</span>, <em>agüentar</em> <span class="ipa">/a.ɡwẽˈta(ʁ)/</span></td></tr>
+        <tr><td><em>g</em> before e, i; <em>j</em></td> <td><span class="ipa">ʒ</span></td> <td><em>gêlo</em> <span class="ipa">/ˈʒe.lu/</span>, <em>júri</em> <span class="ipa">/ˈʒu.ɾi/</span></td></tr>
+        <tr><td><em>gu</em> before e, i</td> <td><span class="ipa">ɡ</span> (u silent)</td> <td><em>guitarra</em> <span class="ipa">/ɡiˈta.ʁɐ/</span></td></tr>
+        <tr><td>Initial <em>h</em></td> <td>Silent</td> <td><em>humano</em> <span class="ipa">/uˈmɐ̃.nu/</span></td></tr>
+        <tr><td><em>ch</em>, <em>sh</em></td> <td><span class="ipa">ʃ</span></td> <td><em>chuva</em> <span class="ipa">/ˈʃu.vɐ/</span>, <em>lisho</em> <span class="ipa">/ˈli.ʃu/</span></td></tr>
+        <tr><td><em>lh</em></td> <td><span class="ipa">ʎ</span></td> <td><em>filho</em> <span class="ipa">/ˈfi.ʎu/</span></td></tr>
+        <tr><td><em>nh</em></td> <td><span class="ipa">ɲ</span>; Brazilian phonetic non-initial <span class="ipa">j̃</span></td> <td><em>ninho</em> <span class="ipa">/ˈnĩ.ɲu/</span>, <em>ninho</em> <span class="ipa">[ˈnĩ.j̃u]</span>, <em>nhaca</em> <span class="ipa">[ˈɲa.kɐ]</span></td></tr>
+        <tr><td><em>ng</em> before a consonant other than h, l, r</td> <td>Brazil: <span class="ipa">n</span> (g silent); Portugal: g is pronounced</td> <td><em>parking</em> <span class="ipa">/paʁˈkĩ/</span>, <em>parking</em> <span class="ipa">/pɐɾˈkĩɡ/</span></td></tr>
+        <tr><td><em>y</em> between non-vowels</td> <td><span class="ipa">i</span></td> <td><em>Itamaraty</em> <span class="ipa">/i.ta.ma.ɾaˈt͡ʃi/</span></td></tr>
+        <tr><td><em>w</em></td> <td>Passes through as <span class="ipa">w</span></td> <td><em>whisky</em> <span class="ipa">/wiʃˈki/</span></td></tr>
+        </tbody>
+    </table>
+    <h4>Doubled Letters</h4>
+    <p>Before syllable division every doubled consonant is reduced to one letter, with four exceptions:
+        <code>rr</code> becomes <span class="ipa">ʁ</span>, <code>ss</code> stays a voiceless <span class="ipa">s</span>
+        that never takes the Brazilian epenthetic glide of a single final <em>s</em> (compare <em>nós</em> <span class="ipa">/ˈnɔ(j)ʃ/</span> with <em>nóss</em> <span class="ipa">/ˈnɔʃ/</span>), and <em>mm</em>/<em>nn</em> become a plain <em>m</em>/<em>n</em>
+        that is <em>not</em> nasalizing, so they can be used to prevent nasalization: compare <em>ano</em> <span class="ipa">/ˈɐ̃.nu/</span> with
+        <em>ánno</em> <span class="ipa">/ˈã.nu/</span>. Other double letters reduce: <em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span> (<code>zz</code> is just <span class="ipa">z</span>, see
+        <a href="#issues">Common Issues</a>).</p>
+
+    <h3 id="x-rules">The Letter x</h3>
+    <p>The engine resolves <em>x</em> only in the following cases (checked in this order). In every other position it raises
+        the error "x must be respelled z, sh, cs, ss or similar".</p>
+    <table>
+        <thead>
+        <tr><th>Context</th> <th>Result</th> <th>Examples</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Word-initial <em>x</em></td> <td><span class="ipa">ʃ</span></td> <td><em>xícara</em> <span class="ipa">/ˈʃi.ka.ɾɐ/</span>, <em>xadrêz</em> <span class="ipa">/ʃaˈdɾe(j)ʃ/</span></td></tr>
+        <tr><td>Word-final <em>x</em></td> <td><span class="ipa">ks</span>; the unstressed vowel before it is opened</td> <td><em>clímax</em> <span class="ipa">/ˈklĩ.maks/</span>, <em>córtex</em> <span class="ipa">/ˈkɔʁ.tɛks/</span>, <em>xérox</em> <span class="ipa">/ˈʃɛ.ɾɔks/</span></td></tr>
+        <tr><td><em>x</em> after <em>ai, ei, oi, ou, en</em></td> <td><span class="ipa">ʃ</span></td> <td><em>caixa</em> <span class="ipa">/ˈkaj.ʃɐ/</span>, <em>peixe</em> <span class="ipa">/ˈpe(j).ʃi/</span>, <em>troixa</em> <span class="ipa">/ˈtɾoj.ʃɐ/</span>, <em>frouxo</em> <span class="ipa">/ˈfɾo(w).ʃu/</span>, <em>enxame</em> <span class="ipa">/ẽˈʃɐ̃.mi/</span></td></tr>
+        <tr><td><em>ex</em> + consonant</td> <td>Brazil <span class="ipa">s</span>, Portugal <span class="ipa">ejʃ</span></td> <td><em>excelente</em> <span class="ipa">/e.seˈlẽ.t͡ʃi/</span> / <em>excelente</em> <span class="ipa">/ejʃ.sɨˈlẽ.t(ɨ)/</span>, <em>êxtase</em> <span class="ipa">/ˈeʃ.ta.zi/</span> / <em>êxtase</em> <span class="ipa">/ˈejʃ.tɐ.z(ɨ)/</span></td></tr>
+        <tr><td>Anything else</td> <td><strong>Error</strong>: respell with <em>z</em>, <em>cs</em>, <em>sh</em> or <em>ss</em></td> <td><em>exame</em> (error), <em>táxi</em> (error), <em>lixo</em> (error), <em>próximo</em> (error)</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="stops">Voiced Stops in Portugal (Phonetic Form)</h3>
+    <p>Only the phonetic form of Portugal fricativizes voiced stops: <code>b, d, g</code> become
+        <span class="ipa">β, ð, ɣ</span> everywhere except at the start of the word, after a nasal vowel, and (for
+        <em>d</em>) after <em>l</em>. Brazil never does this.</p>
+    <table>
+        <thead>
+        <tr><th>Context</th> <th>Portugal phonetic</th> <th>Brazil phonetic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Between vowels</td> <td><em>sabêr</em> <span class="ipa">[sɐˈβeɾ]</span>, <em>cidade</em> <span class="ipa">[siˈða.ð(ɨ)]</span></td> <td><em>sabêr</em> <span class="ipa">[saˈbe(χ)]</span>, <em>cidade</em> <span class="ipa">[siˈda.d͡ʒi]</span></td></tr>
+        <tr><td>Word-initial: stop</td> <td><em>dado</em> <span class="ipa">[ˈda.ðu]</span></td> <td><em>dado</em> <span class="ipa">[ˈda.du]</span></td></tr>
+        <tr><td>After a nasal vowel: stop</td> <td><em>mundo</em> <span class="ipa">[ˈmũ.du]</span></td> <td><em>mundo</em> <span class="ipa">[ˈmũ.du]</span></td></tr>
+        <tr><td><em>d</em> after <em>l</em>: stop</td> <td><em>caldo</em> <span class="ipa">[ˈkaɫ.du]</span></td> <td><em>caldo</em> <span class="ipa">[ˈkaʊ̯.du]</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="syllables">Syllable Division</h3>
+    <p>Syllables are divided before stress is assigned, because stress counts syllables. The rules:</p>
+    <ul>
+        <li>The division goes before the last consonant between two vowels, then moves left over a stop (<em>p b t d k g f v</em>)
+            + <em>l/r</em> cluster, which can start a syllable: <em>prato</em> <span class="ipa">/ˈpɾa.tu/</span>, <em>compra</em> <span class="ipa">/ˈkõ.pɾɐ/</span>.</li>
+        <li><strong>Brazil</strong> divides every other consonant cluster between the consonants; <strong>Portugal</strong>
+            keeps "improper" clusters of non-sibilant obstruent + obstruent or nasal together: <em>ritmo</em> <span class="ipa">/ˈʁit.mu/</span> versus
+            <em>ritmo</em> <span class="ipa">/ˈʁi.tmu/</span>, <em>técnica</em> <span class="ipa">/ˈtɛk.ni.kɐ/</span> versus <em>técnica</em> <span class="ipa">/ˈtɛ.kni.kɐ/</span>, <em>advogado</em> <span class="ipa">/ad.voˈɡa.du/</span> versus <em>advogado</em> <span class="ipa">/ɐ.dvuˈɡa.du/</span>.</li>
+        <li>Two vowels are split into two syllables, except <em>a/e/o</em> + unstressed <em>i/u</em> (diphthongs: <em>saudade</em> <span class="ipa">/sawˈda.d͡ʒi/</span>,
+            <em>peixe</em> <span class="ipa">/ˈpe(j).ʃi/</span>), final <em>-iu(s)</em>, <em>-ui(s)</em>, and the nasal diphthongs <em>ão, ãe, õe</em>.</li>
+        <li>Even such a diphthong is split before <em>m, n, l, r</em> or <em>nh</em> (<em>sair, Bombaim, Coimbra, rainha</em>):
+            <em>sair</em> <span class="ipa">/saˈi(ʁ)/</span>, <em>bombaim</em> <span class="ipa">/bõ.baˈĩ/</span>; compare <em>baile</em> <span class="ipa">/ˈbaj.li/</span> where the <em>l</em> belongs to the next syllable and the
+            diphthong survives.</li>
+        <li>Brazil keeps written <em>dj</em> as one affricate sound except after initial <em>a</em> (<em>ad.j</em>): <em>adjetivo</em> <span class="ipa">/ad.ʒeˈt͡ʃi.vu/</span>.</li>
+    </ul>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>This section provides a mapping of Portuguese spelling (orthography) to pronunciation (IPA) for both app options.
+        The tables reflect the rules the transcription engine actually applies, and every example is real engine output
+        (phonemic form unless the column says phonetic). Remember that a stressed <em>e/o</em> needs an accent unless one of
+        the automatic rules in <a href="#open-closed">Open and Closed e / o</a> applies, so several examples below are
+        written with an accent.</p>
+
+    <h3 id="map-vowels">1. Vowel Letters</h3>
+    <table>
+        <thead>
+        <tr><th>Letter</th> <th>Context</th> <th>Brazil (Rio) phonemic</th> <th>Portugal phonemic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td rowspan="5"><strong>a</strong></td> <td>Stressed (default)</td> <td><em>pá</em> <span class="ipa">/ˈpa/</span></td> <td><em>pá</em> <span class="ipa">/ˈpa/</span></td></tr>
+        <tr><td>Stressed, written <em>â</em></td> <td><em>pâra</em> <span class="ipa">/ˈpɐ.ɾɐ/</span></td> <td><em>pâra</em> <span class="ipa">/ˈpɐ.ɾɐ/</span></td></tr>
+        <tr><td>Stressed before <em>m/n/nh</em> in the next syllable</td> <td><em>cama</em> <span class="ipa">/ˈkɐ̃.mɐ/</span></td> <td><em>cama</em> <span class="ipa">/ˈkɐ.mɐ/</span></td></tr>
+        <tr><td>Unstressed, final</td> <td><em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td><em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td></tr>
+        <tr><td>Unstressed, other</td> <td><em>sapato</em> <span class="ipa">/saˈpa.tu/</span></td> <td><em>sapato</em> <span class="ipa">/sɐˈpa.tu/</span></td></tr>
+        <tr><td rowspan="6"><strong>e</strong></td> <td>Stressed, written <em>é</em></td> <td><em>pé</em> <span class="ipa">/ˈpɛ/</span></td> <td><em>pé</em> <span class="ipa">/ˈpɛ/</span></td></tr>
+        <tr><td>Stressed, written <em>ê</em></td> <td><em>pê</em> <span class="ipa">/ˈpe/</span></td> <td><em>pê</em> <span class="ipa">/ˈpe/</span></td></tr>
+        <tr><td>Unstressed, final</td> <td><em>dôce</em> <span class="ipa">/ˈdo.si/</span></td> <td><em>dôce</em> <span class="ipa">/ˈdo.s(ɨ)/</span></td></tr>
+        <tr><td>Unstressed, initial</td> <td><em>elefante</em> <span class="ipa">/e.leˈfɐ̃.t͡ʃi/</span></td> <td><em>elefante</em> <span class="ipa">/i.lɨˈfɐ̃.t(ɨ)/</span></td></tr>
+        <tr><td>Unstressed, other</td> <td><em>frequente</em> <span class="ipa">/fɾeˈkẽ.t͡ʃi/</span></td> <td><em>frequente</em> <span class="ipa">/fɾɨˈkẽ.t(ɨ)/</span></td></tr>
+        <tr><td>Before <em>x</em> + consonant (<em>ex-</em>)</td> <td><em>excelente</em> <span class="ipa">/e.seˈlẽ.t͡ʃi/</span></td> <td><em>excelente</em> <span class="ipa">/ejʃ.sɨˈlẽ.t(ɨ)/</span></td></tr>
+        <tr><td><strong>i</strong></td> <td>Stressed or unstressed</td> <td><em>pi</em> <span class="ipa">/ˈpi/</span>, <em>feliz</em> <span class="ipa">/feˈliʃ/</span></td> <td><em>pi</em> <span class="ipa">/ˈpi/</span>, <em>feliz</em> <span class="ipa">/fɨˈliʃ/</span></td></tr>
+        <tr><td rowspan="5"><strong>o</strong></td> <td>Stressed, written <em>ó</em></td> <td><em>pó</em> <span class="ipa">/ˈpɔ/</span></td> <td><em>pó</em> <span class="ipa">/ˈpɔ/</span></td></tr>
+        <tr><td>Stressed, written <em>ô</em></td> <td><em>pô</em> <span class="ipa">/ˈpo/</span></td> <td><em>pô</em> <span class="ipa">/ˈpo/</span></td></tr>
+        <tr><td>Unstressed, final</td> <td><em>bonito</em> <span class="ipa">/boˈni.tu/</span></td> <td><em>bonito</em> <span class="ipa">/buˈni.tu/</span></td></tr>
+        <tr><td>Unstressed, initial (word contains another vowel)</td> <td><em>obrigado</em> <span class="ipa">/o.bɾiˈɡa.du/</span></td> <td><em>obrigado</em> <span class="ipa">/ɔ.bɾiˈɡa.du/</span></td></tr>
+        <tr><td>Unstressed, other</td> <td><em>professor</em> <span class="ipa">/pɾo.feˈsoʁ/</span></td> <td><em>professor</em> <span class="ipa">/pɾu.fɨˈsoɾ/</span></td></tr>
+        <tr><td rowspan="2"><strong>u</strong></td> <td>Vowel</td> <td><em>pu</em> <span class="ipa">/ˈpu/</span>, <em>tatu</em> <span class="ipa">/taˈtu/</span></td> <td><em>pu</em> <span class="ipa">/ˈpu/</span>, <em>tatu</em> <span class="ipa">/tɐˈtu/</span></td></tr>
+        <tr><td>Silent after <em>q/g</em> before e/i; <em>ü</em> pronounced</td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span>, <em>agüentar</em> <span class="ipa">/a.ɡwẽˈta(ʁ)/</span></td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span>, <em>agüentar</em> <span class="ipa">/ɐ.ɡwẽˈtaɾ/</span></td></tr>
+        <tr><td><strong>y</strong></td> <td>Between non-vowels</td> <td><em>Itamaraty</em> <span class="ipa">/i.ta.ma.ɾaˈt͡ʃi/</span></td> <td><em>Itamaraty</em> <span class="ipa">/i.tɐ.mɐ.ɾɐˈti/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-nasal">2. Nasal Vowels and Nasal Diphthongs</h3>
+    <table>
+        <thead>
+        <tr><th>Spelling</th> <th>Brazil (Rio) phonemic</th> <th>Portugal phonemic</th> <th>Rule</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>ã</strong></td> <td><em>lã</em> <span class="ipa">/ˈlɐ̃/</span></td> <td><em>lã</em> <span class="ipa">/ˈlɐ̃/</span></td> <td>Tilde: nasal <span class="ipa">ɐ̃</span>, stressed if last tilde syllable</td></tr>
+        <tr><td><strong>an / am</strong> + consonant</td> <td><em>canto</em> <span class="ipa">/ˈkɐ̃.tu/</span></td> <td><em>canto</em> <span class="ipa">/ˈkɐ̃.tu/</span></td> <td>Vowel + <em>m/n</em> in one syllable nasalizes; the consonant is silent</td></tr>
+        <tr><td><strong>en / em</strong> + consonant</td> <td><em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span></td> <td><em>tempo</em> <span class="ipa">/ˈtẽ.pu/</span></td> <td>Closed nasal <span class="ipa">ẽ</span></td></tr>
+        <tr><td><strong>in / im</strong></td> <td><em>lindo</em> <span class="ipa">/ˈlĩ.du/</span></td> <td><em>lindo</em> <span class="ipa">/ˈlĩ.du/</span></td> <td><span class="ipa">ĩ</span></td></tr>
+        <tr><td><strong>on / om</strong></td> <td><em>compra</em> <span class="ipa">/ˈkõ.pɾɐ/</span></td> <td><em>compra</em> <span class="ipa">/ˈkõ.pɾɐ/</span></td> <td><span class="ipa">õ</span></td></tr>
+        <tr><td><strong>un / um</strong></td> <td><em>mundo</em> <span class="ipa">/ˈmũ.du/</span></td> <td><em>mundo</em> <span class="ipa">/ˈmũ.du/</span></td> <td><span class="ipa">ũ</span></td></tr>
+        <tr><td><strong>ão</strong></td> <td><em>mão</em> <span class="ipa">/ˈmɐ̃w̃/</span></td> <td><em>mão</em> <span class="ipa">/ˈmɐ̃w̃/</span></td> <td>Nasal diphthong <span class="ipa">ɐ̃w̃</span></td></tr>
+        <tr><td><strong>-am</strong> (unstressed, verbs)</td> <td><em>cantam</em> <span class="ipa">/ˈkɐ̃.tɐ̃w̃/</span></td> <td><em>cantam</em> <span class="ipa">/ˈkɐ̃.tɐ̃w̃/</span></td> <td>Same as <em>-ão</em></td></tr>
+        <tr><td><strong>ãe</strong></td> <td><em>mãe</em> <span class="ipa">/ˈmɐ̃j̃/</span></td> <td><em>mãe</em> <span class="ipa">/ˈmɐ̃j̃/</span></td> <td><span class="ipa">ɐ̃j̃</span></td></tr>
+        <tr><td><strong>õe</strong></td> <td><em>põe</em> <span class="ipa">/ˈpõj̃/</span></td> <td><em>põe</em> <span class="ipa">/ˈpõj̃/</span></td> <td><span class="ipa">õj̃</span></td></tr>
+        <tr><td><strong>-em / -ens</strong> (final)</td> <td><em>bem</em> <span class="ipa">/ˈbẽj̃/</span>, <em>homens</em> <span class="ipa">/ˈõ.mẽj̃ʃ/</span></td> <td><em>bem</em> <span class="ipa">/ˈbẽj̃/</span>, <em>homens</em> <span class="ipa">/ˈo.mẽj̃ʃ/</span></td> <td><span class="ipa">ẽj̃(ʃ)</span></td></tr>
+        <tr><td><strong>-êm</strong> (Portugal)</td> <td><em>têm</em> <span class="ipa">/ˈtẽj̃/</span></td> <td><em>têm</em> <span class="ipa">/ˈtẽj̃.ẽj̃/</span></td> <td>Doubled nasal ending in Portugal only</td></tr>
+        <tr><td><strong>muit-</strong></td> <td><em>muito</em> <span class="ipa">/ˈmũj̃.tu/</span></td> <td><em>muito</em> <span class="ipa">/ˈmũj̃.tu/</span></td> <td>Hard-coded nasal <span class="ipa">ũj̃</span></td></tr>
+        <tr><td>Vowel + <strong>m/n</strong> across a syllable</td> <td><em>ano</em> <span class="ipa">/ˈɐ̃.nu/</span></td> <td><em>ano</em> <span class="ipa">/ˈɐ.nu/</span></td> <td>Brazil nasalizes the stressed vowel; Portugal does not</td></tr>
+        <tr><td>Vowel + <strong>nh</strong></td> <td><em>unha</em> <span class="ipa">/ˈũ.ɲɐ/</span></td> <td><em>unha</em> <span class="ipa">/ˈu.ɲɐ/</span></td> <td>Brazil nasalizes any vowel before <em>nh</em></td></tr>
+        <tr><td>Acute + nasal</td> <td><em>ténis</em> <span class="ipa">/ˈtɛ̃.niʃ/</span></td> <td><em>ténis</em> <span class="ipa">/ˈtɛ.niʃ/</span></td> <td>Open vowel; nasalized in Brazil only</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-oral-diph">3. Oral Diphthongs</h3>
+    <table>
+        <thead>
+        <tr><th>Spelling</th> <th>Brazil (Rio) phonemic</th> <th>Portugal phonemic</th> <th>Rule</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>ai</strong></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span></td> <td><span class="ipa">aj</span></td></tr>
+        <tr><td><strong>au</strong></td> <td><em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td><em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td><span class="ipa">aw</span></td></tr>
+        <tr><td><strong>ei</strong></td> <td><em>leite</em> <span class="ipa">/ˈlej.t͡ʃi/</span></td> <td><em>leite</em> <span class="ipa">/ˈlej.t(ɨ)/</span></td> <td>Closed <span class="ipa">e</span> + glide; optional glide before r/j/g/x in Brazil: <em>cadeira</em> <span class="ipa">/kaˈde(j).ɾɐ/</span></td></tr>
+        <tr><td><strong>eu</strong></td> <td><em>ateu</em> <span class="ipa">/aˈtew/</span></td> <td><em>ateu</em> <span class="ipa">/ɐˈtew/</span></td> <td><span class="ipa">ew</span></td></tr>
+        <tr><td><strong>oi</strong></td> <td><em>boi</em> <span class="ipa">/ˈboj/</span></td> <td><em>boi</em> <span class="ipa">/ˈboj/</span></td> <td><span class="ipa">oj</span></td></tr>
+        <tr><td><strong>ou</strong></td> <td><em>pouco</em> <span class="ipa">/ˈpo(w).ku/</span></td> <td><em>pouco</em> <span class="ipa">/ˈpo(w).ku/</span></td> <td><span class="ipa">o(w)</span>, optional glide</td></tr>
+        <tr><td><strong>iu / ui</strong></td> <td><em>viu</em> <span class="ipa">/ˈviw/</span>, <em>fui</em> <span class="ipa">/ˈfuj/</span></td> <td><em>viu</em> <span class="ipa">/ˈviw/</span>, <em>fui</em> <span class="ipa">/ˈfuj/</span></td> <td><span class="ipa">iw</span>, <span class="ipa">uj</span></td></tr>
+        <tr><td><strong>éi, éu, ói</strong></td> <td><em>papéis</em> <span class="ipa">/paˈpɛjʃ/</span>, <em>céu</em> <span class="ipa">/ˈsɛw/</span>, <em>herói</em> <span class="ipa">/eˈɾɔj/</span></td> <td><em>papéis</em> <span class="ipa">/pɐˈpɛjʃ/</span>, <em>céu</em> <span class="ipa">/ˈsɛw/</span>, <em>herói</em> <span class="ipa">/iˈɾɔj/</span></td> <td>Open first element</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-consonants">4. Consonant Letters</h3>
+    <table>
+        <thead>
+        <tr><th>Letter</th> <th>Rule</th> <th>Brazil (Rio) phonemic</th> <th>Portugal phonemic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td rowspan="2"><strong>c</strong></td> <td><span class="ipa">s</span> before e, i; <span class="ipa">k</span> elsewhere</td> <td><em>cinêma</em> <span class="ipa">/siˈnẽ.mɐ/</span>, <em>cato</em> <span class="ipa">/ˈka.tu/</span></td> <td><em>cinêma</em> <span class="ipa">/siˈne.mɐ/</span>, <em>cato</em> <span class="ipa">/ˈka.tu/</span></td></tr>
+        <tr><td><em>ç</em></td> <td><em>ça</em> <span class="ipa">/ˈsa/</span></td> <td><em>ça</em> <span class="ipa">/ˈsa/</span></td></tr>
+        <tr><td><strong>d</strong></td> <td><span class="ipa">d</span>; Brazil <span class="ipa">d͡ʒ</span> before i</td> <td><em>dado</em> <span class="ipa">/ˈda.du/</span>, <em>dia</em> <span class="ipa">/ˈd͡ʒi.ɐ/</span></td> <td><em>dado</em> <span class="ipa">/ˈda.du/</span>, <em>dia</em> <span class="ipa">/ˈdi.ɐ/</span></td></tr>
+        <tr><td rowspan="2"><strong>g</strong></td> <td><span class="ipa">ʒ</span> before e, i; <span class="ipa">ɡ</span> elsewhere</td> <td><em>gêlo</em> <span class="ipa">/ˈʒe.lu/</span>, <em>gato</em> <span class="ipa">/ˈɡa.tu/</span></td> <td><em>gêlo</em> <span class="ipa">/ˈʒe.lu/</span>, <em>gato</em> <span class="ipa">/ˈɡa.tu/</span></td></tr>
+        <tr><td><code>gu</code> before e, i: <span class="ipa">ɡ</span>; before a, o: <span class="ipa">ɡw</span></td> <td><em>guitarra</em> <span class="ipa">/ɡiˈta.ʁɐ/</span>, <em>água</em> <span class="ipa">/ˈa.ɡwɐ/</span></td> <td><em>guitarra</em> <span class="ipa">/ɡiˈta.ʁɐ/</span>, <em>água</em> <span class="ipa">/ˈa.ɡwɐ/</span></td></tr>
+        <tr><td><strong>h</strong></td> <td>Silent</td> <td><em>humano</em> <span class="ipa">/uˈmɐ̃.nu/</span></td> <td><em>humano</em> <span class="ipa">/uˈmɐ.nu/</span></td></tr>
+        <tr><td><strong>b, f, k, p, v</strong></td> <td>As in English: <span class="ipa">b f k p v</span></td> <td><em>bato</em> <span class="ipa">/ˈba.tu/</span>, <em>fato</em> <span class="ipa">/ˈfa.tu/</span>, <em>kilo</em> <span class="ipa">/ˈki.lu/</span>, <em>pato</em> <span class="ipa">/ˈpa.tu/</span>, <em>vaca</em> <span class="ipa">/ˈva.kɐ/</span></td> <td><em>bato</em> <span class="ipa">/ˈba.tu/</span>, <em>fato</em> <span class="ipa">/ˈfa.tu/</span>, <em>kilo</em> <span class="ipa">/ˈki.lu/</span>, <em>pato</em> <span class="ipa">/ˈpa.tu/</span>, <em>vaca</em> <span class="ipa">/ˈva.kɐ/</span></td></tr>
+        <tr><td><strong>j</strong></td> <td><span class="ipa">ʒ</span></td> <td><em>júri</em> <span class="ipa">/ˈʒu.ɾi/</span></td> <td><em>júri</em> <span class="ipa">/ˈʒu.ɾi/</span></td></tr>
+        <tr><td><strong>l</strong></td> <td>See table 6</td> <td><em>lá</em> <span class="ipa">/ˈla/</span></td> <td><em>lá</em> <span class="ipa">/ˈla/</span></td></tr>
+        <tr><td><strong>m, n</strong></td> <td><span class="ipa">m</span>, <span class="ipa">n</span> as onset; nasalize a preceding vowel as coda</td> <td><em>mapa</em> <span class="ipa">/ˈma.pɐ/</span>, <em>nada</em> <span class="ipa">/ˈna.dɐ/</span></td> <td><em>mapa</em> <span class="ipa">/ˈma.pɐ/</span>, <em>nada</em> <span class="ipa">/ˈna.dɐ/</span></td></tr>
+        <tr><td><strong>q</strong></td> <td><span class="ipa">k</span> / <span class="ipa">kw</span></td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span>, <em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span></td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span>, <em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span></td></tr>
+        <tr><td><strong>r</strong></td> <td>See table 6</td> <td><em>caro</em> <span class="ipa">/ˈka.ɾu/</span></td> <td><em>caro</em> <span class="ipa">/ˈka.ɾu/</span></td></tr>
+        <tr><td><strong>s</strong></td> <td>See table 6</td> <td><em>sapo</em> <span class="ipa">/ˈsa.pu/</span></td> <td><em>sapo</em> <span class="ipa">/ˈsa.pu/</span></td></tr>
+        <tr><td><strong>t</strong></td> <td><span class="ipa">t</span>; Brazil <span class="ipa">t͡ʃ</span> before i</td> <td><em>tato</em> <span class="ipa">/ˈta.tu/</span>, <em>tia</em> <span class="ipa">/ˈt͡ʃi.ɐ/</span></td> <td><em>tato</em> <span class="ipa">/ˈta.tu/</span>, <em>tia</em> <span class="ipa">/ˈti.ɐ/</span></td></tr>
+        <tr><td><strong>w</strong></td> <td><span class="ipa">w</span> (not respelled by the module)</td> <td><em>whisky</em> <span class="ipa">/wiʃˈki/</span></td> <td><em>whisky</em> <span class="ipa">/wiʃˈki/</span></td></tr>
+        <tr><td><strong>x</strong></td> <td>See table 7</td> <td><em>xícara</em> <span class="ipa">/ˈʃi.ka.ɾɐ/</span></td> <td><em>xícara</em> <span class="ipa">/ˈʃi.kɐ.ɾɐ/</span></td></tr>
+        <tr><td><strong>z</strong></td> <td><span class="ipa">z</span>; final <span class="ipa">s</span> then <span class="ipa">ʃ</span></td> <td><em>zêro</em> <span class="ipa">/ˈze.ɾu/</span>, <em>luz</em> <span class="ipa">/ˈlu(j)ʃ/</span></td> <td><em>zêro</em> <span class="ipa">/ˈze.ɾu/</span>, <em>luz</em> <span class="ipa">/ˈluʃ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-digraphs">5. Digraphs and Doubled Letters</h3>
+    <table>
+        <thead>
+        <tr><th>Spelling</th> <th>IPA</th> <th>Brazil (Rio) phonemic</th> <th>Portugal phonemic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>ch</strong></td> <td><span class="ipa">ʃ</span></td> <td><em>chuva</em> <span class="ipa">/ˈʃu.vɐ/</span></td> <td><em>chuva</em> <span class="ipa">/ˈʃu.vɐ/</span></td></tr>
+        <tr><td><strong>sh</strong></td> <td><span class="ipa">ʃ</span></td> <td><em>lisho</em> <span class="ipa">/ˈli.ʃu/</span></td> <td><em>lisho</em> <span class="ipa">/ˈli.ʃu/</span></td></tr>
+        <tr><td><strong>lh</strong></td> <td><span class="ipa">ʎ</span></td> <td><em>filho</em> <span class="ipa">/ˈfi.ʎu/</span></td> <td><em>filho</em> <span class="ipa">/ˈfi.ʎu/</span></td></tr>
+        <tr><td><strong>nh</strong></td> <td><span class="ipa">ɲ</span></td> <td><em>ninho</em> <span class="ipa">/ˈnĩ.ɲu/</span></td> <td><em>ninho</em> <span class="ipa">/ˈni.ɲu/</span></td></tr>
+        <tr><td><strong>qu</strong></td> <td><span class="ipa">k</span> / <span class="ipa">kw</span></td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span>, <em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span></td> <td><em>quilo</em> <span class="ipa">/ˈki.lu/</span>, <em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span></td></tr>
+        <tr><td><strong>rr</strong></td> <td><span class="ipa">ʁ</span></td> <td><em>carro</em> <span class="ipa">/ˈka.ʁu/</span></td> <td><em>carro</em> <span class="ipa">/ˈka.ʁu/</span></td></tr>
+        <tr><td><strong>ss</strong></td> <td><span class="ipa">s</span></td> <td><em>passa</em> <span class="ipa">/ˈpa.sɐ/</span></td> <td><em>passa</em> <span class="ipa">/ˈpa.sɐ/</span></td></tr>
+        <tr><td><strong>sc, sç</strong> before e, i</td> <td><span class="ipa">s</span> (Rio) / <span class="ipa">ʃs</span> (Portugal, first variant)</td> <td><em>crescêr</em> <span class="ipa">/kɾeˈse(ʁ)/</span></td> <td><em>crescêr</em> <span class="ipa">/kɾɨʃˈseɾ/</span></td></tr>
+        <tr><td><strong>mm, nn</strong></td> <td>Plain <span class="ipa">m</span>, <span class="ipa">n</span> without nasalizing the vowel</td> <td><em>ánno</em> <span class="ipa">/ˈã.nu/</span></td> <td><em>ánno</em> <span class="ipa">/ˈa.nu/</span></td></tr>
+        <tr><td>Other doubles (<strong>zz, tt, ...</strong>)</td> <td>Single consonant</td> <td><em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span></td> <td><em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span></td></tr>
+        <tr><td><strong>ng</strong> before a consonant</td> <td>Brazil <span class="ipa">n</span>; Portugal keeps <span class="ipa">ɡ</span></td> <td><em>parking</em> <span class="ipa">/paʁˈkĩ/</span></td> <td><em>parking</em> <span class="ipa">/pɐɾˈkĩɡ/</span></td></tr>
+        <tr><td><strong>dj</strong></td> <td><span class="ipa">d͡ʒ</span> (separate from the t/d palatalization rule)</td> <td><em>djézz</em> <span class="ipa">/ˈd͡ʒɛ(j)ʃ/</span></td> <td><em>djézz</em> <span class="ipa">/ˈd͡ʒɛʃ/</span></td></tr>
+        <tr><td><strong>ps, gn, pn</strong> (clusters)</td> <td>Kept as written; no epenthetic vowel</td> <td><em>psi</em> <span class="ipa">/ˈpsi/</span>, <em>gnu</em> <span class="ipa">/ˈɡnu/</span></td> <td><em>psi</em> <span class="ipa">/ˈpsi/</span>, <em>gnu</em> <span class="ipa">/ˈɡnu/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-s-r-l">6. Context-Dependent s, z, r, l</h3>
+    <p>These letters change dramatically with position, and their phonetic forms differ more than anything else, so all
+        four columns are given.</p>
+    <table>
+        <thead>
+        <tr><th>Letter</th> <th>Context</th> <th>Brazil (Rio) phonemic</th> <th>Brazil (Rio) phonetic</th> <th>Portugal phonemic</th> <th>Portugal phonetic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td rowspan="5"><strong>s</strong></td> <td>Initial / <em>ss</em></td> <td><em>sapo</em> <span class="ipa">/ˈsa.pu/</span></td> <td><em>sapo</em> <span class="ipa">[ˈsa.pu]</span></td> <td><em>sapo</em> <span class="ipa">/ˈsa.pu/</span></td> <td><em>sapo</em> <span class="ipa">[ˈsa.pu]</span></td></tr>
+        <tr><td>Between vowels</td> <td><em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td><em>casa</em> <span class="ipa">[ˈka.zɐ]</span></td> <td><em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td><em>casa</em> <span class="ipa">[ˈka.zɐ]</span></td></tr>
+        <tr><td>Before a voiceless consonant</td> <td><em>pasta</em> <span class="ipa">/ˈpaʃ.tɐ/</span></td> <td><em>pasta</em> <span class="ipa">[ˈpaʃ.tɐ]</span></td> <td><em>pasta</em> <span class="ipa">/ˈpaʃ.tɐ/</span></td> <td><em>pasta</em> <span class="ipa">[ˈpaʃ.tɐ]</span></td></tr>
+        <tr><td>Before a voiced consonant</td> <td><em>asma</em> <span class="ipa">/ˈaʒ.mɐ/</span></td> <td><em>asma</em> <span class="ipa">[ˈaʒ.mɐ]</span></td> <td><em>asma</em> <span class="ipa">/ˈaʒ.mɐ/</span></td> <td><em>asma</em> <span class="ipa">[ˈaʒ.mɐ]</span></td></tr>
+        <tr><td>Word-final</td> <td><em>casas</em> <span class="ipa">/ˈka.zɐʃ/</span></td> <td><em>casas</em> <span class="ipa">[ˈka.zɐʃ]</span></td> <td><em>casas</em> <span class="ipa">/ˈka.zɐʃ/</span></td> <td><em>casas</em> <span class="ipa">[ˈka.zɐʃ]</span></td></tr>
+        <tr><td rowspan="2"><strong>z</strong></td> <td>Between vowels</td> <td><em>azul</em> <span class="ipa">/aˈzuw/</span></td> <td><em>azul</em> <span class="ipa">[aˈzuʊ̯]</span></td> <td><em>azul</em> <span class="ipa">/ɐˈzul/</span></td> <td><em>azul</em> <span class="ipa">[ɐˈzuɫ]</span></td></tr>
+        <tr><td>Word-final, stressed vowel (epenthetic <span class="ipa">(j)</span> in Brazil)</td> <td><em>luz</em> <span class="ipa">/ˈlu(j)ʃ/</span></td> <td><em>luz</em> <span class="ipa">[ˈlu(ɪ̯)ʃ]</span></td> <td><em>luz</em> <span class="ipa">/ˈluʃ/</span></td> <td><em>luz</em> <span class="ipa">[ˈluʃ]</span></td></tr>
+        <tr><td rowspan="5"><strong>r</strong></td> <td>Initial / after n, l, s</td> <td><em>rato</em> <span class="ipa">/ˈʁa.tu/</span></td> <td><em>rato</em> <span class="ipa">[ˈχa.tu]</span></td> <td><em>rato</em> <span class="ipa">/ˈʁa.tu/</span></td> <td><em>rato</em> <span class="ipa">[ˈʁa.tu]</span></td></tr>
+        <tr><td>Between vowels</td> <td><em>caro</em> <span class="ipa">/ˈka.ɾu/</span></td> <td><em>caro</em> <span class="ipa">[ˈka.ɾu]</span></td> <td><em>caro</em> <span class="ipa">/ˈka.ɾu/</span></td> <td><em>caro</em> <span class="ipa">[ˈka.ɾu]</span></td></tr>
+        <tr><td>In a cluster after a consonant</td> <td><em>prato</em> <span class="ipa">/ˈpɾa.tu/</span></td> <td><em>prato</em> <span class="ipa">[ˈpɾa.tu]</span></td> <td><em>prato</em> <span class="ipa">/ˈpɾa.tu/</span></td> <td><em>prato</em> <span class="ipa">[ˈpɾa.tu]</span></td></tr>
+        <tr><td>Coda before a consonant</td> <td><em>pórta</em> <span class="ipa">/ˈpɔʁ.tɐ/</span></td> <td><em>pórta</em> <span class="ipa">[ˈpɔχ.tɐ]</span></td> <td><em>pórta</em> <span class="ipa">/ˈpɔɾ.tɐ/</span></td> <td><em>pórta</em> <span class="ipa">[ˈpɔɾ.tɐ]</span></td></tr>
+        <tr><td>Final after stressed a, e, i</td> <td><em>falar</em> <span class="ipa">/faˈla(ʁ)/</span></td> <td><em>falar</em> <span class="ipa">[faˈla(χ)]</span></td> <td><em>falar</em> <span class="ipa">/fɐˈlaɾ/</span></td> <td><em>falar</em> <span class="ipa">[fɐˈlaɾ]</span></td></tr>
+        <tr><td rowspan="3"><strong>l</strong></td> <td>Onset</td> <td><em>lá</em> <span class="ipa">/ˈla/</span></td> <td><em>lá</em> <span class="ipa">[ˈla]</span></td> <td><em>lá</em> <span class="ipa">/ˈla/</span></td> <td><em>lá</em> <span class="ipa">[ˈla]</span></td></tr>
+        <tr><td>Coda before a consonant</td> <td><em>caldo</em> <span class="ipa">/ˈkaw.du/</span></td> <td><em>caldo</em> <span class="ipa">[ˈkaʊ̯.du]</span></td> <td><em>caldo</em> <span class="ipa">/ˈkal.du/</span></td> <td><em>caldo</em> <span class="ipa">[ˈkaɫ.du]</span></td></tr>
+        <tr><td>Word-final</td> <td><em>animal</em> <span class="ipa">/a.niˈmaw/</span></td> <td><em>animal</em> <span class="ipa">[a.niˈmaʊ̯]</span></td> <td><em>animal</em> <span class="ipa">/ɐ.niˈmal/</span></td> <td><em>animal</em> <span class="ipa">[ɐ.niˈmaɫ]</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-x">7. The Letter x</h3>
+    <table>
+        <thead>
+        <tr><th>Position</th> <th>Typed</th> <th>Brazil (Rio) phonemic</th> <th>Portugal phonemic</th> <th>Note</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Initial</td> <td>xícara</td> <td><em>xícara</em> <span class="ipa">/ˈʃi.ka.ɾɐ/</span></td> <td><em>xícara</em> <span class="ipa">/ˈʃi.kɐ.ɾɐ/</span></td> <td><span class="ipa">ʃ</span></td></tr>
+        <tr><td>After <em>ai/ei/oi/ou/en</em></td> <td>caixa</td> <td><em>caixa</em> <span class="ipa">/ˈkaj.ʃɐ/</span></td> <td><em>caixa</em> <span class="ipa">/ˈkaj.ʃɐ/</span></td> <td><span class="ipa">ʃ</span></td></tr>
+        <tr><td>Final</td> <td>córtex</td> <td><em>córtex</em> <span class="ipa">/ˈkɔʁ.tɛks/</span></td> <td><em>córtex</em> <span class="ipa">/ˈkɔɾ.tɛks/</span></td> <td><span class="ipa">ks</span></td></tr>
+        <tr><td><em>ex</em> + consonant</td> <td>têxtil</td> <td><em>têxtil</em> <span class="ipa">/ˈteʃ.t͡ʃiw/</span></td> <td><em>têxtil</em> <span class="ipa">/ˈtejʃ.til/</span></td> <td>Brazil <span class="ipa">s</span>, Portugal <span class="ipa">ejʃ</span></td></tr>
+        <tr><td>Between vowels (needs respelling)</td> <td>exame &rarr; ezame</td> <td><em>ezame</em> <span class="ipa">/eˈzɐ̃.mi/</span></td> <td><em>ezame</em> <span class="ipa">/iˈzɐ.m(ɨ)/</span></td> <td><span class="ipa">z</span></td></tr>
+        <tr><td>Between vowels (needs respelling)</td> <td>táxi &rarr; tácsi</td> <td><em>tácsi</em> <span class="ipa">/ˈtak.si/</span></td> <td><em>tácsi</em> <span class="ipa">/ˈta.ksi/</span></td> <td><span class="ipa">ks</span></td></tr>
+        <tr><td>Between vowels (needs respelling)</td> <td>lixo &rarr; lisho</td> <td><em>lisho</em> <span class="ipa">/ˈli.ʃu/</span></td> <td><em>lisho</em> <span class="ipa">/ˈli.ʃu/</span></td> <td><span class="ipa">ʃ</span></td></tr>
+        <tr><td>Between vowels (needs respelling)</td> <td>próximo &rarr; próssimo</td> <td><em>próssimo</em> <span class="ipa">/ˈpɾɔ.si.mu/</span></td> <td><em>próssimo</em> <span class="ipa">/ˈpɾɔ.si.mu/</span></td> <td><span class="ipa">s</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="map-dialect-table">8. Full Dialect Comparison (Quick Reference)</h3>
+    <p>Side-by-side comparison of the features that distinguish the app's two options, in both forms.</p>
+    <table>
+        <thead>
+        <tr><th rowspan="2">Feature</th> <th colspan="2">Brazil (Rio)</th> <th colspan="2">Portugal</th></tr>
+        <tr><th>Phonemic</th> <th>Phonetic</th> <th>Phonemic</th> <th>Phonetic</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Coda s (chiado)</td> <td><em>pastas</em> <span class="ipa">/ˈpaʃ.tɐʃ/</span></td> <td><em>pastas</em> <span class="ipa">[ˈpaʃ.tɐʃ]</span></td> <td><em>pastas</em> <span class="ipa">/ˈpaʃ.tɐʃ/</span></td> <td><em>pastas</em> <span class="ipa">[ˈpaʃ.tɐʃ]</span></td></tr>
+        <tr><td>Coda r before voiced consonant</td> <td><em>bórdo</em> <span class="ipa">/ˈbɔʁ.du/</span></td> <td><em>bórdo</em> <span class="ipa">[ˈbɔʁ.du]</span></td> <td><em>bórdo</em> <span class="ipa">/ˈbɔɾ.du/</span></td> <td><em>bórdo</em> <span class="ipa">[ˈbɔɾ.ðu]</span></td></tr>
+        <tr><td>Final r (infinitive)</td> <td><em>cantar</em> <span class="ipa">/kɐ̃ˈta(ʁ)/</span></td> <td><em>cantar</em> <span class="ipa">[kɐ̃ˈta(χ)]</span></td> <td><em>cantar</em> <span class="ipa">/kɐ̃ˈtaɾ/</span></td> <td><em>cantar</em> <span class="ipa">[kɐ̃ˈtaɾ]</span></td></tr>
+        <tr><td>t before i</td> <td><em>tia</em> <span class="ipa">/ˈt͡ʃi.ɐ/</span></td> <td><em>tia</em> <span class="ipa">[ˈt͡ʃi.ɐ]</span></td> <td><em>tia</em> <span class="ipa">/ˈti.ɐ/</span></td> <td><em>tia</em> <span class="ipa">[ˈti.ɐ]</span></td></tr>
+        <tr><td>Coda l</td> <td><em>sól</em> <span class="ipa">/ˈsɔw/</span></td> <td><em>sól</em> <span class="ipa">[ˈsɔʊ̯]</span></td> <td><em>sól</em> <span class="ipa">/ˈsɔl/</span></td> <td><em>sól</em> <span class="ipa">[ˈsɔɫ]</span></td></tr>
+        <tr><td>Final unstressed -o</td> <td><em>bonito</em> <span class="ipa">/boˈni.tu/</span></td> <td><em>bonito</em> <span class="ipa">[boˈni.tu]</span></td> <td><em>bonito</em> <span class="ipa">/buˈni.tu/</span></td> <td><em>bonito</em> <span class="ipa">[buˈni.tu]</span></td></tr>
+        <tr><td>Unstressed a / e</td> <td><em>sapato</em> <span class="ipa">/saˈpa.tu/</span></td> <td><em>sapato</em> <span class="ipa">[saˈpa.tu]</span></td> <td><em>sapato</em> <span class="ipa">/sɐˈpa.tu/</span></td> <td><em>sapato</em> <span class="ipa">[sɐˈpa.tu]</span></td></tr>
+        <tr><td>Initial unstressed e</td> <td><em>elefante</em> <span class="ipa">/e.leˈfɐ̃.t͡ʃi/</span></td> <td><em>elefante</em> <span class="ipa">[e.leˈfɐ̃.t͡ʃi]</span></td> <td><em>elefante</em> <span class="ipa">/i.lɨˈfɐ̃.t(ɨ)/</span></td> <td><em>elefante</em> <span class="ipa">[i.lɨˈfɐ̃.t(ɨ)]</span></td></tr>
+        <tr><td>Initial unstressed o</td> <td><em>obrigado</em> <span class="ipa">/o.bɾiˈɡa.du/</span></td> <td><em>obrigado</em> <span class="ipa">[o.bɾiˈɡa.du]</span></td> <td><em>obrigado</em> <span class="ipa">/ɔ.bɾiˈɡa.du/</span></td> <td><em>obrigado</em> <span class="ipa">[ɔ.βɾiˈɣa.ðu]</span></td></tr>
+        <tr><td>Vowel before coda l</td> <td><em>alface</em> <span class="ipa">/awˈfa.si/</span></td> <td><em>alface</em> <span class="ipa">[aʊ̯ˈfa.si]</span></td> <td><em>alface</em> <span class="ipa">/alˈfa.s(ɨ)/</span></td> <td><em>alface</em> <span class="ipa">[aɫˈfa.s(ɨ)]</span></td></tr>
+        <tr><td>Stressed a before nasal consonant</td> <td><em>cama</em> <span class="ipa">/ˈkɐ̃.mɐ/</span></td> <td><em>cama</em> <span class="ipa">[ˈkɐ̃.mɐ]</span></td> <td><em>cama</em> <span class="ipa">/ˈkɐ.mɐ/</span></td> <td><em>cama</em> <span class="ipa">[ˈkɐ.mɐ]</span></td></tr>
+        <tr><td>nh</td> <td><em>banho</em> <span class="ipa">/ˈbɐ̃.ɲu/</span></td> <td><em>banho</em> <span class="ipa">[ˈbɐ̃.j̃u]</span></td> <td><em>banho</em> <span class="ipa">/ˈbɐ.ɲu/</span></td> <td><em>banho</em> <span class="ipa">[ˈbɐ.ɲu]</span></td></tr>
+        <tr><td>Diphthong ei</td> <td><em>beijo</em> <span class="ipa">/ˈbe(j).ʒu/</span></td> <td><em>beijo</em> <span class="ipa">[ˈbe(ɪ̯).ʒu]</span></td> <td><em>beijo</em> <span class="ipa">/ˈbej.ʒu/</span></td> <td><em>beijo</em> <span class="ipa">[ˈbej.ʒu]</span></td></tr>
+        <tr><td>Nasal diphthong ão</td> <td><em>mão</em> <span class="ipa">/ˈmɐ̃w̃/</span></td> <td><em>mão</em> <span class="ipa">[ˈmɐ̃ʊ̯̃]</span></td> <td><em>mão</em> <span class="ipa">/ˈmɐ̃w̃/</span></td> <td><em>mão</em> <span class="ipa">[ˈmɐ̃w̃]</span></td></tr>
+        <tr><td>Final -em</td> <td><em>homem</em> <span class="ipa">/ˈõ.mẽj̃/</span></td> <td><em>homem</em> <span class="ipa">[ˈõ.mẽɪ̯̃]</span></td> <td><em>homem</em> <span class="ipa">/ˈo.mẽj̃/</span></td> <td><em>homem</em> <span class="ipa">[ˈo.mẽj̃]</span></td></tr>
+        <tr><td>Doubled nasal -êm</td> <td><em>vêm</em> <span class="ipa">/ˈvẽj̃/</span></td> <td><em>vêm</em> <span class="ipa">[ˈvẽɪ̯̃]</span></td> <td><em>vêm</em> <span class="ipa">/ˈvẽj̃.ẽj̃/</span></td> <td><em>vêm</em> <span class="ipa">[ˈvẽj̃.ẽj̃]</span></td></tr>
+        <tr><td>Hiatus before a vowel</td> <td><em>teatro</em> <span class="ipa">/teˈa.tɾu/</span></td> <td><em>teatro</em> <span class="ipa">[teˈa.tɾu]</span></td> <td><em>teatro</em> <span class="ipa">/ˈtja.tɾu/</span></td> <td><em>teatro</em> <span class="ipa">[ˈtja.tɾu]</span></td></tr>
+        <tr><td>Epenthetic (j) before final s/z</td> <td><em>luz</em> <span class="ipa">/ˈlu(j)ʃ/</span></td> <td><em>luz</em> <span class="ipa">[ˈlu(ɪ̯)ʃ]</span></td> <td><em>luz</em> <span class="ipa">/ˈluʃ/</span></td> <td><em>luz</em> <span class="ipa">[ˈluʃ]</span></td></tr>
+        <tr><td>Consonant cluster division</td> <td><em>ritmo</em> <span class="ipa">/ˈʁit.mu/</span></td> <td><em>ritmo</em> <span class="ipa">[ˈχit.mu]</span></td> <td><em>ritmo</em> <span class="ipa">/ˈʁi.tmu/</span></td> <td><em>ritmo</em> <span class="ipa">[ˈʁi.tmu]</span></td></tr>
+        <tr><td>ng before a consonant</td> <td><em>parking</em> <span class="ipa">/paʁˈkĩ/</span></td> <td><em>parking</em> <span class="ipa">[paχˈkĩ]</span></td> <td><em>parking</em> <span class="ipa">/pɐɾˈkĩɡ/</span></td> <td><em>parking</em> <span class="ipa">[pɐɾˈkĩɡ]</span></td></tr>
+        <tr><td>Voiced stops between vowels</td> <td><em>sabêr</em> <span class="ipa">/saˈbe(ʁ)/</span></td> <td><em>sabêr</em> <span class="ipa">[saˈbe(χ)]</span></td> <td><em>sabêr</em> <span class="ipa">/sɐˈbeɾ/</span></td> <td><em>sabêr</em> <span class="ipa">[sɐˈβeɾ]</span></td></tr>
+        <tr><td>ex + consonant</td> <td><em>excelente</em> <span class="ipa">/e.seˈlẽ.t͡ʃi/</span></td> <td><em>excelente</em> <span class="ipa">[e.seˈlẽ.t͡ʃi]</span></td> <td><em>excelente</em> <span class="ipa">/ejʃ.sɨˈlẽ.t(ɨ)/</span></td> <td><em>excelente</em> <span class="ipa">[ejʃ.sɨˈlẽ.t(ɨ)]</span></td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Should I choose Brazil or Portugal?</h3>
+    <p>Choose Brazil for Rio de Janeiro pronunciation and Portugal for a generic European transcription. Other regional accents, such as São Paulo or southern Brazil, are not selectable; see <a href="#dialects">Dialects &amp; Limitations</a> and the comparison in <a href="#map-dialect-table">Full Dialect Comparison</a>.</p>
+
+    <h3>What is the difference between the Phonemic and Phonetic forms?</h3>
+    <p>The phonemic form is the broad transcription; the phonetic form adds a short list of allophonic rules. For Brazil it changes the strong r, as in <em>rato</em> <span class="ipa">/ˈʁa.tu/</span> against <span class="ipa">[ˈχa.tu]</span>; for Portugal it turns <em>b, d, g</em> into fricatives, as in <em>cidade</em> <span class="ipa">/siˈda.d(ɨ)/</span> against <span class="ipa">[siˈða.ð(ɨ)]</span>. See <a href="#forms">Phonemic vs Phonetic</a>.</p>
+
+    <h3>Why does a word come back unchanged, and how do I respell it?</h3>
+    <p>The engine refuses a stressed <em>e</em> or <em>o</em> whose quality is not marked, and most uses of <em>x</em>. Mark the stressed vowel with <em>é/ê</em> or <em>ó/ô</em>: <em>governo</em> is returned unchanged, but <em>govêrno</em> gives <span class="ipa">/ɡoˈveʁ.nu/</span> in Brazil and <span class="ipa">/ɡuˈveɾ.nu/</span> in Portugal. Replace <em>x</em> by its sound, for example <em>exame</em> as <em>ezame</em>. A few regular words, such as Brazilian <em>rio</em>, fail because of a module bug; all of this is explained in <a href="#errors">Why You Might See an Error</a>. <a href="../?lang=Portuguese&amp;text=gov%C3%AArno">Open in the converter</a></p>
+
+    <h3>Why can the output differ from a dictionary?</h3>
+    <p>The tool has no lexicon: each word is transcribed from its spelling alone, one space-separated word at a time. Loanwords and irregular spellings therefore need a respelling, for example <em>pizza</em> gives <span class="ipa">/ˈpi.zɐ/</span> while <em>pítsa</em> gives <span class="ipa">/ˈpit.sɐ/</span> in Brazil. See <a href="#issues">Common Issues &amp; Limitations</a>.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The transcription is produced by <code>lua_modules/pt-pron_wasm.lua</code>, a copy of the Wiktionary module
+        <code>pt-pronunc</code>. The app only calls <code>export.IPA(text, style)</code>, which returns a list of
+        <code>{phonemic, phonetic, qualifiers}</code> objects; the handler in <code>scripts/utils.js</code> takes the first
+        object and the field named after the selected form:</p>
+    <pre><code>const region = langStyle === "Brazil" ? "rio" : "pt";
+const result = window.pt_ipa.IPA(cleanText, region);
+return result?.[0]?.[langForm.toLowerCase()];</code></pre>
+    <p>The stages below follow the order of the code. Stages 1 to 5 run once in <code>export.IPA</code> (headings 1 to 5 below); stages 6 to 23 run
+        twice inside <code>one_term_ipa</code> (once for the phonemic and once for the phonetic output, controlled by the
+        <code>phonetic</code> flag); stage 24 expands variants and stage 25 cleans up. (The list and the headings use the same
+        numbers; stages 2 and 3, and stages 4 and 5, share a table.) Each table shows the relevant rule and a
+        real engine output for each dialect (phonemic form unless the column says otherwise).</p>
+
+    <ol>
+        <li><strong>Canonicalization</strong> (<code>export.IPA</code>): app-side cleaning, lowercase, NFD, accent validation.</li>
+        <li><strong>Word splitting, prefixes and unstressed words</strong> (stages 2 and 3 in one table below).</li>
+        <li><strong>Unstressed-word marking</strong> with DOTOVER/DOTUNDER and substitutions.</li>
+        <li><strong>Boundary markers</strong> for apostrophes, hyphens and word edges.</li>
+        <li><strong>Dialect-specific accents</strong> (grave and macron).</li>
+        <li><strong>The letter x</strong> (first step of <code>one_term_ipa</code>).</li>
+        <li><strong>h combinations and initial h.</strong></li>
+        <li><strong>c, g, q, gu, qu, ü, ng, y.</strong></li>
+        <li><strong>Doubled letters and muit-.</strong></li>
+        <li><strong>Syllable division.</strong></li>
+        <li><strong>Stress assignment</strong> (<code>accent_word</code>).</li>
+        <li><strong>Hiatus and glide formation.</strong></li>
+        <li><strong>Vowel placeholders and nasalization.</strong></li>
+        <li><strong>Nasal and oral diphthongs.</strong></li>
+        <li><strong>Special open/closed o rules.</strong></li>
+        <li><strong>Unstressed vowels.</strong></li>
+        <li><strong>Final vowel qualities and the e/o error check.</strong></li>
+        <li><strong>Epenthetic glide, s/z voicing and shibilants.</strong></li>
+        <li><strong>R sounds.</strong></li>
+        <li><strong>Profile-specific diphthong rules.</strong></li>
+        <li><strong>Stops:</strong> palatalization (Brazil), fricativization (Portugal, phonetic).</li>
+        <li><strong>Glides, ou, coda l, nh and optional final ɨ.</strong></li>
+        <li><strong>Symbol clean-up.</strong></li>
+        <li><strong>Variant expansion</strong> (<code>call_one_term_ipa</code>).</li>
+        <li><strong>Finalization</strong> (<code>finalize_ipa</code>).</li>
+    </ol>
+
+    <h3>Internal Notation (Intermediate Forms)</h3>
+    <p>During processing the module uses placeholder symbols that are <strong>not</strong> part of the final IPA. Capital
+        letters (and a few capitalized IPA letters) remember where a sound came from, so that later rules can decide its
+        final quality. All of them are gone by the time the result is returned.</p>
+    <table>
+        <thead>
+        <tr><th>Symbol</th> <th>Name</th> <th>Purpose</th> <th>Stage</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">A E O</span></td> <td>Undetermined vowels</td> <td>Written a/e/o whose quality is not yet known; resolved to <span class="ipa">a ɐ e ɛ ɨ i o ɔ u</span></td> <td>13 to 17</td></tr>
+        <tr><td><span class="ipa">Ẽ</span></td> <td>Initial en-/em-</td> <td>Brazilian <span class="ipa">ẽ</span> (careful) or <span class="ipa">ĩ</span> (natural)</td> <td>13, 24</td></tr>
+        <tr><td><span class="ipa">I</span>, <span class="ipa">Ɨ</span></td> <td>Epenthetic i</td> <td>Epenthetic or deleted i; also Brazilian <span class="ipa">e/i</span> from initial <code>esC-</code> and Portuguese <span class="ipa">(i)</span></td> <td>16, 24</td></tr>
+        <tr><td><span class="ipa">Ì Ù</span>, <span class="ipa">Ú</span></td> <td>Optional glides</td> <td>Hiatus <code>i/u</code> that may be a glide; <span class="ipa">Ú</span> is stressed final <em>-io</em> in Brazil</td> <td>12, 24</td></tr>
+        <tr><td><span class="ipa">Ɔ</span></td> <td>Open/closed o</td> <td>Portuguese <span class="ipa">o</span> or <span class="ipa">ɔ</span> before coda l</td> <td>16, 24</td></tr>
+        <tr><td><span class="ipa">W</span>, <span class="ipa">L</span></td> <td>Regional w; final -le</td> <td>Optional <span class="ipa">w</span> after closed o in hiatus; word-final <em>-le</em> in Portugal</td> <td>17, 22, 24</td></tr>
+        <tr><td><span class="ipa">X</span>, <span class="ipa">S</span>, <span class="ipa">N</span>, <span class="ipa">M</span>, <span class="ipa">Y</span></td> <td>Letter memories</td> <td>Final x; <em>ss</em>; <em>nn</em>; <em>mm</em>; Brazilian epenthetic glide</td> <td>6, 9, 18</td></tr>
+        <tr><td><span class="ipa">ʧ ʤ</span></td> <td>Palatalized t/d</td> <td>Unitary affricates, converted to <span class="ipa">t͡ʃ d͡ʒ</span> at the end</td> <td>21, 23</td></tr>
+        <tr><td>combining marks</td> <td>DOTOVER, DOTUNDER, LINEUNDER</td> <td>Forced reduction, explicit unstressed full vowel, secondary stress</td> <td>3, 11</td></tr>
+        <tr><td><code>#</code>, <code>##</code></td> <td>Word and utterance boundary</td> <td>Allows "word end" rules to work inside components</td> <td>4</td></tr>
+        <tr><td>PSEUDOCONS, PREFIX_MARKER, SYLDIV, TEMP1</td> <td>Private-use characters</td> <td>Edges of vowel-final prefixes, prefix flag, user syllable divider, temporary guard</td> <td>4 to 25</td></tr>
+        </tbody>
+    </table>
+
+    <h4>1. Canonicalization</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Lowercase everything</td> <td><code>Maria</code></td> <td><em>Maria</em> <span class="ipa">/maˈɾi.ɐ/</span></td> <td><em>Maria</em> <span class="ipa">/mɐˈɾi.ɐ/</span></td> <td>Capitals are accepted and ignored</td></tr>
+        <tr><td>NFD; keep ç, ü composed; sort accents (quality, then stress, then tilde)</td> <td><code>ação</code></td> <td><em>ação</em> <span class="ipa">/aˈsɐ̃w̃/</span></td> <td><em>ação</em> <span class="ipa">/ɐˈsɐ̃w̃/</span></td> <td><code>reorder_accents</code> makes accent order irrelevant</td></tr>
+        <tr><td>Reject circumflex, grave or macron on anything but a/e/o</td> <td><code>cîa</code></td> <td><em>cîa</em> (error)</td> <td><em>cîa</em> (error)</td> <td>Error "Only a/e/o can be followed by circumflex, grave or macron"; also raised for two quality marks or two stress marks on one vowel</td></tr>
+        </tbody>
+    </table>
+
+    <h4>2. and 3. Word Splitting, Prefixes and Unstressed Words</h4>
+    <p>The text is split at spaces and hyphens. A word that ends with a hyphen and has no accent is a <em>prefix</em>; it and
+        the words in <code>unstressed_words</code> (plus, in Portugal,
+        <code>unstressed_full_vowel_words_brazil</code>) receive a DOTOVER (forced vowel reduction). Words in
+        <code>unstressed_full_vowel_words</code> (and, in Brazil, <code>unstressed_full_vowel_words_brazil</code>) receive a
+        DOTUNDER (unstressed but not reduced). <code>unstressed_pronunciation_substitution</code> then rewrites
+        <em>ao(s)</em>, <em>à(s)</em> and <em>por</em>.</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Reduced clitic (both)</td> <td><code>de</code></td> <td><em>de</em> <span class="ipa">/d͡ʒi/</span></td> <td><em>de</em> <span class="ipa">/d(ɨ)/</span></td> <td>No stress, final e reduced</td></tr>
+        <tr><td>Clitic reduced in Portugal only</td> <td><code>da</code></td> <td><em>da</em> <span class="ipa">/da/</span></td> <td><em>da</em> <span class="ipa">/dɐ/</span></td> <td>Brazil keeps full <span class="ipa">a</span></td></tr>
+        <tr><td>Never reduced</td> <td><code>meu</code></td> <td><em>meu</em> <span class="ipa">/mew/</span></td> <td><em>meu</em> <span class="ipa">/mew/</span></td> <td>No stress mark, full vowels</td></tr>
+        <tr><td>Substitution</td> <td><code>ao</code>, <code>por</code></td> <td><em>ao</em> <span class="ipa">/aw/</span>, <em>por</em> <span class="ipa">/puʁ/</span></td> <td><em>ao</em> <span class="ipa">/aw/</span>, <em>por</em> <span class="ipa">/puɾ/</span></td> <td><em>ao</em> read as <em>au</em>, <em>por</em> as <em>pur</em></td></tr>
+        <tr><td>Prefix with trailing hyphen</td> <td><code>anti-</code></td> <td><em>anti-</em> <span class="ipa">/ɐ̃.t͡ʃi/</span></td> <td><em>anti-</em> <span class="ipa">/ɐ̃.ti/</span></td> <td>Unstressed prefix; PSEUDOCONS and PREFIX_MARKER are attached</td></tr>
+        </tbody>
+    </table>
+
+    <h4>4. and 5. Boundary Markers and Dialect-Specific Accents</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Apostrophe becomes the tie <code>‿</code> (syllable-transparent)</td> <td><code>d'água</code></td> <td><em>d'água</em> <span class="ipa">/ˈd‿a.ɡwɐ/</span></td> <td><em>d'água</em> <span class="ipa">/ˈd‿a.ɡwɐ/</span></td> <td>Words are wrapped in <code>#</code> boundaries, the whole text in <code>##</code></td></tr>
+        <tr><td>Hyphen becomes a component boundary</td> <td><code>guarda-chuva</code></td> <td><em>guarda-chuva</em> <span class="ipa">/ˌɡwaʁ.dɐˈʃu.vɐ/</span></td> <td><em>guarda-chuva</em> <span class="ipa">/ˌɡwaɾ.dɐˈʃu.vɐ/</span></td> <td>Both sides get <code>#</code>; each component is stressed separately</td></tr>
+        <tr><td>Brazil: delete grave/macron. Portugal: grave becomes acute + DOTUNDER, macron becomes circumflex + DOTUNDER</td> <td><code>sòlo</code></td> <td>Error</td> <td><em>sòlo</em> <span class="ipa">/sɔ.lu/</span></td> <td>In Brazil the vowel is left stressed and unmarked, so the e/o check of stage 17 fails; in Portugal it is an explicitly unstressed open vowel</td></tr>
+        </tbody>
+    </table>
+
+    <h4>6. The Letter x</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>#x → #ʃ</td> <td><code>xícara</code></td> <td><em>xícara</em> <span class="ipa">/ˈʃi.ka.ɾɐ/</span></td> <td><em>xícara</em> <span class="ipa">/ˈʃi.kɐ.ɾɐ/</span></td> <td>Initial x (also after a component boundary)</td></tr>
+        <tr><td>x# → X# (later <span class="ipa">ks</span>)</td> <td><code>córtex</code></td> <td><em>córtex</em> <span class="ipa">/ˈkɔʁ.tɛks/</span></td> <td><em>córtex</em> <span class="ipa">/ˈkɔɾ.tɛks/</span></td> <td>Unstressed a/e/o before X is opened at stage 16</td></tr>
+        <tr><td>(ai|ei|oi|ou|en)x → ...ʃ</td> <td><code>caixa</code></td> <td><em>caixa</em> <span class="ipa">/ˈkaj.ʃɐ/</span></td> <td><em>caixa</em> <span class="ipa">/ˈkaj.ʃɐ/</span></td> <td>Other diphthongs before x (e.g. <em>au</em>, <em>eu</em>) fall through to the error</td></tr>
+        <tr><td>ex + C: Brazil → es + C; Portugal → eis + C</td> <td><code>excelente</code></td> <td><em>excelente</em> <span class="ipa">/e.seˈlẽ.t͡ʃi/</span></td> <td><em>excelente</em> <span class="ipa">/ejʃ.sɨˈlẽ.t(ɨ)/</span></td> <td>Not applied to other vowels; <em>exs</em> becomes <em>isç</em> in Portugal</td></tr>
+        <tr><td>Any remaining x</td> <td><code>exame</code></td> <td><em>exame</em> (error)</td> <td><em>exame</em> (error)</td> <td>Error "x must be respelled z, sh, cs, ss or similar"</td></tr>
+        </tbody>
+    </table>
+
+    <h4>7. h Combinations and Initial h</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>(s|c)h → ʃ</td> <td><code>chuva</code></td> <td><em>chuva</em> <span class="ipa">/ˈʃu.vɐ/</span></td> <td><em>chuva</em> <span class="ipa">/ˈʃu.vɐ/</span></td> <td>Done before syllabification so the consonant stays with the <em>h</em></td></tr>
+        <tr><td>nh → ɲ, lh → ʎ</td> <td><code>ninho</code>, <code>filho</code></td> <td><em>ninho</em> <span class="ipa">/ˈnĩ.ɲu/</span>, <em>filho</em> <span class="ipa">/ˈfi.ʎu/</span></td> <td><em>ninho</em> <span class="ipa">/ˈni.ɲu/</span>, <em>filho</em> <span class="ipa">/ˈfi.ʎu/</span></td> <td>Brazil's later nasalization and phonetic <span class="ipa">j̃</span> apply to <span class="ipa">ɲ</span></td></tr>
+        <tr><td>Initial h removed</td> <td><code>humano</code></td> <td><em>humano</em> <span class="ipa">/uˈmɐ̃.nu/</span></td> <td><em>humano</em> <span class="ipa">/uˈmɐ.nu/</span></td> <td>Any other <em>h</em> is deleted at the very end (stage 23)</td></tr>
+        </tbody>
+    </table>
+
+    <h4>8. c, g, q, gu, qu, ü, ng, y</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>c + front vowel → ç; g + front vowel → j</td> <td><code>cinêma</code>, <code>gêlo</code></td> <td><em>cinêma</em> <span class="ipa">/siˈnẽ.mɐ/</span>, <em>gêlo</em> <span class="ipa">/ˈʒe.lu/</span></td> <td><em>cinêma</em> <span class="ipa">/siˈne.mɐ/</span>, <em>gêlo</em> <span class="ipa">/ˈʒe.lu/</span></td> <td>Front vowels: <span class="ipa">e ɛ ɨ i</span> and glides</td></tr>
+        <tr><td>gu/qu + front vowel → g/k</td> <td><code>guitarra</code>, <code>quilo</code></td> <td><em>guitarra</em> <span class="ipa">/ɡiˈta.ʁɐ/</span>, <em>quilo</em> <span class="ipa">/ˈki.lu/</span></td> <td><em>guitarra</em> <span class="ipa">/ɡiˈta.ʁɐ/</span>, <em>quilo</em> <span class="ipa">/ˈki.lu/</span></td> <td>The <em>u</em> is silent</td></tr>
+        <tr><td>ng + consonant: Brazil → n, Portugal → ngh</td> <td><code>parking</code></td> <td><em>parking</em> <span class="ipa">/paʁˈkĩ/</span></td> <td><em>parking</em> <span class="ipa">/pɐɾˈkĩɡ/</span></td> <td>Not before a vowel, h, l or r</td></tr>
+        <tr><td>ü → u; (g|q)u + vowel → (g|q)w; remaining c, q → k</td> <td><code>agüentar</code>, <code>quatro</code></td> <td><em>agüentar</em> <span class="ipa">/a.ɡwẽˈta(ʁ)/</span>, <em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span></td> <td><em>agüentar</em> <span class="ipa">/ɐ.ɡwẽˈtaɾ/</span>, <em>quatro</em> <span class="ipa">/ˈkwa.tɾu/</span></td> <td><em>w</em> is a glide consonant here</td></tr>
+        <tr><td>y between non-vowels → i</td> <td><code>Itamaraty</code></td> <td><em>Itamaraty</em> <span class="ipa">/i.ta.ma.ɾaˈt͡ʃi/</span></td> <td><em>Itamaraty</em> <span class="ipa">/i.tɐ.mɐ.ɾɐˈti/</span></td> <td>Other uses of y are left to the glide rules</td></tr>
+        </tbody>
+    </table>
+
+    <h4>9. Doubled Letters and muit-</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>rr → ʁ</td> <td><code>carro</code></td> <td><em>carro</em> <span class="ipa">/ˈka.ʁu/</span></td> <td><em>carro</em> <span class="ipa">/ˈka.ʁu/</span></td> <td>A single unit, so it cannot be split by syllabification</td></tr>
+        <tr><td>nn → N, mm → M (→ plain n, m)</td> <td><code>ánno</code></td> <td><em>ánno</em> <span class="ipa">/ˈã.nu/</span></td> <td><em>ánno</em> <span class="ipa">/ˈa.nu/</span></td> <td>Prevents nasalization of the preceding vowel</td></tr>
+        <tr><td>ss → S (later s or ç)</td> <td><code>passa</code>, <code>nóss</code></td> <td><em>passa</em> <span class="ipa">/ˈpa.sɐ/</span>, <em>nóss</em> <span class="ipa">/ˈnɔʃ/</span></td> <td><em>passa</em> <span class="ipa">/ˈpa.sɐ/</span>, <em>nóss</em> <span class="ipa">/ˈnɔʃ/</span></td> <td>Final S behaves like s but blocks the epenthetic glide</td></tr>
+        <tr><td>(C)(C) with identical consonants → one</td> <td><code>pizza</code></td> <td><em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span></td> <td><em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span></td> <td>Applies to every other double consonant</td></tr>
+        <tr><td>#mu(stress)it → mũit</td> <td><code>muito</code></td> <td><em>muito</em> <span class="ipa">/ˈmũj̃.tu/</span></td> <td><em>muito</em> <span class="ipa">/ˈmũj̃.tu/</span></td> <td>Done before t/d palatalization</td></tr>
+        </tbody>
+    </table>
+
+    <h4>10. Syllable Division</h4>
+    <p>Rules, applied in this order: (a) divide before the last consonant between vowels (plus any following glide) and
+        move the division left over a stop + <em>l/r</em> onset; (b) <strong>Portugal</strong> also keeps "improper"
+        clusters (<em>pt, bv, mn</em>, ...) together, whereas <strong>Brazil</strong> divides between them (and handles
+        <em>adj-</em> specially); (c) divide <em>a/e/o</em> + <em>i/u</em> before <em>m, n, l, r, nh</em>; (d) protect
+        final <em>-ui(s)</em>, <em>-iu(s)</em>, the diphthongs <em>aeo + unstressed i/u</em> and the nasal diphthongs
+        <em>ão, ãe, õe, ũi</em>; (e) divide every other vowel sequence.</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Stop + l/r is an onset</td> <td><code>prato</code></td> <td><em>prato</em> <span class="ipa">/ˈpɾa.tu/</span></td> <td><em>prato</em> <span class="ipa">/ˈpɾa.tu/</span></td> <td>Not divided</td></tr>
+        <tr><td>Improper clusters (dialect difference)</td> <td><code>ritmo</code></td> <td><em>ritmo</em> <span class="ipa">/ˈʁit.mu/</span></td> <td><em>ritmo</em> <span class="ipa">/ˈʁi.tmu/</span></td> <td>Brazil: <em>t.m</em>; Portugal: <em>.tm</em></td></tr>
+        <tr><td>Diphthong protected</td> <td><code>saudade</code></td> <td><em>saudade</em> <span class="ipa">/sawˈda.d͡ʒi/</span></td> <td><em>saudade</em> <span class="ipa">/sawˈda.d(ɨ)/</span></td> <td><em>au</em> stays one syllable</td></tr>
+        <tr><td>Diphthong divided before r</td> <td><code>sair</code></td> <td><em>sair</em> <span class="ipa">/saˈi(ʁ)/</span></td> <td><em>sair</em> <span class="ipa">/sɐˈiɾ/</span></td> <td><em>a.i</em> in hiatus</td></tr>
+        <tr><td>Other vowel sequences divided</td> <td><code>saída</code></td> <td><em>saída</em> <span class="ipa">/saˈi.dɐ/</span></td> <td><em>saída</em> <span class="ipa">/sɐˈi.dɐ/</span></td> <td>Accented <em>í</em> blocks the diphthong rule</td></tr>
+        </tbody>
+    </table>
+
+    <h4>11. Stress Assignment (<code>accent_word</code>)</h4>
+    <p>First, an acute or circumflex on a vowel becomes a primary stress mark (<span class="ipa">ˈ</span>); a line-under
+        becomes secondary stress. Then <code>accent_word</code> is run on each word (and component) that has no primary
+        stress: it looks for a tilde syllable (last one wins); otherwise it stresses the next-to-last syllable when the
+        word ends in <code>[aeo]s?</code>, <code>[ae]m</code> or <code>[ae]ns</code>, else the last syllable; it never
+        stresses an epenthetic <em>I</em> or a vowel-less syllable. <em>-mente</em> and <em>-zinho/-zinha(s)</em> are first
+        split off as separate components.</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Accent → stress</td> <td><code>café</code></td> <td><em>café</em> <span class="ipa">/kaˈfɛ/</span></td> <td><em>café</em> <span class="ipa">/kɐˈfɛ/</span></td> <td>Acute/circumflex mark both stress and quality</td></tr>
+        <tr><td>Last tilde syllable</td> <td><code>irmão</code></td> <td><em>irmão</em> <span class="ipa">/iʁˈmɐ̃w̃/</span></td> <td><em>irmão</em> <span class="ipa">/iɾˈmɐ̃w̃/</span></td> <td>Tilde stress before the default rule</td></tr>
+        <tr><td>Next-to-last</td> <td><code>cidade</code></td> <td><em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span></td> <td><em>cidade</em> <span class="ipa">/siˈda.d(ɨ)/</span></td> <td>Ends in <em>e</em></td></tr>
+        <tr><td>Last</td> <td><code>azul</code></td> <td><em>azul</em> <span class="ipa">/aˈzuw/</span></td> <td><em>azul</em> <span class="ipa">/ɐˈzul/</span></td> <td>Ends in <em>l</em></td></tr>
+        <tr><td>-mente / -zinho split</td> <td><code>rapidamente</code></td> <td><em>rapidamente</em> <span class="ipa">/ʁaˌpi.daˈmẽ.t͡ʃi/</span></td> <td><em>rapidamente</em> <span class="ipa">/ʁɐˌpi.dɐˈmẽ.t(ɨ)/</span></td> <td>Both components stressed; the first one is demoted at stage 25</td></tr>
+        </tbody>
+    </table>
+
+    <h4>12. Hiatus and Glide Formation</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>#i.V → #yV unless the i is stressed or the dot was typed</td> <td><code>iate</code></td> <td><em>iate</em> <span class="ipa">/ˈja.t͡ʃi/</span></td> <td><em>iate</em> <span class="ipa">/ˈja.t(ɨ)/</span></td> <td>Both dialects</td></tr>
+        <tr><td>Brazil: unstressed i./u. → optional glide (Ì, Ù); Portugal: e./i./o./u. before a vowel → glide</td> <td><code>teatro</code></td> <td><em>teatro</em> <span class="ipa">/teˈa.tɾu/</span></td> <td><em>teatro</em> <span class="ipa">/ˈtja.tɾu/</span></td> <td>The shown variant keeps the hiatus in Brazil</td></tr>
+        <tr><td>Portugal only: e.i → a.i (except after <em>re-</em>)</td> <td><code>proteína</code></td> <td><em>proteína</em> <span class="ipa">/pɾo.teˈĩ.nɐ/</span></td> <td><em>proteína</em> <span class="ipa">/pɾu.tɐˈi.nɐ/</span></td> <td>Portuguese <span class="ipa">ɐ</span></td></tr>
+        <tr><td>Stressed i + final o in Brazil → Ú</td> <td><code>rio</code></td> <td><em>rio</em> <span class="ipa">/ˈʁi.u/</span></td> <td><em>rio</em> <span class="ipa">/ˈʁi.u/</span></td> <td>Two variants <span class="ipa">i.u</span> / <span class="ipa">iw</span> are generated at stage 24; the app shows the first</td></tr>
+        </tbody>
+    </table>
+
+    <h4>13. Vowel Placeholders and Nasalization</h4>
+    <p>Every <em>a, e, o</em> becomes <em>A, E, O</em> (undetermined). Then, in order:</p>
+    <ol>
+        <li>Final unstressed <em>Am</em> becomes <em>Ão</em>.</li>
+        <li>Portugal: final <code>n</code> becomes a true <span class="ipa">n</span> and opens the preceding E/O.</li>
+        <li><em>põem</em>: Brazil drops the <em>m</em>; Portugal inserts a hiatus. Portugal's circumflex <em>-êm</em> becomes a
+            double nasal glide sequence. An acute on final <em>-em/-ens</em> is turned into a circumflex.</li>
+        <li>Vowel + <em>m/n</em> in one syllable becomes a tilde; a non-high vowel gets a circumflex.</li>
+        <li>A primary-stressed vowel before <em>m/n/nh</em> across a syllable boundary is circumflexed (both dialects)
+            and nasalized in Brazil (except <code>sbr</code>); every vowel before <em>nh</em> is nasalized in Brazil.</li>
+        <li>Brazil: initial unstressed <code>êm-/ên-</code> + consonant becomes <span class="ipa">Ẽ</span>.</li>
+    </ol>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>-am → -ão</td> <td><code>cantam</code></td> <td><em>cantam</em> <span class="ipa">/ˈkɐ̃.tɐ̃w̃/</span></td> <td><em>cantam</em> <span class="ipa">/ˈkɐ̃.tɐ̃w̃/</span></td> <td>Unstressed final</td></tr>
+        <tr><td>V + m/n (same syllable) → V~</td> <td><code>lindo</code></td> <td><em>lindo</em> <span class="ipa">/ˈlĩ.du/</span></td> <td><em>lindo</em> <span class="ipa">/ˈlĩ.du/</span></td> <td>Consonant disappears</td></tr>
+        <tr><td>Stressed V + m/n (next syllable)</td> <td><code>cama</code></td> <td><em>cama</em> <span class="ipa">/ˈkɐ̃.mɐ/</span></td> <td><em>cama</em> <span class="ipa">/ˈkɐ.mɐ/</span></td> <td>Brazil nasalizes; both close the vowel</td></tr>
+        <tr><td>Portugal final n</td> <td><code>hífen</code></td> <td><em>hífen</em> <span class="ipa">/ˈi.fẽj̃/</span></td> <td><em>hífen</em> <span class="ipa">/ˈi.fɛn/</span></td> <td>Portugal: true <span class="ipa">n</span>, open vowel</td></tr>
+        <tr><td>Circumflex on final -em (Portugal)</td> <td><code>têm</code></td> <td><em>têm</em> <span class="ipa">/ˈtẽj̃/</span></td> <td><em>têm</em> <span class="ipa">/ˈtẽj̃.ẽj̃/</span></td> <td>Doubled nasal diphthong in Portugal only</td></tr>
+        <tr><td>Initial en-/em- + consonant (Brazil)</td> <td><code>enxame</code></td> <td><em>enxame</em> <span class="ipa">/ẽˈʃɐ̃.mi/</span></td> <td><em>enxame</em> <span class="ipa">/ẽˈʃɐ.m(ɨ)/</span></td> <td>Careful variant shown first</td></tr>
+        </tbody>
+    </table>
+
+    <h4>14. Nasal and Oral Diphthongs</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Ã + O → ã + nasal w; Ã + E → nasal j; Õ + E → nasal j; ũ + i → nasal j</td> <td><code>mão</code>, <code>mãe</code>, <code>põe</code></td> <td><em>mão</em> <span class="ipa">/ˈmɐ̃w̃/</span>, <em>mãe</em> <span class="ipa">/ˈmɐ̃j̃/</span>, <em>põe</em> <span class="ipa">/ˈpõj̃/</span></td> <td><em>mão</em> <span class="ipa">/ˈmɐ̃w̃/</span>, <em>mãe</em> <span class="ipa">/ˈmɐ̃j̃/</span>, <em>põe</em> <span class="ipa">/ˈpõj̃/</span></td> <td>The second letter becomes a glide</td></tr>
+        <tr><td>Final nasal e (-em, -ens) → ẽ + nasal j</td> <td><code>bem</code>, <code>homens</code></td> <td><em>bem</em> <span class="ipa">/ˈbẽj̃/</span>, <em>homens</em> <span class="ipa">/ˈõ.mẽj̃ʃ/</span></td> <td><em>bem</em> <span class="ipa">/ˈbẽj̃/</span>, <em>homens</em> <span class="ipa">/ˈo.mẽj̃ʃ/</span></td> <td>Regardless of stress</td></tr>
+        <tr><td>E/O + i/u/y/w → ê/ô</td> <td><code>leite</code>, <code>boi</code></td> <td><em>leite</em> <span class="ipa">/ˈlej.t͡ʃi/</span>, <em>boi</em> <span class="ipa">/ˈboj/</span></td> <td><em>leite</em> <span class="ipa">/ˈlej.t(ɨ)/</span>, <em>boi</em> <span class="ipa">/ˈboj/</span></td> <td>No accent needed in a diphthong</td></tr>
+        <tr><td>A + i/u/y/w → á</td> <td><code>pai</code>, <code>mau</code></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td><em>pai</em> <span class="ipa">/ˈpaj/</span>, <em>mau</em> <span class="ipa">/ˈmaw/</span></td> <td>Always <span class="ipa">a</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>15. Special Open/Closed o</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>[dtsS]O ˈ r# (and -ra, -res, -ras) → closed o</td> <td><code>invasor</code>, <code>ganhadora</code></td> <td><em>invasor</em> <span class="ipa">/ĩ.vaˈzoʁ/</span>, <em>ganhadora</em> <span class="ipa">/ɡɐ̃.ɲaˈdo.ɾɐ/</span></td> <td><em>invasor</em> <span class="ipa">/ĩ.vɐˈzoɾ/</span>, <em>ganhadora</em> <span class="ipa">/ɡɐ.ɲɐˈdo.ɾɐ/</span></td> <td><em>-dor, -tor, -sor</em> and their feminine and plural forms</td></tr>
+        <tr><td>Oˈ.sO# → closed</td> <td><code>gostoso</code></td> <td><em>gostoso</em> <span class="ipa">/ɡoʃˈto.zu/</span></td> <td><em>gostoso</em> <span class="ipa">/ɡuʃˈto.zu/</span></td> <td>Masculine <em>-oso</em></td></tr>
+        <tr><td>Oˈ.s[OA]s?# → open ɔ</td> <td><code>gostosa</code>, <code>gostosos</code></td> <td><em>gostosa</em> <span class="ipa">/ɡoʃˈtɔ.zɐ/</span>, <em>gostosos</em> <span class="ipa">/ɡoʃˈtɔ.zuʃ/</span></td> <td><em>gostosa</em> <span class="ipa">/ɡuʃˈtɔ.zɐ/</span>, <em>gostosos</em> <span class="ipa">/ɡuʃˈtɔ.zuʃ/</span></td> <td>Feminine and plural: open</td></tr>
+        <tr><td>Stressed O in hiatus → closed o</td> <td><code>boa</code></td> <td><em>boa</em> <span class="ipa">/ˈbo.ɐ/</span></td> <td><em>boa</em> <span class="ipa">/ˈbo.ɐ/</span></td> <td>In Portugal an optional regional <span class="ipa">w</span> is generated at stage 24</td></tr>
+        </tbody>
+    </table>
+
+    <h4>16. Unstressed Vowels</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Before final X: unstressed a/e/o opened</td> <td><code>clímax</code></td> <td><em>clímax</em> <span class="ipa">/ˈklĩ.maks/</span></td> <td><em>clímax</em> <span class="ipa">/ˈkli.maks/</span></td> <td>X is then replaced by <span class="ipa">ks</span></td></tr>
+        <tr><td>Brazil: final unstressed e/o/a → i/u/ɐ (not in <code>sbr</code>)</td> <td><code>dôce</code>, <code>bonito</code></td> <td><em>dôce</em> <span class="ipa">/ˈdo.si/</span>, <em>bonito</em> <span class="ipa">/boˈni.tu/</span></td> <td><em>dôce</em> <span class="ipa">/ˈdo.s(ɨ)/</span>, <em>bonito</em> <span class="ipa">/buˈni.tu/</span></td> <td>Remaining unstressed vowels become a/e/o</td></tr>
+        <tr><td>Brazil: initial #Es + C → I (i or e)</td> <td><code>estar</code></td> <td><em>estar</em> <span class="ipa">/iʃˈta(ʁ)/</span></td> <td><em>estar</em> <span class="ipa">/(i)ʃˈtaɾ/</span></td> <td>Portugal: initial #Es → (i)</td></tr>
+        <tr><td>Portugal: [AEO] before final r or coda l → open</td> <td><code>dólar</code>, <code>alface</code></td> <td><em>dólar</em> <span class="ipa">/ˈdɔ.lɐʁ/</span>, <em>alface</em> <span class="ipa">/awˈfa.si/</span></td> <td><em>dólar</em> <span class="ipa">/ˈdɔ.laɾ/</span>, <em>alface</em> <span class="ipa">/alˈfa.s(ɨ)/</span></td> <td>The o before l becomes <span class="ipa">Ɔ</span> (o/ɔ, first variant o)</td></tr>
+        <tr><td>Portugal: initial E → i; initial O → ɔ if the word contains another vowel; others → ɐ ɨ u</td> <td><code>elefante</code>, <code>obrigado</code></td> <td><em>elefante</em> <span class="ipa">/e.leˈfɐ̃.t͡ʃi/</span>, <em>obrigado</em> <span class="ipa">/o.bɾiˈɡa.du/</span></td> <td><em>elefante</em> <span class="ipa">/i.lɨˈfɐ̃.t(ɨ)/</span>, <em>obrigado</em> <span class="ipa">/ɔ.bɾiˈɡa.du/</span></td> <td>Unstressed <code>ie</code> becomes <span class="ipa">jɛ</span></td></tr>
+        </tbody>
+    </table>
+
+    <h4>17. Final Vowel Qualities and the Error Check</h4>
+    <p>Remaining <code>A</code> becomes <span class="ipa">a</span>; a quality mark turns <code>A/E/O</code> into
+        <span class="ipa">a ɐ</span> / <span class="ipa">ɛ e</span> / <span class="ipa">ɔ o</span> (acute / circumflex);
+        quality marks on <em>i/u</em> are ignored. Any <em>E</em> or <em>O</em> that is still undetermined triggers the
+        error "Stressed e or o not occurring nasalized or in a diphthong must be marked for quality using é/ê or ó/ô".</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>A + acute → a, A + circumflex → ɐ</td> <td><code>pára</code>, <code>pâra</code></td> <td><em>pára</em> <span class="ipa">/ˈpa.ɾɐ/</span>, <em>pâra</em> <span class="ipa">/ˈpɐ.ɾɐ/</span></td> <td><em>pára</em> <span class="ipa">/ˈpa.ɾɐ/</span>, <em>pâra</em> <span class="ipa">/ˈpɐ.ɾɐ/</span></td> <td>Only stress marks fix the quality</td></tr>
+        <tr><td>E/O + acute → ɛ/ɔ; + circumflex → e/o</td> <td><code>féra</code>, <code>fêra</code></td> <td><em>féra</em> <span class="ipa">/ˈfɛ.ɾɐ/</span>, <em>fêra</em> <span class="ipa">/ˈfe.ɾɐ/</span></td> <td><em>féra</em> <span class="ipa">/ˈfɛ.ɾɐ/</span>, <em>fêra</em> <span class="ipa">/ˈfe.ɾɐ/</span></td> <td>Open or closed</td></tr>
+        <tr><td>E or O still unresolved</td> <td><code>governo</code></td> <td><em>governo</em> (error)</td> <td><em>governo</em> (error)</td> <td>The error raised from <code>one_term_ipa</code> is caught by the app</td></tr>
+        </tbody>
+    </table>
+
+    <h4>18. Epenthetic Glide, s/z and Shibilants</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil: V ˈ + final s/z → V ˈ Y s/z (not after i)</td> <td><code>luz</code></td> <td><em>luz</em> <span class="ipa">/ˈlu(j)ʃ/</span></td> <td><em>luz</em> <span class="ipa">/ˈluʃ/</span></td> <td>Y later becomes <span class="ipa">(j)</span></td></tr>
+        <tr><td>S# → s#, S → ç; z# → s#</td> <td><code>passa</code></td> <td><em>passa</em> <span class="ipa">/ˈpa.sɐ/</span></td> <td><em>passa</em> <span class="ipa">/ˈpa.sɐ/</span></td> <td>The ss spelling blocks voicing and epenthesis</td></tr>
+        <tr><td>trans + V → z; s between vowels or before a voiced consonant → z; z before voiceless → s</td> <td><code>transar</code>, <code>casa</code></td> <td><em>transar</em> <span class="ipa">/tɾɐ̃ˈza(ʁ)/</span>, <em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td><em>transar</em> <span class="ipa">/tɾɐ̃ˈzaɾ/</span>, <em>casa</em> <span class="ipa">/ˈka.zɐ/</span></td> <td>Not after a nasal vowel before a vowel (e.g. <em>pensar</em>)</td></tr>
+        <tr><td>Rio and Portugal: s/z before a consonant or at the end → ʃ/ʒ (not word-initial)</td> <td><code>pasta</code>, <code>asma</code></td> <td><em>pasta</em> <span class="ipa">/ˈpaʃ.tɐ/</span>, <em>asma</em> <span class="ipa">/ˈaʒ.mɐ/</span></td> <td><em>pasta</em> <span class="ipa">/ˈpaʃ.tɐ/</span>, <em>asma</em> <span class="ipa">/ˈaʒ.mɐ/</span></td> <td>Other Brazilian styles skip this rule</td></tr>
+        <tr><td>Identical sibilants merge; Rio also merges ʃ+s</td> <td><code>nascêr</code></td> <td><em>nascêr</em> <span class="ipa">/naˈse(ʁ)/</span></td> <td><em>nascêr</em> <span class="ipa">/nɐʃˈseɾ/</span></td> <td>Portugal keeps <span class="ipa">ʃs</span> as the "careful" first variant (stage 24)</td></tr>
+        </tbody>
+    </table>
+
+    <h4>19. R Sounds</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil, phonetic)</th> <th>Output (Portugal, phonetic)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Initial r, or after ~ l s z ʃ ʒ → ʁ</td> <td><code>honra</code></td> <td><em>honra</em> <span class="ipa">[ˈõ.χɐ]</span></td> <td><em>honra</em> <span class="ipa">[ˈõ.ʁɐ]</span></td> <td>Brazil phonetic: <span class="ipa">ʁ</span> becomes <span class="ipa">χ</span></td></tr>
+        <tr><td>Brazil: stressed [aɛei] + final r → optional (ʁ); other coda r → ʁ</td> <td><code>cantar</code>, <code>pórta</code></td> <td><em>cantar</em> <span class="ipa">[kɐ̃ˈta(χ)]</span>, <em>pórta</em> <span class="ipa">[ˈpɔχ.tɐ]</span></td> <td><em>cantar</em> <span class="ipa">[kɐ̃ˈtaɾ]</span>, <em>pórta</em> <span class="ipa">[ˈpɔɾ.tɐ]</span></td> <td>Other Brazilian styles use ɾ (<code>sp</code>) or ɻ (<code>sbr</code>)</td></tr>
+        <tr><td>Phonetic Rio: ʁ before voiced consonant stays ʁ, otherwise χ</td> <td><code>bórdo</code></td> <td><em>bórdo</em> <span class="ipa">[ˈbɔʁ.du]</span></td> <td><em>bórdo</em> <span class="ipa">[ˈbɔɾ.ðu]</span></td> <td>Other Brazilian styles: <span class="ipa">ɦ</span> / <span class="ipa">h</span></td></tr>
+        <tr><td>All other r → ɾ</td> <td><code>caro</code></td> <td><em>caro</em> <span class="ipa">[ˈka.ɾu]</span></td> <td><em>caro</em> <span class="ipa">[ˈka.ɾu]</span></td> <td>Including Portugal coda r</td></tr>
+        </tbody>
+    </table>
+
+    <h4>20. Profile-Specific Diphthong Rules</h4>
+    <p>Brazil: <code>eir, eij, eig, eix</code> receive an optional <span class="ipa">(j)</span>. The following branches are
+        selected by exact style name and therefore never run in this app, because the app passes <code>pt</code> for
+        Portugal: <code>spt</code> deletes the glide of <em>ei</em> and <em>ou</em>; <code>gpt</code> lowers
+        <span class="ipa">e/ɛ</span> before <em>i</em>, before <code>j</code>, and before other palatals to
+        <span class="ipa">ɐ</span>.</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil: e(i) before r/j/g/x → e(j)</td> <td><code>beijo</code>, <code>cadeira</code></td> <td><em>beijo</em> <span class="ipa">/ˈbe(j).ʒu/</span>, <em>cadeira</em> <span class="ipa">/kaˈde(j).ɾɐ/</span></td> <td><em>beijo</em> <span class="ipa">/ˈbej.ʒu/</span>, <em>cadeira</em> <span class="ipa">/kɐˈdej.ɾɐ/</span></td> <td>Portugal (<code>pt</code>) keeps a normal diphthong</td></tr>
+        </tbody>
+    </table>
+
+    <h4>21. Stops: Palatalization and Fricativization</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil, phonemic)</th> <th>Output (Portugal, phonetic)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil: [td] + i/Ì/y/Ɨ → ʧ/ʤ</td> <td><code>tia</code>, <code>cidade</code></td> <td><em>tia</em> <span class="ipa">/ˈt͡ʃi.ɐ/</span>, <em>cidade</em> <span class="ipa">/siˈda.d͡ʒi/</span></td> <td><em>tia</em> <span class="ipa">[ˈti.ɐ]</span>, <em>cidade</em> <span class="ipa">[siˈða.ð(ɨ)]</span></td> <td>Runs after the final vowel qualities, so raised final <em>e</em> is included</td></tr>
+        <tr><td>Portugal, phonetic only: [bdg] → [βðɣ], then back to stops at ## start, after a nasal, and ld</td> <td><code>sabêr</code>, <code>mundo</code></td> <td><em>sabêr</em> <span class="ipa">/saˈbe(ʁ)/</span>, <em>mundo</em> <span class="ipa">/ˈmũ.du/</span></td> <td><em>sabêr</em> <span class="ipa">[sɐˈβeɾ]</span>, <em>mundo</em> <span class="ipa">[ˈmũ.du]</span></td> <td>No fricativization in Brazil</td></tr>
+        </tbody>
+    </table>
+
+    <h4>22. Glides, ou, Coda l, nh and Optional ɨ</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil, phonetic)</th> <th>Output (Portugal, phonetic)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>ou → o(w)</td> <td><code>pouco</code></td> <td><em>pouco</em> <span class="ipa">[ˈpo(ʊ̯).ku]</span></td> <td><em>pouco</em> <span class="ipa">[ˈpo(w).ku]</span></td> <td>Done before coda l, so <code>ol</code> stays <span class="ipa">ow</span></td></tr>
+        <tr><td>Coda l: Brazil → w; Portugal phonetic → ɫ</td> <td><code>animal</code></td> <td><em>animal</em> <span class="ipa">[a.niˈmaʊ̯]</span></td> <td><em>animal</em> <span class="ipa">[ɐ.niˈmaɫ]</span></td> <td>Portugal phonemic keeps <span class="ipa">l</span></td></tr>
+        <tr><td>Second element of a diphthong: i/j → j or ɪ̯; u/w → w or ʊ̯ (phonetic Brazil)</td> <td><code>pai</code></td> <td><em>pai</em> <span class="ipa">[ˈpaɪ̯]</span></td> <td><em>pai</em> <span class="ipa">[ˈpaj]</span></td> <td>Y → <span class="ipa">(j)</span> in Brazil</td></tr>
+        <tr><td>Brazil phonetic: non-initial ɲ → j̃</td> <td><code>banho</code></td> <td><em>banho</em> <span class="ipa">[ˈbɐ̃.j̃u]</span></td> <td><em>banho</em> <span class="ipa">[ˈbɐ.ɲu]</span></td> <td>Not in <code>sbr</code>; initial <em>nh</em> is unchanged: <em>nhaca</em> <span class="ipa">[ˈɲa.kɐ]</span></td></tr>
+        <tr><td>Portugal: final ɨ is optional, and elided before a vowel</td> <td><code>tarde</code></td> <td><em>tarde</em> <span class="ipa">[ˈtaʁ.d͡ʒi]</span></td> <td><em>tarde</em> <span class="ipa">[ˈtaɾ.ð(ɨ)]</span></td> <td>Output <span class="ipa">(ɨ)</span>; for final <em>-le</em> the word is split into two variants (see stage 24)</td></tr>
+        </tbody>
+    </table>
+
+    <h4>23. Symbol Clean-Up</h4>
+    <p><span class="ipa">g</span> is replaced with the IPA <span class="ipa">ɡ</span> (U+0261); <span class="ipa">ʧ ʤ</span> and
+        <span class="ipa">tʃ dʒ</span> become <span class="ipa">t͡ʃ d͡ʒ</span>; every <em>h</em> is deleted (the temporary
+        capital <em>H</em> used for Brazilian strong r is lowercased first).</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil)</th> <th>Output (Portugal)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>g → ɡ; ʤ → d͡ʒ</td> <td><code>gato</code>, <code>dia</code></td> <td><em>gato</em> <span class="ipa">/ˈɡa.tu/</span>, <em>dia</em> <span class="ipa">/ˈd͡ʒi.ɐ/</span></td> <td><em>gato</em> <span class="ipa">/ˈɡa.tu/</span>, <em>dia</em> <span class="ipa">/ˈdi.ɐ/</span></td> <td>Proper IPA characters</td></tr>
+        </tbody>
+    </table>
+
+    <h4>24. Variant Expansion (<code>call_one_term_ipa</code>)</h4>
+    <p>The phonemic and phonetic outputs are computed first. Then <code>flatmap_and_sub_post</code> splits every output that
+        contains an undecided symbol into two variants, each with a qualifier. The app only displays the first variant.</p>
+    <table>
+        <thead>
+        <tr><th>Dialect</th> <th>Symbol</th> <th>First variant (shown)</th> <th>Second variant (not shown)</th> <th>Example (first variant)</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil</td> <td>Ẽ (initial en-/em-)</td> <td><span class="ipa">ẽ</span> (careful)</td> <td><span class="ipa">ĩ</span> (natural)</td> <td><em>enxame</em> <span class="ipa">/ẽˈʃɐ̃.mi/</span></td></tr>
+        <tr><td>Brazil</td> <td>I (initial es-)</td> <td><span class="ipa">i</span></td> <td><span class="ipa">e</span></td> <td><em>estar</em> <span class="ipa">/iʃˈta(ʁ)/</span></td></tr>
+        <tr><td>Brazil</td> <td>Ú (stressed final -io)</td> <td><span class="ipa">.u</span></td> <td><span class="ipa">w</span> / <span class="ipa">ʊ̯</span></td> <td>Bug: crashes, see Common Issues</td></tr>
+        <tr><td>Brazil and Portugal</td> <td>Ì / Ù (hiatus i/u)</td> <td>Full vowel</td> <td>Glide ("faster pronunciation")</td> <td><em>criança</em> <span class="ipa">/kɾiˈɐ̃.sɐ/</span></td></tr>
+        <tr><td>Portugal</td> <td>ʃ + s, ʒ + z</td> <td>Both kept ("careful")</td> <td>Only the first ("natural")</td> <td><em>nascêr</em> <span class="ipa">/nɐʃˈseɾ/</span></td></tr>
+        <tr><td>Portugal</td> <td>Ɔ (o before l)</td> <td><span class="ipa">o</span></td> <td><span class="ipa">ɔ</span></td> <td><em>solteiro</em> <span class="ipa">/solˈtej.ɾu/</span></td></tr>
+        <tr><td>Portugal</td> <td>W (o in hiatus)</td> <td>No glide</td> <td><span class="ipa">w</span> ("regional")</td> <td><em>boa</em> <span class="ipa">/ˈbo.ɐ/</span></td></tr>
+        <tr><td>Portugal</td> <td>L (final -le)</td> <td>With a full <span class="ipa">ɨ</span> in its own syllable</td> <td>Without it (one syllable fewer), ending in coda <span class="ipa">l</span> / <span class="ipa">ɫ</span></td> <td>Bug: crashes, see Common Issues</td></tr>
+        </tbody>
+    </table>
+
+    <h4>25. Finalization (<code>finalize_ipa</code>)</h4>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example Input</th> <th>Output (Brazil, phonetic)</th> <th>Output (Portugal, phonetic)</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil phonetic: i/u + syllable dot + vowel → ɪ/ʊ</td> <td><code>ciúme</code></td> <td><em>ciúme</em> <span class="ipa">[sɪˈũ.mi]</span></td> <td><em>ciúme</em> <span class="ipa">[ˈsju.m(ɨ)]</span></td> <td>Only after the glide variants have been expanded</td></tr>
+        <tr><td>Move ˈ/ˌ to the start of the syllable; drop the dot before it</td> <td><code>saída</code></td> <td><em>saída</em> <span class="ipa">[saˈi.dɐ]</span></td> <td><em>saída</em> <span class="ipa">[sɐˈi.ðɐ]</span></td> <td>Stress marks sit on the vowel until this point</td></tr>
+        <tr><td>All but the last primary stress of a word become secondary; stress in prefixes becomes secondary</td> <td><code>guarda-chuva</code></td> <td><em>guarda-chuva</em> <span class="ipa">[ˌɡwaʁ.dɐˈʃu.vɐ]</span></td> <td><em>guarda-chuva</em> <span class="ipa">[ˌɡwaɾ.ðɐˈʃu.vɐ]</span></td> <td>Compounds, <em>-mente</em> and <em>-zinho</em></td></tr>
+        <tr><td>Remove <code>#</code>, <code>_</code>, PSEUDOCONS, PREFIX_MARKER; recompose to NFC</td> <td><code>d'água</code></td> <td><em>d'água</em> <span class="ipa">[ˈd‿a.ɡwɐ]</span></td> <td><em>d'água</em> <span class="ipa">[ˈd‿a.ɣwɐ]</span></td> <td>Output is ready for the app</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Phonetic Transcription Process</h3>
+    <p>There is no separate "apply phonetic rules" pass for Portuguese: <code>one_term_ipa</code> runs twice and the
+        <code>phonetic</code> flag changes only the rules below.</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th> <th>Example</th> <th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Brazil: ʁ → χ (ʁ before a voiced consonant)</td> <td><em>carro</em> <span class="ipa">[ˈka.χu]</span></td> <td>Rio's voiceless uvular fricative</td></tr>
+        <tr><td>Brazil: diphthong glides j, w → ɪ̯, ʊ̯</td> <td><em>pai</em> <span class="ipa">[ˈpaɪ̯]</span></td> <td>Short vowel-like glides</td></tr>
+        <tr><td>Brazil: non-initial ɲ → j̃ (not <code>sbr</code>)</td> <td><em>banho</em> <span class="ipa">[ˈbɐ̃.j̃u]</span></td> <td>Nasal glide</td></tr>
+        <tr><td>Brazil: hiatus i/u → ɪ/ʊ</td> <td><em>viúva</em> <span class="ipa">[vɪˈu.vɐ]</span></td> <td>Lax vowels</td></tr>
+        <tr><td>Portugal: b d g → β ð ɣ (with exceptions)</td> <td><em>obrigado</em> <span class="ipa">[ɔ.βɾiˈɣa.ðu]</span></td> <td>Fricativization, see stage 21</td></tr>
+        <tr><td>Portugal: coda l → ɫ</td> <td><em>animal</em> <span class="ipa">[ɐ.niˈmaɫ]</span></td> <td>Dark l</td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription fails or is wrong. "System Output" for a word that
+        fails means the word is returned unchanged in the error style (see
+        <a href="#err-display">What the App Shows When It Fails</a>).</p>
+
+    <table>
+        <thead>
+        <tr><th>Input</th> <th>System Output</th> <th>Correct IPA</th> <th>Cause</th> <th>What to Do</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><em>governo</em>, <em>hoje</em>, <em>Europa</em></td> <td>Error in both dialects: <em>governo</em> (error), <em>hoje</em> (error), <em>Europa</em> (error)</td> <td>Brazil: <em>govêrno</em> <span class="ipa">/ɡoˈveʁ.nu/</span>, <em>hóje</em> <span class="ipa">/ˈɔ.ʒi/</span>, <em>Európa</em> <span class="ipa">/ewˈɾɔ.pɐ/</span><br>Portugal: <em>govêrno</em> <span class="ipa">/ɡuˈveɾ.nu/</span>, <em>hóje</em> <span class="ipa">/ˈɔ.ʒ(ɨ)/</span>, <em>Európa</em> <span class="ipa">/ewˈɾɔ.pɐ/</span></td> <td>Stressed e/o without é/ê/ó/ô and not in a rule context</td> <td>Accent the stressed vowel (ê closed, é open)</td></tr>
+        <tr><td><em>exame</em>, <em>táxi</em>, <em>lixo</em></td> <td>Error in both dialects: <em>exame</em> (error), <em>táxi</em> (error), <em>lixo</em> (error)</td> <td>Brazil: <em>ezame</em> <span class="ipa">/eˈzɐ̃.mi/</span>, <em>tácsi</em> <span class="ipa">/ˈtak.si/</span>, <em>lisho</em> <span class="ipa">/ˈli.ʃu/</span><br>Portugal: <em>ezame</em> <span class="ipa">/iˈzɐ.m(ɨ)/</span>, <em>tácsi</em> <span class="ipa">/ˈta.ksi/</span>, <em>lisho</em> <span class="ipa">/ˈli.ʃu/</span></td> <td>x between vowels is ambiguous</td> <td>Respell with z, cs, sh or ss</td></tr>
+        <tr><td><em>ritmo</em>, <em>advogado</em> (Brazil)</td> <td><em>ritmo</em> <span class="ipa">/ˈʁit.mu/</span>, <em>advogado</em> <span class="ipa">/ad.voˈɡa.du/</span></td> <td>Real Brazilian speech inserts an epenthetic <span class="ipa">i</span> inside these clusters (described in words: after the first consonant, e.g. <em>rit-i-mo</em>)</td> <td>The module only inserts it from the respelling notation <code>i^</code>/<code>i*</code>, which the app's input cleaning strips</td> <td>Not possible in this app; the output is a simplification</td></tr>
+        <tr><td><em>shopping</em></td> <td>Brazil: <em>shopping</em> <span class="ipa">/ʃoˈpĩ/</span><br>Portugal: <em>shopping</em> <span class="ipa">/ʃuˈpĩɡ/</span></td> <td>Brazil: <em>shópping</em> <span class="ipa">/ˈʃɔ.pĩ/</span><br>Portugal: <em>shópping</em> <span class="ipa">/ˈʃɔ.pĩɡ/</span></td> <td>Default stress goes on the last syllable of a word ending in a consonant, and Portugal keeps the <em>g</em> of <em>-ng</em></td> <td>Mark the stress yourself: <em>shópping</em></td></tr>
+        <tr><td><em>pizza</em></td> <td>Brazil: <em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span><br>Portugal: <em>pizza</em> <span class="ipa">/ˈpi.zɐ/</span></td> <td>The usual pronunciation has <span class="ipa">ts</span>: Brazil <em>pítsa</em> <span class="ipa">/ˈpit.sɐ/</span>, Portugal <em>pítsa</em> <span class="ipa">/ˈpi.tsɐ/</span></td> <td>Doubled letters reduce to one, so <code>zz</code> is just <span class="ipa">z</span></td> <td>Respell the loanword phonetically: <em>pítsa</em></td></tr>
+        <tr><td><em>jazz</em></td> <td>Brazil: <em>jazz</em> <span class="ipa">/ˈʒa(j)ʃ/</span><br>Portugal: <em>jazz</em> <span class="ipa">/ˈʒaʃ/</span></td> <td>Brazil: <em>djézz</em> <span class="ipa">/ˈd͡ʒɛ(j)ʃ/</span><br>Portugal: <em>djézz</em> <span class="ipa">/ˈd͡ʒɛʃ/</span></td> <td>English loanword spelled with <em>j</em> and <em>a</em></td> <td>Respell: <em>djézz</em></td></tr>
+        <tr><td><em>whisky</em></td> <td>Brazil: <em>whisky</em> <span class="ipa">/wiʃˈki/</span><br>Portugal: <em>whisky</em> <span class="ipa">/wiʃˈki/</span></td> <td>Brazil: <em>uísque</em> <span class="ipa">/uˈiʃ.ki/</span><br>Portugal: <em>uísque</em> <span class="ipa">/ˈwiʃ.k(ɨ)/</span></td> <td>Final-syllable default stress and <code>wh</code> passes through as <span class="ipa">w</span></td> <td>Respell with an accent on the stressed syllable</td></tr>
+        <tr><td><em>internet</em></td> <td>Error in both dialects: <em>internet</em> (error)</td> <td>Brazil: <em>internét</em> <span class="ipa">/ĩ.teʁˈnɛt/</span><br>Portugal: <em>internét</em> <span class="ipa">/ĩ.tɨɾˈnɛt/</span></td> <td>Last syllable is stressed by default and its e is unmarked</td> <td>Add the accent: <em>internét</em></td></tr>
+        <tr><td><em>adjetivo</em> (Portugal)</td> <td>Phonemic <em>adjetivo</em> <span class="ipa">/ɐ.d͡ʒɨˈti.vu/</span><br>Phonetic <em>adjetivo</em> <span class="ipa">[ɐ.ðʒɨˈti.vu]</span></td> <td>The two forms disagree: the phonemic form has a tie-barred affricate <span class="ipa">d͡ʒ</span>, the phonetic form separates it into <span class="ipa">ð</span> + <span class="ipa">ʒ</span> (described in words; no respelling avoids it)</td> <td>The fricativization rule of stage 21 also applies to the <em>d</em> of written <em>dj</em></td> <td>Treat the phonemic form as the reference, or check an external source</td></tr>
+        <tr><td><em>email</em></td> <td>Brazil: <em>email</em> <span class="ipa">/e.maˈiw/</span><br>Portugal: <em>email</em> <span class="ipa">/i.mɐˈil/</span></td> <td>Brazil: <em>imêiu</em> <span class="ipa">/iˈme.iw/</span><br>Portugal: <em>imêiu</em> <span class="ipa">/iˈme.iw/</span></td> <td>Last syllable stressed by default (as for any word ending in <em>l</em>), and <em>e</em>, <em>a</em> are read as in Portuguese</td> <td>Respell the loanword: <em>imêiu</em></td></tr>
+        <tr><td><em>os</em> + <em>amigos</em> typed with a space</td> <td><em>os</em> <span class="ipa">/uʃ/</span>, <em>amigos</em> <span class="ipa">/aˈmi.ɡuʃ/</span></td> <td>In connected speech the final s of <em>os</em> is voiced before a vowel; this cannot be reproduced (described in words)</td> <td>The app transcribes each space-separated word separately, so cross-word rules never apply</td> <td>Not possible in this app</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Other Limitations</h3>
+    <ul>
+        <li><strong>No stress or quality inference for e/o:</strong> by design the engine fails rather than guessing.</li>
+        <li><strong>Only the first variant is shown</strong> (see <a href="#variants">Multiple Pronunciation Variants</a>).</li>
+        <li><strong>Punctuation and digits</strong> are removed before transcription; a word consisting only of such
+            characters comes back as an error.</li>
+        <li><strong>Respelling notation</strong> (<code>^</code>, <code>.</code>, <code>+</code>, <code>:</code>,
+            <code>*</code>) cannot be typed, so optional vowels, forced syllable boundaries and component markers are not
+            available.</li>
+        <li><strong>Portugal is plain <code>pt</code>:</strong> the module's general-Portugal rules (<code>gpt</code>) are not active.</li>
+    </ul>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for other languages in this tool:</p>
+    <ul>
+        <li><a href="spanish.html">Spanish</a></li>
+        <li><a href="french.html">French</a></li>
+        <li><a href="latin.html">Latin</a></li>
+        <li><a href="index.html">All languages</a></li>
     </ul>
 
     <hr>

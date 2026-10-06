@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mongolian IPA Transcription - Help</title>
+    <title>Mongolian Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Khalkha Mongolian pronunciation in IPA: vowel harmony, long vowels, aspirated stops, palatalized consonants and the velar nasal, with a free converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/mongolian.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Mongolian Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Khalkha Mongolian pronunciation in IPA: vowel harmony, long vowels, aspirated stops, palatalized consonants and the velar nasal, with a free converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/mongolian.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Mongolian Pronunciation and IPA Transcription Guide","description":"Khalkha Mongolian pronunciation in IPA: vowel harmony, long vowels, aspirated stops, palatalized consonants and the velar nasal, with a free converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/mongolian.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Mongolian"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Mongolian","item":"https://hellpanderrr.github.io/wiktionary_pron/help/mongolian.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,80 +24,847 @@
 </head>
 <body>
 <div id="content">
-    <h1>Mongolian IPA Transcription - Help</h1>
+    <h1>Mongolian Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Mongolian">← Back to Mongolian transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
+<h2>Table of Contents</h2>
+    <ul>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Mongolian Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#vowels-guide">Initial vs Non-Initial Vowels</a></li>
+                <li><a href="#long-vowels">Long Vowels and Diphthongs</a></li>
+                <li><a href="#iotated">Iotated Vowels (я, ю, ё, е) and Palatalization</a></li>
+                <li><a href="#stops">Stops: Aspiration, Not Voicing</a></li>
+                <li><a href="#affricates">Affricates and Sibilants</a></li>
+                <li><a href="#nasals">Nasals: н, м, г and the Velar Nasal</a></li>
+                <li><a href="#liquids">Liquids: л and р</a></li>
+                <li><a href="#fricatives">х, в, ф and щ</a></li>
+                <li><a href="#clusters">Geminates and Consonant Clusters</a></li>
+                <li><a href="#signs">The Soft and Hard Signs (ь, ъ)</a></li>
+                <li><a href="#final-vowel">Final Short Vowel Deletion</a></li>
+                <li><a href="#harmony">Vowel Harmony</a></li>
+                <li><a href="#stress">Stress</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
+    </ul>
 
+    <h2 id="about">About This Tool</h2>
     <p>This <a href="../?lang=Mongolian">Mongolian transcription app</a> uses a modified version of the <a
             href="https://en.wiktionary.org/wiki/Module:mn-IPA" target="_blank" rel="noopener noreferrer">Wiktionary
-        Mongolian Pronunciation Module</a> to generate phonemic transcriptions for Mongolian text, updated based on <em>The
-        Phonology of Mongolian</em> by Jan-Olof Svantesson et al. (2005), aiming for representation of the Standard Halh
-        dialect as spoken in Ulaanbaatar.</p>
+        Mongolian Pronunciation Module</a> to turn Cyrillic Mongolian spelling into a phonemic IPA transcription. IPA
+        (International Phonetic Alphabet) is a standardized system for transcribing speech sounds. This tool helps
+        learners, linguists and developers see how a Mongolian word is pronounced. Phonemic transcription represents
+        the abstract sound system (<a href="#glossary">phonemes</a>) rather than every detail of actual speech. The
+        phoneme inventory and the vowel treatment follow <em>The Phonology of Mongolian</em> by Jan-Olof Svantesson et
+        al. (2005), aiming at the Standard Halh dialect as spoken in Ulaanbaatar.</p>
 
-    <h2>Dialects Supported</h2>
+    <p>Unlike German, French or Russian in this app, Mongolian uses <b>no dictionary lexicon</b>. Every word is
+        generated by the module's rules alone (the app calls <code>window.mn_ipa.to_IPA(cleanText)</code> directly), so
+        the output is exactly as good as the spelling rules. For example, <em>сайн</em> <span
+                class="ipa">/saiŋ/</span> ("good"). Only the Cyrillic script is supported; traditional Mongolian script
+        is not.</p>
+
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
     <ul>
-        <li><strong>Default</strong> - Standard Halh (Khalkha). The official standard language of Mongolia.</li>
-
-    </ul>
-
-    <h2>Transcription Forms</h2>
-    <ul>
-        <li><strong>Phonemic</strong>: A simplified, broad transcription that shows only the sounds that are essential
-            for distinguishing meaning (phonemes). It represents the abstract sound system of the language. It uses
-            voiced symbols (<code>b, d, g</code>) for lenis stops and aspirated symbols (<code>pʰ, tʰ, kʰ</code>) for
-            fortis stops.
+        <li><strong>Supported:</strong> <strong>Default</strong> = Standard Halh (Khalkha), the official language of
+            Mongolia, written in Cyrillic.
         </li>
-    </ul>
-
-
-    <h2>Key Phonological Rules</h2>
-    <ul>
-        <li><strong>Vowel Reduction:</strong> Mongolian has a strong distinction between initial and non-initial
-            syllables. Short vowels in non-initial syllables are treated as epenthetic and reduced to Schwa
-            (<code>/ə/</code>).
+        <li><strong>Not supported:</strong> Inner Mongolian varieties (Chahar and others), Buryat, Oirat dialects, and
+            the traditional vertical script. Unlike Inner Mongolian, Halh keeps diphthongs, and the module restores
+            them (e.g. <em>ай</em> <span class="ipa">/ai/</span>, not a monophthong).
         </li>
-        <li><strong>Initial Merger:</strong> In the first syllable, the short vowels <code>э</code> and <code>и</code>
-            are merged to <code>/i/</code>.
+        <li><strong>Edge cases:</strong> Russian loanwords with <em>е, ё, ю, я</em> after a consonant, words with the
+            letter <em>ы</em>, and words containing <em>ью</em> are handled poorly (see <a href="#issues">Common
+                Issues</a>).
         </li>
-        <li><strong>Diphthong Preservation:</strong> Unlike Inner Mongolian dialects which monophthongize sounds, Halh
-            preserves diphthongs (e.g., <code>ай</code> becomes <code>/ai/</code>, not <code>/ɛː/</code>).
-        </li>
-        <li><strong>Nasal Assimilation:</strong> The dental nasal <code>н</code> assimilates to the velar nasal <code>/ŋ/</code>
-            before velar consonants (<code>г, к, х</code>) and at the end of words.
-        </li>
-        <li><strong>Syllable Coda Glides:</strong> The letter <code>в</code> in a syllable coda (end of a syllable) is
-            realized as the glide <code>/w/</code> rather than a fricative.
-        </li>
-        <li><strong>Palatalization:</strong> Consonants are automatically palatalized in specific contexts, notably the
-            fricative <code>ш</code> becoming <code>/ɕ/</code> before <code>i</code>.
-        </li>
-        <li><strong>Absence of Stress:</strong> Following Svantesson (2005), word stress is considered non-phonemic in
-            Mongolian. Therefore, no stress marks (<code>ˈ</code>) are generated.
+        <li><strong>Word-by-word:</strong> the app transcribes one space-separated word at a time. Hyphens are deleted
+            before processing, so a hyphenated compound is treated as a single word.
         </li>
     </ul>
 
-    <h2>Technical Information</h2>
-    <p>This implementation is based on the <a href="https://en.wiktionary.org/wiki/Module:mn-pronunciation"
-                                              target="_blank"
-                                              rel="noopener noreferrer">Wiktionary
-        Mongolian pronunciation module</a>, but has been modified to adhere to the phonological analysis in <em>The
-        Phonology of Mongolian</em> (Svantesson et al., 2005). Key modifications include:</p>
+    <h2 id="forms">Phonemic vs Phonetic</h2>
     <ul>
-        <li><strong>Stress Removal:</strong> The logic for generating phonemic stress marks was removed, as stress is
-            non-contrastive in Mongolian.
+        <li><strong>Phonemic</strong> (the only form offered): a broad transcription showing only the sounds that
+            distinguish meaning. Mongolian stops contrast <em>aspiration</em>, not voicing, but this module writes the
+            non-aspirated (lenis) series with the voiced symbols <span class="ipa">b, d, ɡ</span> and the aspirated
+            (fortis) series as <span class="ipa">pʰ, tʰ, kʰ</span>. For instance <em>бага</em> <span
+                    class="ipa">/baɡ/</span> uses <span class="ipa">ɡ</span>, but <em>хот</em> <span
+                    class="ipa">/xɔtʰ/</span> ends in <span class="ipa">tʰ</span>.
         </li>
-        <li><strong>Schwa Generation:</strong> A syllable-aware processing loop was added to correctly reduce
-            non-initial short vowels to <code>/ə/</code> while preserving full vowels in the initial syllable.
+        <li><strong>Phonetic</strong>: not available for Mongolian.</li>
+    </ul>
+
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Phoneme</dt>
+        <dd>The smallest unit of sound that distinguishes meaning. In Mongolian, for example, aspirated /tʰ/ and
+            lenis /d/ are different phonemes: <em>тав</em> <span class="ipa">/tʰaw̜/</span> vs. <em>дав</em> <span class="ipa">/daw̜/</span>.
+        </dd>
+
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that does not change meaning.</dd>
+
+        <dt>Aspiration</dt>
+        <dd>A puff of air after a stop, written <span class="ipa">ʰ</span>. Mongolian <em>п, т, к, ц, ч</em> are
+            aspirated, e.g. <em>цас</em> <span class="ipa">/t͡sʰas/</span> "snow".
+        </dd>
+
+        <dt>Lenis / Fortis</dt>
+        <dd>The two stop series of Mongolian. Fortis stops (<em>п, т, к, ц, ч</em>) are aspirated; lenis stops
+            (<em>б, д, г, з, ж</em>) are not, and are written here with voiced symbols.
+        </dd>
+
+        <dt>Long Vowel</dt>
+        <dd>A vowel written double in Cyrillic (аа, оо, уу, үү, өө, ээ, ий, ии) and transcribed with <span class="ipa">ː</span>,
+            e.g. <em>хоол</em> <span class="ipa">/xɔːɮ/</span> "food".
+        </dd>
+
+        <dt>Diphthong</dt>
+        <dd>A vowel plus glide in one syllable, such as <em>ай</em>, <em>ой</em>, <em>ау</em>: <em>сайн</em> <span
+                class="ipa">/saiŋ/</span>, <em>ойр</em> <span class="ipa">/ɔir̥/</span>.
+        </dd>
+
+        <dt>Schwa</dt>
+        <dd>The neutral vowel <span class="ipa">ə</span>. Short vowels outside the first syllable become schwa, e.g.
+            <em>ахмад</em> <span class="ipa">/axməd/</span>.
+        </dd>
+
+        <dt>Epenthetic vowel</dt>
+        <dd>A vowel with no phonemic weight that is inserted to break consonant clusters. The module treats
+            non-initial short vowels this way (as in Svantesson's analysis).
+        </dd>
+
+        <dt>Palatalization</dt>
+        <dd>Secondary raising of the tongue toward the hard palate, written <span class="ipa">ʲ</span>, e.g.
+            <em>аль</em> <span class="ipa">/aɮʲ/</span>.
+        </dd>
+
+        <dt>Iotated Vowel</dt>
+        <dd>The Cyrillic letters я, ю, ё, е, which stand for a glide <span class="ipa">j</span> plus a vowel at the
+            start of a syllable: <em>юм</em> <span class="ipa">/jʊm/</span>.
+        </dd>
+
+        <dt>Velar Nasal</dt>
+        <dd>The sound <span class="ipa">ŋ</span> as in English "sing"; <em>н</em> is pronounced this way at the end of
+            a word and before г, к, х: <em>хүн</em> <span class="ipa">/xuŋ/</span>.
+        </dd>
+
+        <dt>Vowel Harmony</dt>
+        <dd>The Mongolian system in which suffix vowels agree with the stem (back / front, rounded / unrounded). The
+            transcription module does <em>not</em> use it to generate IPA; see <a href="#harmony">Vowel Harmony</a>.
+        </dd>
+
+        <dt>Final Vowel Deletion</dt>
+        <dd>The module drops a word-final short vowel in words of two or more syllables: <em>байна</em> <span
+                class="ipa">/bain/</span>.
+        </dd>
+
+        <dt>Devoiced r</dt>
+        <dd>The trill <span class="ipa">r</span> becomes voiceless <span class="ipa">r̥</span> at the end of a word:
+            <em>сар</em> <span class="ipa">/sar̥/</span>.
+        </dd>
+
+        <dt>Tie Bar</dt>
+        <dd>The mark <span class="ipa">͡</span> joining the two parts of an affricate: <span class="ipa">t͡sʰ, d͡z, t͡ɕʰ, d͡ʒ</span>.</dd>
+
+        <dt>Geminate</dt>
+        <dd>A doubled (long) consonant, written with <span class="ipa">ː</span>: <em>алла</em> <span class="ipa">/aɮː/</span>.</dd>
+
+        <dt>Syllable Nucleus</dt>
+        <dd>The vowel at the core of a syllable. The module splits words into syllables with <code>mn.syllables()</code>
+            and treats the first one differently from the rest.
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>The tables below list the symbols this engine actually emits for Mongolian, each with a real word
+        transcribed by the engine.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">/a/</span></td><td><em>ам</em> <span class="ipa">/am/</span></td><td>"father" (short)</td><td>Cyrillic а in the first syllable</td></tr>
+        <tr><td><span class="ipa">/aː/</span></td><td><em>аав</em> <span class="ipa">/aːw̜/</span></td><td>"father"</td><td>Long, аа</td></tr>
+        <tr><td><span class="ipa">/ɔ/</span></td><td><em>ном</em> <span class="ipa">/nɔm/</span></td><td>"law" (UK, short)</td><td>о in the first syllable</td></tr>
+        <tr><td><span class="ipa">/ɔː/</span></td><td><em>хоол</em> <span class="ipa">/xɔːɮ/</span></td><td>"law" (long)</td><td>Long, оо</td></tr>
+        <tr><td><span class="ipa">/ʊ/</span></td><td><em>ус</em> <span class="ipa">/ʊs/</span></td><td>"put"</td><td>у in the first syllable</td></tr>
+        <tr><td><span class="ipa">/ʊː/</span></td><td><em>уул</em> <span class="ipa">/ʊːɮ/</span></td><td>"food" (lax)</td><td>Long, уу</td></tr>
+        <tr><td><span class="ipa">/u/</span></td><td><em>үг</em> <span class="ipa">/uɡ/</span></td><td>"food" (tense)</td><td>The front rounded ү is written <span class="ipa">u</span> here, and у is <span class="ipa">ʊ</span></td></tr>
+        <tr><td><span class="ipa">/uː/</span></td><td><em>хүү</em> <span class="ipa">/xuː/</span></td><td>"food" (long)</td><td>Long, үү</td></tr>
+        <tr><td><span class="ipa">/ɵ/</span></td><td><em>хөх</em> <span class="ipa">/xɵx/</span></td><td>No English equivalent</td><td>Mid central rounded; ө</td></tr>
+        <tr><td><span class="ipa">/ɵː/</span></td><td><em>өөр</em> <span class="ipa">/ɵːr̥/</span></td><td>No English equivalent</td><td>Long, өө</td></tr>
+        <tr><td><span class="ipa">/i/</span></td><td><em>чи</em> <span class="ipa">/t͡ɕʰi/</span></td><td>"sit/see"</td><td>и, and also initial э: <em>эр</em> <span class="ipa">/ir̥/</span></td></tr>
+        <tr><td><span class="ipa">/iː/</span></td><td><em>ийм</em> <span class="ipa">/iːm/</span></td><td>"see" (long)</td><td>ии, ий</td></tr>
+        <tr><td><span class="ipa">/e/</span></td><td><em>эмэгтэй</em> <span class="ipa">/iməɡtʰe/</span></td><td>"say" (no glide)</td><td>Only from long ээ or non-initial эй (after final deletion)</td></tr>
+        <tr><td><span class="ipa">/eː/</span></td><td><em>ширээ</em> <span class="ipa">/ɕireː/</span></td><td>"say" (no glide)</td><td>Long, ээ</td></tr>
+        <tr><td><span class="ipa">/ə/</span></td><td><em>ахмад</em> <span class="ipa">/axməd/</span></td><td>"about"</td><td>Every non-initial short а, о, у, э, ө, ү</td></tr>
+        <tr><td><span class="ipa">/ɒː/</span></td><td><em>ао</em> <span class="ipa">/ɒː/</span></td><td>"lot" (long)</td><td>The sequence ао</td></tr>
+        <tr><td><span class="ipa">/ɛː/</span></td><td><em>яай</em> <span class="ipa">/jɛː/</span></td><td>"bear" (non-rhotic)</td><td>Only from the sequences яай, уай</td></tr>
+        <tr><td><span class="ipa">/ai/</span></td><td><em>сайн</em> <span class="ipa">/saiŋ/</span></td><td>"eye"</td><td>Diphthong ай</td></tr>
+        <tr><td><span class="ipa">/ɔi/</span></td><td><em>ойр</em> <span class="ipa">/ɔir̥/</span></td><td>"boy"</td><td>Diphthong ой</td></tr>
+        <tr><td><span class="ipa">/ʊi/</span></td><td><em>уй</em> <span class="ipa">/ʊi/</span></td><td>"phooey"</td><td>Diphthong уй</td></tr>
+        <tr><td><span class="ipa">/ui/</span></td><td><em>үй</em> <span class="ipa">/ui/</span></td><td>No English equivalent</td><td>Diphthong үй</td></tr>
+        <tr><td><span class="ipa">/ɵi/</span></td><td><em>өй</em> <span class="ipa">/ɵi/</span></td><td>No English equivalent</td><td>Diphthong өй</td></tr>
+        <tr><td><span class="ipa">/ei/</span></td><td><em>эй</em> <span class="ipa">/ei/</span></td><td>"day"</td><td>Diphthong эй</td></tr>
+        <tr><td><span class="ipa">/aʊ̯/</span></td><td><em>ау</em> <span class="ipa">/aʊ̯/</span></td><td>"cow"</td><td>Diphthong ау</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">/pʰ/</span></td><td><em>пүү</em> <span class="ipa">/pʰuː/</span></td><td>"pie"</td><td>Aspirated; letter п (rare in native words)</td></tr>
+        <tr><td><span class="ipa">/b/</span></td><td><em>бүх</em> <span class="ipa">/bux/</span></td><td>"bee"</td><td>Lenis; letter б</td></tr>
+        <tr><td><span class="ipa">/tʰ/</span></td><td><em>тав</em> <span class="ipa">/tʰaw̜/</span></td><td>"tie"</td><td>Aspirated; letter т</td></tr>
+        <tr><td><span class="ipa">/d/</span></td><td><em>дав</em> <span class="ipa">/daw̜/</span></td><td>"die"</td><td>Lenis; letter д</td></tr>
+        <tr><td><span class="ipa">/kʰ/</span></td><td><em>банк</em> <span class="ipa">/baŋkʰ/</span></td><td>"kite"</td><td>Aspirated; letter к</td></tr>
+        <tr><td><span class="ipa">/ɡ/</span></td><td><em>гар</em> <span class="ipa">/ɡar̥/</span></td><td>"go"</td><td>Lenis; letter г</td></tr>
+        <tr><td><span class="ipa">/t͡sʰ/</span></td><td><em>цас</em> <span class="ipa">/t͡sʰas/</span></td><td>"cats" (aspirated)</td><td>Letter ц</td></tr>
+        <tr><td><span class="ipa">/d͡z/</span></td><td><em>зун</em> <span class="ipa">/d͡zʊŋ/</span></td><td>"adze"</td><td>Lenis; letter з</td></tr>
+        <tr><td><span class="ipa">/t͡ɕʰ/</span></td><td><em>чих</em> <span class="ipa">/t͡ɕʰix/</span></td><td>"cheek" (softer, aspirated)</td><td>Letter ч</td></tr>
+        <tr><td><span class="ipa">/d͡ʒ/</span></td><td><em>жил</em> <span class="ipa">/d͡ʒiɮ/</span></td><td>"judge"</td><td>Lenis; letter ж</td></tr>
+        <tr><td><span class="ipa">/f/</span></td><td><em>фото</em> <span class="ipa">/fɔtʰ/</span></td><td>"fan"</td><td>Loanwords only</td></tr>
+        <tr><td><span class="ipa">/w̜/</span></td><td><em>тав</em> <span class="ipa">/tʰaw̜/</span></td><td>"water" (weakly rounded)</td><td>Letter в</td></tr>
+        <tr><td><span class="ipa">/s/</span></td><td><em>сар</em> <span class="ipa">/sar̥/</span></td><td>"sun"</td><td>Letter с</td></tr>
+        <tr><td><span class="ipa">/ɕ/</span></td><td><em>шар</em> <span class="ipa">/ɕar̥/</span></td><td>"she" (palatal)</td><td>Letters ш and щ</td></tr>
+        <tr><td><span class="ipa">/x/</span></td><td><em>хот</em> <span class="ipa">/xɔtʰ/</span></td><td>Scottish "loch"</td><td>Letter х</td></tr>
+        <tr><td><span class="ipa">/ɬʰ/</span></td><td><em>лхагва</em> <span class="ipa">/ɬʰaɡw̜/</span></td><td>Welsh "ll"</td><td>The cluster лх</td></tr>
+        <tr><td><span class="ipa">/m/</span></td><td><em>ном</em> <span class="ipa">/nɔm/</span></td><td>"man"</td><td>Letter м</td></tr>
+        <tr><td><span class="ipa">/n/</span></td><td><em>нар</em> <span class="ipa">/nar̥/</span></td><td>"no"</td><td>Letter н (not final, not before г/к/х)</td></tr>
+        <tr><td><span class="ipa">/ŋ/</span></td><td><em>хүн</em> <span class="ipa">/xuŋ/</span></td><td>"sing"</td><td>н at word end or before г, к, х</td></tr>
+        <tr><td><span class="ipa">/r/</span></td><td><em>гарах</em> <span class="ipa">/ɡarəx/</span></td><td>Spanish "pero"</td><td>Trill/tap; letter р</td></tr>
+        <tr><td><span class="ipa">/r̥/</span></td><td><em>сар</em> <span class="ipa">/sar̥/</span></td><td>No English equivalent</td><td>Voiceless r at the end of a word, and before п, т, к, ц, ч: <em>гэрт</em> <span class="ipa">/ɡir̥tʰ/</span></td></tr>
+        <tr><td><span class="ipa">/ɮ/</span></td><td><em>улс</em> <span class="ipa">/ʊɮs/</span></td><td>No English equivalent</td><td>Voiced lateral fricative; letter л</td></tr>
+        <tr><td><span class="ipa">/j/</span></td><td><em>ямар</em> <span class="ipa">/jamər̥/</span></td><td>"yes"</td><td>The glide in я, ю, ё, е</td></tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><span class="ipa">ː</span></td><td>Length mark</td><td>Long vowel or geminate consonant</td><td><em>аав</em> <span class="ipa">/aːw̜/</span>, <em>алла</em> <span class="ipa">/aɮː/</span></td></tr>
+        <tr><td><span class="ipa">ʰ</span></td><td>Aspiration</td><td>Puff of air after the stop</td><td><em>хот</em> <span class="ipa">/xɔtʰ/</span></td></tr>
+        <tr><td><span class="ipa">ʲ</span></td><td>Palatalization</td><td>Consonant with raised tongue body</td><td><em>аль</em> <span class="ipa">/aɮʲ/</span>, <em>бя</em> <span class="ipa">/bʲa/</span></td></tr>
+        <tr><td><span class="ipa">̯</span></td><td>Non-syllabic</td><td>Glide part of a diphthong or hiatus</td><td><em>ау</em> <span class="ipa">/aʊ̯/</span>, <em>радио</em> <span class="ipa">/radi̯oː/</span></td></tr>
+        <tr><td><span class="ipa">͡</span></td><td>Tie bar</td><td>Affricate (single unit)</td><td><em>зун</em> <span class="ipa">/d͡zʊŋ/</span>, <em>чих</em> <span class="ipa">/t͡ɕʰix/</span></td></tr>
+        <tr><td><span class="ipa">̥</span></td><td>Voiceless</td><td>Normally voiced sound devoiced</td><td><em>сар</em> <span class="ipa">/sar̥/</span></td></tr>
+        <tr><td><span class="ipa">̜</span></td><td>Less rounded</td><td>The labial glide of в is written <span class="ipa">w̜</span></td><td><em>тав</em> <span class="ipa">/tʰaw̜/</span></td></tr>
+        <tr><td><span class="ipa">͉</span></td><td>Left angle below</td><td>Appears only in the output for дд; marks a stop with no audible release, followed by a syllable dot</td><td><em>аддаа</em> <span class="ipa">/at͉.taː/</span></td></tr>
+        </tbody>
+    </table>
+    <p>No stress marks (<span class="ipa">ˈ</span>, <span class="ipa">ˌ</span>) are ever produced. Stress is not
+        marked in Mongolian transcription by this module (see <a href="#stress">Stress</a>).</p>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Mongolian gives only one transcription per word, so
+            clicking does not change anything.
         </li>
-        <li><strong>Dialect Correction:</strong> Vowel mappings were adjusted to reflect Standard Halh (Ulaanbaatar)
-            rather than Chahar/Inner Mongolian (e.g., restoring diphthongs and the initial <code>э/и</code> merger).
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word
+            or line to hear text-to-speech pronunciation (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
         </li>
     </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For Mongolian each word has exactly one rule-generated output. There is no lexicon and no per-dialect
+        variant, so the cycling feature available for German or Latin does not apply. If a word is transcribed
+        incorrectly (see <a href="#issues">Common Issues</a>), try an alternative spelling that reaches the intended
+        rule.</p>
+
+    <h2>Mongolian Pronunciation Guide</h2>
+
+    <p>This guide explains how the module turns Cyrillic Mongolian into IPA. Spelling is fairly regular, but the
+        Cyrillic letters hide a lot of structure: long vowels are written double, the vowel of any syllable after the
+        first is reduced, and the final vowel of most words is not pronounced.</p>
+
+    <h3 id="vowels-guide">Initial vs Non-Initial Vowels</h3>
+    <p>The most important rule in the module is that the <strong>first syllable keeps its full vowel quality</strong>
+        and every <strong>short vowel in a later syllable is reduced to schwa</strong> <span class="ipa">ə</span>
+        (the exception is <em>и</em>, <em>й</em>, which stays <span class="ipa">i</span>).</p>
+    <ul>
+        <li><em>ном</em> <span class="ipa">/nɔm/</span> keeps <span class="ipa">ɔ</span>, but in <em>модонд</em>
+            <span class="ipa">/mɔdənd/</span> the second о becomes <span class="ipa">ə</span>.
+        </li>
+        <li><em>ажил</em> <span class="ipa">/ad͡ʒiɮ/</span> and <em>багш</em> <span class="ipa">/baɡɕ/</span>:
+            и is stable, and a consonant cluster without vowel stays as is.
+        </li>
+        <li>Initial <em>э</em> and <em>и</em> merge: <em>тэр</em> <span class="ipa">/tʰir̥/</span> and <em>тир</em>
+            <span class="ipa">/tʰir̥/</span> have the same vowel. Initial <em>ү</em> is <span class="ipa">u</span> while <em>у</em> is <span class="ipa">ʊ</span>:
+            <em>үг</em> <span class="ipa">/uɡ/</span> vs <em>ус</em> <span class="ipa">/ʊs/</span>.
+        </li>
+        <li>Long vowels and diphthongs are exempt from reduction, wherever they occur: <em>хаалга</em> <span class="ipa">/xaːɮɡ/</span>,
+            <em>наймаа</em> <span class="ipa">/naimaː/</span>.
+        </li>
+    </ul>
+
+    <h3 id="long-vowels">Long Vowels and Diphthongs</h3>
+    <p>Doubled vowel letters are long: <em>аа</em>, <em>оо</em>, <em>уу</em>, <em>үү</em>, <em>өө</em>, <em>ээ</em>.
+        The letters <em>ий</em> and <em>ии</em> also give a long <span class="ipa">iː</span>.</p>
+    <ul>
+        <li><em>аа</em> <span class="ipa">/aː/</span>, <em>оо</em> <span class="ipa">/ɔː/</span>, <em>уу</em> <span class="ipa">/ʊː/</span>, <em>үү</em> <span class="ipa">/uː/</span>, <em>өө</em> <span class="ipa">/ɵː/</span>, <em>ээ</em> <span class="ipa">/eː/</span>.</li>
+        <li>Long ээ is the only common source of <span class="ipa">eː</span>: <em>ширээ</em> <span class="ipa">/ɕireː/</span>,
+            <em>гэгээн</em> <span class="ipa">/ɡiɡeːŋ/</span>.
+        </li>
+        <li>Diphthongs in <em>й</em>: <em>ай</em> <span class="ipa">/ai/</span>, <em>ой</em> <span class="ipa">/ɔi/</span>,
+            <em>уй</em> <span class="ipa">/ʊi/</span>, <em>үй</em> <span class="ipa">/ui/</span>, <em>өй</em> <span class="ipa">/ɵi/</span>,
+            <em>эй</em> <span class="ipa">/ei/</span>. Halh keeps these as diphthongs.
+        </li>
+        <li>Rising diphthong-like sequences: <em>ау</em> <span class="ipa">/aʊ̯/</span>, <em>оа</em> <span class="ipa">/ʊ̯a/</span>,
+            <em>уа</em> <span class="ipa">/u̯a/</span>, <em>ио</em> <span class="ipa">/i̯oː/</span>: <em>ариун</em> <span class="ipa">/ari̯ʊːŋ/</span>,
+            <em>радио</em> <span class="ipa">/radi̯oː/</span>.
+        </li>
+        <li>The doubled vowels are matched <em>before</em> single vowels inside each syllable, so long vowels are
+            not reduced: <em>даваа</em> <span class="ipa">/daw̜aː/</span>, <em>долоо</em> <span class="ipa">/dɔɮɔː/</span>.
+        </li>
+    </ul>
+
+    <h3 id="iotated">Iotated Vowels (я, ю, ё, е) and Palatalization</h3>
+    <p>At the start of a word or after a vowel, the letters я, ю, ё, е are a glide plus a vowel. In the first syllable
+        they give <span class="ipa">ja, jʊ, jɔ, jɵ</span>; later in the word the vowel reduces to schwa
+        (<span class="ipa">jə</span>).</p>
+    <ul>
+        <li><em>я</em> <span class="ipa">/ja/</span>, <em>ю</em> <span class="ipa">/jʊ/</span>, <em>ё</em> <span class="ipa">/jɔ/</span>, <em>е</em> <span class="ipa">/jɵ/</span>.</li>
+        <li><em>ямар</em> <span class="ipa">/jamər̥/</span>, <em>баяр</em> <span class="ipa">/bajər̥/</span>,
+            <em>хоёр</em> <span class="ipa">/xɔjər̥/</span>, <em>ес</em> <span class="ipa">/jɵs/</span>.</li>
+    </ul>
+    <p>After one of the consonants п, б, т, д, к, г, ф, в, х, м, н, р, л, the letters е, ю, ё, я do not give a glide.
+        Instead the consonant is palatalized and the vowel is rewritten, <em>before</em> any other processing:
+        <strong>е → ө, ю → у, ё → о, я → а</strong>. Hence:</p>
+    <ul>
+        <li><em>бя</em> <span class="ipa">/bʲa/</span>, <em>ня</em> <span class="ipa">/nʲa/</span>, <em>ля</em> <span class="ipa">/ɮʲa/</span>, <em>тю</em> <span class="ipa">/tʰʲʊ/</span>, <em>дё</em> <span class="ipa">/dʲɔ/</span>.</li>
+        <li>Words with <em>е</em> after a consonant therefore get <span class="ipa">ɵ</span> (a rounded vowel), e.g.
+            <em>Герман</em> <span class="ipa">/ɡʲɵrməŋ/</span>. This is a rule for Mongolian-like
+            vowel harmony, not for Russian-style <em>е</em> (see <a href="#issues">Common Issues</a>).
+        </li>
+    </ul>
+    <p>Palatalization after ж, з, с, ц, ч, ш, щ is not implemented (they are not in the palatalization table).</p>
+
+    <h3 id="stops">Stops: Aspiration, Not Voicing</h3>
+    <p>Mongolian stops contrast aspiration, not voicing. The module renders the fortis letters as aspirated and the
+        lenis letters with voiced symbols:</p>
+    <ul>
+        <li>Aspirated: <em>т</em> → <span class="ipa">tʰ</span> <em>тав</em> <span class="ipa">/tʰaw̜/</span>,
+            <em>к</em> → <span class="ipa">kʰ</span> <em>банк</em> <span class="ipa">/baŋkʰ/</span>,
+            <em>п</em> → <span class="ipa">pʰ</span> <em>пүү</em> <span class="ipa">/pʰuː/</span>,
+            <em>ц</em> and <em>ч</em> likewise.
+        </li>
+        <li>Lenis: <em>б</em> → <span class="ipa">b</span> <em>бүх</em> <span class="ipa">/bux/</span>,
+            <em>д</em> → <span class="ipa">d</span> <em>дав</em> <span class="ipa">/daw̜/</span>,
+            <em>г</em> → <span class="ipa">ɡ</span> <em>гар</em> <span class="ipa">/ɡar̥/</span>.
+        </li>
+        <li>Intervocalic voicing is <em>not</em> shown: the aspirated letters stay aspirated between vowels:
+            <em>акаа</em> <span class="ipa">/akʰaː/</span>, <em>апаа</em> <span class="ipa">/apʰaː/</span>.
+        </li>
+    </ul>
+
+    <h3 id="affricates">Affricates and Sibilants</h3>
+    <ul>
+        <li>ц → <span class="ipa">t͡sʰ</span> <em>цас</em> <span class="ipa">/t͡sʰas/</span>; з → <span class="ipa">d͡z</span> <em>зун</em> <span class="ipa">/d͡zʊŋ/</span>.</li>
+        <li>ч → <span class="ipa">t͡ɕʰ</span> <em>чих</em> <span class="ipa">/t͡ɕʰix/</span>; ж → <span class="ipa">d͡ʒ</span> <em>жил</em> <span class="ipa">/d͡ʒiɮ/</span>.</li>
+        <li>с → <span class="ipa">s</span> <em>сар</em> <span class="ipa">/sar̥/</span>; ш and щ → <span class="ipa">ɕ</span> <em>шар</em> <span class="ipa">/ɕar̥/</span>, <em>щи</em> <span class="ipa">/ɕi/</span>.</li>
+    </ul>
+
+    <h3 id="nasals">Nasals: н, м, г and the Velar Nasal</h3>
+    <ul>
+        <li>н at the end of a word is <span class="ipa">ŋ</span>: <em>хүн</em> <span class="ipa">/xuŋ/</span>, <em>сайн</em> <span class="ipa">/saiŋ/</span>.</li>
+        <li>н before г, к, х assimilates to <span class="ipa">ŋ</span>: <em>монгол</em> <span class="ipa">/mɔŋɡəɮ/</span>, <em>банк</em> <span class="ipa">/baŋkʰ/</span>, <em>мөнх</em> <span class="ipa">/mɵŋx/</span>.</li>
+        <li>н before б, п, м, ф assimilates to <span class="ipa">m</span>: <em>дэнбэ</em> <span class="ipa">/dimp/</span>; the cluster нб is written <span class="ipa">mp</span>, as in <em>улаанбаатар</em> <span class="ipa">/ʊɮaːmpaːtʰər̥/</span>.</li>
+        <li>Otherwise н stays <span class="ipa">n</span>: <em>нар</em> <span class="ipa">/nar̥/</span>, <em>гэнэт</em> <span class="ipa">/ɡinətʰ/</span>.</li>
+    </ul>
+
+    <h3 id="liquids">Liquids: л and р</h3>
+    <ul>
+        <li>л is the voiced lateral fricative <span class="ipa">ɮ</span>: <em>улс</em> <span class="ipa">/ʊɮs/</span>, <em>жил</em> <span class="ipa">/d͡ʒiɮ/</span>. The cluster лх is voiceless <span class="ipa">ɬʰ</span>: <em>лхагва</em> <span class="ipa">/ɬʰaɡw̜/</span>.</li>
+        <li>р is <span class="ipa">r</span> inside the word: <em>гарах</em> <span class="ipa">/ɡarəx/</span>. At the end of a word it is devoiced to <span class="ipa">r̥</span>: <em>сар</em> <span class="ipa">/sar̥/</span>, <em>өөр</em> <span class="ipa">/ɵːr̥/</span>.</li>
+        <li>р before п, т, к, ц, ч is also voiceless: <em>эрт</em> <span class="ipa">/ir̥tʰ/</span>, <em>цирк</em> <span class="ipa">/t͡sʰir̥kʰ/</span>.</li>
+    </ul>
+
+    <h3 id="fricatives">х, в, ф and щ</h3>
+    <ul>
+        <li>х → <span class="ipa">x</span> in all positions: <em>хот</em> <span class="ipa">/xɔtʰ/</span>, <em>ах</em> <span class="ipa">/ax/</span>.</li>
+        <li>в → <span class="ipa">w̜</span>: <em>тав</em> <span class="ipa">/tʰaw̜/</span>, <em>авах</em> <span class="ipa">/aw̜əx/</span>. It is the same symbol in all positions.</li>
+        <li>ф → <span class="ipa">f</span> (loanwords): <em>фото</em> <span class="ipa">/fɔtʰ/</span>.</li>
+        <li>щ is treated as ш: <span class="ipa">ɕ</span>.</li>
+    </ul>
+
+    <h3 id="clusters">Geminates and Consonant Clusters</h3>
+    <ul>
+        <li>Doubled л, м, н, с are long: <em>алла</em> <span class="ipa">/aɮː/</span>, <em>аммаа</em> <span class="ipa">/amːaː/</span>, <em>Анна</em> <span class="ipa">/anː/</span>, <em>русс</em> <span class="ipa">/rʊsː/</span>.</li>
+        <li>Doubled п, т, к, г, ц, з, ч, ж, ф, в, ш, щ, х, р are simplified to a single consonant: <em>аппа</em> <span class="ipa">/apʰ/</span> (final vowel is deleted).</li>
+        <li>бб and вб become <span class="ipa">b</span>: <em>бб</em> <span class="ipa">/b/</span>, <em>вб</em> <span class="ipa">/b/</span>.</li>
+        <li>дд is an unusual case: <em>аддаа</em> <span class="ipa">/at͉.taː/</span>, <em>Будда</em> <span class="ipa">/bʊt͉.t/</span> (a geminate stop written with a syllable dot).</li>
+        <li>No vowel is inserted into clusters; the syllabifier treats permitted final clusters as a single syllable (see <a href="#technical">Implementation Details</a>): <em>багш</em> <span class="ipa">/baɡɕ/</span>, <em>улс</em> <span class="ipa">/ʊɮs/</span>.</li>
+    </ul>
+
+    <h3 id="signs">The Soft and Hard Signs (ь, ъ)</h3>
+    <ul>
+        <li>ь gives the palatalization mark <span class="ipa">ʲ</span> on the preceding consonant: <em>аль</em> <span class="ipa">/aɮʲ/</span>, <em>арьс</em> <span class="ipa">/arʲs/</span>, <em>сургууль</em> <span class="ipa">/sʊrɡʊːɮʲ/</span>, <em>чинь</em> <span class="ipa">/t͡ɕʰinʲ/</span>.</li>
+        <li>ъ is silent and only separates syllables: <em>объект</em> <span class="ipa">/ɔbjəkʰtʰ/</span>, <em>подъезд</em> <span class="ipa">/pʰɔdjəd͡zd/</span>.</li>
+        <li><em>ью</em> crashes the engine; see <a href="#issues">Common Issues</a>.</li>
+    </ul>
+
+    <h3 id="final-vowel">Final Short Vowel Deletion</h3>
+    <p>If the word has more than one syllable, a final short vowel is dropped (a code comment calls it "standard
+        practice for 'n' stems etc."). The check is on the final character of the output, so it removes a, e, i,
+        ɔ, ɵ, u, ʊ or ə (including the second part of <span class="ipa">ei</span>). Long vowels are not touched. A final i is protected only after a, ɔ, u or ʊ (the diphthongs ai, ɔi, ui, ʊi).</p>
+    <ul>
+        <li><em>байна</em> <span class="ipa">/bain/</span>, <em>хаана</em> <span class="ipa">/xaːn/</span>, <em>үнэ</em> <span class="ipa">/un/</span>, <em>мөнгө</em> <span class="ipa">/mɵŋɡ/</span>, <em>шинэ</em> <span class="ipa">/ɕin/</span>.</li>
+        <li>Preserved: <em>ширээ</em> <span class="ipa">/ɕireː/</span> (long), <em>манай</em> <span class="ipa">/manai/</span>, <em>арай</em> <span class="ipa">/arai/</span> (diphthong ai).</li>
+        <li><em>эмэгтэй</em> <span class="ipa">/iməɡtʰe/</span> loses the <span class="ipa">i</span> of <span class="ipa">ei</span>.</li>
+        <li>One-syllable words keep their vowel: <em>чи</em> <span class="ipa">/t͡ɕʰi/</span>, <em>ва</em> <span class="ipa">/w̜a/</span>.</li>
+    </ul>
+
+    <h3 id="harmony">Vowel Harmony</h3>
+    <p>Mongolian vowel harmony (back / front, with rounding) is real and affects suffix spelling, but the IPA
+        function <code>export.to_IPA</code> does <em>not</em> consult it. The helper <code>mn.vowelharmony()</code> in
+        <code>mn-common.lua</code> exists for the Wiktionary inflection templates; the only time <code>to_IPA</code>
+        reaches it is through the syllabifier when it meets <em>ью</em> (which is where the engine crashes). The
+        vowel letter itself carries the harmony in Cyrillic, and the transcription simply maps each letter, so a
+        word like <em>гэр</em> <span class="ipa">/ɡir̥/</span> and <em>гар</em> <span class="ipa">/ɡar̥/</span> differ only
+        by their spelled vowel. Masculine/feminine/neutral classes are not computed anywhere in the output.</p>
+
+    <h3 id="stress">Stress</h3>
+    <p>Following Svantesson (2005), word stress is treated as non-phonemic in Mongolian. The stress-marking code of the
+        original Wiktionary module was removed, so no <span class="ipa">ˈ</span> or <span class="ipa">ˌ</span> marks are ever
+        produced: <em>монгол</em> <span class="ipa">/mɔŋɡəɮ/</span>.</p>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>These tables reflect the actual lookup tables in <code>mn-pron_wasm.lua</code>.</p>
+
+    <h3>1. Short Vowels (<code>vowels1</code> and <code>vowels1_reduced</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Letter</th><th>First syllable</th><th>Example (initial)</th><th>Later syllable</th><th>Example (non-initial)</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>а</strong></td><td><span class="ipa">a</span></td><td><em>ам</em> <span class="ipa">/am/</span></td><td><span class="ipa">ə</span></td><td><em>ахмад</em> <span class="ipa">/axməd/</span></td></tr>
+        <tr><td><strong>о</strong></td><td><span class="ipa">ɔ</span></td><td><em>ор</em> <span class="ipa">/ɔr̥/</span></td><td><span class="ipa">ə</span></td><td><em>модонд</em> <span class="ipa">/mɔdənd/</span></td></tr>
+        <tr><td><strong>у</strong></td><td><span class="ipa">ʊ</span></td><td><em>ус</em> <span class="ipa">/ʊs/</span></td><td><span class="ipa">ə</span></td><td>Short у outside the first syllable is rare in native words</td></tr>
+        <tr><td><strong>э</strong></td><td><span class="ipa">i</span></td><td><em>эр</em> <span class="ipa">/ir̥/</span></td><td><span class="ipa">ə</span></td><td><em>эрдэм</em> <span class="ipa">/irdəm/</span></td></tr>
+        <tr><td><strong>ө</strong></td><td><span class="ipa">ɵ</span></td><td><em>өвөл</em> <span class="ipa">/ɵw̜əɮ/</span></td><td><span class="ipa">ə</span></td><td><em>өвөл</em> <span class="ipa">/ɵw̜əɮ/</span></td></tr>
+        <tr><td><strong>ү</strong></td><td><span class="ipa">u</span></td><td><em>үг</em> <span class="ipa">/uɡ/</span></td><td><span class="ipa">ə</span></td><td><em>хүмүүс</em> <span class="ipa">/xumuːs/</span></td></tr>
+        <tr><td><strong>и, й</strong></td><td><span class="ipa">i</span></td><td><em>ир</em> <span class="ipa">/ir̥/</span></td><td><span class="ipa">i</span></td><td><em>ажил</em> <span class="ipa">/ad͡ʒiɮ/</span></td></tr>
+        <tr><td><strong>я</strong></td><td><span class="ipa">ja</span></td><td><em>ямар</em> <span class="ipa">/jamər̥/</span></td><td><span class="ipa">jə</span></td><td><em>баяр</em> <span class="ipa">/bajər̥/</span></td></tr>
+        <tr><td><strong>ю</strong></td><td><span class="ipa">jʊ</span></td><td><em>юм</em> <span class="ipa">/jʊm/</span></td><td><span class="ipa">jə</span></td><td><em>аюул</em> <span class="ipa">/ajʊːɮ/</span></td></tr>
+        <tr><td><strong>ё</strong></td><td><span class="ipa">jɔ</span></td><td><em>ёс</em> <span class="ipa">/jɔs/</span></td><td><span class="ipa">jə</span></td><td><em>хоёр</em> <span class="ipa">/xɔjər̥/</span></td></tr>
+        <tr><td><strong>е</strong></td><td><span class="ipa">jɵ</span></td><td><em>ес</em> <span class="ipa">/jɵs/</span></td><td><span class="ipa">jə</span></td><td><em>Вьетнам</em> <span class="ipa">/w̜jɵtʰnəm/</span></td></tr>
+        <tr><td><strong>ә</strong></td><td><span class="ipa">ə</span></td><td colspan="3">Not used in Halh Cyrillic; mapped for completeness</td></tr>
+        <tr><td><strong>ы</strong></td><td colspan="4">Listed in the tables but excluded from the vowel pattern, so it is never converted (see <a href="#issues">Common Issues</a>)</td></tr>
+        </tbody>
+    </table>
+
+    <h3>2. Long Vowels and Diphthongs (<code>vowels2</code>, <code>vowels3</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Spelling</th><th>IPA</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>аа</strong></td><td><span class="ipa">aː</span></td><td><em>аав</em> <span class="ipa">/aːw̜/</span></td></tr>
+        <tr><td><strong>оо</strong></td><td><span class="ipa">ɔː</span></td><td><em>хоол</em> <span class="ipa">/xɔːɮ/</span></td></tr>
+        <tr><td><strong>уу</strong></td><td><span class="ipa">ʊː</span></td><td><em>уул</em> <span class="ipa">/ʊːɮ/</span></td></tr>
+        <tr><td><strong>үү</strong></td><td><span class="ipa">uː</span></td><td><em>хүү</em> <span class="ipa">/xuː/</span></td></tr>
+        <tr><td><strong>өө</strong></td><td><span class="ipa">ɵː</span></td><td><em>өөр</em> <span class="ipa">/ɵːr̥/</span></td></tr>
+        <tr><td><strong>ээ</strong></td><td><span class="ipa">eː</span></td><td><em>ширээ</em> <span class="ipa">/ɕireː/</span></td></tr>
+        <tr><td><strong>ии, ий</strong></td><td><span class="ipa">iː</span></td><td><em>ийм</em> <span class="ipa">/iːm/</span>, <em>нийт</em> <span class="ipa">/niːtʰ/</span></td></tr>
+        <tr><td><strong>ай</strong></td><td><span class="ipa">ai</span></td><td><em>сайн</em> <span class="ipa">/saiŋ/</span></td></tr>
+        <tr><td><strong>ой</strong></td><td><span class="ipa">ɔi</span></td><td><em>хойд</em> <span class="ipa">/xɔid/</span></td></tr>
+        <tr><td><strong>уй</strong></td><td><span class="ipa">ʊi</span></td><td><em>хуйх</em> <span class="ipa">/xʊix/</span></td></tr>
+        <tr><td><strong>үй</strong></td><td><span class="ipa">ui</span></td><td><em>үй</em> <span class="ipa">/ui/</span></td></tr>
+        <tr><td><strong>өй</strong></td><td><span class="ipa">ɵi</span></td><td><em>өй</em> <span class="ipa">/ɵi/</span></td></tr>
+        <tr><td><strong>эй</strong></td><td><span class="ipa">ei</span></td><td><em>эй</em> <span class="ipa">/ei/</span></td></tr>
+        <tr><td><strong>ау</strong></td><td><span class="ipa">aʊ̯</span></td><td><em>ау</em> <span class="ipa">/aʊ̯/</span></td></tr>
+        <tr><td><strong>ао</strong></td><td><span class="ipa">ɒː</span></td><td><em>ао</em> <span class="ipa">/ɒː/</span></td></tr>
+        <tr><td><strong>оа</strong></td><td><span class="ipa">ʊ̯a</span></td><td><em>оа</em> <span class="ipa">/ʊ̯a/</span></td></tr>
+        <tr><td><strong>уа</strong></td><td><span class="ipa">u̯a</span></td><td><em>уа</em> <span class="ipa">/u̯a/</span></td></tr>
+        <tr><td><strong>уи</strong></td><td><span class="ipa">u̯iː</span></td><td><em>уи</em> <span class="ipa">/u̯iː/</span></td></tr>
+        <tr><td><strong>еа</strong></td><td><span class="ipa">ia</span></td><td><em>еа</em> <span class="ipa">/ia/</span></td></tr>
+        <tr><td><strong>ео</strong></td><td><span class="ipa">eɔ</span></td><td><em>ео</em> <span class="ipa">/eɔ/</span></td></tr>
+        <tr><td><strong>еу</strong></td><td><span class="ipa">iʊ̯</span></td><td><em>еу</em> <span class="ipa">/iʊ̯/</span></td></tr>
+        <tr><td><strong>иа, ио, иу, иэ, иө, иү</strong></td><td><span class="ipa">i̯</span> + long vowel</td><td><em>иа</em> <span class="ipa">/i̯aː/</span>, <em>ио</em> <span class="ipa">/i̯oː/</span>, <em>иу</em> <span class="ipa">/i̯ʊː/</span>, <em>иэ</em> <span class="ipa">/i̯eː/</span>, <em>иө</em> <span class="ipa">/i̯ɵː/</span>, <em>иү</em> <span class="ipa">/i̯uː/</span></td></tr>
+        <tr><td><strong>яа, ёо, еэ</strong></td><td>glide + long vowel</td><td><em>яа</em> <span class="ipa">/jaː/</span>, <em>ёо</em> <span class="ipa">/jɔː/</span>, <em>еэ</em> <span class="ipa">/jeː/</span></td></tr>
+        <tr><td><strong>яй, ёй, ей, юй</strong></td><td>glide + diphthong</td><td><em>яй</em> <span class="ipa">/jai/</span>, <em>ёй</em> <span class="ipa">/jɔi/</span>, <em>ей</em> <span class="ipa">/jei/</span>, <em>юй</em> <span class="ipa">/jui/</span></td></tr>
+        <tr><td><strong>юу, юү</strong></td><td>glide + long vowel</td><td><em>юу</em> <span class="ipa">/jʊː/</span>, <em>юү</em> <span class="ipa">/juː/</span></td></tr>
+        <tr><td><strong>яай, уай (three-letter, <code>vowels3</code>)</strong></td><td><span class="ipa">jɛː</span>, <span class="ipa">u̯ɛː</span></td><td><em>яай</em> <span class="ipa">/jɛː/</span>, <em>уай</em> <span class="ipa">/u̯ɛː/</span></td></tr>
+        <tr><td><strong>ъяа, ъёо, ьеэ, ёий, аоа</strong></td><td>other three-letter sequences</td><td><em>ъяа</em> <span class="ipa">/jaː/</span>, <em>ъёо</em> <span class="ipa">/jɔː/</span>, <em>ьеэ</em> <span class="ipa">/jeː/</span>, <em>ёий</em> <span class="ipa">/jiː/</span>, <em>аоа</em> <span class="ipa">/aʊ̯a/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>3. Single Consonants (<code>consonants1</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Letter</th><th>IPA</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>п</strong></td><td><span class="ipa">pʰ</span></td><td><em>пүү</em> <span class="ipa">/pʰuː/</span></td></tr>
+        <tr><td><strong>б</strong></td><td><span class="ipa">b</span></td><td><em>бүх</em> <span class="ipa">/bux/</span></td></tr>
+        <tr><td><strong>т</strong></td><td><span class="ipa">tʰ</span></td><td><em>тав</em> <span class="ipa">/tʰaw̜/</span></td></tr>
+        <tr><td><strong>д</strong></td><td><span class="ipa">d</span></td><td><em>дав</em> <span class="ipa">/daw̜/</span></td></tr>
+        <tr><td><strong>к</strong></td><td><span class="ipa">kʰ</span></td><td><em>банк</em> <span class="ipa">/baŋkʰ/</span></td></tr>
+        <tr><td><strong>г</strong></td><td><span class="ipa">ɡ</span></td><td><em>гар</em> <span class="ipa">/ɡar̥/</span></td></tr>
+        <tr><td><strong>ц</strong></td><td><span class="ipa">t͡sʰ</span></td><td><em>цас</em> <span class="ipa">/t͡sʰas/</span></td></tr>
+        <tr><td><strong>з</strong></td><td><span class="ipa">d͡z</span></td><td><em>зун</em> <span class="ipa">/d͡zʊŋ/</span></td></tr>
+        <tr><td><strong>ч</strong></td><td><span class="ipa">t͡ɕʰ</span></td><td><em>чих</em> <span class="ipa">/t͡ɕʰix/</span></td></tr>
+        <tr><td><strong>ж</strong></td><td><span class="ipa">d͡ʒ</span></td><td><em>жил</em> <span class="ipa">/d͡ʒiɮ/</span></td></tr>
+        <tr><td><strong>ф</strong></td><td><span class="ipa">f</span></td><td><em>фото</em> <span class="ipa">/fɔtʰ/</span></td></tr>
+        <tr><td><strong>в</strong></td><td><span class="ipa">w̜</span></td><td><em>тав</em> <span class="ipa">/tʰaw̜/</span></td></tr>
+        <tr><td><strong>с</strong></td><td><span class="ipa">s</span></td><td><em>сар</em> <span class="ipa">/sar̥/</span></td></tr>
+        <tr><td><strong>ш, щ</strong></td><td><span class="ipa">ɕ</span></td><td><em>шар</em> <span class="ipa">/ɕar̥/</span>, <em>щи</em> <span class="ipa">/ɕi/</span></td></tr>
+        <tr><td><strong>х</strong></td><td><span class="ipa">x</span></td><td><em>хот</em> <span class="ipa">/xɔtʰ/</span></td></tr>
+        <tr><td><strong>м</strong></td><td><span class="ipa">m</span></td><td><em>ном</em> <span class="ipa">/nɔm/</span></td></tr>
+        <tr><td><strong>н</strong></td><td><span class="ipa">n</span> (→ ŋ, m by context)</td><td><em>нар</em> <span class="ipa">/nar̥/</span>, <em>хүн</em> <span class="ipa">/xuŋ/</span></td></tr>
+        <tr><td><strong>р</strong></td><td><span class="ipa">r</span> (→ r̥ finally)</td><td><em>гарах</em> <span class="ipa">/ɡarəx/</span>, <em>сар</em> <span class="ipa">/sar̥/</span></td></tr>
+        <tr><td><strong>л</strong></td><td><span class="ipa">ɮ</span></td><td><em>улс</em> <span class="ipa">/ʊɮs/</span></td></tr>
+        <tr><td><strong>ь</strong></td><td><span class="ipa">ʲ</span></td><td><em>аль</em> <span class="ipa">/aɮʲ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>4. Clusters and Geminates (<code>consonants2</code>, <code>double_consonants</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Spelling</th><th>Result</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>лл</strong></td><td><span class="ipa">ɮː</span></td><td><em>алла</em> <span class="ipa">/aɮː/</span></td></tr>
+        <tr><td><strong>мм</strong></td><td><span class="ipa">mː</span></td><td><em>аммаа</em> <span class="ipa">/amːaː/</span></td></tr>
+        <tr><td><strong>нн</strong></td><td><span class="ipa">nː</span></td><td><em>Анна</em> <span class="ipa">/anː/</span></td></tr>
+        <tr><td><strong>сс</strong></td><td><span class="ipa">sː</span></td><td><em>русс</em> <span class="ipa">/rʊsː/</span></td></tr>
+        <tr><td><strong>лх</strong></td><td><span class="ipa">ɬʰ</span></td><td><em>лхагва</em> <span class="ipa">/ɬʰaɡw̜/</span></td></tr>
+        <tr><td><strong>бб, вб</strong></td><td><span class="ipa">b</span></td><td><em>бб</em> <span class="ipa">/b/</span>, <em>вб</em> <span class="ipa">/b/</span></td></tr>
+        <tr><td><strong>нб</strong></td><td><span class="ipa">mp</span></td><td><em>нбаа</em> <span class="ipa">/mpaː/</span></td></tr>
+        <tr><td><strong>дд</strong></td><td><span class="ipa">t͉.t</span></td><td><em>аддаа</em> <span class="ipa">/at͉.taː/</span></td></tr>
+        <tr><td><strong>рк, рп, рт, рц, рч</strong></td><td>voiceless <span class="ipa">r̥</span> + aspirated stop/affricate</td><td><em>гэрт</em> <span class="ipa">/ɡir̥tʰ/</span>, <em>цирк</em> <span class="ipa">/t͡sʰir̥kʰ/</span></td></tr>
+        <tr><td><strong>пп, тт, кк, гг, цц, зз, чч, жж, фф, вв, шш, щщ, хх, рр</strong></td><td>single consonant</td><td><em>аппа</em> <span class="ipa">/apʰ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h3>5. Palatalization Table (<code>palatalisation</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Consonant + vowel letter</th><th>Rewritten as</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><strong>С + я</strong></td><td>С + ʲ + а</td><td><em>бя</em> <span class="ipa">/bʲa/</span>, <em>ня</em> <span class="ipa">/nʲa/</span>, <em>ря</em> <span class="ipa">/rʲa/</span>, <em>пя</em> <span class="ipa">/pʰʲa/</span></td></tr>
+        <tr><td><strong>С + ю</strong></td><td>С + ʲ + у</td><td><em>тю</em> <span class="ipa">/tʰʲʊ/</span>, <em>гю</em> <span class="ipa">/ɡʲʊ/</span>, <em>нюс</em> <span class="ipa">/nʲʊs/</span></td></tr>
+        <tr><td><strong>С + ё</strong></td><td>С + ʲ + о</td><td><em>дё</em> <span class="ipa">/dʲɔ/</span>, <em>кё</em> <span class="ipa">/kʰʲɔ/</span></td></tr>
+        <tr><td><strong>С + е</strong></td><td>С + ʲ + ө</td><td><em>бе</em> <span class="ipa">/bʲɵ/</span>, <em>те</em> <span class="ipa">/tʰʲɵ/</span>, <em>телевиз</em> <span class="ipa">/tʰʲɵɮʲɵw̜id͡z/</span></td></tr>
+        </tbody>
+    </table>
+    <p>С is any of п, б, т, д, к, г, ф, в, х, м, н, р, л. For example <em>хя</em> <span class="ipa">/xʲa/</span>,
+        <em>мя</em> <span class="ipa">/mʲa/</span>.</p>
+
+    <h3>6. Context-Dependent Rules</h3>
+    <table>
+        <thead>
+        <tr><th>Context</th><th>Result</th><th>Example</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>н before г, к, х, or at the end of a word</td><td><span class="ipa">ŋ</span></td><td><em>монгол</em> <span class="ipa">/mɔŋɡəɮ/</span>, <em>хүн</em> <span class="ipa">/xuŋ/</span>, <em>мөнх</em> <span class="ipa">/mɵŋx/</span></td></tr>
+        <tr><td>н before б, п, м, ф</td><td><span class="ipa">m</span></td><td><em>дэнбэ</em> <span class="ipa">/dimp/</span>, <em>нпа</em> <span class="ipa">/mpʰa/</span></td></tr>
+        <tr><td>р at the end of a word</td><td><span class="ipa">r̥</span></td><td><em>нар</em> <span class="ipa">/nar̥/</span></td></tr>
+        <tr><td>Final short vowel in a word of 2+ syllables</td><td>deleted</td><td><em>гэнэт</em> <span class="ipa">/ɡinətʰ/</span>, <em>гарна</em> <span class="ipa">/ɡarn/</span></td></tr>
+        <tr><td>Hyphen</td><td>deleted</td><td><em>сайн-уу</em> <span class="ipa">/sainʊː/</span></td></tr>
+        <tr><td>Capital letters</td><td>lowercased</td><td><em>Монгол</em> <span class="ipa">/mɔŋɡəɮ/</span>, <em>САЙН</em> <span class="ipa">/saiŋ/</span></td></tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Do I need to mark the stress?</h3>
+    <p>No. Stress is treated as non-phonemic in Mongolian and the module produces no stress marks, so the input is plain Cyrillic spelling. See <a href="#stress">Stress</a>.</p>
+
+    <h3>Why do the vowels and the ending of a word differ from the spelling?</h3>
+    <p>Short vowels after the first syllable are reduced to <span class="ipa">ə</span>, and a final short vowel is deleted in words of more than one syllable: <em>модонд</em> <span class="ipa">/mɔdənd/</span>, <em>байна</em> <span class="ipa">/bain/</span>. Long vowels and diphthongs are exempt. See <a href="#vowels-guide">Initial vs Non-Initial Vowels</a> and <a href="#final-vowel">Final Short Vowel Deletion</a>.</p>
+
+    <h3>Does the tool use a dictionary, and why is there only one result?</h3>
+    <p>No. Every word is generated by the rules alone, so each word has exactly one transcription and a spelling error is transcribed as typed. Only a phonemic form is offered; see <a href="#forms">Phonemic vs Phonetic</a>.</p>
+
+    <h3>Why is a word with ы or ью transcribed incorrectly?</h3>
+    <p>The letter <em>ы</em> is excluded from the module's vowel pattern and passes through unchanged: <em>газрын</em> <span class="ipa">/ɡad͡zrыŋ/</span>, whereas <em>газрин</em> <span class="ipa">/ɡad͡zriŋ/</span> is converted. The sequence <em>ью</em> makes the Lua call fail, and the input is returned unchanged. Russian loanwords are also affected by the palatalization rewrite. See <a href="#issues">Common Issues &amp; Limitations</a>.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>The whole pipeline is the single function <code>export.to_IPA(text)</code> in
+        <code>lua_modules/mn-pron_wasm.lua</code> (about 85 lines). The JavaScript handler in <code>utils.js</code> calls
+        it only for the Phonemic form: <code>window.mn_ipa.to_IPA(cleanText)</code>. It uses the helper module
+        <code>mn-common.lua</code> only for <code>mn.syllables()</code>, and <code>mn/data.lua</code> only for the
+        table of permitted word-final clusters. The rest of <code>mn-common.lua</code> (vowel harmony, final vowel removal,
+        the traditional-script variation selectors, the <code>see</code> and <code>ipasee</code> template entry points) is
+        not used by <code>to_IPA</code>. The module's <code>show()</code> function is the Wiktionary template entry point and
+        is not called by the app.</p>
+
+    <ol>
+        <li><strong>Normalization:</strong> lowercase with <code>mw.ustring.lower</code>, delete every hyphen.</li>
+        <li><strong>Double consonant collapse:</strong> table <code>double_consonants</code>.</li>
+        <li><strong>Palatalization:</strong> table <code>palatalisation</code>.</li>
+        <li><strong>Syllabification:</strong> <code>mn.syllables()</code> splits the text.</li>
+        <li><strong>Per-syllable vowels:</strong> <code>vowels3</code>, <code>vowels2</code>, then <code>vowels1</code> or <code>vowels1_reduced</code>.</li>
+        <li><strong>Consonant clusters:</strong> table <code>consonants2</code>.</li>
+        <li><strong>Single consonants:</strong> table <code>consonants1</code>.</li>
+        <li><strong>Contextual rules:</strong> nasal assimilation, <code>r</code> devoicing, final vowel deletion and cleanup.</li>
+    </ol>
+
+    <h3>Stage 0: Normalization and the ы marker</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><code>mw.ustring.lower</code></td><td><em>САЙН</em></td><td><span class="ipa">saiŋ</span></td><td>Capitals are folded, so case never affects the output.</td></tr>
+        <tr><td><code>gsub(text, '-', '')</code></td><td><em>сайн-уу</em></td><td><span class="ipa">sainʊː</span></td><td>Hyphens vanish, which merges the two parts into one word (the second part then counts as non-initial).</td></tr>
+        <tr><td><code>ы$ → ы~</code>, <code>ы%s → ы~%s</code></td><td><em>номы</em></td><td><span class="ipa">nɔmы</span></td><td>Appends a temporary <code>~</code> to word-final ы so the later vowel-deletion step cannot see it; <code>~</code> is removed in the last step. Since ы is never converted, this has no visible effect.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 1: Double Consonants (<code>double_consonants</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>пп, тт, кк, гг, цц, зз, чч, жж, фф, вв, шш, щщ, хх, рр → single</td><td><em>аппа</em></td><td><span class="ipa">apʰ</span></td><td>Each key is replaced twice, so triples reduce too. Note that лл, мм, нн, сс, бб, дд are <em>not</em> in this table; they are handled in stage 5.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 2: Palatalization (<code>palatalisation</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Cе → Cʲө, Cю → Cʲу, Cё → Cʲо, Cя → Cʲа</td><td><em>бя</em>, <em>ля</em></td><td><span class="ipa">bʲa</span>, <span class="ipa">ɮʲa</span></td><td>For C in п б т д к г ф в х м н р л. The vowel is replaced by its plain counterpart (which the normal vowel stage then converts) and the modifier letter <code>ʲ</code> is inserted directly after the consonant, so т, п, к come out as <span class="ipa">tʰʲ</span> etc.</td></tr>
+        <tr><td>After other consonants or with no consonant</td><td><em>ямар</em></td><td><span class="ipa">jamər̥</span></td><td>No rewrite; я, ю, ё, е are treated as glide plus vowel in stage 4.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 3: Syllabification (<code>mn.syllables</code>)</h3>
+    <p>The text is split into a list of syllables; the position of each syllable in this list decides how its vowels are
+        converted. Break points are found by scanning each character:</p>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Break at start of every word and after punctuation or space</td><td><em>ном</em></td><td><span class="ipa">nɔm</span></td><td>The first syllable of the text is index 1. Note that the index continues across words if a string contains several (the app passes one word at a time).</td></tr>
+        <tr><td>Break before a vowel after ъ</td><td><em>подъезд</em></td><td><span class="ipa">pʰɔdjəd͡zd</span></td><td>The hard sign forces a break and itself maps to the empty string.</td></tr>
+        <tr><td>Break before consonant + vowel (the consonant begins a new syllable)</td><td><em>модонд</em></td><td><span class="ipa">mɔdənd</span></td><td>Scanning backward from the consonant, a break is added if a vowel is found first.</td></tr>
+        <tr><td>Word-final clusters</td><td><em>багш</em>, <em>улс</em></td><td><span class="ipa">baɡɕ</span>, <span class="ipa">ʊɮs</span></td><td>Clusters listed in <code>syll_final_cons</code> (<code>mn/data.lua</code>, sorted by length 1 to 6) stay in the same syllable. An unlisted cluster gets an extra vowelless syllable break (code comments cite <em>буддизм</em>, <em>алгебра</em>).</td></tr>
+        <tr><td>Iotated vowel after a vowel</td><td><em>баяр</em></td><td><span class="ipa">bajər̥</span></td><td>я, е, ё, ю directly after a vowel start a new syllable.</td></tr>
+        <tr><td>е or ю after ь</td><td><em>Вьетнам</em></td><td><span class="ipa">w̜jɵtʰnəm</span></td><td>The е branch counts back to find whether the cluster is word-initial. The ю branch calls <code>mn.vowelharmony()</code> to decide front/back, and this call fails (see <a href="#issues">Common Issues</a>).</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 4: Per-Syllable Vowel Conversion</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><code>vowels3</code>: ъяа, ъёо, ьеэ, яай, уай, ёий, аоа</td><td><em>яай</em>, <em>аоа</em></td><td><span class="ipa">jɛː</span>, <span class="ipa">aʊ̯a</span></td><td>Three-letter sequences, tried first.</td></tr>
+        <tr><td><code>vowels2</code>: long vowels, diphthongs and glide sequences</td><td><em>хоол</em>, <em>сайн</em>, <em>ау</em></td><td><span class="ipa">xɔːɮ</span>, <span class="ipa">saiŋ</span>, <span class="ipa">aʊ̯</span></td><td>Position independent. Because the table is walked with <code>pairs()</code>, the order inside a syllable is not guaranteed; the entries are written so it rarely matters.</td></tr>
+        <tr><td>First syllable: <code>vowels1</code> on <code>[аоуэөүийяюёеъә]</code></td><td><em>тэр</em></td><td><span class="ipa">tʰir̥</span></td><td>Full vowels. э and и merge to <span class="ipa">i</span>; ү is <span class="ipa">u</span>; у is <span class="ipa">ʊ</span>.</td></tr>
+        <tr><td>Later syllables: <code>vowels1_reduced</code></td><td><em>ахмад</em></td><td><span class="ipa">axməd</span></td><td>а о у э ө ү → <span class="ipa">ə</span>; и й stay <span class="ipa">i</span>; я ю ё е → <span class="ipa">jə</span>; ъ → empty.</td></tr>
+        <tr><td>Letter ы</td><td><em>газрын</em></td><td><span class="ipa">ɡad͡zrыŋ</span></td><td>ы has table entries but is missing from the character class <code>[аоуэөүийяюёеъә]</code>, so it is never replaced.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 5: Consonant Clusters (<code>consonants2</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>бб, вб → <span class="ipa">b</span></td><td><em>вб</em></td><td><span class="ipa">b</span></td><td>Run twice to catch overlaps.</td></tr>
+        <tr><td>дд → <span class="ipa">t͉.t</span></td><td><em>Будда</em></td><td><span class="ipa">bʊt͉.t</span></td><td>Special geminate output.</td></tr>
+        <tr><td>лл, мм, нн, сс → long</td><td><em>алла</em>, <em>русс</em></td><td><span class="ipa">aɮː</span>, <span class="ipa">rʊsː</span></td><td><span class="ipa">ɮː mː nː sː</span>.</td></tr>
+        <tr><td>лх → <span class="ipa">ɬʰ</span></td><td><em>лхагва</em></td><td><span class="ipa">ɬʰaɡw̜</span></td><td>Voiceless lateral.</td></tr>
+        <tr><td>нб → <span class="ipa">mp</span></td><td><em>нбаа</em></td><td><span class="ipa">mpaː</span></td><td>Assimilation and loss of lenis voicing.</td></tr>
+        <tr><td>рк, рп, рт, рц, рч → <span class="ipa">r̥</span> + stop</td><td><em>цирк</em></td><td><span class="ipa">t͡sʰir̥kʰ</span></td><td>Devoiced r before a fortis stop or affricate.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 6: Single Consonants (<code>consonants1</code>)</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td><code>gsub(text, '[бвгджзйклмнпрстфхцчшщь]%*?', consonants1)</code></td><td><em>цас</em></td><td><span class="ipa">t͡sʰas</span></td><td>Every remaining Cyrillic consonant is mapped (see mapping table 3). The optional <code>*</code> is consumed. After this step the text is IPA.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Stage 7: Contextual Rules and Cleanup</h3>
+    <table>
+        <thead>
+        <tr><th>Rule</th><th>Example Input</th><th>Output</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>Intervocalic <code>t͡ɕ → d͡ʑ</code>, <code>p → β</code>, <code>k → ɣ</code></td><td><em>ачаа</em>, <em>апаа</em>, <em>акаа</em></td><td><span class="ipa">at͡ɕʰaː</span>, <span class="ipa">apʰaː</span>, <span class="ipa">akʰaː</span></td><td>Three <code>gsub</code> calls look for bare <code>t͡ɕ</code>, <code>p</code>, <code>k</code> between vowels. By then stage 6 has already written <code>t͡ɕʰ</code>, <code>pʰ</code>, <code>kʰ</code>, so in these tests the rules did not fire and the output keeps its aspirated forms. The symbols <span class="ipa">d͡ʑ β ɣ</span> do not appear in any output tested.</td></tr>
+        <tr><td><code>n([%sˈ]*)%f[pbmf]</code> → m</td><td><em>дэнбэ</em></td><td><span class="ipa">dimp</span></td><td>н before a labial, including across a space.</td></tr>
+        <tr><td><code>n%f[ɡɢkxʃ%s%p%z]</code> → ŋ</td><td><em>монгол</em>, <em>хүн</em></td><td><span class="ipa">mɔŋɡəɮ</span>, <span class="ipa">xuŋ</span></td><td>Before velars, space, punctuation or end of string.</td></tr>
+        <tr><td><code>r%f[%s%p%z]</code> → r̥</td><td><em>гар</em></td><td><span class="ipa">ɡar̥</span></td><td>Word-final devoicing.</td></tr>
+        <tr><td>Protect final <code>[aɔuʊ]i</code> as <code>ⁱ</code></td><td><em>манай</em></td><td><span class="ipa">manai</span></td><td>Temporarily marks the i of a final diphthong so it survives the next step; restored to <span class="ipa">i</span> at the end.</td></tr>
+        <tr><td>Final vowel deletion when <code>#mn.syllables(orig_text) ~= 1</code></td><td><em>байна</em>, <em>чи</em></td><td><span class="ipa">bain</span>, <span class="ipa">t͡ɕʰi</span></td><td>Deletes one final <code>[aeiɔɵuʊə]</code> in multi-syllable words. The syllable count uses the original Cyrillic text. A final vowel is only removed if it is a single character; length marks protect long vowels.</td></tr>
+        <tr><td>Cleanup: <code>ʲj → j</code>, <code>ⁱ → i</code>, <code>~</code> removed</td><td><em>аль</em></td><td><span class="ipa">aɮʲ</span></td><td>Final tidy-up. Latin and other unmapped characters pass through untouched.</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Not Implemented</h3>
+    <ul>
+        <li>No stress (code removed), no allophonic voicing, no intervocalic spirantization of stops (the rule is present but inert for Cyrillic input as above; the Russian loanword spirantization rule is commented out), no vowel harmony computation, no lexicon, no phonetic form.</li>
+        <li>Russian-style palatalization after sibilants and affricates, and Russian <em>e</em> as <span class="ipa">e</span> in loanwords, are not handled.</li>
+    </ul>
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may be incorrect. The System Output and
+        Correct IPA columns are real engine output; where no spelling can produce the correct sound the column
+        describes it in words.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>газрын</td>
+            <td><em>газрын</em> <span class="ipa">/ɡad͡zrыŋ/</span></td>
+            <td>Same word typed with и: <em>газрин</em> <span class="ipa">/ɡad͡zriŋ/</span> (ы should be <span class="ipa">/i/</span>)</td>
+            <td>ы is excluded from the vowel pattern in <code>to_IPA</code>, so it passes through as Cyrillic</td>
+            <td>Replace ы with и before transcribing; affects all genitive <em>-ын</em>, <em>-ны</em> endings</td>
+        </tr>
+        <tr>
+            <td>модны</td>
+            <td><em>модны</em> <span class="ipa">/mɔdnы/</span></td>
+            <td>Typed with и: <em>модни</em> <span class="ipa">/mɔdn/</span></td>
+            <td>Same cause (word-final ы, Stage 0 marker has no effect)</td>
+            <td>Same workaround</td>
+        </tr>
+        <tr>
+            <td>ньюс</td>
+            <td>No transcription (the Lua call errors and the input comes back unchanged)</td>
+            <td>Typed without the soft sign: <em>нюс</em> <span class="ipa">/nʲʊs/</span></td>
+            <td><code>mn.syllables()</code> calls <code>vowelharmony</code> for <em>ью</em>, and a <code>gsub</code> reference fails</td>
+            <td>Drop the ь before ю; same for <em>компьютер</em> → <em>компютер</em> <span class="ipa">/kʰɔmpʰʲʊtʰʲɵr̥/</span></td>
+        </tr>
+        <tr>
+            <td>Герман</td>
+            <td><em>Герман</em> <span class="ipa">/ɡʲɵrməŋ/</span></td>
+            <td>Initial mid <span class="ipa">e</span> after a palatalized г (described; no spelling gives it, since initial э is merged to <span class="ipa">/i/</span>: <em>Гэрман</em> <span class="ipa">/ɡirməŋ/</span>)</td>
+            <td>е after a listed consonant is rewritten to ө, so a Russian loanword е gives rounded <span class="ipa">ɵ</span></td>
+            <td>Loanwords with е: treat the vowel as <span class="ipa">e</span> by hand</td>
+        </tr>
+        <tr>
+            <td>театр</td>
+            <td><em>театр</em> <span class="ipa">/tʰʲɵatʰr̥/</span></td>
+            <td>Mid <span class="ipa">e</span> then <span class="ipa">a</span> (described)</td>
+            <td>Same palatalization rewrite (т + е → тʲө)</td>
+            <td>Check loanwords; or spell with э: <em>тэатр</em> <span class="ipa">/tʰiatʰr̥/</span></td>
+        </tr>
+        <tr>
+            <td>Москва</td>
+            <td><em>Москва</em> <span class="ipa">/mɔskʰw̜/</span></td>
+            <td>The final vowel a is pronounced in the Russian loan (described)</td>
+            <td>Final short vowel deletion applies to every multi-syllable word, including loans</td>
+            <td>Native Mongolian stems with deleted vowels are expected; verify loans manually</td>
+        </tr>
+        <tr>
+            <td>Улаанбаатар-хот</td>
+            <td><em>Улаанбаатар-хот</em> <span class="ipa">/ʊɮaːmpaːtʰərxətʰ/</span></td>
+            <td>Transcribe the parts separately: <em>Улаанбаатар</em> <span class="ipa">/ʊɮaːmpaːtʰər̥/</span> and <em>хот</em> <span class="ipa">/xɔtʰ/</span></td>
+            <td>The hyphen is deleted, so хот becomes a non-initial syllable and its vowel is reduced to ə</td>
+            <td>Put a space instead of a hyphen</td>
+        </tr>
+        <tr>
+            <td>эмэгтэй</td>
+            <td><em>эмэгтэй</em> <span class="ipa">/iməɡtʰe/</span></td>
+            <td>The diphthong <span class="ipa">ei</span> kept (described)</td>
+            <td>Only the i of ai, ɔi, ui, ʊi is protected from final vowel deletion; the i of <span class="ipa">ei</span> is not, so it is removed</td>
+            <td>Known limitation; compare <em>манай</em> <span class="ipa">/manai/</span>, which keeps its i</td>
+        </tr>
+        <tr>
+            <td>вокзал</td>
+            <td><em>вокзал</em> <span class="ipa">/w̜ɔkʰd͡zəɮ/</span></td>
+            <td>Russian loan with <span class="ipa">v</span> and a full second vowel (described)</td>
+            <td>в is always <span class="ipa">w̜</span>; non-initial vowels always reduce to schwa; there is no loanword mode</td>
+            <td>Russian loanwords with в, ф, щ may need manual correction</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Mongolian shares the Cyrillic alphabet with Russian, whose help page is listed below:</p>
+    <ul>
+        <li><a href="russian.html">Russian</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
+
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a
             href="https://github.com/hellpanderrr/hellpanderrr.github.io/tree/main/wiktionary_pron" target="_blank"

@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Russian IPA Transcription - Help</title>
+    <title>Russian Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Russian pronunciation in IPA: stress and vowel reduction, hard and soft consonants, devoicing and assimilation, with a free Russian-to-IPA converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/russian.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Russian Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Russian pronunciation in IPA: stress and vowel reduction, hard and soft consonants, devoicing and assimilation, with a free Russian-to-IPA converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/russian.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Russian Pronunciation and IPA Transcription Guide","description":"Russian pronunciation in IPA: stress and vowel reduction, hard and soft consonants, devoicing and assimilation, with a free Russian-to-IPA converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/russian.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Russian"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Russian","item":"https://hellpanderrr.github.io/wiktionary_pron/help/russian.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,43 +24,2994 @@
 </head>
 <body>
 <div id="content">
-    <h1>Russian IPA Transcription - Help</h1>
+    <h1>Russian Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Russian">← Back to Russian transcription</a></span>
         <span><a href="index.html">↑ All Languages</a></span>
     </p>
 
-    <h2>About This Implementation</h2>
-
-    <p>This <a href="../?lang=Russian">Russian transcription app</a> uses the <a
-            href="https://en.wiktionary.org/wiki/Module:ru-pron" target="_blank" rel="noopener noreferrer">Wiktionary
-        Russian Pronunciation
-        Module</a> to generate phonetic transcriptions for Russian text.</p>
-
-    <p>Russian requires stressing to properly determine the pronunciation of vowels. The system uses a comprehensive
-        Wiktionary data dump of words to determine stressing, and based on it generate phonetic transcriptions. When a
-        word is not found in the lexicon, it generates transcriptions for all possible stressing variants.</p>
-
-    <h2>Dialects Supported</h2>
+<h2>Table of Contents</h2>
     <ul>
-        <li><strong>Default</strong> - Standard Russian (Moscow pronunciation) patterns</li>
+        <li><strong>Getting Started</strong>
+            <ul>
+                <li><a href="#about">About This Tool</a></li>
+                <li><a href="#forms">Phonemic vs Phonetic</a></li>
+                <li><a href="#dialects">Dialects &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#glossary">Quick Reference (Glossary)</a></li>
+        <li><a href="#reading-ipa">How to Read IPA Symbols</a>
+            <ul>
+                <li><a href="#vowels">Vowel Symbols</a></li>
+                <li><a href="#consonant-symbols">Consonant Symbols</a></li>
+                <li><a href="#diacritics">Diacritical Marks</a></li>
+                <li><a href="#interactive">Interactive Features</a></li>
+                <li><a href="#variants">Multiple Pronunciation Variants</a></li>
+            </ul>
+        </li>
+        <li><strong>Russian Pronunciation Guide</strong>
+            <ul>
+                <li><a href="#reduction">Stress and Vowel Reduction (Akanye &amp; Ikanye)</a></li>
+                <li><a href="#stress-marks">Stress Marks, Monosyllables and ё</a></li>
+                <li><a href="#palatalization">Hard and Soft Consonants (Palatalization)</a></li>
+                <li><a href="#signs">The Soft Sign ь and Hard Sign ъ</a></li>
+                <li><a href="#hushing">Hushing Consonants: ж ш ц ч щ</a></li>
+                <li><a href="#iotated">Iotated Vowels: е ё ю я and /j/</a></li>
+                <li><a href="#final-devoicing">Final Devoicing</a></li>
+                <li><a href="#voicing">Voicing Assimilation</a></li>
+                <li><a href="#silent">Dropped Consonants in Clusters</a></li>
+                <li><a href="#shch">щ, сч, зч, жч</a></li>
+                <li><a href="#affricates">Affricates and Assimilated Stops (тс, дз, тш, -ться)</a></li>
+                <li><a href="#gemination">Doubled Consonants (Gemination)</a></li>
+                <li><a href="#genitive">Spelling Exceptions: -ого, что, мягк-</a></li>
+                <li><a href="#clitics">Prepositions, Particles and Hyphens</a></li>
+                <li><a href="#final-e">Final -е and -я</a></li>
+                <li><a href="#fronting">Fronting of а and у Between Soft Consonants</a></li>
+                <li><a href="#dark-l">Hard л (Dark L)</a></li>
+                <li><a href="#punctuation">Punctuation and Special Input</a></li>
+            </ul>
+        </li>
+        <li><strong>Orthography to IPA Mapping</strong>
+            <ul>
+                <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
+            </ul>
+        </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
+        <li><strong>For Developers</strong>
+            <ul>
+                <li><a href="#technical">Implementation Details</a></li>
+                <li><a href="#issues">Common Issues &amp; Limitations</a></li>
+            </ul>
+        </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
-    <h2>Transcription Forms</h2>
+    <h2 id="about">About This Tool</h2>
+    <p>This <a href="../?lang=Russian">Russian transcription app</a> uses the <a
+            href="https://en.wiktionary.org/wiki/Module:ru-pron" target="_blank"
+            rel="noopener noreferrer">Wiktionary Russian Pronunciation Module</a> (<code>ru-pron</code>, the
+        version maintained by Benwing2, with its helpers <code>ru-translit</code> and <code>ru-common</code>) to
+        generate phonetic transcriptions for Russian text. IPA (International Phonetic Alphabet) is a standardized
+        system for transcribing speech sounds using symbols based on the Latin alphabet. This tool converts Russian
+        orthography (spelling) into IPA, helping learners, linguists, and developers understand pronunciation.</p>
+
+    <p><strong>Russian spelling does not show stress, and stress decides how most vowels sound.</strong> The module
+        therefore needs to know which vowel is stressed before it can transcribe a word. The app obtains the stress
+        in two ways:</p>
+    <ol>
+        <li><strong>Lexicon first.</strong> A lexicon built from Wiktionary data dumps (about 500,000 entries) stores
+            the position of the stressed vowel of each word form. If your word is found, the stress-marked form (for
+            example <em>вода́</em>) is passed to the module. Homographs with different stress (for example
+            <em>за́мок</em> / <em>замо́к</em>) are stored as several comma-separated forms, and each one is
+            transcribed.</li>
+        <li><strong>Fallback for unknown words.</strong> If the word is not in the lexicon, the app transcribes it
+            once <em>for every possible stress position</em> (one acute accent on each vowel in turn) and joins the
+            results, for example <span class="ipa">/a/,/b/,/c/</span>. Click the word to cycle through the
+            candidates. A word with zero or one vowel is transcribed directly, because its stress is not in doubt.
+        </li>
+    </ol>
+    <p>You can also force the stress yourself by typing a combining acute accent (U+0301) after a vowel, and the letter
+        <em>ё</em> is always treated as stressed when no other stress mark is present (see <a href="#stress-marks">Stress
+            Marks, Monosyllables and ё</a>). Note, however, the <a href="#issues">known bug</a> that a word which
+        already carries an accent mark currently also receives a second, automatic stress in the fallback path.</p>
+    <p><strong>About the examples on this page.</strong> Every IPA string below was produced by running the real
+        engine, not written by hand. Unless a table says otherwise, the examples show the rule-based path, fed with
+        stress-marked words (<em>го́род</em>), which is exactly what the browser produces for words found in the
+        lexicon. For those words the browser picks the correct stress automatically; the lexicon itself is not
+        available in the offline tool used to generate these examples.</p>
+
+    <h2 id="dialects">Dialects &amp; Limitations</h2>
     <ul>
-        <li><strong>Phonetic</strong>: A detailed, narrow transcription that shows subtle, non-distinctive variations in
-            pronunciation (allophones). It aims to represent how a word is <em>actually</em> said.
+        <li><strong>Supported:</strong> One style, <em>Default</em>: standard Russian (Moscow-based literary
+            pronunciation), with vowel reduction (akanye / ikanye), palatalization and assimilation as described by the
+            module.
+        </li>
+        <li><strong>Not supported:</strong> Regional or dialectal pronunciation (for example non-reducing
+            <em>okanye</em> speech). Colloquial fast-speech reductions
+            are not modeled either.
+        </li>
+        <li><strong>Edge cases:</strong> The module works from spelling only. Loanwords whose е is pronounced [ɛ] after a
+            hard consonant (<em>кафе́</em>, <em>отель</em>), initialisms (<em>США</em>), a few words with irregular
+            -чн- or -вств- clusters, and proper names may need a respelling (see <a href="#issues">Common Issues &amp;
+                Limitations</a>).
+        </li>
+        <li><strong>Technical limit:</strong> The app handler transcribes one word at a time. Digits are dropped,
+            and some module options (part of speech, gemination, <code>zhpal</code>) are not exposed by the app.</li>
+    </ul>
+
+    <h2 id="forms">Phonemic vs Phonetic</h2>
+    <ul>
+        <li><strong>Phonetic</strong> (the only form offered for Russian): A detailed, narrow transcription that shows
+            subtle, non-distinctive variations in pronunciation (allophones): reduced vowels [ɐ ə ɪ ʊ], fronted
+            vowels [æ ʉ] next to soft consonants, palatalization [ʲ], dark [ɫ], and optional segments in
+            parentheses. It aims to represent how a word is <em>actually</em> said.
+        </li>
+        <li><strong>Phonemic</strong> (not offered): The Wiktionary module produces only phonetic output for Russian,
+            so the app has no separate phonemic form.
         </li>
     </ul>
 
+    <h2 id="glossary">Quick Reference (Glossary)</h2>
+    <dl>
+        <dt>Allophone</dt>
+        <dd>A variant pronunciation of a phoneme that doesn't change meaning, such as the reduced vowels [ɐ], [ə], [ɪ]
+            that stand in for unstressed /a/, /o/, /e/ and /i/.
+        </dd>
 
-    <h2>Technical Information</h2>
-    <p>This implementation combines the <a href="https://en.wiktionary.org/wiki/Module:ru-pron" target="_blank"
-                                           rel="noopener noreferrer">Wiktionary
-        Russian pronunciation module</a> with a comprehensive lexicon extracted from Wiktionary data dumps, providing
-        both high accuracy for common words and broad coverage through rule-based generation, but requires proper stress
-        marking for optimal performance.</p>
+        <dt>Akanye</dt>
+        <dd>The reduction of unstressed <em>а</em> and <em>о</em>: to <span class="ipa">ɐ</span> immediately before the
+            stress and to <span class="ipa">ə</span> elsewhere, e.g. <em>молоко́</em> <span class="ipa">/məɫɐˈko/</span>.
+        </dd>
+
+        <dt>Ikanye</dt>
+        <dd>The reduction of unstressed <em>е</em>, <em>и</em>, <em>я</em> to <span class="ipa">ɪ</span>, e.g.
+            <em>де́ти</em> <span class="ipa">/ˈdʲetʲɪ/</span>.
+        </dd>
+
+        <dt>Pretonic</dt>
+        <dd>The syllable directly before the stressed syllable. In the module it is the only unstressed position where
+            а/о reduce to [ɐ] rather than [ə].
+        </dd>
+
+        <dt>Tertiary Stress</dt>
+        <dd>An internal state in which a vowel is treated as stressed for reduction purposes but gets no stress mark in
+            the output, for example in monosyllables: <em>дом</em> <span class="ipa">/dom/</span>.
+        </dd>
+
+        <dt>Secondary Stress</dt>
+        <dd>A weaker stress marked <span class="ipa">ˌ</span>, entered with a grave accent (U+0300), e.g.
+            <em>воѐнно-морско́й</em> <span class="ipa">/vɐˌjenːə mɐrˈskoj/</span>.
+        </dd>
+
+        <dt>Hard Consonant</dt>
+        <dd>A consonant with no palatal articulation (<em>твёрдый</em>), e.g. the <span class="ipa">n</span> in
+            <em>кон</em> <span class="ipa">/kon/</span>.
+        </dd>
+
+        <dt>Soft (Palatalized) Consonant</dt>
+        <dd>A consonant pronounced with the middle of the tongue raised toward the hard palate, marked
+            <span class="ipa">ʲ</span>, e.g. <em>конь</em> <span class="ipa">/konʲ/</span>.
+        </dd>
+
+        <dt>Iotated Vowel</dt>
+        <dd>The letters е, ё, ю, я, which stand for /j/ + vowel at the start of a word and after another vowel or a sign,
+            but only soften the preceding consonant after a consonant: <em>я́ма</em> <span class="ipa">/ˈjamə/</span> vs. <em>мя́со</em>
+            <span class="ipa">/ˈmʲasə/</span>.
+        </dd>
+
+        <dt>Soft Sign (ь) / Hard Sign (ъ)</dt>
+        <dd>Letters that have no sound of their own: ь softens the preceding consonant, ъ keeps it hard and separates
+            it from an iotated vowel.
+        </dd>
+
+        <dt>Hushing Consonants</dt>
+        <dd>The sounds spelled ж, ш (always hard) and ч, щ (always soft), plus ц (hard except before я, ю, ё, ь; an affricate).
+        </dd>
+
+        <dt>Retroflex (ʂ, ʐ)</dt>
+        <dd>The symbols the module uses for hard ш <span class="ipa">ʂ</span> and hard ж <span class="ipa">ʐ</span>.
+        </dd>
+
+        <dt>Alveolo-palatal (ɕ, ʑ, t͡ɕ)</dt>
+        <dd>The soft hushing sounds: щ is the long <span class="ipa">ɕː</span>, ч is the affricate
+            <span class="ipa">t͡ɕ</span>.
+        </dd>
+
+        <dt>Affricate</dt>
+        <dd>A complex consonant beginning as a stop and releasing as a fricative, written with a tie bar:
+            <span class="ipa">t͡s</span> (ц), <span class="ipa">t͡ɕ</span> (ч), <span class="ipa">d͡ʐ</span> (дж).
+        </dd>
+
+        <dt>Final Devoicing</dt>
+        <dd>Voiced obstruents become voiceless at the end of a word: <em>хлеб</em> <span class="ipa">/xlʲep/</span>, <em>год</em> <span class="ipa">/ɡot/</span>.
+        </dd>
+
+        <dt>Voicing Assimilation</dt>
+        <dd>An obstruent takes over the voicing of the following obstruent: <em>во́дка</em> <span class="ipa">/ˈvotkə/</span> (д → [t]),
+            <em>сбор</em> <span class="ipa">/zbor/</span> (с → [z]).
+        </dd>
+
+        <dt>Gemination</dt>
+        <dd>A long (doubled) consonant, marked <span class="ipa">ː</span>, e.g. <em>ва́нна</em> <span class="ipa">/ˈvanːə/</span>.
+            In most positions the module removes orthographic doubling, e.g. <em>кла́сс</em> <span class="ipa">/ˈkɫas/</span>.
+        </dd>
+
+        <dt>Clitic / Liaison Tie</dt>
+        <dd>The tie <span class="ipa">‿</span> joins an unstressed preposition or particle to the next or previous word
+            as one phonetic word: <em>под сто́лом</em> <span class="ipa">/pɐt͡s‿ˈstoɫəm/</span>.
+        </dd>
+
+        <dt>Foot Boundary</dt>
+        <dd>The symbol <span class="ipa">|</span>, which the module inserts for a comma or dash: <span class="ipa">/ˈdomə | ɐ‿nʲɪ‿f‿ˈʂkolʲe/</span>.
+        </dd>
+
+        <dt>Optional Segment</dt>
+        <dd>A segment in parentheses can be pronounced or omitted: <span class="ipa">(j)</span> in
+            <em>ябло́ко</em> <span class="ipa">/(j)ɪˈbɫokə/</span>, <span class="ipa">(ː)</span> in <em>два́дцать</em> <span class="ipa">/ˈdvat͡s(ː)ɨtʲ/</span>, and
+            <span class="ipa">⁽ʲ⁾</span> (optional palatalization) in <em>вперёд</em> <span class="ipa">/f⁽ʲ⁾pʲɪˈrʲɵt/</span>.
+        </dd>
+
+        <dt>Fronting</dt>
+        <dd>The shift of /a/ to <span class="ipa">æ</span> and of /u/ to <span class="ipa">ʉ</span> between soft
+            consonants: <em>пять</em> <span class="ipa">/pʲætʲ/</span>, <em>лю́ди</em> <span class="ipa">/ˈlʲʉdʲɪ/</span>.
+        </dd>
+
+        <dt>Retraction</dt>
+        <dd>The shift of /e/ to <span class="ipa">ɛ</span> and of /i/ to <span class="ipa">ɨ</span> after the always-hard
+            ж, ш, ц: <em>цена́</em> <span class="ipa">/t͡sɨˈna/</span>, <em>ши́на</em> <span class="ipa">/ˈʂɨnə/</span>.
+        </dd>
+
+        <dt>Schwa</dt>
+        <dd>The neutral vowel <span class="ipa">ə</span>, found in most unstressed а/о syllables not directly before the
+            stress.
+        </dd>
+
+        <dt>Lexicon (V4)</dt>
+        <dd>The compressed word list used by the app. Instead of storing IPA, the V4 format stores the stressed-vowel
+            position of each word form, and the module generates the IPA from it.
+        </dd>
+
+        <dt>Homograph</dt>
+        <dd>Words spelled alike but stressed differently, e.g. <em>за́мок</em> (castle) and <em>замо́к</em> (lock).
+            Each form is transcribed separately and the results can be cycled by clicking.
+        </dd>
+
+        <dt>Hiatus</dt>
+        <dd>Two adjacent vowels in different syllables; in the module two adjacent reduced vowels merge to
+            <span class="ipa">ɐ‿ɐ</span>, e.g. <em>по абази́ну</em> <span class="ipa">/pɐ‿ɐbɐˈzʲinʊ/</span>.
+        </dd>
+
+        <dt>NFD</dt>
+        <dd>Unicode Normalization Form Decomposed: accents are split off as combining characters (the module reads the
+            stress as U+0301 after the vowel).
+        </dd>
+    </dl>
+
+    <h2 id="reading-ipa">How to Read IPA Symbols</h2>
+    <p>This table helps you understand the IPA symbols used in Russian transcriptions. For each symbol, we provide
+        approximate English equivalents where possible. The app shows the transcription between slashes.</p>
+
+    <h3 id="vowels">Vowel Symbols</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/a/</span></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamə/</span></td>
+            <td>"father" (shorter)</td>
+            <td>Stressed а, or stressed я after a soft consonant when no soft consonant follows</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɐ/</span></td>
+            <td><em>вода́</em> <span class="ipa">/vɐˈda/</span></td>
+            <td>"cup" (UK)</td>
+            <td>Unstressed а/о in the syllable directly before the stress, and word-initial unstressed а/о</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ə/</span></td>
+            <td><em>молоко́</em> <span class="ipa">/məɫɐˈko/</span></td>
+            <td>"about"</td>
+            <td>Unstressed а/о elsewhere; also word-final -я</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/e/</span></td>
+            <td><em>ле́то</em> <span class="ipa">/ˈlʲetə/</span></td>
+            <td>"say" (without glide)</td>
+            <td>Stressed е after a soft consonant (or after /j/ at a word start)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɛ/</span></td>
+            <td><em>э́то</em> <span class="ipa">/ˈɛtə/</span>, <em>же́ны</em> <span class="ipa">/ˈʐɛnɨ/</span></td>
+            <td>"bed"</td>
+            <td>Stressed э; also stressed е after the always-hard ж, ш, ц</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/i/</span></td>
+            <td><em>и́ли</em> <span class="ipa">/ˈilʲɪ/</span></td>
+            <td>"see" (without glide)</td>
+            <td>Stressed и (soft consonant before it)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɪ/</span></td>
+            <td><em>де́ти</em> <span class="ipa">/ˈdʲetʲɪ/</span></td>
+            <td>"sit"</td>
+            <td>Unstressed е, и, я (ikanye)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/o/</span></td>
+            <td><em>до́ма</em> <span class="ipa">/ˈdomə/</span></td>
+            <td>"more" (without glide)</td>
+            <td>Stressed о</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɵ/</span></td>
+            <td><em>тётя</em> <span class="ipa">/ˈtʲɵtʲə/</span></td>
+            <td>"bird" with rounded lips</td>
+            <td>Stressed ё (also in ьо), a rounded central vowel</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/u/</span></td>
+            <td><em>ру́чка</em> <span class="ipa">/ˈrut͡ɕkə/</span></td>
+            <td>"food" (without glide)</td>
+            <td>Stressed у, ю</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʊ/</span></td>
+            <td><em>пучо́к</em> <span class="ipa">/pʊˈt͡ɕɵk/</span></td>
+            <td>"put"</td>
+            <td>Unstressed у, ю</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɨ/</span></td>
+            <td><em>ры́ба</em> <span class="ipa">/ˈrɨbə/</span></td>
+            <td>No English equivalent</td>
+            <td>ы; also и after ж, ш, ц. Say "i" with the tongue pulled back</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/æ/</span></td>
+            <td><em>пять</em> <span class="ipa">/pʲætʲ/</span></td>
+            <td>"cat"</td>
+            <td>Fronted /a/ between soft consonants</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʉ/</span></td>
+            <td><em>лю́ди</em> <span class="ipa">/ˈlʲʉdʲɪ/</span></td>
+            <td>No English equivalent</td>
+            <td>Fronted /u/ between soft consonants, a rounded close central vowel</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="consonant-symbols">Consonant Symbols</h3>
+    <p>Russian has hard/soft pairs for most consonants. The soft member is written with the superscript <span
+            class="ipa">ʲ</span> (see <a href="#palatalization">Hard and Soft Consonants</a>). Symbols that are the same
+        as in English (p, b, t, d, k, f, m, n, s, z) are listed in the Mapping tables below.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>IPA</th>
+            <th>Example</th>
+            <th>English Approximation</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">/ɡ/</span></td>
+            <td><em>кни́га</em> <span class="ipa">/ˈknʲiɡə/</span></td>
+            <td>"go"</td>
+            <td>The tool prints the single-story IPA g (U+0261)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/x/</span></td>
+            <td><em>хорошо́</em> <span class="ipa">/xərɐˈʂo/</span></td>
+            <td>Scottish "loch"</td>
+            <td>х; also the result of г before к/ч in мягк-, лёгк-, легч-</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʂ/</span></td>
+            <td><em>ши́на</em> <span class="ipa">/ˈʂɨnə/</span></td>
+            <td>"shoe" (tongue curled back)</td>
+            <td>Always hard ш</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʐ/</span></td>
+            <td><em>жена́</em> <span class="ipa">/ʐɨˈna/</span></td>
+            <td>"measure" (tongue curled back)</td>
+            <td>Always hard ж</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡s/</span></td>
+            <td><em>пти́ца</em> <span class="ipa">/ˈptʲit͡sə/</span></td>
+            <td>"cats"</td>
+            <td>ц, and assimilated тс/дз</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/t͡ɕ/</span></td>
+            <td><em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span></td>
+            <td>"cheese" (soft)</td>
+            <td>ч, always soft</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɕː/</span></td>
+            <td><em>щёки</em> <span class="ipa">/ˈɕːɵkʲɪ/</span></td>
+            <td>Long "sh" (soft)</td>
+            <td>щ, always soft and long; also сч, зч, жч</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ʑː/</span></td>
+            <td><em>дро́жжи</em> <span class="ipa">/ˈdroʐːɨ/</span>, <span class="ipa">/ˈdroʑːɪ/</span></td>
+            <td>Long soft "zh"</td>
+            <td>The second variant for зж/жж</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʐ/</span></td>
+            <td><em>дже́м</em> <span class="ipa">/ˈd͡ʐʐɛm/</span></td>
+            <td>"judge" (tongue curled back)</td>
+            <td>дж</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡ʑ/</span></td>
+            <td><em>до́чь бы</em> <span class="ipa">/ˈdod͡ʑ‿bɨ/</span></td>
+            <td>Soft "judge"</td>
+            <td>ч voiced before a voiced obstruent</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/d͡z/</span></td>
+            <td><em>от зо́лота</em> <span class="ipa">/ɐd͡z‿ˈzoɫətə/</span></td>
+            <td>"adze"</td>
+            <td>дз/тз at a word boundary (rare)</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/j/</span></td>
+            <td><em>я́ма</em> <span class="ipa">/ˈjamə/</span></td>
+            <td>"yes"</td>
+            <td>й; the glide in iotated vowels</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/ɫ/</span></td>
+            <td><em>лук</em> <span class="ipa">/ɫuk/</span></td>
+            <td>"full" (dark L)</td>
+            <td>Hard л</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/lʲ/</span></td>
+            <td><em>люк</em> <span class="ipa">/lʲuk/</span></td>
+            <td>"million" (light L)</td>
+            <td>Soft л</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">/r/</span></td>
+            <td><em>ры́ба</em> <span class="ipa">/ˈrɨbə/</span></td>
+            <td>Spanish "pero"</td>
+            <td>Alveolar trill or tap; soft [rʲ] before soft vowels</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="diacritics">Diacritical Marks</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">ˈ</span></td>
+            <td>Primary stress</td>
+            <td>Main emphasis in word, written before the stressed syllable</td>
+            <td><em>кни́га</em> <span class="ipa">/ˈknʲiɡə/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ˌ</span></td>
+            <td>Secondary stress</td>
+            <td>Weaker emphasis (typed as a grave accent)</td>
+            <td><em>воѐнно-морско́й</em> <span class="ipa">/vɐˌjenːə mɐrˈskoj/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʲ</span></td>
+            <td>Palatalization</td>
+            <td>Consonant is soft</td>
+            <td><em>конь</em> <span class="ipa">/konʲ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">⁽ʲ⁾</span></td>
+            <td>Optional palatalization</td>
+            <td>Either soft or hard is acceptable</td>
+            <td><em>вперёд</em> <span class="ipa">/f⁽ʲ⁾pʲɪˈrʲɵt/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ː</span></td>
+            <td>Length mark</td>
+            <td>Consonant is long (geminate)</td>
+            <td><em>ва́нна</em> <span class="ipa">/ˈvanːə/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">(ː)</span></td>
+            <td>Optional length</td>
+            <td>Long or short is acceptable</td>
+            <td><em>два́дцать</em> <span class="ipa">/ˈdvat͡s(ː)ɨtʲ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">(j)</span></td>
+            <td>Optional glide</td>
+            <td>The /j/ may or may not be heard</td>
+            <td><em>ябло́ко</em> <span class="ipa">/(j)ɪˈbɫokə/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">‿</span></td>
+            <td>Linking tie</td>
+            <td>Words pronounced as one unit (clitic + host); module with phrases only, not shown by the app</td>
+            <td><em>под сто́лом</em> <span class="ipa">/pɐt͡s‿ˈstoɫəm/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">|</span></td>
+            <td>Foot boundary</td>
+            <td>Pause (from a comma or dash); module with phrases only, not shown by the app</td>
+            <td><span class="ipa">/ˈdomə | ɐ‿nʲɪ‿f‿ˈʂkolʲe/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">͡</span></td>
+            <td>Tie bar</td>
+            <td>Affricate (single unit)</td>
+            <td><span class="ipa">/t͡s/</span> in <em>цена́</em> <span class="ipa">/t͡sɨˈna/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="interactive">Interactive Features</h3>
+    <ul>
+        <li><strong>Click words to cycle variants:</strong> Words not found in the lexicon show one candidate for every
+            possible stress position. Click any transcribed word to cycle through the alternatives.
+        </li>
+        <li><strong>Audio playback:</strong> Click the <i class="icon icon-volume"></i> speaker icon next to any word or
+            line to hear text-to-speech pronunciation (requires browser TTS support).
+        </li>
+        <li><strong>Export results:</strong> Use PDF or CSV buttons to save transcriptions in your preferred format.
+        </li>
+        <li><strong>Force the stress:</strong> Type a combining acute accent (U+0301) after the vowel you want stressed.
+            Typing <em>ё</em> already implies the stress.
+        </li>
+    </ul>
+
+    <h3 id="variants">Multiple Pronunciation Variants</h3>
+    <p>For Russian, a word can have several candidate transcriptions for different reasons:</p>
+    <ul>
+        <li><strong>Homographs with different stress:</strong> Lexicon entries such as <em>за́мок</em> / <em>замо́к</em>
+            contain several stressed forms; each is transcribed and shown as a separate variant.
+        </li>
+        <li><strong>One variant per stress position:</strong> For words missing from the lexicon the app generates a
+            transcription per vowel, for example <span class="ipa">/ˈmuɕːɪnə/,/mʊˈɕːinə/,/mʊɕːɪˈna/</span>. Only one of them is usually correct.
+        </li>
+        <li><strong>Module-internal alternatives:</strong> In a few clusters the module itself returns two
+            pronunciations: the non-palatal and palatal variants of зж/жж (<em>дрожжи́</em> <span class="ipa">/drɐˈʐːɨ/</span>, <span class="ipa">/drɐˈʑːi/</span>), or soft and hard
+            realizations of a vowel before an optionally soft consonant (<em>ля́мпя</em> <span class="ipa">/ˈlʲampʲə/</span>, <span class="ipa">/ˈlʲæmʲpʲə/</span>).
+        </li>
+        <li><strong>Lexicon vs. generated:</strong> Dictionary lookup and rule-based generation can differ only in the
+            choice of stress; the sound rules are the same.
+        </li>
+    </ul>
+    <p>When multiple variants exist, click the word to cycle through them. The currently selected variant will be used
+        for PDF/CSV export.</p>
+
+    <h2>Russian Pronunciation Guide</h2>
+
+    <p>This guide explains the pronunciation rules that the Wiktionary module actually implements. Russian spelling is
+        only partly phonetic: vowels change with stress, consonants soften before certain vowels, and neighboring
+        consonants influence each other's voicing and softness. The sections below follow the processing order of the
+        module wherever possible; the <a href="#technical">Implementation Details</a> section lists the exact stages.</p>
+    <p><strong>Note:</strong> the app splits the input at spaces and transcribes each word on its own, and it strips punctuation. The liaison tie
+        <span class="ipa">‿</span>, the foot boundary <span class="ipa">|</span> and all cross-word effects below therefore
+        show the capability of the module (which accepts whole phrases) and will not appear in the app's output.</p>
+
+    <h3 id="reduction">Stress and Vowel Reduction (Akanye &amp; Ikanye)</h3>
+    <p>The module's <code>allophones</code> table gives each vowel three values: the <strong>stressed</strong> value,
+        the value in the <strong>pretonic</strong> syllable (immediately before a primary or secondary stress), and the
+        value <strong>elsewhere</strong> (all other unstressed syllables). The pretonic slot is only used before a
+        real stress mark (acute or grave), not before a tertiary stress.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Stressed</th>
+            <th>Pretonic</th>
+            <th>Elsewhere</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>а</strong></td>
+            <td><span class="ipa">a</span></td>
+            <td><span class="ipa">ɐ</span></td>
+            <td><span class="ipa">ə</span></td>
+            <td><em>трава́</em> <span class="ipa">/trɐˈva/</span>, <em>голова́</em> <span class="ipa">/ɡəɫɐˈva/</span>, <em>ма́ма</em> <span class="ipa">/ˈmamə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>о</strong></td>
+            <td><span class="ipa">o</span></td>
+            <td><span class="ipa">ɐ</span></td>
+            <td><span class="ipa">ə</span></td>
+            <td><em>молоко́</em> <span class="ipa">/məɫɐˈko/</span>, <em>борода́</em> <span class="ipa">/bərɐˈda/</span>, <em>го́род</em> <span class="ipa">/ˈɡorət/</span></td>
+        </tr>
+        <tr>
+            <td><strong>е</strong></td>
+            <td><span class="ipa">e</span></td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><em>дети́</em> <span class="ipa">/dʲɪˈtʲi/</span>, <em>де́ти</em> <span class="ipa">/ˈdʲetʲɪ/</span>, <em>челове́к</em> <span class="ipa">/t͡ɕɪɫɐˈvʲek/</span></td>
+        </tr>
+        <tr>
+            <td><strong>и</strong></td>
+            <td><span class="ipa">i</span></td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><em>ви́дел</em> <span class="ipa">/ˈvʲidʲɪɫ/</span>, <em>лицо́</em> <span class="ipa">/lʲɪˈt͡so/</span></td>
+        </tr>
+        <tr>
+            <td><strong>я</strong></td>
+            <td><span class="ipa">a</span> (<span class="ipa">æ</span> between soft consonants)</td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><em>мя́со</em> <span class="ipa">/ˈmʲasə/</span>, <em>язы́к</em> <span class="ipa">/(j)ɪˈzɨk/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ё</strong></td>
+            <td><span class="ipa">ɵ</span> (<span class="ipa">o</span> after ж, ш)</td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><span class="ipa">ɪ</span></td>
+            <td><em>тётя</em> <span class="ipa">/ˈtʲɵtʲə/</span>, <em>жёлтый</em> <span class="ipa">/ˈʐoɫtɨj/</span></td>
+        </tr>
+        <tr>
+            <td><strong>у</strong></td>
+            <td><span class="ipa">u</span></td>
+            <td><span class="ipa">ʊ</span></td>
+            <td><span class="ipa">ʊ</span></td>
+            <td><em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span>, <em>пучо́к</em> <span class="ipa">/pʊˈt͡ɕɵk/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ю</strong></td>
+            <td><span class="ipa">u</span> (<span class="ipa">ʉ</span> between soft consonants)</td>
+            <td><span class="ipa">ʊ</span></td>
+            <td><span class="ipa">ʊ</span></td>
+            <td><em>лю́ди</em> <span class="ipa">/ˈlʲʉdʲɪ/</span>, <em>пя́тью</em> <span class="ipa">/ˈpʲætʲjʊ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ы</strong></td>
+            <td><span class="ipa">ɨ</span></td>
+            <td><span class="ipa">ɨ</span></td>
+            <td><span class="ipa">ɨ</span></td>
+            <td><em>ры́ба</em> <span class="ipa">/ˈrɨbə/</span>, <em>часы́</em> <span class="ipa">/t͡ɕɪˈsɨ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>э</strong></td>
+            <td><span class="ipa">ɛ</span></td>
+            <td><span class="ipa">ɨ</span></td>
+            <td><span class="ipa">ɨ</span></td>
+            <td><em>э́то</em> <span class="ipa">/ˈɛtə/</span>, <em>рэкети́р</em> <span class="ipa">/rɨkʲɪˈtʲir/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Word-Initial Unstressed а and о</h4>
+    <p>An unstressed <em>а</em> or <em>о</em> at the very beginning of a word is always <span class="ipa">ɐ</span>,
+        even when it is not in the pretonic syllable: <em>океа́н</em> <span class="ipa">/ɐkʲɪˈan/</span>, <em>авто́бус</em> <span class="ipa">/ɐfˈtobʊs/</span>.</p>
+
+    <h4>Unstressed э</h4>
+    <p>A word-initial unstressed <em>э</em>, and an unstressed <em>э</em> directly after a vowel, are rewritten as
+        <em>и</em> before the vowel table is applied: <em>эта́ж</em> <span class="ipa">/ɪˈtaʂ/</span>, <em>аэропо́рт</em> <span class="ipa">/ɐɪrɐˈport/</span>. After a consonant it is
+        reduced to <span class="ipa">ɨ</span> (<em>рэкети́р</em> <span class="ipa">/rɨkʲɪˈtʲir/</span>). Word-final unstressed <em>-э</em> is kept unreduced.</p>
+
+    <h4>Adjacent Reduced Vowels</h4>
+    <p>When a schwa is followed by another [ɐ] or [ə] (also across a joined word boundary), both become
+        <span class="ipa">ɐ</span>: <em>по абази́ну</em> <span class="ipa">/pɐ‿ɐbɐˈzʲinʊ/</span>.</p>
+
+    <h4>Optional [j] Before ɪ</h4>
+    <p>A <span class="ipa">/j/</span> before an unstressed <span class="ipa">ɪ</span> is optional when it stands at
+        the start of a word or after a vowel: <em>ябло́ко</em> <span class="ipa">/(j)ɪˈbɫokə/</span>, <em>по-мо́ему</em> <span class="ipa">/pɐ‿ˈmo(j)ɪmʊ/</span>, <em>ещё</em> <span class="ipa">/(j)ɪˈɕːɵ/</span>.</p>
+
+    <h3 id="stress-marks">Stress Marks, Monosyllables and ё</h3>
+    <ul>
+        <li><strong>Acute accent (U+0301):</strong> primary stress, shown as <span class="ipa">ˈ</span> before the
+            stressed syllable: <em>кни́га</em> <span class="ipa">/ˈknʲiɡə/</span>.</li>
+        <li><strong>Grave accent (U+0300):</strong> secondary stress, shown as <span class="ipa">ˌ</span>:
+            <em>воѐнно-морско́й</em> <span class="ipa">/vɐˌjenːə mɐrˈskoj/</span>.</li>
+        <li><strong>Circumflex (U+0302):</strong> "tertiary" stress. The vowel is treated as stressed for the purposes of
+            reduction, but no stress mark is printed. The module adds it by itself to single-syllable words (see
+            below).</li>
+        <li><strong>Dot above (U+0307) and dot below (U+0323):</strong> the dot above prevents the module from adding any
+            stress; the dot below on <em>я</em> or <em>а</em> asks for the semi-reduced value [ɐ]/[ə] instead of
+            [ɪ].</li>
+    </ul>
+    <p>In the app only combining marks survive input cleaning; the ASCII shorthands <code>`</code>,
+        <code>@</code> and <code>^</code> that the module accepts on Wiktionary are removed before the text reaches it.</p>
+
+    <h4>Monosyllables</h4>
+    <p>A word with a single vowel that carries no accent, is not an unstressed particle or preposition, and is not a
+        prefix or suffix, receives <strong>tertiary stress</strong>: its vowel is not reduced but no mark is shown:
+        <em>дом</em> <span class="ipa">/dom/</span>, <em>ель</em> <span class="ipa">/jelʲ/</span>, <em>сын</em> <span class="ipa">/sɨn/</span>. If such a word stands next to an unstressed preposition or particle, it receives a
+        real primary stress instead: <em>на дом</em> <span class="ipa">/nɐ‿ˈdom/</span>.</p>
+
+    <h4>ё</h4>
+    <p>The letter <em>ё</em> is always a stressed vowel. If a word contains no explicit primary stress and has more than
+        one vowel, the module adds an acute accent to its last <em>ё</em>: <em>самолёт</em> <span class="ipa">/səmɐˈlʲɵt/</span>. A monosyllabic word with
+        <em>ё</em> gets no printed mark: <em>лёд</em> <span class="ipa">/lʲɵt/</span>, <em>всё</em> <span class="ipa">/fsʲɵ/</span>. If the user marks another vowel as stressed, the
+        <em>ё</em> loses its stress, which is why the fallback variants of ё-words can look odd (see <a
+                href="#issues">Common Issues</a>).</p>
+
+    <h3 id="palatalization">Hard and Soft Consonants (Palatalization)</h3>
+    <p>Most Russian consonants come in hard and soft pairs. Softness is marked by <span class="ipa">ʲ</span>. The
+        module softens a consonant when it is followed by <em>е, и, ё, ю, я</em> or the soft sign <em>ь</em>, as
+        implemented by the substitution of <code>ʲ</code> after any of
+        <code>m n p b t d k g f v s z x ɣ r l</code> that is followed by a front or iotated vowel or by <em>ь</em>.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Hard</th>
+            <th>Soft</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><em>кон</em> <span class="ipa">/kon/</span></td>
+            <td><em>конь</em> <span class="ipa">/konʲ/</span></td>
+        </tr>
+        <tr>
+            <td><em>брат</em> <span class="ipa">/brat/</span></td>
+            <td><em>брать</em> <span class="ipa">/bratʲ/</span></td>
+        </tr>
+        <tr>
+            <td><em>мат</em> <span class="ipa">/mat/</span></td>
+            <td><em>мать</em> <span class="ipa">/matʲ/</span></td>
+        </tr>
+        <tr>
+            <td><em>лук</em> <span class="ipa">/ɫuk/</span></td>
+            <td><em>люк</em> <span class="ipa">/lʲuk/</span></td>
+        </tr>
+        <tr>
+            <td><em>у́гол</em> <span class="ipa">/ˈuɡəɫ/</span></td>
+            <td><em>у́голь</em> <span class="ipa">/ˈuɡəlʲ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>Always Hard and Always Soft</h4>
+    <ul>
+        <li><strong>Always hard:</strong> ж, ш, even before и, е, ю, я (see <a href="#hushing">Hushing
+            Consonants</a>), and ц, which is softened only before я, ю, ё and ь: <em>Цю́рих</em> <span class="ipa">/ˈt͡sʲʉrʲɪx/</span>.</li>
+        <li><strong>Always soft:</strong> ч, щ and й (the module adds <span class="ipa">ʲ</span> to them internally and
+            removes it again, so you never see it): <em>чай</em> <span class="ipa">/t͡ɕæj/</span>, <em>щёки</em> <span class="ipa">/ˈɕːɵkʲɪ/</span>.</li>
+    </ul>
+
+    <h4>Assimilative Softening in Clusters</h4>
+    <p>A consonant also softens when a soft consonant follows it. The module has three groups of rules:</p>
+    <ul>
+        <li><strong>Always:</strong> н before т, д (<em>ба́нтик</em> <span class="ipa">/ˈbanʲtʲɪk/</span>), before ч, щ (<em>кончи́ть</em> <span class="ipa">/kɐnʲˈt͡ɕitʲ/</span>); х before к
+            (<em>мя́гкий</em> <span class="ipa">/ˈmʲæxʲkʲɪj/</span>); the pairs т/д before н and с/з before т/д when no р or л precedes
+            (<em>пя́тница</em> <span class="ipa">/ˈpʲætʲnʲɪt͡sə/</span>, <em>жи́знь</em> <span class="ipa">/ˈʐɨzʲnʲ/</span>, <em>сте́на</em> <span class="ipa">/ˈsʲtʲenə/</span>, <em>здесь</em> <span class="ipa">/zʲdʲesʲ/</span>, <em>сде́лать</em> <span class="ipa">/ˈzʲdʲeɫətʲ/</span>).</li>
+        <li><strong>Optionally</strong> (shown as <span class="ipa">⁽ʲ⁾</span>): сл, зл (<em>бессмы́сленно</em> <span class="ipa">/bʲɪsːˈmɨs⁽ʲ⁾lʲɪn(ː)ə/</span>,
+            <em>безразли́чно</em> <span class="ipa">/bʲɪzrɐz⁽ʲ⁾ˈlʲit͡ɕnə/</span>), нс, нз, мп, мб, мф, фм; вп, вб at the start of a word (<em>вперёд</em> <span class="ipa">/f⁽ʲ⁾pʲɪˈrʲɵt/</span>); labials before
+            /j/ (<em>семья́</em> <span class="ipa">/sʲɪˈm⁽ʲ⁾ja/</span>); final -лся (<em>учи́лся</em> <span class="ipa">/ʊˈt͡ɕiɫs⁽ʲ⁾ə/</span>); labial + ь before ст- (<em>ста́вьте</em> <span class="ipa">/ˈstaf⁽ʲ⁾tʲe/</span>).</li>
+        <li><strong>Never:</strong> in most other clusters a hard consonant stays hard before a soft one, e.g. the
+            <span class="ipa">t</span> in <em>тря́пка</em> <span class="ipa">/ˈtrʲapkə/</span>.</li>
+    </ul>
+
+    <h3 id="signs">The Soft Sign ь and Hard Sign ъ</h3>
+    <ul>
+        <li><strong>ь</strong> softens the preceding consonant and has no sound itself: <em>соль</em> <span class="ipa">/solʲ/</span>, <em>тетра́дь</em> <span class="ipa">/tʲɪˈtratʲ/</span>. Before
+            <em>и</em> it adds a /j/ (<em>семьи́</em> <span class="ipa">/sʲɪˈm⁽ʲ⁾ji/</span>), and <em>ьо</em> is read like <em>ьё</em>: <em>Асунсьо́н</em> <span class="ipa">/ɐsʊn⁽ʲ⁾ˈsʲjɵn/</span>.</li>
+        <li><strong>ъ</strong> keeps the preceding consonant hard and makes the following iotated vowel keep its /j/:
+            <em>объе́ктом</em> <span class="ipa">/ɐbˈjektəm/</span>, <em>подъе́зд</em> <span class="ipa">/pɐdˈjest/</span>. A hard sign before a non-iotated vowel (rare) is turned into a glottal stop
+            <span class="ipa">ʔ</span>. A word-final ъ in pre-reform spelling is ignored: <em>хлѣ́бъ</em> <span class="ipa">/ˈxlʲep/</span>.</li>
+    </ul>
+
+    <h3 id="hushing">Hushing Consonants: ж ш ц ч щ</h3>
+    <h4>Retraction After ж, ш, ц</h4>
+    <p>These consonants are always hard, so a following <em>и</em> is pronounced <span class="ipa">ɨ</span> and a
+        following <em>е</em> is pronounced <span class="ipa">ɛ</span>, regardless of spelling (module table
+        <code>retracting</code>): <em>жи́знь</em> <span class="ipa">/ˈʐɨzʲnʲ/</span>, <em>ши́на</em> <span class="ipa">/ˈʂɨnə/</span>, <em>цирк</em> <span class="ipa">/t͡sɨrk/</span>, <em>цена́</em> <span class="ipa">/t͡sɨˈna/</span>, <em>же́ны</em> <span class="ipa">/ˈʐɛnɨ/</span>, <em>цель</em> <span class="ipa">/t͡sɛlʲ/</span>.</p>
+    <p>A written ю or ё after ж, ш is pronounced without the /j/ and without softening: <em>жюри́</em> <span class="ipa">/ʐʊˈrʲi/</span>, <em>брошю́ра</em> <span class="ipa">/brɐˈʂurə/</span>,
+        <em>жёлтый</em> <span class="ipa">/ˈʐoɫtɨj/</span>.</p>
+
+    <h4>Soft ч and щ</h4>
+    <p>A written <em>а, о, у</em> after ч, щ is treated like <em>я, ё, ю</em> (a /j/ is inserted), so the vowel is
+        fronted or iotated: <em>чай</em> <span class="ipa">/t͡ɕæj/</span>, <em>ща́вель</em> <span class="ipa">/ˈɕːævʲɪlʲ/</span>, <em>пучо́к</em> <span class="ipa">/pʊˈt͡ɕɵk/</span>, <em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span>.</p>
+
+    <h3 id="iotated">Iotated Vowels: е ё ю я and /j/</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Result</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Word-initial or after a vowel</td>
+            <td>/j/ + vowel</td>
+            <td><em>ель</em> <span class="ipa">/jelʲ/</span>, <em>я́ма</em> <span class="ipa">/ˈjamə/</span>, <em>ю́г</em> <span class="ipa">/ˈjuk/</span>, <em>музе́й</em> <span class="ipa">/mʊˈzʲej/</span></td>
+        </tr>
+        <tr>
+            <td>After a consonant</td>
+            <td>Softens the consonant, vowel only</td>
+            <td><em>мя́со</em> <span class="ipa">/ˈmʲasə/</span>, <em>лёд</em> <span class="ipa">/lʲɵt/</span>, <em>лю́ди</em> <span class="ipa">/ˈlʲʉdʲɪ/</span></td>
+        </tr>
+        <tr>
+            <td>After ь</td>
+            <td>Soft consonant + /j/ + vowel</td>
+            <td><em>здоро́вье</em> <span class="ipa">/zdɐˈrov⁽ʲ⁾je/</span>, <em>ра́достью</em> <span class="ipa">/ˈradəsʲtʲjʊ/</span></td>
+        </tr>
+        <tr>
+            <td>After ъ</td>
+            <td>Hard consonant + /j/ + vowel</td>
+            <td><em>объе́ктом</em> <span class="ipa">/ɐbˈjektəm/</span></td>
+        </tr>
+        <tr>
+            <td>й + е, й + я</td>
+            <td>Doubled /j/ (the length survives only in the usual gemination positions)</td>
+            <td><em>конве́йер</em> <span class="ipa">/kɐnˈvʲejːɪr/</span>, <em>аллилу́йя</em> <span class="ipa">/ɐlʲɪˈɫujːə/</span>, <em>фойе́</em> <span class="ipa">/fɐˈje/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="final-devoicing">Final Devoicing</h3>
+    <p>Voiced obstruents become voiceless at the end of a word, or before the pause between two words when the next
+        word does not begin with a voiced obstruent (the module lists <code>b d g v ɣ z ž ĝ ĵ ǰ ӂ</code> for this).
+        The table below shows the pairs applied by the <code>devoicing</code> table.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Final</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>б</td>
+            <td><span class="ipa">p</span></td>
+            <td><em>хлеб</em> <span class="ipa">/xlʲep/</span>, <em>гриб</em> <span class="ipa">/ɡrʲip/</span></td>
+        </tr>
+        <tr>
+            <td>в</td>
+            <td><span class="ipa">f</span></td>
+            <td><em>ров</em> <span class="ipa">/rof/</span>, <em>морко́вь</em> <span class="ipa">/mɐrˈkofʲ/</span></td>
+        </tr>
+        <tr>
+            <td>г</td>
+            <td><span class="ipa">k</span></td>
+            <td><em>друг</em> <span class="ipa">/druk/</span>, <em>круг</em> <span class="ipa">/kruk/</span></td>
+        </tr>
+        <tr>
+            <td>д</td>
+            <td><span class="ipa">t</span></td>
+            <td><em>год</em> <span class="ipa">/ɡot/</span>, <em>сад</em> <span class="ipa">/sat/</span></td>
+        </tr>
+        <tr>
+            <td>ж</td>
+            <td><span class="ipa">ʂ</span></td>
+            <td><em>нож</em> <span class="ipa">/noʂ/</span>, <em>ложь</em> <span class="ipa">/ɫoʂ/</span></td>
+        </tr>
+        <tr>
+            <td>з</td>
+            <td><span class="ipa">s</span></td>
+            <td><em>глаз</em> <span class="ipa">/ɡɫas/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="voicing">Voicing Assimilation</h3>
+    <p>Within a word and across a word boundary, obstruents agree in voicing with the following obstruent.
+        The module repeats the assimilation until nothing changes, so that whole clusters are handled.</p>
+    <ul>
+        <li><strong>Voiced becomes voiceless</strong> before a voiceless obstruent: <em>ло́жка</em> <span class="ipa">/ˈɫoʂkə/</span>, <em>ска́зка</em> <span class="ipa">/ˈskaskə/</span>,
+            <em>во́дка</em> <span class="ipa">/ˈvotkə/</span>, <em>ни́зкий</em> <span class="ipa">/ˈnʲiskʲɪj/</span>, <em>авто́бус</em> <span class="ipa">/ɐfˈtobʊs/</span>.</li>
+        <li><strong>Voiceless becomes voiced</strong> before a voiced obstruent: <em>сбор</em> <span class="ipa">/zbor/</span>, <em>футбо́л</em> <span class="ipa">/fʊdˈboɫ/</span>, <em>вокза́л</em> <span class="ipa">/vɐɡˈzaɫ/</span>,
+            <em>экза́мен</em> <span class="ipa">/ɪɡˈzamʲɪn/</span>, <em>сгоре́ть</em> <span class="ipa">/zɡɐˈrʲetʲ/</span>.</li>
+        <li><strong>В is special:</strong> before an obstruent it behaves like an obstruent and takes part in
+            assimilation (<em>всё</em> <span class="ipa">/fsʲɵ/</span>, <em>взять</em> <span class="ipa">/vzʲætʲ/</span>); before a sonorant it neither triggers nor undergoes it.</li>
+        <li><strong>Across words:</strong> <em>от до́ма</em> <span class="ipa">/ɐd‿ˈdomə/</span>, <em>под сто́лом</em> <span class="ipa">/pɐt͡s‿ˈstoɫəm/</span>, <em>без ша́пки</em> <span class="ipa">/bʲɪʂ‿ˈʂapkʲɪ/</span>, <em>из го́рода</em> <span class="ipa">/ɪz‿ˈɡorədə/</span>.</li>
+        <li><strong>Sonorants</strong> (м, н, л, р, й) never trigger assimilation: <em>тру́дно</em> <span class="ipa">/ˈtrudnə/</span>.</li>
+    </ul>
+
+    <h3 id="silent">Dropped Consonants in Clusters</h3>
+    <p>The module deletes or simplifies a consonant in these clusters (list <code>phonetic_subs</code>):</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Cluster</th>
+            <th>Result</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>стн</td>
+            <td>сн (т dropped)</td>
+            <td><em>ле́стница</em> <span class="ipa">/ˈlʲesʲnʲɪt͡sə/</span>, <em>че́стный</em> <span class="ipa">/ˈt͡ɕesnɨj/</span></td>
+        </tr>
+        <tr>
+            <td>здн</td>
+            <td>зн (д dropped)</td>
+            <td><em>по́здно</em> <span class="ipa">/ˈpoznə/</span>, <em>бе́здна</em> <span class="ipa">/ˈbʲeznə/</span></td>
+        </tr>
+        <tr>
+            <td>лнц</td>
+            <td>нц (л dropped)</td>
+            <td><em>со́лнце</em> <span class="ipa">/ˈsont͡sɨ/</span></td>
+        </tr>
+        <tr>
+            <td>рдц, ндц, ртц, нтц before affricate</td>
+            <td>д/т dropped after р, н</td>
+            <td><em>се́рдце</em> <span class="ipa">/ˈsʲert͡sɨ/</span></td>
+        </tr>
+        <tr>
+            <td>нтг, ндг, стг, сдг</td>
+            <td>т/д dropped after н, с</td>
+            <td><em>рентге́н</em> <span class="ipa">/rʲɪnˈɡʲen/</span></td>
+        </tr>
+        <tr>
+            <td>стлив</td>
+            <td>слив</td>
+            <td><em>сча́стливым</em> <span class="ipa">/ˈɕːaslʲɪvɨm/</span>, <span class="ipa">/ˈɕːæsʲlʲɪvɨm/</span></td>
+        </tr>
+        <tr>
+            <td>нтск, ндск</td>
+            <td>н(т)ск, т optional</td>
+            <td><em>гига́нтский</em> <span class="ipa">/ɡʲɪˈɡan(t)skʲɪj/</span>, <em>голла́ндский</em> <span class="ipa">/ɡɐˈɫan(t)skʲɪj/</span></td>
+        </tr>
+        <tr>
+            <td>стск, сдск</td>
+            <td>written as с + ц + к (the т/д merges into an affricate)</td>
+            <td><em>ма́рксистский</em> <span class="ipa">/ˈmarksʲɪst͡skʲɪj/</span></td>
+        </tr>
+        <tr>
+            <td>-дцат- (numerals)</td>
+            <td>optionally long ц; unstressed as -дцыт-</td>
+            <td><em>два́дцать</em> <span class="ipa">/ˈdvat͡s(ː)ɨtʲ/</span>, <em>тридца́тый</em> <span class="ipa">/trʲɪˈt͡s(ː)atɨj/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Not implemented:</strong> the module does <em>not</em> drop the в in -вств- (<em>чу́вство</em>,
+        <em>здра́вствуйте</em>) or turn -чн- into [ʂn] (<em>коне́чно</em>); see <a href="#issues">Common Issues</a>.</p>
+
+    <h3 id="shch">щ, сч, зч, жч</h3>
+    <ul>
+        <li><strong>щ</strong> is the long soft sibilant <span class="ipa">ɕː</span>: <em>щит</em> <span class="ipa">/ɕːit/</span>, <em>щёки</em> <span class="ipa">/ˈɕːɵkʲɪ/</span>.</li>
+        <li><strong>зч, жч</strong> become <span class="ipa">ɕː</span>: <em>мужчи́на</em> <span class="ipa">/mʊˈɕːinə/</span>.</li>
+        <li><strong>сч</strong> at the start of a word and in счёт / счит- becomes <span class="ipa">ɕː</span>:
+            <em>сча́стье</em> <span class="ipa">/ˈɕːæsʲtʲje/</span>, <em>счёт</em> <span class="ipa">/ɕːɵt/</span>, <em>расчёт</em> <span class="ipa">/rɐˈɕːɵt/</span>, <em>рассчита́ть</em> <span class="ipa">/rəɕːɪˈtatʲ/</span>. After ц, д, т (a prefix boundary) the result
+            is <span class="ipa">t͡ɕ</span> + <span class="ipa">ɕː</span>: <em>подсчёт</em> <span class="ipa">/pɐt͡ɕˈɕːɵt/</span>, <em>отсчи́тываться</em> <span class="ipa">/ɐt͡ɕˈɕːitɨvət͡sə/</span>.</li>
+        <li><strong>сш, зш</strong> and <strong>сж, зж</strong> assimilate completely to a long hard sibilant:
+            <em>сшить</em> <span class="ipa">/ʂːɨtʲ/</span>, <em>сжать</em> <span class="ipa">/ʐːatʲ/</span>.</li>
+        <li><strong>зж, жж</strong> not at a prefix boundary have two pronunciations, a hard
+            <span class="ipa">ʐː</span> and a soft <span class="ipa">ʑː</span>: <em>жужжа́ть</em> <span class="ipa">/ʐʊˈʐːatʲ/</span>, <span class="ipa">/ʐʊˈʑːætʲ/</span>, <em>дро́жжи</em> <span class="ipa">/ˈdroʐːɨ/</span>, <span class="ipa">/ˈdroʑːɪ/</span>.
+            At a prefix boundary only the hard form is generated: <em>изжи́ть</em> <span class="ipa">/ɪˈʐːɨtʲ/</span>, <em>расжа́ть</em> <span class="ipa">/rɐˈʐːatʲ/</span>.</li>
+    </ul>
+
+    <h3 id="affricates">Affricates and Assimilated Stops (тс, дз, тш, -ться)</h3>
+    <ul>
+        <li><strong>тс, дз</strong> become the short affricates <span class="ipa">t͡s</span>, <span
+                class="ipa">d͡z</span>: <em>де́тство</em> <span class="ipa">/ˈdʲet͡stvə/</span>. Across words, before a vowel, and after the prefixes от-, под-
+            they become long (t͡s + s): <em>отсу́тствие</em> <span class="ipa">/ɐt͡sˈsut͡stvʲɪje/</span>, <em>под сто́лом</em> <span class="ipa">/pɐt͡s‿ˈstoɫəm/</span>, <em>от зо́лота</em> <span class="ipa">/ɐd͡z‿ˈzoɫətə/</span>.</li>
+        <li><strong>тш, дж, чш</strong> give the hard affricates <span class="ipa">t͡ʂ</span>, <span
+                class="ipa">d͡ʐ</span>: <em>лу́чший</em> <span class="ipa">/ˈɫut͡ʂʂɨj/</span>, <em>дже́м</em> <span class="ipa">/ˈd͡ʐʐɛm/</span>.</li>
+        <li><strong>дц, тц, дч, тч</strong> before a vowel are always long: <em>отцо́м</em> <span class="ipa">/ɐˈt͡sːom/</span>; otherwise the doubling is
+            treated as ordinary gemination and normally disappears: <em>оте́ц</em> <span class="ipa">/ɐˈtʲet͡s/</span>.</li>
+        <li><strong>-тся, -ться</strong> (with the default part of speech) are pronounced as <span class="ipa">t͡s</span>
+            plus schwa, and the affricate is long when the stressed vowel directly precedes the т: <em>у́чится</em> <span class="ipa">/ˈut͡ɕɪt͡sə/</span>, <em>учи́ться</em> <span class="ipa">/ʊˈt͡ɕit͡sːə/</span>, <em>мы́ться</em> <span class="ipa">/ˈmɨt͡sːə/</span>.</li>
+        <li>ч before a voiced obstruent is voiced to <span class="ipa">d͡ʑ</span>: <em>до́чь бы</em> <span class="ipa">/ˈdod͡ʑ‿bɨ/</span>.</li>
+    </ul>
+
+    <h3 id="gemination">Doubled Consonants (Gemination)</h3>
+    <p>Doubled letters are first marked as long (<span class="ipa">ː</span>), and most of the length is removed again
+        in a later step. The default rules are:</p>
+    <ul>
+        <li><strong>л is always degeminated.</strong></li>
+        <li><strong>Length is kept</strong> between vowels directly after the stressed vowel: <em>ва́нна</em> <span class="ipa">/ˈvanːə/</span>, <em>гру́ппа</em> <span class="ipa">/ˈɡrupːə/</span>,
+            <em>програ́мма</em> <span class="ipa">/prɐˈɡramːə/</span>, <em>дли́нный</em> <span class="ipa">/ˈdlʲinːɨj/</span>; also ж and н between vowels elsewhere in the word, and сск / зск directly
+            after the stress: <em>ру́сский</em> <span class="ipa">/ˈrusːkʲɪj/</span>.</li>
+        <li><strong>Optional length</strong> <span class="ipa">(ː)</span> for н between vowels after the stress but
+            not directly after it: <em>бессмы́сленно</em> <span class="ipa">/bʲɪsːˈmɨs⁽ʲ⁾lʲɪn(ː)ə/</span>.</li>
+        <li><strong>щ and the soft ж (ʑː)</strong> are always long.</li>
+        <li><strong>At recognized prefix boundaries</strong> (без-/бес-, воз-/вос-, из-/ис-, от-, об-, под-, над-, пред-, раз-/рас-, с-/з-, меж-, транс-,
+            контр-, супер-, also after не-/по-, and others from the <code>geminate_pref</code> table) the doubling is always kept:
+            <em>расска́з</em> <span class="ipa">/rɐsːˈkas/</span>, <em>о́тдых</em> <span class="ipa">/ˈodːɨx/</span>, <em>ссо́ра</em> <span class="ipa">/ˈsːorə/</span>, <em>бессмы́сленно</em> <span class="ipa">/bʲɪsːˈmɨs⁽ʲ⁾lʲɪn(ː)ə/</span>.</li>
+        <li><strong>Everywhere else</strong> doubling disappears: <em>кла́сс</em> <span class="ipa">/ˈkɫas/</span>.</li>
+    </ul>
+    <p>The module can also be told to keep, drop or make all gemination optional (<code>gem=y/n/o</code>), but the app
+        does not use this switch. For illustration, the same words with each setting:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Word</th>
+            <th>Default</th>
+            <th>gem = n</th>
+            <th>gem = o</th>
+            <th>gem = y</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>кла́сс</td>
+            <td><span class="ipa">/ˈkɫas/</span></td>
+            <td><span class="ipa">/ˈkɫas/</span></td>
+            <td><span class="ipa">/ˈkɫas(ː)/</span></td>
+            <td><span class="ipa">/ˈkɫasː/</span></td>
+        </tr>
+        <tr>
+            <td>ва́нна</td>
+            <td><span class="ipa">/ˈvanːə/</span></td>
+            <td><span class="ipa">/ˈvanə/</span></td>
+            <td><span class="ipa">/ˈvan(ː)ə/</span></td>
+            <td><span class="ipa">/ˈvanːə/</span></td>
+        </tr>
+        <tr>
+            <td>гру́ппа</td>
+            <td><span class="ipa">/ˈɡrupːə/</span></td>
+            <td><span class="ipa">/ˈɡrupə/</span></td>
+            <td><span class="ipa">/ˈɡrup(ː)ə/</span></td>
+            <td><span class="ipa">/ˈɡrupːə/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="genitive">Spelling Exceptions: -ого, что, мягк-</h3>
+    <p>The transliteration helper <code>apply_tr_fixes</code> rewrites the Cyrillic spelling of a few frequent patterns
+        <em>before</em> any sound rule runs:</p>
+    <ul>
+        <li><strong>-ого, -его → -ово, -ево:</strong> the г of adjective and pronoun genitive endings is
+            pronounced [v]: <em>кра́сного</em> <span class="ipa">/ˈkrasnəvə/</span>, <em>большо́го</em> <span class="ipa">/bɐlʲˈʂovə/</span>, <em>его́</em> <span class="ipa">/(j)ɪˈvo/</span>, <em>кого́</em> <span class="ipa">/kɐˈvo/</span>, <em>чего́</em> <span class="ipa">/t͡ɕɪˈvo/</span>, <em>того́</em> <span class="ipa">/tɐˈvo/</span>. Likewise
+            <em>сегодня</em>: <em>сего́дня</em> <span class="ipa">/sʲɪˈvodʲnʲə/</span>.</li>
+        <li><strong>Exceptions</strong> where the г is kept (an explicit list of spellings, including
+            <em>много, дорого, строго, убого, ого, лого, Диего</em>): <em>мно́го</em> <span class="ipa">/ˈmnoɡə/</span>, <em>до́рого</em> <span class="ipa">/ˈdorəɡə/</span>, <em>стро́го</em> <span class="ipa">/ˈstroɡə/</span>,
+            <em>убо́го</em> <span class="ipa">/ʊˈboɡə/</span>, <em>ого́</em> <span class="ipa">/ɐˈɡo/</span>, <em>ло́го</em> <span class="ipa">/ˈɫoɡə/</span>, <em>Дие́го</em> <span class="ipa">/dʲɪˈjeɡə/</span>. Because the check is made on the written form, a stress
+            variant that puts the accent on the final -о is not recognized as the exception.</li>
+        <li><strong>что, чтобы, ничто → ш:</strong> <em>что́</em> <span class="ipa">/ˈʂto/</span>, <em>чтобы</em> <span class="ipa">/ʂtəbɨ/</span>, <em>ничто́</em> <span class="ipa">/nʲɪʂˈto/</span>, <em>что-то</em> <span class="ipa">/ˈʂto‿tə/</span>.</li>
+        <li><strong>мягк-, мягч-, лёгк-, легч- → -хк-, -хч-:</strong> <em>мя́гкий</em> <span class="ipa">/ˈmʲæxʲkʲɪj/</span>, <em>лёгкий</em> <span class="ipa">/ˈlʲɵxʲkʲɪj/</span>, <em>ле́гче</em> <span class="ipa">/ˈlʲext͡ɕe/</span>.</li>
+    </ul>
+
+    <h3 id="clitics">Prepositions, Particles and Hyphens</h3>
+    <p><strong>Note:</strong> the app splits the input at spaces and transcribes each word on its own, and it strips punctuation. The liaison tie
+        <span class="ipa">‿</span>, the foot boundary <span class="ipa">|</span> and all cross-word effects below therefore
+        show the capability of the module (which accepts whole phrases) and will not appear in the app's output.</p>
+    <p>Certain unaccented words are not stressed and are joined to a neighboring word with the tie
+        <span class="ipa">‿</span> so that they reduce and assimilate with it (module table <code>accentless</code>):</p>
+    <ul>
+        <li><strong>Join with the following word:</strong> <em>без, близ, в, во, да, до, за, из, из-под, из-за, изо, к,
+            ко, меж, на, над, надо, не, ни, об, обо, от, ото, перед, передо, по, под, подо, пред, предо, при, про, с,
+            со, у, через</em>; and <em>а</em>, <em>о</em> only when a space (not a hyphen) follows.</li>
+        <li><strong>Join with the preceding word:</strong> <em>бы, б, ж, же, ли, либо, ль, ка, нибудь, тка</em>; <em>то</em>
+            only after a hyphen.</li>
+    </ul>
+    <p>Examples: <em>не зна́ю</em> <span class="ipa">/nʲɪ‿ˈznajʊ/</span>, <em>на столе́</em> <span class="ipa">/nə‿stɐˈlʲe/</span>, <em>ты́ же</em> <span class="ipa">/ˈtɨ‿ʐɨ/</span>, <em>говори́л ли</em> <span class="ipa">/ɡəvɐˈrʲiɫ‿lʲɪ/</span>, <em>что-то</em> <span class="ipa">/ˈʂto‿tə/</span>, <em>а ведь</em> <span class="ipa">/ɐ‿ˈvʲetʲ/</span>. The same word
+        written with a stress mark is not a clitic, which changes the whole phrase: <em>по не́бу</em> <span class="ipa">/pɐ‿ˈnʲebʊ/</span> vs. <em>по́ небу</em> <span class="ipa">/ˈpo nʲɪbʊ/</span>,
+        <em>а ведь</em> <span class="ipa">/ɐ‿ˈvʲetʲ/</span> vs. <em>а́ вот</em> <span class="ipa">/ˈa vot/</span>.</p>
+    <p>The words <em>не</em> and <em>же</em> are special-cased so that their final -е is not treated as an ordinary
+        word-final -е: they become <span class="ipa">nʲɪ</span> and <span class="ipa">ʐɨ</span>. After a joined consonant, <em>и</em> turns into
+        <span class="ipa">ɨ</span>: <em>под игло́й</em> <span class="ipa">/pəd‿ɨˈɡɫoj/</span>. A hyphen inside a word is converted into a space (<em>кое-кто́</em> <span class="ipa">/kəjə ˈkto/</span>), and
+        a leading or trailing hyphen marks a prefix or suffix, which is never stressed.</p>
+
+    <h3 id="final-e">Final -е and -я</h3>
+    <p>Word-final unstressed <em>-я</em> is always <span class="ipa">ə</span>: <em>я́блоня</em> <span class="ipa">/ˈjabɫənʲə/</span>. Word-final unstressed
+        <em>-е</em> is more complicated because its value depends on the part of speech. The module keeps a table
+        <code>pos_properties</code> keyed by the kind of ending (after -о, after another vowel, after й/ь, after a paired
+        consonant, after ж ш ц, after ч щ). The app always uses the default entry (<code>def</code>):</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Ending</th>
+            <th>Default value</th>
+            <th>Examples</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>-ое</td>
+            <td><span class="ipa">ə</span></td>
+            <td><em>му́дрое</em> <span class="ipa">/ˈmudrəjə/</span></td>
+        </tr>
+        <tr>
+            <td>other vowel + е</td>
+            <td><span class="ipa">e</span></td>
+            <td><em>зда́ние</em> <span class="ipa">/ˈzdanʲɪje/</span></td>
+        </tr>
+        <tr>
+            <td>-ье</td>
+            <td><span class="ipa">e</span></td>
+            <td><em>здоро́вье</em> <span class="ipa">/zdɐˈrov⁽ʲ⁾je/</span></td>
+        </tr>
+        <tr>
+            <td>soft paired consonant + е</td>
+            <td><span class="ipa">e</span></td>
+            <td><em>по́ле</em> <span class="ipa">/ˈpolʲe/</span>, <em>мо́ре</em> <span class="ipa">/ˈmorʲe/</span></td>
+        </tr>
+        <tr>
+            <td>ж, ш, ц + е</td>
+            <td><span class="ipa">ɨ</span></td>
+            <td><em>бо́льше</em> <span class="ipa">/ˈbolʲʂɨ/</span>, <em>се́рдце</em> <span class="ipa">/ˈsʲert͡sɨ/</span></td>
+        </tr>
+        <tr>
+            <td>ч, щ + е</td>
+            <td><span class="ipa">e</span></td>
+            <td><em>ле́гче</em> <span class="ipa">/ˈlʲext͡ɕe/</span>, <em>убе́жище</em> <span class="ipa">/ʊˈbʲeʐɨɕːe/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Other parts of speech (noun, adjective, preposition, pronoun, comparative, and forced values) can give
+        <span class="ipa">ə</span> or <span class="ipa">ɪ</span> instead. These are available in the Lua module (option
+        <code>pos</code>) but not in the app; for illustration:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Word</th>
+            <th>Default</th>
+            <th>pos = low (schwa)</th>
+            <th>pos = hi ([ɪ])</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>по́ле</td>
+            <td><span class="ipa">/ˈpolʲe/</span></td>
+            <td><span class="ipa">/ˈpolʲə/</span></td>
+            <td><span class="ipa">/ˈpolʲɪ/</span></td>
+        </tr>
+        <tr>
+            <td>убе́жище</td>
+            <td><span class="ipa">/ʊˈbʲeʐɨɕːe/</span></td>
+            <td><span class="ipa">/ʊˈbʲeʐɨɕːə/</span></td>
+            <td><span class="ipa">/ʊˈbʲeʐɨɕːɪ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3 id="fronting">Fronting of а and у Between Soft Consonants</h3>
+    <p>When <span class="ipa">a</span> or <span class="ipa">u</span> (including <span class="ipa">ʊ</span>) stands between
+        two soft consonants, it is fronted to <span class="ipa">æ</span> or <span class="ipa">ʉ</span>:
+        <em>пять</em> <span class="ipa">/pʲætʲ/</span>, <em>ня́ня</em> <span class="ipa">/ˈnʲænʲə/</span>, <em>лю́ди</em> <span class="ipa">/ˈlʲʉdʲɪ/</span>, <em>чай</em> <span class="ipa">/t͡ɕæj/</span>, <em>ща́вель</em> <span class="ipa">/ˈɕːævʲɪlʲ/</span>. Next to a hard consonant nothing changes:
+        <em>мя́со</em> <span class="ipa">/ˈmʲasə/</span>.</p>
+    <p>If the following consonant is only <em>optionally</em> soft, the module returns <strong>two
+        pronunciations</strong>, one with a hard consonant and an unfronted vowel, and one with a soft consonant and a
+        fronted vowel: <em>ля́мпя</em> <span class="ipa">/ˈlʲampʲə/</span>, <span class="ipa">/ˈlʲæmʲpʲə/</span>, <em>тя́нзи</em> <span class="ipa">/ˈtʲanzʲɪ/</span>, <span class="ipa">/ˈtʲænʲzʲɪ/</span>, <em>сча́стливым</em> <span class="ipa">/ˈɕːaslʲɪvɨm/</span>, <span class="ipa">/ˈɕːæsʲlʲɪvɨm/</span>.</p>
+
+    <h3 id="dark-l">Hard л (Dark L)</h3>
+    <p>A hard <em>л</em> is written as the dark <span class="ipa">ɫ</span>, a soft <em>л</em> as
+        <span class="ipa">lʲ</span>: <em>лук</em> <span class="ipa">/ɫuk/</span> vs. <em>люк</em> <span class="ipa">/lʲuk/</span>, <em>ма́сло</em> <span class="ipa">/ˈmasɫə/</span>, <em>жёлтый</em> <span class="ipa">/ˈʐoɫtɨj/</span>.</p>
+
+    <h3 id="punctuation">Punctuation and Special Input</h3>
+    <ul>
+        <li><strong>Commas and dashes</strong> inside the text become the foot boundary
+            <span class="ipa">|</span>: <span class="ipa">/ˈdomə | ɐ‿nʲɪ‿f‿ˈʂkolʲe/</span>.</li>
+        <li><strong>! and ?</strong> are treated as separate words so that they do not disturb the word-final rules:
+            <span class="ipa">/da! nʲet?/</span>.</li>
+        <li><strong>Apostrophes</strong> in foreign names are dropped.</li>
+        <li><strong>Pre-reform and Old Russian letters</strong> (ѣ, і, ѳ, ѵ, ъ at the end of a word and others) are
+            converted to their modern equivalents: <em>хлѣ́бъ</em> <span class="ipa">/ˈxlʲep/</span>.</li>
+        <li><strong>Capital letters</strong> are lowercased before processing; digits are dropped by the app.</li>
+    </ul>
+
+    <h2 id="comprehensive-mapping">Comprehensive Spelling-to-IPA Mapping</h2>
+    <p>This section maps Russian spelling (orthography) to pronunciation (IPA). The tables describe the rules that the
+        transcription engine really applies, and every example was produced by the engine from a stress-marked word.
+        Remember that the stress position is the one thing the spelling does not give you.</p>
+
+    <h3>1. Vowel Letters After a Consonant or at a Word Start</h3>
+    <p>Russian has five "hard" vowel letters (а, о, у, ы, э) and five "soft" or iotated ones (я, ё, ю, и, е). After a
+        consonant the soft letters mark that consonant as soft; at the start of a word, after a vowel, or after ь/ъ the
+        letters я, ё, ю, е add a /j/. The values below are for the stressed position; see
+        <a href="#reduction">Stress and Vowel Reduction</a> for unstressed values.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>After a hard consonant</th>
+            <th>After a soft consonant (or iotated)</th>
+            <th>Word-initial or after a vowel</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>а, я</strong></td>
+            <td><span class="ipa">/a/</span> <em>ма́ма</em> <span class="ipa">/ˈmamə/</span></td>
+            <td><span class="ipa">/a/</span>, <span class="ipa">/æ/</span> between soft consonants: <em>мя́со</em> <span class="ipa">/ˈmʲasə/</span>, <em>пять</em> <span class="ipa">/pʲætʲ/</span></td>
+            <td><span class="ipa">/ja/</span> from я: <em>я́ма</em> <span class="ipa">/ˈjamə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>о, ё</strong></td>
+            <td><span class="ipa">/o/</span> <em>до́ма</em> <span class="ipa">/ˈdomə/</span></td>
+            <td><span class="ipa">/ɵ/</span> from ё: <em>тётя</em> <span class="ipa">/ˈtʲɵtʲə/</span></td>
+            <td><span class="ipa">/jɵ/</span> from ё: <em>ёлка</em> <span class="ipa">/ˈjɵɫkə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>у, ю</strong></td>
+            <td><span class="ipa">/u/</span> <em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span></td>
+            <td><span class="ipa">/u/</span>, <span class="ipa">/ʉ/</span> between soft consonants: <em>лю́ди</em> <span class="ipa">/ˈlʲʉdʲɪ/</span></td>
+            <td><span class="ipa">/ju/</span> from ю: <em>ю́г</em> <span class="ipa">/ˈjuk/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ы, и</strong></td>
+            <td><span class="ipa">/ɨ/</span> from ы (and и after ж, ш, ц): <em>ры́ба</em> <span class="ipa">/ˈrɨbə/</span>, <em>жи́знь</em> <span class="ipa">/ˈʐɨzʲnʲ/</span></td>
+            <td><span class="ipa">/i/</span> from и: <em>ви́дел</em> <span class="ipa">/ˈvʲidʲɪɫ/</span></td>
+            <td><span class="ipa">/i/</span> from и: <em>и́ли</em> <span class="ipa">/ˈilʲɪ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>э, е</strong></td>
+            <td><span class="ipa">/ɛ/</span> from э (and е after ж, ш, ц): <em>э́то</em> <span class="ipa">/ˈɛtə/</span>, <em>же́ны</em> <span class="ipa">/ˈʐɛnɨ/</span></td>
+            <td><span class="ipa">/e/</span> from е: <em>ле́то</em> <span class="ipa">/ˈlʲetə/</span></td>
+            <td><span class="ipa">/je/</span> from е: <em>ель</em> <span class="ipa">/jelʲ/</span>, <em>е́сть</em> <span class="ipa">/ˈjesʲtʲ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>2. Consonant Letters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Letter</th>
+            <th>Hard</th>
+            <th>Soft</th>
+            <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>б</strong></td>
+            <td><em>ба́нка</em> <span class="ipa">/ˈbankə/</span></td>
+            <td><em>бе́лый</em> <span class="ipa">/ˈbʲeɫɨj/</span></td>
+            <td>Final devoicing → <span class="ipa">p</span></td>
+        </tr>
+        <tr>
+            <td><strong>в</strong></td>
+            <td><em>вода́</em> <span class="ipa">/vɐˈda/</span></td>
+            <td><em>ви́дел</em> <span class="ipa">/ˈvʲidʲɪɫ/</span></td>
+            <td>Final devoicing → <span class="ipa">f</span>; special in voicing assimilation</td>
+        </tr>
+        <tr>
+            <td><strong>г</strong></td>
+            <td><em>го́род</em> <span class="ipa">/ˈɡorət/</span></td>
+            <td><em>кни́ги</em> <span class="ipa">/ˈknʲiɡʲɪ/</span></td>
+            <td>Final devoicing → <span class="ipa">k</span>; [v] in -ого/-его; [x] in мягк-, лёгк-</td>
+        </tr>
+        <tr>
+            <td><strong>д</strong></td>
+            <td><em>до́ма</em> <span class="ipa">/ˈdomə/</span></td>
+            <td><em>де́ти</em> <span class="ipa">/ˈdʲetʲɪ/</span></td>
+            <td>Final devoicing → <span class="ipa">t</span></td>
+        </tr>
+        <tr>
+            <td><strong>ж</strong></td>
+            <td><em>жена́</em> <span class="ipa">/ʐɨˈna/</span></td>
+            <td>-</td>
+            <td>Always hard; final devoicing → <span class="ipa">ʂ</span></td>
+        </tr>
+        <tr>
+            <td><strong>з</strong></td>
+            <td><em>зу́бы</em> <span class="ipa">/ˈzubɨ/</span></td>
+            <td><em>зелёный</em> <span class="ipa">/zʲɪˈlʲɵnɨj/</span></td>
+            <td>Final devoicing → <span class="ipa">s</span></td>
+        </tr>
+        <tr>
+            <td><strong>й</strong></td>
+            <td>-</td>
+            <td><em>музе́й</em> <span class="ipa">/mʊˈzʲej/</span></td>
+            <td>Always <span class="ipa">j</span></td>
+        </tr>
+        <tr>
+            <td><strong>к</strong></td>
+            <td><em>ко́шка</em> <span class="ipa">/ˈkoʂkə/</span></td>
+            <td><em>кни́ги</em> <span class="ipa">/ˈknʲiɡʲɪ/</span></td>
+            <td>Voiced before a voiced obstruent: <em>вокза́л</em> <span class="ipa">/vɐɡˈzaɫ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>л</strong></td>
+            <td><em>лук</em> <span class="ipa">/ɫuk/</span></td>
+            <td><em>люк</em> <span class="ipa">/lʲuk/</span></td>
+            <td>Hard is dark <span class="ipa">ɫ</span></td>
+        </tr>
+        <tr>
+            <td><strong>м</strong></td>
+            <td><em>ма́ма</em> <span class="ipa">/ˈmamə/</span></td>
+            <td><em>ме́сто</em> <span class="ipa">/ˈmʲestə/</span></td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><strong>н</strong></td>
+            <td><em>нос</em> <span class="ipa">/nos/</span></td>
+            <td><em>конь</em> <span class="ipa">/konʲ/</span></td>
+            <td>Soft before soft т, д, ч, щ: <em>ба́нтик</em> <span class="ipa">/ˈbanʲtʲɪk/</span></td>
+        </tr>
+        <tr>
+            <td><strong>п</strong></td>
+            <td><em>па́па</em> <span class="ipa">/ˈpapə/</span></td>
+            <td><em>пять</em> <span class="ipa">/pʲætʲ/</span></td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><strong>р</strong></td>
+            <td><em>ры́ба</em> <span class="ipa">/ˈrɨbə/</span></td>
+            <td><em>ря́дом</em> <span class="ipa">/ˈrʲadəm/</span></td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><strong>с</strong></td>
+            <td><em>сад</em> <span class="ipa">/sat/</span></td>
+            <td><em>семь</em> <span class="ipa">/sʲemʲ/</span></td>
+            <td>Voiced before a voiced obstruent: <em>сбор</em> <span class="ipa">/zbor/</span></td>
+        </tr>
+        <tr>
+            <td><strong>т</strong></td>
+            <td><em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span></td>
+            <td><em>тётя</em> <span class="ipa">/ˈtʲɵtʲə/</span></td>
+            <td>Voiced before a voiced obstruent: <em>футбо́л</em> <span class="ipa">/fʊdˈboɫ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>ф</strong></td>
+            <td><em>фо́рма</em> <span class="ipa">/ˈformə/</span></td>
+            <td><em>фи́лин</em> <span class="ipa">/ˈfʲilʲɪn/</span></td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><strong>х</strong></td>
+            <td><em>хорошо́</em> <span class="ipa">/xərɐˈʂo/</span></td>
+            <td><em>хи́мия</em> <span class="ipa">/ˈxʲimʲɪjə/</span></td>
+            <td><span class="ipa">x</span>; voiced <span class="ipa">ɣ</span> before a voiced obstruent</td>
+        </tr>
+        <tr>
+            <td><strong>ц</strong></td>
+            <td><em>пти́ца</em> <span class="ipa">/ˈptʲit͡sə/</span></td>
+            <td><em>Цю́рих</em> <span class="ipa">/ˈt͡sʲʉrʲɪx/</span></td>
+            <td>Hard except before я, ю, ё, ь; <span class="ipa">t͡s</span></td>
+        </tr>
+        <tr>
+            <td><strong>ч</strong></td>
+            <td>-</td>
+            <td><em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span></td>
+            <td>Always soft <span class="ipa">t͡ɕ</span></td>
+        </tr>
+        <tr>
+            <td><strong>ш</strong></td>
+            <td><em>ши́на</em> <span class="ipa">/ˈʂɨnə/</span></td>
+            <td>-</td>
+            <td>Always hard <span class="ipa">ʂ</span></td>
+        </tr>
+        <tr>
+            <td><strong>щ</strong></td>
+            <td>-</td>
+            <td><em>щёки</em> <span class="ipa">/ˈɕːɵkʲɪ/</span></td>
+            <td>Always soft and long <span class="ipa">ɕː</span></td>
+        </tr>
+        <tr>
+            <td><strong>ь, ъ</strong></td>
+            <td><em>объе́ктом</em> <span class="ipa">/ɐbˈjektəm/</span></td>
+            <td><em>соль</em> <span class="ipa">/solʲ/</span></td>
+            <td>No sound of their own; ъ keeps /j/ before iotated vowels</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>3. Digraphs and Clusters</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>IPA</th>
+            <th>Context / Rule</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><strong>сч</strong></td>
+            <td><span class="ipa">ɕː</span></td>
+            <td>Word-initial, and in счёт / счит-</td>
+            <td><em>сча́стье</em> <span class="ipa">/ˈɕːæsʲtʲje/</span>, <em>счёт</em> <span class="ipa">/ɕːɵt/</span></td>
+        </tr>
+        <tr>
+            <td><strong>зч, жч</strong></td>
+            <td><span class="ipa">ɕː</span></td>
+            <td>Always</td>
+            <td><em>мужчи́на</em> <span class="ipa">/mʊˈɕːinə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>сш, зш, сж</strong></td>
+            <td><span class="ipa">ʂː</span>, <span class="ipa">ʐː</span></td>
+            <td>Complete assimilation</td>
+            <td><em>сшить</em> <span class="ipa">/ʂːɨtʲ/</span>, <em>сжать</em> <span class="ipa">/ʐːatʲ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>зж, жж</strong></td>
+            <td><span class="ipa">ʐː</span> or <span class="ipa">ʑː</span></td>
+            <td>Two variants, except at a prefix boundary</td>
+            <td><em>жужжа́ть</em> <span class="ipa">/ʐʊˈʐːatʲ/</span>, <span class="ipa">/ʐʊˈʑːætʲ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>тс, дз</strong></td>
+            <td><span class="ipa">t͡s</span></td>
+            <td>Short; long across words, before vowels, after от-/под-</td>
+            <td><em>де́тство</em> <span class="ipa">/ˈdʲet͡stvə/</span>, <em>отсу́тствие</em> <span class="ipa">/ɐt͡sˈsut͡stvʲɪje/</span></td>
+        </tr>
+        <tr>
+            <td><strong>тш, дж, чш</strong></td>
+            <td><span class="ipa">t͡ʂ</span>, <span class="ipa">d͡ʐ</span></td>
+            <td>Hard affricates</td>
+            <td><em>лу́чший</em> <span class="ipa">/ˈɫut͡ʂʂɨj/</span>, <em>дже́м</em> <span class="ipa">/ˈd͡ʐʐɛm/</span></td>
+        </tr>
+        <tr>
+            <td><strong>тц, дц + vowel</strong></td>
+            <td><span class="ipa">t͡sː</span></td>
+            <td>Always long</td>
+            <td><em>отцо́м</em> <span class="ipa">/ɐˈt͡sːom/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-тся, -ться</strong></td>
+            <td><span class="ipa">t͡sə</span></td>
+            <td>Long after a directly preceding stressed vowel</td>
+            <td><em>у́чится</em> <span class="ipa">/ˈut͡ɕɪt͡sə/</span>, <em>учи́ться</em> <span class="ipa">/ʊˈt͡ɕit͡sːə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-дцат-</strong></td>
+            <td><span class="ipa">t͡s(ː)</span></td>
+            <td>Optionally long; unstressed → -цыт-</td>
+            <td><em>два́дцать</em> <span class="ipa">/ˈdvat͡s(ː)ɨtʲ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>что, чтобы, ничто</strong></td>
+            <td><span class="ipa">ʂt</span></td>
+            <td>ч → ш in these words only</td>
+            <td><em>что́</em> <span class="ipa">/ˈʂto/</span>, <em>ничто́</em> <span class="ipa">/nʲɪʂˈto/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-чн-</strong></td>
+            <td><span class="ipa">t͡ɕn</span></td>
+            <td>No special rule, even in words pronounced [ʂn]</td>
+            <td><em>ску́чный</em> <span class="ipa">/ˈskut͡ɕnɨj/</span></td>
+        </tr>
+        <tr>
+            <td><strong>стн, здн, лнц</strong></td>
+            <td><span class="ipa">sn</span>, <span class="ipa">zn</span>, <span class="ipa">nt͡s</span></td>
+            <td>Middle consonant is dropped</td>
+            <td><em>ле́стница</em> <span class="ipa">/ˈlʲesʲnʲɪt͡sə/</span>, <em>по́здно</em> <span class="ipa">/ˈpoznə/</span>, <em>со́лнце</em> <span class="ipa">/ˈsont͡sɨ/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-вств-</strong></td>
+            <td><span class="ipa">fstv</span></td>
+            <td>The в is <em>not</em> dropped (see Known Issues)</td>
+            <td><em>чу́вство</em> <span class="ipa">/ˈt͡ɕufstvə/</span></td>
+        </tr>
+        <tr>
+            <td><strong>мягк-, лёгк-</strong></td>
+            <td><span class="ipa">xʲk</span></td>
+            <td>г → х before к, ч</td>
+            <td><em>мя́гкий</em> <span class="ipa">/ˈmʲæxʲkʲɪj/</span>, <em>лёгкий</em> <span class="ipa">/ˈlʲɵxʲkʲɪj/</span></td>
+        </tr>
+        <tr>
+            <td><strong>-ого, -его</strong></td>
+            <td><span class="ipa">vo</span>, <span class="ipa">ve</span></td>
+            <td>Adjective and pronoun endings, with exceptions</td>
+            <td><em>кра́сного</em> <span class="ipa">/ˈkrasnəvə/</span>, <em>его́</em> <span class="ipa">/(j)ɪˈvo/</span></td>
+        </tr>
+        <tr>
+            <td><strong>Double consonant</strong></td>
+            <td><span class="ipa">ː</span> or single</td>
+            <td>Long only between vowels after the stress or at certain prefixes</td>
+            <td><em>ва́нна</em> <span class="ipa">/ˈvanːə/</span>, <em>кла́сс</em> <span class="ipa">/ˈkɫas/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>4. Voiced-Voiceless Pairs</h3>
+    <p>The module defines the pairs below in its <code>devoicing</code> and <code>voicing</code> tables. A voiced member
+        devoices at the end of a word and before a voiceless obstruent; a voiceless member becomes voiced before a
+        voiced obstruent.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Voiced</th>
+            <th>Voiceless</th>
+            <th>Becomes voiceless (example)</th>
+            <th>Becomes voiced (example)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span class="ipa">b</span></td>
+            <td><span class="ipa">p</span></td>
+            <td><em>хлеб</em> <span class="ipa">/xlʲep/</span></td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td><span class="ipa">d</span></td>
+            <td><span class="ipa">t</span></td>
+            <td><em>год</em> <span class="ipa">/ɡot/</span></td>
+            <td><em>футбо́л</em> <span class="ipa">/fʊdˈboɫ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɡ</span></td>
+            <td><span class="ipa">k</span></td>
+            <td><em>друг</em> <span class="ipa">/druk/</span></td>
+            <td><em>вокза́л</em> <span class="ipa">/vɐɡˈzaɫ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">z</span></td>
+            <td><span class="ipa">s</span></td>
+            <td><em>глаз</em> <span class="ipa">/ɡɫas/</span></td>
+            <td><em>сбор</em> <span class="ipa">/zbor/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">v</span></td>
+            <td><span class="ipa">f</span></td>
+            <td><em>ров</em> <span class="ipa">/rof/</span></td>
+            <td><em>афга́нец</em> <span class="ipa">/ɐvˈɡanʲɪt͡s/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ʐ</span></td>
+            <td><span class="ipa">ʂ</span></td>
+            <td><em>нож</em> <span class="ipa">/noʂ/</span></td>
+            <td><em>ка́ш бы</em> <span class="ipa">/ˈkaʐ‿bɨ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">ɣ</span></td>
+            <td><span class="ipa">x</span></td>
+            <td>-</td>
+            <td><em>мо́х бы</em> <span class="ipa">/ˈmoɣ‿bɨ/</span></td>
+        </tr>
+        <tr>
+            <td><span class="ipa">d͡ʑ</span></td>
+            <td><span class="ipa">t͡ɕ</span></td>
+            <td>-</td>
+            <td><em>до́чь бы</em> <span class="ipa">/ˈdod͡ʑ‿bɨ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>5. Special Words and Spelling Rewrites</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Spelling</th>
+            <th>Rewritten as</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>-ого, -его (adjectives, pronouns)</td>
+            <td>-ово, -ево</td>
+            <td><em>большо́го</em> <span class="ipa">/bɐlʲˈʂovə/</span>, <em>чего́</em> <span class="ipa">/t͡ɕɪˈvo/</span></td>
+        </tr>
+        <tr>
+            <td>сегодня, сегодняшн-</td>
+            <td>севодня</td>
+            <td><em>сего́дня</em> <span class="ipa">/sʲɪˈvodʲnʲə/</span></td>
+        </tr>
+        <tr>
+            <td>что, чтобы, ничто</td>
+            <td>што, штобы, ништо</td>
+            <td><em>что́</em> <span class="ipa">/ˈʂto/</span>, <em>ничто́</em> <span class="ipa">/nʲɪʂˈto/</span></td>
+        </tr>
+        <tr>
+            <td>мягк-, лёгк-, легч-</td>
+            <td>мяхк-, лёхк-, лехч-</td>
+            <td><em>ле́гче</em> <span class="ipa">/ˈlʲext͡ɕe/</span></td>
+        </tr>
+        <tr>
+            <td>Word-final ъ (old spelling)</td>
+            <td>(ignored)</td>
+            <td><em>хлѣ́бъ</em> <span class="ipa">/ˈxlʲep/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Why does one word sometimes show several transcriptions, and how do I choose?</h3>
+    <p>Spelling does not show stress, so a word can map to more than one pronunciation. Homographs with different stress, such as <em>за́мок</em> <span class="ipa">/ˈzamək/</span> and <em>замо́к</em> <span class="ipa">/zɐˈmok/</span>, are listed as separate variants. A word that is not in the lexicon is transcribed once for every possible stress position. Click the word to cycle through the variants and keep the one that matches the word you mean; see <a href="#variants">Multiple Pronunciation Variants</a>. <a href="../?lang=Russian&amp;text=%D0%B7%D0%B0%D0%BC%D0%BE%D0%BA">Open in the converter</a></p>
+
+    <h3>How do I mark the stress myself?</h3>
+    <p>Type a combining acute accent (U+0301) directly after the stressed vowel, for example <em>рука́</em> <span class="ipa">/rʊˈka/</span>. The letter <em>ё</em> counts as stressed when no other stress mark is present, and a combining grave accent (U+0300) gives secondary stress. A word typed with a stress mark, or containing <em>ё</em>, is transcribed exactly as marked and gives a single result. Details are in <a href="#stress-marks">Stress Marks, Monosyllables and ё</a>.</p>
+
+    <h3>Why can the output differ from a pronunciation dictionary?</h3>
+    <p>The module works from spelling and stress only. It does not know lexical exceptions, for example the vowel of the loanword <em>кафе́</em> <span class="ipa">/kɐˈfʲe/</span>, which speakers pronounce with [ɛ] after a hard consonant, and it does not implement the dropped <em>в</em> in <em>-вств-</em> or <em>-чн-</em> as [ʂn]. Dialects and fast-speech reductions are not modeled. See <a href="#dialects">Dialects &amp; Limitations</a> and <a href="#issues">Common Issues</a>.</p>
+
+    <h3>Is the transcription phonemic or phonetic?</h3>
+    <p>Phonetic. The Wiktionary module produces only a narrow phonetic transcription for Russian, so the app offers no phonemic form; see <a href="#forms">Phonemic vs Phonetic</a>.</p>
+
+    <h2 id="technical">Implementation Details (for Developers)</h2>
+
+    <p>Russian transcription is done in two layers: a JavaScript handler in <code>scripts/utils.js</code>
+        (<code>ipaHandlers.Russian</code>) that finds out the stress, and the Lua module
+        <code>lua_modules/ru-pron_wasm.lua</code> (the Wiktionary <code>ru-pron</code> module, Benwing2's version),
+        which turns one stress-marked phrase into IPA. Two helpers are required:
+        <code>ru-translit.lua</code> (<code>apply_tr_fixes</code>, <code>tr_after_fixes</code>) and
+        <code>ru-common.lua</code> (<code>decompose</code>, <code>remove_grave_accents</code> and character classes). The
+        Lua module is called as <code>ru_ipa.ipa_string(text)</code>, which returns the list of pronunciations produced by
+        <code>export.ipa</code> joined with <code>", "</code>.</p>
+
+    <h3>App Handler (JavaScript)</h3>
+    <p>The handler is only active for the form <em>Phonetic</em> (the only form configured for Russian).</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Case</th>
+            <th>Condition</th>
+            <th>Action</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1. Lexicon hit</td>
+            <td>Word (letters, marks and hyphens only; also tried in lowercase) found in <code>ru_lexicon_v4.zip</code></td>
+            <td>The V4 record holds one or more comma-separated stress-marked forms. Each is run through
+                <code>ru_ipa.ipa_string</code>, duplicates are collapsed (the variant containing <span class="ipa">ˈ</span>
+                is preferred), and the result is returned as <code>/ipa1/,/ipa2/</code>.</td>
+            <td>The record <em>во́да, вода́</em> gives <span class="ipa">/ˈvodə/</span>, <span class="ipa">/vɐˈda/</span></td>
+        </tr>
+        <tr>
+            <td>2. Not in lexicon, 0 or 1 vowel</td>
+            <td>Letters of <em>аэиуеюяёоы</em> counted</td>
+            <td>The single vowel receives a combining acute (U+0301) and the word is transcribed once.</td>
+            <td><span class="ipa">/ˈdom/</span></td>
+        </tr>
+        <tr>
+            <td>3. Not in lexicon, 2 or more vowels</td>
+            <td>Same count</td>
+            <td>One transcription per vowel position (acute added to each vowel in turn); the results are joined with
+                commas. The user clicks the word to cycle through them.</td>
+            <td><span class="ipa">/ˈmuɕːɪnə/,/mʊˈɕːinə/,/mʊɕːɪˈna/</span></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>The input is sanitized first: everything except letters, combining marks, apostrophes and hyphens is removed
+        (so digits, spaces, backticks and <code>@ ^</code> disappear), and the text is normalized to NFKC. A stress
+        mark typed by the user survives as U+0301; a word that already contains one (or contains <em>ё</em>) skips cases 2 and 3 and is transcribed once, as typed.</p>
+
+    <h3>Lua Pipeline (<code>export.ipa</code> and <code>ru_ipa_main</code>)</h3>
+    <p>The stages below follow the order in which the code runs. Example outputs are produced by calling
+        <code>ipa_string</code> on the stress-marked example word. Stages 4 to 7 and several rules below concern
+        multi-word input (clitic joints, foot boundaries, cross-word assimilation). The app transcribes each space-separated
+        word separately (<code>main.js</code> splits lines on spaces and the handler strips punctuation), so these
+        effects are visible only when the module is called with a phrase, as in the examples here.</p>
+
+    <h4>Internal Notation (Intermediate Forms)</h4>
+    <p>The module works on a Latin-based internal alphabet and uses helper symbols that are <strong>not</strong>
+        present in the final IPA output:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Purpose</th>
+            <th>Final output</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>⁀</code></td>
+            <td>Word boundary</td>
+            <td>Added at the start and end of each word so that regular expressions can anchor on it</td>
+            <td>Removed</td>
+        </tr>
+        <tr>
+            <td><code>‿</code></td>
+            <td>Joint</td>
+            <td>Links an unstressed clitic to its host (stored as <code>⁀‿⁀</code>)</td>
+            <td>Kept as <span class="ipa">‿</span></td>
+        </tr>
+        <tr>
+            <td><code>ʹ</code> / <code>ʺ</code></td>
+            <td>Soft / hard sign</td>
+            <td>Transliteration of ь and ъ; they trigger palatalization or a glottal stop</td>
+            <td>Removed</td>
+        </tr>
+        <tr>
+            <td><code>ˑ</code></td>
+            <td>Protected length</td>
+            <td>Marks gemination that must never be removed (prefix boundaries, дц/тц before a vowel)</td>
+            <td>Becomes <span class="ipa">ː</span></td>
+        </tr>
+        <tr>
+            <td><code>@</code> and <code>/</code></td>
+            <td>Syllable boundary</td>
+            <td><code>@</code> is inserted by the syllabifier; <code>/</code> is an explicit boundary written by the user</td>
+            <td>Removed</td>
+        </tr>
+        <tr>
+            <td><code>_</code></td>
+            <td>Assimilation blocker</td>
+            <td>Prevents assimilation across it</td>
+            <td>Removed</td>
+        </tr>
+        <tr>
+            <td>U+FFF2</td>
+            <td>Pseudoconsonant</td>
+            <td>Replaces the hyphen at the start of a suffix or the end of a prefix, so that vowels and consonants there behave as
+                if neighbored by a consonant</td>
+            <td>Removed</td>
+        </tr>
+        <tr>
+            <td>U+0302</td>
+            <td>Tertiary stress (circumflex)</td>
+            <td>A vowel treated as stressed without a visible mark</td>
+            <td>Removed</td>
+        </tr>
+        <tr>
+            <td><code>ä ë ö ü ạ</code></td>
+            <td>Iotated vowels</td>
+            <td>я, е, ё, ю and semi-reduced я after the /j/ has been absorbed into softness</td>
+            <td>Converted by <code>allophones</code></td>
+        </tr>
+        <tr>
+            <td><code>c č ĉ ĵ ǰ ĝ ӂ š ž</code></td>
+            <td>Single-letter consonants</td>
+            <td>Internal letters for <span class="ipa">t͡s t͡ɕ t͡ʂ d͡z d͡ʑ d͡ʐ ʑ ʂ ʐ</span></td>
+            <td>Converted by <code>translit_conv</code></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>1. Spelling Rewrites (<code>apply_tr_fixes</code>)</h4>
+    <p>Run once at the start (unless the caller says the text is already transformed). It works on Cyrillic text,
+        before any lowercasing.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Alias letters, decompose accents</td>
+            <td>хлѣ́бъ</td>
+            <td><span class="ipa">/ˈxlʲep/</span></td>
+            <td>Old letters are mapped to modern ones; accents are split off as combining characters</td>
+        </tr>
+        <tr>
+            <td>-ого/-его → -ово/-ево</td>
+            <td>кра́сного</td>
+            <td><span class="ipa">/ˈkrasnəvə/</span></td>
+            <td>Pattern on Cyrillic text; the exceptions list is checked first</td>
+        </tr>
+        <tr>
+            <td>Exceptions: много, дорого, строго, убого, лого, ого, ...</td>
+            <td>мно́го</td>
+            <td><span class="ipa">/ˈmnoɡə/</span></td>
+            <td>Table of case patterns; the г is protected by a placeholder (<code>TEMP_G</code>)</td>
+        </tr>
+        <tr>
+            <td>сегодня, сегодняшн-</td>
+            <td>сего́дня</td>
+            <td><span class="ipa">/sʲɪˈvodʲnʲə/</span></td>
+            <td>г → в</td>
+        </tr>
+        <tr>
+            <td>что, чтобы, ничто</td>
+            <td>что́</td>
+            <td><span class="ipa">/ˈʂto/</span></td>
+            <td>ч → ш</td>
+        </tr>
+        <tr>
+            <td>[мл][яеё]г[кч]</td>
+            <td>мя́гкий</td>
+            <td><span class="ipa">/ˈmʲæxʲkʲɪj/</span></td>
+            <td>г → х</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>2. Argument Checks and Marker Conversion</h4>
+    <p><code>export.ipa(text, adj, gem, bracket, pos, zhpal, is_transformed)</code> validates <code>gem</code>
+        (<code>y/o/n</code> or empty) and <code>pos</code> (a key of <code>pos_properties</code>), lowercases the text
+        and converts the ASCII shorthands to combining characters: <code>``</code> and a double grave become a
+        circumflex, <code>`</code> a grave, <code>@</code> a dot above, <code>^</code> a circumflex. The app never uses the
+        shorthands, but the combining characters work the same way:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Grave accent → secondary stress</td>
+            <td>воѐнно-морско́й</td>
+            <td><span class="ipa">/vɐˌjenːə mɐrˈskoj/</span></td>
+            <td>The grave becomes <span class="ipa">ˌ</span> later in the pipeline</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>3. Transliteration (<code>tr_after_fixes</code>)</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>э → ɛ before transliteration</td>
+            <td>э́то</td>
+            <td><span class="ipa">/ˈɛtə/</span></td>
+            <td>The transliteration module does not always do this by itself</td>
+        </tr>
+        <tr>
+            <td>Vowel + йе → йй + е</td>
+            <td>конве́йер</td>
+            <td><span class="ipa">/kɐnˈvʲejːɪr/</span></td>
+            <td>Gives the doubled /j/</td>
+        </tr>
+        <tr>
+            <td>е, э after a consonant → plain e, ɛ</td>
+            <td>ле́то</td>
+            <td><span class="ipa">/ˈlʲetə/</span></td>
+            <td>Otherwise е is transliterated <code>je</code></td>
+        </tr>
+        <tr>
+            <td>ю after ж, ш → u</td>
+            <td>жюри́</td>
+            <td><span class="ipa">/ʐʊˈrʲi/</span></td>
+            <td>Always-hard consonant: no iotation</td>
+        </tr>
+        <tr>
+            <td>ё after ж ч ш щ → o</td>
+            <td>жёлтый</td>
+            <td><span class="ipa">/ˈʐoɫtɨj/</span></td>
+            <td>The /j/ is dropped (for ч, щ it is inserted again in step 9)</td>
+        </tr>
+        <tr>
+            <td>Implicit stress on ё</td>
+            <td>самолёт</td>
+            <td><span class="ipa">/səmɐˈlʲɵt/</span></td>
+            <td>The last ё gets an acute accent unless the word has an explicit primary stress</td>
+        </tr>
+        <tr>
+            <td>Word-final ъ ignored</td>
+            <td>хлѣ́бъ</td>
+            <td><span class="ipa">/ˈxlʲep/</span></td>
+            <td>Old orthography</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>4. Foot Boundaries and Spacing</h4>
+    <p>Commas and dashes (with surrounding spaces) are converted to <code> | </code>, repeated spaces are collapsed.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>, – — → |</td>
+            <td>до́ма, а не в шко́ле</td>
+            <td><span class="ipa">/ˈdomə | ɐ‿nʲɪ‿f‿ˈʂkolʲe/</span></td>
+            <td>IPA foot boundary</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>5. Stress for Monosyllables</h4>
+    <p>The text is split into words and separators (<code>capturing_split</code> on spaces and hyphens). A single-vowel
+        word without any accent that is not a prefix or suffix and not accentless gets <strong>primary</strong>
+        stress if a neighboring word is an accentless particle, and <strong>tertiary</strong> stress (a circumflex)
+        otherwise. The accentless classes are in <code>accentless</code> (<code>pre</code>, <code>prespace</code>,
+        <code>post</code>, <code>posthyphen</code>).</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Tertiary stress</td>
+            <td>дом</td>
+            <td><span class="ipa">/dom/</span></td>
+            <td>Vowel not reduced, no mark</td>
+        </tr>
+        <tr>
+            <td>Primary stress next to a clitic</td>
+            <td>на дом</td>
+            <td><span class="ipa">/nɐ‿ˈdom/</span></td>
+            <td>The preposition <em>на</em> is accentless</td>
+        </tr>
+        <tr>
+            <td>Accentless word keeps no stress</td>
+            <td>не зна́ю</td>
+            <td><span class="ipa">/nʲɪ‿ˈznajʊ/</span></td>
+            <td>Reduced and joined</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>6. Joining Clitics</h4>
+    <p>The separator after an accentless <code>pre</code> word (or <code>prespace</code> word when a space follows) and the
+        separator before a <code>post</code> word (or <code>posthyphen</code> after a hyphen) is replaced by <code>‿</code>.
+        In a multi-word <code>gem</code>/<code>pos</code> list the spec of the absorbed word is removed so that one
+        spec remains for each combined word.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>pre + host</td>
+            <td>по не́бу</td>
+            <td><span class="ipa">/pɐ‿ˈnʲebʊ/</span></td>
+            <td>Preposition joined to the following word</td>
+        </tr>
+        <tr>
+            <td>stressed по: no joining</td>
+            <td>по́ небу</td>
+            <td><span class="ipa">/ˈpo nʲɪbʊ/</span></td>
+            <td>The accent turns it into a full word</td>
+        </tr>
+        <tr>
+            <td>post + host</td>
+            <td>ты́ же</td>
+            <td><span class="ipa">/ˈtɨ‿ʐɨ/</span></td>
+            <td>Particle joined to the preceding word</td>
+        </tr>
+        <tr>
+            <td>prespace word followed by a space</td>
+            <td>а ведь</td>
+            <td><span class="ipa">/ɐ‿ˈvʲetʲ/</span></td>
+            <td><em>а</em>, <em>о</em> join only before a space</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>7. Hyphens and Word Markers</h4>
+    <p>The words are joined again. A hyphen at the start of a suffix or the end of a prefix becomes the
+        pseudoconsonant; all other hyphens become spaces. Then <code>⁀</code> is added at both ends of every word
+        and around <code>‿</code>, and <code>!</code> and <code>?</code> become separate words.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Inner hyphen → space</td>
+            <td>кое-кто́</td>
+            <td><span class="ipa">/kəjə ˈkto/</span></td>
+            <td>The two parts are processed as separate words</td>
+        </tr>
+        <tr>
+            <td>! and ? as separate words</td>
+            <td>да! нет?</td>
+            <td><span class="ipa">/da! nʲet?/</span></td>
+            <td>Prevents interference with the word-final rules</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>8. Variants for зж and жж</h4>
+    <p>Unless <code>zhpal=n</code>, a text containing ж is searched for the prefixes of <code>geminate_pref</code> that
+        end in a sibilant. If one of them stands directly before ж, a marker <code>ˑ</code> is inserted so that the
+        palatal variant is not generated. If зж or жж still occurs, two spellings are produced: the original and one with
+        <code>ӂӂ</code> (<span class="ipa">ʑː</span>). Each is transcribed separately.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Two variants</td>
+            <td>дро́жжи</td>
+            <td><span class="ipa">/ˈdroʐːɨ/</span>, <span class="ipa">/ˈdroʑːɪ/</span></td>
+            <td>Hard and soft long sibilant</td>
+        </tr>
+        <tr>
+            <td>Prefix boundary: one variant</td>
+            <td>изжи́ть</td>
+            <td><span class="ipa">/ɪˈʐːɨtʲ/</span></td>
+            <td>из- is in <code>geminate_pref</code></td>
+        </tr>
+        <tr>
+            <td><code>zhpal=n</code></td>
+            <td>дро́жжи</td>
+            <td><span class="ipa">/ˈdroʐːɨ/</span></td>
+            <td>Only the hard variant</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>9. Opening Steps of <code>ru_ipa_main</code></h4>
+    <p>The function receives the normalized text and the original spelling (kept for the prefix check later).</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Remove apostrophes</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Purely cosmetic apostrophes in names; apostrophes standing for ъ were handled by transliteration</td>
+        </tr>
+        <tr>
+            <td>[шж] + j + [ou] → [ou]</td>
+            <td>брошю́ра</td>
+            <td><span class="ipa">/brɐˈʂurə/</span></td>
+            <td>Always-hard consonants never take an iotated vowel</td>
+        </tr>
+        <tr>
+            <td>[čǰӂ] + [aou] → insert j</td>
+            <td>чай</td>
+            <td><span class="ipa">/t͡ɕæj/</span></td>
+            <td>Always-soft consonants always take palatal vowels</td>
+        </tr>
+        <tr>
+            <td>ьо → ьйо</td>
+            <td>Асунсьо́н</td>
+            <td><span class="ipa">/ɐsʊn⁽ʲ⁾ˈsʲjɵn/</span></td>
+            <td>Read like ьё</td>
+        </tr>
+        <tr>
+            <td>Tertiary stress on final -о after a vowel or palatal</td>
+            <td>то́кио, ра́нчо</td>
+            <td><span class="ipa">/ˈtokʲɪo/</span>, <span class="ipa">/ˈranʲt͡ɕɵ/</span></td>
+            <td>The final о is not reduced</td>
+        </tr>
+        <tr>
+            <td>Remove dot-above, convert dot-below</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Dot below is only allowed on я or palatal а, otherwise an error is raised</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>10. Final -ться / -тся</h4>
+    <p><code>final_tsja_processing</code> looks up <code>tsjapal</code> in <code>pos_properties</code>. For every part of speech except
+        <code>imp</code> (<code>tsjapal</code> is <code>n</code>) the ending is rewritten to <code>cca</code> (long) directly after a stressed
+        vowel, otherwise to <code>ca</code>. For imperatives (<code>pos=imp</code>) the ending stays palatalized.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Stress directly before -ться</td>
+            <td>учи́ться</td>
+            <td><span class="ipa">/ʊˈt͡ɕit͡sːə/</span></td>
+            <td>Long affricate</td>
+        </tr>
+        <tr>
+            <td>Stress elsewhere</td>
+            <td>у́чится</td>
+            <td><span class="ipa">/ˈut͡ɕɪt͡sə/</span></td>
+            <td>Short affricate</td>
+        </tr>
+        <tr>
+            <td><code>pos=imp</code></td>
+            <td>учи́ться</td>
+            <td><span class="ipa">/ʊˈt͡ɕit͡sʲsʲə/</span></td>
+            <td>Palatalized (not available in the app)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>11. Ad-hoc Phonetic Substitutions (<code>phonetic_subs</code>)</h4>
+    <p>An ordered list of two-element entries (pattern, replacement) applied in sequence; the order is deliberate and must
+        not be rearranged. It contains the cluster-simplification and affricate rules:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>h → ɣ; šč → ɕː</td>
+            <td>щит</td>
+            <td><span class="ipa">/ɕːit/</span></td>
+            <td>щ becomes the long soft sibilant first</td>
+        </tr>
+        <tr>
+            <td>n[dt]sk → n(t)sk; s[dt]sk → sck</td>
+            <td>гига́нтский, ма́рксистский</td>
+            <td><span class="ipa">/ɡʲɪˈɡan(t)skʲɪj/</span>, <span class="ipa">/ˈmarksʲɪst͡skʲɪj/</span></td>
+            <td>Optional or merged т/д</td>
+        </tr>
+        <tr>
+            <td>-дцат- → c(c)yt (unstressed) or c(c)át</td>
+            <td>два́дцать</td>
+            <td><span class="ipa">/ˈdvat͡s(ː)ɨtʲ/</span></td>
+            <td>Numerals in -дцать</td>
+        </tr>
+        <tr>
+            <td>[dt] + s/z → c, ĵ (short) or long variants</td>
+            <td>де́тство, отсу́тствие</td>
+            <td><span class="ipa">/ˈdʲet͡stvə/</span>, <span class="ipa">/ɐt͡sˈsut͡stvʲɪje/</span></td>
+            <td>Long across words, before a vowel, after от-/под-</td>
+        </tr>
+        <tr>
+            <td>[dtč] + š/ž → ĉ, ĝ</td>
+            <td>лу́чший, дже́м</td>
+            <td><span class="ipa">/ˈɫut͡ʂʂɨj/</span>, <span class="ipa">/ˈd͡ʐʐɛm/</span></td>
+            <td>Hard affricates</td>
+        </tr>
+        <tr>
+            <td>зч, жч → ɕː; сч → ɕː or ɕč</td>
+            <td>мужчи́на, счёт, подсчёт</td>
+            <td><span class="ipa">/mʊˈɕːinə/</span>, <span class="ipa">/ɕːɵt/</span>, <span class="ipa">/pɐt͡ɕˈɕːɵt/</span></td>
+            <td>Different outcomes at word start, in счёт/счит-, after ц д т</td>
+        </tr>
+        <tr>
+            <td>[rn][dt][cč] → [rn][cč]</td>
+            <td>се́рдце</td>
+            <td><span class="ipa">/ˈsʲert͡sɨ/</span></td>
+            <td>Dropped д/т</td>
+        </tr>
+        <tr>
+            <td>[dt][cč] + vowel → ˑ</td>
+            <td>отцо́м</td>
+            <td><span class="ipa">/ɐˈt͡sːom/</span></td>
+            <td>Always long</td>
+        </tr>
+        <tr>
+            <td>[zs] + š/ž → š/ž (long)</td>
+            <td>сшить, сжать</td>
+            <td><span class="ipa">/ʂːɨtʲ/</span>, <span class="ipa">/ʐːatʲ/</span></td>
+            <td>Total assimilation</td>
+        </tr>
+        <tr>
+            <td>[mpbfv]ʹ + [st][eij] → optional ʹ</td>
+            <td>ста́вьте</td>
+            <td><span class="ipa">/ˈstaf⁽ʲ⁾tʲe/</span></td>
+            <td>Optional palatalization of labials</td>
+        </tr>
+        <tr>
+            <td>sverxi → sverxy</td>
+            <td>сверхинтере́сный</td>
+            <td><span class="ipa">/svʲɪrxɨnʲtʲɪˈrʲesnɨj/</span></td>
+            <td>и after the prefix сверх- is hard</td>
+        </tr>
+        <tr>
+            <td>stʹd → zd; tʹd → dd</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Soft-sign clusters; the second often degeminates</td>
+        </tr>
+        <tr>
+            <td>Consonant losses: [ns][dt]g, zdn, lnc, [sz]tliv, [sz]tn</td>
+            <td>рентге́н, по́здно, со́лнце, ле́стница</td>
+            <td><span class="ipa">/rʲɪnˈɡʲen/</span>, <span class="ipa">/ˈpoznə/</span>, <span class="ipa">/ˈsont͡sɨ/</span>, <span class="ipa">/ˈlʲesʲnʲɪt͡sə/</span></td>
+            <td>See <a href="#silent">Dropped Consonants</a></td>
+        </tr>
+        <tr>
+            <td>Initial unstressed э → и; э after a vowel → и</td>
+            <td>эта́ж, аэропо́рт</td>
+            <td><span class="ipa">/ɪˈtaʂ/</span>, <span class="ipa">/ɐɪrɐˈport/</span></td>
+            <td>A form of ikanye done before the vowel table</td>
+        </tr>
+        <tr>
+            <td>и → ы after a consonant at a close juncture</td>
+            <td>под игло́й</td>
+            <td><span class="ipa">/pəd‿ɨˈɡɫoj/</span></td>
+            <td>Applies to the joint <code>⁀‿⁀</code></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>12. Voicing and Devoicing</h4>
+    <p>Uses the tables <code>devoicing</code> and <code>voicing</code>. The loop is repeated until the text no longer changes,
+        so assimilation can spread through a cluster. In the module a в before an obstruent both triggers and undergoes
+        assimilation, but before a sonorant it does neither.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1. Absolutely final devoicing</td>
+            <td>хлеб, морко́вь</td>
+            <td><span class="ipa">/xlʲep/</span>, <span class="ipa">/mɐrˈkofʲ/</span></td>
+            <td>Including soft-sign-final words</td>
+        </tr>
+        <tr>
+            <td>2. Devoicing before the next word</td>
+            <td>из го́рода, без ша́пки</td>
+            <td><span class="ipa">/ɪz‿ˈɡorədə/</span>, <span class="ipa">/bʲɪʂ‿ˈʂapkʲɪ/</span></td>
+            <td>Not before a voiced obstruent</td>
+        </tr>
+        <tr>
+            <td>3. Assimilation, repeated</td>
+            <td>ло́жка, сбор</td>
+            <td><span class="ipa">/ˈɫoʂkə/</span>, <span class="ipa">/zbor/</span></td>
+            <td>Right to left within the cluster</td>
+        </tr>
+        <tr>
+            <td>3a. в as an obstruent</td>
+            <td>всё, вдруг</td>
+            <td><span class="ipa">/fsʲɵ/</span>, <span class="ipa">/vdruk/</span></td>
+            <td>в devoices before a voiceless obstruent and stays voiced before a voiced one; between a voiceless and a
+                voiced obstruent it is transparent to voicing</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>13. Gemination Marks and Iotated Vowels</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Doubled consonant letters → X + ː</td>
+            <td>ва́нна</td>
+            <td><span class="ipa">/ˈvanːə/</span></td>
+            <td>Also the optional <code>(X)</code> form</td>
+        </tr>
+        <tr>
+            <td>j + [aeou] → ä ë ö ü</td>
+            <td>я́ма</td>
+            <td><span class="ipa">/ˈjamə/</span></td>
+            <td>Table <code>iotating</code></td>
+        </tr>
+        <tr>
+            <td>Remove j after a consonant before an iotated vowel</td>
+            <td>мя́со</td>
+            <td><span class="ipa">/ˈmʲasə/</span></td>
+            <td>Softness replaces the glide</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>14. Gemination Handling (per word)</h4>
+    <p>The text is now split into words and each is processed independently. The first step compares the
+        pronounced and original spellings against <code>geminate_pref</code> and turns the first <code>ː</code> into
+        <code>ˑ</code> at a prefix boundary. After that the <code>gem</code> option decides (<code>y</code> keep,
+        <code>o</code> optional, <code>n</code> remove). By default:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Prefix boundary → ˑ</td>
+            <td>расска́з</td>
+            <td><span class="ipa">/rɐsːˈkas/</span></td>
+            <td>Both spellings must match the entry (avoids false matches like <em>Поттер</em>)</td>
+        </tr>
+        <tr>
+            <td>лː → л</td>
+            <td>тро́лль</td>
+            <td><span class="ipa">/ˈtrolʲ/</span></td>
+            <td>л is always degeminated</td>
+        </tr>
+        <tr>
+            <td>Between vowels right after the stress → ˑ</td>
+            <td>програ́мма</td>
+            <td><span class="ipa">/prɐˈɡramːə/</span></td>
+            <td>Kept</td>
+        </tr>
+        <tr>
+            <td>Remaining n after the stress → (ː)</td>
+            <td>бессмы́сленно</td>
+            <td><span class="ipa">/bʲɪsːˈmɨs⁽ʲ⁾lʲɪn(ː)ə/</span></td>
+            <td>Optional</td>
+        </tr>
+        <tr>
+            <td>ssk / zsk after the stress → ˑ</td>
+            <td>ру́сский</td>
+            <td><span class="ipa">/ˈrusːkʲɪj/</span></td>
+            <td>Kept</td>
+        </tr>
+        <tr>
+            <td>Everything else except ɕː, ӂː</td>
+            <td>кла́сс</td>
+            <td><span class="ipa">/ˈkɫas/</span></td>
+            <td>Removed</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>15. Soft and Hard Signs, Assimilative Palatalization</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>ʹi → ʹji</td>
+            <td>семьи́</td>
+            <td><span class="ipa">/sʲɪˈm⁽ʲ⁾ji/</span></td>
+            <td>/j/ before и after ь</td>
+        </tr>
+        <tr>
+            <td>ʺ + [aɛiouy] → ʔ + vowel</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Glottal stop after a hard sign before a non-iotated vowel (rare)</td>
+        </tr>
+        <tr>
+            <td>(ʹ) → ⁽ʲ⁾</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Optional softness written in the spelling, e.g. <code>п(ь)я́нка</code></td>
+        </tr>
+        <tr>
+            <td>[mnpbtdkgfvszxɣrl] + front vowel or ʹ → ʲ</td>
+            <td>конь, пять</td>
+            <td><span class="ipa">/konʲ/</span>, <span class="ipa">/pʲætʲ/</span></td>
+            <td>Main palatalization rule</td>
+        </tr>
+        <tr>
+            <td>[cĵ] + [äạöüʹ] → ʲ</td>
+            <td>Цю́рих</td>
+            <td><span class="ipa">/ˈt͡sʲʉrʲɪx/</span></td>
+            <td>ц only softens before я, ю, ё, ь</td>
+        </tr>
+        <tr>
+            <td>Remove ʹ and ʺ</td>
+            <td>соль</td>
+            <td><span class="ipa">/solʲ/</span></td>
+            <td>The signs have done their work</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>16. Final -я and -е</h4>
+    <p>Unstressed word-final <code>ä</code> and <code>ạ</code> become <code>ə</code>; <code>⁀nʲe⁀</code> becomes
+        <code>⁀nʲi⁀</code> and <code>⁀že⁀</code> becomes <code>⁀žy⁀</code>. For final -е the function
+        <code>fetch_e_sub(ending)</code> looks up <code>pos_properties</code> (through <code>fetch_pos_property</code>,
+        which resolves aliases and falls back to the <code>def</code> entry). An unstressed [e] is protected by a temporary
+        circumflex so that it is not reduced to [ɪ]. A final -э is kept unreduced.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Final -я → ə</td>
+            <td>я́блоня</td>
+            <td><span class="ipa">/ˈjabɫənʲə/</span></td>
+            <td>Always</td>
+        </tr>
+        <tr>
+            <td>не, же alone</td>
+            <td>ты́ же</td>
+            <td><span class="ipa">/ˈtɨ‿ʐɨ/</span></td>
+            <td>же → ʐɨ</td>
+        </tr>
+        <tr>
+            <td>vowel + je (-ое: ə; others: e)</td>
+            <td>му́дрое, зда́ние</td>
+            <td><span class="ipa">/ˈmudrəjə/</span>, <span class="ipa">/ˈzdanʲɪje/</span></td>
+            <td>Keys <code>oe</code>, <code>ve</code></td>
+        </tr>
+        <tr>
+            <td>paired consonant + е → e</td>
+            <td>по́ле</td>
+            <td><span class="ipa">/ˈpolʲe/</span></td>
+            <td>Key <code>softpaired</code></td>
+        </tr>
+        <tr>
+            <td>ж, ш, ц + е → ɨ</td>
+            <td>бо́льше</td>
+            <td><span class="ipa">/ˈbolʲʂɨ/</span></td>
+            <td>Key <code>hardsib</code></td>
+        </tr>
+        <tr>
+            <td>ч, щ + е → e</td>
+            <td>убе́жище</td>
+            <td><span class="ipa">/ʊˈbʲeʐɨɕːe/</span></td>
+            <td>Key <code>softsib</code></td>
+        </tr>
+        <tr>
+            <td><code>pos=low</code> / <code>pos=hi</code></td>
+            <td>по́ле</td>
+            <td><span class="ipa">/ˈpolʲə/</span>, <span class="ipa">/ˈpolʲɪ/</span></td>
+            <td>Forced schwa or [ɪ] (not available in the app)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>17. Retraction After ц, ш, ж</h4>
+    <p>The table <code>retracting</code> turns <code>e</code> into <code>ɛ</code> and <code>i</code> into <code>y</code> (later
+        <span class="ipa">ɨ</span>) after <code>c ĵ š ž ĉ ĝ</code> and an optional length mark.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>[cĵšžĉĝ] + e → ɛ</td>
+            <td>цель, же́ны</td>
+            <td><span class="ipa">/t͡sɛlʲ/</span>, <span class="ipa">/ˈʐɛnɨ/</span></td>
+            <td>Hard consonants cannot take /e/</td>
+        </tr>
+        <tr>
+            <td>[cĵšžĉĝ] + i → y</td>
+            <td>ши́на, цирк</td>
+            <td><span class="ipa">/ˈʂɨnə/</span>, <span class="ipa">/t͡sɨrk/</span></td>
+            <td>Pronounced <span class="ipa">ɨ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>18. Syllabification</h4>
+    <p>Syllable boundaries (<code>@</code>) are needed to find the stressed syllable and the pretonic syllable. They are
+        inserted in nine steps:</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Step</th>
+            <th>Rule</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>Insert <code>@</code> after each vowel (with its accents)</td>
+            <td>Every vowel closes a syllable</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Remove the word-final <code>@</code></td>
+            <td>No empty last syllable</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Move <code>@</code> before <code>‿⁀</code> if a consonant follows</td>
+            <td>A joined preposition's consonants start the next syllable</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Move <code>@</code> to before the last consonant of a cluster</td>
+            <td>Default: a cluster is split before its last consonant</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Move <code>@</code> back before a "permanent onset" (<code>perm_syl_onset</code>)</td>
+            <td>spr str skr spl skl sp st sk sf sx sc pr br tr dr kr gr fr vr xr pl bl kl gl fl vl xl ml mn šč dž, and soft sibilant + j</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>If the user wrote <code>/</code>, it replaces the automatic <code>@</code></td>
+            <td>Explicit syllable boundary</td>
+        </tr>
+        <tr>
+            <td>7-8</td>
+            <td>Remove <code>@</code> before a final cluster or after an initial cluster</td>
+            <td>Only possible for user-inserted slashes and цз/чж</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Move <code>@</code> to after a linking <code>‿⁀</code></td>
+            <td>A boundary never stands directly before the link</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>19. Word-Initial а/о, Stress Marks and Vowel Allophony</h4>
+    <p>An unstressed <code>⁀a</code> or <code>⁀o</code> is first rewritten to <code>ɐ</code> (done after syllabification
+        because the syllabifier does not know <code>ɐ</code> as a vowel). The word is split at <code>@</code>. A syllable is
+        <em>real</em> stressed if it contains an acute or grave, and <em>tertiary</em> if it contains a circumflex. Then each
+        syllable is converted: a stressed one gets <code>ˈ</code> (acute) or <code>ˌ</code> (grave) in front, the circumflex is
+        deleted, and the vowel is replaced using column 1; a syllable directly before a real stress uses column 2; all
+        others column 3.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Internal vowel</th>
+            <th>Stressed</th>
+            <th>Pretonic</th>
+            <th>Elsewhere</th>
+            <th>Source letter</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td><code>a</code></td><td><span class="ipa">a</span></td><td><span class="ipa">ɐ</span></td><td><span class="ipa">ə</span></td><td>а</td></tr>
+        <tr><td><code>o</code></td><td><span class="ipa">o</span></td><td><span class="ipa">ɐ</span></td><td><span class="ipa">ə</span></td><td>о</td></tr>
+        <tr><td><code>e</code></td><td><span class="ipa">e</span></td><td><span class="ipa">ɪ</span></td><td><span class="ipa">ɪ</span></td><td>е after a consonant or ь/ъ</td></tr>
+        <tr><td><code>i</code></td><td><span class="ipa">i</span></td><td><span class="ipa">ɪ</span></td><td><span class="ipa">ɪ</span></td><td>и</td></tr>
+        <tr><td><code>u</code></td><td><span class="ipa">u</span></td><td><span class="ipa">ʊ</span></td><td><span class="ipa">ʊ</span></td><td>у</td></tr>
+        <tr><td><code>y</code></td><td><span class="ipa">ɨ</span></td><td><span class="ipa">ɨ</span></td><td><span class="ipa">ɨ</span></td><td>ы</td></tr>
+        <tr><td><code>ɛ</code></td><td><span class="ipa">ɛ</span></td><td><span class="ipa">ɨ</span></td><td><span class="ipa">ɨ</span></td><td>э</td></tr>
+        <tr><td><code>ä</code></td><td><span class="ipa">a</span></td><td><span class="ipa">ɪ</span></td><td><span class="ipa">ɪ</span></td><td>я</td></tr>
+        <tr><td><code>ạ</code></td><td><span class="ipa">a</span></td><td><span class="ipa">ɐ</span></td><td><span class="ipa">ə</span></td><td>я with dot below</td></tr>
+        <tr><td><code>ë</code></td><td><span class="ipa">e</span></td><td><span class="ipa">ɪ</span></td><td><span class="ipa">ɪ</span></td><td>е at the start of a word or after a vowel or й</td></tr>
+        <tr><td><code>ö</code></td><td><span class="ipa">ɵ</span></td><td><span class="ipa">ɪ</span></td><td><span class="ipa">ɪ</span></td><td>ё</td></tr>
+        <tr><td><code>ü</code></td><td><span class="ipa">u</span></td><td><span class="ipa">ʊ</span></td><td><span class="ipa">ʊ</span></td><td>ю</td></tr>
+        <tr><td><code>ə</code></td><td><span class="ipa">ə</span></td><td><span class="ipa">ə</span></td><td><span class="ipa">ə</span></td><td>(already reduced)</td></tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Initial unstressed а/о → ɐ</td>
+            <td>океа́н</td>
+            <td><span class="ipa">/ɐkʲɪˈan/</span></td>
+            <td>Regardless of position relative to stress</td>
+        </tr>
+        <tr>
+            <td>Pretonic and elsewhere</td>
+            <td>молоко́</td>
+            <td><span class="ipa">/məɫɐˈko/</span></td>
+            <td>ə then ɐ</td>
+        </tr>
+        <tr>
+            <td>Tertiary stress → no mark</td>
+            <td>ель</td>
+            <td><span class="ipa">/jelʲ/</span></td>
+            <td>Stressed value, no <span class="ipa">ˈ</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>20. Optional [j] Before ɪ</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>⁀jɪ → ⁀(j)ɪ</td>
+            <td>ябло́ко</td>
+            <td><span class="ipa">/(j)ɪˈbɫokə/</span></td>
+            <td>Word-initial</td>
+        </tr>
+        <tr>
+            <td>Vowel + jɪ → (j)ɪ</td>
+            <td>по-мо́ему</td>
+            <td><span class="ipa">/pɐ‿ˈmo(j)ɪmʊ/</span></td>
+            <td>After a vowel</td>
+        </tr>
+        <tr>
+            <td>After a joined consonant: j kept</td>
+            <td>-</td>
+            <td>-</td>
+            <td>Not optional after a consonant across <code>⁀‿⁀</code></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>21. Palatal Assimilation in Clusters</h4>
+    <p>These rules run on the IPA vowels and use the sets <code>cons_assim_palatal.compulsory</code>
+        (<code>ntʲ ndʲ xkʲ csʲ ĵzʲ ncʲ nĵʲ</code>) and <code>cons_assim_palatal.optional</code>
+        (<code>slʲ zlʲ nsʲ nzʲ mpʲ mbʲ mfʲ fmʲ</code>).</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>[dtsz] + nʲ: compulsory unless [rl] precedes</td>
+            <td>пя́тница</td>
+            <td><span class="ipa">/ˈpʲætʲnʲɪt͡sə/</span></td>
+            <td>Optional ⁽ʲ⁾ after р or л</td>
+        </tr>
+        <tr>
+            <td>[sz] + [td]ʲ: compulsory unless [rl] precedes</td>
+            <td>сте́на</td>
+            <td><span class="ipa">/ˈsʲtʲenə/</span></td>
+            <td>Also здесь, сде́лать</td>
+        </tr>
+        <tr>
+            <td>Compulsory pairs</td>
+            <td>ба́нтик, мя́гкий</td>
+            <td><span class="ipa">/ˈbanʲtʲɪk/</span>, <span class="ipa">/ˈmʲæxʲkʲɪj/</span></td>
+            <td>ntʲ, ndʲ, xkʲ, csʲ, ĵzʲ, ncʲ, nĵʲ</td>
+        </tr>
+        <tr>
+            <td>Optional pairs</td>
+            <td>бессмы́сленно</td>
+            <td><span class="ipa">/bʲɪsːˈmɨs⁽ʲ⁾lʲɪn(ː)ə/</span></td>
+            <td>slʲ, zlʲ, nsʲ, nzʲ, mpʲ, mbʲ, mfʲ, fmʲ</td>
+        </tr>
+        <tr>
+            <td>n + [čǰɕӂ] → nʲ</td>
+            <td>кончи́ть</td>
+            <td><span class="ipa">/kɐnʲˈt͡ɕitʲ/</span></td>
+            <td>Before alveolopalatals</td>
+        </tr>
+        <tr>
+            <td>Word-initial вп, вб → optional ⁽ʲ⁾</td>
+            <td>вперёд</td>
+            <td><span class="ipa">/f⁽ʲ⁾pʲɪˈrʲɵt/</span></td>
+            <td>Only at the start of a word</td>
+        </tr>
+        <tr>
+            <td>бв → optional; not in обв-</td>
+            <td>обвини́ть</td>
+            <td><span class="ipa">/ɐbvʲɪˈnʲitʲ/</span></td>
+            <td>Exception for the prefix об- + в</td>
+        </tr>
+        <tr>
+            <td>Labial + ʲ before /j/ → optional</td>
+            <td>семья́</td>
+            <td><span class="ipa">/sʲɪˈm⁽ʲ⁾ja/</span></td>
+            <td>Also здоро́вье</td>
+        </tr>
+        <tr>
+            <td>-лся: optional ⁽ʲ⁾</td>
+            <td>учи́лся</td>
+            <td><span class="ipa">/ʊˈt͡ɕiɫs⁽ʲ⁾ə/</span></td>
+            <td>Only after л</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>22. Brackets and Fronting of a and u</h4>
+    <p>If <code>bracket</code> is set the words are enclosed in <code>[ ]</code> (the app does not use it). Then, to make the
+        sequence rules easy, <code>ʲ</code> is added temporarily to the inherently soft <code>č ǰ ɕ ӂ j</code>.
+        <code>a</code>, <code>u</code> and <code>ʊ</code> between two soft consonants (<code>ʲ</code> + vowel + any consonant
+        + <code>ʲ</code>) are replaced by <code>æ</code> and <code>ʉ</code> using the table <code>fronting</code>; a vowel
+        between a soft consonant and an optionally soft one produces <strong>two</strong> output strings.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Rule</th>
+            <th>Example Input</th>
+            <th>Output</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Soft + a + soft → æ</td>
+            <td>пять</td>
+            <td><span class="ipa">/pʲætʲ/</span></td>
+            <td>Fronting</td>
+        </tr>
+        <tr>
+            <td>Soft + u + soft → ʉ</td>
+            <td>лю́ди</td>
+            <td><span class="ipa">/ˈlʲʉdʲɪ/</span></td>
+            <td>Fronting</td>
+        </tr>
+        <tr>
+            <td>Soft + a + optionally soft</td>
+            <td>ля́мпя</td>
+            <td><span class="ipa">/ˈlʲampʲə/</span>, <span class="ipa">/ˈlʲæmʲpʲə/</span></td>
+            <td>Two variants (hard and unfronted, soft and fronted)</td>
+        </tr>
+        <tr>
+            <td><code>bracket=y</code></td>
+            <td>до́м</td>
+            <td><span class="ipa">/[ˈdom]/</span></td>
+            <td>Square brackets (not available in the app)</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>23. Conversion to IPA and Cleanup</h4>
+    <p>Each output string goes through the final conversions. The table <code>translit_conv</code> replaces the internal
+        single-letter consonants, <code>translit_conv_j</code> handles <code>cʲ</code> and <code>ĵʲ</code>, two adjacent
+        reduced vowels merge, the dark L is written, and the helper symbols are removed.</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Internal</th>
+            <th>IPA</th>
+            <th>Example</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>c</code>, <code>cʲ</code></td>
+            <td><span class="ipa">t͡s</span>, <span class="ipa">t͡sʲ</span></td>
+            <td><em>пти́ца</em> <span class="ipa">/ˈptʲit͡sə/</span></td>
+        </tr>
+        <tr>
+            <td><code>č</code>, <code>ĉ</code></td>
+            <td><span class="ipa">t͡ɕ</span>, <span class="ipa">t͡ʂ</span></td>
+            <td><em>ту́ча</em> <span class="ipa">/ˈtut͡ɕə/</span>, <em>лу́чший</em> <span class="ipa">/ˈɫut͡ʂʂɨj/</span></td>
+        </tr>
+        <tr>
+            <td><code>ĝ</code>, <code>ǰ</code>, <code>ĵ</code></td>
+            <td><span class="ipa">d͡ʐ</span>, <span class="ipa">d͡ʑ</span>, <span class="ipa">d͡z</span></td>
+            <td><em>дже́м</em> <span class="ipa">/ˈd͡ʐʐɛm/</span>, <em>до́чь бы</em> <span class="ipa">/ˈdod͡ʑ‿bɨ/</span>, <em>от зо́лота</em> <span class="ipa">/ɐd͡z‿ˈzoɫətə/</span></td>
+        </tr>
+        <tr>
+            <td><code>š</code>, <code>ž</code>, <code>ɕ</code>, <code>ӂ</code></td>
+            <td><span class="ipa">ʂ</span>, <span class="ipa">ʐ</span>, <span class="ipa">ɕ</span>, <span class="ipa">ʑ</span></td>
+            <td><em>ши́на</em> <span class="ipa">/ˈʂɨnə/</span>, <em>жена́</em> <span class="ipa">/ʐɨˈna/</span>, <em>щёки</em> <span class="ipa">/ˈɕːɵkʲɪ/</span>, <em>дро́жжи</em> <span class="ipa">/ˈdroʐːɨ/</span>, <span class="ipa">/ˈdroʑːɪ/</span></td>
+        </tr>
+        <tr>
+            <td><code>g</code></td>
+            <td><span class="ipa">ɡ</span> (U+0261)</td>
+            <td><em>го́род</em> <span class="ipa">/ˈɡorət/</span></td>
+        </tr>
+        <tr>
+            <td><code>l</code> not followed by ʲ</td>
+            <td><span class="ipa">ɫ</span></td>
+            <td><em>лук</em> <span class="ipa">/ɫuk/</span> / <em>люк</em> <span class="ipa">/lʲuk/</span></td>
+        </tr>
+        <tr>
+            <td><code>ə</code> + <code>[ɐə]</code></td>
+            <td><span class="ipa">ɐ</span> + <span class="ipa">ɐ</span></td>
+            <td><em>по абази́ну</em> <span class="ipa">/pɐ‿ɐbɐˈzʲinʊ/</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h4>24. Result</h4>
+    <p><code>ru_ipa_main</code> returns a list (one entry per variant). <code>export.ipa</code> concatenates the lists of all
+        spelling variants, and <code>export.ipa_string</code> joins them with <code>", "</code>. This is why the
+        <code>ж</code>-variants appear inside one pair of slashes in the app when the handler's fallback path is used (see
+        <a href="#issues">Known Issues</a>).</p>
+
+    <h3>Module Options Not Used by the App</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Meaning</th>
+            <th>Effect</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><code>adj</code></td>
+            <td>Force the -ого → -ово rewrite inside <code>ru_ipa_main</code></td>
+            <td>Redundant here, since <code>apply_tr_fixes</code> already does it</td>
+        </tr>
+        <tr>
+            <td><code>gem</code></td>
+            <td><code>y</code>, <code>o</code>, <code>n</code>, or <code>X/Y/...</code> for each word</td>
+            <td>Keep, make optional, or remove gemination (see the table in the gemination section)</td>
+        </tr>
+        <tr>
+            <td><code>bracket</code></td>
+            <td><code>y</code> / <code>n</code></td>
+            <td>Wrap the result in square brackets</td>
+        </tr>
+        <tr>
+            <td><code>pos</code></td>
+            <td>Part of speech of each word</td>
+            <td>Selects the value of unstressed final -е and the -ться behavior</td>
+        </tr>
+        <tr>
+            <td><code>zhpal</code></td>
+            <td><code>y</code> / <code>n</code></td>
+            <td>Force or suppress the soft ʑː variant of зж/жж</td>
+        </tr>
+        <tr>
+            <td><code>is_transformed</code></td>
+            <td>Text already passed through <code>apply_tr_fixes</code></td>
+            <td>Skips the spelling rewrites</td>
+        </tr>
+        </tbody>
+    </table>
+    <p><strong>Note for maintainers:</strong> <code>ru-translit.lua</code> calls <code>ulower</code> and <code>uupper</code>
+        without declaring them. They are defined as <em>globals</em> near the top of <code>ru-pron_wasm.lua</code>, so that file
+        must be loaded first. The adapter also prints a small debugging line at load time.</p>
+
+    <h2 id="issues">Common Issues &amp; Limitations</h2>
+
+    <h3>Known Transcription Problems</h3>
+    <p>This table shows known issues where the automatic transcription may be incorrect. The "System Output" column
+        is real engine output (for cases that concern the app's fallback path it is the handler's output, otherwise the
+        output for the stress-marked word as the browser would produce it from the lexicon). The "Correct IPA" column is also
+        real engine output, obtained from a correct stress, a correct option or a respelled input (named in the
+        cell).</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Input</th>
+            <th>System Output</th>
+            <th>Correct IPA</th>
+            <th>Cause</th>
+            <th>What to Do</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>чу́вство</td>
+            <td><span class="ipa">/ˈt͡ɕufstvə/</span></td>
+            <td><span class="ipa">/ˈt͡ɕustvə/</span> (respelled input)</td>
+            <td>The module has rules for стн, здн but none for -вств-, so в is kept and devoiced</td>
+            <td>Respell as <em>чу́ство</em></td>
+        </tr>
+        <tr>
+            <td>здра́вствуйте</td>
+            <td><span class="ipa">/ˈzdrafstvʊjtʲe/</span></td>
+            <td><span class="ipa">/ˈzdrastvʊjtʲe/</span> (respelled input)</td>
+            <td>Same: -вств- is not simplified</td>
+            <td>Respell as <em>здра́ствуйте</em></td>
+        </tr>
+        <tr>
+            <td>коне́чно</td>
+            <td><span class="ipa">/kɐˈnʲet͡ɕnə/</span></td>
+            <td><span class="ipa">/kɐˈnʲeʂnə/</span> (respelled input)</td>
+            <td>Only что-words get ч → ш; -чн- is otherwise unchanged, although коне́чно (and ску́чно) are pronounced
+                with [ʂn]</td>
+            <td>Respell with ш</td>
+        </tr>
+        <tr>
+            <td>ску́чно</td>
+            <td><span class="ipa">/ˈskut͡ɕnə/</span></td>
+            <td><span class="ipa">/ˈskuʂnə/</span> (respelled input)</td>
+            <td>Same</td>
+            <td>Respell with ш</td>
+        </tr>
+        <tr>
+            <td>кафе́</td>
+            <td><span class="ipa">/kɐˈfʲe/</span></td>
+            <td><span class="ipa">/kɐˈfɛ/</span> (respelled input)</td>
+            <td>Spelling-based softness: е is assumed to soften ф, but many loanwords keep the consonant hard and have
+                [ɛ]</td>
+            <td>Respell with э</td>
+        </tr>
+        <tr>
+            <td>оте́ль</td>
+            <td><span class="ipa">/ɐˈtʲelʲ/</span></td>
+            <td><span class="ipa">/ɐˈtɛlʲ/</span> (respelled input)</td>
+            <td>Same</td>
+            <td>Respell with э</td>
+        </tr>
+        <tr>
+            <td>жужжать (not in the lexicon)</td>
+            <td><span class="ipa">/ˈʐuʐːətʲ, ˈʐuʑːɪtʲ/,/ʐʊˈʐːatʲ, ʐʊˈʑːætʲ/</span></td>
+            <td><span class="ipa">/ʐʊˈʐːatʲ/</span>, <span class="ipa">/ʐʊˈʑːætʲ/</span> (the module's two variants as separate items)</td>
+            <td>The module returns two pronunciations for жж; the handler wraps the string, joined by a comma and space, in one pair
+                of slashes. The page cycles values by splitting on <code>/,</code>, so each stress variant is shown as one item that
+                still contains both ж-variants</td>
+            <td>Read both parts inside the item</td>
+        </tr>
+        <tr>
+            <td>США</td>
+            <td><span class="ipa">/ˈʂːa/</span></td>
+            <td>Spelled-out letter names, with stress on the last syllable (no respelling reproduces them exactly: a respelled
+                <em>эсшэа́</em> gives <span class="ipa">/ɪʂɨˈa/</span> because unstressed э is reduced)</td>
+            <td>Initialisms are read like ordinary words</td>
+            <td>Do not rely on the output for initialisms</td>
+        </tr>
+        <tr>
+            <td>Лего (not in the lexicon)</td>
+            <td><span class="ipa">/ˈlʲeɡə/,/lʲɪˈvo/</span></td>
+            <td><span class="ipa">/ˈlʲeɡə/</span> (the first variant)</td>
+            <td>The -ого/-его rewrite works on spelling; the exception list only fits particular stress positions, so the variant
+                with stress on the final о is pronounced like a genitive ending</td>
+            <td>Pick the variant that matches the actual stress</td>
+        </tr>
+        <tr>
+            <td>мужчина (not in the lexicon)</td>
+            <td><span class="ipa">/ˈmuɕːɪnə/,/mʊˈɕːinə/,/mʊɕːɪˈna/</span></td>
+            <td>Variant 2 is the real stress</td>
+            <td>One variant for every stress position; the first one is not necessarily right</td>
+            <td>Click until the stress matches</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Other Limitations</h3>
+    <ul>
+        <li>By design the module renders unstressed final -е as [e] after a soft consonant (<em>по́ле</em> <span class="ipa">/ˈpolʲe/</span>); other realizations
+            (<span class="ipa">/ˈpolʲə/</span>, <span class="ipa">/ˈpolʲɪ/</span>) need the <code>pos</code> option, which the app does not pass.</li>
+        <li>Stress is only known from the lexicon (or typed by the user); the module never guesses it.</li>
+        <li>The rules cover standard Moscow pronunciation. Dialects and fast-speech reductions are not modeled.</li>
+        <li>Numbers, symbols and Latin letters inside Russian words are dropped or passed through unchanged.</li>
+        <li>The module's own FIXME list mentions open issues such as the pronunciation of final unstressed -е before a pause and
+            -э after paired consonants in loanwords.</li>
+    </ul>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for related languages in this tool:</p>
+    <ul>
+        <li><a href="ukrainian.html">Ukrainian</a></li>
+        <li><a href="belorussian.html">Belarusian</a></li>
+        <li><a href="bulgarian.html">Bulgarian</a></li>
+        <li><a href="polish.html">Polish</a></li>
+        <li><a href="czech.html">Czech</a></li>
+        <li><a href="mongolian.html">Mongolian</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

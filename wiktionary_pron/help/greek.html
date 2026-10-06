@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ancient Greek IPA Transcription - Help</title>
+    <title>Ancient Greek Pronunciation and IPA Transcription Guide</title>
+    <!-- seo:start -->
+    <meta name="description" content="Ancient Greek in IPA from Attic to Byzantine: pitch accent, vowel length, aspirated stops and the changes of the Koine period, with a free converter.">
+    <link rel="canonical" href="https://hellpanderrr.github.io/wiktionary_pron/help/greek.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="IPA Transcription Tool">
+    <meta property="og:title" content="Ancient Greek Pronunciation and IPA Transcription Guide">
+    <meta property="og:description" content="Ancient Greek in IPA from Attic to Byzantine: pitch accent, vowel length, aspirated stops and the changes of the Koine period, with a free converter.">
+    <meta property="og:url" content="https://hellpanderrr.github.io/wiktionary_pron/help/greek.html">
+    <meta name="twitter:card" content="summary">
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"Ancient Greek Pronunciation and IPA Transcription Guide","description":"Ancient Greek in IPA from Attic to Byzantine: pitch accent, vowel length, aspirated stops and the changes of the Koine period, with a free converter.","inLanguage":"en","url":"https://hellpanderrr.github.io/wiktionary_pron/help/greek.html","dateModified":"2026-10-05","about":{"@type":"Language","name":"Ancient Greek"},"isPartOf":{"@type":"WebSite","name":"IPA Transcription Tool","url":"https://hellpanderrr.github.io/wiktionary_pron/"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"IPA Transcription Tool","item":"https://hellpanderrr.github.io/wiktionary_pron/"},{"@type":"ListItem","position":2,"name":"Help","item":"https://hellpanderrr.github.io/wiktionary_pron/help/index.html"},{"@type":"ListItem","position":3,"name":"Ancient Greek","item":"https://hellpanderrr.github.io/wiktionary_pron/help/greek.html"}]}]}</script>
+    <!-- seo:end -->
     <link href="../css/tacit-css-1.7.1.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="../icons/help/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="../icons/help/favicon-32x32.png">
@@ -13,7 +24,7 @@
 </head>
 <body>
 <div id="content">
-    <h1>Ancient Greek IPA Transcription - Help</h1>
+    <h1>Ancient Greek Pronunciation and IPA Transcription Guide</h1>
 
     <p style="display: flex; justify-content: space-between; align-items: center;">
         <span><a href="../?lang=Greek">← Back to Ancient Greek transcription</a></span>
@@ -59,12 +70,14 @@
                 <li><a href="#comprehensive-mapping">Comprehensive Mapping Tables</a></li>
             </ul>
         </li>
+        <li><a href="#faq">Using the Tool: Practical Notes</a></li>
         <li><strong>For Developers</strong>
             <ul>
                 <li><a href="#technical">Implementation Details</a></li>
                 <li><a href="#issues">Common Issues & Limitations</a></li>
             </ul>
         </li>
+        <li><a href="#related">Related Pronunciation Guides</a></li>
     </ul>
 
     <h2 id="about">About This Tool</h2>
@@ -618,13 +631,13 @@
             <td><span class="ipa">́</span></td>
             <td>Rising tone</td>
             <td>Classical pitch: acute (high pitch, or rising on long syllable)</td>
-            <td><span class="ipa">/ló.gos/</span> (λόγος)</td>
+            <td><span class="ipa">/ló.ɡos/</span> (λόγος)</td>
         </tr>
         <tr>
             <td><span class="ipa">̀</span></td>
             <td>Low tone</td>
             <td>Classical pitch: grave (low pitch, typically on final syllable)</td>
-            <td><span class="ipa">/lò.gos/</span> (in context)</td>
+            <td><span class="ipa">/lò.ɡos/</span> (in context)</td>
         </tr>
         <tr>
             <td><span class="ipa">ː</span></td>
@@ -699,10 +712,9 @@
     </ul>
 
     <h4>Ambiguous-Length Vowels</h4>
-    <p>Three vowels can be either long or short. When they lack explicit length marks (macron/breve), the system
-        assumes short and displays a warning:</p>
+    <p>Three vowels can be either long or short. When they lack explicit length marks (macron/breve), the system assumes short:</p>
     <ul>
-        <li><strong>Alpha (α):</strong> Short <span class="ipa">/a/</span> or long <span class="ipa">/aː/</span> — <em>ἄγω</em> <span class="ipa">/á.ɡɔː/</span> (short) vs. <em>ἄγω</em> with ᾱ = <span class="ipa">/áː.ɡɔː/</span> (long)</li>
+        <li><strong>Alpha (α):</strong> Short <span class="ipa">/a/</span> or long <span class="ipa">/aː/</span> — <em>ἄγω</em> <span class="ipa">/á.ɡɔː/</span> (short) vs. <em>ᾱ́γω</em> <span class="ipa">/ǎː.ɡɔː/</span> (long; the acute on a long vowel is a rising pitch)</li>
         <li><strong>Iota (ι):</strong> Short <span class="ipa">/i/</span> or long <span class="ipa">/iː/</span> — <em>τίνω</em> with short ι vs. long ῑ</li>
         <li><strong>Upsilon (υ):</strong> Short <span class="ipa">/y/</span> or long <span class="ipa">/yː/</span> in Classical — <em>φύσις</em> <span class="ipa">/pʰý.sis/</span></li>
     </ul>
@@ -1033,7 +1045,7 @@
     <h4>Gamma before Front Vowels (Palatalization)</h4>
     <p>In Koine and later periods, velar consonants before front vowels (ε, ι, η, ει, οι, υ) become palatal:</p>
     <ul>
-        <li><strong>γ:</strong> <span class="ipa">/ʝ/</span> (voiced palatal fricative) — <em>γῆ</em> <span class="ipa">/ˈʝi/</span> (Koi2+)</li>
+        <li><strong>γ:</strong> <span class="ipa">/ʝ/</span> (voiced palatal fricative) — <em>γῆ</em> <span class="ipa">/ʝi/</span> (Koi2+)</li>
         <li><strong>κ:</strong> <span class="ipa">/c/</span> (voiceless palatal stop) — <em>κήρ</em> <span class="ipa">/cir/</span> (Koi2+)</li>
         <li><strong>χ:</strong> <span class="ipa">/ç/</span> (voiceless palatal fricative) — <em>χείρ</em> <span class="ipa">/çir/</span> (Koi2+)</li>
     </ul>
@@ -1419,6 +1431,20 @@
         </tbody>
     </table>
 
+    <h2 id="faq">Using the Tool: Practical Notes</h2>
+
+    <h3>Which period setting should I choose?</h3>
+    <p>The five settings are successive stages in the history of Greek pronunciation, applied to the same spelling. 5th BCE Attic reconstructs Classical Attic, with pitch accent, vowel length and aspirated stops. 1st CE Egyptian and 4th CE Koine represent the Hellenistic period, 10th CE Byzantine and 15th CE Constantinopolitan the medieval stages, the last being the closest to Modern Greek. Choose the setting that matches the period of the text or the reading tradition of interest. For <em>φιλοσοφία</em>, the output is <span class="ipa">/pʰi.lo.so.pʰí.a/</span> in 5th BCE Attic, <span class="ipa">/ɸi.lo.soˈɸi.a/</span> in 4th CE Koine and <span class="ipa">/fi.lo.soˈfi.a/</span> in 15th CE Constantinopolitan (all Phonemic). See <a href="#dialects">Historical Periods &amp; Limitations</a>. The converter link below opens the text only; the period is selected in the converter. <a href="../?lang=Greek&amp;text=%CF%86%CE%B9%CE%BB%CE%BF%CF%83%CE%BF%CF%86%CE%AF%CE%B1">Open in the converter</a></p>
+
+    <h3>Do I need to type accents and breathing marks?</h3>
+    <p>Yes, the module reads them as part of the spelling. Without the accent, the 5th BCE Attic output carries no pitch mark and the later settings carry no stress mark: <em>λόγος</em> gives <span class="ipa">/ló.ɡos/</span> in 5th BCE Attic and <span class="ipa">/ˈlo.ɣos/</span> in 4th CE Koine, while <em>λογος</em> gives <span class="ipa">/lo.ɡos/</span> and <span class="ipa">/lo.ɣos/</span>. Without the rough breathing the initial /h/ is lost: <em>ἡμέρα</em> gives <span class="ipa">/hɛː.mé.ra/</span> in 5th BCE Attic, <em>ημερα</em> gives <span class="ipa">/ɛː.me.ra/</span>. Use polytonic text; see <a href="#breathing">Breathing Marks</a> and <a href="#accents">Accents &amp; Pitch</a>.</p>
+
+    <h3>How do I specify whether α, ι or υ is long or short?</h3>
+    <p>The letters α, ι and υ are read as short unless a macron or breve is written or the accent implies a length; see <a href="#vowels-guide">Vowel Length &amp; Quality</a>. Add a combining macron (U+0304) or breve (U+0306) to the vowel. In 5th BCE Attic, α with breve, smooth breathing and acute followed by γω (&#x3B1;&#x306;&#x313;&#x301;&#x3B3;&#x3C9;) gives <span class="ipa">/á.ɡɔː/</span>, and the same word with a macron (&#x3B1;&#x304;&#x313;&#x301;&#x3B3;&#x3C9;) gives <span class="ipa">/ǎː.ɡɔː/</span>. Length is not kept in the later settings: the macron form gives <span class="ipa">/ˈa.ɣo/</span> in 4th CE Koine.</p>
+
+    <h3>Which dialects and forms are available?</h3>
+    <p>Only the five historical systems above, in the Phonemic form. Doric, Aeolic and other dialect pronunciations are not modeled, and the tool offers no Modern Greek transcription; the 15th CE setting is a medieval stage, not the modern language. See <a href="#forms">Phonemic vs Phonetic</a>.</p>
+
     <h2 id="technical">Implementation Details (for Developers)</h2>
 
     <p>The Ancient Greek module is <strong>entirely rule-based</strong> with no lexicon. All pronunciations are derived
@@ -1720,6 +1746,13 @@
         </tr>
         </tbody>
     </table>
+
+    <h2 id="related">Related Pronunciation Guides</h2>
+    <p>Help pages for related languages in this tool:</p>
+    <ul>
+        <li><a href="latin.html">Latin</a></li>
+        <li><a href="index.html">All languages</a></li>
+    </ul>
 
     <hr>
     <p><small>For technical issues or suggestions, please visit our <a

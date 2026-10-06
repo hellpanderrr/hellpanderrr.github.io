@@ -1,4 +1,4 @@
-﻿local export = {}
+local export = {}
 local mw = require('mw')
 local m_params = require("parameters")
 local m_IPA = require("IPA")

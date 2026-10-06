@@ -22,10 +22,14 @@ export default async function test() {
   const factory = new LuaFactory();
   const lua = await factory.createEngine();
 
+  // Decode like the browser's fetch().text(), which drops a leading UTF-8 BOM;
+  // Lua's load() rejects a BOM, so raw bytes made BOM-prefixed modules fail only here.
   function fetch(path) {
     const full = path.startsWith("..") ? resolveLua(path) : path;
     return new Promise((resolve, reject) =>
-      fs.readFile(full, (err, data) => (err ? reject(err) : resolve(data))),
+      fs.readFile(full, "utf8", (err, data) =>
+        err ? reject(err) : resolve(data.replace(/^﻿/, "")),
+      ),
     );
   }
 

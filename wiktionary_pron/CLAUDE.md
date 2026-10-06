@@ -25,7 +25,15 @@ npm run test:coverage   # real coverage: c8 (unit/IPA) + opt-in V8 e2e collector
 npx playwright test -g "Latin"   # run a single e2e test
 ```
 
-Golden files: `scripts/tests/golden/golden.json` holds expected IPA for ~50 word/language pairs. After an *intended* engine change (e.g. updating a Lua module from Wiktionary), regenerate with `cd scripts/tests && node golden/generate.js` and review the diff. Czech is Node-incompatible (module load fails under the test shim) — covered by e2e instead.
+Golden files: `scripts/tests/golden/golden.json` holds expected IPA for ~50 word/language pairs. After an *intended* engine change (e.g. updating a Lua module from Wiktionary), regenerate with `cd scripts/tests && node golden/generate.js` and review the diff. All 11 languages in the `generate.js` PLAN run under Node, including Czech and Irish.
+
+Help pages (`help/*.html`): every IPA example must be real engine output. Run from `scripts/tests/`:
+`node ipa_cli.mjs <Language> <Style> <Form> word…` (or `--raw <code> <luaFn> word… [--extra '[args]']`) to generate,
+`node verify_help_page.mjs ../../help/x.html <Language> <Style[,…]> <Form[,…]>` and `node verify_issue_tables.mjs …` to check
+(known false positives: English labels, letter-mapping rows — see `docs/LESSONS.md` 2026-10-05);
+`node check_help_links.mjs` checks every link and anchor in the help pages. Search metadata:
+`node utils/help_seo_head.mjs <page…>` (from `wiktionary_pron/`). Every language page has `id="faq"` "Using the Tool:
+Practical Notes" and `id="related"`; no overview sections (user ruling).
 
 `e2e/pending-features.spec.js` holds skipped acceptance tests for the stashed french-liaison and portuguese-support features — un-skip when applying those stashes.
 

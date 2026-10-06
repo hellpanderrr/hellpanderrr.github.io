@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals: 6 open, 10 fixed (15 total).
+Totals (machine-counted from `**Status:**` lines, 2026-10-05): 6 open, 1 needs-decision, 33 fixed; 42 entries.
 
 ---
 
@@ -1268,3 +1268,81 @@ suppresses (sine→Sinis, eos→Eos, more→morus…) and auditor false-positive
 **Status: FIXED.** Artifact 34,413 lemmas / 450 KB / L&S 89.8%; golden 2075,
 census 348, Caesar BG-I 1928/1929 (only the ide proper-noun false-positive);
 9 popup e2e green.
+
+## M-023m — Full-Catullus scansion gold → 8 wordlist fixes; remaining blockers need triage (2026-08-13) ✅ (fixes) / ⏳ (triage)
+
+**Deliverable (FIXED, engine repo `0af77d6`).** Downloaded the complete
+negenborn.net scanned Catullus (118 poems, full long+short marks) → gold at
+`latin-macronizer-wasm/test/data/gold/catullus/<meter>/`, decoupled from the
+harness corpus. The actionable scan-based comparison
+(`test/catullus-blocker.mjs`: per failing line, first word whose gold L/S
+pattern no engine candidate can produce, brute-forced `_`/`^` FIX) found 24
+candidates; **8 gold-confirmed wordlist quantity bugs fixed** via
+ACCENT_OVERRIDES: erechthei (synizesis SLL), aerea, lasarpiciferis, reiecta,
+sic, liquisse, deprensa, pegaseo. Overrides only ADD candidates (monotonic).
+
+**Method lesson (the advisor's catch, now enforced):** a per-vowel prose
+`accented[0]` vs metrical-gold diff gives ~70% "agreement" that's a trivial
+~30%-position-length baseline and is not actionable — only the failing-line
+scan comparison isolates real bugs.
+
+**OPEN — remaining blockers needing human triage.** ~247 failing lines across
+the gold (dominated by the iambic poems: catullus-IV/VIII/XXII/XXIX/XXXI/
+XXXVII/XXXIX/XLIV/XXV = 12-26 each). ~17 of these have a brute-forced FIX but
+were NOT applied because the gold quantity is metrical/editorial, not lexical
+— `tu`, `hoc`, `ridete`, `vorago`, `totius`, `inepte`, `inusta`, `meneni`,
+`penetrales`, `abice`, `iniciens`, `essent`, `renidere` etc. The rest are
+final-syllable/elision cases the segmenter can't resolve (no `_`/`^` form
+produces the gold pattern).
+
+**How to resume:** `cd /f/projects/latin-macronizer-wasm && node
+test/catullus-blocker.mjs` → `C:/Users/HELLPA~1/AppData/Local/Temp/catullus-blocker.txt`.
+Each `FIX:` line is a candidate ACCENT_OVERRIDE; verify against the gold word
+in context before adding (a gold mark at anceps/final-syllable is metrical,
+not a wordlist error).
+
+**Status: FIXED (8 overrides) + OPEN (triage ~17 more).** Engine unit tests
+8/8; site 22 unit + 81 IPA + 2075 gloss + 348 census + 9 popup e2e green.
+
+## H-001 — Help pages: app-layer bugs found while verifying examples (2026-10-05)
+**Status: FIXED** (2026-10-05). Four bugs outside the Wiktionary modules, each
+found by running a help-page example through the engine:
+- Portuguese Brazilian `-io` (rio, tio, frio, navio) and European `-le` (êle,
+  baile) came back untranscribed: wasmoon's Lua 5.4 has no global `unpack`.
+  Fixed with `local unpack = unpack or table.unpack` in `lua_modules/pt-pron_wasm.lua`.
+- Russian/Ukrainian input that already carried a stress mark was double-stressed
+  (`вода́` → `/ˈvoˈda/,/vɐˈda/`): the fallback stressed every vowel again. Fixed
+  in `scripts/utils.js` (stressed input, or Russian ё, is transcribed as typed);
+  golden.json updated (4 values).
+- Russian one-vowel words with lowercase ы (ты, мы, вы, сын) got no stress mark
+  (regex class lacked lowercase ы). Fixed in `scripts/utils.js`.
+- The Armenian stress mark ՛ (U+055B), which hy-pron reads, was stripped by
+  `sanitize()`. Fixed; enforced by `scripts/tests/unit/sanitize.test.js`.
+Verified: npm test green, full e2e 37 passed (system Chrome), Russian lexicon e2e
+green. Pages updated to describe the fixed behaviour.
+
+## H-002 — Help pages: module-internal bugs documented, not patched (2026-10-05)
+**Status: OPEN** (WONTFIX-SOURCE candidates: the modules are Wiktionary copies;
+fixing them locally forks upstream). Each is listed in the page's Common Issues table:
+- Mongolian: ы is never converted (missing from the vowel class); words with ью
+  (ньюс, компьютер) raise a Lua error and are returned unchanged.
+- Ukrainian: consonant-cluster rules iterate with `pairs()`, so some words
+  (зши́ток, зчи́тати, журналі́стський) transcribe differently between runs.
+- Lithuanian rules: capital letters leave stray syllable dots (Kauno), no rule
+  for ą, y palatalizes the preceding consonant, word-final diphthongs split.
+- Polish: past-tense -śmy/-ście stress not implemented (zrobiliśmy gets
+  penultimate stress); workaround: apostrophe before the stressed syllable.
+- German rules (Phonetic form, and words missing from the lexicon): Vater /v/,
+  Buch short u, das long a, Saal split, Obst short o.
+- Irish: cuan is transcribed as two syllables in Connacht/Munster.
+
+## H-003 — Help pages: decisions left to the owner (2026-10-05)
+**Status: NEEDS-DECISION**
+- Icelandic handler passes `""` as the module's `special` argument; `""` is
+  truthy in Lua and disables rule set 2 (deletion of v/ɣ after u, e.g. múgur
+  keeps ɣ). Passing nil would enable it — needs a phonological judgement.
+- Brazilian Portuguese epenthetic i (ritmo, advogado) is producible only with
+  the module's respelling markers i^/i*, which `sanitize()` strips.
+- ~~Czech: the module does not load under the Node test shim~~ ✅ FIXED 2026-10-05:
+  a UTF-8 BOM in `cs-pron_wasm.lua` broke Lua `load()` in the shim (the browser strips it).
+  BOM removed, shim decodes like the browser, Czech added to golden.json, help page verified.
