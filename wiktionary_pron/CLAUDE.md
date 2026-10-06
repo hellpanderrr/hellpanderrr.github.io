@@ -2,6 +2,34 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Knowledge harness
+
+Five files, separated by lifetime. `CLAUDE.md` is loaded every session and
+capped at ~35k chars — rules and pointers, never history. `docs/LESSONS.md`,
+`docs/ISSUES.md` and `docs/PROJECT.md` are read on demand and unbounded.
+**Never delete** — a lesson enforced by code is annotated in place
+(`✅ enforced by <path>`), a fixed issue keeps its row and flips to
+`Status: FIXED`; striking through (`~~…~~`) or archiving to a `*_ARCHIVE.md`
+is fine for leanness, deleting is not. Reusable domain facts (an API, a schema,
+a query cookbook) belong in their TOPICAL doc, not the chronological log — an
+agent doing that task loads the topical doc, never a 200k trap log. `NEXT.md`
+is the session baton, overwritten by `/close`.
+
+Task scratch and one-off outputs go in a dated dir (e.g.
+`<outputs>/_sessions/<date>-<task>/`) — the path is the provenance, so no
+metadata header is needed (and none inside CSVs: it breaks readers). A file
+graduates out of scratch only when a script writes it or a doc cites it.
+When a session dir accumulates more than a couple of artifacts, it gets a
+`FINDINGS.md`: the narrative entry point stating the question, the method,
+the results with counts, hand-verified vs unverified classes, and caveats —
+so the CSVs/JSONs are interpretable without replaying the session. If the
+findings are load-bearing, graduate the FINDINGS.md itself by citing it from
+the issue register row or topical doc it informs; an uncited findings file
+is invisible to the next session.
+
+Writing to these is part of the work, not paperwork after it — same commit as
+the change that produced the fact.
+
 ## Repo layout & Deploy
 
 - **This directory is a subdirectory** of the git repo `hellpanderrr/hellpanderrr.github.io` (the repo root is the parent directory `F:\projects\wiktionary_pron`). Git paths are prefixed `wiktionary_pron/`.
