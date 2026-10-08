@@ -720,6 +720,33 @@
         return applyOrtho(underscoreToUnicode(c).replace(/[\^+_]/g, ''), inputText);
     }
 
+    const demacronMap = {
+        'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
+        'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
+    };
+    const demacron = (text) => text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, m => demacronMap[m]);
+
+    /**
+     * THE renderer for one word under the current options — used by the initial
+     * render, the reading-cycle list and the popup chips, so they can never
+     * disagree. Mirrors the engine exactly: base is the candidate with macrons
+     * (or the user's spelling with them stripped when "Mark long vowels" is off),
+     * and in stress mode the engine's own applyStress supplies the acute.
+     */
+    function renderWord(text, accentedForm, encliticText, encliticForm) {
+        let shown = matchCase(text, candidateToDisplay(accentedForm, text));
+        if (!document.getElementById('macronize').checked) shown = demacron(shown);
+        if (document.getElementById('accent').checked && window.__applyStress) {
+            const encl = encliticText || '';
+            const accentedCombined = accentedForm + (encliticForm || encl);
+            const stressed = window.__applyStress(shown + encl, accentedCombined, !!encl);
+            shown = encl && stressed.endsWith(encl)
+                ? stressed.slice(0, stressed.length - encl.length)
+                : stressed;
+        }
+        return shown + (encliticText || '');
+    }
+
     // wordlist form → popup form: also render breves (a^ → ă) so candidates that
     // differ only in vowel shortness stay distinguishable (me^mo^rem vs me^morem)
     const BREVE_MAP = { a:'ă', e:'ĕ', i:'ĭ', o:'ŏ', u:'ŭ', A:'Ă', E:'Ĕ', I:'Ĭ', O:'Ŏ', U:'Ŭ' };
@@ -1116,7 +1143,10 @@
                           : sources.find(s => s.accented === c);
                 pairs.push({
                     shown,
-                    plain: matchCase(token.text, candidateToDisplay(c, token.text)) + (encliticText || ''),
+                    // data-plain is what a row click writes into the text: the reading
+                    // under the CURRENT options (macrons + acute), via the shared renderer.
+                    // (buildPopupHtml's encliticText IS the enclitic's wordlist form: -que/-ne/-ve carry no marks)
+                    plain: renderWord(token.text, c, encliticText, encliticText),
                     lemma: src && src.lemma ? src.lemma : null,
                     tag: src && src.tag ? src.tag : null
                 });
@@ -1568,15 +1598,6 @@
             td.setAttribute('contenteditable', 'true');
             td.addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
 
-            // Must mirror the cycle candidates (ortho + case) or indexOf(cur) misses and
-            // the first click jumps to a candidate the original spelling can never return to.
-            // Stress mode (engine-computed stressedText) wins over the macron form.
-            const tokenDisplay = t => {
-                const raw = (t.stressedText || t.macronizedText || t.text).replace(/[\^+_]/g, '');
-                const ortho = matchCase(t.text, applyOrtho(raw, t.text));
-                return ortho || raw;
-            };
-
             for (let ti = 0; ti < lineTokens.length; ti++) {
                 const token = lineTokens[ti];
                 const isWord = token.text && /^[a-zA-ZÀ-ɏ]/.test(token.text);
@@ -1590,44 +1611,27 @@
                 let encliticToken = null;
                 if (token.hasenclitic && lineTokens[ti + 1] && lineTokens[ti + 1].isenclitic) {
                     encliticToken = lineTokens[ti + 1];
-                    encliticText = tokenDisplay(encliticToken);
+                    // The enclitic carries no marks of its own (-que/-ne/-ve), so its
+                    // displayed form is its text; the bearer's renderWord() appends it.
+                    encliticText = encliticToken.text;
                     ti++; // consume the enclitic token
                 }
 
-                // In stress mode every reading must ALSO show its accent: stress the
-                // candidate on the fly with the engine's applyStress, so the displayed
-                // candidate and the engine's chosen stressedText always agree. The base
-                // mirrors the engine exactly: macronized when "Mark long vowels" is on,
-                // plain otherwise (so candidates[0] === the initial display and the
-                // first cycle click lands right).
-                const stressOn = document.getElementById('accent').checked;
-                const candidateDisplay = (c) => {
-                    let shown = matchCase(token.text, candidateToDisplay(c, token.text));
-                    if (!document.getElementById('macronize').checked) shown = demacronize(shown);
-                    if (stressOn && window.__applyStress) {
-                        // combined stem+enclitic, stressed together; split back after
-                        const encl = encliticToken ? (encliticToken.text || '') : '';
-                        const accentedCombined = c + (encliticToken && encliticToken.accented
-                            ? encliticToken.accented[0]
-                            : encl);
-                        const stressed = window.__applyStress(shown + encl, accentedCombined, !!encl);
-                        shown = encl && stressed.endsWith(encl)
-                            ? stressed.slice(0, stressed.length - encl.length)
-                            : stressed;
-                    }
-                    return shown;
-                };
+                // Every reading renders through the shared renderWord(), so the
+                // initial display, the cycle list and the popup chips can never
+                // disagree about macrons or the acute.
+                const encliticForm = encliticToken && encliticToken.accented
+                    ? encliticToken.accented[0]
+                    : (encliticToken ? (encliticToken.text || '') : null);
+                const renderFor = (c) => renderWord(token.text, c, encliticText, encliticForm);
 
-                const stemDisplay = tokenDisplay(token);
-                const displayText = encliticText ? stemDisplay + encliticText : stemDisplay;
+                const displayText = renderFor((token.accented && token.accented[0]) || token.text);
                 const span = document.createElement('span');
                 span.className = 'ipa';
                 setDisplay(span, displayText);   // real text + content kept in sync
                 span.__token = token;   // for per-word CSV: rendered text + tag/lemma
                 span.__enclitic = encliticText || null;   // for rebuilding the popup after a toggle
-                const candidates = [...new Set(
-                    (token.accented || []).map(candidateDisplay)
-                )].map(c => encliticText ? c + encliticText : c);
+                const candidates = [...new Set((token.accented || []).map(renderFor))];
                 span.__popupHtml = buildPopupHtml(token, displayText, encliticText);
 
                 const cycle = () => {
@@ -1845,17 +1849,11 @@
 
     // --- Demacronize ---
 
-    function demacronize(text) {
-        const map = {
-            'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
-            'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
-        };
-        return text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, m => map[m]);
-    }
+    // (demacron lives at the top, shared with the result renderer)
 
     function deMacronizeText() {
         const text = document.getElementById('text_to_macronize').value;
-        const out = demacronize(text);
+        const out = demacron(text);
         displayPlainOutput(out);
     }
 

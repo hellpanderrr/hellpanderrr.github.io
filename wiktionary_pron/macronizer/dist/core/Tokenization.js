@@ -8,7 +8,7 @@ import { normalizeTag } from '../utils/latin.js';
 import { scanVerses as doScanVerses } from './Scansion.js';
 import { alignMacronized } from './alignMacronized.js';
 import { applyStress } from './Stress.js';
-import { toAscii, isWhitespace, isSentenceEnder, splitEnclitic, tagDistance, levenshteinDistance, underscoreToUnicode, prefixesWithShortJ, stripStressMark } from '../utils/latin.js';
+import { toAscii, isWhitespace, isSentenceEnder, splitEnclitic, tagDistance, levenshteinDistance, underscoreToUnicode, prefixesWithShortJ, stripStressMark, stripLengthMark } from '../utils/latin.js';
 /**
  * Accent overrides for words whose quantity is context-dependent — short in
  * prose, long when a meter demands it (e.g. italorum: Ĭtălōrum in prose,
@@ -586,11 +586,21 @@ export class Tokenization {
         // long enough to plausibly end a sentence
         let possibleSentenceEnd = false;
         for (let i = 0; i < text.length; i++) {
-            // Pre-existing stress accents are stripped from the input: pasting an
-            // already-accentuated liturgical text must re-accentuate idempotently
-            // instead of failing every wordlist lookup (the acute is not part of
-            // any wordform). Covers the combining mark and the precomposed forms.
-            const char = stripStressMark(text[i]);
+            // Pre-existing stress accents AND length marks are stripped from the
+            // input: pasting an already-accentuated or already-macronized text must
+            // look up and re-mark identically to its plain spelling. Python's
+            // Token.__init__ does the same (postags.removemacrons). Without the
+            // length-mark strip the lookup key keeps the macrons, the word is
+            // unknown, and the stress pass sees no quantities (wrong accent).
+            // 1:1 character mapping, so start/end indices stay valid.
+            const char = stripLengthMark(stripStressMark(text[i]));
+            // A standalone combining mark (NFD-decomposed input) strips to nothing:
+            // skip it without closing the current word, or "sānctificētur" written
+            // as base+combining would split into pieces.
+            if (char === '') {
+                position++;
+                continue;
+            }
             // Check if character is part of a word. \p{L}\p{M} (not just \w) so
             // ligatures and accented letters stay inside the word: "cælis" is ONE
             // token, not "c" + "æ" + "lis" (Python's tokenizer is Unicode-aware
