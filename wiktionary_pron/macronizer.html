@@ -432,6 +432,10 @@
                         <input type="checkbox" id="macronize" checked>
                         <span>Mark long vowels</span>
                     </label>
+                    <label class="option-group" for="accent">
+                        <input type="checkbox" id="accent">
+                        <span>Stress accents (<i>sanctificétur</i>)</span>
+                    </label>
                     <label class="option-group" for="alsomaius">
                         <input type="checkbox" id="alsomaius">
                         <span>Also mark <i>māius</i> etc.</span>
@@ -692,7 +696,10 @@
 
 <script type="module">
     import { MacronizerAPI } from './macronizer/dist/api/MacronizerAPI.js';
-    import { decodeLdtTagToFeatures, underscoreToUnicode } from './macronizer/dist/utils/latin.js';
+    import { decodeLdtTagToFeatures, underscoreToUnicode, stripStressMark } from './macronizer/dist/utils/latin.js';
+    import { applyStress } from './macronizer/dist/core/Stress.js';
+    // Reading-cycle entries are (re)stressed client-side from the same engine code.
+    window.__applyStress = applyStress;
 
     // Orthography options of the last run — wordlist forms use classical j/v and
     // must be converted back to i/u unless the user enabled those conversions
@@ -953,7 +960,8 @@
             alsomaius: document.getElementById('alsomaius').checked,
             scan: document.getElementById('scan').value,
             performutov: document.getElementById('utov').checked,
-            performitoj: document.getElementById('itoj').checked
+            performitoj: document.getElementById('itoj').checked,
+            accent: document.getElementById('accent').checked
         };
 
         const btn = document.getElementById('macronize_btn');
@@ -1007,7 +1015,7 @@
 
     async function processChunks(chunks, options) {
         const merged = {
-            original: '', macronized: '', tokens: [], scannedFeet: [],
+            original: '', macronized: '', stressed: '', tokens: [], scannedFeet: [],
             statistics: { totalWords: 0, knownWords: 0, unknownWords: 0, ambiguousForms: 0 },
             confidence: 0, processingTime: 0
         };
@@ -1024,10 +1032,12 @@
             if (i > 0) {
                 merged.original += '\n';
                 merged.macronized += '\n';
+                merged.stressed += '\n';
                 merged.tokens.push({ text: '\n', tag: '', lemma: '' });
             }
             merged.original += r.original;
             merged.macronized += r.macronized;
+            merged.stressed += (r.stressed || r.macronized || '');
             merged.tokens.push(...(r.tokens || []));
             merged.scannedFeet.push(...(r.scannedFeet || []));
             const s = r.statistics || {};
@@ -1560,8 +1570,9 @@
 
             // Must mirror the cycle candidates (ortho + case) or indexOf(cur) misses and
             // the first click jumps to a candidate the original spelling can never return to.
+            // Stress mode (engine-computed stressedText) wins over the macron form.
             const tokenDisplay = t => {
-                const raw = (t.macronizedText || t.text).replace(/[\^+_]/g, '');
+                const raw = (t.stressedText || t.macronizedText || t.text).replace(/[\^+_]/g, '');
                 const ortho = matchCase(t.text, applyOrtho(raw, t.text));
                 return ortho || raw;
             };
@@ -1576,10 +1587,33 @@
 
                 // Merge enclitic (-que/-ve/-ne) with its bearer into one word span
                 let encliticText = null;
+                let encliticToken = null;
                 if (token.hasenclitic && lineTokens[ti + 1] && lineTokens[ti + 1].isenclitic) {
-                    encliticText = tokenDisplay(lineTokens[ti + 1]);
+                    encliticToken = lineTokens[ti + 1];
+                    encliticText = tokenDisplay(encliticToken);
                     ti++; // consume the enclitic token
                 }
+
+                // In stress mode every reading must ALSO show its accent: stress the
+                // candidate on the fly with the engine's applyStress, so the displayed
+                // candidate and the engine's chosen stressedText always agree.
+                const stressOn = document.getElementById('accent').checked;
+                const candidateDisplay = (c) => {
+                    let shown = matchCase(token.text, candidateToDisplay(c, token.text));
+                    if (stressOn && window.__applyStress) {
+                        // combined stem+enclitic, stressed together; split back after
+                        const encl = encliticToken ? (encliticToken.text || '') : '';
+                        const accentedCombined = c + (encliticToken && encliticToken.accented
+                            ? encliticToken.accented[0]
+                            : encl);
+                        const stressed = window.__applyStress(token.text + encl, accentedCombined, !!encl);
+                        const stemStressed = encl && stressed.endsWith(encl)
+                            ? stressed.slice(0, stressed.length - encl.length)
+                            : stressed;
+                        shown = matchCase(token.text, applyOrtho(stemStressed, token.text));
+                    }
+                    return shown;
+                };
 
                 const stemDisplay = tokenDisplay(token);
                 const displayText = encliticText ? stemDisplay + encliticText : stemDisplay;
@@ -1589,7 +1623,7 @@
                 span.__token = token;   // for per-word CSV: rendered text + tag/lemma
                 span.__enclitic = encliticText || null;   // for rebuilding the popup after a toggle
                 const candidates = [...new Set(
-                    (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c, token.text)))
+                    (token.accented || []).map(candidateDisplay)
                 )].map(c => encliticText ? c + encliticText : c);
                 span.__popupHtml = buildPopupHtml(token, displayText, encliticText);
 

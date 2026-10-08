@@ -86,7 +86,7 @@ export declare class Tokenization {
     /**
      * Apply macronization to all tokens
      */
-    macronize(domacronize: boolean, alsomaius: boolean, performutov: boolean, performitoj: boolean): void;
+    macronize(domacronize: boolean, alsomaius: boolean, performutov: boolean, performitoj: boolean, accent?: boolean): void;
     /**
      * Macronize single token
      * Ported from latin_macronizer/tokenization.py (macronize method)
@@ -97,6 +97,11 @@ export declare class Tokenization {
      * Convert tokens back to text
      */
     detokenize(): string;
+    /**
+     * Reconstruct the stressed-accents text (stressedText ?? text per token,
+     * enclitic tokens contribute their own text). Mirrors detokenize().
+     */
+    detokenizeStressed(): string;
     /**
      * Get plain text without HTML
      */

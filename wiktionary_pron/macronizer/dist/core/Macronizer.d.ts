@@ -18,6 +18,7 @@ export interface MacronizeOptions {
     performutov?: boolean;
     performitoj?: boolean;
     scan?: string;
+    accent?: boolean;
 }
 export interface Statistics {
     totalWords: number;
@@ -28,6 +29,9 @@ export interface Statistics {
 export interface MacronizeResult {
     original: string;
     macronized: string;
+    /** Stress-accented reconstruction (liturgical acute placement), when the
+     *  `accent` option is on; otherwise identical to `macronized`. */
+    stressed: string;
     tokens: Token[];
     taggedTokens: Token[];
     /** Word coverage fraction (0..1): proportion recognized by lemma/pattern engine.

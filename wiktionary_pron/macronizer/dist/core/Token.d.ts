@@ -20,6 +20,7 @@ export interface TokenOptions {
     lemma?: string;
     macronized?: boolean;
     macronizedText?: string;
+    stressedText?: string;
     originalText?: string;
     accented?: string[];
     accentedSources?: AccentedSource[];
@@ -45,6 +46,7 @@ export declare class Token {
     readonly lemma: string;
     readonly macronized: boolean;
     readonly macronizedText?: string;
+    readonly stressedText?: string;
     readonly originalText: string;
     readonly accented?: string[];
     readonly accentedSources?: AccentedSource[];

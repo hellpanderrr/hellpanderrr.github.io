@@ -96,4 +96,37 @@ test.describe("macronizer", () => {
       { timeout: 60_000 },
     );
   });
+
+  test("stress accents: with and without macrons", async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.goto(PAGE);
+    await expect(page.locator("#macronize_btn")).toBeEnabled({
+      timeout: 240_000,
+    });
+
+    // Both marks: macrons + liturgical acute.
+    await page.fill("#text_to_macronize", "sanctificetur nomen tuum");
+    await page.check("#accent");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "sānctificḗtur",
+      { timeout: 120_000 },
+    );
+    // nomen is two syllables — no accent under rule 1.
+    await expect(page.locator("#resultText .ipa").nth(1)).toHaveAttribute(
+      "content",
+      "nōmen",
+      { timeout: 5_000 },
+    );
+
+    // Accents only: the primary liturgical use case.
+    await page.uncheck("#macronize");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "sanctificétur",
+      { timeout: 60_000 },
+    );
+  });
 });

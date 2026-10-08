@@ -26,6 +26,31 @@ export function toAscii(text) {
     }
     return result;
 }
+const COMBINING_ACUTE = '́';
+// Precomposed Latin vowels with acute — the forms liturgical texts arrive in.
+const PRECOMPOSED_ACUTE = 'áÁéÉíÍóÓúÚýÝǽǼćĆĺĹńŃŕŔśŚźŹ';
+/**
+ * Strip stress accents from a character or string: the combining acute
+ * (U+0301) and the precomposed acute vowels. Used on macroizer input so an
+ * already-accentuated text (a prayer pasted from a liturgical book) looks up
+ * and re-accentuates exactly like its plain spelling.
+ */
+export function stripStressMark(text) {
+    let result = '';
+    for (const ch of text) {
+        if (ch === COMBINING_ACUTE)
+            continue;
+        const idx = PRECOMPOSED_ACUTE.indexOf(ch);
+        if (idx === -1) {
+            result += ch;
+        }
+        else {
+            // NFD decomposition separates the base letter from its acute; keep the base.
+            result += ch.normalize('NFD').replace(COMBINING_ACUTE, '');
+        }
+    }
+    return result;
+}
 /**
  * Convert to UI orthography (v→u, j→i)
  */

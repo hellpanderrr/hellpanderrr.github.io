@@ -9,6 +9,13 @@ export declare const prefixesWithShortJ: string[];
  */
 export declare function toAscii(text: string): string;
 /**
+ * Strip stress accents from a character or string: the combining acute
+ * (U+0301) and the precomposed acute vowels. Used on macroizer input so an
+ * already-accentuated text (a prayer pasted from a liturgical book) looks up
+ * and re-accentuates exactly like its plain spelling.
+ */
+export declare function stripStressMark(text: string): string;
+/**
  * Convert to UI orthography (v→u, j→i)
  */
 export declare function toUiOrthography(text: string): string;

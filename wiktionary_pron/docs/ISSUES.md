@@ -1416,3 +1416,28 @@ fixing them locally forks upstream). Each is listed in the page's Common Issues 
 - ~~Czech: the module does not load under the Node test shim~~ ✅ FIXED 2026-10-05:
   a UTF-8 BOM in `cs-pron_wasm.lua` broke Lua `load()` in the shim (the browser strips it).
   BOM removed, shim decodes like the browser, Czech added to golden.json, help page verified.
+
+## M-024 — Liturgical stress accents (feature, 2026-10-08) ✅
+**Status: FIXED** (engine commits `435f0d1`, `9b2ee85`; site e2e added).
+Opt-in "Stress accents" chip on the macronizer + `accent` option through the
+engine API (`stressed`, `stressedText`) and CLI `--accent`. Rules and gold
+corpus: LESSONS 2026-10-08. Engine gold: 1127/1140 = 98.86% agreement over the
+Ordo Missae corpus, 13 disagreements pinned in `test/data/accent-failures-snapshot.json`:
+- **Corpus self-inconsistencies (6)**: `Filii` 1× vs `Fílii` 22×, `Omnipotens`
+  1× vs `Omnípotens` 3×, `igitur`/`pariter`/`Alitur`/`Angelo` unaccented once each.
+- **Corpus error (1)**: `indignátionem` — the corpus's own `benedictióne` family
+  is accented our way; the wordlist `indigna_ti^o_nem` is right.
+- **Inherited from wordlist reading choice (6)**: `ágamus`, `cónditus`,
+  `látere`, `pervénit`, `véteris`, `perséveret` — prose takes the first
+  wordlist candidate; homographs whose first reading is the wrong one get the
+  wrong macron today and therefore the wrong accent. Same root cause class as
+  M-023m; the accent feature deliberately does not special-case it (invariant:
+  the accent always reflects the displayed length marks).
+
+## M-025 — `sync-site.cjs` default path resolved one level too high (2026-10-08) ✅
+**Status: FIXED** in engine `435f0d1`. The default `SITE_DIR` was
+`__dirname/../../wiktionary_pron/wiktionary_pron/macronizer` — from
+`F:\projects\latin-macronizer-wasm` that is `F:\wiktionary_pron\…`, so every
+local `npm run build` silently printed "no site checkout" and the site's engine
+copy was stale (this is why the stress feature initially 404'd in the browser).
+Now probes the known layouts and keeps the env override.

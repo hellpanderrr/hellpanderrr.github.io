@@ -6,7 +6,7 @@
  * Ported to TypeScript for browser use with WebAssembly
  */
 // Core exports
-export { Macronizer, Token, Tokenization, Tokenizer } from './core/index.js';
+export { Macronizer, Token, Tokenization, Tokenizer, applyStress } from './core/index.js';
 // Analysis engines
 export { WasmTagger, LemmaEngine, EndingPatternEngine, FallbackTagger, MorpheusAnalyzer
 // Note: MorpheusAnalysis and MorpheusOptions are types exported from './analysis.js'

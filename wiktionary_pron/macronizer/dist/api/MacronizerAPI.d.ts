@@ -12,6 +12,7 @@ export interface ApiToken {
     tag: string;
     lemma: string;
     macronizedText?: string;
+    stressedText?: string;
     isAmbiguous?: boolean;
     isUnknown?: boolean;
     morpheusAnalyzed?: boolean;
@@ -28,6 +29,7 @@ export interface ApiToken {
 export interface ApiResult {
     original: string;
     macronized: string;
+    stressed: string;
     tokens: ApiToken[];
     statistics: Statistics;
     confidence: number;

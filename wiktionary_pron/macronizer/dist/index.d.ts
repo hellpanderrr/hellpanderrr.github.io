@@ -5,7 +5,7 @@
  * Based on the original Python latin_macronizer by Johan Winge
  * Ported to TypeScript for browser use with WebAssembly
  */
-export { Macronizer, Token, Tokenization, Tokenizer } from './core/index.js';
+export { Macronizer, Token, Tokenization, Tokenizer, applyStress } from './core/index.js';
 export { WasmTagger, WasmTaggerOptions, TagResult, LemmaEngine, EndingPatternEngine, FallbackTagger, MorpheusAnalyzer } from './analysis/index.js';
 import { MacronizerAPI } from './api/MacronizerAPI.js';
 export { MacronizerAPI };

@@ -54,7 +54,8 @@ export class MacronizerAPI {
             alsomaius: options.alsomaius || false,
             performutov: options.performutov || false,
             performitoj: options.performitoj || false,
-            scan: options.scan || 'prose'
+            scan: options.scan || 'prose',
+            accent: options.accent || false
         });
         // Convert Token objects to plain JSON for serialization
         const tokens = result.taggedTokens.map((t) => ({
@@ -62,6 +63,7 @@ export class MacronizerAPI {
             tag: t.tag,
             lemma: t.lemma,
             macronizedText: t.macronizedText,
+            stressedText: t.stressedText,
             isAmbiguous: t.isAmbiguous,
             isUnknown: t.isUnknown,
             morpheusAnalyzed: t.morpheusAnalyzed,
@@ -89,6 +91,7 @@ export class MacronizerAPI {
         return {
             original: result.original,
             macronized: result.macronized,
+            stressed: result.stressed,
             tokens,
             statistics: result.statistics,
             confidence: result.confidence,

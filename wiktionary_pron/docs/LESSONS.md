@@ -943,3 +943,39 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   blocker tool `test/catullus-blocker.mjs`.
 - ✅ enforced by the engine-repo commit `0af77d6` (gold + blocker tool + the 8
   ACCENT_OVERRIDES, each verified to unblock its line).
+
+## Liturgical accent notation is not the classical rule set (stress accents, 2026-10-08)
+
+- **Goal:** add stress accents (the acute, `sanctificétur`) to the macronizer
+  for Catholic prayer texts — the Latin SE 27176 use case. The top answer there
+  is right: an LLM can't do this (quantity is lexicon + context, not
+  generation), but our engine already has the quantities.
+- **The rules are the liturgical books', not Allen & Greenough's.** Prototyped
+  against gregorio-project/latin-ecclesiastic-accents (`corpus/missal/ordo/*`,
+  CC0/public domain) and its `doc/accentuation-rules.md`:
+  - words of ≤2 syllables take **no** written accent (A&G would accent dísyllables);
+  - **muta cum liquida does NOT make position** in prose (`génitrix`,
+    `ténebrae`; Option 3 of the doc, unlike the classical rule);
+  - native `eu`/`ei` are **hiatus**, not diphthongs (`cé-re-us` → `céreus`,
+    `fí-de-i` → `fídei`); only `ae au oe` are diphthongs;
+  - the enclitic shift is automatic but grammatical: `-que`/`-ne`/`-ve` move the
+    accent to the syllable before them (`rosáque`, `Filiúmque`) — and this is a
+    **token-layer fact**, never guessed from letters, or `sanguine` would misfire.
+- **Prototype-first paid off.** A throwaway Python prototype of the rules scored
+  99.4% on the corpus before a line of TypeScript was written; it caught the
+  coordinate pitfalls (æ-ligature expansion on both sides, `qu` glide) that
+  would otherwise have been silent wrong accents in production.
+- **What the gold revealed:** 1127/1140 = 98.86% agreement; all 13 remaining
+  disagreements are documented classes — corpus self-inconsistencies (`Fílii`
+  22× vs `Filii` 1×) and inherited wordlist reading-choice homographs
+  (`pervénit` vs `pervĕnit`) that affect the macrons equally today. Pinned in
+  `test/data/accent-failures-snapshot.json`, never silently tolerated.
+- **Cross-cutting bug the feature forced out:** the tokenizer's word char class
+  was ASCII `\w`, so `cælis` split into `c + æ + lis` and never hit the
+  wordlist — invisible until now because the test corpus has no ligatures, but
+  prayer texts are *set* with `æ`. Fixed to `\p{L}\p{M}` (Python parity), with
+  the byte-identical parity test as the guard.
+- **Marks combine:** stress is computed on the *displayed* form, so macrons +
+  acute NFC-compose (`sānctificḗtur`) instead of the stress pass replacing the
+  macronized text. An e2e test caught the first (wrong) version losing macrons.
+- ✅ engine commits `435f0d1` + `9b2ee85`; site e2e in `e2e/macronizer.spec.js`.
