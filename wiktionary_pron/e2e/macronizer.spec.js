@@ -147,5 +147,13 @@ test.describe("macronizer", () => {
       ),
     );
     expect(renderedInGentium).toBe(true);
+    // Loaded is not the same as used: the input box's Gentium face loads on its
+    // own, so the result element could still fall back to a non-stacking font.
+    // Keep the computed-style check on the result element too.
+    const resultFont = await page
+      .locator("#resultText .ipa")
+      .first()
+      .evaluate((el) => getComputedStyle(el).fontFamily);
+    expect(resultFont).toContain("Gentium Plus");
   });
 });
