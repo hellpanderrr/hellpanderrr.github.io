@@ -700,7 +700,7 @@
 
 <script type="module">
     import { MacronizerAPI } from './macronizer/dist/api/MacronizerAPI.js';
-    import { decodeLdtTagToFeatures, underscoreToUnicode, stripStressMark } from './macronizer/dist/utils/latin.js';
+    import { decodeLdtTagToFeatures, underscoreToUnicode } from './macronizer/dist/utils/latin.js';
     import { applyStress } from './macronizer/dist/core/Stress.js';
     // Reading-cycle entries are (re)stressed client-side from the same engine code.
     window.__applyStress = applyStress;
@@ -2234,7 +2234,7 @@
     // --- Persist form state across reloads ---
 
     const FORM_KEY = 'macronizer_form';
-    const CHECKBOXES = ['macronize', 'alsomaius', 'utov', 'itoj'];
+    const CHECKBOXES = ['macronize', 'accent', 'alsomaius', 'utov', 'itoj'];
 
     function saveForm() {
         const state = { text: document.getElementById('text_to_macronize').value, scan: document.getElementById('scan').value };

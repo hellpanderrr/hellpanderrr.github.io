@@ -105,8 +105,9 @@ closing, and record the sweep result, not just the point fix.
 
 ## 4. Write the handoff
 
-Update `NEXT.md` at the repo root — overwrite it, it is a baton and not a
-journal. Keep it under ~30 lines, four sections:
+Update `wiktionary_pron/NEXT.md` (the canonical baton path, next to the app —
+not the repo root) — overwrite it; it is a baton and not a journal. Keep it
+under ~30 lines, four sections:
 
 ```markdown
 # Next
@@ -138,9 +139,12 @@ changed and why. Do not push unless asked.
 
 ## 6. Tell the user how to resume
 
-Close with exactly this, filled in:
+If Step 5 created a commit, close with exactly this, filled in:
 
 > Committed `<sha>`. Safe to `/clear`.
-> To pick this up: **`read NEXT.md and continue`**
+> To pick this up: **`read wiktionary_pron/NEXT.md and continue`**
+
+If Step 5 did not apply (nothing to commit, or the user asked not to), do NOT
+claim a commit; report the actual repository state instead.
 
 Then stop. Do not start new work after closing.

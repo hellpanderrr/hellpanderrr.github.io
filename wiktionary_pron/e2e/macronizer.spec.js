@@ -132,10 +132,20 @@ test.describe("macronizer", () => {
     // The result face must be Gentium Plus: it can stack the acute above a
     // macron (dīvī́sa). EB Garamond lacks mark-to-mark positioning and draws
     // the two crossing into an X — a regression back to it must fail here.
-    const font = await page
-      .locator("#resultText .ipa")
-      .first()
-      .evaluate((el) => getComputedStyle(el).fontFamily);
-    expect(font).toContain("Gentium Plus");
+    // getComputedStyle returns the DECLARED stack, which would still contain
+    // "Gentium Plus" if the woff2 404'd and the browser silently fell back to
+    // a non-stacking font — so assert the face actually LOADED, and that the
+    // result words resolve to it.
+    const gentiumLoaded = await page.evaluate(async () => {
+      await document.fonts.ready;
+      return document.fonts.check('20px "Gentium Plus"', 'ā́');
+    });
+    expect(gentiumLoaded).toBe(true);
+    const renderedInGentium = await page.evaluate(() =>
+      [...document.fonts].some(
+        (f) => f.family.replace(/["']/g, "") === "Gentium Plus" && f.status === "loaded",
+      ),
+    );
+    expect(renderedInGentium).toBe(true);
   });
 });
