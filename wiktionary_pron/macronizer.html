@@ -1596,21 +1596,24 @@
 
                 // In stress mode every reading must ALSO show its accent: stress the
                 // candidate on the fly with the engine's applyStress, so the displayed
-                // candidate and the engine's chosen stressedText always agree.
+                // candidate and the engine's chosen stressedText always agree. The base
+                // mirrors the engine exactly: macronized when "Mark long vowels" is on,
+                // plain otherwise (so candidates[0] === the initial display and the
+                // first cycle click lands right).
                 const stressOn = document.getElementById('accent').checked;
                 const candidateDisplay = (c) => {
                     let shown = matchCase(token.text, candidateToDisplay(c, token.text));
+                    if (!document.getElementById('macronize').checked) shown = demacronize(shown);
                     if (stressOn && window.__applyStress) {
                         // combined stem+enclitic, stressed together; split back after
                         const encl = encliticToken ? (encliticToken.text || '') : '';
                         const accentedCombined = c + (encliticToken && encliticToken.accented
                             ? encliticToken.accented[0]
                             : encl);
-                        const stressed = window.__applyStress(token.text + encl, accentedCombined, !!encl);
-                        const stemStressed = encl && stressed.endsWith(encl)
+                        const stressed = window.__applyStress(shown + encl, accentedCombined, !!encl);
+                        shown = encl && stressed.endsWith(encl)
                             ? stressed.slice(0, stressed.length - encl.length)
                             : stressed;
-                        shown = matchCase(token.text, applyOrtho(stemStressed, token.text));
                     }
                     return shown;
                 };
