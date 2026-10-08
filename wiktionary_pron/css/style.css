@@ -13,6 +13,14 @@
     src: url("../fonts/EBGaramond-Regular.woff2") format("woff2");
 }
 
+/* Used by the macronizer for text that can carry a macron AND an acute on the
+   same vowel (dīvī́sa). EB Garamond lacks mark-to-mark positioning and crosses
+   the two marks; Gentium Plus stacks them. SIL Open Font License 1.1. */
+@font-face {
+    font-family: "Gentium Plus";
+    src: url("../fonts/GentiumPlus-Regular.woff2") format("woff2");
+}
+
 input[type="range"] {
     padding: revert;
     margin-bottom: 0px;

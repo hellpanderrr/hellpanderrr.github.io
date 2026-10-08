@@ -128,5 +128,14 @@ test.describe("macronizer", () => {
       "sanctificétur",
       { timeout: 60_000 },
     );
+
+    // The result face must be Gentium Plus: it can stack the acute above a
+    // macron (dīvī́sa). EB Garamond lacks mark-to-mark positioning and draws
+    // the two crossing into an X — a regression back to it must fail here.
+    const font = await page
+      .locator("#resultText .ipa")
+      .first()
+      .evaluate((el) => getComputedStyle(el).fontFamily);
+    expect(font).toContain("Gentium Plus");
   });
 });

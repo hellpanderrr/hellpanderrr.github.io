@@ -979,3 +979,24 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   acute NFC-compose (`sānctificḗtur`) instead of the stress pass replacing the
   macronized text. An e2e test caught the first (wrong) version losing macrons.
 - ✅ engine commits `435f0d1` + `9b2ee85`; site e2e in `e2e/macronizer.spec.js`.
+
+## A double-marked vowel needs a font with mark-to-mark, not just text data (stress accents, 2026-10-08)
+
+- **Symptom:** with stress accents on, `dīvī́sa` / `Aquītā́nī` showed the acute
+  and macron **crossing into an X**. The output text was correct Unicode.
+- **Root cause — the font, not the data.** Unicode has precomposed glyphs for
+  macron+acute only on `e` and `o` (`ḗ ṓ`). On `a i u y` the sequence stays
+  `ā`+U+0301, and whether the acute stacks *above* the macron or lands *on* it
+  is a font feature (GPOS lookup type 6, MarkToMark). EB Garamond v1.001 — the
+  macronizer's font — has only MarkToBase, so it draws the acute at the
+  macron's height. Verified in the font tables (acute y 457–649 vs macron
+  490–545, overlapping bands) and by rendering.
+- **Fix:** the macronizer's Latin text (input, result, and the embedded PDF
+  font) is now **Gentium Plus** (SIL OFL), which has MarkToMark and stacks the
+  marks cleanly. Chosen over Charis SIL by the owner after a side-by-side
+  preview of real output.
+- **Method that made it decidable:** a throwaway preview page
+  (`font_preview.html`) rendering the *same real engine output* in each
+  candidate font at the actual result size (20px) plus high zoom, light and
+  dark — the owner could see it rather than take a description on faith.
+- ✅ site commit for the font switch; e2e now asserts the result font family.

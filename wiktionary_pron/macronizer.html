@@ -53,10 +53,14 @@
         #header #home { display: inline-flex; align-items: center; }
         #content > *, #result, #export_buttons, .wordlist-section { text-align: left; }
 
-        /* One type system: Garamond for the Latin, Noto Sans for everything else
-           (buttons and selects were falling back to system-ui). */
+        /* One type system: Gentium Plus for the Latin, Noto Sans for everything else
+           (buttons and selects were falling back to system-ui).
+           Gentium, not EB Garamond: the result can carry a macron AND an acute on
+           one vowel (dīvī́sa, sānctificḗtur). Garamond has no mark-to-mark GPOS
+           lookup, so it draws the acute at the macron's height and the two cross
+           into an X; Gentium stacks them. */
         button, select, option, input, textarea, .btn { font-family: 'Noto Sans', sans-serif; }
-        #text_to_macronize, .macron-line { font-family: 'EB Garamond', serif; }
+        #text_to_macronize, .macron-line { font-family: 'Gentium Plus', 'EB Garamond', serif; }
 
         /* ----- Input ----- */
         /* style.css uses `div#form_top` / `div#form_bottom` (specificity 0,1,1), so a plain
@@ -1939,9 +1943,12 @@
                 const pdfDoc = await PDFDocument.create();
                 pdfDoc.registerFontkit(fontkit);
 
-                const garamondUrl = 'https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/EBGaramond-Regular.ttf';
-                const garamondBytes = await fetch(garamondUrl).then(r => r.arrayBuffer());
-                const garamond = await pdfDoc.embedFont(new Uint8Array(garamondBytes));
+                // Gentium Plus, not EB Garamond: the PDF can carry a macron AND an
+                // acute on one vowel (dīvī́sa) and pdf-lib embeds the marks as the font
+                // draws them — Garamond crosses them (no mark-to-mark lookup).
+                const latinUrl = './fonts/GentiumPlus-Regular.ttf';
+                const latinBytes = await fetch(latinUrl).then(r => r.arrayBuffer());
+                const latinFont = await pdfDoc.embedFont(new Uint8Array(latinBytes));
 
                 function newPage() {
                     const page = pdfDoc.addPage(PageSizes.Letter);
@@ -1963,11 +1970,11 @@
                     const text = row.map(c => c.macronized || c.text).join(' ');
                     const words = text.split(' ');
                     for (const word of words) {
-                        const w = garamond.widthOfTextAtSize(word, fontSize);
+                        const w = latinFont.widthOfTextAtSize(word, fontSize);
                         if (x + w > pw - 40) { x = 50; y -= fontSize * 1.6; }
                         if (y < 50) { page = newPage(); x = 50; y = ph - 50; }
-                        page.drawText(word, { font: garamond, x, y, size: fontSize, color });
-                        x += w + garamond.widthOfTextAtSize(' ', fontSize);
+                        page.drawText(word, { font: latinFont, x, y, size: fontSize, color });
+                        x += w + latinFont.widthOfTextAtSize(' ', fontSize);
                     }
                     x = 50;
                     y -= fontSize * 2;
