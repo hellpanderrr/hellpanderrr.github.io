@@ -978,7 +978,9 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - **Marks combine:** stress is computed on the *displayed* form, so macrons +
   acute NFC-compose (`sānctificḗtur`) instead of the stress pass replacing the
   macronized text. An e2e test caught the first (wrong) version losing macrons.
-- ✅ engine commits `435f0d1` + `9b2ee85`; site e2e in `e2e/macronizer.spec.js`.
+- ✅ engine commits `42ffd27` + `d967a3d` + `f5f2dd0` + `c18fecf` (PR latin-macronizer-wasm#1);
+  enforced by `npm run test:accent` (gold corpus, 98.86%, non-regression snapshot) and the
+  engine jest suite (54). Site e2e in `e2e/macronizer.spec.js`.
 
 ## A double-marked vowel needs a font with mark-to-mark, not just text data (stress accents, 2026-10-08)
 
@@ -999,4 +1001,6 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   (`font_preview.html`) rendering the *same real engine output* in each
   candidate font at the actual result size (20px) plus high zoom, light and
   dark — the owner could see it rather than take a description on faith.
-- ✅ site commit for the font switch; e2e now asserts the result font family.
+- ✅ site commit `ce987df` (PR #10); enforced by `e2e/macronizer.spec.js` — asserts the result element's
+  computed family AND that the Gentium face actually loaded (`document.fonts.check`), so a
+  404/fallback to a non-stacking font fails CI, not just a family-name regression.

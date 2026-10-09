@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-05): 6 open, 1 needs-decision, 33 fixed; 42 entries, two of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-08): 6 open, 1 needs-decision, 36 fixed, 1 partial; 45 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1418,7 +1418,7 @@ fixing them locally forks upstream). Each is listed in the page's Common Issues 
   BOM removed, shim decodes like the browser, Czech added to golden.json, help page verified.
 
 ## M-024 — Liturgical stress accents (feature, 2026-10-08) ✅
-**Status: FIXED** (engine commits `435f0d1`, `9b2ee85`; site e2e added).
+**Status: FIXED** (engine commits `42ffd27`, `d967a3d`; site e2e added).
 Opt-in "Stress accents" chip on the macronizer + `accent` option through the
 engine API (`stressed`, `stressedText`) and CLI `--accent`. Rules and gold
 corpus: LESSONS 2026-10-08. Engine gold: 1127/1140 = 98.86% agreement over the
@@ -1434,10 +1434,25 @@ Ordo Missae corpus, 13 disagreements pinned in `test/data/accent-failures-snapsh
   M-023m; the accent feature deliberately does not special-case it (invariant:
   the accent always reflects the displayed length marks).
 
+
 ## M-025 — `sync-site.cjs` default path resolved one level too high (2026-10-08) ✅
-**Status: FIXED** in engine `435f0d1`. The default `SITE_DIR` was
+**Status: FIXED** in engine `42ffd27`. The default `SITE_DIR` was
 `__dirname/../../wiktionary_pron/wiktionary_pron/macronizer` — from
 `F:\projects\latin-macronizer-wasm` that is `F:\wiktionary_pron\…`, so every
 local `npm run build` silently printed "no site checkout" and the site's engine
 copy was stale (this is why the stress feature initially 404'd in the browser).
 Now probes the known layouts and keeps the env override.
+
+## M-026 — Stacked macron+acute crossed the two marks (2026-10-08) ✅
+**Status: FIXED.** EB Garamond (the macronizer's font) has no mark-to-mark GPOS
+lookup, so a vowel carrying both a macron and the stress acute (`dīvī́sa`,
+`Aquītā́nī`) rendered with the marks crossing into an X. Unicode precomposes
+macron+acute only for e/o (`ḗ ṓ`); on a i u y stacking is a font feature.
+Class sweep found three affected surfaces, all fixed with **Gentium Plus**
+(SIL OFL) — chosen by the owner from a side-by-side preview:
+- result view + input (site commit `ce987df`, PR #10);
+- the font embedded into the exported PDF (same commit);
+- the help page's example words (`dīvī́sa` was added to the help text).
+Enforced by `e2e/macronizer.spec.js`: the result element's computed family AND
+`document.fonts.check` (a 404/fallback to a non-stacking font fails CI).
+Details: LESSONS 2026-10-08 "A double-marked vowel needs a font with mark-to-mark".
