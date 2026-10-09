@@ -155,5 +155,15 @@ test.describe("macronizer", () => {
       .first()
       .evaluate((el) => getComputedStyle(el).fontFamily);
     expect(resultFont).toContain("Gentium Plus");
+
+    // The readings popup's row LABELS must show the acute a row click writes
+    // (sanctĭfĭcétur, not sanctĭfĭcetur) — choosing between readings is the one
+    // moment the accent decides, and it was invisible there. The label font is
+    // Gentium too, so the stacked marks render as they will in the text.
+    await page.locator("#resultText .ipa").first().click({ force: true });
+    const firstLabel = page.locator(".word-popup table.readings .r-form").first();
+    await expect(firstLabel).toContainText("sanctĭfĭcétur", { timeout: 5_000 });
+    const labelFont = await firstLabel.evaluate((el) => getComputedStyle(el).fontFamily);
+    expect(labelFont).toContain("Gentium Plus");
   });
 });

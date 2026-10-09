@@ -158,7 +158,11 @@
            so the lemma can differ from the token's single best-frequency lemma. */
         .word-popup table.readings { width: 100%; margin: 2px 0 0; }
         .word-popup table.readings td { padding: 3px 6px; vertical-align: top; font-size: 12px; }
-        .word-popup table.readings .r-form { white-space: nowrap; font-weight: 600; color: #6a1b9a; }
+        /* Reading labels carry stacked macron+acute (dīvī́sa) in stress mode —
+           Gentium Plus like the result text, so the preview is the font the
+           reader will see (Noto stacks too, but M-026 makes Gentium the one
+           guaranteed face for double-marked Latin on this page). */
+        .word-popup table.readings .r-form { white-space: nowrap; font-weight: 600; color: #6a1b9a; font-family: 'Gentium Plus', 'EB Garamond', serif; font-size: 13px; }
         .word-popup table.readings .r-lemma { white-space: nowrap; font-style: italic; color: #555; }
         .word-popup table.readings .r-def { color: #666; font-size: 11px; line-height: 1.35; }
         .word-popup table.readings .r-def .dash { color: #bbb; }
@@ -1138,7 +1142,20 @@
             const seen = new Set();
             const pairs = [];
             (token.accented || []).forEach((c, i) => {
-                const shown = matchCase(token.text, candidateToPopup(c, token.text)) + (encliticText || '');
+                // The label keeps breves (readings that share an output spelling
+                // must stay distinguishable) AND must show the acute a row click
+                // will write — so it mirrors renderWord's stages: demacron when
+                // "Mark long vowels" is off, then project the stress. Otherwise
+                // the accent only appears after choosing, the one moment it decides.
+                const popupForm = matchCase(token.text, candidateToPopup(c, token.text));
+                let shown = document.getElementById('macronize').checked
+                    ? popupForm
+                    : demacron(popupForm);
+                if (document.getElementById('accent').checked && window.__applyStress) {
+                    shown = window.__applyStress(shown + (encliticText || ''), c + (encliticText || ''), !!encliticText);
+                } else {
+                    shown = shown + (encliticText || '');
+                }
                 if (seen.has(shown)) return;
                 seen.add(shown);
                 // each reading carries the lemma + tag of the wordlist row it came from,

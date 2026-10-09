@@ -10,9 +10,10 @@ position-counting fix (`67feead` engine / `8c18320` site dist): the qu glide is
 no longer a closing consonant (`dénique`, `réliquus`, `áliquid`, `ítaque`,
 `ántequam`), a consonantal i closes like x (`alicúius`, `eiúsdem`). Verified
 over the full Gregorio corpus (871 files, 13,960 words, hymns excluded):
-97.74% → 97.93%, 27 fixed, 0 regressions. Both PRs are open, mergeable, and
-fully green — CI equals node-tests + e2e + pullfrog + CodeRabbit on the site;
-engine has no CI (local: 58 jest, gold 98.86%, byte-parity exact).
+97.74% → 97.93%, 27 fixed, 0 regressions. Both PRs are open and mergeable;
+green as of the last completed checks (node-tests + e2e + pullfrog + CodeRabbit
+on the site — every push re-triggers them; engine has no CI, local: 58 jest,
+gold 98.86%, byte-parity exact).
 
 ## Open threads
 - **Merge the PRs**: engine [latin-macronizer-wasm#1] first, then site
