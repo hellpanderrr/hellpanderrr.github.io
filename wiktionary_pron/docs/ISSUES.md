@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-08): 6 open, 1 needs-decision, 36 fixed, 1 partial; 45 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-09): 6 open, 1 needs-decision, 37 fixed, 1 partial; 46 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1456,3 +1456,28 @@ Class sweep found three affected surfaces, all fixed with **Gentium Plus**
 Enforced by `e2e/macronizer.spec.js`: the result element's computed family AND
 `document.fonts.check` (a 404/fallback to a non-stacking font fails CI).
 Details: LESSONS 2026-10-08 "A double-marked vowel needs a font with mark-to-mark".
+
+## M-027 — Position counting counted the qu glide as a consonant (2026-10-09) ✅
+**Status: FIXED** in engine `67feead` (site dist sync `8c18320`). Words ending in
+-qu- before the final syllable (`denique`, `reliquus`, `aliquid`, `itaque`,
+`utique`, `antequam`, `utraque`, `subsequi`, …) were accented on the penult,
+because `penultIsLong` counted the u of qu as a closing consonant. A&G § 11,
+Note 3 says the opposite ("nor is the apparently consonantal u in qu, gu, su"),
+and the full Gregorio corpus agrees: `dénique`, `réliqui` ×8, `áliquid` ×47,
+`útique` (Ps 54/57), `ítaque` (Adventus, Regula), `ántequam`. Fixed by skipping
+u-after-q in the interlude count; `gu` deliberately keeps counting (keeps
+`ambíguus`, corpus hymn). Same commit: a consonantal i (j) now closes a syllable
+like x/z — `alicúius` (Regula ×2), `eiúsdem` ×6 (A&G § 11.d). Two lexical
+exceptions added where a whole-word row shadows the enclitic: `cuique` → `cuíque`
+(Regula: "prout cuíque opus erat") and `tibine` → `tibíne` (tibi+-ne; A&G § 12
+`tĭbĭ'ne`; the wordlist rows are unrelated `tibinus` forms). Also fixed the CLI
+crashing on out-of-vocabulary words (missing Morpheus stub — same one the parity
+test uses).
+
+Verification: the full gregorio corpus (871 files, 13,960 words; hymns excluded —
+metrical by the source's own rule) went **97.74% → 97.93%**, 27 fixed, 0
+regressions. `test:accent` 98.86% unchanged (the Ordo Missae gold files contain
+no qu-words); jest 54 → 58 (new A&G § 11–12 conformance tests); parity EXACT.
+The corpus-wide scan is a one-off diagnostic, not a committed test — the qu/i
+counting is pinned by `test/unit/stress.test.ts` instead.
+

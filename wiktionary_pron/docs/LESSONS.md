@@ -1004,3 +1004,38 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - ✅ site commit `ce987df` (PR #10); enforced by `e2e/macronizer.spec.js` — asserts the result element's
   computed family AND that the Gentium face actually loaded (`document.fonts.check`), so a
   404/fallback to a non-stacking font fails CI, not just a family-name regression.
+
+## A grammar's rule needs corpus attestation — and the full corpus beats the gold set (stress accents, 2026-10-09)
+
+- **The conformance check neither of us built:** the stress feature shipped
+  with a 13-file Ordo Missae gold (98.86%) — which, it turns out, contains
+  **no word** of the class that was broken. Feeding the engine A&G §§ 11–12's
+  own examples (`denique`, `reliquus`, `aliquid`, `itaque`, `antequam`) caught
+  it immediately: every one was accented on the wrong side of `qu`.
+- **The bug:** `penultIsLong` counted the `u` of **qu** as a closing consonant,
+  so dé-ni-que got the penult accent. A&G § 11 Note 3 says the opposite ("nor
+  is the apparently consonantal u in qu, gu, su"), and the **full** Gregorio
+  corpus (871 files — missal, antiphons, psalms, responsories, various,
+  vulgate; not just the 13-file gold) is unambiguous: `dénique`, `réliqui` ×8,
+  `áliquid` ×47, `útique` (Ps 54/57), `ítaque` (Adventus, Regula), `ántequam`,
+  `úndique`. A second rule from the same page: a **consonantal i closes a
+  syllable like x** (`alicúius`, `eiúsdem` ×6).
+- **How it was verified without adding a flaky test:** a throwaway scanner over
+  the full corpus (hymns excluded — the source says its own rule set can't do
+  them; their accentuation is metrical): **97.74% → 97.93%, 27 fixed, 0
+  regressions**. The scanner is a diagnostic, not a committed test; the
+  counting rule is pinned by unit tests in `test/unit/stress.test.ts`.
+- **Shadowed words are a recurring shape.** Where a whole-word wordlist row
+  shadows a split (or the accent is lexical but the reading has no mark), the
+  stress pass needs an explicit exception with a citation: added `cuique` →
+  `cuíque` (the row has no length mark; Regula: "prout cuíque opus erat") and
+  `tibine` → `tibíne` (tibi + -ne, A&G § 12 `tĭbĭ'ne`; the whole-word rows are
+  unrelated tibinus forms, so the enclitic split never fires). Same pattern as
+  `Iesus`/`Maria` — always with the corpus citation in the comment.
+- **Testing hint:** the classic reference grammars are a free conformance
+  battery — take every example in the relevant section and run it through. And
+  when the tool's own gold corpus is small, diff the fix over the *upstream*
+  corpus before believing "no regressions."
+- ✅ engine commit `67feead` (PR latin-macronizer-wasm#1), site dist sync `8c18320` (PR #10);
+  enforced by the new A&G §§ 11–12 describe block in `test/unit/stress.test.ts` (jest 54 → 58)
+  plus the unchanged gold test (98.86%) and byte-identical parity test.
