@@ -19,6 +19,11 @@
  *      vólucres, ténebrae.
  *   5. A diphthong is accented on its first element: cǽli, áuribus.
  *
+ * Position counting follows Allen & Greenough §§ 11–12 with the liturgical
+ * corpus as arbiter: the glide u of qu is not a consonant (§ 11, Note 3), so
+ * dénique / réliquus / áliquid take the antepenult, while a consonantal i
+ * closes a syllable like x (§ 11.d): alicúius, eiúsdem.
+ *
  * The quantity comes from the macronizer's chosen accented reading (the same
  * `_` / `^` markers the display uses), so the stress always reflects the
  * length marks shown in the text.
@@ -67,6 +72,15 @@ const STRESS_EXCEPTIONS = {
     // Corpus: "María Vírgine" (Credo), "beátæ Maríæ" (Benedictiones).
     maria: 3,
     mariae: 3,
+    // Dative of quisque: the ī is long (cuīque), but the wordlist row carries no
+    // mark, so the position rule would fall back to the antepenult. Corpus:
+    // "prout cuíque opus erat" (Regula Sancti Benedicti ×2 files), "dare
+    // unicuíque secúndum ópera sua" (Adventus; Psalterium monasticum 1981).
+    cuique: 2,
+    // tibi + enclitic -ne (A&G § 12: tĭbĭ'ne). The whole-word rows are forms of
+    // the unrelated tibinus, so the token layer never splits and the enclitic
+    // rule (rule 2) never fires; the accent is lexically on the ī.
+    tibine: 3,
 };
 /**
  * Expand ligatures to two letters, recording for each expanded position the
@@ -151,7 +165,13 @@ function lengthMarks(accented) {
  * Long by nature: `_` on any nucleus character, or a diphthong nucleus.
  * Long by position: the consonant run up to the next nucleus closes it —
  * x/z count double, ch/th/ph count single, exactly one muta cum liquida pair
- * counts single.
+ * counts single, and the glide u of qu/gu counts not at all: it belongs to
+ * the onset, so dé-ni-que has an open penult (A&G § 11, Note 3 — "nor is the
+ * apparently consonantal u in qu, gu, su"; the corpus writes dénique, réliqui,
+ * áliquid, útique, ítaque, never deníque / relíqui / alíquid).
+ * A consonantal i (j) makes position by itself, like x/z (liturgical rules,
+ * quantity Rule 3: "x, z or a semi-consonantic i"; A&G § 11. d) — that is how
+ * alicúius takes its penult accent (corpus: Regula Sancti Benedicti).
  */
 function penultIsLong(word, nuclei, marks) {
     const penult = nuclei[nuclei.length - 2];
@@ -172,8 +192,24 @@ function penultIsLong(word, nuclei, marks) {
         return false;
     }
     let count = 0;
-    for (const ch of interlude)
-        count += ch === 'x' || ch === 'z' ? 2 : 1;
+    for (let p = 0; p < interlude.length; p++) {
+        const ch = interlude[p];
+        // The glide u of qu belongs to the onset, not the coda: dé-ni-que and
+        // ré-li-qus have an open penult (A&G § 11, Note 3: "nor is the apparently
+        // consonantal u in qu, gu, su"; the corpus writes dénique, réliqui,
+        // áliquid, útique, ítaque, ántequam — never deníque / relíqui / alíquid).
+        // gu is deliberately NOT skipped the same way: with the glide collapsed
+        // by syllabify(), counting g+u as two consonants is what keeps the accent
+        // on the i in -guu- spellings (ambíguus, exíguus; corpus: "Stat rex
+        // ambíguus"). sánguine and unguéntum go through the onset-glide rule in
+        // syllabify() instead.
+        if (ch === 'u' && p > 0 && interlude[p - 1] === 'q')
+            continue;
+        // A consonantal i (j) closes the syllable by itself, like x/z (liturgical
+        // quantity Rule 3: "x, z or a semi-consonantic i"; A&G § 11. d):
+        // a-li-CÚ-ius, ei-ÚS-dem — corpus: alicúius, eiúsdem.
+        count += ch === 'x' || ch === 'z' || ch === 'j' ? 2 : 1;
+    }
     return count >= 2;
 }
 /**

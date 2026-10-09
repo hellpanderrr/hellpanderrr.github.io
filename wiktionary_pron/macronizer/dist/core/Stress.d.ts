@@ -19,6 +19,11 @@
  *      vólucres, ténebrae.
  *   5. A diphthong is accented on its first element: cǽli, áuribus.
  *
+ * Position counting follows Allen & Greenough §§ 11–12 with the liturgical
+ * corpus as arbiter: the glide u of qu is not a consonant (§ 11, Note 3), so
+ * dénique / réliquus / áliquid take the antepenult, while a consonantal i
+ * closes a syllable like x (§ 11.d): alicúius, eiúsdem.
+ *
  * The quantity comes from the macronizer's chosen accented reading (the same
  * `_` / `^` markers the display uses), so the stress always reflects the
  * length marks shown in the text.
