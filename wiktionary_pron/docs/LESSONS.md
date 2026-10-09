@@ -1039,3 +1039,36 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
 - ✅ engine commit `67feead` (PR latin-macronizer-wasm#1), site dist sync `8c18320` (PR #10);
   enforced by the new A&G §§ 11–12 describe block in `test/unit/stress.test.ts` (jest 54 → 58)
   plus the unchanged gold test (98.86%) and byte-identical parity test.
+
+## A second-opinion review is a hypothesis generator, not an oracle (2026-10-09)
+
+- **Context:** after the A&G § 11 fix, ran `/adv` (rotator second opinion) on
+  the session. Two aliases (`DS`, `bunny`) were dead — Cline's free list had
+  dropped them, the rotator silently substituted `upstage/solar-mini4`, and the
+  served-model guard correctly refused both; `mimo`/`muse` timed out on the
+  556K-char transcript, `muse` got through on retry. Alias table updated:
+  `solar` added, `DS`/`bunny` removed, both files annotated with the dates.
+- **The review made one wrong claim and one useful flag.** Wrong: "the `gu`
+  carve-out in `penultIsLong` is a hack; glide u only when the next vowel isn't
+  u" — tested literally, that rule makes `sequuntur` four nuclei and `equus`
+  three (`[kw]` is a glide even before u). Not adopted. Useful: "same question
+  for `argu-`; probe it." That probe found a real bug — `árguas`/`argúam`/
+  `argúere` got no accent because the u in `arguō` is vocalic (the wordlist
+  marks it: `argu^a_s`) while our syllabifier glided it unconditionally.
+- **The method that worked:** treat each claim as a testable hypothesis. The
+  wrong one cost one ten-line simulation to falsify; the right one surfaced a
+  bug the 13k-word corpus scan had classified as "we placed none" without
+  asking why. Corpus grep then confirmed: `árguas` ×7 / `árguam` ×2 / `argúet`
+  ×2 / `argúere` ×2, and 0 `qu`-marked readings (the guard is safe).
+- **Metrics a reviewer is right to ask for:** distinct-pair agreement (97.94%)
+  understates real-world quality — token-weighted it is **99.24%**
+  (125,041/125,999 occurrences), because the disagreements concentrate in
+  low-frequency words. Report both; a high-frequency `angelis`-class miss
+  counts 52× a hapax. And a real-pipeline run (tokenizer+tagger on 3 files:
+  97.16%) sits between the harness and the committed gold — different numbers
+  for different questions, never quote one as another.
+- **A review that changes nothing is still worth the cost** — but only if each
+  claim gets falsified or confirmed against the code BEFORE adopting it. This
+  one changed a fix and cost one wrong-claim falsification.
+- ✅ engine `fe3e23f` (+gu-marked-u fix, jest 59, scan 97.94%, token-weighted 99.24%);
+  site dist `876b327`; M-029 in ISSUES.md.

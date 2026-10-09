@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-09): 6 open, 1 needs-decision, 38 fixed, 1 partial; 47 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-09): 6 open, 1 needs-decision, 39 fixed, 1 partial; 48 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1500,3 +1500,25 @@ Enforced by `e2e/macronizer.spec.js` (label text + label font) — manual run on
 CI's `test:e2e` excludes macronizer specs by design (10+ min first-run wordlist
 load); run with `npm run test:e2e:macronizer` or the chrome config directly.
 Also softened NEXT.md's "fully green" claim (checks re-trigger every push).
+
+## M-029 — A marked u after g/q was glided: árguas/argúere lost their accent (2026-10-09) ✅
+**Status: FIXED** in engine `fe3e23f` (site dist sync `876b327`; PR #10).
+Found while verifying the `/adv` (muse) second-opinion review of M-027 — the
+review's own `gu` proposal was wrong (its "glide only when the next vowel isn't
+u" rule puts four nuclei in `equus`/`sequuntur`; qu glides before u too), but
+testing the family it flagged exposed a real bug: in `arguō` the u is the
+word's own vowel and the wordlist marks it (`argu^a_s`), while `syllabify()`
+glided any u after q/g unconditionally — so `árguas`, `árguam`, `argúere` got
+**no accent at all** when the reading couldn't be mapped. Fix: a u after g/q is
+a glide only when the reading leaves it unmarked. Wordlist facts that make the
+guard safe: 0 `qu` readings mark the u; all `-quu-` words (equus, coquus,
+sequuntur) are 2–3 syllables in the wordlist and the corpus.
+Verified: full-corpus scan 97.93% → **97.94%**, 4 placements fixed; 2 escaped
+accidental agreements were capitalized sentence-initial `Arguam`/`Argue` under
+Solesmes' Option 2 (no accent when the accented letter is the capitalized
+first), which stays deliberately unimplemented. jest 58 → 59; gold 98.86% and
+parity EXACT unchanged. Also from the same review, measured on request:
+token-weighted agreement **99.24%** (125,041/125,999 occurrences — high-
+frequency words agree much better than the distinct-pair 97.94%); real-pipeline
+run (tokenizer+tagger, 3 corpus files) 97.16%, mid-range between the harness
+and the gold file because Node has no Morpheus (OOV words lose their reading).
