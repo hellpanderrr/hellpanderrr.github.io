@@ -1263,11 +1263,15 @@ export class Tokenization {
         return result;
     }
     /**
-     * Reconstruct the stressed-accents text (stressedText ?? text per token,
-     * enclitic tokens contribute their own text). Mirrors detokenize().
+     * Reconstruct the stressed-accents text (per token: stressedText, else the
+     * macronized/ortho-converted display, else the raw text). Mirrors
+     * detokenize(): a token WITHOUT a stress accent — the enclitic of a split
+     * pair, or a two-syllable word under rule 1 — must still show its displayed
+     * form, or enabling accent would silently drop a macron or a u→v conversion
+     * on it (nequeue + u→v: macronized "nequeve" but stressed "nequéue").
      */
     detokenizeStressed() {
-        var _a, _b, _c, _d, _f;
+        var _a, _b, _c, _d, _f, _g;
         let result = '';
         let lastEnd = 0;
         for (const token of this.tokens) {
@@ -1276,9 +1280,9 @@ export class Tokenization {
                 const whitespace = ((_b = this.originalText) === null || _b === void 0 ? void 0 : _b.substring(lastEnd, start)) || ' ';
                 result += whitespace;
             }
-            const text = (_c = token.stressedText) !== null && _c !== void 0 ? _c : token.text;
+            const text = (_d = (_c = token.stressedText) !== null && _c !== void 0 ? _c : token.macronizedText) !== null && _d !== void 0 ? _d : token.text;
             result += text;
-            lastEnd = (_d = token.endIndex) !== null && _d !== void 0 ? _d : (start + (((_f = token.text) === null || _f === void 0 ? void 0 : _f.length) || text.length));
+            lastEnd = (_f = token.endIndex) !== null && _f !== void 0 ? _f : (start + (((_g = token.text) === null || _g === void 0 ? void 0 : _g.length) || text.length));
         }
         return result;
     }

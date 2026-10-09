@@ -98,8 +98,12 @@ export declare class Tokenization {
      */
     detokenize(): string;
     /**
-     * Reconstruct the stressed-accents text (stressedText ?? text per token,
-     * enclitic tokens contribute their own text). Mirrors detokenize().
+     * Reconstruct the stressed-accents text (per token: stressedText, else the
+     * macronized/ortho-converted display, else the raw text). Mirrors
+     * detokenize(): a token WITHOUT a stress accent — the enclitic of a split
+     * pair, or a two-syllable word under rule 1 — must still show its displayed
+     * form, or enabling accent would silently drop a macron or a u→v conversion
+     * on it (nequeue + u→v: macronized "nequeve" but stressed "nequéue").
      */
     detokenizeStressed(): string;
     /**
