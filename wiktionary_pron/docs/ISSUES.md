@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-09): 6 open, 1 needs-decision, 37 fixed, 1 partial; 46 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-09): 6 open, 1 needs-decision, 38 fixed, 1 partial; 47 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1481,3 +1481,22 @@ no qu-words); jest 54 → 58 (new A&G § 11–12 conformance tests); parity EXAC
 The corpus-wide scan is a one-off diagnostic, not a committed test — the qu/i
 counting is pinned by `test/unit/stress.test.ts` instead.
 
+
+## M-028 — Popup reading labels hid the acute a click would write (2026-10-09) ✅
+**Status: FIXED** (site `b5ccdf7`; PR #10). With Stress accents on, the readings
+popup listed `1. dīvīsa` while clicking that row wrote `dīvī́sa` — the accent,
+the very thing being chosen between, was invisible at the moment of choosing.
+Third surface of the same divergence class as M-024's popup bug (`6580f93`,
+which unified the click-write path) and M-026 (the marks): the *label* path had
+stayed on the un-stressed popup form. Found by CodeRabbit review, confirmed in
+the browser before fixing (`1. dīvīsa` label vs `dīvī́sa` written). The label
+now mirrors `renderWord`'s stages — breve-preserving popup form → demacron when
+"Mark long vowels" is off → stress projection — so readings that share a
+breveless spelling stay distinguishable AND the label previews the output.
+Labels set in Gentium Plus (M-026 rule) so double-marked labels stack.
+Note CodeRabbit's suggested quick-fix (`use p.plain`) was NOT taken: it would
+have collapsed breve-distinct readings to identical labels.
+Enforced by `e2e/macronizer.spec.js` (label text + label font) — manual run only:
+CI's `test:e2e` excludes macronizer specs by design (10+ min first-run wordlist
+load); run with `npm run test:e2e:macronizer` or the chrome config directly.
+Also softened NEXT.md's "fully green" claim (checks re-trigger every push).
