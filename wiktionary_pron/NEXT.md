@@ -5,15 +5,23 @@ _Updated 2026-10-09 — branch `feat/macronizer-stress-accents` (PR #10 open), e
 ## State
 Stress accents (the liturgical acute) are implemented, verified, and in review:
 engine `Stress.ts` + 98.86% gold corpus, site option + Gentium Plus font (the
-font fix for stacked macron+acute), help page, e2e. Plus the A&G §§ 11–12
-position-counting fix (`67feead` engine / `8c18320` site dist): the qu glide is
-no longer a closing consonant (`dénique`, `réliquus`, `áliquid`, `ítaque`,
-`ántequam`), a consonantal i closes like x (`alicúius`, `eiúsdem`). Verified
-over the full Gregorio corpus (871 files, 13,960 words, hymns excluded):
-97.74% → 97.93%, 27 fixed, 0 regressions. Both PRs are open and mergeable;
-green as of the last completed checks (node-tests + e2e + pullfrog + CodeRabbit
-on the site — every push re-triggers them; engine has no CI, local: 58 jest,
-gold 98.86%, byte-parity exact).
+font fix for stacked macron+acute), help page, e2e. Plus three position fixes
+from the A&G §§ 11–12 conformance pass:
+- engine `67feead` / site dist `8c18320`: the qu glide is no longer a closing
+  consonant (`dénique`, `réliquus`, `áliquid`, `ítaque`, `ántequam`), a
+  consonantal i closes like x (`alicúius`, `eiúsdem`);
+- engine `fe3e23f` / site dist `876b327`: a MARKED u after g/q is the word's
+  own vowel, not a glide (`árguas`, `argúam`, `argúere` — found via the /adv
+  muse review, M-029);
+- site `b5ccdf7`: popup reading labels now show the acute the click writes
+  (M-028), in Gentium.
+Verified over the full Gregorio corpus (500 files scanned of 871, 13,960
+distinct word-readings, hymns excluded): 97.74% → **97.94%** distinct-pair,
+**99.24%** token-weighted; 31 fixed, 0 true regressions; all remaining
+disagreements classified (M-027 in ISSUES.md). Both PRs are open and
+mergeable; green as of the last completed checks (node-tests + e2e + pullfrog
++ CodeRabbit on the site — every push re-triggers them; engine has no CI,
+local: 59 jest, gold 98.86%, byte-parity exact).
 
 ## Open threads
 - **Merge the PRs**: engine [latin-macronizer-wasm#1] first, then site
@@ -42,9 +50,17 @@ gold 98.86%, byte-parity exact).
 - **qu/gu position counting**: u after q does NOT close a syllable (A&G § 11
   Note 3; corpus `dénique`/`áliquid`/`ítaque`); gu still counts when the glide
   collapses (`ambíguus`). Consonantal i counts double like x (`alicúius`).
-  Pinned in `test/unit/stress.test.ts`; don't "simplify" the interlude loop
-  without re-running the A&G battery. `cuique`/`tibine` are lexical exceptions
-  with corpus citations — not bugs.
+  A MARKED u after g/q is vocalic (`argu^a_s` → `árguas`), unmarked is the
+  glide — do not "simplify" syllabify's marks argument away. Pinned in
+  `test/unit/stress.test.ts`; don't touch the interlude loop without re-running
+  the A&G battery. `cuique`/`tibine` are lexical exceptions with corpus
+  citations — not bugs.
+- **The 97.94% full-corpus number is distinct-pair; token-weighted it is
+  99.24%.** The scan is a one-off diagnostic (needs the downloaded upstream
+  corpus), not a committed test — quote both numbers or neither.
+- **`/adv` aliases**: `DS`/`bunny` are dead (rotator substitutes; guard
+  refuses); `solar` replaces them (table updated 2026-10-09 in adv.py +
+  SKILL.md). `mimo`/`muse` time out on >500K-char transcripts.
 - Help-page IPA only from `ipa_cli.mjs`; verify with `verify_help_page.mjs`,
   `verify_issue_tables.mjs`, `check_help_links.mjs`.
 - No "Overview" sections; prose in reference-grammar register.
