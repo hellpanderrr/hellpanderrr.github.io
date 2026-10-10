@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-09): 6 open, 1 needs-decision, 39 fixed, 1 partial; 48 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-10): 6 open, 1 needs-decision, 40 fixed, 1 partial; 49 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1532,7 +1532,7 @@ U+0301 after a macron vowel on a/i/u/y, so it lands at the pen position — `ī`
 ink tops at 1305 units (upm 2048), the combining acute spans 1047–1489 — and
 crosses the macron into the same X as the original EB-Garamond bug. `ḗ`/`ṓ`
 render fine only because Unicode precomposes that whole stack into one glyph.
-fontkit's layout data says where the acute belongs (ẖ: (+273,+360) from the pen).
+fontkit's layout data says where the acute belongs (ī́ on: (+273,+360) from the pen).
 Fix: draw each combining mark as its own text object at fontkit's offsets, keep
 unmarked runs whole so ligatures survive (site `4b9ceaa`). Verified by rendering
 (`dīvī́sa`, `Aquītā́nī`, `ipsṓrum` all stack; content stream shows the acute as a
