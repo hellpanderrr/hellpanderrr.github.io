@@ -4,6 +4,25 @@ Date-stamped, append-only notes of non-obvious gotchas that cost real debugging
 time. The one-line versions live in `CLAUDE.md` (loaded every session); this
 file keeps the detail.
 
+## 2026-10-06 — Help-page links; Pullfrog on free Cline models
+
+- **Help pages contained invented reference links**, not just dead ones:
+  `Template:IPA/Irish` and `Module:pl-pron` never existed, and the "Polish
+  Pronouncing Dictionary (Rhapsody)" site has no trace on the web. Run
+  `node scripts/tests/check_help_links.mjs` after any help edit; the one standing
+  false positive is internationalphoneticassociation.org (429 captcha to bots).
+  Polish's upstream is now `Module:zlw-lch-IPA` (`{{pl-pr}}` invokes it).
+- **Pullfrog (`.github/workflows/pullfrog.yml`) cannot run on free Cline models
+  as of 2026-10-06.** Probed with a real account: the current free models
+  (`cline-free/mimo-v2.6-flash`, `…/muse-spark-1.3-contributor`) return 403 "only
+  available via Cline product surfaces" to a plain OpenAI-style request — they
+  answer only with the VS Code extension headers that `notebooks/test_cline.py`
+  sends — and `stealth/space-bunny-alpha` (which reviewed YTSubExtract until
+  2026-10-05) left the free list and now returns 402 insufficient credits. A
+  Pullfrog failure is diagnosed from the run log (`gh run view <id> --log`), not
+  from the workflow file. Don't claim a provider can't work before probing it:
+  the free model *had* worked days earlier.
+
 ## 2026-10-05 — Help pages: engine-verified rewrite of all 17 language pages
 
 - **Help-page IPA drifts from the engine silently.** The old pages (Polish, Spanish,
@@ -55,6 +74,56 @@ file keeps the detail.
   Practical Notes" (`id="faq"`) and "Related Pronunciation Guides"
   (`id="related"`) on every language page; agents ignored a heading retitle once
   — grep the headings after delegated edits.
+
+## 2026-09-21 — M-023m scansion blocker triage (gold mark ≠ lexical quantity)
+
+- **A blocker `FIX:` candidate is a hypothesis, not a bug.** The scan-based
+  blocker brute-forces ANY `_`/`^` change that makes a failing line scan — so
+  metrical licenses (iambic short tŭ, anceps-lengthened ǐnepte/ǐnusta,
+  ictus-lengthened ǎbice/pĕnetrales) and editor quirks (negenborn's
+  archaizing tŏtĭŭs diaeresis, all-breve `esses`) surface as FIXes. The triage
+  test is LEXICAL: does the correction match the dictionary/morphological
+  quantity in EVERY context, or only this verse? If only here → reject.
+- **Verify every candidate fix against the L&S HEADWORD (quantity marks),
+  not against morphology guesses.** First-pass triage applied 5 fixes on
+  grammatical reasoning (Enmann's law, 3rd-decl -ō, reduplication short ĭ);
+  dictionary check then REVERTED 3 of them and APPLIED one it first dropped:
+  L&S prints rĪdĕo (long ī, so `ridete` short-i was wrong — and a
+  hendecasyllable's first syllable is FIXED-long, not anceps), vĒsānus (long
+  ē, `vesaniente` wrong), rĕnīdĒo 2nd-conj (long dē, `renidere` wrong). But
+  the L&S headword vŏrāgo actually CONFIRMS the gold's short final ŏ (wordlist
+  `vo^ra_go_` marks it long) → `vorago` was a genuine bug that a first-pass
+  misreading had dropped, and got RE-APPLIED. `hoc` stayed because it fixes
+  the homograph SELECTION (nom hŏc vs abl hōc), contradicting no dictionary
+  quantity. Net 2 applied. Perseus L&S page titles carry the headword marks
+  (`…entry=vorago` → "vŏrāgo") — cheap authoritative check. Two traps: L&S
+  macrons are authoritative but WIKTIONARY's are orthographic (treat with
+  care); and re-read the wordlist accent string before concluding a fix is
+  redundant (`_`=long, `^`=short — `vo^ra_go_` is vŏrāGŌ, so it did NOT
+  already carry the short ŏ).
+- **A gold word at line-end or line-initial anceps is the least reliable
+  evidence of quantity** — first-position and last-position marks are exactly
+  where the meter is free.
+- **Verify the blocker's METER BIN before trusting a single count from it.**
+  `catullus-blocker.mjs` keys each poem off its directory in
+  `gold/catullus/<meter>/`, but 7 of the 13 files in `iambic/` are actually
+  hendecasyllables (VIII, XVII, XXII, XXV, XXXI, XXXVII, XXXIX) — scanning an
+  11-syllable hendecasyllable with iambic 6/4-foot templates never completes,
+  so every "iambic poem" blocker was meter noise, not wordlist bugs. A/B probe
+  `test/catullus-meter-ab.mjs` shows those poems scan 0-fail as hendecasyllable
+  but 13–26-fail as iambic.
+- **Accent-notation gotchas:** `^` = SHORT (breve), `_` = long, `_^` = an
+  ambiguous pair. A candidate whose markers sit on a CONSONANT (e.g.
+  `vo_ra_go` after the proposed `vora_go^`) silently changes nothing — always
+  verify the fix actually produces the gold pattern before believing the
+  blocker said "FIX". Similarly `ri_de_te` "fixes" nothing over the wordlist's
+  own form — the marker has to MOVE to the right vowel (`ri^de_te`).
+- **Corpus scansion harness OOMs end-to-end on this machine** (even the
+  per-file-macronizer regen + 6-8GB heap; ~13 large Aeneid books is the wall).
+  Functional gate for Catullus-scale changes = `test/catullus-blocker.mjs`
+  re-run (blocker line count drops, fixed words vanish from BLOCKER lines).
+  Monotonicity argument makes regression safe: overrides only ADD candidates
+  and the Viterbi takes the min.
 
 ## 2026-08-07 — M-005 dictionary-gloss pipeline
 
@@ -874,3 +943,132 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   blocker tool `test/catullus-blocker.mjs`.
 - ✅ enforced by the engine-repo commit `0af77d6` (gold + blocker tool + the 8
   ACCENT_OVERRIDES, each verified to unblock its line).
+
+## Liturgical accent notation is not the classical rule set (stress accents, 2026-10-08)
+
+- **Goal:** add stress accents (the acute, `sanctificétur`) to the macronizer
+  for Catholic prayer texts — the Latin SE 27176 use case. The top answer there
+  is right: an LLM can't do this (quantity is lexicon + context, not
+  generation), but our engine already has the quantities.
+- **The rules are the liturgical books', not Allen & Greenough's.** Prototyped
+  against gregorio-project/latin-ecclesiastic-accents (`corpus/missal/ordo/*`,
+  CC0/public domain) and its `doc/accentuation-rules.md`:
+  - words of ≤2 syllables take **no** written accent (A&G would accent dísyllables);
+  - **muta cum liquida does NOT make position** in prose (`génitrix`,
+    `ténebrae`; Option 3 of the doc, unlike the classical rule);
+  - native `eu`/`ei` are **hiatus**, not diphthongs (`cé-re-us` → `céreus`,
+    `fí-de-i` → `fídei`); only `ae au oe` are diphthongs;
+  - the enclitic shift is automatic but grammatical: `-que`/`-ne`/`-ve` move the
+    accent to the syllable before them (`rosáque`, `Filiúmque`) — and this is a
+    **token-layer fact**, never guessed from letters, or `sanguine` would misfire.
+- **Prototype-first paid off.** A throwaway Python prototype of the rules scored
+  99.4% on the corpus before a line of TypeScript was written; it caught the
+  coordinate pitfalls (æ-ligature expansion on both sides, `qu` glide) that
+  would otherwise have been silent wrong accents in production.
+- **What the gold revealed:** 1127/1140 = 98.86% agreement; all 13 remaining
+  disagreements are documented classes — corpus self-inconsistencies (`Fílii`
+  22× vs `Filii` 1×) and inherited wordlist reading-choice homographs
+  (`pervénit` vs `pervĕnit`) that affect the macrons equally today. Pinned in
+  `test/data/accent-failures-snapshot.json`, never silently tolerated.
+- **Cross-cutting bug the feature forced out:** the tokenizer's word char class
+  was ASCII `\w`, so `cælis` split into `c + æ + lis` and never hit the
+  wordlist — invisible until now because the test corpus has no ligatures, but
+  prayer texts are *set* with `æ`. Fixed to `\p{L}\p{M}` (Python parity), with
+  the byte-identical parity test as the guard.
+- **Marks combine:** stress is computed on the *displayed* form, so macrons +
+  acute NFC-compose (`sānctificḗtur`) instead of the stress pass replacing the
+  macronized text. An e2e test caught the first (wrong) version losing macrons.
+- ✅ engine commits `42ffd27` + `d967a3d` + `f5f2dd0` + `c18fecf` (PR latin-macronizer-wasm#1);
+  enforced by `npm run test:accent` (gold corpus, 98.86%, non-regression snapshot) and the
+  engine jest suite (54). Site e2e in `e2e/macronizer.spec.js`.
+
+## A double-marked vowel needs a font with mark-to-mark, not just text data (stress accents, 2026-10-08)
+
+- **Symptom:** with stress accents on, `dīvī́sa` / `Aquītā́nī` showed the acute
+  and macron **crossing into an X**. The output text was correct Unicode.
+- **Root cause — the font, not the data.** Unicode has precomposed glyphs for
+  macron+acute only on `e` and `o` (`ḗ ṓ`). On `a i u y` the sequence stays
+  `ā`+U+0301, and whether the acute stacks *above* the macron or lands *on* it
+  is a font feature (GPOS lookup type 6, MarkToMark). EB Garamond v1.001 — the
+  macronizer's font — has only MarkToBase, so it draws the acute at the
+  macron's height. Verified in the font tables (acute y 457–649 vs macron
+  490–545, overlapping bands) and by rendering.
+- **Fix:** the macronizer's Latin text (input, result, and the embedded PDF
+  font) is now **Gentium Plus** (SIL OFL), which has MarkToMark and stacks the
+  marks cleanly. Chosen over Charis SIL by the owner after a side-by-side
+  preview of real output.
+- **Method that made it decidable:** a throwaway preview page
+  (`font_preview.html`) rendering the *same real engine output* in each
+  candidate font at the actual result size (20px) plus high zoom, light and
+  dark — the owner could see it rather than take a description on faith.
+- ✅ site commit `ce987df` (PR #10); enforced by `e2e/macronizer.spec.js` — asserts the result element's
+  computed family AND that the Gentium face actually loaded (`document.fonts.check`), so a
+  404/fallback to a non-stacking font fails CI, not just a family-name regression.
+
+## A grammar's rule needs corpus attestation — and the full corpus beats the gold set (stress accents, 2026-10-09)
+
+- **The conformance check neither of us built:** the stress feature shipped
+  with a 13-file Ordo Missae gold (98.86%) — which, it turns out, contains
+  **no word** of the class that was broken. Feeding the engine A&G §§ 11–12's
+  own examples (`denique`, `reliquus`, `aliquid`, `itaque`, `antequam`) caught
+  it immediately: every one was accented on the wrong side of `qu`.
+- **The bug:** `penultIsLong` counted the `u` of **qu** as a closing consonant,
+  so dé-ni-que got the penult accent. A&G § 11 Note 3 says the opposite ("nor
+  is the apparently consonantal u in qu, gu, su"), and the **full** Gregorio
+  corpus (871 files — missal, antiphons, psalms, responsories, various,
+  vulgate; not just the 13-file gold) is unambiguous: `dénique`, `réliqui` ×8,
+  `áliquid` ×47, `útique` (Ps 54/57), `ítaque` (Adventus, Regula), `ántequam`,
+  `úndique`. A second rule from the same page: a **consonantal i closes a
+  syllable like x** (`alicúius`, `eiúsdem` ×6).
+- **How it was verified without adding a flaky test:** a throwaway scanner over
+  the full corpus (hymns excluded — the source says its own rule set can't do
+  them; their accentuation is metrical): **97.74% → 97.93%, 27 fixed, 0
+  regressions**. The scanner is a diagnostic, not a committed test; the
+  counting rule is pinned by unit tests in `test/unit/stress.test.ts`.
+- **Shadowed words are a recurring shape.** Where a whole-word wordlist row
+  shadows a split (or the accent is lexical but the reading has no mark), the
+  stress pass needs an explicit exception with a citation: added `cuique` →
+  `cuíque` (the row has no length mark; Regula: "prout cuíque opus erat") and
+  `tibine` → `tibíne` (tibi + -ne, A&G § 12 `tĭbĭ'ne`; the whole-word rows are
+  unrelated tibinus forms, so the enclitic split never fires). Same pattern as
+  `Iesus`/`Maria` — always with the corpus citation in the comment.
+- **Testing hint:** the classic reference grammars are a free conformance
+  battery — take every example in the relevant section and run it through. And
+  when the tool's own gold corpus is small, diff the fix over the *upstream*
+  corpus before believing "no regressions."
+- ✅ engine commit `67feead` (PR latin-macronizer-wasm#1), site dist sync `8c18320` (PR #10);
+  enforced by the new A&G §§ 11–12 describe block in `test/unit/stress.test.ts` (jest 54 → 58)
+  plus the unchanged gold test (98.86%) and byte-identical parity test.
+
+## A second-opinion review is a hypothesis generator, not an oracle (2026-10-09)
+
+- **Context:** after the A&G § 11 fix, ran `/adv` (rotator second opinion) on
+  the session. Two aliases (`DS`, `bunny`) were dead — Cline's free list had
+  dropped them, the rotator silently substituted `upstage/solar-mini4`, and the
+  served-model guard correctly refused both; `mimo`/`muse` timed out on the
+  556K-char transcript, `muse` got through on retry. Alias table updated:
+  `solar` added, `DS`/`bunny` removed, both files annotated with the dates.
+- **The review made one wrong claim and one useful flag.** Wrong: "the `gu`
+  carve-out in `penultIsLong` is a hack; glide u only when the next vowel isn't
+  u" — tested literally, that rule makes `sequuntur` four nuclei and `equus`
+  three (`[kw]` is a glide even before u). Not adopted. Useful: "same question
+  for `argu-`; probe it." That probe found a real bug — `árguas`/`argúam`/
+  `argúere` got no accent because the u in `arguō` is vocalic (the wordlist
+  marks it: `argu^a_s`) while our syllabifier glided it unconditionally.
+- **The method that worked:** treat each claim as a testable hypothesis. The
+  wrong one cost one ten-line simulation to falsify; the right one surfaced a
+  bug the 13k-word corpus scan had classified as "we placed none" without
+  asking why. Corpus grep then confirmed: `árguas` ×7 / `árguam` ×2 / `argúet`
+  ×2 / `argúere` ×2, and 0 `qu`-marked readings (the guard is safe).
+- **Metrics a reviewer is right to ask for:** distinct-pair agreement (97.94%)
+  understates real-world quality — token-weighted it is **99.24%**
+  (125,041/125,999 occurrences), because the disagreements concentrate in
+  low-frequency words. Report both; a high-frequency `angelis`-class miss
+  counts 52× a hapax. And a real-pipeline run (tokenizer+tagger on 3 files:
+  97.16%) sits between the harness and the committed gold — different numbers
+  for different questions, never quote one as another.
+- **A review that changes nothing is still worth the cost** — but only if each
+  claim gets falsified or confirmed against the code BEFORE adopting it. This
+  one changed a fix and cost one wrong-claim falsification.
+- ✅ engine `fe3e23f` (+gu-marked-u fix, jest 59, scan 97.94%, token-weighted 99.24%);
+  site dist `876b327`; M-029 in ISSUES.md.

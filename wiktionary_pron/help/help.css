@@ -1,3 +1,10 @@
+/* Latin example text on the macronizer help page can carry a macron AND an
+   acute on one vowel (dīvī́sa); Gentium Plus stacks the marks (SIL OFL). */
+@font-face {
+    font-family: "Gentium Plus";
+    src: url("../fonts/GentiumPlus-Regular.woff2") format("woff2");
+}
+
 #content {
     max-width: 800px;
     margin: auto;

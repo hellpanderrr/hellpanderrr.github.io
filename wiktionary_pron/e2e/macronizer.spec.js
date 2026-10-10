@@ -1,4 +1,6 @@
 import { test, expect } from "@playwright/test";
+import fs from "node:fs";
+import zlib from "node:zlib";
 
 const PAGE = "/wiktionary_pron/macronizer.html";
 
@@ -95,5 +97,128 @@ test.describe("macronizer", () => {
       /[vu][īi]?r[ūu]mque/,
       { timeout: 60_000 },
     );
+  });
+
+  test("stress accents: with and without macrons", async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.goto(PAGE);
+    await expect(page.locator("#macronize_btn")).toBeEnabled({
+      timeout: 240_000,
+    });
+
+    // Both marks: macrons + liturgical acute.
+    await page.fill("#text_to_macronize", "sanctificetur nomen tuum");
+    await page.check("#accent");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "sānctificḗtur",
+      { timeout: 120_000 },
+    );
+    // nomen is two syllables — no accent under rule 1.
+    await expect(page.locator("#resultText .ipa").nth(1)).toHaveAttribute(
+      "content",
+      "nōmen",
+      { timeout: 5_000 },
+    );
+
+    // Accents only: the primary liturgical use case.
+    await page.uncheck("#macronize");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "sanctificétur",
+      { timeout: 60_000 },
+    );
+
+    // The result face must be Gentium Plus: it can stack the acute above a
+    // macron (dīvī́sa). EB Garamond lacks mark-to-mark positioning and draws
+    // the two crossing into an X — a regression back to it must fail here.
+    // getComputedStyle returns the DECLARED stack, which would still contain
+    // "Gentium Plus" if the woff2 404'd and the browser silently fell back to
+    // a non-stacking font — so assert the face actually LOADED, and that the
+    // result words resolve to it.
+    const gentiumLoaded = await page.evaluate(async () => {
+      await document.fonts.ready;
+      return document.fonts.check('20px "Gentium Plus"', 'ā́');
+    });
+    expect(gentiumLoaded).toBe(true);
+    const renderedInGentium = await page.evaluate(() =>
+      [...document.fonts].some(
+        (f) => f.family.replace(/["']/g, "") === "Gentium Plus" && f.status === "loaded",
+      ),
+    );
+    expect(renderedInGentium).toBe(true);
+    // Loaded is not the same as used: the input box's Gentium face loads on its
+    // own, so the result element could still fall back to a non-stacking font.
+    // Keep the computed-style check on the result element too.
+    const resultFont = await page
+      .locator("#resultText .ipa")
+      .first()
+      .evaluate((el) => getComputedStyle(el).fontFamily);
+    expect(resultFont).toContain("Gentium Plus");
+
+    // The readings popup's row LABELS must show the acute a row click writes
+    // (sanctĭfĭcétur, not sanctĭfĭcetur) — choosing between readings is the one
+    // moment the accent decides, and it was invisible there. The label font is
+    // Gentium too, so the stacked marks render as they will in the text.
+    await page.locator("#resultText .ipa").first().click({ force: true });
+    const firstLabel = page.locator(".word-popup table.readings .r-form").first();
+    await expect(firstLabel).toContainText("sanctĭfĭcétur", { timeout: 5_000 });
+    const labelFont = await firstLabel.evaluate((el) => getComputedStyle(el).fontFamily);
+    expect(labelFont).toContain("Gentium Plus");
+  });
+
+  test("PDF export stacks the acute above the macron", async ({ page }) => {
+    test.setTimeout(300_000);
+    await page.goto(PAGE);
+    await expect(page.locator("#macronize_btn")).toBeEnabled({ timeout: 240_000 });
+
+    // dīvī́sa: two macron vowels, one carrying the acute. In the PDF this must
+    // be drawn as an elevated separate text object — pdf-lib does NOT apply the
+    // font's GPOS mark positioning, so an inline U+0301 lands at the pen and
+    // crosses the macron into an X (the bug this pins).
+    await page.fill("#text_to_macronize", "divisa");
+    await page.check("#accent");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      /dīvī/,
+      { timeout: 120_000 },
+    );
+
+    const downloadPromise = page.waitForEvent("download", { timeout: 60_000 });
+    await page.click("#export_pdf");
+    const download = await downloadPromise;
+    const buf = fs.readFileSync(await download.path());
+    expect(buf.subarray(0, 5).toString()).toBe("%PDF-");
+
+    // Decompress the content stream and require the acute to be drawn as its
+    // own text object at a RAISED baseline, not inline in the word's Tj run
+    // (pdf-lib does not apply GPOS: an inline acute sits at the pen and
+    // crosses the macron). Invariant, not glyph ids: the most common Tm y is
+    // the one text line, and at least one text object must sit above it.
+    const text = buf.toString("latin1");
+    let content = "";
+    const re = /stream\r?\n/g;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const start = m.index + m[0].length;
+      const end = text.indexOf("endstream", start);
+      if (end === -1) break;
+      try {
+        const dec = zlib.inflateSync(buf.subarray(start, end)).toString("latin1");
+        if (dec.includes("BT") && dec.includes("Tj")) content += dec;
+      } catch { /* not a Flate stream (font data, xref) */ }
+      re.lastIndex = end;
+    }
+    expect(content.length).toBeGreaterThan(0);
+    const ys = [...content.matchAll(/1 0 0 1 ([\d.]+) ([\d.]+) Tm/g)].map((mm) => Number(mm[2]));
+    expect(ys.length).toBeGreaterThan(1);
+    const counts = new Map();
+    for (const y of ys) counts.set(y, (counts.get(y) || 0) + 1);
+    const [baseY] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+    const raised = ys.filter((y) => y > baseY + 1);
+    expect(raised.length).toBeGreaterThan(0); // the acute stacks above the macron
   });
 });

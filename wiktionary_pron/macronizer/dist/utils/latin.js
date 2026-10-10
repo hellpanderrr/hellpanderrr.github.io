@@ -26,6 +26,59 @@ export function toAscii(text) {
     }
     return result;
 }
+const COMBINING_ACUTE = '́';
+const COMBINING_MACRON = '̄';
+const COMBINING_BREVE = '̆';
+// Precomposed Latin vowels with acute — the forms liturgical texts arrive in.
+const PRECOMPOSED_ACUTE = 'áÁéÉíÍóÓúÚýÝǽǼćĆĺĹńŃŕŔśŚźŹ';
+// Precomposed macron/breve vowels — the forms a previous macronization run
+// produces (and the forms users paste back in for re-editing).
+const PRECOMPOSED_LENGTH = 'āĀēĒīĪōŌūŪȳȲăĂĕĔĭĬŏŎŭŬ';
+/**
+ * Strip stress accents from a character or string: the combining acute
+ * (U+0301) and the precomposed acute vowels. Used on macronizer input so an
+ * already-accentuated text (a prayer pasted from a liturgical book) looks up
+ * and re-accentuates exactly like its plain spelling.
+ */
+export function stripStressMark(text) {
+    let result = '';
+    for (const ch of text) {
+        if (ch === COMBINING_ACUTE)
+            continue;
+        const idx = PRECOMPOSED_ACUTE.indexOf(ch);
+        if (idx === -1) {
+            result += ch;
+        }
+        else {
+            // NFD decomposition separates the base letter from its acute; keep the base.
+            result += ch.normalize('NFD').replace(COMBINING_ACUTE, '');
+        }
+    }
+    return result;
+}
+/**
+ * Strip length marks (macrons and breves, combining or precomposed) from a
+ * character or string. Mirrors Python's postags.removemacrons(), which the
+ * reference applies at Token construction: an already-macronized text must
+ * look up and re-macronize exactly like its plain spelling. Without this the
+ * wordlist lookup key keeps the marks, the word is unknown, and a stress pass
+ * over it gets no quantities (wrong accent).
+ */
+export function stripLengthMark(text) {
+    let result = '';
+    for (const ch of text) {
+        if (ch === COMBINING_MACRON || ch === COMBINING_BREVE)
+            continue;
+        if (PRECOMPOSED_LENGTH.includes(ch)) {
+            // NFD separates the base letter from its macron/breve; keep the base.
+            result += ch.normalize('NFD').replace(/[̄̆]/g, '');
+        }
+        else {
+            result += ch;
+        }
+    }
+    return result;
+}
 /**
  * Convert to UI orthography (v→u, j→i)
  */

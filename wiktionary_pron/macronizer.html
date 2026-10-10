@@ -53,10 +53,14 @@
         #header #home { display: inline-flex; align-items: center; }
         #content > *, #result, #export_buttons, .wordlist-section { text-align: left; }
 
-        /* One type system: Garamond for the Latin, Noto Sans for everything else
-           (buttons and selects were falling back to system-ui). */
+        /* One type system: Gentium Plus for the Latin, Noto Sans for everything else
+           (buttons and selects were falling back to system-ui).
+           Gentium, not EB Garamond: the result can carry a macron AND an acute on
+           one vowel (dīvī́sa, sānctificḗtur). Garamond has no mark-to-mark GPOS
+           lookup, so it draws the acute at the macron's height and the two cross
+           into an X; Gentium stacks them. */
         button, select, option, input, textarea, .btn { font-family: 'Noto Sans', sans-serif; }
-        #text_to_macronize, .macron-line { font-family: 'EB Garamond', serif; }
+        #text_to_macronize, .macron-line { font-family: 'Gentium Plus', 'EB Garamond', serif; }
 
         /* ----- Input ----- */
         /* style.css uses `div#form_top` / `div#form_bottom` (specificity 0,1,1), so a plain
@@ -154,7 +158,11 @@
            so the lemma can differ from the token's single best-frequency lemma. */
         .word-popup table.readings { width: 100%; margin: 2px 0 0; }
         .word-popup table.readings td { padding: 3px 6px; vertical-align: top; font-size: 12px; }
-        .word-popup table.readings .r-form { white-space: nowrap; font-weight: 600; color: #6a1b9a; }
+        /* Reading labels carry stacked macron+acute (dīvī́sa) in stress mode —
+           Gentium Plus like the result text, so the preview is the font the
+           reader will see (Noto stacks too, but M-026 makes Gentium the one
+           guaranteed face for double-marked Latin on this page). */
+        .word-popup table.readings .r-form { white-space: nowrap; font-weight: 600; color: #6a1b9a; font-family: 'Gentium Plus', 'EB Garamond', serif; font-size: 13px; }
         .word-popup table.readings .r-lemma { white-space: nowrap; font-style: italic; color: #555; }
         .word-popup table.readings .r-def { color: #666; font-size: 11px; line-height: 1.35; }
         .word-popup table.readings .r-def .dash { color: #bbb; }
@@ -432,6 +440,10 @@
                         <input type="checkbox" id="macronize" checked>
                         <span>Mark long vowels</span>
                     </label>
+                    <label class="option-group" for="accent">
+                        <input type="checkbox" id="accent">
+                        <span>Stress accents (<i>sanctificétur</i>)</span>
+                    </label>
                     <label class="option-group" for="alsomaius">
                         <input type="checkbox" id="alsomaius">
                         <span>Also mark <i>māius</i> etc.</span>
@@ -693,6 +705,9 @@
 <script type="module">
     import { MacronizerAPI } from './macronizer/dist/api/MacronizerAPI.js';
     import { decodeLdtTagToFeatures, underscoreToUnicode } from './macronizer/dist/utils/latin.js';
+    import { applyStress } from './macronizer/dist/core/Stress.js';
+    // Reading-cycle entries are (re)stressed client-side from the same engine code.
+    window.__applyStress = applyStress;
 
     // Orthography options of the last run — wordlist forms use classical j/v and
     // must be converted back to i/u unless the user enabled those conversions
@@ -711,6 +726,33 @@
     // wordlist form → text form used for cycling: a_ → ā, breve/ambiguity markers stripped
     function candidateToDisplay(c, inputText) {
         return applyOrtho(underscoreToUnicode(c).replace(/[\^+_]/g, ''), inputText);
+    }
+
+    const demacronMap = {
+        'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
+        'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
+    };
+    const demacron = (text) => text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, m => demacronMap[m]);
+
+    /**
+     * THE renderer for one word under the current options — used by the initial
+     * render, the reading-cycle list and the popup chips, so they can never
+     * disagree. Mirrors the engine exactly: base is the candidate with macrons
+     * (or the user's spelling with them stripped when "Mark long vowels" is off),
+     * and in stress mode the engine's own applyStress supplies the acute.
+     */
+    function renderWord(text, accentedForm, encliticText, encliticForm) {
+        let shown = matchCase(text, candidateToDisplay(accentedForm, text));
+        if (!document.getElementById('macronize').checked) shown = demacron(shown);
+        if (document.getElementById('accent').checked && window.__applyStress) {
+            const encl = encliticText || '';
+            const accentedCombined = accentedForm + (encliticForm || encl);
+            const stressed = window.__applyStress(shown + encl, accentedCombined, !!encl);
+            shown = encl && stressed.endsWith(encl)
+                ? stressed.slice(0, stressed.length - encl.length)
+                : stressed;
+        }
+        return shown + (encliticText || '');
     }
 
     // wordlist form → popup form: also render breves (a^ → ă) so candidates that
@@ -953,7 +995,8 @@
             alsomaius: document.getElementById('alsomaius').checked,
             scan: document.getElementById('scan').value,
             performutov: document.getElementById('utov').checked,
-            performitoj: document.getElementById('itoj').checked
+            performitoj: document.getElementById('itoj').checked,
+            accent: document.getElementById('accent').checked
         };
 
         const btn = document.getElementById('macronize_btn');
@@ -1007,7 +1050,7 @@
 
     async function processChunks(chunks, options) {
         const merged = {
-            original: '', macronized: '', tokens: [], scannedFeet: [],
+            original: '', macronized: '', stressed: '', tokens: [], scannedFeet: [],
             statistics: { totalWords: 0, knownWords: 0, unknownWords: 0, ambiguousForms: 0 },
             confidence: 0, processingTime: 0
         };
@@ -1024,10 +1067,12 @@
             if (i > 0) {
                 merged.original += '\n';
                 merged.macronized += '\n';
+                merged.stressed += '\n';
                 merged.tokens.push({ text: '\n', tag: '', lemma: '' });
             }
             merged.original += r.original;
             merged.macronized += r.macronized;
+            merged.stressed += (r.stressed || r.macronized || '');
             merged.tokens.push(...(r.tokens || []));
             merged.scannedFeet.push(...(r.scannedFeet || []));
             const s = r.statistics || {};
@@ -1097,7 +1142,20 @@
             const seen = new Set();
             const pairs = [];
             (token.accented || []).forEach((c, i) => {
-                const shown = matchCase(token.text, candidateToPopup(c, token.text)) + (encliticText || '');
+                // The label keeps breves (readings that share an output spelling
+                // must stay distinguishable) AND must show the acute a row click
+                // will write — so it mirrors renderWord's stages: demacron when
+                // "Mark long vowels" is off, then project the stress. Otherwise
+                // the accent only appears after choosing, the one moment it decides.
+                const popupForm = matchCase(token.text, candidateToPopup(c, token.text));
+                let shown = document.getElementById('macronize').checked
+                    ? popupForm
+                    : demacron(popupForm);
+                if (document.getElementById('accent').checked && window.__applyStress) {
+                    shown = window.__applyStress(shown + (encliticText || ''), c + (encliticText || ''), !!encliticText);
+                } else {
+                    shown = shown + (encliticText || '');
+                }
                 if (seen.has(shown)) return;
                 seen.add(shown);
                 // each reading carries the lemma + tag of the wordlist row it came from,
@@ -1106,7 +1164,10 @@
                           : sources.find(s => s.accented === c);
                 pairs.push({
                     shown,
-                    plain: matchCase(token.text, candidateToDisplay(c, token.text)) + (encliticText || ''),
+                    // data-plain is what a row click writes into the text: the reading
+                    // under the CURRENT options (macrons + acute), via the shared renderer.
+                    // (buildPopupHtml's encliticText IS the enclitic's wordlist form: -que/-ne/-ve carry no marks)
+                    plain: renderWord(token.text, c, encliticText, encliticText),
                     lemma: src && src.lemma ? src.lemma : null,
                     tag: src && src.tag ? src.tag : null
                 });
@@ -1558,14 +1619,6 @@
             td.setAttribute('contenteditable', 'true');
             td.addEventListener('keydown', (e) => { if (e.key === 'Enter') e.preventDefault(); });
 
-            // Must mirror the cycle candidates (ortho + case) or indexOf(cur) misses and
-            // the first click jumps to a candidate the original spelling can never return to.
-            const tokenDisplay = t => {
-                const raw = (t.macronizedText || t.text).replace(/[\^+_]/g, '');
-                const ortho = matchCase(t.text, applyOrtho(raw, t.text));
-                return ortho || raw;
-            };
-
             for (let ti = 0; ti < lineTokens.length; ti++) {
                 const token = lineTokens[ti];
                 const isWord = token.text && /^[a-zA-ZÀ-ɏ]/.test(token.text);
@@ -1576,21 +1629,30 @@
 
                 // Merge enclitic (-que/-ve/-ne) with its bearer into one word span
                 let encliticText = null;
+                let encliticToken = null;
                 if (token.hasenclitic && lineTokens[ti + 1] && lineTokens[ti + 1].isenclitic) {
-                    encliticText = tokenDisplay(lineTokens[ti + 1]);
+                    encliticToken = lineTokens[ti + 1];
+                    // The enclitic carries no marks of its own (-que/-ne/-ve), so its
+                    // displayed form is its text; the bearer's renderWord() appends it.
+                    encliticText = encliticToken.text;
                     ti++; // consume the enclitic token
                 }
 
-                const stemDisplay = tokenDisplay(token);
-                const displayText = encliticText ? stemDisplay + encliticText : stemDisplay;
+                // Every reading renders through the shared renderWord(), so the
+                // initial display, the cycle list and the popup chips can never
+                // disagree about macrons or the acute.
+                const encliticForm = encliticToken && encliticToken.accented
+                    ? encliticToken.accented[0]
+                    : (encliticToken ? (encliticToken.text || '') : null);
+                const renderFor = (c) => renderWord(token.text, c, encliticText, encliticForm);
+
+                const displayText = renderFor((token.accented && token.accented[0]) || token.text);
                 const span = document.createElement('span');
                 span.className = 'ipa';
                 setDisplay(span, displayText);   // real text + content kept in sync
                 span.__token = token;   // for per-word CSV: rendered text + tag/lemma
                 span.__enclitic = encliticText || null;   // for rebuilding the popup after a toggle
-                const candidates = [...new Set(
-                    (token.accented || []).map(c => matchCase(token.text, candidateToDisplay(c, token.text)))
-                )].map(c => encliticText ? c + encliticText : c);
+                const candidates = [...new Set((token.accented || []).map(renderFor))];
                 span.__popupHtml = buildPopupHtml(token, displayText, encliticText);
 
                 const cycle = () => {
@@ -1808,17 +1870,11 @@
 
     // --- Demacronize ---
 
-    function demacronize(text) {
-        const map = {
-            'ō': 'o', 'ā': 'a', 'ū': 'u', 'ī': 'i', 'ē': 'e', 'ȳ': 'y',
-            'Ō': 'O', 'Ā': 'A', 'Ū': 'U', 'Ī': 'I', 'Ē': 'E', 'Ȳ': 'Y'
-        };
-        return text.replace(/[ōāūīēȳŌĀŪĪĒȲ]/g, m => map[m]);
-    }
+    // (demacron lives at the top, shared with the result renderer)
 
     function deMacronizeText() {
         const text = document.getElementById('text_to_macronize').value;
-        const out = demacronize(text);
+        const out = demacron(text);
         displayPlainOutput(out);
     }
 
@@ -1904,9 +1960,68 @@
                 const pdfDoc = await PDFDocument.create();
                 pdfDoc.registerFontkit(fontkit);
 
-                const garamondUrl = 'https://cdn.jsdelivr.net/gh/hellpanderrr/hellpanderrr.github.io/wiktionary_pron/fonts/EBGaramond-Regular.ttf';
-                const garamondBytes = await fetch(garamondUrl).then(r => r.arrayBuffer());
-                const garamond = await pdfDoc.embedFont(new Uint8Array(garamondBytes));
+                // Gentium Plus, not EB Garamond: the PDF can carry a macron AND an
+                // acute on one vowel (dīvī́sa) and pdf-lib embeds the marks as the font
+                // draws them — Garamond crosses them (no mark-to-mark lookup).
+                const latinUrl = './fonts/GentiumPlus-Regular.ttf';
+                const latinBytes = await fetch(latinUrl).then(r => r.arrayBuffer());
+                const latinFont = await pdfDoc.embedFont(new Uint8Array(latinBytes));
+
+                // Embedding the right font is not enough: pdf-lib draws text
+                // strictly left-to-right and NEVER applies the font's GPOS mark
+                // positioning, so a combining acute after a macron vowel
+                // (dīvī́sa — NFC keeps U+0301 separate on a i u y; ḗ/ṓ are
+                // precomposed and fine) lands AT the pen position and crosses
+                // the macron into an X. fontkit (already loaded for subsetting)
+                // exposes the offsets the font asks for; draw every combining
+                // mark as its own text at those offsets. Words without
+                // combining marks draw as one run, keeping ligatures (f_i).
+                const latinFk = fontkit.create(new Uint8Array(latinBytes));
+                const UPM = latinFk.unitsPerEm;
+                // combining diacritics block, U+0300-U+036F
+                const COMBINING = /[̀-ͯ]/;   // combining diacritics (escapes, greppable)
+                function drawWord(pg, word, x0, y0, size, color) {
+                    if (!COMBINING.test(word)) {
+                        pg.drawText(word, { font: latinFont, x: x0, y: y0, size, color });
+                        return;
+                    }
+                    const scale = size / UPM;
+                    // cluster = base code point + its combining marks
+                    const clusters = [];
+                    for (const ch of word) {
+                        if (COMBINING.test(ch) && clusters.length) {
+                            clusters[clusters.length - 1].marks += ch;
+                        } else {
+                            clusters.push({ base: ch, marks: '' });
+                        }
+                    }
+                    let run = '';
+                    let x = x0;
+                    const flush = () => {
+                        if (!run) return;
+                        pg.drawText(run, { font: latinFont, x, y: y0, size, color });
+                        x += latinFont.widthOfTextAtSize(run, size);
+                        run = '';
+                    };
+                    for (const cl of clusters) {
+                        if (!cl.marks) { run += cl.base; continue; }
+                        flush();
+                        const lay = latinFk.layout(cl.base + cl.marks);
+                        const baseAdv = lay.positions[0].xAdvance;
+                        pg.drawText(cl.base, { font: latinFont, x, y: y0, size, color });
+                        for (let i = 1; i < lay.positions.length; i++) {
+                            const p = lay.positions[i];
+                            pg.drawText(cl.marks[i - 1], {
+                                font: latinFont,
+                                x: x + (baseAdv + p.xOffset) * scale,
+                                y: y0 + p.yOffset * scale,
+                                size, color,
+                            });
+                        }
+                        x += baseAdv * scale;
+                    }
+                    flush();
+                }
 
                 function newPage() {
                     const page = pdfDoc.addPage(PageSizes.Letter);
@@ -1928,11 +2043,11 @@
                     const text = row.map(c => c.macronized || c.text).join(' ');
                     const words = text.split(' ');
                     for (const word of words) {
-                        const w = garamond.widthOfTextAtSize(word, fontSize);
+                        const w = latinFont.widthOfTextAtSize(word, fontSize);
                         if (x + w > pw - 40) { x = 50; y -= fontSize * 1.6; }
                         if (y < 50) { page = newPage(); x = 50; y = ph - 50; }
-                        page.drawText(word, { font: garamond, x, y, size: fontSize, color });
-                        x += w + garamond.widthOfTextAtSize(' ', fontSize);
+                        drawWord(page, word, x, y, fontSize, color);
+                        x += w + latinFont.widthOfTextAtSize(' ', fontSize);
                     }
                     x = 50;
                     y -= fontSize * 2;
@@ -2192,7 +2307,7 @@
     // --- Persist form state across reloads ---
 
     const FORM_KEY = 'macronizer_form';
-    const CHECKBOXES = ['macronize', 'alsomaius', 'utov', 'itoj'];
+    const CHECKBOXES = ['macronize', 'accent', 'alsomaius', 'utov', 'itoj'];
 
     function saveForm() {
         const state = { text: document.getElementById('text_to_macronize').value, scan: document.getElementById('scan').value };

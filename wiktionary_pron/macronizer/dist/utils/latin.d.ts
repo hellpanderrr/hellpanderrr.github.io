@@ -9,6 +9,22 @@ export declare const prefixesWithShortJ: string[];
  */
 export declare function toAscii(text: string): string;
 /**
+ * Strip stress accents from a character or string: the combining acute
+ * (U+0301) and the precomposed acute vowels. Used on macronizer input so an
+ * already-accentuated text (a prayer pasted from a liturgical book) looks up
+ * and re-accentuates exactly like its plain spelling.
+ */
+export declare function stripStressMark(text: string): string;
+/**
+ * Strip length marks (macrons and breves, combining or precomposed) from a
+ * character or string. Mirrors Python's postags.removemacrons(), which the
+ * reference applies at Token construction: an already-macronized text must
+ * look up and re-macronize exactly like its plain spelling. Without this the
+ * wordlist lookup key keeps the marks, the word is unknown, and a stress pass
+ * over it gets no quantities (wrong accent).
+ */
+export declare function stripLengthMark(text: string): string;
+/**
  * Convert to UI orthography (v→u, j→i)
  */
 export declare function toUiOrthography(text: string): string;

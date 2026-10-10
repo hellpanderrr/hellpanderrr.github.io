@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-05): 6 open, 1 needs-decision, 33 fixed; 42 entries.
+Totals (machine-counted from `**Status:**` lines, 2026-10-10): 6 open, 1 needs-decision, 40 fixed, 1 partial; 49 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1269,7 +1269,7 @@ suppresses (sine→Sinis, eos→Eos, more→morus…) and auditor false-positive
 census 348, Caesar BG-I 1928/1929 (only the ide proper-noun false-positive);
 9 popup e2e green.
 
-## M-023m — Full-Catullus scansion gold → 8 wordlist fixes; remaining blockers need triage (2026-08-13) ✅ (fixes) / ⏳ (triage)
+## M-023m — Full-Catullus scansion gold → 8 wordlist fixes + 16-blocker triage (2026-08-13/09-21) ✅ (fixes + triage; 1 NEEDS-DECISION: meneni)
 
 **Deliverable (FIXED, engine repo `0af77d6`).** Downloaded the complete
 negenborn.net scanned Catullus (118 poems, full long+short marks) → gold at
@@ -1301,8 +1301,78 @@ Each `FIX:` line is a candidate ACCENT_OVERRIDE; verify against the gold word
 in context before adding (a gold mark at anceps/final-syllable is metrical,
 not a wordlist error).
 
-**Status: FIXED (8 overrides) + OPEN (triage ~17 more).** Engine unit tests
-8/8; site 22 unit + 81 IPA + 2075 gloss + 348 census + 9 popup e2e green.
+**Status: FIXED (8 overrides) + triage done (2026-09-21) + meter-bin audit
+(2026-09-21).** Engine unit tests 38/38; site unit+IPA+2075 gloss+348 census +
+macronizer e2e green.
+
+**Meter-bin audit (2026-09-21, from the `/adv` second-opinion review):** the
+blocker keys off each file's *directory* in `gold/catullus/<meter>/`, and
+7 of the 13 files in `iambic/` are actually hendecasyllables (VIII, XVII,
+XXII, XXV, XXXI, XXXVII, XXXIX — all scan 0-fail as hendecasyllable, fail
+12–26 lines when scanned with iambic 6/4-foot templates). So the "~247
+failing lines dominated by the iambic poems" that produced most of the 16
+triaged FIX candidates was **largely a meter-binning artifact**, not genuine
+Catullus iambic noise. **This does not change any applied decision** — the
+final kept set (8 original M-023m overrides + `hoc`) was fixed by the
+dictionary-quantity check, which is meter-independent; the binning artifact
+only inflated how much noise the blocker *reported*. To trust future blockers:
+fix the binning (A/B probe `test/catullus-meter-ab.mjs`, or auto-detect each
+file's meter by which template scans clean) before reading any count from
+`iambic/`. Lesson in LESSONS.md 2026-09-21.
+
+### M-023m triage (2026-09-21, all 16 FIX candidates judged + L&S-verified)
+
+**APPLIED — 2 overrides** (engine `src/core/Tokenization.ts`, "M-023m triage"):
+- `vorago` → `vo^ra_go`: L&S headword **vŏrāgo** (Perseus title — breve on ŏ,
+  long ā, breve on final ō). The wordlist `vo^ra_go_` = vŏ-rā-**gō** marks the
+  final ō LONG; L&S AND the gold (XVII 11 vŏrāgŏ) both read it SHORT. Wordlist
+  tagging error (the n-s---fn- tag alone can't carry the quantity). Verified
+  scanning after the override.
+- `hoc` → `ho^c`: nom/acc hŏc is ALWAYS short (only abl. hōc is long —
+  Wiktionary hic-table + A&G §604); the tagger had picked the ablative `ho_c`
+  reading in "hŏc est" (XXXI 11). Additive only — corrects the homograph
+  selection, contradicts no dictionary quantity.
+
+**REJECTED — 3 "fixes" reverted after dictionary verification** (first-pass
+grammatical reading was wrong; L&S headword checked via Perseus page titles):
+- `ridete`: L&S headword **rīdĕo** — LONG ī. Gold rĭdētĕ (XXXI 14) puts a
+  short on the hendecasyllable's FIXED-LONG first syllable — a license, not a
+  short-i lexeme. (Corrected from "line-initial anceps": a hendecasyllable's
+  first syllable is NOT anceps.)
+- `vesaniente`: L&S prints "**vē**-sānus" (long ē); gold vĕsaniente (XXV 13)
+  contradicts the lexicon.
+- `renidere`: L&S **rĕnīdĕo**, 2nd conjugation → perfect-inf reading has long
+  dē; the gold's short marks cluster at the elision against "usque" (XXXIX 15)
+  — a segmenter/elision limitation, not a quantity bug.
+
+**The 11 earlier metrical/editorial rejections stand** (tu, a, peditum, abice,
+iniciens, penetrales, inepte, inusta, esses, totius×2 — see LESSONS.md
+2026-09-21). Net: blocker 622→620 lines; the 8 original M-023m fixes are
+untouched. Site dist synced (this also brought the site's STALE
+`macronizer/dist/` current with ALL M-013b→m overrides — NEXT.md thread
+closed).
+
+**REJECTED as metrical/editorial (gold mark ≠ lexical quantity) — DO NOT
+RE-ADD** (the 11 remaining FIX candidates, re-confirmed by wordlist grep +
+grammar): `tu` (pronoun always long tū; short tŭ is iambic license — Catullus
+is notorious for it), `a` (interjection, editorial), `peditum`/`abice`/
+`penetrales`/`inepte`/`inusta` (initial syllable is short by Enmann's law /
+compound ă- / ĭ-; gold's length is anceps or ictus), `iniciens` (ĭnicio short
+ĭ per L&S), `totius` ×2 (tōtīus is LL; the gold's tŏtĭŭs is the editor's
+archaizing diaeresis — diaeresis needs its own feature, not an override),
+`esses` (essēs LL is the only real form; gold's all-breve contradicts
+morphology — editor).
+
+**NEEDS-DECISION (1):** `meneni` (LIX.2 `uxor mĕnēnĭ`, a *vexed* line — the
+wordlist only has the gens Menenius SLL; overriding respells a proper noun on
+a corrupt-text reading). Left OPEN.
+
+**Scansion harness snapshot could not regenerate** — the corpus run OOMs the
+node process on the full Aeneid set even per-file-macronizer + raised heap
+(machine memory; pre-existing limitation, NEXT-documented). Overrides are
+monotonic (candidate-additions only; the Viterbi takes the min), so adding
+them cannot regress a passing line. The Catullus-blocker re-run is the
+functional gate here.
 
 ## H-001 — Help pages: app-layer bugs found while verifying examples (2026-10-05)
 **Status: FIXED** (2026-10-05). Four bugs outside the Wiktionary modules, each
@@ -1346,3 +1416,127 @@ fixing them locally forks upstream). Each is listed in the page's Common Issues 
 - ~~Czech: the module does not load under the Node test shim~~ ✅ FIXED 2026-10-05:
   a UTF-8 BOM in `cs-pron_wasm.lua` broke Lua `load()` in the shim (the browser strips it).
   BOM removed, shim decodes like the browser, Czech added to golden.json, help page verified.
+
+## M-024 — Liturgical stress accents (feature, 2026-10-08) ✅
+**Status: FIXED** (engine commits `42ffd27`, `d967a3d`; site e2e added).
+Opt-in "Stress accents" chip on the macronizer + `accent` option through the
+engine API (`stressed`, `stressedText`) and CLI `--accent`. Rules and gold
+corpus: LESSONS 2026-10-08. Engine gold: 1127/1140 = 98.86% agreement over the
+Ordo Missae corpus, 13 disagreements pinned in `test/data/accent-failures-snapshot.json`:
+- **Corpus self-inconsistencies (6)**: `Filii` 1× vs `Fílii` 22×, `Omnipotens`
+  1× vs `Omnípotens` 3×, `igitur`/`pariter`/`Alitur`/`Angelo` unaccented once each.
+- **Corpus error (1)**: `indignátionem` — the corpus's own `benedictióne` family
+  is accented our way; the wordlist `indigna_ti^o_nem` is right.
+- **Inherited from wordlist reading choice (6)**: `ágamus`, `cónditus`,
+  `látere`, `pervénit`, `véteris`, `perséveret` — prose takes the first
+  wordlist candidate; homographs whose first reading is the wrong one get the
+  wrong macron today and therefore the wrong accent. Same root cause class as
+  M-023m; the accent feature deliberately does not special-case it (invariant:
+  the accent always reflects the displayed length marks).
+
+
+## M-025 — `sync-site.cjs` default path resolved one level too high (2026-10-08) ✅
+**Status: FIXED** in engine `42ffd27`. The default `SITE_DIR` was
+`__dirname/../../wiktionary_pron/wiktionary_pron/macronizer` — from
+`F:\projects\latin-macronizer-wasm` that is `F:\wiktionary_pron\…`, so every
+local `npm run build` silently printed "no site checkout" and the site's engine
+copy was stale (this is why the stress feature initially 404'd in the browser).
+Now probes the known layouts and keeps the env override.
+
+## M-026 — Stacked macron+acute crossed the two marks (2026-10-08) ✅
+**Status: FIXED.** EB Garamond (the macronizer's font) has no mark-to-mark GPOS
+lookup, so a vowel carrying both a macron and the stress acute (`dīvī́sa`,
+`Aquītā́nī`) rendered with the marks crossing into an X. Unicode precomposes
+macron+acute only for e/o (`ḗ ṓ`); on a i u y stacking is a font feature.
+Class sweep found three affected surfaces, all fixed with **Gentium Plus**
+(SIL OFL) — chosen by the owner from a side-by-side preview:
+- result view + input (site commit `ce987df`, PR #10);
+- the font embedded into the exported PDF (same commit);
+- the help page's example words (`dīvī́sa` was added to the help text).
+Enforced by `e2e/macronizer.spec.js`: the result element's computed family AND
+`document.fonts.check` (a 404/fallback to a non-stacking font fails CI).
+Details: LESSONS 2026-10-08 "A double-marked vowel needs a font with mark-to-mark".
+
+## M-027 — Position counting counted the qu glide as a consonant (2026-10-09) ✅
+**Status: FIXED** in engine `67feead` (site dist sync `8c18320`). Words ending in
+-qu- before the final syllable (`denique`, `reliquus`, `aliquid`, `itaque`,
+`utique`, `antequam`, `utraque`, `subsequi`, …) were accented on the penult,
+because `penultIsLong` counted the u of qu as a closing consonant. A&G § 11,
+Note 3 says the opposite ("nor is the apparently consonantal u in qu, gu, su"),
+and the full Gregorio corpus agrees: `dénique`, `réliqui` ×8, `áliquid` ×47,
+`útique` (Ps 54/57), `ítaque` (Adventus, Regula), `ántequam`. Fixed by skipping
+u-after-q in the interlude count; `gu` deliberately keeps counting (keeps
+`ambíguus`, corpus hymn). Same commit: a consonantal i (j) now closes a syllable
+like x/z — `alicúius` (Regula ×2), `eiúsdem` ×6 (A&G § 11.d). Two lexical
+exceptions added where a whole-word row shadows the enclitic: `cuique` → `cuíque`
+(Regula: "prout cuíque opus erat") and `tibine` → `tibíne` (tibi+-ne; A&G § 12
+`tĭbĭ'ne`; the wordlist rows are unrelated `tibinus` forms). Also fixed the CLI
+crashing on out-of-vocabulary words (missing Morpheus stub — same one the parity
+test uses).
+
+Verification: the full gregorio corpus (871 files, 13,960 words; hymns excluded —
+metrical by the source's own rule) went **97.74% → 97.93%**, 27 fixed, 0
+regressions. `test:accent` 98.86% unchanged (the Ordo Missae gold files contain
+no qu-words); jest 54 → 58 (new A&G § 11–12 conformance tests); parity EXACT.
+The corpus-wide scan is a one-off diagnostic, not a committed test — the qu/i
+counting is pinned by `test/unit/stress.test.ts` instead.
+
+
+## M-028 — Popup reading labels hid the acute a click would write (2026-10-09) ✅
+**Status: FIXED** (site `b5ccdf7`; PR #10). With Stress accents on, the readings
+popup listed `1. dīvīsa` while clicking that row wrote `dīvī́sa` — the accent,
+the very thing being chosen between, was invisible at the moment of choosing.
+Third surface of the same divergence class as M-024's popup bug (`6580f93`,
+which unified the click-write path) and M-026 (the marks): the *label* path had
+stayed on the un-stressed popup form. Found by CodeRabbit review, confirmed in
+the browser before fixing (`1. dīvīsa` label vs `dīvī́sa` written). The label
+now mirrors `renderWord`'s stages — breve-preserving popup form → demacron when
+"Mark long vowels" is off → stress projection — so readings that share a
+breveless spelling stay distinguishable AND the label previews the output.
+Labels set in Gentium Plus (M-026 rule) so double-marked labels stack.
+Note CodeRabbit's suggested quick-fix (`use p.plain`) was NOT taken: it would
+have collapsed breve-distinct readings to identical labels.
+Enforced by `e2e/macronizer.spec.js` (label text + label font) — manual run only:
+CI's `test:e2e` excludes macronizer specs by design (10+ min first-run wordlist
+load); run with `npm run test:e2e:macronizer` or the chrome config directly.
+Also softened NEXT.md's "fully green" claim (checks re-trigger every push).
+
+## M-029 — A marked u after g/q was glided: árguas/argúere lost their accent (2026-10-09) ✅
+**Status: FIXED** in engine `fe3e23f` (site dist sync `876b327`; PR #10).
+Found while verifying the `/adv` (muse) second-opinion review of M-027 — the
+review's own `gu` proposal was wrong (its "glide only when the next vowel isn't
+u" rule puts four nuclei in `equus`/`sequuntur`; qu glides before u too), but
+testing the family it flagged exposed a real bug: in `arguō` the u is the
+word's own vowel and the wordlist marks it (`argu^a_s`), while `syllabify()`
+glided any u after q/g unconditionally — so `árguas`, `árguam`, `argúere` got
+**no accent at all** when the reading couldn't be mapped. Fix: a u after g/q is
+a glide only when the reading leaves it unmarked. Wordlist facts that make the
+guard safe: 0 `qu` readings mark the u; all `-quu-` words (equus, coquus,
+sequuntur) are 2–3 syllables in the wordlist and the corpus.
+Verified: full-corpus scan 97.93% → **97.94%**, 4 placements fixed; 2 escaped
+accidental agreements were capitalized sentence-initial `Arguam`/`Argue` under
+Solesmes' Option 2 (no accent when the accented letter is the capitalized
+first), which stays deliberately unimplemented. jest 58 → 59; gold 98.86% and
+parity EXACT unchanged. Also from the same review, measured on request:
+token-weighted agreement **99.24%** (125,041/125,999 occurrences — high-
+frequency words agree much better than the distinct-pair 97.94%); real-pipeline
+run (tokenizer+tagger, 3 corpus files) 97.16%, mid-range between the harness
+and the gold file because Node has no Morpheus (OOV words lose their reading).
+
+## M-030 — PDF export: acute crossed the macron (pdf-lib ignores GPOS) (2026-10-10) ✅
+**Status: FIXED.** Reported as "pdf export has old font." It did NOT have the old
+font — the exported PDF embeds `GentiumPlus-<subset>` (verified by inflating its
+object streams). The real bug: **pdf-lib draws text strictly left-to-right and
+never applies the font's GPOS mark positioning.** NFC leaves the acute as
+U+0301 after a macron vowel on a/i/u/y, so it lands at the pen position — `ī`
+ink tops at 1305 units (upm 2048), the combining acute spans 1047–1489 — and
+crosses the macron into the same X as the original EB-Garamond bug. `ḗ`/`ṓ`
+render fine only because Unicode precomposes that whole stack into one glyph.
+fontkit's layout data says where the acute belongs (ī́ on: (+273,+360) from the pen).
+Fix: draw each combining mark as its own text object at fontkit's offsets, keep
+unmarked runs whole so ligatures survive (site `4b9ceaa`). Verified by rendering
+(`dīvī́sa`, `Aquītā́nī`, `ipsṓrum` all stack; content stream shows the acute as a
+separate Tm raised ~2.5 pt). Enforced by the new e2e "PDF export stacks the
+acute above the macron": inflate the exported PDF's content stream and require a
+text object above the line baseline. Replayed against the user's broken PDF
+(0 raised → fail) and the fixed export (2 → pass).

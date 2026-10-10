@@ -86,7 +86,7 @@ export declare class Tokenization {
     /**
      * Apply macronization to all tokens
      */
-    macronize(domacronize: boolean, alsomaius: boolean, performutov: boolean, performitoj: boolean): void;
+    macronize(domacronize: boolean, alsomaius: boolean, performutov: boolean, performitoj: boolean, accent?: boolean): void;
     /**
      * Macronize single token
      * Ported from latin_macronizer/tokenization.py (macronize method)
@@ -97,6 +97,15 @@ export declare class Tokenization {
      * Convert tokens back to text
      */
     detokenize(): string;
+    /**
+     * Reconstruct the stressed-accents text (per token: stressedText, else the
+     * macronized/ortho-converted display, else the raw text). Mirrors
+     * detokenize(): a token WITHOUT a stress accent — the enclitic of a split
+     * pair, or a two-syllable word under rule 1 — must still show its displayed
+     * form, or enabling accent would silently drop a macron or a u→v conversion
+     * on it (nequeue + u→v: macronized "nequeve" but stressed "nequéue").
+     */
+    detokenizeStressed(): string;
     /**
      * Get plain text without HTML
      */
