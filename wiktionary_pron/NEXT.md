@@ -1,87 +1,44 @@
 # Next
 
-_Updated 2026-10-09 — branch `feat/macronizer-stress-accents` (PR #10 open), engine branch `feat/stress-accents` (PR #1 open)_
+_Updated 2026-10-10 — everything merged to main and deployed live_
 
 ## State
-Stress accents (the liturgical acute) are implemented, verified, and in review:
-engine `Stress.ts` + 98.86% gold corpus, site option + Gentium Plus font (the
-font fix for stacked macron+acute), help page, e2e. Plus three position fixes
-from the A&G §§ 11–12 conformance pass:
-- engine `67feead` / site dist `8c18320`: the qu glide is no longer a closing
-  consonant (`dénique`, `réliquus`, `áliquid`, `ítaque`, `ántequam`), a
-  consonantal i closes like x (`alicúius`, `eiúsdem`);
-- engine `fe3e23f` / site dist `876b327`: a MARKED u after g/q is the word's
-  own vowel, not a glide (`árguas`, `argúam`, `argúere` — found via the /adv
-  muse review, M-029);
-- site `b5ccdf7`: popup reading labels now show the acute the click writes
-  (M-028), in Gentium.
-Verified over the full Gregorio corpus (500 files scanned of 871, 13,960
-distinct word-readings, hymns excluded): 97.74% → **97.94%** distinct-pair,
-**99.24%** token-weighted; 31 fixed, 0 true regressions; all remaining
-disagreements classified (M-027 in ISSUES.md). Both PRs are open and
-mergeable; green as of the last completed checks (node-tests + e2e + pullfrog
-+ CodeRabbit on the site — every push re-triggers them; engine has no CI,
-local: 59 jest, gold 98.86%, byte-parity exact).
+The stress-accents feature is **shipped**: engine PR #1 (merge `a446ed3`) and site
+PR #10 (merge `1c8fc11`) on main, Pages deployed, live site verified serving the
+new code (accent checkbox, Gentium Plus, correct PDF stacking). Final fixes:
+A&G §§ 11–12 counting (`67feead`), marked-u-after-g (`fe3e23f`), popup label
+acute (`b5ccdf7`), PDF GPOS stacking (`4b9ceaa`, M-030). Suites green: engine
+jest 60/60, gold 98.86%, parity EXACT; site 2075 gloss + 348 census + e2e.
 
 ## Open threads
-- **Merge the PRs**: engine [latin-macronizer-wasm#1] first, then site
-  [hellpanderrr.github.io#10] (the site `macronizer/dist/` is synced from the
-  engine branch). Both MERGEABLE.
 - ISSUES.md H-002, H-003 and M-023m `meneni` still need owner decisions.
 - Catullus blocker counts from `gold/catullus/iambic/` unreliable until re-binned
-  (`test/catullus-meter-ab.mjs`).
-- Review the 13 pinned accent-corpus disagreements in
-  `test/data/accent-failures-snapshot.json` — 6 are wordlist reading-choice
-  homographs (`pervénit`/`pervĕnit`) that affect the macrons equally today; if
-  prose reading selection is ever fixed, re-run `npm run test:accent --update`.
-- **Convention decision (settled): ONE mode, not classical/ecclesiastical.**
-  The placement algorithm is shared by A&G §§ 11–12 and the liturgical rules
-  (proven by the A&G battery passing); what differs is notation, and the two
-  variants we don't follow (classical disyllable accent `Róma`, Solesmes
-  Option-2 capital suppression) are now named in the help page. If ever asked
-  for "classical mode": it's flags (mark disyllables ~8 corpus attestations,
-  capitals ~55, `facio` exception), not a mode switch. If ever chasing >97.94%
-  on the full corpus, the lever order is: wordlist reading disambiguation
-  (63 misses), Hebrew/Greek name data (44), notation flags (21) — the 108
-  corpus self-inconsistencies can never be matched.
+  (`test/catullus-meter-ab.mjs`; thresholds now dimeter-aware).
+- If prose reading selection is ever fixed, re-run `npm run test:accent --update`;
+  lever order for >97.94% is in M-027/M-029.
 
 ## Running / unfinished
-- `python -m http.server 8000 --directory F:/projects/wiktionary_pron` is running
-  (serves http://localhost:8000/wiktionary_pron/macronizer.html). Kill it with
-  the netstat/taskkill pair in LESSONS if it lingers.
-- Pullfrog is working again on the site repo (it failed on Cline's free models
-  before); engine repo has no workflows.
+- `python -m http.server 8000` still running (PID 12644) — kill with
+  `taskkill //PID 12644 //F` if it lingers.
+- Merged branches still checked out (`feat/macronizer-stress-accents` site,
+  `feat/stress-accents` engine) — safe to delete.
+- Deploys are manual: `gh workflow run jekyll-gh-pages.yml --ref main`.
 
 ## Don't redo
-- **Font for stacked marks**: Gentium Plus for the macronizer's Latin text and
-  PDF (EB Garamond lacks the mark-to-mark GPOS lookup — marks cross; verified in
-  the font tables). Don't "fix" the old Garamond/X look by regenerating text —
-  the text is correct Unicode.
-- **PDF export draws marks manually**: pdf-lib NEVER applies GPOS, so the
-  export draws each combining mark as its own text at fontkit-reported
-  offsets (`drawWord` in macronizer.html). Don't simplify it back to
-  `page.drawText(word)` — an inline U+0301 crosses the macron into an X even
-  with Gentium embedded (M-030). Pinned by the e2e "PDF export stacks the
-  acute above the macron", which inflates the PDF content stream.
-- **qu/gu position counting**: u after q does NOT close a syllable (A&G § 11
-  Note 3; corpus `dénique`/`áliquid`/`ítaque`); gu still counts when the glide
-  collapses (`ambíguus`). Consonantal i counts double like x (`alicúius`).
-  A MARKED u after g/q is vocalic (`argu^a_s` → `árguas`), unmarked is the
-  glide — do not "simplify" syllabify's marks argument away. Pinned in
-  `test/unit/stress.test.ts`; don't touch the interlude loop without re-running
-  the A&G battery. `cuique`/`tibine` are lexical exceptions with corpus
-  citations — not bugs.
-- **The 97.94% full-corpus number is distinct-pair; token-weighted it is
-  99.24%.** The scan is a one-off diagnostic (needs the downloaded upstream
-  corpus), not a committed test — quote both numbers or neither.
-- **`/adv` aliases**: `DS`/`bunny` are dead (rotator substitutes; guard
-  refuses); `solar` replaces them (table updated 2026-10-09 in adv.py +
-  SKILL.md). `mimo`/`muse` time out on >500K-char transcripts.
-- Help-page IPA only from `ipa_cli.mjs`; verify with `verify_help_page.mjs`,
-  `verify_issue_tables.mjs`, `check_help_links.mjs`.
-- No "Overview" sections; prose in reference-grammar register.
-- e2e here: `npx playwright test -c playwright.chrome.config.js` (bundled browser
-  missing); macronizer e2e needs the local server up.
+- **Gentium Plus** for macronizer Latin text/PDF — the text is correct Unicode;
+  don't regenerate it.
+- **PDF export draws marks manually** (`drawWord`): pdf-lib never applies GPOS.
+  Don't simplify back to `page.drawText(word)` (M-030, e2e-pinned).
+- **qu/gu counting**: u after q not closing (A&G § 11 Note 3); MARKED u after
+  g/q vocalic (`árguas`); consonantal i doubles like x (`alicúius`). Pinned in
+  `test/unit/stress.test.ts`; `cuique`/`tibine` are cited exceptions.
+- **One mode, not classical/ecclesiastical** — rules are shared; classical
+  disyllable accent and Solesmes capitals are deliberately not implemented
+  (named in the help page). Flags, not a mode switch, if ever asked.
+- **97.94% distinct-pair / 99.24% token-weighted** — quote both or neither;
+  the corpus scan is a one-off diagnostic, not a committed test.
+- **`/adv` aliases**: `DS`/`bunny` dead; `solar` works; `mimo`/`muse` time out
+  on >500K transcripts.
 - Don't `git add -A` at the repo root (2,416 untracked scratch files).
-- Macronizer gold comparison is SCAN-based; L&S headword arbitrates quantity.
-  Sync site via `MACRONIZER_SITE_DIR=F:/projects/wiktionary_pron/wiktionary_pron/macronizer node sync-site.cjs`.
+- e2e: `npx playwright test -c playwright.chrome.config.js` (macronizer needs
+  the local server); CI excludes macronizer specs — `npm run test:e2e:macronizer`.
