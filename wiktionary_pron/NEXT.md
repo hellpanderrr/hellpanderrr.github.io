@@ -34,6 +34,16 @@ local: 59 jest, gold 98.86%, byte-parity exact).
   `test/data/accent-failures-snapshot.json` — 6 are wordlist reading-choice
   homographs (`pervénit`/`pervĕnit`) that affect the macrons equally today; if
   prose reading selection is ever fixed, re-run `npm run test:accent --update`.
+- **Convention decision (settled): ONE mode, not classical/ecclesiastical.**
+  The placement algorithm is shared by A&G §§ 11–12 and the liturgical rules
+  (proven by the A&G battery passing); what differs is notation, and the two
+  variants we don't follow (classical disyllable accent `Róma`, Solesmes
+  Option-2 capital suppression) are now named in the help page. If ever asked
+  for "classical mode": it's flags (mark disyllables ~8 corpus attestations,
+  capitals ~55, `facio` exception), not a mode switch. If ever chasing >97.94%
+  on the full corpus, the lever order is: wordlist reading disambiguation
+  (63 misses), Hebrew/Greek name data (44), notation flags (21) — the 108
+  corpus self-inconsistencies can never be matched.
 
 ## Running / unfinished
 - `python -m http.server 8000 --directory F:/projects/wiktionary_pron` is running
