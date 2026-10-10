@@ -1522,3 +1522,21 @@ token-weighted agreement **99.24%** (125,041/125,999 occurrences — high-
 frequency words agree much better than the distinct-pair 97.94%); real-pipeline
 run (tokenizer+tagger, 3 corpus files) 97.16%, mid-range between the harness
 and the gold file because Node has no Morpheus (OOV words lose their reading).
+
+## M-030 — PDF export: acute crossed the macron (pdf-lib ignores GPOS) (2026-10-10) ✅
+**Status: FIXED.** Reported as "pdf export has old font." It did NOT have the old
+font — the exported PDF embeds `GentiumPlus-<subset>` (verified by inflating its
+object streams). The real bug: **pdf-lib draws text strictly left-to-right and
+never applies the font's GPOS mark positioning.** NFC leaves the acute as
+U+0301 after a macron vowel on a/i/u/y, so it lands at the pen position — `ī`
+ink tops at 1305 units (upm 2048), the combining acute spans 1047–1489 — and
+crosses the macron into the same X as the original EB-Garamond bug. `ḗ`/`ṓ`
+render fine only because Unicode precomposes that whole stack into one glyph.
+fontkit's layout data says where the acute belongs (ẖ: (+273,+360) from the pen).
+Fix: draw each combining mark as its own text object at fontkit's offsets, keep
+unmarked runs whole so ligatures survive (site `4b9ceaa`). Verified by rendering
+(`dīvī́sa`, `Aquītā́nī`, `ipsṓrum` all stack; content stream shows the acute as a
+separate Tm raised ~2.5 pt). Enforced by the new e2e "PDF export stacks the
+acute above the macron": inflate the exported PDF's content stream and require a
+text object above the line baseline. Replayed against the user's broken PDF
+(0 raised → fail) and the fixed export (2 → pass).
