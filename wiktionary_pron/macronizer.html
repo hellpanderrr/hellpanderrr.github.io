@@ -1967,6 +1967,62 @@
                 const latinBytes = await fetch(latinUrl).then(r => r.arrayBuffer());
                 const latinFont = await pdfDoc.embedFont(new Uint8Array(latinBytes));
 
+                // Embedding the right font is not enough: pdf-lib draws text
+                // strictly left-to-right and NEVER applies the font's GPOS mark
+                // positioning, so a combining acute after a macron vowel
+                // (dīvī́sa — NFC keeps U+0301 separate on a i u y; ḗ/ṓ are
+                // precomposed and fine) lands AT the pen position and crosses
+                // the macron into an X. fontkit (already loaded for subsetting)
+                // exposes the offsets the font asks for; draw every combining
+                // mark as its own text at those offsets. Words without
+                // combining marks draw as one run, keeping ligatures (f_i).
+                const latinFk = fontkit.create(new Uint8Array(latinBytes));
+                const UPM = latinFk.unitsPerEm;
+                // combining diacritics block, U+0300-U+036F
+                const COMBINING = /[̀-ͯ]/;   // combining diacritics (escapes, greppable)
+                function drawWord(pg, word, x0, y0, size, color) {
+                    if (!COMBINING.test(word)) {
+                        pg.drawText(word, { font: latinFont, x: x0, y: y0, size, color });
+                        return;
+                    }
+                    const scale = size / UPM;
+                    // cluster = base code point + its combining marks
+                    const clusters = [];
+                    for (const ch of word) {
+                        if (COMBINING.test(ch) && clusters.length) {
+                            clusters[clusters.length - 1].marks += ch;
+                        } else {
+                            clusters.push({ base: ch, marks: '' });
+                        }
+                    }
+                    let run = '';
+                    let x = x0;
+                    const flush = () => {
+                        if (!run) return;
+                        pg.drawText(run, { font: latinFont, x, y: y0, size, color });
+                        x += latinFont.widthOfTextAtSize(run, size);
+                        run = '';
+                    };
+                    for (const cl of clusters) {
+                        if (!cl.marks) { run += cl.base; continue; }
+                        flush();
+                        const lay = latinFk.layout(cl.base + cl.marks);
+                        const baseAdv = lay.positions[0].xAdvance;
+                        pg.drawText(cl.base, { font: latinFont, x, y: y0, size, color });
+                        for (let i = 1; i < lay.positions.length; i++) {
+                            const p = lay.positions[i];
+                            pg.drawText(cl.marks[i - 1], {
+                                font: latinFont,
+                                x: x + (baseAdv + p.xOffset) * scale,
+                                y: y0 + p.yOffset * scale,
+                                size, color,
+                            });
+                        }
+                        x += baseAdv * scale;
+                    }
+                    flush();
+                }
+
                 function newPage() {
                     const page = pdfDoc.addPage(PageSizes.Letter);
                     if (darkMode) {
@@ -1990,7 +2046,7 @@
                         const w = latinFont.widthOfTextAtSize(word, fontSize);
                         if (x + w > pw - 40) { x = 50; y -= fontSize * 1.6; }
                         if (y < 50) { page = newPage(); x = 50; y = ph - 50; }
-                        page.drawText(word, { font: latinFont, x, y, size: fontSize, color });
+                        drawWord(page, word, x, y, fontSize, color);
                         x += w + latinFont.widthOfTextAtSize(' ', fontSize);
                     }
                     x = 50;
