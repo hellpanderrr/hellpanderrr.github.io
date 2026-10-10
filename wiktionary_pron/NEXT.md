@@ -57,6 +57,12 @@ local: 59 jest, gold 98.86%, byte-parity exact).
   PDF (EB Garamond lacks the mark-to-mark GPOS lookup — marks cross; verified in
   the font tables). Don't "fix" the old Garamond/X look by regenerating text —
   the text is correct Unicode.
+- **PDF export draws marks manually**: pdf-lib NEVER applies GPOS, so the
+  export draws each combining mark as its own text at fontkit-reported
+  offsets (`drawWord` in macronizer.html). Don't simplify it back to
+  `page.drawText(word)` — an inline U+0301 crosses the macron into an X even
+  with Gentium embedded (M-030). Pinned by the e2e "PDF export stacks the
+  acute above the macron", which inflates the PDF content stream.
 - **qu/gu position counting**: u after q does NOT close a syllable (A&G § 11
   Note 3; corpus `dénique`/`áliquid`/`ítaque`); gu still counts when the glide
   collapses (`ambíguus`). Consonantal i counts double like x (`alicúius`).
