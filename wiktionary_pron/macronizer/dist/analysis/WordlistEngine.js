@@ -95,6 +95,16 @@ export class WordlistEngine {
             writable: true,
             value: 1
         });
+        /** Bump when Morpheus parsing changes what an extra row holds. A mismatch
+         * clears only the extra store (the 812k-entry chunks stay), so a fix to the
+         * analyzer reaches returning visitors without a full wordlist reload.
+         * v2: no-comma Morpheus lines stored the lemma as the form (effuget → effugo). */
+        Object.defineProperty(this, "EXTRAS_VERSION", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 2
+        });
         /** Entries per chunk. 1000 keeps a chunk ~100KB — one get() per unseen
          * wordform neighborhood, small enough to clone cheaply. */
         Object.defineProperty(this, "CHUNK_SIZE", {
@@ -200,6 +210,18 @@ export class WordlistEngine {
                 await this.clear();
             }
             return false;
+        }
+        // Morpheus rows from an older analyzer: drop them (they are re-derived on
+        // demand), keep the chunks. Meta predating the field counts as stale.
+        if (meta.extrasVersion !== this.EXTRAS_VERSION) {
+            console.log('[WordlistEngine] stored Morpheus analyses are stale, clearing them');
+            await new Promise((resolve, reject) => {
+                const tx = this.db.transaction([this.EXTRA_STORE, this.META_STORE], 'readwrite');
+                tx.objectStore(this.EXTRA_STORE).clear();
+                tx.objectStore(this.META_STORE).put({ ...meta, extrasVersion: this.EXTRAS_VERSION });
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
         }
         this.entryCount = meta.count;
         // Seed the sequence counter past existing rows (Morpheus additions append
@@ -439,6 +461,7 @@ export class WordlistEngine {
                 key: 'meta',
                 schemaVersion: this.SCHEMA_VERSION,
                 dataVersion: this.DATA_VERSION,
+                extrasVersion: this.EXTRAS_VERSION,
                 count: entries.length
             });
             tx.oncomplete = () => resolve();

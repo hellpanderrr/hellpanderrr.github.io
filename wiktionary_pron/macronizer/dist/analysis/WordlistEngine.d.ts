@@ -34,6 +34,11 @@ export declare class WordlistEngine {
     /** Bump when macrons.txt content changes, so returning visitors reload
      * instead of keeping a stale dictionary forever. */
     private readonly DATA_VERSION;
+    /** Bump when Morpheus parsing changes what an extra row holds. A mismatch
+     * clears only the extra store (the 812k-entry chunks stay), so a fix to the
+     * analyzer reaches returning visitors without a full wordlist reload.
+     * v2: no-comma Morpheus lines stored the lemma as the form (effuget → effugo). */
+    private readonly EXTRAS_VERSION;
     /** Entries per chunk. 1000 keeps a chunk ~100KB — one get() per unseen
      * wordform neighborhood, small enough to clone cheaply. */
     private readonly CHUNK_SIZE;

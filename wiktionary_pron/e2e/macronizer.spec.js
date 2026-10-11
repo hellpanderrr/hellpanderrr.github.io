@@ -39,6 +39,23 @@ test.describe("macronizer", () => {
     // copyable. The content attribute stays in sync, and textContent must match.
     const first = page.locator("#resultText .ipa").first();
     await expect(first).toHaveText("prōvinciārum", { timeout: 5_000 });
+
+    // A word missing from the wordlist goes to Morpheus. When Morpheus prints
+    // only the lemma ("V effugo pres subj …"), the text must keep the word the
+    // user typed — the page once showed the lemma instead (effuget → effugo,
+    // Adae → Ada; M-031). The Python reference echoes the wordform.
+    await page.fill("#text_to_macronize", "effuget Adae");
+    await page.click("#macronize_btn");
+    await expect(page.locator("#resultText .ipa").first()).toHaveAttribute(
+      "content",
+      "effuget",
+      { timeout: 120_000 },
+    );
+    await expect(page.locator("#resultText .ipa").nth(1)).toHaveAttribute(
+      "content",
+      "Adae",
+      { timeout: 5_000 },
+    );
   });
 
   test("dark mode toggle changes its own icon, not the home button's", async ({
