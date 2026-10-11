@@ -1,0 +1,52 @@
+# Full-prayer token test — macronizer page vs Accenteur (2026-10-11)
+
+**Question.** The SE answer (latin.SE 27176, answer 27340) quoted "97-98% agreement"
+from a distinct-word list filtered to our wordlist; a moderator questioned the
+gap. What do the tools score on whole prayers, as a user runs them?
+
+**Files.** `prayer-v4.mjs` is here; the records JSONs and Accenteur copies are
+not committed. To re-run, re-fetch Accenteur's `static/js/data.js` +
+`accenteur_core.js` at `91823fe07b269189e8c0dd87a39caefdc1052c7d` (saved as
+`data_pinned.js`/`core_pinned.js`) and at master (`data.js`/`accenteur_core.js`)
+into `F:/temp/lea/accenteur/`, the path the script reads (edit it if moved); the
+Preface comes from the gregorio corpus (`corpus/missal/prefaces/`).
+
+**Method.** `prayer-v4.mjs` (run from `F:/projects/wiktionary_pron/wiktionary_pron`
+so Playwright resolves; `PRAYER_URL` = live or local page, `PRAYER_OUT` = records file).
+- Texts: the 13 Ordo Missae gold files (`latin-macronizer-wasm/test/data/accent-corpus`)
+  + the Preface "De Christo universorum Rege" (gregorio corpus). Input = the gold
+  text with acutes removed. Lines with no acute are rubrics and are skipped
+  (same rule as `test:accent`); 3152 gold-line tokens.
+- Ours: the real page in Chrome, "Mark long vowels" off, "Stress accents" on;
+  spans read per result row, aligned per line (merge-aware).
+- Accenteur: `accentify()` run in a Node VM at `91823fe` (README link,
+  `data_pinned.js`/`core_pinned.js`) and master (`data.js`/`accenteur_core.js`,
+  byte-identical to the live demo). Files in `F:/temp/lea/accenteur/`.
+- Scoring per token: accent position must equal gold; bare gold needs bare
+  output; unknown = miss. **Strict** also requires the same word (æ≡ae, j≡i).
+
+**Results** (`records.json` = live before fix, `records-local-fix.json` = local after M-031):
+
+| | before (live) | after fix (local) |
+|---|---|---|
+| ours, strict | 3125/3152 = 99.14% | 3136/3152 = 99.49% |
+| ours, raw (position only) | 99.37% | 99.49% |
+| wrong-word tokens | 12 | 0 |
+| Accenteur 91823fe, first / any | 98.79% / 99.43% | same |
+| Accenteur master, first / any | 98.22% / 99.33% | same |
+| same output as Accenteur 91823fe | 98.83% | 98.95% |
+| both-cover subset (3111): ours / Acc 91823fe | 99.39% / 99.13% | 99.52% / 99.13% |
+
+**Hand-verified:** the 12 wrong-word tokens (Morpheus bare-lemma lines, raw
+cruncher output captured from the page); the fix (unit tests on those lines,
+e2e on `effuget Adae`); the stale-render and alignment harness bugs (see LESSONS
+2026-10-11). **Not verified:** whether each remaining shared miss is a corpus
+error vs a quantity error (classified only for the 1140-word set, M-024/M-027).
+
+**Caveats.** Per-token and distinct-word figures have different denominators —
+never quote them together. The page expands æ/œ to ae/oe (M-032); strict scoring
+treats them as the same word.
+
+**Live after deploy** (`records-live-fix.json`, 2026-10-11, merges `831cf70`/`81595ad`):
+identical to the local run — strict 3136/3152 = 99.49%, 0 wrong-word tokens,
+16 misses, 11 of them shared with Accenteur 91823fe.

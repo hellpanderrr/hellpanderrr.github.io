@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-11): 7 open, 1 needs-decision, 42 fixed, 1 partial; 52 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-11): 9 open, 1 needs-decision, 42 fixed, 1 partial; 54 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1605,6 +1605,28 @@ remaining misses are mostly shared (corpus self-inconsistencies `Filii`,
 `Omnipotens`, `igitur`, `pariter`; quantity readings `perséveret`,
 `indignátionem`). Accenteur master has a data regression the pinned revision
 lacks (`servire`, `transire`, `pervenire` unknown; `fiéri`). Harness and
-records: `F:/temp/lea/prayer/` (`prayer-v4.mjs`, `PRAYER_URL` selects
-live/local; `FINDINGS.md`). Do not quote these per-token figures in the same
-sentence as the 1140-word distinct-word figures — different denominators.
+findings: `_sessions/2026-10-11-prayer-test/` (`prayer-v4.mjs`, `PRAYER_URL`
+selects live/local; `FINDINGS.md` says how to re-fetch the Accenteur files).
+Do not quote these per-token figures in the same sentence as the 1140-word
+distinct-word figures — different denominators.
+
+## M-034 — `filterAccents` is ported but never called on Morpheus forms (2026-10-11)
+**Status: OPEN.** Python sets `parse[ACCENTEDFORM] = filter_accents(accented)`
+for every Morpheus parse, both the `accented,lemma` and the bare-lemma branch
+(`postags.py` 439). The port has `filterAccents()` in `src/utils/latin.ts` but no
+caller — `analyzeUnknownWords` stores the raw field. Effect, Morpheus-only words:
+no macron added before `-ns/-nf/-nx/-nct` (`e^ns → e_ns`), `^_` order and
+`_^` + muta-cum-liquida left unnormalized, `-u_m` keeps its macron. Pre-existing,
+found while fixing M-031; parity can't see it (cruncher shimmed out in Node).
+Fix: call it once in `parseAnalysisLine` after both branches, then re-run the
+prayer test to measure the change.
+
+## M-035 — An interrupted first visit can keep old-parser Morpheus rows (2026-10-11)
+**Status: OPEN** (low). `EXTRAS_VERSION` (M-031) clears stale `extra` rows only
+when a complete meta record exists. If a visitor's very first wordlist persist
+was interrupted (no meta), `isPopulated()` returns false and the reload's
+`addEntries` writes meta with the current `extrasVersion` without clearing
+`extra`, so rows the OLD parser wrote during that interrupted session would
+read as current. Needs a pre-fix visit that typed an out-of-wordlist word and
+closed the tab mid-persist. Fix if ever needed: clear `extra` in the `!meta`
+branch of `isPopulated()`.

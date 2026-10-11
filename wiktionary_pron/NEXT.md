@@ -15,6 +15,7 @@ site 2075 + 348, e2e 5/5.
   revision-labeled), never mixed with the 1140-word figures. User posts it.
 - M-032: the page writes æ/œ back as ae/oe (176/192 ligature tokens) — mirror
   them from the input in `applyOrtho`, by position, like j/v.
+- M-034: wire `filterAccents` into `parseAnalysisLine` (Python parity), re-measure.
 - ISSUES H-002, H-003, M-023m `meneni` still need owner decisions.
 
 ## Running / unfinished
@@ -22,7 +23,11 @@ site 2075 + 348, e2e 5/5.
   the PID still owns port 8000:
   `Get-NetTCPConnection -LocalPort 8000 -State Listen` → `OwningProcess`.
 - Deploys are manual: `gh workflow run jekyll-gh-pages.yml --ref main`.
-- Prayer harness + Accenteur copies are scratch in `F:/temp/lea/` (FINDINGS.md).
+- Prayer harness + findings: `_sessions/2026-10-11-prayer-test/`; it reads the
+  Accenteur copies from `F:/temp/lea/accenteur/` (re-fetch steps in FINDINGS.md).
+- Not yet seen in a real browser: the stale-row clear on a RETURNING visit
+  (only unit-tested). Check in your own Chrome: console line
+  `stored Morpheus analyses are stale, clearing them`, then `effuget` → `effuget`.
 
 ## Don't redo
 - **Bare-lemma Morpheus lines echo the typed word** (Python postags.py 426-436);

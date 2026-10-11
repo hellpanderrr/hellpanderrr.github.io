@@ -1130,5 +1130,5 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   contexts also cannot see IndexedDB-persisted state; a parser fix needs a
   cache version bump (`EXTRAS_VERSION`) that such a test will never exercise.
 - ✅ engine `45e7821` (unit `test/unit/morpheus.test.ts`) + site `793d5c8`
-  (e2e smoke types `effuget Adae`). Prayer harness: `F:/temp/lea/prayer/`
-  (M-033, scratch).
+  (e2e smoke types `effuget Adae`). Prayer harness:
+  `_sessions/2026-10-11-prayer-test/` (M-033).
