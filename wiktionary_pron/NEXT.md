@@ -1,17 +1,15 @@
 # Next
 
-_Updated 2026-10-11 — branch `fix/macronizer-morpheus-wordform` (site PR #11, engine PR #2)_
+_Updated 2026-10-11 — fix merged (engine PR #2 `831cf70`, site PR #11 `81595ad`) and deployed_
 
 ## State
-Morpheus words no longer display as their lemma (`effuget → effugo`, M-031):
-engine `45e7821` + `5fbd757`, site `793d5c8` + sync. Full-prayer token test on
-the local page: wrong-word tokens 12 → 0, strict 99.14% → 99.49% (M-033).
-Green: engine jest 70/70, gold 98.86%, parity EXACT; site 2075 + 348, e2e 5/5.
+Morpheus words no longer display as their lemma (`effuget → effugo`, M-031),
+live-verified. Full-prayer token test on the live page: wrong-word tokens
+12 → 0, strict 99.14% → 99.49%, 11 of 16 remaining misses shared with
+Accenteur (M-033). Green: engine jest 70/70, gold 98.86%, parity EXACT;
+site 2075 + 348, e2e 5/5.
 
 ## Open threads
-- After merge + deploy: re-run `node F:/temp/lea/prayer/prayer-v4.mjs` (from
-  `wiktionary_pron/`, `PRAYER_URL` unset = live) and confirm the live numbers
-  match the local ones before quoting anything.
 - Latin SE 27176, answer 27340: moderator cmw commented "concerned about the
   2-3% difference". Reply with per-token strict numbers from M-033 (n=3152,
   revision-labeled), never mixed with the 1140-word figures. User posts it.

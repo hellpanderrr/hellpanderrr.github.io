@@ -1542,7 +1542,8 @@ text object above the line baseline. Replayed against the user's broken PDF
 (0 raised → fail) and the fixed export (2 → pass).
 
 ## M-031 — Morpheus words displayed as their lemma: effuget → effugo (2026-10-11) ✅
-**Status: FIXED** (engine `45e7821`, site `793d5c8`; deploy pending merge).
+**Status: FIXED** (engine `45e7821`+`5fbd757`, PR #2 merge `831cf70`; site
+`793d5c8`, PR #11 merge `81595ad`; deployed and live-verified 2026-10-11).
 Pre-existing in the main macronizer path, not a stress-feature regression:
 macrons mode showed `effugo` for typed `effuget`. Morpheus prints the form
 field as `accented,lemma` OR as a bare `lemma` (`V effugo  pres subj act 3rd
@@ -1594,7 +1595,7 @@ every token in order; unknown = miss. Strict = same word and same accent.
 | | first output | any candidate |
 |---|---|---|
 | macronizer, live page before M-031 | 99.14% strict (99.37% raw) | — |
-| macronizer, local page after M-031 | **99.49%** (raw = strict) | — |
+| macronizer, live page after M-031 (local identical) | **99.49%** (raw = strict) | — |
 | Accenteur `91823fe` (corpus README link) | 98.79% | 99.43% |
 | Accenteur master (live demo, Oct 2026) | 98.22% | 99.33% |
 | same output, ours vs Accenteur `91823fe` | 98.95% after fix (98.83% before) | |
