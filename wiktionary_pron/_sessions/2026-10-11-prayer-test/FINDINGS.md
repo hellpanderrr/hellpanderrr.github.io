@@ -47,6 +47,32 @@ error vs a quantity error (classified only for the 1140-word set, M-024/M-027).
 never quote them together. The page expands æ/œ to ae/oe (M-032); strict scoring
 treats them as the same word.
 
+**Every miss, live after the fix** (3152 tokens; corpus-wide counts from all 871 files):
+
+Ours — 16 tokens:
+- Books contradict their own majority (our form = the majority) — 6: `Filii`
+  (vs `Fílii` 116×), `Omnipotens` (vs 101×), `igitur` (vs 14×), `pariter` (vs 22×),
+  `perséveret` (vs `persevéret` 2×), `indignátionem` (vs `indignatiónem` 6×).
+- Convention — 3: `Angelo`, `Alitur`, `Angelis`. The corpus never writes an acute
+  on a capitalized initial (Solesmes Option 2; 2 cases in 871 files); we do, by design.
+- Real errors — 7 tokens / 6 words: `effúget→éffuget` (Morpheus gives no vowel
+  length), `Parácliti→Paraclíti`, `líberet→libéret`, `agámus→ágamus` ×2,
+  `pervénit→pérvenit` (wordlist reading choice), `seípsum→seipsum` (split
+  into se+ipsum, Python-identical).
+
+Accenteur 91823fe — 38 tokens: the same 6 book contradictions; 11 unknown
+(`Kýrie` ×6, `Concedátque`, `vobismetípsis`, `astántes`, `misercórdiam` — a corpus
+typo for misericórdiam, `seípsum`); 21 wrong placements (`totíus→tótius` ×5,
+`ubíque→úbique` ×3, `véteris→vetéris` ×2, `mæstis→máestis` ×2 (two syllables, no
+accent), `María`/`Maríæ→Mária`/`Máriæ`, `eádem→éadem`, `cónditus→condítus`,
+`látere→latére`, `líberet→libéret`, `Parácliti→Paraclíti`, `effúget→éffuget`,
+`pervénit→pérvenit`). It follows Option 2, so the 3 capital cases are right for it.
+
+Accenteur master (live demo) — 56: gets `Kýrie`, `astántes`, `mæstis`, `pervénit`
+right, but loses `perveníre` ×4, `transíre` ×2, `servíre`, `Eiúsque`,
+`cælestiúmque` (unknown) and moves the accent onto the penult of `-ere`
+infinitives and similar (`redímere→redimére`, `ágere→agére`, `géneri→genéri`, …).
+
 **Live after deploy** (`records-live-fix.json`, 2026-10-11, merges `831cf70`/`81595ad`):
 identical to the local run — strict 3136/3152 = 99.49%, 0 wrong-word tokens,
 16 misses, 11 of them shared with Accenteur 91823fe.

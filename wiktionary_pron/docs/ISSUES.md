@@ -1425,6 +1425,12 @@ corpus: LESSONS 2026-10-08. Engine gold: 1127/1140 = 98.86% agreement over the
 Ordo Missae corpus, 13 disagreements pinned in `test/data/accent-failures-snapshot.json`:
 - **Corpus self-inconsistencies (6)**: `Filii` 1× vs `Fílii` 22×, `Omnipotens`
   1× vs `Omnípotens` 3×, `igitur`/`pariter`/`Alitur`/`Angelo` unaccented once each.
+  **Correction 2026-10-11:** `Alitur` and `Angelo` are NOT inconsistencies — the
+  corpus applies Solesmes Option 2 (no acute on a capitalized initial)
+  without exception: only 2 capital-initial acutes in all 871 files, 0 in the
+  Ordo set. We write those accents out by design (help page), so these are
+  convention differences. The other four stand (`Filii` 1 vs 116, `Omnipotens`
+  1 vs 101, `igitur` 1 vs 14, `pariter` 1 vs 22, corpus-wide).
 - **Corpus error (1)**: `indignátionem` — the corpus's own `benedictióne` family
   is accented our way; the wordlist `indigna_ti^o_nem` is right.
 - **Inherited from wordlist reading choice (6)**: `ágamus`, `cónditus`,
