@@ -225,7 +225,7 @@ export class MorpheusAnalyzer {
         while ((match = regex.exec(raw)) !== null) {
             const line = match[1].trim();
             if (line) {
-                const analysis = this.parseAnalysisLine(line);
+                const analysis = this.parseAnalysisLine(line, word);
                 if (analysis) {
                     analyses.push(analysis);
                 }
@@ -238,23 +238,38 @@ export class MorpheusAnalyzer {
             raw
         };
     }
-    parseAnalysisLine(line) {
+    parseAnalysisLine(line, wordform) {
         const parts = line.trim().split(/\s+/);
         if (parts.length < 2)
             return null;
         const posCode = parts[0];
-        // Morpheus beta-code convention: "accented_stem,lemma" (comma separates
-        // the accented wordform from the dictionary lemma). We keep only the
-        // accented stem — the lemma is stored separately. This mirrors the Python
-        // reference (postags.py::morpheus_to_parses lines 434-436) which does
-        // `accented = accented.split(",")[0]`.
+        // Morpheus prints the second field in one of two shapes, mirrored from the
+        // Python reference (postags.py::morpheus_to_parses lines 426-436):
+        //   "accented,lemma" — the accented wordform, then the dictionary lemma
+        //     (e.g. "currito_,curro"); keep the part before the comma.
+        //   "lemma" alone — no accented form at all ("V effugo pres subj …" for
+        //     typed "effuget"). The reference echoes the word that was looked up,
+        //     capitalized when the lemma is (a proper name: "N Ada …" for "adae"
+        //     → "Adae"). Taking the field instead displayed the lemma in place of
+        //     the text: effuget → effugo.
         const rawAccented = parts[1];
-        const commaParts = rawAccented.includes(',') ? rawAccented.split(',') : [rawAccented];
-        const accented = commaParts[0];
+        const commaParts = rawAccented.split(',');
+        let accented;
+        let lemma;
+        if (commaParts.length > 1) {
+            accented = commaParts[0];
+            lemma = commaParts[1];
+        }
+        else {
+            lemma = rawAccented;
+            const lower = wordform.trim().toLowerCase();
+            accented = rawAccented[0] === rawAccented[0].toUpperCase()
+                ? lower.charAt(0).toUpperCase() + lower.slice(1)
+                : lower;
+        }
         const stem = accented;
         const ending = parts[parts.length - 1];
         const formInfo = this.parseFormInfo(posCode, parts.slice(2, -1));
-        let lemma = commaParts.length > 1 ? commaParts[1] : stem;
         return {
             lemma,
             stem,

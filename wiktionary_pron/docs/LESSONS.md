@@ -1072,3 +1072,63 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   one changed a fix and cost one wrong-claim falsification.
 - ✅ engine `fe3e23f` (+gu-marked-u fix, jest 59, scan 97.94%, token-weighted 99.24%);
   site dist `876b327`; M-029 in ISSUES.md.
+
+## The right font is not enough for a PDF: pdf-lib never applies GPOS (2026-10-10)
+
+- **Symptom:** after the Gentium switch, a user-reported export still showed
+  `dīvī́sa` with the acute crossing the macron. The PDF **did** embed Gentium
+  (verified by inflating its object streams — `GentiumPlus-<subset>`); so the
+  assumption "embedded the stacking font → marks stack" was wrong.
+- **Root cause:** pdf-lib draws text strictly left-to-right and **never applies
+  the font's GPOS mark positioning**. NFC keeps U+0301 as a separate combining
+  mark after a precomposed macron vowel on a/i/u/y, so it lands at the pen —
+  `ī` ink tops at 1305 units (upm 2048), the acute spans 1047–1489 — and the
+  ink bands overlap. `ḗ`/`ṓ` only look right because Unicode precomposes that
+  whole stack into one glyph. Browsers stack via GPOS, which is why the screen
+  was always fine and only the PDF broke.
+- **Fix:** draw each combining mark as its own text object at the offsets
+  fontkit lays out (`drawWord()` in `macronizer.html`; fontkit was already
+  loaded for subsetting). Mark-free runs stay whole so ligatures (`f_i`) survive.
+  The same-font-different-renderer gap also applies to any future canvas/server
+  PDF path — check GPOS application whenever text rendering moves off the browser.
+- **How it was proven:** content-stream inspection (the acute was inline in the
+  word's `Tj` run vs a separate `Tm` raised ~2.5 pt), font metrics bands, and
+  fontkit's layout output naming the required offset (ī + U+0301 → (+273,+360)).
+- ✅ site `4b9ceaa`; enforced by the e2e "PDF export stacks the acute above the
+  macron" (`e2e/macronizer.spec.js`) — inflates the exported PDF's content
+  stream and requires a text object above the line baseline; replaying it
+  against the user's broken PDF yields 0 raised marks (fails). M-030 in ISSUES.md.
+- **Class sweep:** the IPA pages' PDF export (`scripts/pdf_export.js`, Voces
+  font, same `page.drawText` approach) shares the root cause. Probed the worst
+  stacked case in the goldens (Czech `ř` = r+U+031D+U+030A): the marks render
+  legibly because their ink bands sit on opposite sides of the baseline (below
+  + above) and don't collide — unlike macron+acute, which both live in the
+  upper band. Left as-is; if an IPA case ever stacks TWO above-baseline marks,
+  the same fontkit-offset treatment is needed there.
+
+## A deduplicated word list filtered to your own lexicon cannot test the product (2026-10-11)
+
+- **Symptom:** the stress gold test said 98.86% for weeks while the live page
+  displayed the *lemma* in place of 12 prayer words (`effuget → effugo`, M-031).
+  A moderator's "concerned about the 2-3%" comment forced a proper test.
+- **Why the old test was blind:** it compared *distinct* words and skipped any
+  word missing from macrons.txt — exactly the words that go to Morpheus, where
+  the bug lived. It also called `applyStress` directly, so it never saw what the
+  page renders. Parity was blind too (cruncher shimmed to 404 in Node).
+- **Second blind spot:** position-only scoring passed 7 of the 12 wrong words —
+  `irrádio` puts the acute on the same slot as `irrádiet`. Score **strict**:
+  the displayed word must be the same word AND carry the accent in the right place.
+- **Harness traps hit on the way, each faking a result:** reusing one page
+  across texts read the previous text's stale render (61.7% fake score —
+  clear `#resultText` before each run); aligning a whole text token-by-token
+  drifts after one split word (align per line); scoring gold tokens taken
+  from the de-accented line expects no accent anywhere (~52% for both tools).
+  A result that makes two different tools score identically is a harness bug.
+- **Rule:** an accuracy claim about the product needs the product path — the
+  real page, every token of a real text in order, unknowns counted as misses —
+  and the distinct-word harness stays a regression gate only. Fresh browser
+  contexts also cannot see IndexedDB-persisted state; a parser fix needs a
+  cache version bump (`EXTRAS_VERSION`) that such a test will never exercise.
+- ✅ engine `45e7821` (unit `test/unit/morpheus.test.ts`) + site `793d5c8`
+  (e2e smoke types `effuget Adae`). Prayer harness: `F:/temp/lea/prayer/`
+  (M-033, scratch).
