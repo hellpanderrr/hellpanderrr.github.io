@@ -73,6 +73,42 @@ right, but loses `perveníre` ×4, `transíre` ×2, `servíre`, `Eiúsque`,
 `cælestiúmque` (unknown) and moves the accent onto the penult of `-ere`
 infinitives and similar (`redímere→redimére`, `ágere→agére`, `géneri→genéri`, …).
 
+## Full corpus (2026-10-11): 73,961 tokens, 345 files
+
+`corpus-run.mjs` (live page + Accenteur, resumable) → `corpus-analyze.py` →
+`corpus-analysis.txt`. Prose with independent accents only: Ordo, Prefaces,
+Solesmes psalms (`psalms/special`), antiphons, responsories, Regula (one copy),
+Rogationes. Excluded: hymns (metrical), `psalms/vatican` (accents generated
+with Collatinus = Accenteur's own data, circular), Breviarium O.P. (all hymns),
+duplicate Regula/Gloria. 0 lines unaligned.
+
+| | correct | capital* | books-inconsistent | unknown | real | unknown+real |
+|---|---|---|---|---|---|---|
+| ours, page | 99.10% | 265 | 38 | 15 | 344 | 0.49% |
+| ours, engine output | 99.12% | 265 | 38 | 0 | 348 | 0.47% |
+| Accenteur 91823fe | 99.17% | 0 | 35 | 142 | 439 | 0.79% |
+| Accenteur master (live) | 98.50% | 0 | 33 | 268 | 805 | 1.45% |
+
+\* capitalized word the corpus leaves bare, accented on its first letter — the
+corpus applies Solesmes Option 2 without exception; we deliberately don't.
+With Option 2 ours would score 99.46-99.48% (Accenteur unchanged, it follows it).
+
+Per section ours leads in Ordo, Prefaces, antiphons; Accenteur leads in the
+Solesmes psalms (99.50 vs 99.15), Regula, responsories — the psalm lead is the
+capital convention (124 tokens): on substance, psalms ours-wrong/Acc-right 75,
+Acc-wrong/ours-right 94.
+
+Our largest fixable error groups (tokens): capital convention 265 (a decision);
+`Ierúsalem→Ierusálem` 56 (exception); compounds the tokenizer splits and so
+leaves unaccented — `Verúmtamen`, `semetípsum`, `idípsum`, `seípsum`,
+`unusquísque`, `semetípsis` ~36 (engine: stress the rejoined word); `Maríam`
+15 (extend the María exception); `Iesse→Iésse` 7 (2 syllables); `Basan→Basa`,
+`Hermon→Hermo` 9 (page display drops letters the engine keeps — M-032 family);
+`-ere` imperatives read as other forms (`Convértere→Convertére`, …), proper
+names (`Míchael`, `Ráphael`, `Andréas`), `érue` (missing from the wordlist).
+Scorer note: an œ+acute bug in an earlier analyzer version cost us 18 tokens;
+fixed (combining marks attach to the preceding letter).
+
 **Live after deploy** (`records-live-fix.json`, 2026-10-11, merges `831cf70`/`81595ad`):
 identical to the local run — strict 3136/3152 = 99.49%, 0 wrong-word tokens,
 16 misses, 11 of them shared with Accenteur 91823fe.
