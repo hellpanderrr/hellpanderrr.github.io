@@ -222,6 +222,9 @@ export class WordlistEngine {
                 tx.oncomplete = () => resolve();
                 tx.onerror = () => reject(tx.error);
             });
+            // A lookup made before this check may have cached an old row.
+            // (morpheusCache only ever holds this session's parses.)
+            this.entriesCache.clear();
         }
         this.entryCount = meta.count;
         // Seed the sequence counter past existing rows (Morpheus additions append
