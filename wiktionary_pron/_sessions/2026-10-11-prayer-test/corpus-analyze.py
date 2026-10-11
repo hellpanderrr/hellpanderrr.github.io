@@ -70,14 +70,18 @@ for f in sorted(glob.glob(os.path.join(OUT_DIR, '*.json'))):
         r['file'] = d['file']
         recs.append(r)
 
-# Majority accent pattern per word, over the tested corpus itself.
+# Majority accent pattern per word, over the tested corpus itself, compared
+# only among occurrences with the same initial case. Two earlier versions got
+# this wrong: lowercasing everything let the capital convention ('Omnia' bare)
+# outvote the regular 'ómnia'; lowercase-only voting let 'mária' (seas) outvote
+# the name 'María'. Same-case comparison keeps both apart.
 patterns = defaultdict(Counter)
 for r in recs:
-    patterns[base(r['gold'])][idx(r['gold'])] += 1
+    patterns[(base(r['gold']), r['gold'][:1].isupper())][idx(r['gold'])] += 1
 
 
 def majority(word):
-    c = patterns[base(word)].most_common(2)
+    c = patterns[(base(word), word[:1].isupper())].most_common(2)
     if not c or (len(c) == 2 and c[0][1] == c[1][1]):
         return None
     return c[0][0]

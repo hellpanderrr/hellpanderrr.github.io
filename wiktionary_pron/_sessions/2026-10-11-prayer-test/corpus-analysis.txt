@@ -2,10 +2,10 @@
 tokens Accenteur 91823fe does not know: 142; ours flagged unknown (guessed): 619
 
                          correct  capital  inconsistent  unknown   real  unknown+real
-ours page        73299 =  99.10%      265            38       15    344         0.49%
-ours engine      73310 =  99.12%      265            38        0    348         0.47%
-acc 91823fe      73345 =  99.17%        0            35      142    439         0.79%
-acc live         72855 =  98.50%        0            33      268    805         1.45%
+ours page        73299 =  99.10%      265            33       15    349         0.49%
+ours engine      73310 =  99.12%      265            33        0    353         0.48%
+acc 91823fe      73345 =  99.17%        0            33      142    441         0.79%
+acc live         72855 =  98.50%        0            31      268    807         1.45%
 
 if a tool followed the capital-initial convention (Option 2):
   ours page       99.46%
@@ -64,9 +64,9 @@ ours page: most frequent REAL + UNKNOWN misses (gold -> output, count):
       2  comédit -> cómedit
       2  Parácliti -> Paraclíti
       2  Benedícam -> Benédicam
+      2  mária -> maría
       2  propitiáberis -> propitiabéris
-      2  semetípsis -> semetipsis
-    ... 191 distinct (gold, output) pairs, 359 tokens
+    ... 195 distinct (gold, output) pairs, 364 tokens
 
 ours engine: most frequent REAL + UNKNOWN misses (gold -> output, count):
      56  Ierúsalem -> Ierusálem
@@ -105,11 +105,11 @@ ours engine: most frequent REAL + UNKNOWN misses (gold -> output, count):
       2  comédit -> cómedit
       2  Parácliti -> Paraclíti
       2  Benedícam -> Benédicam
+      2  mária -> maría
       2  propitiáberis -> propitiabéris
       2  semetípsis -> semetipsis
       2  verúmtamen -> verumtamen
-      2  Sínai -> Sinái
-    ... 187 distinct (gold, output) pairs, 348 tokens
+    ... 191 distinct (gold, output) pairs, 353 tokens
 
 acc 91823fe: most frequent REAL + UNKNOWN misses (gold -> output, count):
      88  ubíque -> úbique
@@ -152,7 +152,7 @@ acc 91823fe: most frequent REAL + UNKNOWN misses (gold -> output, count):
       2  amíci -> ámici
       2  Remígius -> —  [unknown]
       2  Clodovǽus -> —  [unknown]
-    ... 229 distinct (gold, output) pairs, 581 tokens
+    ... 231 distinct (gold, output) pairs, 583 tokens
 
 acc live: most frequent REAL + UNKNOWN misses (gold -> output, count):
      88  ubíque -> úbique
@@ -195,4 +195,4 @@ acc live: most frequent REAL + UNKNOWN misses (gold -> output, count):
       4  intellégere -> intellegére
       4  dilígere -> diligére
       4  seípsum -> —  [unknown]
-    ... 442 distinct (gold, output) pairs, 1073 tokens
+    ... 444 distinct (gold, output) pairs, 1075 tokens

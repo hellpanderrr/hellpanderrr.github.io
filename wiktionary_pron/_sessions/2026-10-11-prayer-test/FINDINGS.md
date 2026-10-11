@@ -84,10 +84,19 @@ duplicate Regula/Gloria. 0 lines unaligned.
 
 | | correct | capital* | books-inconsistent | unknown | real | unknown+real |
 |---|---|---|---|---|---|---|
-| ours, page | 99.10% | 265 | 38 | 15 | 344 | 0.49% |
-| ours, engine output | 99.12% | 265 | 38 | 0 | 348 | 0.47% |
-| Accenteur 91823fe | 99.17% | 0 | 35 | 142 | 439 | 0.79% |
-| Accenteur master (live) | 98.50% | 0 | 33 | 268 | 805 | 1.45% |
+| ours, page | 99.10% | 265 | 33 | 15 | 349 | 0.49% |
+| ours, engine output | 99.12% | 265 | 33 | 0 | 353 | 0.48% |
+| Accenteur 91823fe | 99.17% | 0 | 33 | 142 | 441 | 0.79% |
+| Accenteur master (live) | 98.50% | 0 | 31 | 268 | 807 | 1.45% |
+
+"books-inconsistent" is per tool: the corpus has 41 places where the book
+writes a minority form of the same word (compared within the same initial
+case); a tool is counted there only if it wrote the majority form. At those 41:
+ours 33 majority / 2 matched the book (`décore`, `ínvenit`) / 6 other
+(`Mariam→Máriam`); Accenteur 91823fe 33 / 1 / 7. Two earlier classifier
+versions were wrong: lowercasing all votes let the capital convention ('Omnia'
+bare) outvote 'ómnia'; lowercase-only voting let 'mária' (seas) outvote the
+name 'María'.
 
 \* capitalized word the corpus leaves bare, accented on its first letter — the
 corpus applies Solesmes Option 2 without exception; we deliberately don't.
