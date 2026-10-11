@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-10): 6 open, 1 needs-decision, 40 fixed, 1 partial; 49 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-11): 7 open, 1 needs-decision, 42 fixed, 1 partial; 52 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1540,3 +1540,70 @@ separate Tm raised ~2.5 pt). Enforced by the new e2e "PDF export stacks the
 acute above the macron": inflate the exported PDF's content stream and require a
 text object above the line baseline. Replayed against the user's broken PDF
 (0 raised → fail) and the fixed export (2 → pass).
+
+## M-031 — Morpheus words displayed as their lemma: effuget → effugo (2026-10-11) ✅
+**Status: FIXED** (engine `45e7821`, site `793d5c8`; deploy pending merge).
+Pre-existing in the main macronizer path, not a stress-feature regression:
+macrons mode showed `effugo` for typed `effuget`. Morpheus prints the form
+field as `accented,lemma` OR as a bare `lemma` (`V effugo  pres subj act 3rd
+sg`). The Python reference (`postags.py::morpheus_to_parses` 426-436) treats
+the bare case as "no accented form" and echoes the looked-up wordform
+(lowercased; capitalized when the lemma is: `adae` → `Adae`). The port took
+the field itself, so the lemma replaced the text. 12 tokens in the Ordo
+Missae prayers: `effuget→effugo`, `irradiet→irradio`, `redimente→redimo`,
+`resurrexistis→resurgo`, `perlustret→perlustro`, `liquantibus→liquo`,
+`mundentur→mundo`, `congaudeat→congaudeo`, `Adæ/Adae→Ada` ×4.
+- **Fix:** `parseAnalysisLine` receives the wordform and mirrors the Python
+  branch; comma branch unchanged (M-001 stays pinned).
+- **Stale rows:** Morpheus results persist in the IndexedDB `extra` store, so
+  returning visitors would keep the lemma after deploy. New
+  `WordlistEngine.EXTRAS_VERSION` (meta field) clears only `extra` on mismatch
+  — no 812k-wordlist reload.
+- **Guards:** `test/unit/morpheus.test.ts` (9 tests, real cruncher lines; 5
+  fail on the old code); e2e smoke test types `effuget Adae` (fails on the old
+  build with `effugo`, passes now). Neither parity (cruncher shimmed to 404)
+  nor `test:accent` (wordlist-first) could see this path.
+- **Found by** the full-prayer token test (see M-033), not by the 1140-word
+  gold test — the latter is deduplicated and filtered to wordlist words, so
+  every Morpheus word was structurally excluded. Position-only scoring also
+  hid 7 of the 12 (`irrádiet`/`irrádio` share the accent slot); strict
+  scoring (same word AND same accent) is required.
+- Measured on the local page: wrong-word tokens 12 → 0, strict 99.14% → 99.49%.
+
+## M-032 — The page writes æ/œ back as ae/oe (2026-10-11)
+**Status: OPEN.** Pre-existing display issue, both modes. 176 of 192 gold
+tokens spelled with a ligature come back expanded (`vitæ→vitae`,
+`prǽmiis→práemiis`, `cælórum→caelórum`). The page renders from the wordlist
+candidate (`candidateToDisplay`), and `applyOrtho` mirrors the user's i/j and
+u/v spelling but not æ/œ. The CLI keeps them (`cælis æquum hæc` in, same out),
+so the gap is in `macronizer.html`, not the engine. The accent position is
+unaffected (scoring treats æ as two letters, the same coordinate either way),
+but liturgical texts are set with æ, so the user's spelling is changed. Fix
+direction: mirror æ/œ from the input by position, like j/v — never a global
+`ae→æ` (hiatus: *aer*, *Israel*).
+
+## M-033 — Full-prayer token test: macronizer vs Accenteur (2026-10-11)
+**Status: FIXED** — a measurement record, nothing left to act on (harness kept
+as scratch, not committed).
+The 1140-word gold figure (98.86%) is distinct words, filtered to wordlist
+words. The page-level test runs the complete texts (13 Ordo Missae files + a
+Preface, 3152 gold-line tokens) through the real page (accents-only, real
+browser, RFTagger + Morpheus) and BrRoman/accenteur at two revisions, scoring
+every token in order; unknown = miss. Strict = same word and same accent.
+
+| | first output | any candidate |
+|---|---|---|
+| macronizer, live page before M-031 | 99.14% strict (99.37% raw) | — |
+| macronizer, local page after M-031 | **99.49%** (raw = strict) | — |
+| Accenteur `91823fe` (corpus README link) | 98.79% | 99.43% |
+| Accenteur master (live demo, Oct 2026) | 98.22% | 99.33% |
+| same output, ours vs Accenteur `91823fe` | 98.95% after fix (98.83% before) | |
+
+Tokens both tools cover (3111): ours 99.52%, Accenteur pinned 99.13%. The
+remaining misses are mostly shared (corpus self-inconsistencies `Filii`,
+`Omnipotens`, `igitur`, `pariter`; quantity readings `perséveret`,
+`indignátionem`). Accenteur master has a data regression the pinned revision
+lacks (`servire`, `transire`, `pervenire` unknown; `fiéri`). Harness and
+records: `F:/temp/lea/prayer/` (`prayer-v4.mjs`, `PRAYER_URL` selects
+live/local; `FINDINGS.md`). Do not quote these per-token figures in the same
+sentence as the 1140-word distinct-word figures — different denominators.

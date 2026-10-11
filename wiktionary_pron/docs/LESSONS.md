@@ -1105,3 +1105,30 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   + above) and don't collide — unlike macron+acute, which both live in the
   upper band. Left as-is; if an IPA case ever stacks TWO above-baseline marks,
   the same fontkit-offset treatment is needed there.
+
+## A deduplicated word list filtered to your own lexicon cannot test the product (2026-10-11)
+
+- **Symptom:** the stress gold test said 98.86% for weeks while the live page
+  displayed the *lemma* in place of 12 prayer words (`effuget → effugo`, M-031).
+  A moderator's "concerned about the 2-3%" comment forced a proper test.
+- **Why the old test was blind:** it compared *distinct* words and skipped any
+  word missing from macrons.txt — exactly the words that go to Morpheus, where
+  the bug lived. It also called `applyStress` directly, so it never saw what the
+  page renders. Parity was blind too (cruncher shimmed to 404 in Node).
+- **Second blind spot:** position-only scoring passed 7 of the 12 wrong words —
+  `irrádio` puts the acute on the same slot as `irrádiet`. Score **strict**:
+  the displayed word must be the same word AND carry the accent in the right place.
+- **Harness traps hit on the way, each faking a result:** reusing one page
+  across texts read the previous text's stale render (61.7% fake score —
+  clear `#resultText` before each run); aligning a whole text token-by-token
+  drifts after one split word (align per line); scoring gold tokens taken
+  from the de-accented line expects no accent anywhere (~52% for both tools).
+  A result that makes two different tools score identically is a harness bug.
+- **Rule:** an accuracy claim about the product needs the product path — the
+  real page, every token of a real text in order, unknowns counted as misses —
+  and the distinct-word harness stays a regression gate only. Fresh browser
+  contexts also cannot see IndexedDB-persisted state; a parser fix needs a
+  cache version bump (`EXTRAS_VERSION`) that such a test will never exercise.
+- ✅ engine `45e7821` (unit `test/unit/morpheus.test.ts`) + site `793d5c8`
+  (e2e smoke types `effuget Adae`). Prayer harness: `F:/temp/lea/prayer/`
+  (M-033, scratch).
