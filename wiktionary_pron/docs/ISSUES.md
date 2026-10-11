@@ -1427,7 +1427,7 @@ Ordo Missae corpus, 13 disagreements pinned in `test/data/accent-failures-snapsh
   1× vs `Omnípotens` 3×, `igitur`/`pariter`/`Alitur`/`Angelo` unaccented once each.
   **Correction 2026-10-11:** `Alitur` and `Angelo` are NOT inconsistencies — the
   corpus applies Solesmes Option 2 (no acute on a capitalized initial)
-  without exception: only 2 capital-initial acutes in all 871 files, 0 in the
+  almost everywhere: only 2 capital-initial acutes in all 871 files, 0 in the
   Ordo set. We write those accents out by design (help page), so these are
   convention differences. The other four stand (`Filii` 1 vs 116, `Omnipotens`
   1 vs 101, `igitur` 1 vs 14, `pariter` 1 vs 22, corpus-wide).

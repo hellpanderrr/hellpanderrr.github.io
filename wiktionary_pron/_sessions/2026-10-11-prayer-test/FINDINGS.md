@@ -99,7 +99,7 @@ bare) outvote 'ómnia'; lowercase-only voting let 'mária' (seas) outvote the
 name 'María'.
 
 \* capitalized word the corpus leaves bare, accented on its first letter — the
-corpus applies Solesmes Option 2 without exception; we deliberately don't.
+corpus applies Solesmes Option 2 with 2 exceptions in 871 files; we deliberately don't.
 With Option 2 ours would score 99.46-99.48% (Accenteur unchanged, it follows it).
 
 Per section ours leads in Ordo, Prefaces, antiphons; Accenteur leads in the
@@ -117,6 +117,40 @@ leaves unaccented — `Verúmtamen`, `semetípsum`, `idípsum`, `seípsum`,
 names (`Míchael`, `Ráphael`, `Andréas`), `érue` (missing from the wordlist).
 Scorer note: an œ+acute bug in an earlier analyzer version cost us 18 tokens;
 fixed (combining marks attach to the preceding letter).
+
+## Independent review of the full-corpus numbers (2026-10-11)
+
+A cold reviewer (separate agent, own code, `F:/temp/lea/review/`) recomputed
+everything from the raw records: all four accuracy figures, the class counts,
+agreement 98.63%, Accenteur any-candidate 99.72%, per-section numbers and the
+Option-2 counterfactual reproduce exactly (one token differs in class:
+`áëris`, a gold diaeresis). Gold token sequence matches the corpus text for
+all 73,961 tokens; no alignment shift. Exclusions verified. Corrections to how
+the numbers were described above:
+
+- **Raw is a statistical tie, not a lead either way.** Engine - Accenteur
+  91823fe = -0.05 pp; 95% bootstrap CI by file [-0.18, +0.13], by word type
+  [-0.44, +0.40].
+- **About 9% of tokens are repeated lines** (antiphon books overlap, Exsultet
+  brevior/longior). De-duplicated: Accenteur 91823fe 99.26% vs ours 99.10%
+  (99.43% with Option 2) — a small Accenteur lead raw.
+- **"0.48% vs 0.79% real+unknown errors" is Option-2-adjusted for ours only.**
+  Counting the capital-initial tokens as errors: ours 0.84% vs Accenteur 0.79%.
+- **The Option-2 lead (+0.32 pp) is likely real in direction but not
+  established**: CI by file [+0.18, +0.54], by word type [-0.03, +0.75]. It is
+  concentrated in a few frequent words (Accenteur: `ubíque` 88, `María` 80,
+  `Maríæ` 37 of its 583 misses; ours: `Ierúsalem` 56).
+- **"Option 2 without exception" was wrong**: 2 counterexamples in 871 files,
+  one scored (`Ángelum`, antiphons/Adventus.txt) — Option 2 is worth +264, not +265.
+- **Where ours is clearly ahead**: on the 1,771 tokens where Accenteur has 2+
+  candidates, its first choice is right 76.5%, ours 94%. Ours also guesses
+  unknown words (619 flagged, 76% right) where Accenteur abstains (142).
+  On tokens Accenteur knows: ours engine 99.17% raw (99.53% Option 2),
+  Accenteur 99.36%.
+- **Development overlap**: the Ordo files are the engine's gold test
+  (`test:accent`), and ours leads exactly in Ordo and Prefaces — in-sample.
+- Required wording: "accent-position accuracy on a Solesmes/Vatican prose
+  subset, with ae/oe respelling ignored".
 
 **Live after deploy** (`records-live-fix.json`, 2026-10-11, merges `831cf70`/`81595ad`):
 identical to the local run — strict 3136/3152 = 99.49%, 0 wrong-word tokens,
