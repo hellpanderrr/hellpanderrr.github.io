@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-11): 9 open, 1 needs-decision, 42 fixed, 1 partial; 54 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-12): 10 open, 1 needs-decision, 42 fixed, 1 partial; 55 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1636,3 +1636,17 @@ was interrupted (no meta), `isPopulated()` returns false and the reload's
 read as current. Needs a pre-fix visit that typed an out-of-wordlist word and
 closed the tab mid-persist. Fix if ever needed: clear `extra` in the `!meta`
 branch of `isPopulated()`.
+
+## M-036 — Roman numerals get a stress accent; the page lowercases all-caps words (2026-10-12)
+**Status: OPEN.** Found in the full-corpus test (the user spotted
+`XXXVIII → Xxxviíi` in the Regula's chapter numbers). Two defects:
+- **Engine:** Roman numerals are stressed as Latin words — `III → ÍII`,
+  `VIII → VÍII`, `XIII → XÍII` (stressedText). Accenteur leaves them bare.
+  Fix: skip the stress pass for all-uppercase tokens that are valid Roman
+  numerals (case decides: `VI` numeral vs `vi` ablative of *vis*).
+- **Page:** `matchCase()` only copies the first letter's case, so an
+  all-caps word comes back lowercase after it: `XXXVIII → Xxxviii`,
+  `II → Ii`. The engine keeps the case. Same family as M-032 (the page
+  re-renders from the wordlist candidate instead of the engine's aligned text).
+The accent test now excludes numerals and the `V.`/`R.`/`N.` markers (206
+tokens); see `_sessions/2026-10-11-prayer-test/FINDINGS.md`.

@@ -19,6 +19,7 @@ Usage: python -I corpus-analyze.py [OUT_DIR]   (default F:/temp/lea/corpus-run)
 import glob
 import json
 import os
+import re
 import sys
 import unicodedata as U
 from collections import Counter, defaultdict
@@ -60,12 +61,28 @@ def section(rel):
     return parts[0]
 
 
+# Tokens that are not Latin words and so carry no accent to test: uppercase
+# Roman numerals (chapter numbers in the Regula: 'XXXVIII'), the versicle and
+# response markers 'V.'/'R.', and the name placeholder 'N.'. 'O', 'A', 'E'
+# stay: interjection and prepositions.
+ROMAN = re.compile(r'^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$')
+MARKERS = {'V', 'R', 'N'}
+
+
+def is_nonword(tok):
+    return tok in MARKERS or bool(ROMAN.match(tok))
+
+
 recs = []
+excluded = Counter()
 unaligned = 0
 for f in sorted(glob.glob(os.path.join(OUT_DIR, '*.json'))):
     d = json.load(open(f, encoding='utf-8'))
     unaligned += d['mismatchedLines']
     for r in d['records']:
+        if is_nonword(r['gold']):
+            excluded['numeral' if ROMAN.match(r['gold']) and r['gold'] not in MARKERS else r['gold']] += 1
+            continue
         r['section'] = section(d['file'])
         r['file'] = d['file']
         recs.append(r)
@@ -113,6 +130,7 @@ def main():
     """Print the report (importable: divergence-tables.py reuses judge/idx)."""
     N = len(recs)
     print(f'tokens scored: {N} in {len({r["file"] for r in recs})} files; lines left unaligned: {unaligned}')
+    print(f'non-word tokens excluded: {sum(excluded.values())} {dict(excluded)}')
     print(f'tokens Accenteur 91823fe does not know: {sum(r["pinF"] is None for r in recs)}; '
           f'ours flagged unknown (guessed): {sum(r["oursUnknown"] for r in recs)}')
     print()

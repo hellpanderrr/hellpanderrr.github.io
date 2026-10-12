@@ -1,6 +1,6 @@
 # Where our page and Accenteur 91823fe disagree
 
-1023 of 73961 tokens (1.38%): the corpus sides with ours 464, with Accenteur 510, with neither 49. Disagreement = different accent position, or one tool has no answer. Spelling (ae/oe) ignored.
+1008 of 73755 tokens (1.37%): the corpus sides with ours 464, with Accenteur 510, with neither 34. Disagreement = different accent position, or one tool has no answer. Spelling (ae/oe) ignored.
 
 | # | Corpus | Ours | Accenteur 91823fe | Accenteur live | Matches corpus | Sections |
 |---:|---|---|---|---|---|---|
@@ -245,7 +245,6 @@
 | 1 | Iabin | Íabin ✗cap | — ✗unk | — ✗unk | neither | psalms/special |
 | 1 | Iacóbo | Iácobo ✗ | Iacóbo ✓ | Iacóbo ✓ | Accenteur | antiphons |
 | 1 | ibídem | ibídem ✓ | íbidem ✗ | íbidem ✗ | ours | various/Regula Sancti Benedicti |
-| 1 | III | Íii ✗cap | — ✗unk | III ✓ | neither | various/Regula Sancti Benedicti |
 | 1 | illibátus | illibátus ✓ | — ✗unk | illibátus ✓ | ours | missal/prefaces |
 | 1 | illusiónes | illusiónes ✓ | — ✗unk | — ✗unk | ours | various/Regula Sancti Benedicti |
 | 1 | Illustrárunt | Illustrárunt ✓ | — ✗unk | Illustrárunt ✓ | ours | psalms/special |
@@ -275,13 +274,8 @@
 | 1 | Isaías | Isáias ✗ | Isaías ✓ | Isaías ✓ | Accenteur | antiphons |
 | 1 | Itaque | Ítaque ✗cap | Itaque ✓ | Itaque ✓ | Accenteur | responsories |
 | 1 | Iterum | Íterum ✗cap | Iterum ✓ | Iterum ✓ | Accenteur | antiphons |
-| 1 | LIII | Liíi ✗ | — ✗unk | LIII ✓ | neither | various/Regula Sancti Benedicti |
 | 1 | longínquo | longínquo ✓ | lónginquo ✗ | lónginquo ✗ | ours | antiphons |
 | 1 | Ludovícus | Ludóvicus ✗ | — ✗unk | Ludovícus ✓ | neither | antiphons |
-| 1 | LVIII | Lviíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | LXIII | Lxiíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | LXVIII | Lxviíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | LXXIII | Lxxiíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
 | 1 | Lázarum | Lazárum ✗ | Lázarum ✓ | Lázarum ✓ | Accenteur | missal/prefaces |
 | 1 | lévitas | lévitas ✓ | levítas ✗ | levítas ✗ | ours | antiphons |
 | 1 | líbere | líbere ✓ | libére ✗ | libére ✗ | ours | antiphons |
@@ -357,19 +351,10 @@
 | 1 | unumquémque | unumquemque ✗ | unumquémque ✓ | unumquémque ✓ | Accenteur | various/Regula Sancti Benedicti |
 | 1 | Unusquísque | Unusquisque ✗ | Unusquísque ✓ | Unusquísque ✓ | Accenteur | various/Regula Sancti Benedicti |
 | 1 | Utique | Útique ✗cap | Utique ✓ | Utique ✓ | Accenteur | psalms/special |
-| 1 | VIII | Víii ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
 | 1 | vobismetípsis | vobismetípsis ✓ | — ✗unk | — ✗unk | ours | missal/ordo |
 | 1 | vétere | vétere ✓ | vetére ✗ | vetére ✗ | ours | various/Regula Sancti Benedicti |
 | 1 | vírgini | vírgini ✓ | virgíni ✗ | virgíni ✗ | ours | antiphons |
 | 1 | Vírgini | Vírgini ✓ | Virgíni ✗ | Virgíni ✗ | ours | missal/prefaces |
-| 1 | XIII | Xíii ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XLIII | Xliíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XLVIII | Xlviíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XVIII | Xvíii ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XXIII | Xxíii ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XXVIII | Xxvíii ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XXXIII | Xxxiíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
-| 1 | XXXVIII | Xxxviíi ✗ | — ✗unk | — ✗unk | neither | various/Regula Sancti Benedicti |
 | 1 | áeris | aeris ✗ | áeris ✓ | áeris ✓ | Accenteur | psalms/special |
 | 1 | áerum | aerum ✗ | áerum ✓ | áerum ✓ | Accenteur | various/Regula Sancti Benedicti |
 | 1 | álius | alíus ✗ | álius ✓ | álius ✓ | Accenteur | various/Regula Sancti Benedicti |

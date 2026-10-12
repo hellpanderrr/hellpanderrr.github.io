@@ -1,29 +1,30 @@
-﻿tokens scored: 73961 in 345 files; lines left unaligned: 0
-tokens Accenteur 91823fe does not know: 142; ours flagged unknown (guessed): 619
+﻿tokens scored: 73755 in 345 files; lines left unaligned: 0
+non-word tokens excluded: 206 {'N': 7, 'V': 107, 'R': 20, 'numeral': 72}
+tokens Accenteur 91823fe does not know: 127; ours flagged unknown (guessed): 581
 
                          correct  capital  inconsistent  unknown   real  unknown+real
-ours page        73299 =  99.10%      265            33       15    349         0.49%
-ours engine      73310 =  99.12%      265            33        0    353         0.48%
-acc 91823fe      73345 =  99.17%        0            33      142    441         0.79%
-acc live         72855 =  98.50%        0            31      268    807         1.45%
+ours page        73108 =  99.12%      264            33       15    335         0.47%
+ours engine      73119 =  99.14%      264            33        0    339         0.46%
+acc 91823fe      73154 =  99.19%        0            33      127    441         0.77%
+acc live         72662 =  98.52%        0            31      255    807         1.44%
 
 if a tool followed the capital-initial convention (Option 2):
-  ours page       99.46%
-  ours engine     99.48%
-  acc 91823fe     99.17%
-  acc live        98.50%
+  ours page       99.48%
+  ours engine     99.50%
+  acc 91823fe     99.19%
+  acc live        98.52%
 
-same output, ours page vs Accenteur 91823fe: 72949/73961 = 98.63%
-Accenteur 91823fe if the user picks right at every "?": 73754/73961 = 99.72%
+same output, ours page vs Accenteur 91823fe: 72758/73755 = 98.65%
+Accenteur 91823fe if the user picks right at every "?": 73563/73755 = 99.74%
 
 per section (correct %):
   antiphons                       17206 tok | ours page  98.89% | ours engine  98.90% | acc 91823fe  98.74% | acc live  98.41%
-  missal/ordo                      3052 tok | ours page  99.54% | ours engine  99.54% | acc 91823fe  98.82% | acc live  98.33%
-  missal/prefaces                  7076 tok | ours page  99.08% | ours engine  99.08% | acc 91823fe  98.49% | acc live  96.72%
+  missal/ordo                      3041 tok | ours page  99.54% | ours engine  99.54% | acc 91823fe  98.82% | acc live  98.32%
+  missal/prefaces                  7074 tok | ours page  99.08% | ours engine  99.08% | acc 91823fe  98.49% | acc live  96.72%
   psalms/special                  29166 tok | ours page  99.11% | ours engine  99.15% | acc 91823fe  99.50% | acc live  99.05%
-  responsories                     2745 tok | ours page  99.16% | ours engine  99.16% | acc 91823fe  99.34% | acc live  98.36%
-  various/Regula Sancti Benedicti  13291 tok | ours page  99.32% | ours engine  99.32% | acc 91823fe  99.45% | acc live  98.50%
-  various/Rogationes               1425 tok | ours page  98.60% | ours engine  98.60% | acc 91823fe  98.67% | acc live  98.04%
+  responsories                     2662 tok | ours page  99.14% | ours engine  99.14% | acc 91823fe  99.32% | acc live  98.31%
+  various/Regula Sancti Benedicti  13218 tok | ours page  99.43% | ours engine  99.43% | acc 91823fe  99.56% | acc live  98.59%
+  various/Rogationes               1388 tok | ours page  98.56% | ours engine  98.56% | acc 91823fe  98.63% | acc live  97.98%
 
 ours page: most frequent REAL + UNKNOWN misses (gold -> output, count):
      56  Ierúsalem -> Ierusálem
@@ -66,7 +67,7 @@ ours page: most frequent REAL + UNKNOWN misses (gold -> output, count):
       2  Benedícam -> Benédicam
       2  mária -> maría
       2  propitiáberis -> propitiabéris
-    ... 195 distinct (gold, output) pairs, 364 tokens
+    ... 181 distinct (gold, output) pairs, 350 tokens
 
 ours engine: most frequent REAL + UNKNOWN misses (gold -> output, count):
      56  Ierúsalem -> Ierusálem
@@ -109,7 +110,7 @@ ours engine: most frequent REAL + UNKNOWN misses (gold -> output, count):
       2  propitiáberis -> propitiabéris
       2  semetípsis -> semetipsis
       2  verúmtamen -> verumtamen
-    ... 191 distinct (gold, output) pairs, 353 tokens
+    ... 177 distinct (gold, output) pairs, 339 tokens
 
 acc 91823fe: most frequent REAL + UNKNOWN misses (gold -> output, count):
      88  ubíque -> úbique
@@ -152,7 +153,7 @@ acc 91823fe: most frequent REAL + UNKNOWN misses (gold -> output, count):
       2  amíci -> ámici
       2  Remígius -> —  [unknown]
       2  Clodovǽus -> —  [unknown]
-    ... 231 distinct (gold, output) pairs, 583 tokens
+    ... 216 distinct (gold, output) pairs, 568 tokens
 
 acc live: most frequent REAL + UNKNOWN misses (gold -> output, count):
      88  ubíque -> úbique
@@ -195,4 +196,4 @@ acc live: most frequent REAL + UNKNOWN misses (gold -> output, count):
       4  intellégere -> intellegére
       4  dilígere -> diligére
       4  seípsum -> —  [unknown]
-    ... 444 distinct (gold, output) pairs, 1075 tokens
+    ... 431 distinct (gold, output) pairs, 1062 tokens

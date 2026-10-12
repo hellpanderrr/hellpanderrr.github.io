@@ -84,10 +84,17 @@ duplicate Regula/Gloria. 0 lines unaligned.
 
 | | correct | capital* | books-inconsistent | unknown | real | unknown+real |
 |---|---|---|---|---|---|---|
-| ours, page | 99.10% | 265 | 33 | 15 | 349 | 0.49% |
-| ours, engine output | 99.12% | 265 | 33 | 0 | 353 | 0.48% |
-| Accenteur 91823fe | 99.17% | 0 | 33 | 142 | 441 | 0.79% |
-| Accenteur master (live) | 98.50% | 0 | 31 | 268 | 807 | 1.45% |
+| ours, page | 99.12% | 264 | 33 | 15 | 335 | 0.47% |
+| ours, engine output | 99.14% | 264 | 33 | 0 | 339 | 0.46% |
+| Accenteur 91823fe | 99.19% | 0 | 33 | 127 | 441 | 0.77% |
+| Accenteur master (live) | 98.52% | 0 | 31 | 255 | 807 | 1.44% |
+
+73,755 tokens after excluding 206 non-words (2026-10-12, the user spotted
+`XXXVIII → Xxxviíi`): Roman numerals 72 (Regula chapter numbers etc.), the
+versicle/response markers `V.` 107 / `R.` 20, the name placeholder `N.` 7.
+`O`, `A`, `E` stay (interjection, prepositions). Before the exclusion:
+99.10 / 99.12 / 99.17 / 98.50%. The review's confidence intervals were computed
+on the unfiltered set; the shift is ~0.02 pp for every tool.
 
 "books-inconsistent" is per tool: the corpus has 41 places where the book
 writes a minority form of the same word (compared within the same initial
@@ -100,7 +107,7 @@ name 'María'.
 
 \* capitalized word the corpus leaves bare, accented on its first letter — the
 corpus applies Solesmes Option 2 with 2 exceptions in 871 files; we deliberately don't.
-With Option 2 ours would score 99.46-99.48% (Accenteur unchanged, it follows it).
+With Option 2 ours would score 99.48-99.50% (Accenteur unchanged, it follows it).
 
 Per section ours leads in Ordo, Prefaces, antiphons; Accenteur leads in the
 Solesmes psalms (99.50 vs 99.15), Regula, responsories — the psalm lead is the
