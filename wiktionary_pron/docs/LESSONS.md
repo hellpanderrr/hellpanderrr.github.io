@@ -1130,5 +1130,11 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
   contexts also cannot see IndexedDB-persisted state; a parser fix needs a
   cache version bump (`EXTRAS_VERSION`) that such a test will never exercise.
 - ✅ engine `45e7821` (unit `test/unit/morpheus.test.ts`) + site `793d5c8`
-  (e2e smoke types `effuget Adae`). Prayer harness: `F:/temp/lea/prayer/`
-  (M-033, scratch).
+  (e2e smoke types `effuget Adae`). Prayer harness:
+  `_sessions/2026-10-11-prayer-test/` (M-033).
+- **Merging cancels Pullfrog's review.** PR #11 was merged while Pullfrog was
+  still running (~17 min in, slow BYOK model); the app cancelled its run 8 s
+  after the merge, so the PR shipped without its review. `gh pr checks` lists
+  Pullfrog only as a pending check that later disappears — wait for every
+  review bot to post (CodeRabbit AND Pullfrog), not just CI. Recovery:
+  `gh run rerun <run-id>` reviews the merged PR (here: no new issues).

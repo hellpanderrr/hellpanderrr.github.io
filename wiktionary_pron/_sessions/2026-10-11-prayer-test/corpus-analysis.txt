@@ -1,0 +1,199 @@
+﻿tokens scored: 73755 in 345 files; lines left unaligned: 0
+non-word tokens excluded: 206 {'N': 7, 'V': 107, 'R': 20, 'numeral': 72}
+tokens Accenteur 91823fe does not know: 127; ours flagged unknown (guessed): 581
+
+                         correct  capital  inconsistent  unknown   real  unknown+real
+ours page        73108 =  99.12%      264            33       15    335         0.47%
+ours engine      73119 =  99.14%      264            33        0    339         0.46%
+acc 91823fe      73154 =  99.19%        0            33      127    441         0.77%
+acc live         72662 =  98.52%        0            31      255    807         1.44%
+
+if a tool followed the capital-initial convention (Option 2):
+  ours page       99.48%
+  ours engine     99.50%
+  acc 91823fe     99.19%
+  acc live        98.52%
+
+same output, ours page vs Accenteur 91823fe: 72758/73755 = 98.65%
+Accenteur 91823fe if the user picks right at every "?": 73563/73755 = 99.74%
+
+per section (correct %):
+  antiphons                       17206 tok | ours page  98.89% | ours engine  98.90% | acc 91823fe  98.74% | acc live  98.41%
+  missal/ordo                      3041 tok | ours page  99.54% | ours engine  99.54% | acc 91823fe  98.82% | acc live  98.32%
+  missal/prefaces                  7074 tok | ours page  99.08% | ours engine  99.08% | acc 91823fe  98.49% | acc live  96.72%
+  psalms/special                  29166 tok | ours page  99.11% | ours engine  99.15% | acc 91823fe  99.50% | acc live  99.05%
+  responsories                     2662 tok | ours page  99.14% | ours engine  99.14% | acc 91823fe  99.32% | acc live  98.31%
+  various/Regula Sancti Benedicti  13218 tok | ours page  99.43% | ours engine  99.43% | acc 91823fe  99.56% | acc live  98.59%
+  various/Rogationes               1388 tok | ours page  98.56% | ours engine  98.56% | acc 91823fe  98.63% | acc live  97.98%
+
+ours page: most frequent REAL + UNKNOWN misses (gold -> output, count):
+     56  Ierúsalem -> Ierusálem
+     11  Verúmtamen -> Verumtamen
+      9  Maríam -> Máriam
+      8  semetípsum -> semetipsum
+      7  Iesse -> Iésse
+      6  Mariam -> Máriam
+      6  idípsum -> idipsum
+      6  Basan -> Basa  [unknown]
+      5  érue -> erue
+      5  decóra -> décora
+      4  seípsum -> seipsum
+      3  audiéritis -> audierítis
+      3  Maternitátem -> Maternítatem
+      3  circúmdedit -> circumdédit
+      3  Andréas -> Ándreas
+      3  Míchael -> Michael
+      3  Martínus -> Mártinus
+      3  Ráphael -> Raphael
+      3  Hermon -> Hermo  [unknown]
+      3  agámus -> ágamus
+      3  unusquísque -> unusquisque
+      3  euge -> éuge
+      3  Convértere -> Convertére
+      3  solíus -> sólius
+      3  irascéris -> irásceris
+      3  Meríba -> Mériba
+      3  excídi -> éxcidi
+      2  Martíni -> Mártini
+      2  estóte -> éstote
+      2  útraque -> utráque
+      2  Advénit -> Ádvenit
+      2  charismátum -> charísmatum
+      2  Iacóbum -> Iácobum
+      2  Andréam -> Ándream
+      2  Iona -> Ióna
+      2  comédit -> cómedit
+      2  Parácliti -> Paraclíti
+      2  Benedícam -> Benédicam
+      2  mária -> maría
+      2  propitiáberis -> propitiabéris
+    ... 181 distinct (gold, output) pairs, 350 tokens
+
+ours engine: most frequent REAL + UNKNOWN misses (gold -> output, count):
+     56  Ierúsalem -> Ierusálem
+     11  Verúmtamen -> Verumtamen
+      9  Maríam -> Máriam
+      8  semetípsum -> semetipsum
+      7  Iesse -> Iésse
+      6  Mariam -> Máriam
+      6  idípsum -> idipsum
+      5  érue -> erue
+      5  decóra -> décora
+      4  seípsum -> seipsum
+      3  audiéritis -> audierítis
+      3  Maternitátem -> Maternítatem
+      3  circúmdedit -> circumdédit
+      3  Andréas -> Ándreas
+      3  Míchael -> Michael
+      3  Martínus -> Mártinus
+      3  Ráphael -> Raphael
+      3  agámus -> ágamus
+      3  unusquísque -> unusquisque
+      3  euge -> éuge
+      3  Convértere -> Convertére
+      3  solíus -> sólius
+      3  irascéris -> irásceris
+      3  Meríba -> Mériba
+      3  excídi -> éxcidi
+      2  Martíni -> Mártini
+      2  estóte -> éstote
+      2  útraque -> utráque
+      2  Advénit -> Ádvenit
+      2  charismátum -> charísmatum
+      2  Iacóbum -> Iácobum
+      2  Andréam -> Ándream
+      2  Iona -> Ióna
+      2  comédit -> cómedit
+      2  Parácliti -> Paraclíti
+      2  Benedícam -> Benédicam
+      2  mária -> maría
+      2  propitiáberis -> propitiabéris
+      2  semetípsis -> semetipsis
+      2  verúmtamen -> verumtamen
+    ... 177 distinct (gold, output) pairs, 339 tokens
+
+acc 91823fe: most frequent REAL + UNKNOWN misses (gold -> output, count):
+     88  ubíque -> úbique
+     80  María -> Mária
+     37  Maríæ -> Máriæ
+     14  Kýrie -> —  [unknown]
+     11  cápita -> capíta
+     10  oblítus -> óblitus
+      9  Maríam -> Máriam
+      7  comédit -> cómedit
+      7  Móyses -> Moýses
+      6  Mariam -> Máriam
+      6  totíus -> tótius
+      5  véteris -> vetéris
+      5  oblíti -> óbliti
+      4  Móysi -> Moýsi
+      4  Astitérunt -> —  [unknown]
+      4  invénit -> ínvenit
+      4  elégi -> élegi
+      4  látere -> latére
+      4  seípsum -> —  [unknown]
+      4  réliqui -> relíqui
+      3  Maternitátem -> —  [unknown]
+      3  confúgi -> cónfugi
+      3  Móysen -> Moýsen
+      3  benesonántibus -> —  [unknown]
+      3  Blandína -> —  [unknown]
+      3  nosmetípsos -> —  [unknown]
+      3  eádem -> éadem
+      3  euge -> éuge
+      3  ástitit -> —  [unknown]
+      3  súbito -> subíto
+      3  irascéris -> irásceris
+      3  Meríba -> —  [unknown]
+      3  excídi -> éxcidi
+      3  dícere -> dicére
+      3  decáni -> décani
+      2  páreret -> paréret
+      2  útraque -> utráque
+      2  amíci -> ámici
+      2  Remígius -> —  [unknown]
+      2  Clodovǽus -> —  [unknown]
+    ... 216 distinct (gold, output) pairs, 568 tokens
+
+acc live: most frequent REAL + UNKNOWN misses (gold -> output, count):
+     88  ubíque -> úbique
+     87  ágere -> agére
+     80  María -> Mária
+     37  Maríæ -> Máriæ
+     34  exáudi -> —  [unknown]
+     11  nolíte -> nólite
+     11  cápita -> capíta
+     11  fíeri -> fiéri
+     10  oblítus -> óblitus
+      9  Exáudi -> —  [unknown]
+      9  Maríam -> Máriam
+      9  Nolíte -> Nólite
+      8  Convértere -> Convertére
+      8  custódit -> —  [unknown]
+      7  sólvere -> solvére
+      7  comédit -> cómedit
+      7  Móyses -> Moýses
+      7  diéi -> díei
+      7  custodíre -> —  [unknown]
+      6  Mariam -> Máriam
+      6  totíus -> tótius
+      6  perveníre -> —  [unknown]
+      6  audit -> —  [unknown]
+      5  convenírent -> —  [unknown]
+      5  veníre -> —  [unknown]
+      5  súrgere -> surgére
+      5  benedícere -> benedicére
+      5  véteris -> vetéris
+      5  cælorúmque -> —  [unknown]
+      5  oblíti -> óbliti
+      5  légere -> legére
+      4  Móysi -> Moýsi
+      4  inveníri -> —  [unknown]
+      4  ábiit -> abíit
+      4  elégi -> élegi
+      4  látere -> latére
+      4  óleum -> oléum
+      4  intellégere -> intellegére
+      4  dilígere -> diligére
+      4  seípsum -> —  [unknown]
+    ... 431 distinct (gold, output) pairs, 1062 tokens

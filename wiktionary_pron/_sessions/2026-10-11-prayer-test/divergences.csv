@@ -1,0 +1,366 @@
+﻿count,corpus,ours,accenteur_91823fe,accenteur_live,matches corpus,sections
+88,ubíque,ubíque ✓,úbique ✗,úbique ✗,ours,"missal/prefaces 86, missal/ordo 2"
+80,María,María ✓,Mária ✗,Mária ✗,ours,"antiphons 73, responsories 4, various/Rogationes 2"
+56,Ierúsalem,Ierusálem ✗,Ierúsalem ✓,Ierúsalem ✓,Accenteur,"antiphons 29, psalms/special 17, responsories 6"
+46,Angelis,Ángelis ✗cap,Angelis ✓,Angelis ✓,Accenteur,"missal/prefaces 43, psalms/special 2, antiphons 1"
+37,Maríæ,Maríae ✓,Máriæ ✗,Máriæ ✗,ours,"antiphons 31, missal/prefaces 4, missal/ordo 1"
+16,Etenim,Étenim ✗cap,Etenim ✓,Etenim ✓,Accenteur,"psalms/special 15, responsories 1"
+14,Kýrie,Kýrie ✓,— ✗unk,Kýrie ✓,ours,"missal/ordo 6, various/Regula Sancti Benedicti 4, various/Rogationes 4"
+14,Omnia,Ómnia ✗cap,Omnia ✓,Omnia ✓,Accenteur,"psalms/special 6, various/Regula Sancti Benedicti 5, antiphons 3"
+12,Ideo,Ídeo ✗cap,Ideo ✓,Ideo ✓,Accenteur,"various/Regula Sancti Benedicti 6, psalms/special 5, missal/prefaces 1"
+11,Angeli,Ángeli ✗cap,Angeli ✓,Angeli ✓,Accenteur,"missal/prefaces 6, psalms/special 3, antiphons 1"
+11,cápita,cápita ✓,capíta ✗,capíta ✗,ours,"psalms/special 8, antiphons 2, various/Regula Sancti Benedicti 1"
+11,Verúmtamen,Verumtamen ✗,Verúmtamen ✓,Verúmtamen ✓,Accenteur,psalms/special
+10,Aaron,Áaron ✗cap,Aaron ✓,Aaron ✓,Accenteur,"psalms/special 9, antiphons 1"
+10,oblítus,oblítus ✓,óblitus ✗,óblitus ✗,ours,psalms/special
+10,Oculi,Óculi ✗cap,Oculi ✓,Oculi ✓,Accenteur,"psalms/special 8, antiphons 2"
+9,Angelus,Ángelus ✗cap,Angelus ✓,Angelus ✓,Accenteur,"antiphons 6, psalms/special 3"
+9,Usquequo,Úsquequo ✗cap,Usquequo ✓,Usquequo ✓,Accenteur,psalms/special
+8,Abraham,Ábraham ✗cap,Abraham ✓,Abraham ✓,Accenteur,"antiphons 4, psalms/special 4"
+8,Euge,Éuge ✗cap,Euge ✓,Euge ✓,Accenteur,"psalms/special 5, various/Rogationes 2, antiphons 1"
+8,semetípsum,semetipsum ✗,semetípsum ✓,semetípsum ✓,Accenteur,"antiphons 4, missal/prefaces 2, psalms/special 1"
+7,Anima,Ánima ✗cap,Anima ✓,Anima ✓,Accenteur,psalms/special
+7,Eripe,Éripe ✗cap,Eripe ✓,Eripe ✓,Accenteur,psalms/special
+7,Iesse,Iésse ✗,Iesse ✓,Iesse ✓,Accenteur,antiphons
+7,Móyses,Móyses ✓,Moýses ✗,Moýses ✗,ours,"antiphons 3, psalms/special 3, responsories 1"
+6,Basan,Basa ✗unk,Basan ✓,Basan ✓,Accenteur,psalms/special
+6,idípsum,idipsum ✗,idípsum ✓,idípsum ✓,Accenteur,"psalms/special 4, antiphons 2"
+6,totíus,totíus ✓,tótius ✗,tótius ✗,ours,"missal/ordo 5, missal/prefaces 1"
+5,Adiuva,Ádiuva ✗cap,Adiuva ✓,Adiuva ✓,Accenteur,"antiphons 2, psalms/special 2, responsories 1"
+5,comédit,comédit ✓,cómedit ✗,cómedit ✗,ours,"psalms/special 4, antiphons 1"
+5,decóra,décora ✗,decóra ✓,decóra ✓,Accenteur,antiphons
+5,Ephraim,Éphraim ✗cap,Ephraim ✓,Ephraim ✓,Accenteur,psalms/special
+5,oblíti,oblíti ✓,óbliti ✗,óbliti ✗,ours,psalms/special
+5,véteris,véteris ✓,vetéris ✗,vetéris ✗,ours,"missal/ordo 2, various/Regula Sancti Benedicti 2, missal/prefaces 1"
+5,érue,erue ✗,érue ✓,érue ✓,Accenteur,"psalms/special 4, antiphons 1"
+4,Astitérunt,Astitérunt ✓,— ✗unk,Astitérunt ✓,ours,"antiphons 3, psalms/special 1"
+4,Auribus,Áuribus ✗cap,Auribus ✓,Auribus ✓,Accenteur,"psalms/special 3, antiphons 1"
+4,látere,látere ✓,latére ✗,latére ✗,ours,"antiphons 1, missal/ordo 1, missal/prefaces 1"
+4,Opere,Ópere ✗cap,Opere ✓,Opere ✓,Accenteur,various/Regula Sancti Benedicti
+4,réliqui,réliqui ✓,relíqui ✗,relíqui ✗,ours,various/Regula Sancti Benedicti
+4,seípsum,seipsum ✗,— ✗unk,— ✗unk,neither,"missal/prefaces 2, psalms/special 1, various/Regula Sancti Benedicti 1"
+3,agámus,ágamus ✗,agámus ✓,agámus ✓,Accenteur,"missal/ordo 2, missal/prefaces 1"
+3,Amove,Ámove ✗cap,Amove ✓,Amove ✓,Accenteur,"psalms/special 2, antiphons 1"
+3,Amplius,Ámplius ✗cap,Amplius ✓,Amplius ✓,Accenteur,"antiphons 2, psalms/special 1"
+3,Andréas,Ándreas ✗,Andréas ✓,Andréas ✓,Accenteur,antiphons
+3,audiéritis,audierítis ✗,audiéritis ✓,audiéritis ✓,Accenteur,"antiphons 2, various/Regula Sancti Benedicti 1"
+3,benesonántibus,benesonántibus ✓,— ✗unk,— ✗unk,ours,"antiphons 2, psalms/special 1"
+3,Blandína,Blandína ✓,— ✗unk,— ✗unk,ours,antiphons
+3,circúmdedit,circumdédit ✗,circúmdedit ✓,circúmdedit ✓,Accenteur,antiphons
+3,confúgi,confúgi ✓,cónfugi ✗,cónfugi ✗,ours,"psalms/special 2, antiphons 1"
+3,Convértere,Convertére ✗,Convértere ✓,Convertére ✗,Accenteur,psalms/special
+3,decáni,decáni ✓,décani ✗,décani ✗,ours,various/Regula Sancti Benedicti
+3,dícere,dícere ✓,dicére ✗,dicére ✗,ours,various/Regula Sancti Benedicti
+3,Eia,Éia ✗cap,Eia ✓,Eia ✓,Accenteur,antiphons
+3,elégi,elégi ✓,élegi ✗,élegi ✗,ours,"psalms/special 2, antiphons 1"
+3,eádem,eádem ✓,éadem ✗,éadem ✗,ours,"various/Regula Sancti Benedicti 2, missal/ordo 1"
+3,Hermon,Hermo ✗unk,Hermon ✓,Hermon ✓,Accenteur,"psalms/special 2, antiphons 1"
+3,invénit,invénit ✓,ínvenit ✗,invénit ✓,ours,"antiphons 2, psalms/special 1"
+3,Martínus,Mártinus ✗,Martínus ✓,Martínus ✓,Accenteur,antiphons
+3,Maternitátem,Maternítatem ✗,— ✗unk,Maternitátem ✓,neither,antiphons
+3,Meríba,Mériba ✗,— ✗unk,— ✗unk,neither,psalms/special
+3,Míchael,Michael ✗,Míchael ✓,Míchael ✓,Accenteur,"antiphons 2, various/Rogationes 1"
+3,Móysen,Móysen ✓,Moýsen ✗,Moýsen ✗,ours,"psalms/special 2, antiphons 1"
+3,nosmetípsos,nosmetípsos ✓,— ✗unk,— ✗unk,ours,"antiphons 2, various/Rogationes 1"
+3,Operis,Óperis ✗cap,Operis ✓,Operis ✓,Accenteur,various/Regula Sancti Benedicti
+3,Ráphael,Raphael ✗,Ráphael ✓,Ráphael ✓,Accenteur,"antiphons 2, various/Rogationes 1"
+3,solíus,sólius ✗,solíus ✓,solíus ✓,Accenteur,"psalms/special 2, various/Regula Sancti Benedicti 1"
+3,súbito,súbito ✓,subíto ✗,súbito ✓,ours,"responsories 2, psalms/special 1"
+3,unusquísque,unusquisque ✗,unusquísque ✓,unusquísque ✓,Accenteur,"various/Regula Sancti Benedicti 2, psalms/special 1"
+3,Utinam,Útinam ✗cap,Utinam ✓,Utinam ✓,Accenteur,psalms/special
+3,ástitit,ástitit ✓,— ✗unk,ástitit ✓,ours,psalms/special
+2,Abrahæ,Ábrahæ ✗cap,Abrahæ ✓,Abrahæ ✓,Accenteur,antiphons
+2,Accipe,Áccipe ✗cap,Accipe ✓,Accipe ✓,Accenteur,antiphons
+2,Advénit,Ádvenit ✗,Advenit ✗,Advénit ✓,neither,antiphons
+2,altérius,alteríus ✗,altérius ✓,alteríus ✗,Accenteur,various/Regula Sancti Benedicti
+2,Amorræórum,Amorraeórum ✓,— ✗unk,— ✗unk,ours,psalms/special
+2,amíci,amíci ✓,ámici ✗,amíci ✓,ours,"antiphons 1, responsories 1"
+2,Andréam,Ándream ✗,Andréam ✓,Andréam ✓,Accenteur,antiphons
+2,Angelo,Ángelo ✗cap,Angelo ✓,Angelo ✓,Accenteur,"antiphons 1, missal/ordo 1"
+2,Animam,Ánimam ✗cap,Animam ✓,Animam ✓,Accenteur,"responsories 1, various/Regula Sancti Benedicti 1"
+2,Antequam,Ántequam ✗cap,Antequam ✓,Antequam ✓,Accenteur,antiphons
+2,antiphónam,antíphonam ✗,antiphónam ✓,antiphónam ✓,Accenteur,various/Regula Sancti Benedicti
+2,Aspice,Áspice ✗cap,Aspice ✓,Aspice ✓,Accenteur,antiphons
+2,Benedícam,Benédicam ✗,Benedícam ✓,Benedícam ✓,Accenteur,psalms/special
+2,Béniamin,Beníamin ✗,— ✗unk,— ✗unk,neither,psalms/special
+2,Clodovǽus,Clodovǽus ✓,— ✗unk,— ✗unk,ours,antiphons
+2,Completórios,Completórios ✓,— ✗unk,Completórios ✓,ours,various/Regula Sancti Benedicti
+2,confiténdæ,confiténdae ✓,— ✗unk,— ✗unk,ours,missal/prefaces
+2,consecrárunt,consecrárunt ✓,— ✗unk,consecrárunt ✓,ours,antiphons
+2,cónditor,cónditor ✓,condítor ✗,cónditor ✓,ours,"missal/prefaces 1, various/Rogationes 1"
+2,decánis,decánis ✓,décanis ✗,décanis ✗,ours,various/Regula Sancti Benedicti
+2,erudíeris,erudíeris ✓,erudiéris ✗,erudiéris ✗,ours,"antiphons 1, psalms/special 1"
+2,estóte,éstote ✗,estóte ✓,estóte ✓,Accenteur,antiphons
+2,eulógias,eulogías ✗,eulógias ✓,eulógias ✓,Accenteur,various/Regula Sancti Benedicti
+2,Excita,Éxcita ✗cap,Excíta ✗,Excíta ✗,neither,"antiphons 1, psalms/special 1"
+2,Explicit,Éxplicit ✗cap,— ✗unk,— ✗unk,neither,various/Regula Sancti Benedicti
+2,Iacóbe,Iácobe ✗,Iacóbe ✓,Iacóbe ✓,Accenteur,various/Rogationes
+2,Iacóbum,Iácobum ✗,Iacóbum ✓,Iacóbum ✓,Accenteur,antiphons
+2,Immola,Ímmola ✗cap,Immola ✓,Immola ✓,Accenteur,"antiphons 1, psalms/special 1"
+2,impugnántes,impugnántes ✓,— ✗unk,impugnántes ✓,ours,"antiphons 1, psalms/special 1"
+2,Innocens,Ínnocens ✗cap,Innocens ✓,Innocens ✓,Accenteur,"antiphons 1, psalms/special 1"
+2,invéni,invéni ✓,ínveni ✗,invéni ✓,ours,psalms/special
+2,Iona,Ióna ✗,Iona ✓,Iona ✓,Accenteur,"antiphons 1, responsories 1"
+2,Martíni,Mártini ✗,Martíni ✓,Martíni ✓,Accenteur,antiphons
+2,memínere,meminére ✗,memínere ✓,meminére ✗,Accenteur,various/Regula Sancti Benedicti
+2,mária,maría ✗,mária ✓,mária ✓,Accenteur,psalms/special
+2,mæstis,maestis ✓,máestis ✗,mæstis ✓,ours,missal/ordo
+2,Móysi,Móysi ✓,Moýsi ✗,Moýsi ✗,ours,"antiphons 1, psalms/special 1"
+2,Opera,Ópera ✗cap,Opera ✓,Opera ✓,Accenteur,antiphons
+2,propitiáberis,propitiabéris ✗,propitiáberis ✓,propitiáberis ✓,Accenteur,psalms/special
+2,páreret,páreret ✓,paréret ✗,paréret ✗,ours,antiphons
+2,Remígius,Remígius ✓,— ✗unk,Remígius ✓,ours,antiphons
+2,semetípsis,semetipsis ✗,semetípsis ✓,semetípsis ✓,Accenteur,psalms/special
+2,Sínai,Sinái ✗,Sínai ✓,Sínai ✓,Accenteur,psalms/special
+2,Súbito,Súbito ✓,Subíto ✗,Súbito ✓,ours,psalms/special
+2,tǽduit,tǽduit ✓,tæduit ✗,tæduit ✗,ours,psalms/special
+2,uniuscuiúsque,uníuscuiúsque ✗,uniuscuiúsque ✓,uniuscuiúsque ✓,Accenteur,various/Regula Sancti Benedicti
+2,verúmtamen,verumtamen ✗,verúmtamen ✓,verúmtamen ✓,Accenteur,psalms/special
+2,índicat,índicat ✓,indícat ✗,indícat ✗,ours,"psalms/special 1, various/Regula Sancti Benedicti 1"
+2,índicet,índicet ✓,indícet ✗,indícet ✗,ours,various/Regula Sancti Benedicti
+2,ófferit,ófferit ✓,— ✗unk,ófferit ✓,ours,various/Regula Sancti Benedicti
+1,Abdénago,Abdenágo ✗,Abdénago ✓,Abdénago ✓,Accenteur,antiphons
+1,Abstulit,Ábstulit ✗cap,Abstulit ✓,Abstulit ✓,Accenteur,psalms/special
+1,abundantióri,abundantíori ✗,abundantióri ✓,abundantióri ✓,Accenteur,various/Regula Sancti Benedicti
+1,Abíram,Ábiram ✗,— ✗unk,Abíram ✓,neither,psalms/special
+1,Accíngere,Accingére ✗,Accíngere ✓,Accingére ✗,Accenteur,psalms/special
+1,Actuum,Áctuum ✗cap,Actuum ✓,Actuum ✓,Accenteur,various/Regula Sancti Benedicti
+1,adiúta,adiúta ✓,ádiuta ✗,ádiuta ✗,ours,responsories
+1,advénit,advénit ✓,ádvenit ✗,advénit ✓,ours,antiphons
+1,adóra,adóra ✓,ádora ✗,ádora ✗,ours,psalms/special
+1,Afferant,Áfferant ✗cap,Afferant ✓,Afferant ✓,Accenteur,psalms/special
+1,Alitur,Álitur ✗cap,Alitur ✓,Alitur ✓,Accenteur,missal/ordo
+1,Allevat,Állevat ✗cap,Allevat ✓,Allevat ✓,Accenteur,psalms/special
+1,Amalec,Ámalec ✗cap,Amalec ✓,Amalec ✓,Accenteur,psalms/special
+1,Ambrósi,Ámbrosi ✗,Ambrosi ✗,Ambrósi ✓,neither,various/Rogationes
+1,ambulásset,ambulásset ✓,— ✗unk,ambulásset ✓,ours,psalms/special
+1,Amíci,Amíci ✓,Amici ✗,Amíci ✓,ours,psalms/special
+1,anachoritárum,anachorítarum ✗,anachoritárum ✓,anachoritárum ✓,Accenteur,various/Regula Sancti Benedicti
+1,analogíum,analógium ✗,analogíum ✓,analogíum ✓,Accenteur,various/Regula Sancti Benedicti
+1,Ananíæ,Anániae ✗,Ananíæ ✓,Ananíæ ✓,Accenteur,various/Regula Sancti Benedicti
+1,Andréæ,Ándreæ ✗,Andréæ ✓,Andréæ ✓,Accenteur,antiphons
+1,Angele,Ángele ✗cap,Angele ✓,Angele ✓,Accenteur,antiphons
+1,Angelos,Ángelos ✗cap,Angelos ✓,Angelos ✓,Accenteur,psalms/special
+1,Angelum,Ángelum ✗cap,Angelum ✓,Angelum ✓,Accenteur,antiphons
+1,Animas,Ánimas ✗cap,Animas ✓,Animas ✓,Accenteur,antiphons
+1,Anschárius,Anschárius ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Aperi,Áperi ✗cap,Aperi ✓,Apéri ✗,Accenteur,responsories
+1,Aperis,Áperis ✗cap,Aperis ✓,Aperis ✓,Accenteur,psalms/special
+1,apostolárum,apostólarum ✗,apostolárum ✓,apostolárum ✓,Accenteur,antiphons
+1,Arabum,Árabum ✗cap,Arabum ✓,Arabum ✓,Accenteur,psalms/special
+1,Archeláus,Árchelaus ✗,Archeláus ✓,Archeláus ✓,Accenteur,antiphons
+1,Arguam,Árguam ✗cap,Arguam ✓,Arguam ✓,Accenteur,psalms/special
+1,Argue,Árgue ✗cap,Argue ✓,Argue ✓,Accenteur,various/Regula Sancti Benedicti
+1,Aruit,Áruit ✗cap,Aruit ✓,Aruit ✓,Accenteur,psalms/special
+1,asendéntem,asendéntem ✓,— ✗unk,— ✗unk,ours,antiphons
+1,astábo,astábo ✓,— ✗unk,astábo ✓,ours,psalms/special
+1,astántes,astántes ✓,— ✗unk,astántes ✓,ours,missal/ordo
+1,Attalo,Áttalo ✗cap,Attalo ✓,Attalo ✓,Accenteur,antiphons
+1,Attalus,Áttalus ✗cap,Attalus ✓,Attalus ✓,Accenteur,antiphons
+1,Audiens,Áudiens ✗cap,Audiens ✓,Audiens ✓,Accenteur,antiphons
+1,Auferes,Áuferes ✗cap,Auferes ✓,Auferes ✓,Accenteur,psalms/special
+1,Auferet,Áuferet ✗cap,Auferet ✓,Auferet ✓,Accenteur,psalms/special
+1,Avértere,Avertére ✗,Avértere ✓,Avertére ✗,Accenteur,psalms/special
+1,Basílii,Basílii ✓,Basilíi ✗,Basilíi ✗,ours,various/Regula Sancti Benedicti
+1,Bathíldis,Bathíldis ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Baálphegor,Baálphegor ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,benedícis,benédicis ✗,benedícis ✓,benedícis ✓,Accenteur,psalms/special
+1,Bernárde,Bernárde ✓,— ✗unk,Bernárde ✓,ours,various/Rogationes
+1,bracíle,brácile ✗,bracíle ✓,bracíle ✓,Accenteur,various/Regula Sancti Benedicti
+1,bravíum,brávium ✗,bravíum ✓,bravíum ✓,Accenteur,antiphons
+1,Bárnaba,Bárnaba ✓,Barnába ✗,Barnába ✗,ours,various/Rogationes
+1,calámitas,calámitas ✓,calamítas ✗,calamítas ✗,ours,psalms/special
+1,capitále,capitále ✓,capítale ✗,capítale ✗,ours,various/Regula Sancti Benedicti
+1,Cenomanénsium,Cenomanénsium ✓,— ✗unk,— ✗unk,ours,antiphons
+1,chrísmate,chrísmate ✓,chrismáte ✗,chrismáte ✗,ours,antiphons
+1,circúmdabis,circumdábis ✗,circúmdabis ✓,circumdábis ✗,Accenteur,psalms/special
+1,circúmdabunt,circumdábunt ✗,circúmdabunt ✓,circumdábunt ✗,Accenteur,psalms/special
+1,Clotíldem,Clotíldem ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Clotíldis,Clotíldis ✓,— ✗unk,— ✗unk,ours,antiphons
+1,compeditórum,compedítorum ✗,compeditórum ✓,compeditórum ✓,Accenteur,psalms/special
+1,Concedátque,Concedátque ✓,— ✗unk,— ✗unk,ours,missal/ordo
+1,concídit,concídit ✓,cóncidit ✗,cóncidit ✗,ours,psalms/special
+1,confortabátur,confortábatur ✗,confortabátur ✓,confortabátur ✓,Accenteur,antiphons
+1,conloquátur,conloquátur ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,conspectúri,conspécturi ✗,conspectúri ✓,conspectúri ✓,Accenteur,responsories
+1,consíderent,consíderent ✓,considérent ✗,considérent ✗,ours,various/Regula Sancti Benedicti
+1,consíderet,consíderet ✓,considéret ✗,considéret ✗,ours,various/Regula Sancti Benedicti
+1,contágiet,contágiet ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,contéruit,contéruit ✓,— ✗unk,— ✗unk,ours,antiphons
+1,coérceat,cóerceat ✗,coérceat ✓,coérceat ✓,Accenteur,various/Regula Sancti Benedicti
+1,crucifígeres,crucifigéres ✗,crucifígeres ✓,crucifigéres ✗,Accenteur,responsories
+1,cuiúsvis,cuiúsvis ✓,— ✗unk,— ✗unk,ours,antiphons
+1,curióse,curióse ✓,curíose ✗,curíose ✗,ours,various/Regula Sancti Benedicti
+1,Cáipham,Cáipham ✓,Caípham ✗,Caípham ✗,ours,responsories
+1,cálamus,cálamus ✓,calámus ✗,calámus ✗,ours,psalms/special
+1,cápiti,cápiti ✓,capíti ✗,capíti ✗,ours,antiphons
+1,cónditus,cónditus ✓,condítus ✗,condítus ✗,ours,missal/ordo
+1,Cóntere,Cóntere ✓,Contére ✗,Contére ✗,ours,psalms/special
+1,cóntere,cóntere ✓,contére ✗,contére ✗,ours,psalms/special
+1,decórem,décorem ✗,decórem ✓,decórem ✓,Accenteur,responsories
+1,devolvérunt,deuoluérunt ✗unk,devolvérunt ✓,devolvérunt ✓,Accenteur,psalms/special
+1,dilúere,diluére ✗,dilúere ✓,diluére ✗,Accenteur,various/Regula Sancti Benedicti
+1,dirígere,dirígere ✓,dirigére ✗,dirigére ✗,ours,various/Regula Sancti Benedicti
+1,districtióri,districtíori ✗,districtióri ✓,districtióri ✓,Accenteur,various/Regula Sancti Benedicti
+1,diáconem,diacónem ✗,diáconem ✓,diáconem ✓,Accenteur,various/Regula Sancti Benedicti
+1,diœcésim,diœ́cesim ✗,diœcésim ✓,diœcésim ✓,Accenteur,various/Regula Sancti Benedicti
+1,décore,décore ✓,decóre ✗inc,decóre ✗inc,ours,missal/prefaces
+1,Edidit,Édidit ✗cap,Edidit ✓,Edidit ✓,Accenteur,psalms/special
+1,Edúces,Edúces ✓,Educes ✗,Educes ✗,ours,psalms/special
+1,edúcet,edúcet ✓,éducet ✗,éducet ✗,ours,psalms/special
+1,effódit,effódit ✓,éffodit ✗,éffodit ✗,ours,psalms/special
+1,eiúsmodi,eiusmodi ✗,eiúsmodi ✓,eiúsmodi ✓,Accenteur,various/Regula Sancti Benedicti
+1,Elíæ,Éliae ✗,Elíæ ✓,Elíæ ✓,Accenteur,antiphons
+1,Ephratha,Éphratha ✗cap,Ephratha ✓,Ephratha ✓,Accenteur,psalms/special
+1,Eremítæ,Erémitæ ✗,Eremítæ ✓,Eremítæ ✓,Accenteur,various/Rogationes
+1,Eritis,Éritis ✗cap,Eritis ✓,Eritis ✓,Accenteur,antiphons
+1,erémo,erémo ✓,éremo ✗,éremo ✗,ours,psalms/special
+1,erémum,erémum ✓,éremum ✗,éremum ✗,ours,antiphons
+1,eródii,erodíi ✗,— ✗unk,— ✗unk,neither,psalms/special
+1,Existimásti,Existimásti ✓,— ✗unk,Existimásti ✓,ours,psalms/special
+1,expectátio,exspectátio ✗unk,expectátio ✓,expectátio ✓,Accenteur,psalms/special
+1,exsultásset,exsultásset ✓,— ✗unk,exsultásset ✓,ours,missal/prefaces
+1,exséritur,exséritur ✓,— ✗unk,— ✗unk,ours,missal/prefaces
+1,exíte,éxite ✗,exíte ✓,éxite ✗,Accenteur,antiphons
+1,fecéritis,fecerítis ✗,fecéritis ✓,fecéritis ✓,Accenteur,various/Regula Sancti Benedicti
+1,frígoris,frígoris ✓,frigóris ✗,frígoris ✓,ours,psalms/special
+1,Genovéfa,Genóvefa ✗,— ✗unk,— ✗unk,neither,antiphons
+1,Gregóri,Grégori ✗,Gregóri ✓,Gregóri ✓,Accenteur,various/Rogationes
+1,grossitúdine,grossitudíne ✗,grossitúdine ✓,grossitúdine ✓,Accenteur,various/Regula Sancti Benedicti
+1,habitásset,habitásset ✓,— ✗unk,habitásset ✓,ours,psalms/special
+1,heremitárum,heremítarum ✗,heremitárum ✓,heremitárum ✓,Accenteur,various/Regula Sancti Benedicti
+1,Hermónim,Hérmonim ✗,— ✗unk,— ✗unk,neither,psalms/special
+1,herémi,héremi ✗,herémi ✓,herémi ✓,Accenteur,various/Regula Sancti Benedicti
+1,huiúsmodi,huiusmodi ✗,huiúsmodi ✓,huiúsmodi ✓,Accenteur,various/Regula Sancti Benedicti
+1,humilitátemmeam,humilitatémmeam ✗,— ✗unk,— ✗unk,neither,antiphons
+1,humiliássem,humiliássem ✓,— ✗unk,humiliássem ✓,ours,psalms/special
+1,hyrácibus,hyrácibus ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,húmeris,húmeris ✓,huméris ✗,huméris ✗,ours,various/Regula Sancti Benedicti
+1,Iaar,Íaar ✗cap,— ✗unk,— ✗unk,neither,psalms/special
+1,Iabin,Íabin ✗cap,— ✗unk,— ✗unk,neither,psalms/special
+1,Iacóbo,Iácobo ✗,Iacóbo ✓,Iacóbo ✓,Accenteur,antiphons
+1,ibídem,ibídem ✓,íbidem ✗,íbidem ✗,ours,various/Regula Sancti Benedicti
+1,illibátus,illibátus ✓,— ✗unk,illibátus ✓,ours,missal/prefaces
+1,illusiónes,illusiónes ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,Illustrárunt,Illustrárunt ✓,— ✗unk,Illustrárunt ✓,ours,psalms/special
+1,illúsio,illúsio ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,implésse,implésse ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,impugnábant,impugnábant ✓,— ✗unk,impugnábant ✓,ours,psalms/special
+1,impúgna,impúgna ✓,— ✗unk,impúgna ✓,ours,psalms/special
+1,impúgnans,impúgnans ✓,— ✗unk,impúgnans ✓,ours,psalms/special
+1,impúgnant,impúgnant ✓,— ✗unk,impúgnant ✓,ours,psalms/special
+1,Incipit,Íncipit ✗cap,Incipit ✓,Incipit ✓,Accenteur,various/Regula Sancti Benedicti
+1,Inclita,Ínclita ✗cap,Inclita ✓,Inclita ✓,Accenteur,antiphons
+1,Incola,Íncola ✗cap,Incola ✓,Incola ✓,Accenteur,psalms/special
+1,incombústum,incombústum ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Increpa,Íncrepa ✗cap,Increpa ✓,Increpa ✓,Accenteur,psalms/special
+1,Induit,Índuit ✗cap,Induit ✓,Induit ✓,Accenteur,antiphons
+1,inrogátis,inrogátis ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,interrogassémus,interrogassémus ✓,— ✗unk,interrogassémus ✓,ours,various/Regula Sancti Benedicti
+1,intervéntrix,intervéntrix ✓,— ✗unk,— ✗unk,ours,antiphons
+1,introíte,intróite ✗,introíte ✓,intróite ✗,Accenteur,psalms/special
+1,investigásti,investigásti ✓,— ✗unk,investigásti ✓,ours,psalms/special
+1,Invéni,Ínveni ✗,Inveni ✗,Invéni ✓,neither,psalms/special
+1,Iníto,Ínito ✗,Iníto ✓,Inito ✗,Accenteur,antiphons
+1,Ioánnnes,Ioánnnes ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Irruit,Írruit ✗cap,Irruit ✓,Irruit ✓,Accenteur,psalms/special
+1,Irruunt,Írruunt ✗cap,Irruunt ✓,Irruunt ✓,Accenteur,psalms/special
+1,Isaac,Ísaac ✗cap,Isaac ✓,Isaac ✓,Accenteur,psalms/special
+1,Isaías,Isáias ✗,Isaías ✓,Isaías ✓,Accenteur,antiphons
+1,Itaque,Ítaque ✗cap,Itaque ✓,Itaque ✓,Accenteur,responsories
+1,Iterum,Íterum ✗cap,Iterum ✓,Iterum ✓,Accenteur,antiphons
+1,longínquo,longínquo ✓,lónginquo ✗,lónginquo ✗,ours,antiphons
+1,Ludovícus,Ludóvicus ✗,— ✗unk,Ludovícus ✓,neither,antiphons
+1,Lázarum,Lazárum ✗,Lázarum ✓,Lázarum ✓,Accenteur,missal/prefaces
+1,lévitas,lévitas ✓,levítas ✗,levítas ✗,ours,antiphons
+1,líbere,líbere ✓,libére ✗,libére ✗,ours,antiphons
+1,líberet,líberet ✓,libéret ✗,libéret ✗,ours,responsories
+1,machinándas,machinándas ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,maius,maius ✓,máius ✗,máius ✗,ours,various/Regula Sancti Benedicti
+1,Mariæ,Maríae ✗inc,Máriæ ✗,Máriæ ✗,neither,antiphons
+1,maternitátem,maternitátem ✓,— ✗unk,maternitátem ✓,ours,antiphons
+1,Matthía,Mátthia ✗,Matthía ✓,Matthía ✓,Accenteur,various/Rogationes
+1,Memínere,Meminére ✗,Memínere ✓,Meminére ✗,Accenteur,various/Regula Sancti Benedicti
+1,mendícent,méndicent ✗,mendícent ✓,mendícent ✓,Accenteur,psalms/special
+1,metíbor,métibor ✗,— ✗unk,— ✗unk,neither,psalms/special
+1,meípso,meípso ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,misercórdiam,misercórdiam ✓,— ✗unk,— ✗unk,ours,missal/ordo
+1,Mádian,Mádia ✗unk,Mádian ✓,Mádian ✓,Accenteur,psalms/special
+1,Nicoláe,Nícolae ✗,Nicoláe ✓,Nicoláe ✓,Accenteur,various/Rogationes
+1,nullíus,nullíus ✓,núllius ✗,núllius ✗,ours,various/Regula Sancti Benedicti
+1,Obaudítu,Obáuditu ✗,Obaudítu ✓,Obaudítu ✓,Accenteur,various/Regula Sancti Benedicti
+1,Oblíti,Oblíti ✓,Obliti ✗,Obliti ✗,ours,psalms/special
+1,Oblítus,Oblítus ✓,Oblitus ✗,Oblitus ✗,ours,psalms/special
+1,Occídit,Óccidit ✗,Occídit ✓,Occídit ✓,Accenteur,psalms/special
+1,Oderit,Óderit ✗cap,Oderit ✓,Oderit ✓,Accenteur,various/Regula Sancti Benedicti
+1,odíte,odíte ✓,ódite ✗,ódite ✗,ours,psalms/special
+1,Operi,Óperi ✗cap,Operi ✓,Operi ✓,Accenteur,various/Regula Sancti Benedicti
+1,Opréssit,Opréssit ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Ordines,Órdines ✗cap,Ordines ✓,Ordines ✓,Accenteur,various/Regula Sancti Benedicti
+1,Oriens,Óriens ✗cap,Oriens ✓,Oriens ✓,Accenteur,antiphons
+1,Oritur,Óritur ✗cap,Orítur ✗,Oritur ✓,neither,psalms/special
+1,Oríens,Óriens ✗,Oriens ✗,Oriens ✗,neither,antiphons
+1,partíbor,pártibor ✗,— ✗unk,— ✗unk,neither,psalms/special
+1,partúriit,partúriit ✓,— ✗unk,partúriit ✓,ours,psalms/special
+1,patéret,páteret ✗,patéret ✓,patéret ✓,Accenteur,missal/prefaces
+1,pellicáno,pellicáno ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,percomplétur,percomplétur ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,persóna,pérsona ✗,persóna ✓,persóna ✓,Accenteur,various/Regula Sancti Benedicti
+1,pertránsiet,pertránsiet ✓,— ✗unk,— ✗unk,ours,antiphons
+1,pertránsii,pertransíi ✗,pertránsii ✓,pertransíi ✗,Accenteur,psalms/special
+1,pervénit,pervénit ✓,pérvenit ✗,pervénit ✓,ours,antiphons
+1,perímus,périmus ✗,perímus ✓,— ✗unk,Accenteur,missal/prefaces
+1,presbýteros,presbytéros ✗,presbýteros ✓,presbýteros ✓,Accenteur,various/Regula Sancti Benedicti
+1,Prodúcis,Próducis ✗,Prodúcis ✓,Prodúcis ✓,Accenteur,psalms/special
+1,præiúdicet,praeiúdicet ✓,— ✗unk,— ✗unk,ours,various/Regula Sancti Benedicti
+1,Putruérunt,Putrúerunt ✗,Putruérunt ✓,Putruérunt ✓,Accenteur,psalms/special
+1,pænitéberis,paenitebéris ✗,pænitéberis ✓,pænitéberis ✓,Accenteur,various/Regula Sancti Benedicti
+1,Radegúndis,Radegúndis ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Reminíscere,Reminiscére ✗,Reminíscere ✓,Reminiscére ✗,Accenteur,psalms/special
+1,renováberis,renovabéris ✗,renováberis ✓,renováberis ✓,Accenteur,antiphons
+1,responsórius,responsórius ✓,— ✗unk,responsórius ✓,ours,various/Regula Sancti Benedicti
+1,Retribúere,Retribuére ✗,Retribúere ✓,Retribuére ✗,Accenteur,various/Rogationes
+1,sapphíro,sápphiro ✗,sapphíro ✓,sapphíro ✓,Accenteur,responsories
+1,Sapphíræ,Sapphírae ✓,Sapphiræ ✗,Sapphiræ ✗,ours,various/Regula Sancti Benedicti
+1,sarabaítis,sarabáitis ✗,sarabaítis ✓,sarabaítis ✓,Accenteur,various/Regula Sancti Benedicti
+1,scapulárem,scapulárem ✓,— ✗unk,scapulárem ✓,ours,various/Regula Sancti Benedicti
+1,scobébam,scobébam ✓,— ✗unk,— ✗unk,ours,psalms/special
+1,Similábo,Simílabo ✗,Similábo ✓,Similábo ✓,Accenteur,antiphons
+1,sociabátur,sociábatur ✗,sociabátur ✓,sociabátur ✓,Accenteur,psalms/special
+1,solémniter,solémniter ✓,— ✗unk,— ✗unk,ours,antiphons
+1,stabílitas,stabílitas ✓,stabilítas ✗,stabilítas ✗,ours,various/Regula Sancti Benedicti
+1,suóniam,suóniam ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Sálmana,Salmána ✗,Sálmana ✓,Sálmana ✓,Accenteur,psalms/special
+1,Sárion,Saríon ✗,Sárion ✓,Sárion ✓,Accenteur,psalms/special
+1,Sátanæ,Satánae ✗,Sátanæ ✓,Sátanæ ✓,Accenteur,antiphons
+1,séquere,sequére ✗,séquere ✓,sequére ✗,Accenteur,various/Regula Sancti Benedicti
+1,sólveris,solvéris ✗,sólveris ✓,solvéris ✗,Accenteur,responsories
+1,Tantúmdem,Tantum ✗unk,Tantúmdem ✓,Tantúmdem ✓,Accenteur,various/Regula Sancti Benedicti
+1,terræmótus,terraemótus ✓,terrǽmotus ✗,terrǽmotus ✗,ours,various/Rogationes
+1,textúris,téxturis ✗,textúris ✓,textúris ✓,Accenteur,psalms/special
+1,Tobíam,Tóbiam ✗,Tobíam ✓,Tobíam ✓,Accenteur,antiphons
+1,Tránsmigra,Transmígra ✗,Tránsmigra ✓,Tránsmigra ✓,Accenteur,psalms/special
+1,tétegit,tétegit ✓,— ✗unk,— ✗unk,ours,antiphons
+1,Ubíque,Ubíque ✓,Ubique ✗,Ubique ✗,ours,various/Regula Sancti Benedicti
+1,unamquámque,unamquamque ✗,unamquámque ✓,unamquámque ✓,Accenteur,various/Regula Sancti Benedicti
+1,unumquémque,unumquemque ✗,unumquémque ✓,unumquémque ✓,Accenteur,various/Regula Sancti Benedicti
+1,Unusquísque,Unusquisque ✗,Unusquísque ✓,Unusquísque ✓,Accenteur,various/Regula Sancti Benedicti
+1,Utique,Útique ✗cap,Utique ✓,Utique ✓,Accenteur,psalms/special
+1,vobismetípsis,vobismetípsis ✓,— ✗unk,— ✗unk,ours,missal/ordo
+1,vétere,vétere ✓,vetére ✗,vetére ✗,ours,various/Regula Sancti Benedicti
+1,vírgini,vírgini ✓,virgíni ✗,virgíni ✗,ours,antiphons
+1,Vírgini,Vírgini ✓,Virgíni ✗,Virgíni ✗,ours,missal/prefaces
+1,áeris,aeris ✗,áeris ✓,áeris ✓,Accenteur,psalms/special
+1,áerum,aerum ✗,áerum ✓,áerum ✓,Accenteur,various/Regula Sancti Benedicti
+1,álius,alíus ✗,álius ✓,álius ✓,Accenteur,various/Regula Sancti Benedicti
+1,Ángelum,Ángelum ✓,Angelum ✗,Angelum ✗,ours,antiphons
+1,árui,arui ✗,árui ✓,árui ✓,Accenteur,psalms/special
+1,áudias,áudias ✓,audías ✗,audías ✗,ours,psalms/special
+1,áëris,aeris ✗unk,aëris ✗,aëris ✗,neither,various/Rogationes
+1,éremo,erémo ✗,éremo ✓,éremo ✓,Accenteur,antiphons
+1,éxiet,éxiet ✓,— ✗unk,— ✗unk,ours,antiphons
+1,íncidit,incídit ✗,íncidit ✓,íncidit ✓,Accenteur,psalms/special
+1,írrita,írrita ✓,irríta ✗,irríta ✗,ours,psalms/special
+1,írritas,írritas ✓,irrítas ✗,irrítas ✗,ours,psalms/special
+1,ódium,ódium ✓,odium ✗,odium ✗,ours,psalms/special
+1,únitas,únitas ✓,unítas ✗,unítas ✗,ours,missal/prefaces

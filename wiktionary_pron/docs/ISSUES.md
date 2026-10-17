@@ -4,7 +4,7 @@ Findings that outlived the session in which they were discovered. IDs are
 stable and never renumbered; fixed rows stay, with `Status: FIXED` and the
 evidence that closed them.
 
-Totals (machine-counted from `**Status:**` lines, 2026-10-11): 7 open, 1 needs-decision, 42 fixed, 1 partial; 52 entries, some of which mark status only in their heading.
+Totals (machine-counted from `**Status:**` lines, 2026-10-12): 10 open, 1 needs-decision, 42 fixed, 1 partial; 55 entries, some of which mark status only in their heading.
 
 ---
 
@@ -1425,6 +1425,12 @@ corpus: LESSONS 2026-10-08. Engine gold: 1127/1140 = 98.86% agreement over the
 Ordo Missae corpus, 13 disagreements pinned in `test/data/accent-failures-snapshot.json`:
 - **Corpus self-inconsistencies (6)**: `Filii` 1× vs `Fílii` 22×, `Omnipotens`
   1× vs `Omnípotens` 3×, `igitur`/`pariter`/`Alitur`/`Angelo` unaccented once each.
+  **Correction 2026-10-11:** `Alitur` and `Angelo` are NOT inconsistencies — the
+  corpus applies Solesmes Option 2 (no acute on a capitalized initial)
+  almost everywhere: only 2 capital-initial acutes in all 871 files, 0 in the
+  Ordo set. We write those accents out by design (help page), so these are
+  convention differences. The other four stand (`Filii` 1 vs 116, `Omnipotens`
+  1 vs 101, `igitur` 1 vs 14, `pariter` 1 vs 22, corpus-wide).
 - **Corpus error (1)**: `indignátionem` — the corpus's own `benedictióne` family
   is accented our way; the wordlist `indigna_ti^o_nem` is right.
 - **Inherited from wordlist reading choice (6)**: `ágamus`, `cónditus`,
@@ -1542,7 +1548,8 @@ text object above the line baseline. Replayed against the user's broken PDF
 (0 raised → fail) and the fixed export (2 → pass).
 
 ## M-031 — Morpheus words displayed as their lemma: effuget → effugo (2026-10-11) ✅
-**Status: FIXED** (engine `45e7821`, site `793d5c8`; deploy pending merge).
+**Status: FIXED** (engine `45e7821`+`5fbd757`, PR #2 merge `831cf70`; site
+`793d5c8`, PR #11 merge `81595ad`; deployed and live-verified 2026-10-11).
 Pre-existing in the main macronizer path, not a stress-feature regression:
 macrons mode showed `effugo` for typed `effuget`. Morpheus prints the form
 field as `accented,lemma` OR as a bare `lemma` (`V effugo  pres subj act 3rd
@@ -1594,7 +1601,7 @@ every token in order; unknown = miss. Strict = same word and same accent.
 | | first output | any candidate |
 |---|---|---|
 | macronizer, live page before M-031 | 99.14% strict (99.37% raw) | — |
-| macronizer, local page after M-031 | **99.49%** (raw = strict) | — |
+| macronizer, live page after M-031 (local identical) | **99.49%** (raw = strict) | — |
 | Accenteur `91823fe` (corpus README link) | 98.79% | 99.43% |
 | Accenteur master (live demo, Oct 2026) | 98.22% | 99.33% |
 | same output, ours vs Accenteur `91823fe` | 98.95% after fix (98.83% before) | |
@@ -1604,6 +1611,42 @@ remaining misses are mostly shared (corpus self-inconsistencies `Filii`,
 `Omnipotens`, `igitur`, `pariter`; quantity readings `perséveret`,
 `indignátionem`). Accenteur master has a data regression the pinned revision
 lacks (`servire`, `transire`, `pervenire` unknown; `fiéri`). Harness and
-records: `F:/temp/lea/prayer/` (`prayer-v4.mjs`, `PRAYER_URL` selects
-live/local; `FINDINGS.md`). Do not quote these per-token figures in the same
-sentence as the 1140-word distinct-word figures — different denominators.
+findings: `_sessions/2026-10-11-prayer-test/` (`prayer-v4.mjs`, `PRAYER_URL`
+selects live/local; `FINDINGS.md` says how to re-fetch the Accenteur files).
+Do not quote these per-token figures in the same sentence as the 1140-word
+distinct-word figures — different denominators.
+
+## M-034 — `filterAccents` is ported but never called on Morpheus forms (2026-10-11)
+**Status: OPEN.** Python sets `parse[ACCENTEDFORM] = filter_accents(accented)`
+for every Morpheus parse, both the `accented,lemma` and the bare-lemma branch
+(`postags.py` 439). The port has `filterAccents()` in `src/utils/latin.ts` but no
+caller — `analyzeUnknownWords` stores the raw field. Effect, Morpheus-only words:
+no macron added before `-ns/-nf/-nx/-nct` (`e^ns → e_ns`), `^_` order and
+`_^` + muta-cum-liquida left unnormalized, `-u_m` keeps its macron. Pre-existing,
+found while fixing M-031; parity can't see it (cruncher shimmed out in Node).
+Fix: call it once in `parseAnalysisLine` after both branches, then re-run the
+prayer test to measure the change.
+
+## M-035 — An interrupted first visit can keep old-parser Morpheus rows (2026-10-11)
+**Status: OPEN** (low). `EXTRAS_VERSION` (M-031) clears stale `extra` rows only
+when a complete meta record exists. If a visitor's very first wordlist persist
+was interrupted (no meta), `isPopulated()` returns false and the reload's
+`addEntries` writes meta with the current `extrasVersion` without clearing
+`extra`, so rows the OLD parser wrote during that interrupted session would
+read as current. Needs a pre-fix visit that typed an out-of-wordlist word and
+closed the tab mid-persist. Fix if ever needed: clear `extra` in the `!meta`
+branch of `isPopulated()`.
+
+## M-036 — Roman numerals get a stress accent; the page lowercases all-caps words (2026-10-12)
+**Status: OPEN.** Found in the full-corpus test (the user spotted
+`XXXVIII → Xxxviíi` in the Regula's chapter numbers). Two defects:
+- **Engine:** Roman numerals are stressed as Latin words — `III → ÍII`,
+  `VIII → VÍII`, `XIII → XÍII` (stressedText). Accenteur leaves them bare.
+  Fix: skip the stress pass for all-uppercase tokens that are valid Roman
+  numerals (case decides: `VI` numeral vs `vi` ablative of *vis*).
+- **Page:** `matchCase()` only copies the first letter's case, so an
+  all-caps word comes back lowercase after it: `XXXVIII → Xxxviii`,
+  `II → Ii`. The engine keeps the case. Same family as M-032 (the page
+  re-renders from the wordlist candidate instead of the engine's aligned text).
+The accent test now excludes numerals and the `V.`/`R.`/`N.` markers (206
+tokens); see `_sessions/2026-10-11-prayer-test/FINDINGS.md`.
