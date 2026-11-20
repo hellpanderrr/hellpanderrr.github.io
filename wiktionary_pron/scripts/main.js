@@ -52,9 +52,15 @@ const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache, {
  * @param {string} lang_form - The form (phonetic or phonemic) of the transcription.
  * @return {object} An object containing the IPA representation and the status of the conversion
  */
+// get_ipa_cache keeps results for 7 days, keyed by text + args. When a language's answers change (here:
+// the Bulgarian/Belorussian dictionaries), bump its entry so results cached before the change are not
+// served for up to a week. get_ipa_no_cache reads only the first three ";" parts, so a fourth is ignored.
+const IPA_CACHE_REV = { Bulgarian: "d1", Belorussian: "d1" };
+
 function getIpa(text, lang, lang_style, lang_form) {
   // Concatenate the language, style, and form parameters
   let args = lang + ";" + lang_style + ";" + lang_form;
+  if (IPA_CACHE_REV[lang]) args += ";" + IPA_CACHE_REV[lang];
   // Call memoized get_ipa_cache function to retrieve the IPA representation
   return get_ipa_cache(text, args);
 }
@@ -431,7 +437,8 @@ async function transcribe(mode, translate = false, inputText = null) {
           const current = event.target;
 
           const all_values = current.getAttribute("all_values");
-          if (all_values === "") {
+          // a word with ONE pronunciation has no (or an empty) all_values: nothing to cycle
+          if (!all_values) {
             return;
           }
           let c = "";

@@ -63,6 +63,54 @@ test.describe("lexicon path", () => {
     });
   }
 
+  // A word with ONE pronunciation has no all_values; clicking it used to throw
+  // "Cannot read properties of null (reading 'split')" (the variant-cycling handler).
+  test("Bulgarian: clicking a single-pronunciation word does not throw", async ({ page }) => {
+    const errors = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    const span = page.locator("#result .ipa").first();
+    await expect(span).toBeVisible();
+    await span.click();
+    await page.waitForTimeout(300);
+    expect(errors).toEqual([]);
+  });
+
+  // get_ipa_cache keeps results for 7 days. Results cached BEFORE the dictionary (unstressed) must not
+  // be served after it: the Bulgarian/Belorussian cache keys carry a revision.
+  test("Bulgarian: a result cached before the dictionary is not served", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
+    // Rewrite the cache as the OLD code would have left it: the key without the revision, an unstressed result.
+    await page.evaluate(() => {
+      const store = JSON.parse(localStorage.getItem("get_ipa_no_cache"));
+      const m = store.get_ipa_no_cache;
+      for (const key of Object.keys(m)) {
+        const args = JSON.parse(key);
+        if (args[0] !== "работа") continue;
+        const entry = m[key];
+        delete m[key];
+        const old = args.slice();
+        old[1] = String(old[1]).split(";").slice(0, 3).join(";"); // drop the revision part
+        entry.result = { ...entry.result, value: "rɐbotɐ", source: "rules" };
+        entry.expiration = Date.now() + 86_400_000;
+        m[JSON.stringify(old)] = entry;
+      }
+      localStorage.setItem("get_ipa_no_cache", JSON.stringify(store));
+    });
+    await page.reload();
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
+  });
+
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
   test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {
