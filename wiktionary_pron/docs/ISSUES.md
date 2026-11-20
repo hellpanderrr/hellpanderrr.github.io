@@ -1659,7 +1659,10 @@ tokens); see `_sessions/2026-10-11-prayer-test/FINDINGS.md`.
   3 s request-spacing wait); `stop()` there threw a TypeError, and a slow earlier speak
   could play over a newer one. Now a local controller + `#speakSeq`.
 - **Timeouts:** a timed-out worker's request kept running. Now a child controller.
-- **Evidence:** `scripts/tests/unit/tts_speak.test.js` (7 tests, fetch mocked); 6 fail on
+- **Review fix (2026-11-20):** the first version dropped the stop()-link once the response
+  headers arrived, so stopping during the body download did not abort it; fixed, with a
+  regression test (8 tests now).
+- **Evidence:** `scripts/tests/unit/tts_speak.test.js` (fetch mocked); 6 of the first 7 fail on
   the old logic ("Got unwanted rejection: speak() must not throw when stop() lands
   during the spacing delay", cache collision, ...). `npm test` green (unit 30, IPA 88,
   gloss, census); `e2e/transcription.spec.js` 13 passed (the page still loads).

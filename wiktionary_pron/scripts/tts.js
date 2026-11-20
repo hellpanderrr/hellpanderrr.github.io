@@ -127,10 +127,11 @@ class StreamingTTS {
   // request can never play over a newer one (or after the reader pressed stop).
   #speakSeq = 0;
 
-  // Tuning / test hook: { requestDelayMs, workerTimeoutMs }.
+  // Tuning / test hook: { requestDelayMs, workerTimeoutMs, enableCache }.
   configure(opts = {}) {
     if (opts.requestDelayMs !== undefined) this.#requestDelayMs = opts.requestDelayMs;
     if (opts.workerTimeoutMs !== undefined) this.#workerTimeoutMs = opts.workerTimeoutMs;
+    if (opts.enableCache !== undefined) this.#enableCache = opts.enableCache;
   }
 
   // Fetch with a per-worker timeout. The request runs on a CHILD controller that is
@@ -154,7 +155,11 @@ class StreamingTTS {
       });
     } finally {
       clearTimeout(timer);
-      parent.signal.removeEventListener("abort", onParentAbort);
+      // The parent-abort listener is deliberately NOT removed here. fetch() resolves
+      // when the HEADERS arrive; speak() then reads the body (response.blob()) on the
+      // same child signal, and stop() must still be able to abort that download. The
+      // parent controller is per speak() call and is released with it, so the (at most
+      // one per worker tried) listeners do not accumulate.
     }
   }
 

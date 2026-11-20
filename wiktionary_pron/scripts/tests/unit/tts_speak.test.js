@@ -20,6 +20,16 @@ const deferred = () => {
 };
 const audio = () => new Blob([new Uint8Array(4000).fill(1)], { type: "audio/mpeg" });
 const tick = (ms = 20) => new Promise((r) => setTimeout(r, ms));
+// Wait for a condition (not a guessed delay): race tests must synchronize on the
+// checkpoint the interleaving needs, or a slow machine lets them pass without
+// exercising the race.
+const until = async (cond, ms = 3000) => {
+  const t0 = Date.now();
+  while (!cond()) {
+    if (Date.now() - t0 > ms) throw new Error("timed out waiting for the test checkpoint");
+    await tick(5);
+  }
+};
 
 describe("tts.js StreamingTTS", function () {
   this.timeout(10000);
@@ -130,9 +140,16 @@ describe("tts.js StreamingTTS", function () {
   describe("speak()", function () {
     it("stop() while the audio is downloading does not make speak() throw, and nothing plays", async function () {
       const blobGate = deferred();
-      const t = await make(async () => ({ ok: true, blob: () => blobGate.promise }));
+      const bodyStarted = deferred();
+      const t = await make(async () => ({
+        ok: true,
+        blob: () => {
+          bodyStarted.resolve();
+          return blobGate.promise;
+        },
+      }));
       const p = t.speak({ text: `Hallo ${Math.random()}`, voice: VOICE });
-      await tick(50); // let it reach response.blob()
+      await bodyStarted.promise; // it is now inside response.blob()
       t.stop();
       blobGate.resolve(audio());
       await assert.doesNotReject(p, "speak() must not throw when stop() lands mid-download");
@@ -149,7 +166,10 @@ describe("tts.js StreamingTTS", function () {
           ttsCalls += 1;
           return { ok: true, blob: async () => audio() };
         },
-        { requestDelayMs: 300 },
+        // Cache OFF: with it on, a slow IndexedDB lookup could outlast the sleep below,
+        // stop() would land before the spacing wait even started, and the test would pass
+        // without exercising it. With it off, speak() goes straight into the 300 ms wait.
+        { requestDelayMs: 300, enableCache: false },
       );
       await t.speak({ text: `Erste ${Math.random()}`, voice: VOICE }); // sets the spacing clock
       ttsCalls = 0;
@@ -163,6 +183,39 @@ describe("tts.js StreamingTTS", function () {
       assert.strictEqual(globalThis.Audio.plays, 0, "a stopped speak played");
     });
 
+    it("stop() AFTER the response headers arrive aborts the request itself, and speak() settles", async function () {
+      // fetch() resolves when the HEADERS arrive; the body is read later (response.blob()).
+      // The parent-abort link must stay connected through that read: a stopped download
+      // that keeps running, or a stalled body that leaves speak() pending forever, is
+      // exactly what the old shared signal prevented.
+      let signal;
+      const bodyStarted = deferred();
+      const t = await make(async (url, init) => {
+        signal = init.signal;
+        return {
+          ok: true,
+          // A body that never finishes, like a real one: it fails only if ITS request is aborted.
+          blob: () =>
+            new Promise((_, reject) => {
+              bodyStarted.resolve();
+              signal.addEventListener("abort", () =>
+                reject(Object.assign(new Error("aborted"), { name: "AbortError" })),
+              );
+            }),
+        };
+      });
+
+      const p = t.speak({ text: `Körper ${Math.random()}`, voice: VOICE });
+      await bodyStarted.promise;
+      assert.strictEqual(signal.aborted, false, "the request must be live before stop()");
+      t.stop();
+
+      assert.strictEqual(signal.aborted, true, "stop() must abort the request while its body is downloading");
+      const settled = await Promise.race([p.then(() => "settled"), tick(500).then(() => "STILL PENDING")]);
+      assert.strictEqual(settled, "settled", "speak() must not hang after stop()");
+      assert.strictEqual(globalThis.Audio.plays, 0);
+    });
+
     it("a slow first speak never plays over a newer one", async function () {
       const gates = [];
       const t = await make(async () => {
@@ -171,9 +224,9 @@ describe("tts.js StreamingTTS", function () {
         return { ok: true, blob: () => g.promise };
       });
       const a = t.speak({ text: `Erste ${Math.random()}`, voice: VOICE });
-      await tick(50);
+      await until(() => gates.length === 1);
       const b = t.speak({ text: `Zweite ${Math.random()}`, voice: VOICE }); // stop() + new request
-      await tick(50);
+      await until(() => gates.length === 2);
       assert.strictEqual(gates.length, 2, "both speaks should be waiting on their audio");
 
       gates[0].resolve(audio()); // the OLD one finishes first

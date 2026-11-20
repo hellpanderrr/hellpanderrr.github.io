@@ -1164,6 +1164,16 @@ Catilinam I, Vergil Aeneid I, Ovid Metamorphoses I.
      and a per-call sequence number (`#speakSeq`) that `stop()` and every new speak bump.
   3. The 9 s per-worker timeout rejected but never aborted the request. Each request
      now runs on a child controller aborted by the timeout or by the parent speak.
+- **Review caught a regression in my own timeout wrapper.** `#fetchWithTimeout` removed
+  its parent-abort listener in `finally`, i.e. as soon as the response HEADERS arrived; but
+  `speak()` reads the body (`response.blob()`) afterwards on the same child signal, so a
+  `stop()` during the body download no longer aborted it, and a stalled body left `speak()`
+  pending forever (the old shared signal did abort it). Found by CodeRabbit on PR #13 and
+  confirmed by experiment (request not aborted, `speak()` pending). The listener now stays
+  connected for the life of the call. The cancellation tests also synchronize on real
+  checkpoints (`until(...)`, "body started") instead of fixed sleeps, and the
+  spacing-delay test turns the cache off so a slow lookup cannot let it pass without
+  exercising the wait. `fetch()` resolving does not mean the request is finished.
 - **The extension's `scripts/tts_engine.js` is a fork, not a sync target**
   (`sync_from_site.cjs` does not copy it), so a fix to one copy has to be ported to the
   other by hand. Both now carry the same three fixes.
