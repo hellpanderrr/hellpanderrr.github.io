@@ -1,3 +1,23 @@
+// Cache key for a synthesized utterance. It must cover the WHOLE text: the old key
+// was "voice-rate-pitch-length-<first 50 chars with every non-ASCII-letter
+// stripped>", so for Russian, Ukrainian, Greek, ... the text part was EMPTY and two
+// different sentences of the same length shared one cache entry (the second played
+// the first's audio). cyrb53 is a small, fast, well-distributed 53-bit string hash;
+// the length rides along as a cheap extra discriminator.
+export function ttsCacheKey(voiceShortName, rate, pitch, text) {
+  let h1 = 0xdeadbeef;
+  let h2 = 0x41c6ce57;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  const hash = (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(16);
+  return `${voiceShortName}-${rate}-${pitch}-${text.length}-${hash}`;
+}
+
 class IndexedDBCache {
   #dbName = "ttsCacheDB";
   #storeName = "audioStore";
@@ -102,30 +122,44 @@ class StreamingTTS {
   // ~21s platform kill before failing over.
   #workerTimeoutMs = 9000;
 
-  // Promise.race wrapper: settles on the worker response OR the abort signal OR
-  // a per-worker timeout. A timed-out worker counts as a failed attempt so the
-  // loop rotates to the next worker.
-  async #fetchWithTimeout(url, init) {
-    const controller = this.#currentAbortController;
+  // Bumped by every speak() and every stop(). A speak() remembers its own number
+  // and gives up after any await if the number has moved on, so a slow or stopped
+  // request can never play over a newer one (or after the reader pressed stop).
+  #speakSeq = 0;
+
+  // Tuning / test hook: { requestDelayMs, workerTimeoutMs, enableCache }.
+  configure(opts = {}) {
+    if (opts.requestDelayMs !== undefined) this.#requestDelayMs = opts.requestDelayMs;
+    if (opts.workerTimeoutMs !== undefined) this.#workerTimeoutMs = opts.workerTimeoutMs;
+    if (opts.enableCache !== undefined) this.#enableCache = opts.enableCache;
+  }
+
+  // Fetch with a per-worker timeout. The request runs on a CHILD controller that is
+  // aborted when the timeout fires or when `parent` (the current speak()) is
+  // aborted, so a hung worker's connection is actually torn down instead of left
+  // running after the rotation loop moves on. A timed-out worker counts as a failed
+  // attempt so the loop rotates to the next worker.
+  async #fetchWithTimeout(url, init, parent) {
+    const child = new AbortController();
+    const onParentAbort = () => child.abort();
+    if (parent.signal.aborted) child.abort();
+    else parent.signal.addEventListener("abort", onParentAbort, {once: true});
     let timer = null;
-    let timedOut = false;
-    const timeout = new Promise((_, reject) => {
-      timer = setTimeout(() => {
-        timedOut = true;
-        reject(new Error('Worker timeout'));
-      }, this.#workerTimeoutMs);
-      controller.signal.addEventListener('abort', () => clearTimeout(timer), {once: true});
-    });
     try {
-      const result = await Promise.race([
-        fetch(url, { ...init, signal: controller.signal }),
-        timeout
-      ]);
-      if (!timedOut) clearTimeout(timer);
-      return result;
+      return await new Promise((resolve, reject) => {
+        timer = setTimeout(() => {
+          child.abort();
+          reject(new Error("Worker timeout"));
+        }, this.#workerTimeoutMs);
+        fetch(url, {...init, signal: child.signal}).then(resolve, reject);
+      });
     } finally {
-      // swallows any leftover timer rejection after the race is won
-      timeout.catch(() => {});
+      clearTimeout(timer);
+      // The parent-abort listener is deliberately NOT removed here. fetch() resolves
+      // when the HEADERS arrive; speak() then reads the body (response.blob()) on the
+      // same child signal, and stop() must still be able to abort that download. The
+      // parent controller is per speak() call and is released with it, so the (at most
+      // one per worker tried) listeners do not accumulate.
     }
   }
 
@@ -196,15 +230,17 @@ class StreamingTTS {
     if (!text) return console.error("No text provided.");
     if (!voice?.raw?.ShortName) return console.error("Invalid voice object.");
 
-    this.stop();
+    this.stop(); // bumps #speakSeq, invalidating any speak still in flight
+    const call = ++this.#speakSeq;
     this.#audioPlayer.volume = Math.max(0, Math.min(1, volume));
 
-    const safeTextSnippet = text.slice(0, 50).replace(/[^a-z0-9]/gi, '');
-    const cacheKey = `${voice.raw.ShortName}-${rate}-${pitch}-${text.length}-${safeTextSnippet}`;
+    const cacheKey = ttsCacheKey(voice.raw.ShortName, rate, pitch, text);
 
     if (this.#enableCache) {
       try {
         const cachedBlob = await this.#cache.getAudio(cacheKey);
+        // The lookup is async: a newer speak() (or a stop()) may have happened.
+        if (call !== this.#speakSeq) return;
         if (cachedBlob && cachedBlob.size > 0) {
           console.log("TTS: Cache hit");
           this.#playBlob(cachedBlob);
@@ -218,7 +254,12 @@ class StreamingTTS {
     const rateStr = (Math.round((rate - 1) * 100) >= 0 ? "+" : "") + Math.round((rate - 1) * 100) + "%";
     const pitchStr = (Math.round((pitch - 1) * 10) >= 0 ? "+" : "") + Math.round((pitch - 1) * 10) + "Hz";
 
-    this.#currentAbortController = new AbortController();
+    // A LOCAL controller. stop() nulls the shared field and a newer speak() replaces
+    // it, so reading `this.#currentAbortController` after an await either threw (null)
+    // or tested somebody else's controller and played stale audio.
+    const ctl = new AbortController();
+    this.#currentAbortController = ctl;
+    const stale = () => ctl.signal.aborted || call !== this.#speakSeq;
 
     // 1. Global delay execution (happens only ONCE per speak call)
     const now = Date.now();
@@ -229,7 +270,7 @@ class StreamingTTS {
       await new Promise(resolve => setTimeout(resolve, waitTime));
     }
 
-    if (this.#currentAbortController.signal.aborted) return;
+    if (stale()) return;
 
     // Set timestamp AFTER the delay so next calls wait properly
     this.#lastGlobalRequestTime = Date.now();
@@ -240,7 +281,7 @@ class StreamingTTS {
 
     // 2. Worker rotation loop
     while (attempts < maxAttempts) {
-      if (this.#currentAbortController.signal.aborted) return;
+      if (stale()) return;
 
       const worker = this.#getBestWorker();
       worker.lastUsed = Date.now();
@@ -259,7 +300,7 @@ class StreamingTTS {
             pitch: pitchStr,
             volume: "+0%"
           })
-        });
+        }, ctl);
 
         if (!response.ok) {
           const errorText = await response.text();
@@ -267,6 +308,7 @@ class StreamingTTS {
         }
 
         const blob = await response.blob();
+        if (stale()) return; // stopped (or superseded) while the audio downloaded
         if (blob.size < 100) {
           throw new Error("Received empty audio from Worker.");
         }
@@ -288,7 +330,7 @@ class StreamingTTS {
       if (this.#enableCache) {
         this.#cache.saveAudio(cacheKey, audioBlob);
       }
-      if (this.#currentAbortController.signal.aborted) return;
+      if (stale()) return;
       this.#playBlob(audioBlob);
     } else {
       console.error("All workers failed.");
@@ -296,6 +338,7 @@ class StreamingTTS {
   }
 
   stop() {
+    this.#speakSeq += 1;
     if (this.#currentAbortController) {
       this.#currentAbortController.abort();
       this.#currentAbortController = null;
@@ -582,4 +625,4 @@ try {
   console.error("Error loading TTS setup: ", error);
 }
 
-export { tts, setLanguageAndFindVoice };
+export { tts, setLanguageAndFindVoice, StreamingTTS };

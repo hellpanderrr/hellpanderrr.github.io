@@ -1650,3 +1650,21 @@ branch of `isPopulated()`.
   re-renders from the wordlist candidate instead of the engine's aligned text).
 The accent test now excludes numerals and the `V.`/`R.`/`N.` markers (206
 tokens); see `_sessions/2026-10-11-prayer-test/FINDINGS.md`.
+
+## M-037 — `StreamingTTS.speak()` races, cache-key collisions for non-Latin text, leaked timeouts (2026-11-20)
+**Status: FIXED** (2026-11-20, PR `fix/tts-robustness`)
+- **Cache key:** ASCII letters of the first 50 chars only -> empty for Cyrillic/Greek,
+  so equal-length sentences shared one cached audio. Now `ttsCacheKey()` (whole-text hash).
+- **`stop()` race:** the shared abort controller was dereferenced after awaits (incl. the
+  3 s request-spacing wait); `stop()` there threw a TypeError, and a slow earlier speak
+  could play over a newer one. Now a local controller + `#speakSeq`.
+- **Timeouts:** a timed-out worker's request kept running. Now a child controller.
+- **Review fix (2026-11-20):** the first version dropped the stop()-link once the response
+  headers arrived, so stopping during the body download did not abort it; fixed, with a
+  regression test (8 tests now).
+- **Evidence:** `scripts/tests/unit/tts_speak.test.js` (fetch mocked); 6 of the first 7 fail on
+  the old logic ("Got unwanted rejection: speak() must not throw when stop() lands
+  during the spacing delay", cache collision, ...). `npm test` green (unit 30, IPA 88,
+  gloss, census); `e2e/transcription.spec.js` 13 passed (the page still loads).
+- Related (not in this issue): Edge TTS was down on all endpoints from ~2026-10-12 until
+  the proxies sent Microsoft's v2 `Sec-MS-GEC` token; see LESSONS 2026-11-20.
