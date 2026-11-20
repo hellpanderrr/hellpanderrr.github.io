@@ -40,6 +40,44 @@ test.describe("lexicon path", () => {
     expect(servedFromChunks).toBe("chunked");
   });
 
+  // Stress is not in Bulgarian or Belarusian spelling, so each has an IPA dictionary
+  // (kaikki.org -> utils/bg_lexicon.zip, be_lexicon.zip). Without it the rules print no
+  // stress mark at all ("работа" -> rɐbotɐ).
+  for (const [lang, word, expected] of [
+    ["Bulgarian", "работа", "ˈrabotɐ"], // has its own Wiktionary entry: its IPA, as written
+    ["Belorussian", "вада", "vaˈda"],
+    // only in a lemma's inflection table (no page, no IPA): the dictionary holds the stressed
+    // spelling and the rules transcribe it, like Russian/Ukrainian
+    ["Bulgarian", "приятели", "priˈja"],
+    ["Belorussian", "настаўніка", "naˈstau"],
+  ]) {
+    test(`${lang}: stress comes from the dictionary (${word})`, async ({ page }) => {
+      await page.goto(APP);
+      await selectLanguage(page, lang, 180_000);
+      await page.fill("#text_to_transcribe", word);
+      await page.click("#submit");
+      const ipa = page.locator("#result .ipa").first();
+      await expect(ipa).toContainText(expected);
+      // like every other dictionary the app shows bare IPA: no brackets, no slashes
+      expect(await ipa.textContent()).not.toMatch(/[[\]/]/);
+    });
+  }
+
+  // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
+  // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
+  test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "Бълга̀рия ѝ");
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa")).toHaveCount(2);
+    // (the app appends one empty error cell after every line; only a cell with text is a failure)
+    await expect(page.locator("#result .error").filter({ hasText: /\S/ })).toHaveCount(0);
+    const [a, b] = await page.locator("#result .ipa").allTextContents();
+    expect(a).toContain("ˈɡarijɐ");
+    expect(b.trim()).toBe("i");
+  });
+
   test("Russian: V4 lexicon loads and multi-form word offers alternatives", async ({
     page,
   }) => {

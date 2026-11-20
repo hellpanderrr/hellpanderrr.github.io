@@ -195,6 +195,21 @@ function lookupInLexicon(lexiconName, text) {
 }
 
 /**
+ * Bulgarian marks stress with a GRAVE accent (Бълга̀рия, ѐ, ѝ), which Wikipedia-style text uses;
+ * the pronunciation module reads only the acute and errors on a grave. A word typed with a grave
+ * and no acute gets an acute (the typed stress is kept); a word with both keeps them (grave =
+ * secondary stress). The precomposed ѝ is just the pronoun "и".
+ */
+function normalizeBulgarianStress(text) {
+  return text
+    .replace(/ѝ/g, "и")
+    .replace(/Ѝ/g, "И")
+    .replace(/ѐ/g, "ѐ")
+    .replace(/Ѐ/g, "Ѐ")
+    .replace(/\S+/g, (w) => (w.includes("́") ? w : w.replace(/̀/g, "́")));
+}
+
+/**
  * A map of language-specific handlers to replace the main switch statement.
  * Each handler receives a context object and returns the calculated IPA string.
  */
@@ -429,13 +444,11 @@ const ipaHandlers = {
 
   // --- Group 2: Direct Generation for Phonemic form (No Lexicon) ---
   ...Object.fromEntries(
-    ["Belorussian", "Bulgarian", "Polish", "Mongolian"].map((lang) => [
+    ["Polish", "Mongolian"].map((lang) => [
       lang,
       ({ cleanText, langForm }) => {
         if (langForm !== "Phonemic") return null;
         const generators = {
-          Belorussian: () => window.be_ipa.toIPA(cleanText),
-          Bulgarian: () => window.bg_ipa.toIPA(cleanText),
           Polish: () => window.pl_ipa.convert_to_IPA(cleanText),
           Mongolian: () => window.mn_ipa.to_IPA(cleanText),
         };
@@ -457,21 +470,30 @@ const ipaHandlers = {
 
   // --- Group 3: Lexicon Lookup with Generation Fallback ---
   ...Object.fromEntries(
-    ["German", "French", "Czech", "Lithuanian", "Icelandic"].map((lang) => [
+    ["German", "French", "Czech", "Lithuanian", "Icelandic", "Bulgarian", "Belorussian"].map((lang) => [
       lang,
       ({ cleanText, langForm, langStyle }) => {
         // langStyle needed for French post-processing
         let ipa = null;
+        if (lang === "Bulgarian") cleanText = normalizeBulgarianStress(cleanText);
 
         // Step 1: Attempt lexicon lookup for Phonemic form
+        let stressedForms = null;
         if (langForm === "Phonemic") {
           const dictRecord = lookupInLexicon(lang, cleanText);
           if (dictRecord) {
-            ipa = dictRecord;
+            // Bulgarian/Belorussian: a record is either IPA (the word has its own Wiktionary
+            // entry: "[ˈrabotɐ]") or stressed spelling from an inflection table
+            // ("ра́ботата"), which the rules transcribe below, like Russian/Ukrainian.
+            if (/^[[/]/.test(dictRecord) || !["Bulgarian", "Belorussian"].includes(lang)) {
+              ipa = dictRecord;
+            } else {
+              stressedForms = dictRecord.split(",").map((f) => f.trim()).filter(Boolean);
+            }
           }
         }
 
-        // Step 2: If no record found, use a generator
+        // Step 2: If no record found (or only a stressed spelling), use a generator
         if (ipa === null) {
           const generators = {
             German: {
@@ -490,10 +512,28 @@ const ipaHandlers = {
             Icelandic: {
               Phonemic: () => window.is_ipa.toIPA(cleanText, "", ""),
             },
+            // Stress is not in the spelling: the dictionary (kaikki.org) supplies it, the
+            // rules below only run for words it does not know (no stress mark then).
+            Bulgarian: {
+              Phonemic: () => window.bg_ipa.toIPA(cleanText),
+            },
+            Belorussian: {
+              Phonemic: () => window.be_ipa.toIPA(cleanText),
+            },
           };
           const langGenerator = generators[lang]?.[langForm];
           if (langGenerator) {
             ipa = langGenerator();
+          }
+          if (stressedForms) {
+            const gen = {
+              Bulgarian: (t) => window.bg_ipa.toIPA(t),
+              Belorussian: (t) => window.be_ipa.toIPA(t),
+            }[lang];
+            const fromForms = [...new Set(stressedForms.map((f) => gen(f)).filter(Boolean))]
+              .map((i) => `/${i}/`)
+              .join(",");
+            if (fromForms) ipa = fromForms;
           }
         }
 

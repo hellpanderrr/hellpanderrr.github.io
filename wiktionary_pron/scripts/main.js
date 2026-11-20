@@ -112,7 +112,9 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Ukrainian" ||
           lang === "Czech" ||
           lang === "Russian" ||
-          lang === "Lituanian" ||
+          lang === "Lithuanian" ||
+          lang === "Bulgarian" ||
+          lang === "Belorussian" ||
           lang === "French"
         ) {
           [value, values] = processGermanIpa(value);
@@ -190,6 +192,8 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "German" ||
           lang === "Czech" ||
           lang === "Lithuanian" ||
+          lang === "Bulgarian" ||
+          lang === "Belorussian" ||
           lang === "Russian" ||
           lang === "Ukrainian" ||
           lang === "French"
@@ -325,7 +329,9 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "German" ||
           lang === "Czech" ||
           lang === "Ukrainian" ||
-          lang === "Lituanian" ||
+          lang === "Lithuanian" ||
+          lang === "Bulgarian" ||
+          lang === "Belorussian" ||
           lang === "Russian" ||
           lang === "French"
         ) {
@@ -407,7 +413,9 @@ async function transcribe(mode, translate = false, inputText = null) {
     if (
       lang === "German" ||
       lang === "Czech" ||
-      lang === "Lituanian" ||
+      lang === "Lithuanian" ||
+      lang === "Bulgarian" ||
+      lang === "Belorussian" ||
       lang === "Russian" ||
       lang === "Ukrainian" ||
       lang === "French"
@@ -670,6 +678,8 @@ async function updateOptionsUponLanguageSelection(event) {
       "Ukrainian",
       "Russian",
       "Icelandic",
+      "Bulgarian",
+      "Belorussian",
     ];
     if (dictLanguages.includes(selectedLanguage) && useDictionary === "true") {
       updateLoadingText(`${selectedLanguage} lexicon`, "");
