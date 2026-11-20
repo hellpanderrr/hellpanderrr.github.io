@@ -483,8 +483,10 @@ const ipaHandlers = {
           const dictRecord = lookupInLexicon(lang, cleanText);
           if (dictRecord) {
             // Bulgarian/Belorussian: a record is either IPA (the word has its own Wiktionary
-            // entry: "[ˈrabotɐ]") or stressed spelling from an inflection table
-            // ("ра́ботата"), which the rules transcribe below, like Russian/Ukrainian.
+            // entry; the builder writes every IPA as "/ˈrabotɐ/") or stressed spelling from an
+            // inflection table ("прия́тели"), which the rules transcribe below, like Russian/Ukrainian.
+            // INVARIANT (tools/lexicon/build_kaikki_ipa.mjs in hellpanderrr/orthoepicus): IPA values
+            // begin with "/" (or "["), stressed spellings never do (they are plain Cyrillic).
             if (/^[[/]/.test(dictRecord) || !["Bulgarian", "Belorussian"].includes(lang)) {
               ipa = dictRecord;
             } else {
