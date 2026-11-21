@@ -41,7 +41,7 @@ test.describe("lexicon path", () => {
   });
 
   // Stress is not in Bulgarian or Belarusian spelling, so each has an IPA dictionary
-  // (kaikki.org -> utils/bg_lexicon.zip, be_lexicon.zip). Without it the rules print no
+  // (kaikki.org -> utils/bg_lexicon_v2.zip, be_lexicon_v2.zip). Without it the rules print no
   // stress mark at all ("работа" -> rɐbotɐ).
   for (const [lang, word, expected] of [
     ["Bulgarian", "работа", "ˈrabotɐ"], // has its own Wiktionary entry: its IPA, as written
