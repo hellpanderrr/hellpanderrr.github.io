@@ -113,7 +113,7 @@
         the Latin alphabet. This tool converts Bulgarian Cyrillic spelling into IPA, helping learners, linguists, and
         developers understand pronunciation.</p>
 
-    <p>The conversion looks the word up in the <strong>Bulgarian dictionary</strong> first (<code>utils/bg_lexicon_v2.zip</code>,
+    <p>The conversion looks the word up in the <strong>Bulgarian dictionary</strong> first (<code>utils/bg_lexicon_v3.zip</code>,
         built from English Wiktionary via kaikki.org). A word that has its own Wiktionary entry gets that IPA; a form that
         appears only in a declension table gets its stressed spelling transcribed by the module. A word that is not in the
         dictionary falls back to <code>window.bg_ipa.toIPA(cleanText)</code> alone, so for those the result is only as good
@@ -128,8 +128,9 @@
         <li><strong>Not supported:</strong> Regional dialects; the output describes the standard literary
             pronunciation only.
         </li>
-        <li><strong>No automatic stress:</strong> stress must be typed with a combining acute accent; see the box at the
-            top of this page.
+        <li><strong>Stress comes from the dictionary:</strong> words in it get their stress automatically. For a word
+            that is not in it, the stress must be typed with a combining acute accent; see the box at the top of this
+            page.
         </li>
         <li><strong>Edge cases:</strong> Loanwords with non-standard sounds, words where a stressed
             <em>а/я</em> in an ending is really pronounced <span class="ipa">ɤ</span>, and proper names are not
@@ -165,8 +166,8 @@
         </dd>
 
         <dt>Stress</dt>
-        <dd>Bulgarian stress is free (can fall on any syllable) and is not marked in ordinary spelling. This tool needs
-            you to supply it with a combining acute accent after the vowel. Shown in IPA as <span
+        <dd>Bulgarian stress is free (can fall on any syllable) and is not marked in ordinary spelling. For words that
+            are not in the dictionary you supply it with a combining acute accent after the vowel. Shown in IPA as <span
                     class="ipa">ˈ</span> placed before the stressed syllable: <em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span>.
         </dd>
 
@@ -221,8 +222,8 @@
         </dd>
 
         <dt>Combining Grave (U+0300)</dt>
-        <dd>Marks secondary stress (mapped to <span class="ipa">ˌ</span>). Only allowed in a word that also has an
-            acute accent.
+        <dd>Marks secondary stress (mapped to <span class="ipa">ˌ</span>) when the word also has an acute accent. On
+            its own it is the usual Bulgarian way of marking the stress, and the app reads it as the primary stress.
         </dd>
 
         <dt>Dot Below (U+0323)</dt>
@@ -459,7 +460,7 @@
         <tr>
             <td><span class="ipa">ˌ</span></td>
             <td>Secondary stress</td>
-            <td>Weaker emphasis. Produced from the combining grave U+0300, only valid together with an acute</td>
+            <td>Weaker emphasis. Produced from the combining grave U+0300 when the word also has an acute (a lone grave is read as the primary stress)</td>
             <td><em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span></td>
         </tr>
         <tr>

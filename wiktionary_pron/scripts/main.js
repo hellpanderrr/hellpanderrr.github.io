@@ -524,6 +524,9 @@ async function transcribe(mode, translate = false, inputText = null) {
         element.textContent = element.textContent.replace(
           /[\p{Letter}\p{Mark}-]+/gu, // Matches each word
           (word) => {
+            // A word the reader already marked (combining accent) is shown as typed.
+            if (/\p{M}/u.test(word)) return word;
+
             // --- Stage 1: Check for a STRESSED entry in the dictionary ---
             if (globalThis.lexicon?.[lang] && word.trim().length > 0) {
               const dictRecord = stressedSpelling(
@@ -538,16 +541,26 @@ async function transcribe(mode, translate = false, inputText = null) {
                 dictRecord.includes(STRESS_MARK)
               ) {
                 // The dictionary provides a stressed version. This is the highest authority.
-                // We transfer its stress to the original word to preserve case.
-                const stressIndex = dictRecord.indexOf(STRESS_MARK);
-                const vowelIndex = stressIndex - 1;
-                if (vowelIndex >= 0 && vowelIndex < word.length) {
-                  const vowelToStress = word[vowelIndex];
-                  const stressedVowel = applyStress(vowelToStress);
-                  const finalWord =
-                    word.slice(0, vowelIndex) +
-                    stressedVowel +
-                    word.slice(vowelIndex + 1);
+                // We transfer its stress marks (a hyphenated word such as най-добър has one per part) to
+                // the original word to preserve case. `word` has no combining marks (checked above), so the
+                // index of a base letter in the record is its index in the word.
+                const stressedAt = [];
+                let base = -1;
+                for (const ch of dictRecord) {
+                  if (/\p{M}/u.test(ch)) {
+                    if (ch === STRESS_MARK && base >= 0) stressedAt.push(base);
+                  } else {
+                    base++;
+                  }
+                }
+                const letters = Array.from(word);
+                if (
+                  stressedAt.length &&
+                  base === letters.length - 1 && // same letters as the record, else the index would be wrong
+                  stressedAt.every((k) => k < letters.length)
+                ) {
+                  for (const k of stressedAt) letters[k] = applyStress(letters[k]);
+                  const finalWord = letters.join("");
 
                   console.log(
                     `found stressed record for [${word}] -> [${finalWord}]`,

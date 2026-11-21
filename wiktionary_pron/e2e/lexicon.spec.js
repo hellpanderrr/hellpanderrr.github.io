@@ -41,7 +41,7 @@ test.describe("lexicon path", () => {
   });
 
   // Stress is not in Bulgarian or Belarusian spelling, so each has an IPA dictionary
-  // (kaikki.org -> utils/bg_lexicon_v2.zip, be_lexicon_v2.zip). Without it the rules print no
+  // (kaikki.org -> utils/bg_lexicon_v3.zip, be_lexicon_v3.zip). Without it the rules print no
   // stress mark at all ("работа" -> rɐbotɐ).
   for (const [lang, word, expected] of [
     ["Bulgarian", "работа", "ˈrabotɐ"], // has its own Wiktionary entry: its IPA, as written
@@ -130,7 +130,7 @@ test.describe("lexicon path", () => {
 
   // The Wiktionary Portuguese module cannot tell open from closed e/o in a stressed syllable without a
   // written accent and raised an error for ~1 word in 10 of running text (norte, costa, guerra, desde ...).
-  // pt_lexicon_v1.zip holds Wiktionary's own IPA per dialect and form.
+  // pt_lexicon_v2.zip holds Wiktionary's own IPA per dialect and form.
   for (const [style, form, expected] of [
     ["Brazil", "Phonetic", ["ˈnɔh.t͡ʃi", "ˈɡɛ.hɐ"]],
     ["Brazil", "Phonemic", ["ˈnɔʁ.t͡ʃi", "ˈɡɛ.ʁɐ"]],
@@ -151,6 +151,60 @@ test.describe("lexicon path", () => {
       expect(a + b).not.toMatch(/[[\]/]/); // bare IPA, like every other dictionary
     });
   }
+
+  // Review-panel findings (2026-11-21).
+  // A single-letter dictionary entry is the LETTER NAME ("с" /sɤ/, "е" /ˈɛ/) before the word (/s/, /i/); those
+  // keys are not in the dictionaries, so the rules read the word.
+  test("Bulgarian: the preposition с is not read as the letter name", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "с");
+    await page.click("#submit");
+    const t = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(t).toBe("s");
+  });
+
+  test("Portuguese (Brazil, Phonemic): the conjunction e is not read as the letter name", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Portuguese", 180_000);
+    await page.selectOption("#lang_style", "Brazil");
+    await page.selectOption("#lang_form", "Phonemic");
+    await page.fill("#text_to_transcribe", "e");
+    await page.click("#submit");
+    const t = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(t).not.toContain("ˈɛ");
+  });
+
+  // "най-" and "по-" carry their own stress, so a hyphenated word has two acutes in the dictionary and BOTH
+  // must reach the shown word (only the first did).
+  test("Bulgarian: every stress mark of a hyphenated word is inserted", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "най-етичният");
+    await page.click("#submit_by_line");
+    await expect(page.locator("#result .input_text").first()).toContainText("на́й-ети́чният");
+  });
+
+  // A word the reader already marked is shown as typed (the index into the record would be wrong otherwise).
+  test("Bulgarian: a word typed with its own stress mark is shown as typed", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "ра́бота");
+    await page.click("#submit_by_line");
+    const shown = (await page.locator("#result .input_text").first().textContent()).trim();
+    expect(shown).toBe("ра́бота");
+  });
+
+  // "Lituanian" was misspelled in three lists, so Lithuanian skipped the delimiter stripping (slashes showed).
+  test("Lithuanian: dictionary IPA is shown without slashes", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Lithuanian", 180_000);
+    await page.fill("#text_to_transcribe", "vanduo");
+    await page.click("#submit");
+    const t = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(t).toBeTruthy();
+    expect(t).not.toMatch(/[[\]/]/);
+  });
 
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".

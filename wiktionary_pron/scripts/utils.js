@@ -218,6 +218,7 @@ function normalizeBulgarianStress(text) {
 function portugueseIpaFromRecord(record, langStyle, langForm) {
   if (!record) return null;
   const parts = String(record).split("|");
+  if (parts.length !== 4) return null; // not a Portuguese record: let the rules try
   const index = (langStyle === "Portugal" ? 2 : 0) + (langForm === "Phonetic" ? 1 : 0);
   const part = (parts[index] || "").trim();
   if (!part) return null;
