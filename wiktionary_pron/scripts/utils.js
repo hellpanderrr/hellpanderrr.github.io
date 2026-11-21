@@ -195,6 +195,42 @@ function lookupInLexicon(lexiconName, text) {
 }
 
 /**
+ * Bulgarian marks stress with a GRAVE accent (Бълга̀рия, ѐ, ѝ), which Wikipedia-style text uses;
+ * the pronunciation module reads only the acute and errors on a grave. A word typed with a grave
+ * and no acute gets an acute (the typed stress is kept); a word with both keeps them (grave =
+ * secondary stress). The precomposed ѝ is just the pronoun "и".
+ */
+function normalizeBulgarianStress(text) {
+  return text
+    .replace(/ѝ/g, "и")
+    .replace(/Ѝ/g, "И")
+    .replace(/ѐ/g, "ѐ")
+    .replace(/Ѐ/g, "Ѐ")
+    .replace(/\S+/g, (w) => (w.includes("́") ? w : w.replace(/̀/g, "́")));
+}
+
+/**
+ * A Portuguese dictionary record is "br_phonemic|br_phonetic|pt_phonemic|pt_phonetic": bare IPA, an empty part
+ * when Wiktionary has none, several IPAs of one part joined by ",". Returns the part for the chosen style
+ * (Brazil/Portugal) and form (Phonemic/Phonetic) as "/a/,/b/", or null when there is none (the rules then try).
+ * Shared by the web app handler and the extension's engine.
+ */
+function portugueseIpaFromRecord(record, langStyle, langForm) {
+  if (!record) return null;
+  const parts = String(record).split("|");
+  if (parts.length !== 4) return null; // not a Portuguese record: let the rules try
+  const index = (langStyle === "Portugal" ? 2 : 0) + (langForm === "Phonetic" ? 1 : 0);
+  const part = (parts[index] || "").trim();
+  if (!part) return null;
+  return part
+    .split(",")
+    .map((ipa) => ipa.trim())
+    .filter(Boolean)
+    .map((ipa) => `/${ipa}/`)
+    .join(",");
+}
+
+/**
  * A map of language-specific handlers to replace the main switch statement.
  * Each handler receives a context object and returns the calculated IPA string.
  */
@@ -220,6 +256,12 @@ const ipaHandlers = {
   },
 
   Portuguese: ({ cleanText, langStyle, langForm }) => {
+    // Dictionary first: the Wiktionary module cannot tell open from closed e/o in a stressed syllable
+    // without a written accent ("norte", "este") and raises an error for about 1 word in 10 of running text.
+    const dictRecord = lookupInLexicon("Portuguese", cleanText);
+    const fromDictionary = portugueseIpaFromRecord(dictRecord, langStyle, langForm);
+    if (fromDictionary) return fromDictionary;
+
     const region = langStyle === "Brazil" ? "rio" : "pt";
     const result = window.pt_ipa.IPA(cleanText, region);
     return result?.[0]?.[langForm.toLowerCase()];
@@ -429,13 +471,11 @@ const ipaHandlers = {
 
   // --- Group 2: Direct Generation for Phonemic form (No Lexicon) ---
   ...Object.fromEntries(
-    ["Belorussian", "Bulgarian", "Polish", "Mongolian"].map((lang) => [
+    ["Polish", "Mongolian"].map((lang) => [
       lang,
       ({ cleanText, langForm }) => {
         if (langForm !== "Phonemic") return null;
         const generators = {
-          Belorussian: () => window.be_ipa.toIPA(cleanText),
-          Bulgarian: () => window.bg_ipa.toIPA(cleanText),
           Polish: () => window.pl_ipa.convert_to_IPA(cleanText),
           Mongolian: () => window.mn_ipa.to_IPA(cleanText),
         };
@@ -457,21 +497,34 @@ const ipaHandlers = {
 
   // --- Group 3: Lexicon Lookup with Generation Fallback ---
   ...Object.fromEntries(
-    ["German", "French", "Czech", "Lithuanian", "Icelandic"].map((lang) => [
+    ["German", "French", "Czech", "Lithuanian", "Icelandic", "Bulgarian", "Belorussian"].map((lang) => [
       lang,
       ({ cleanText, langForm, langStyle }) => {
         // langStyle needed for French post-processing
         let ipa = null;
+        if (lang === "Bulgarian") cleanText = normalizeBulgarianStress(cleanText);
 
         // Step 1: Attempt lexicon lookup for Phonemic form
+        let stressedForms = null;
         if (langForm === "Phonemic") {
           const dictRecord = lookupInLexicon(lang, cleanText);
           if (dictRecord) {
-            ipa = dictRecord;
+            // Bulgarian/Belorussian: a record is either IPA (the word has its own Wiktionary
+            // entry; the builder writes every IPA as "/ˈrabotɐ/") or stressed spelling from an
+            // inflection table ("прия́тели"), which the rules transcribe below, like Russian/Ukrainian.
+            // INVARIANT (tools/lexicon/build_kaikki_ipa.mjs in hellpanderrr/orthoepicus): IPA values
+            // begin with "/" (or "["), stressed spellings never do (they are plain Cyrillic).
+            if (/^[[/]/.test(dictRecord) || !["Bulgarian", "Belorussian"].includes(lang)) {
+              // an IPA record may carry "|<stressed spelling>" (used only to show the word with its
+              // stress mark, main.js); the IPA is what comes before it
+              ipa = ["Bulgarian", "Belorussian"].includes(lang) ? dictRecord.split("|")[0] : dictRecord;
+            } else {
+              stressedForms = dictRecord.split(",").map((f) => f.trim()).filter(Boolean);
+            }
           }
         }
 
-        // Step 2: If no record found, use a generator
+        // Step 2: If no record found (or only a stressed spelling), use a generator
         if (ipa === null) {
           const generators = {
             German: {
@@ -490,10 +543,28 @@ const ipaHandlers = {
             Icelandic: {
               Phonemic: () => window.is_ipa.toIPA(cleanText, "", ""),
             },
+            // Stress is not in the spelling: the dictionary (kaikki.org) supplies it, the
+            // rules below only run for words it does not know (no stress mark then).
+            Bulgarian: {
+              Phonemic: () => window.bg_ipa.toIPA(cleanText),
+            },
+            Belorussian: {
+              Phonemic: () => window.be_ipa.toIPA(cleanText),
+            },
           };
           const langGenerator = generators[lang]?.[langForm];
           if (langGenerator) {
             ipa = langGenerator();
+          }
+          if (stressedForms) {
+            const gen = {
+              Bulgarian: (t) => window.bg_ipa.toIPA(t),
+              Belorussian: (t) => window.be_ipa.toIPA(t),
+            }[lang];
+            const fromForms = [...new Set(stressedForms.map((f) => gen(f)).filter(Boolean))]
+              .map((i) => `/${i}/`)
+              .join(",");
+            if (fromForms) ipa = fromForms;
           }
         }
 
@@ -865,6 +936,7 @@ export {
   clearStorage,
   wait,
   get_ipa_no_cache,
+  portugueseIpaFromRecord,
   memoizeLocalStorage,
   loadJs,
   loadFileFromZipOrPath,

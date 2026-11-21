@@ -32,10 +32,13 @@
     </p>
 
 <div class="algo-alert">
-        <strong>Mark the stress yourself.</strong> This tool does <em>not</em> look words up in a dictionary and does
-        <em>not</em> know where the stress falls. Bulgarian stress is free and is not written in ordinary spelling, so
-        you have to type it: put a <strong>combining acute accent (U+0301)</strong> right after the stressed vowel.
-        What happens to the vowels depends on it:
+        <strong>The stress comes from a dictionary, and you can mark it yourself.</strong> The app first looks each word up
+        in a Bulgarian dictionary built from English Wiktionary (about 209,000 word forms), which supplies where the
+        stress falls. A word that is <em>not</em> in the dictionary (rare words, many proper names) is transcribed by the
+        module's rules alone, and the rules do not know where the stress falls: Bulgarian stress is free and is not
+        written in ordinary spelling, so for those words you type it: put a <strong>combining acute accent
+        (U+0301)</strong> right after the stressed vowel. A word you mark yourself is transcribed as typed. For a word
+        the rules transcribe, what happens to the vowels depends on it:
         <ul>
             <li><strong>No stress mark, word with two or more vowels:</strong> <em>every</em> vowel is treated as
                 unstressed and reduced (а, ъ → <span class="ipa">ɐ</span>; о, у → <span class="ipa">o</span>), and no
@@ -47,9 +50,9 @@
             </li>
             <li><strong>Word with a single vowel and no mark</strong> is not reduced: <em>кон</em> <span class="ipa">/kɔn/</span>, <em>хляб</em> <span class="ipa">/xlʲa̟p/</span>.</li>
         </ul>
-        Use the <em>acute</em> accent only. A <em>grave</em> accent (secondary stress) is accepted only together with an
-        acute one: <em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span>; a grave on its own makes the module raise an error and the text comes back unchanged
-        (see <a href="#issues">Common Issues</a>).
+        The usual Bulgarian way of marking stress, a <em>grave</em> accent on its own (<em>Бълга̀рия</em>), works too: the app
+        reads it as the primary stress, and <em>ѝ</em> is read as <em>и</em>. A grave together with an acute marks a
+        secondary stress: <em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span>.
     </div>
 
     <h2>Table of Contents</h2>
@@ -110,8 +113,10 @@
         the Latin alphabet. This tool converts Bulgarian Cyrillic spelling into IPA, helping learners, linguists, and
         developers understand pronunciation.</p>
 
-    <p>The conversion is <strong>purely rule-based</strong>: the page calls <code>window.bg_ipa.toIPA(cleanText)</code>
-        and nothing else. There is <strong>no lexicon</strong> and no stress dictionary, so the result is only as good
+    <p>The conversion looks the word up in the <strong>Bulgarian dictionary</strong> first (<code>utils/bg_lexicon_v3.zip</code>,
+        built from English Wiktionary via kaikki.org). A word that has its own Wiktionary entry gets that IPA; a form that
+        appears only in a declension table gets its stressed spelling transcribed by the module. A word that is not in the
+        dictionary falls back to <code>window.bg_ipa.toIPA(cleanText)</code> alone, so for those the result is only as good
         as the input you give it. The rules cover letter-to-sound mapping, the movement of the stress mark to a syllable
         onset, vowel reduction around the stress, palatalization before я/ю/ь, voicing assimilation, final devoicing,
         hard <span class="ipa">ɫ</span>, nasal assimilation and a few consonant-cluster simplifications. They are
@@ -123,8 +128,9 @@
         <li><strong>Not supported:</strong> Regional dialects; the output describes the standard literary
             pronunciation only.
         </li>
-        <li><strong>No automatic stress:</strong> stress must be typed with a combining acute accent; see the box at the
-            top of this page.
+        <li><strong>Stress comes from the dictionary:</strong> words in it get their stress automatically. For a word
+            that is not in it, the stress must be typed with a combining acute accent; see the box at the top of this
+            page.
         </li>
         <li><strong>Edge cases:</strong> Loanwords with non-standard sounds, words where a stressed
             <em>а/я</em> in an ending is really pronounced <span class="ipa">ɤ</span>, and proper names are not
@@ -160,8 +166,8 @@
         </dd>
 
         <dt>Stress</dt>
-        <dd>Bulgarian stress is free (can fall on any syllable) and is not marked in ordinary spelling. This tool needs
-            you to supply it with a combining acute accent after the vowel. Shown in IPA as <span
+        <dd>Bulgarian stress is free (can fall on any syllable) and is not marked in ordinary spelling. For words that
+            are not in the dictionary you supply it with a combining acute accent after the vowel. Shown in IPA as <span
                     class="ipa">ˈ</span> placed before the stressed syllable: <em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span>.
         </dd>
 
@@ -216,8 +222,8 @@
         </dd>
 
         <dt>Combining Grave (U+0300)</dt>
-        <dd>Marks secondary stress (mapped to <span class="ipa">ˌ</span>). Only allowed in a word that also has an
-            acute accent.
+        <dd>Marks secondary stress (mapped to <span class="ipa">ˌ</span>) when the word also has an acute accent. On
+            its own it is the usual Bulgarian way of marking the stress, and the app reads it as the primary stress.
         </dd>
 
         <dt>Dot Below (U+0323)</dt>
@@ -454,7 +460,7 @@
         <tr>
             <td><span class="ipa">ˌ</span></td>
             <td>Secondary stress</td>
-            <td>Weaker emphasis. Produced from the combining grave U+0300, only valid together with an acute</td>
+            <td>Weaker emphasis. Produced from the combining grave U+0300 when the word also has an acute (a lone grave is read as the primary stress)</td>
             <td><em>ма̀ма́</em> <span class="ipa">/ˌmaˈma/</span></td>
         </tr>
         <tr>
@@ -932,7 +938,8 @@
         <li><strong>Normalization:</strong> the term is lowercased and decomposed (NFD); <em>у + breve</em> is
             recomposed to <code>ў</code> and <em>и + breve</em> to <code>й</code>.
         </li>
-        <li><strong>Grave-accent check:</strong> a grave without any acute raises a Lua error.</li>
+        <li><strong>Grave-accent check:</strong> a grave without any acute raises a Lua error. The app converts a lone grave
+            into an acute before calling the module, so typed text is not affected.</li>
         <li><strong>Dot-below shortcut:</strong> <code>а + U+0323</code> becomes <code>ъ</code>, and
             <code>я + U+0323</code> becomes <code>ʲɤ</code>; this is the same as the <code>endschwa</code> option, but
             written in the input.
@@ -1390,8 +1397,9 @@
             <td>ма̀ма (grave accent only)</td>
             <td><em>ма̀ма</em> <span class="ipa">/ма̀ма/</span></td>
             <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td>
-            <td>The module raises an error for a grave without an acute, and the input comes back unchanged (not IPA)</td>
-            <td>Use the acute accent U+0301 for the primary stress</td>
+            <td>The module itself raises an error for a grave without an acute; the app now reads a lone grave as the
+                primary stress, so this gives <span class="ipa">/ˈmamɐ/</span></td>
+            <td>Either accent works; use an acute plus a grave for primary plus secondary stress</td>
         </tr>
         <tr>
             <td>говоря́т (stressed ending)</td>

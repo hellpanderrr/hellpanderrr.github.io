@@ -52,9 +52,15 @@ const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache, {
  * @param {string} lang_form - The form (phonetic or phonemic) of the transcription.
  * @return {object} An object containing the IPA representation and the status of the conversion
  */
+// get_ipa_cache keeps results for 7 days, keyed by text + args. When a language's answers change (here:
+// the Bulgarian/Belorussian dictionaries), bump its entry so results cached before the change are not
+// served for up to a week. get_ipa_no_cache reads only the first three ";" parts, so a fourth is ignored.
+const IPA_CACHE_REV = { Bulgarian: "d1", Belorussian: "d1", Portuguese: "d1" };
+
 function getIpa(text, lang, lang_style, lang_form) {
   // Concatenate the language, style, and form parameters
   let args = lang + ";" + lang_style + ";" + lang_form;
+  if (IPA_CACHE_REV[lang]) args += ";" + IPA_CACHE_REV[lang];
   // Call memoized get_ipa_cache function to retrieve the IPA representation
   return get_ipa_cache(text, args);
 }
@@ -112,7 +118,10 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Ukrainian" ||
           lang === "Czech" ||
           lang === "Russian" ||
-          lang === "Lituanian" ||
+          lang === "Lithuanian" ||
+          lang === "Bulgarian" ||
+          lang === "Belorussian" ||
+          lang === "Portuguese" ||
           lang === "French"
         ) {
           [value, values] = processGermanIpa(value);
@@ -190,6 +199,9 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "German" ||
           lang === "Czech" ||
           lang === "Lithuanian" ||
+          lang === "Bulgarian" ||
+          lang === "Belorussian" ||
+          lang === "Portuguese" ||
           lang === "Russian" ||
           lang === "Ukrainian" ||
           lang === "French"
@@ -325,7 +337,10 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "German" ||
           lang === "Czech" ||
           lang === "Ukrainian" ||
-          lang === "Lituanian" ||
+          lang === "Lithuanian" ||
+          lang === "Bulgarian" ||
+          lang === "Belorussian" ||
+          lang === "Portuguese" ||
           lang === "Russian" ||
           lang === "French"
         ) {
@@ -407,7 +422,10 @@ async function transcribe(mode, translate = false, inputText = null) {
     if (
       lang === "German" ||
       lang === "Czech" ||
-      lang === "Lituanian" ||
+      lang === "Lithuanian" ||
+      lang === "Bulgarian" ||
+      lang === "Belorussian" ||
+      lang === "Portuguese" ||
       lang === "Russian" ||
       lang === "Ukrainian" ||
       lang === "French"
@@ -423,7 +441,8 @@ async function transcribe(mode, translate = false, inputText = null) {
           const current = event.target;
 
           const all_values = current.getAttribute("all_values");
-          if (all_values === "") {
+          // a word with ONE pronunciation has no (or an empty) all_values: nothing to cycle
+          if (!all_values) {
             return;
           }
           let c = "";
@@ -462,15 +481,32 @@ async function transcribe(mode, translate = false, inputText = null) {
         });
       });
     }
-    if (lang === "Ukrainian" || lang === "Russian") {
+    if (
+      lang === "Ukrainian" ||
+      lang === "Russian" ||
+      lang === "Bulgarian" ||
+      lang === "Belorussian"
+    ) {
       // Define language-specific vowel rules once
       const VOWELS = {
         Russian: /[аэиуеюяёоы]/gi,
         Ukrainian: /[аеиіоуєюяї]/gi,
+        Bulgarian: /[аеиоуъюя]/gi,
+        Belorussian: /[аеіоуыэюяё]/gi,
       };
       const VOWELS_REPLACE = {
         Russian: /[аэиуеюяёоыАЭИУЕЮЯЁОЫ]/,
         Ukrainian: /[аеиіоуєюяїАЕИІОУЄЮЯЇ]/,
+        Bulgarian: /[аеиоуъюяАЕИОУЪЮЯ]/,
+        Belorussian: /[аеіоуыэюяАЕІОУЫЭЮЯ]/,
+      };
+      // Bulgarian/Belorussian records are IPA ("/ˈrabotɐ/", optionally followed by
+      // "|<stressed spelling>") or stressed spelling alone; only the spelling can be shown on the word.
+      const stressedSpelling = (record) => {
+        if (!record || (lang !== "Bulgarian" && lang !== "Belorussian")) return record;
+        const bar = record.indexOf("|");
+        if (bar >= 0) return record.slice(bar + 1);
+        return /^[[/]/.test(record) ? null : record;
       };
       const STRESS_MARK = "\u0301";
 
@@ -488,28 +524,43 @@ async function transcribe(mode, translate = false, inputText = null) {
         element.textContent = element.textContent.replace(
           /[\p{Letter}\p{Mark}-]+/gu, // Matches each word
           (word) => {
+            // A word the reader already marked (combining accent) is shown as typed.
+            if (/\p{M}/u.test(word)) return word;
+
             // --- Stage 1: Check for a STRESSED entry in the dictionary ---
             if (globalThis.lexicon?.[lang] && word.trim().length > 0) {
-              const dictRecord =
+              const dictRecord = stressedSpelling(
                 globalThis.lexicon[lang].get(word) ||
-                globalThis.lexicon[lang].get(word.toLowerCase());
+                  globalThis.lexicon[lang].get(word.toLowerCase()),
+              );
 
               if (
                 dictRecord &&
                 !dictRecord.includes(",") &&
+                !dictRecord.includes("\u0300") && // a secondary-stress mark would shift the index below
                 dictRecord.includes(STRESS_MARK)
               ) {
                 // The dictionary provides a stressed version. This is the highest authority.
-                // We transfer its stress to the original word to preserve case.
-                const stressIndex = dictRecord.indexOf(STRESS_MARK);
-                const vowelIndex = stressIndex - 1;
-                if (vowelIndex >= 0 && vowelIndex < word.length) {
-                  const vowelToStress = word[vowelIndex];
-                  const stressedVowel = applyStress(vowelToStress);
-                  const finalWord =
-                    word.slice(0, vowelIndex) +
-                    stressedVowel +
-                    word.slice(vowelIndex + 1);
+                // We transfer its stress marks (a hyphenated word such as най-добър has one per part) to
+                // the original word to preserve case. `word` has no combining marks (checked above), so the
+                // index of a base letter in the record is its index in the word.
+                const stressedAt = [];
+                let base = -1;
+                for (const ch of dictRecord) {
+                  if (/\p{M}/u.test(ch)) {
+                    if (ch === STRESS_MARK && base >= 0) stressedAt.push(base);
+                  } else {
+                    base++;
+                  }
+                }
+                const letters = Array.from(word);
+                if (
+                  stressedAt.length &&
+                  base === letters.length - 1 && // same letters as the record, else the index would be wrong
+                  stressedAt.every((k) => k < letters.length)
+                ) {
+                  for (const k of stressedAt) letters[k] = applyStress(letters[k]);
+                  const finalWord = letters.join("");
 
                   console.log(
                     `found stressed record for [${word}] -> [${finalWord}]`,
@@ -670,6 +721,9 @@ async function updateOptionsUponLanguageSelection(event) {
       "Ukrainian",
       "Russian",
       "Icelandic",
+      "Bulgarian",
+      "Belorussian",
+      "Portuguese",
     ];
     if (dictLanguages.includes(selectedLanguage) && useDictionary === "true") {
       updateLoadingText(`${selectedLanguage} lexicon`, "");
