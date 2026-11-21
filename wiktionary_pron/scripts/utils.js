@@ -210,6 +210,26 @@ function normalizeBulgarianStress(text) {
 }
 
 /**
+ * A Portuguese dictionary record is "br_phonemic|br_phonetic|pt_phonemic|pt_phonetic": bare IPA, an empty part
+ * when Wiktionary has none, several IPAs of one part joined by ",". Returns the part for the chosen style
+ * (Brazil/Portugal) and form (Phonemic/Phonetic) as "/a/,/b/", or null when there is none (the rules then try).
+ * Shared by the web app handler and the extension's engine.
+ */
+function portugueseIpaFromRecord(record, langStyle, langForm) {
+  if (!record) return null;
+  const parts = String(record).split("|");
+  const index = (langStyle === "Portugal" ? 2 : 0) + (langForm === "Phonetic" ? 1 : 0);
+  const part = (parts[index] || "").trim();
+  if (!part) return null;
+  return part
+    .split(",")
+    .map((ipa) => ipa.trim())
+    .filter(Boolean)
+    .map((ipa) => `/${ipa}/`)
+    .join(",");
+}
+
+/**
  * A map of language-specific handlers to replace the main switch statement.
  * Each handler receives a context object and returns the calculated IPA string.
  */
@@ -235,6 +255,12 @@ const ipaHandlers = {
   },
 
   Portuguese: ({ cleanText, langStyle, langForm }) => {
+    // Dictionary first: the Wiktionary module cannot tell open from closed e/o in a stressed syllable
+    // without a written accent ("norte", "este") and raises an error for about 1 word in 10 of running text.
+    const dictRecord = lookupInLexicon("Portuguese", cleanText);
+    const fromDictionary = portugueseIpaFromRecord(dictRecord, langStyle, langForm);
+    if (fromDictionary) return fromDictionary;
+
     const region = langStyle === "Brazil" ? "rio" : "pt";
     const result = window.pt_ipa.IPA(cleanText, region);
     return result?.[0]?.[langForm.toLowerCase()];
@@ -909,6 +935,7 @@ export {
   clearStorage,
   wait,
   get_ipa_no_cache,
+  portugueseIpaFromRecord,
   memoizeLocalStorage,
   loadJs,
   loadFileFromZipOrPath,

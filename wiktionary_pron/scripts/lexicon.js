@@ -14,6 +14,7 @@ const LEXICON_LANGUAGES = {
   Icelandic: "is_lexicon.zip",
   Bulgarian: "bg_lexicon_v2.zip",
   Belorussian: "be_lexicon_v2.zip",
+  Portuguese: "pt_lexicon_v1.zip",
 };
 
 const LEXICON_FOLDER = "./utils/";

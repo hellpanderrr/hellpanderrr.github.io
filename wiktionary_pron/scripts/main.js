@@ -55,7 +55,7 @@ const get_ipa_cache = memoizeLocalStorage(get_ipa_no_cache, {
 // get_ipa_cache keeps results for 7 days, keyed by text + args. When a language's answers change (here:
 // the Bulgarian/Belorussian dictionaries), bump its entry so results cached before the change are not
 // served for up to a week. get_ipa_no_cache reads only the first three ";" parts, so a fourth is ignored.
-const IPA_CACHE_REV = { Bulgarian: "d1", Belorussian: "d1" };
+const IPA_CACHE_REV = { Bulgarian: "d1", Belorussian: "d1", Portuguese: "d1" };
 
 function getIpa(text, lang, lang_style, lang_form) {
   // Concatenate the language, style, and form parameters
@@ -121,6 +121,7 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Lithuanian" ||
           lang === "Bulgarian" ||
           lang === "Belorussian" ||
+          lang === "Portuguese" ||
           lang === "French"
         ) {
           [value, values] = processGermanIpa(value);
@@ -200,6 +201,7 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Lithuanian" ||
           lang === "Bulgarian" ||
           lang === "Belorussian" ||
+          lang === "Portuguese" ||
           lang === "Russian" ||
           lang === "Ukrainian" ||
           lang === "French"
@@ -338,6 +340,7 @@ async function transcribe(mode, translate = false, inputText = null) {
           lang === "Lithuanian" ||
           lang === "Bulgarian" ||
           lang === "Belorussian" ||
+          lang === "Portuguese" ||
           lang === "Russian" ||
           lang === "French"
         ) {
@@ -422,6 +425,7 @@ async function transcribe(mode, translate = false, inputText = null) {
       lang === "Lithuanian" ||
       lang === "Bulgarian" ||
       lang === "Belorussian" ||
+      lang === "Portuguese" ||
       lang === "Russian" ||
       lang === "Ukrainian" ||
       lang === "French"
@@ -706,6 +710,7 @@ async function updateOptionsUponLanguageSelection(event) {
       "Icelandic",
       "Bulgarian",
       "Belorussian",
+      "Portuguese",
     ];
     if (dictLanguages.includes(selectedLanguage) && useDictionary === "true") {
       updateLoadingText(`${selectedLanguage} lexicon`, "");

@@ -128,6 +128,30 @@ test.describe("lexicon path", () => {
     });
   }
 
+  // The Wiktionary Portuguese module cannot tell open from closed e/o in a stressed syllable without a
+  // written accent and raised an error for ~1 word in 10 of running text (norte, costa, guerra, desde ...).
+  // pt_lexicon_v1.zip holds Wiktionary's own IPA per dialect and form.
+  for (const [style, form, expected] of [
+    ["Brazil", "Phonetic", ["ˈnɔh.t͡ʃi", "ˈɡɛ.hɐ"]],
+    ["Brazil", "Phonemic", ["ˈnɔʁ.t͡ʃi", "ˈɡɛ.ʁɐ"]],
+    ["Portugal", "Phonemic", ["ˈnɔɾ.tɨ", "ˈɡɛ.ʁɐ"]],
+  ]) {
+    test(`Portuguese (${style}, ${form}): words the module cannot transcribe come from the dictionary`, async ({ page }) => {
+      await page.goto(APP);
+      await selectLanguage(page, "Portuguese", 180_000);
+      await page.selectOption("#lang_style", style);
+      await page.selectOption("#lang_form", form);
+      await page.fill("#text_to_transcribe", "norte guerra");
+      await page.click("#submit");
+      await expect(page.locator("#result .ipa")).toHaveCount(2);
+      await expect(page.locator("#result .error").filter({ hasText: /\S/ })).toHaveCount(0);
+      const [a, b] = (await page.locator("#result .ipa").allTextContents()).map((t) => t.trim());
+      expect(a).toContain(expected[0]);
+      expect(b).toContain(expected[1]);
+      expect(a + b).not.toMatch(/[[\]/]/); // bare IPA, like every other dictionary
+    });
+  }
+
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
   test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {
