@@ -111,6 +111,23 @@ test.describe("lexicon path", () => {
     await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
   });
 
+  // Like Russian/Ukrainian, line mode shows the word with the dictionary's stress mark inserted
+  // (голова -> голова́). For Bulgarian/Belorussian the stressed spelling comes from the dictionary record.
+  for (const [lang, word, shown] of [
+    ["Bulgarian", "работа", "ра́бота"], // has its own Wiktionary IPA, spelling stored after "|"
+    ["Bulgarian", "приятели", "прия́тели"], // only in a declension table
+    ["Belorussian", "хата", "ха́та"],
+    ["Belorussian", "настаўніка", "наста́ўніка"],
+  ]) {
+    test(`${lang}: the dictionary stress is inserted into the shown word (${word})`, async ({ page }) => {
+      await page.goto(APP);
+      await selectLanguage(page, lang, 180_000);
+      await page.fill("#text_to_transcribe", word);
+      await page.click("#submit_by_line");
+      await expect(page.locator("#result .input_text").first()).toContainText(shown);
+    });
+  }
+
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
   test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {

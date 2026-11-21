@@ -488,7 +488,9 @@ const ipaHandlers = {
             // INVARIANT (tools/lexicon/build_kaikki_ipa.mjs in hellpanderrr/orthoepicus): IPA values
             // begin with "/" (or "["), stressed spellings never do (they are plain Cyrillic).
             if (/^[[/]/.test(dictRecord) || !["Bulgarian", "Belorussian"].includes(lang)) {
-              ipa = dictRecord;
+              // an IPA record may carry "|<stressed spelling>" (used only to show the word with its
+              // stress mark, main.js); the IPA is what comes before it
+              ipa = ["Bulgarian", "Belorussian"].includes(lang) ? dictRecord.split("|")[0] : dictRecord;
             } else {
               stressedForms = dictRecord.split(",").map((f) => f.trim()).filter(Boolean);
             }

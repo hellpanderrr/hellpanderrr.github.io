@@ -477,15 +477,32 @@ async function transcribe(mode, translate = false, inputText = null) {
         });
       });
     }
-    if (lang === "Ukrainian" || lang === "Russian") {
+    if (
+      lang === "Ukrainian" ||
+      lang === "Russian" ||
+      lang === "Bulgarian" ||
+      lang === "Belorussian"
+    ) {
       // Define language-specific vowel rules once
       const VOWELS = {
         Russian: /[аэиуеюяёоы]/gi,
         Ukrainian: /[аеиіоуєюяї]/gi,
+        Bulgarian: /[аеиоуъюя]/gi,
+        Belorussian: /[аеіоуыэюяё]/gi,
       };
       const VOWELS_REPLACE = {
         Russian: /[аэиуеюяёоыАЭИУЕЮЯЁОЫ]/,
         Ukrainian: /[аеиіоуєюяїАЕИІОУЄЮЯЇ]/,
+        Bulgarian: /[аеиоуъюяАЕИОУЪЮЯ]/,
+        Belorussian: /[аеіоуыэюяАЕІОУЫЭЮЯ]/,
+      };
+      // Bulgarian/Belorussian records are IPA ("/ˈrabotɐ/", optionally followed by
+      // "|<stressed spelling>") or stressed spelling alone; only the spelling can be shown on the word.
+      const stressedSpelling = (record) => {
+        if (!record || (lang !== "Bulgarian" && lang !== "Belorussian")) return record;
+        const bar = record.indexOf("|");
+        if (bar >= 0) return record.slice(bar + 1);
+        return /^[[/]/.test(record) ? null : record;
       };
       const STRESS_MARK = "\u0301";
 
@@ -505,13 +522,15 @@ async function transcribe(mode, translate = false, inputText = null) {
           (word) => {
             // --- Stage 1: Check for a STRESSED entry in the dictionary ---
             if (globalThis.lexicon?.[lang] && word.trim().length > 0) {
-              const dictRecord =
+              const dictRecord = stressedSpelling(
                 globalThis.lexicon[lang].get(word) ||
-                globalThis.lexicon[lang].get(word.toLowerCase());
+                  globalThis.lexicon[lang].get(word.toLowerCase()),
+              );
 
               if (
                 dictRecord &&
                 !dictRecord.includes(",") &&
+                !dictRecord.includes("\u0300") && // a secondary-stress mark would shift the index below
                 dictRecord.includes(STRESS_MARK)
               ) {
                 // The dictionary provides a stressed version. This is the highest authority.
