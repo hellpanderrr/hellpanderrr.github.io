@@ -612,10 +612,10 @@ const ipaHandlers = {
  * Retrieves the IPA transcription for a given text without using a cache.
  */
 function get_ipa_no_cache(text, args) {
-  const cleanText = sanitize(text);
-  console.log("doing actual IPA", text, cleanText, args);
-
   const [lang, langStyle, langForm] = args.split(";");
+  // A backtick typed as the apostrophe of п`яны: sanitize() drops it, so unify it first (Belarusian, Bulgarian).
+  const cleanText = sanitize(lang === "Belorussian" || lang === "Bulgarian" ? text.replace(/`/g, "'") : text);
+  console.log("doing actual IPA", text, cleanText, args);
 
   let ipa = "";
   try {

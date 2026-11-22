@@ -208,7 +208,7 @@ test.describe("lexicon path", () => {
 
   // Second review pass (2026-11-22). Belarusian words contain an apostrophe (п'яны, аб'явіць, сур'ёзны); the dictionary
   // builder and the look-up both dropped it, so those words (about 480 keys) never matched.
-  for (const typed of ["п'яны", "п’яны"]) {
+  for (const typed of ["п'яны", "п’яны", "п`яны"]) {
     test(`Belorussian: the apostrophe word ${typed} is found in the dictionary`, async ({ page }) => {
       await page.goto(APP);
       await selectLanguage(page, "Belorussian", 180_000);
@@ -278,6 +278,10 @@ test.describe("lexicon path", () => {
       await selectLanguage(page, lang, 180_000);
       await page.fill("#text_to_transcribe", text);
       await page.click("#submit_by_line");
+      // line mode builds its rows after the asynchronous lookups: wait for both words, and for the display pass that marks
+      // the polysyllable, before reading them
+      await expect(page.locator("#result .input_text")).toHaveCount(2);
+      await expect(page.locator("#result .input_text").nth(1)).toContainText("́");
       // line mode shows each word in its own .input_text element
       const words = (await page.locator("#result .input_text").allTextContents()).map((t) => t.trim());
       expect(words[0]).toBe(bare); // "на" stays as typed
@@ -292,8 +296,8 @@ test.describe("lexicon path", () => {
     await selectLanguage(page, "Belorussian", 180_000);
     await page.fill("#text_to_transcribe", "краіны");
     await page.click("#submit_by_line");
+    await expect(page.locator("#result .input_text").first()).toContainText("́"); // the display pass has run
     const shown = (await page.locator("#result .input_text").first().textContent()).trim();
-    expect(shown).toContain("́");
     expect(shown).not.toContain("ı"); // no Latin dotless i
     expect(shown.normalize("NFD").replace(/́/g, "")).toBe("краіны");
   });
