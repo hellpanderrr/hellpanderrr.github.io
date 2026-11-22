@@ -41,7 +41,7 @@ test.describe("lexicon path", () => {
   });
 
   // Stress is not in Bulgarian or Belarusian spelling, so each has an IPA dictionary
-  // (kaikki.org -> utils/bg_lexicon_v4.zip, be_lexicon_v4.zip). Without it the rules print no
+  // (kaikki.org -> utils/bg_lexicon_v5.zip, be_lexicon_v5.zip). Without it the rules print no
   // stress mark at all ("работа" -> rɐbotɐ).
   for (const [lang, word, expected] of [
     ["Bulgarian", "работа", "ˈrabotɐ"], // has its own Wiktionary entry: its IPA, as written
@@ -130,7 +130,7 @@ test.describe("lexicon path", () => {
 
   // The Wiktionary Portuguese module cannot tell open from closed e/o in a stressed syllable without a
   // written accent and raised an error for ~1 word in 10 of running text (norte, costa, guerra, desde ...).
-  // pt_lexicon_v3.zip holds Wiktionary's own IPA per dialect and form.
+  // pt_lexicon_v4.zip holds Wiktionary's own IPA per dialect and form.
   for (const [style, form, expected] of [
     ["Brazil", "Phonetic", ["ˈnɔh.t͡ʃi", "ˈɡɛ.hɐ"]],
     ["Brazil", "Phonemic", ["ˈnɔʁ.t͡ʃi", "ˈɡɛ.ʁɐ"]],
@@ -249,6 +249,21 @@ test.describe("lexicon path", () => {
     const t = (await page.locator("#result .ipa").first().textContent()).trim();
     expect(t).toContain("ˈli.vɾɨ");
     expect(t).not.toContain("β");
+  });
+
+  // Wiktionary brackets only some pronunciations, so the phonetic list of "mas" had one reading ([maɪ̯s]) against
+  // three phonemic ones, and "mas" came out as "mais" in phonetic form.
+  test("Portuguese (Brazil, Phonetic): mas is mas, not mais", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Portuguese", 180_000);
+    await page.selectOption("#lang_style", "Brazil");
+    await page.selectOption("#lang_form", "Phonetic");
+    await page.fill("#text_to_transcribe", "mas");
+    await page.click("#submit");
+    const span = page.locator("#result .ipa").first();
+    await expect(span).toBeVisible();
+    expect((await span.textContent()).trim()).toBe("mas");
+    expect(await span.getAttribute("all_values")).toContain("majs");
   });
 
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
