@@ -97,7 +97,7 @@ The `ipaHandlers` object maps each language to a handler function that:
 **Language handler groups:**
 - **Complex handlers** (Latin, Portuguese, Spanish, Greek, Armenian, Ukrainian, Russian, Italian) — bespoke logic per language
 - **Direct generation** (Polish, Mongolian) — no lexicon fallback
-- **Portuguese** is a complex handler that tries the dictionary first (`pt_lexicon_v2.zip`, four-part records chosen by style and form with `portugueseIpaFromRecord`) because the Wiktionary module errors for ~1 word in 10.
+- **Portuguese** is a complex handler that tries the dictionary first (`pt_lexicon_v3.zip`, four-part records chosen by style and form with `portugueseIpaFromRecord`) because the Wiktionary module errors for ~1 word in 10.
 - **Lexicon lookup + generation** (German, French, Czech, Lithuanian, Icelandic, Bulgarian, Belorussian) — try dictionary first, fall back to Lua rules. Bulgarian/Belorussian records are either IPA (start with `/`) or stressed spelling that the rules transcribe at look-up time, like Russian/Ukrainian; a typed Bulgarian grave accent is turned into an acute first. An IPA record may carry `|<stressed spelling>`; line mode uses the spelling to insert the stress mark into the shown word (the Russian/Ukrainian block in `main.js`, now also Bulgarian/Belorussian).
 
 ### Lua Modules (`lua_modules/`)

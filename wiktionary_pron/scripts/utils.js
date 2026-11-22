@@ -183,7 +183,15 @@ function lookupInLexicon(lexiconName, text) {
     return null;
   }
   const lexicon = globalThis.lexicon[lexiconName];
-  const cleanedForLookup = text.replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
+  // Belarusian words contain an apostrophe (п'яны, аб'явіць): the dictionary keys have it (as ASCII '), so it is
+  // kept, every form of it (’ ʼ `) is unified, and one at either end (a quote) is dropped.
+  const keepsApostrophe = lexiconName === "Belorussian" || lexiconName === "Bulgarian";
+  const cleanedForLookup = keepsApostrophe
+    ? text
+        .replace(/[’ʼ`]/g, "'")
+        .replace(/[^\p{Letter}\p{Mark}'-]+/gu, "")
+        .replace(/^'+|'+$/g, "")
+    : text.replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
 
   let dictRecord = lexicon.get(cleanedForLookup);
   if (!dictRecord) {

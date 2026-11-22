@@ -41,7 +41,7 @@ test.describe("lexicon path", () => {
   });
 
   // Stress is not in Bulgarian or Belarusian spelling, so each has an IPA dictionary
-  // (kaikki.org -> utils/bg_lexicon_v3.zip, be_lexicon_v3.zip). Without it the rules print no
+  // (kaikki.org -> utils/bg_lexicon_v4.zip, be_lexicon_v4.zip). Without it the rules print no
   // stress mark at all ("работа" -> rɐbotɐ).
   for (const [lang, word, expected] of [
     ["Bulgarian", "работа", "ˈrabotɐ"], // has its own Wiktionary entry: its IPA, as written
@@ -130,7 +130,7 @@ test.describe("lexicon path", () => {
 
   // The Wiktionary Portuguese module cannot tell open from closed e/o in a stressed syllable without a
   // written accent and raised an error for ~1 word in 10 of running text (norte, costa, guerra, desde ...).
-  // pt_lexicon_v2.zip holds Wiktionary's own IPA per dialect and form.
+  // pt_lexicon_v3.zip holds Wiktionary's own IPA per dialect and form.
   for (const [style, form, expected] of [
     ["Brazil", "Phonetic", ["ˈnɔh.t͡ʃi", "ˈɡɛ.hɐ"]],
     ["Brazil", "Phonemic", ["ˈnɔʁ.t͡ʃi", "ˈɡɛ.ʁɐ"]],
@@ -204,6 +204,51 @@ test.describe("lexicon path", () => {
     const t = (await page.locator("#result .ipa").first().textContent()).trim();
     expect(t).toBeTruthy();
     expect(t).not.toMatch(/[[\]/]/);
+  });
+
+  // Second review pass (2026-11-22). Belarusian words contain an apostrophe (п'яны, аб'явіць, сур'ёзны); the dictionary
+  // builder and the look-up both dropped it, so those words (about 480 keys) never matched.
+  for (const typed of ["п'яны", "п’яны"]) {
+    test(`Belorussian: the apostrophe word ${typed} is found in the dictionary`, async ({ page }) => {
+      await page.goto(APP);
+      await selectLanguage(page, "Belorussian", 180_000);
+      await page.fill("#text_to_transcribe", typed);
+      await page.click("#submit");
+      const t = (await page.locator("#result .ipa").first().textContent()).trim();
+      expect(t).toContain("ˈpjanɨ"); // the dictionary's IPA, with the stress the rules cannot know
+    });
+  }
+
+  test("Belorussian: line mode inserts the stress into an apostrophe word", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Belorussian", 180_000);
+    await page.fill("#text_to_transcribe", "п'яны");
+    await page.click("#submit_by_line");
+    await expect(page.locator("#result .input_text").first()).toContainText("п'я́ны");
+  });
+
+  // The builder skipped a whole entry when its own headword was not a plain word ("Северна Америка"), losing
+  // the entry's table forms (северноамерикански ...).
+  test("Bulgarian: a form of a multi-word entry is in the dictionary", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "северноамерикански");
+    await page.click("#submit_by_line");
+    await expect(page.locator("#result .input_text").first()).toContainText("северноамерика́нски");
+  });
+
+  // Portuguese: one dialect = one slot. The Portugal phonetic part used to come from a Northern-tagged sound
+  // ([ˈli.βɾɨ]) next to a standard phonemic one (/ˈli.vɾɨ/).
+  test("Portuguese (Portugal, Phonetic): the standard pronunciation, not a regional one", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Portuguese", 180_000);
+    await page.selectOption("#lang_style", "Portugal");
+    await page.selectOption("#lang_form", "Phonetic");
+    await page.fill("#text_to_transcribe", "livre");
+    await page.click("#submit");
+    const t = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(t).toContain("ˈli.vɾɨ");
+    expect(t).not.toContain("β");
   });
 
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it

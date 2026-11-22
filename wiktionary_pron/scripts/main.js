@@ -520,18 +520,22 @@ async function transcribe(mode, translate = false, inputText = null) {
         return vowel + STRESS_MARK;
       };
 
+      // Belarusian words contain an apostrophe (п'яны): it must not split the word
+      const WORD_RE =
+        lang === "Belorussian" ? /[\p{Letter}\p{Mark}'’ʼ-]+/gu : /[\p{Letter}\p{Mark}-]+/gu;
       document.querySelectorAll(".input_text").forEach((element) => {
         element.textContent = element.textContent.replace(
-          /[\p{Letter}\p{Mark}-]+/gu, // Matches each word
+          WORD_RE, // Matches each word
           (word) => {
             // A word the reader already marked (combining accent) is shown as typed.
             if (/\p{M}/u.test(word)) return word;
 
             // --- Stage 1: Check for a STRESSED entry in the dictionary ---
             if (globalThis.lexicon?.[lang] && word.trim().length > 0) {
+              const lookup = lang === "Belorussian" ? word.replace(/[’ʼ`]/g, "'") : word;
               const dictRecord = stressedSpelling(
-                globalThis.lexicon[lang].get(word) ||
-                  globalThis.lexicon[lang].get(word.toLowerCase()),
+                globalThis.lexicon[lang].get(lookup) ||
+                  globalThis.lexicon[lang].get(lookup.toLowerCase()),
               );
 
               if (
