@@ -1,4 +1,6 @@
 import {
+  dictionaryLookupKey,
+  normalizeBulgarianStress,
   fetchWithCache,
   loadFileFromZipOrPath,
   updateLoadingText,
@@ -12,6 +14,9 @@ const LEXICON_LANGUAGES = {
   Ukrainian: "uk_lexicon_v4.zip",
   Russian: "ru_lexicon_v4.zip",
   Icelandic: "is_lexicon.zip",
+  Bulgarian: "bg_lexicon_v6.zip",
+  Belorussian: "be_lexicon_v6.zip",
+  Portuguese: "pt_lexicon_v4.zip",
 };
 
 const LEXICON_FOLDER = "./utils/";
@@ -329,15 +334,21 @@ class ChunkedLexicon {
 
     const needed = new Set();
     for (const raw of words) {
-      const cleaned = String(raw).replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
-      if (!cleaned) continue;
-      for (const candidate of [cleaned, cleaned.toLowerCase()]) {
-        const chunkKey = this.chunkKeyFor(candidate);
-        if (chunkKey !== null && !this.chunkCache.has(chunkKey)) {
-          needed.add(chunkKey);
+      // The key the look-up reads (utils.js dictionaryLookupKey), and for Bulgarian also the form its handler looks
+      // up after rewriting ѝ -> и and a lone grave -> acute.
+      const keys = [dictionaryLookupKey(this.language, raw)];
+      if (this.language === "Bulgarian") keys.push(dictionaryLookupKey(this.language, normalizeBulgarianStress(String(raw))));
+      for (const cleaned of keys) {
+        if (!cleaned) continue;
+        for (const candidate of [cleaned, cleaned.toLowerCase()]) {
+          const chunkKey = this.chunkKeyFor(candidate);
+          if (chunkKey !== null && !this.chunkCache.has(chunkKey)) {
+            needed.add(chunkKey);
+          }
         }
       }
     }
+    this.prefetchFailed = false;
     if (needed.size === 0) return;
 
     // Non-fatal like every other IDB path here: a blocked/broken IndexedDB
@@ -355,6 +366,9 @@ class ChunkedLexicon {
         }),
       );
     } catch (e) {
+      // Remembered: the look-ups after this miss, and the answer is the rules' - main.js getIpa must not cache it as
+      // a dictionary-backed one.
+      this.prefetchFailed = true;
       console.warn(`[ChunkedLexicon:${this.language}] prefetch failed`, e);
     }
   }
