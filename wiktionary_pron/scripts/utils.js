@@ -178,20 +178,28 @@ function updateLoadingText(filePath, fileExtension, rawText) {
  * @param {string} text - The text to look up.
  * @returns {string|null} The dictionary record or null if not found.
  */
+/**
+ * The dictionary key a word is looked up under. Belarusian words contain an apostrophe (п'яны, аб'явіць): the keys have it
+ * (as ASCII '), so it is kept, every form of it (’ ʼ `) is unified, and one at either end (a quote) is dropped. EVERY
+ * reader of the dictionary must use this one function, ChunkedLexicon.prefetch included: a prefetch that cleaned the
+ * word differently loaded another chunk than the look-up read, so on a return visit (chunked mode) the word missed.
+ */
+function dictionaryLookupKey(lexiconName, text) {
+  if (lexiconName === "Belorussian" || lexiconName === "Bulgarian") {
+    return String(text)
+      .replace(/[’ʼ`]/g, "'")
+      .replace(/[^\p{Letter}\p{Mark}'-]+/gu, "")
+      .replace(/^'+|'+$/g, "");
+  }
+  return String(text).replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
+}
+
 function lookupInLexicon(lexiconName, text) {
   if (!globalThis.lexicon || !globalThis.lexicon[lexiconName]) {
     return null;
   }
   const lexicon = globalThis.lexicon[lexiconName];
-  // Belarusian words contain an apostrophe (п'яны, аб'явіць): the dictionary keys have it (as ASCII '), so it is
-  // kept, every form of it (’ ʼ `) is unified, and one at either end (a quote) is dropped.
-  const keepsApostrophe = lexiconName === "Belorussian" || lexiconName === "Bulgarian";
-  const cleanedForLookup = keepsApostrophe
-    ? text
-        .replace(/[’ʼ`]/g, "'")
-        .replace(/[^\p{Letter}\p{Mark}'-]+/gu, "")
-        .replace(/^'+|'+$/g, "")
-    : text.replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
+  const cleanedForLookup = dictionaryLookupKey(lexiconName, text);
 
   let dictRecord = lexicon.get(cleanedForLookup);
   if (!dictRecord) {
@@ -951,6 +959,8 @@ export {
   wait,
   get_ipa_no_cache,
   portugueseIpaFromRecord,
+  dictionaryLookupKey,
+  normalizeBulgarianStress,
   memoizeLocalStorage,
   loadJs,
   loadFileFromZipOrPath,

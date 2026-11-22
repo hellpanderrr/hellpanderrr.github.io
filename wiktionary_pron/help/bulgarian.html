@@ -993,10 +993,10 @@
         <tr>
             <td>Grave check</td>
             <td><em>ма̀ма</em></td>
-            <td><em>ма̀ма</em> <span class="ipa">/ма̀ма/</span></td>
-            <td><code>error("Use acute accent, not grave accent, for primary stress")</code> is raised; the handler
-                then returns the input unchanged (observed). The precomposed ѝ decomposes to и + grave and fails the
-                same way.
+            <td><em>ма̀ма</em> <span class="ipa">/ма̀ма/</span> (the module alone; the app gives <span class="ipa">/ˈmamɐ/</span>)</td>
+            <td><code>error("Use acute accent, not grave accent, for primary stress")</code> is raised by the module; its
+                handler then returns the input unchanged (observed). The app turns a lone grave into an acute before it calls
+                the module, and reads the precomposed ѝ as и, so typed text is not affected.
             </td>
         </tr>
         <tr>
@@ -1395,7 +1395,7 @@
         </tr>
         <tr>
             <td>ма̀ма (grave accent only)</td>
-            <td><em>ма̀ма</em> <span class="ipa">/ма̀ма/</span></td>
+            <td><span class="ipa">/ˈmamɐ/</span> in the app (the module alone gives <em>ма̀ма</em> <span class="ipa">/ма̀ма/</span>)</td>
             <td><em>ма́ма</em> <span class="ipa">/ˈmamɐ/</span></td>
             <td>The module itself raises an error for a grave without an acute; the app now reads a lone grave as the
                 primary stress, so this gives <span class="ipa">/ˈmamɐ/</span></td>

@@ -60,7 +60,11 @@ const IPA_CACHE_REV = { Bulgarian: "d1", Belorussian: "d1", Portuguese: "d1" };
 function getIpa(text, lang, lang_style, lang_form) {
   // Concatenate the language, style, and form parameters
   let args = lang + ";" + lang_style + ";" + lang_form;
-  if (IPA_CACHE_REV[lang]) args += ";" + IPA_CACHE_REV[lang];
+  // A rules-only answer (the dictionary is not loaded: its download failed, or ?dict=false) must not share a key with
+  // the dictionary's answer, or it would be served for up to a week after the dictionary arrives.
+  if (IPA_CACHE_REV[lang]) {
+    args += ";" + IPA_CACHE_REV[lang] + (globalThis.lexicon?.[lang] ? "" : "-nodict");
+  }
   // Call memoized get_ipa_cache function to retrieve the IPA representation
   return get_ipa_cache(text, args);
 }
@@ -523,18 +527,15 @@ async function transcribe(mode, translate = false, inputText = null) {
       };
 
       // Belarusian words contain an apostrophe (п'яны): it must not split the word
+      // (letter runs joined by INTERNAL apostrophes only: a quote around the word stays outside the match)
       const WORD_RE =
-        lang === "Belorussian" ? /[\p{Letter}\p{Mark}'’ʼ-]+/gu : /[\p{Letter}\p{Mark}-]+/gu;
+        lang === "Belorussian"
+          ? /[\p{Letter}\p{Mark}-]+(?:['’ʼ][\p{Letter}\p{Mark}-]+)*/gu
+          : /[\p{Letter}\p{Mark}-]+/gu;
       document.querySelectorAll(".input_text").forEach((element) => {
         element.textContent = element.textContent.replace(
           WORD_RE, // Matches each word
           function stressWord(word) {
-            // Quotes around a word ('п'яны') are part of the token (the apostrophe is a word character): stress
-            // the word, keep the quotes.
-            if (lang === "Belorussian" && /^['’ʼ]|['’ʼ]$/.test(word)) {
-              const m = word.match(/^(['’ʼ]*)(.*?)(['’ʼ]*)$/u);
-              return m[2] ? m[1] + stressWord(m[2]) + m[3] : word;
-            }
             // A word the reader already marked (combining accent) is shown as typed.
             if (/\p{M}/u.test(word)) return word;
 

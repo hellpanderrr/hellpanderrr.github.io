@@ -316,6 +316,46 @@ test.describe("lexicon path", () => {
     expect((await page.locator("#result .ipa").first().textContent()).trim()).toBe("v");
   });
 
+  // Review bots, 2026-11-22. A RETURN visit serves the dictionary from the chunk store: prefetch must load the chunk the
+  // look-up reads. prefetch cleaned a word differently from the look-up (it dropped the apostrophe), so on a return visit
+  // п'яны / аб'явіць read one chunk and loaded another, and fell back to the rules (no stress).
+  test("Belorussian: apostrophe words are found on a RETURN visit (chunked mode)", async ({ page }) => {
+    const persisted = page.waitForEvent("console", {
+      predicate: (m) => m.text().includes("persisted") && m.text().includes("chunks"),
+      timeout: 180_000,
+    });
+    await page.goto(APP);
+    await selectLanguage(page, "Belorussian", 180_000);
+    await persisted;
+
+    await page.reload(); // second visit: no zip parse, chunks from IndexedDB
+    await selectLanguage(page, "Belorussian", 180_000);
+    await page.fill("#text_to_transcribe", "п'яны аб'явіць");
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa")).toHaveCount(2);
+    const [a, b] = (await page.locator("#result .ipa").allTextContents()).map((t) => t.trim());
+    expect(a).toContain("ˈpjanɨ");
+    expect(b).toContain("abjaˈvʲit͡sʲ");
+    expect(await page.evaluate(() => globalThis.lexicon["Belorussian"]?.mode)).toBe("chunked");
+  });
+
+  // A rules-only answer (dictionary not loaded: ?dict=false, or its download failed) shared the cache key of the
+  // dictionary's answer and was served for up to a week after the dictionary arrived.
+  test("Bulgarian: a rules-only answer is not served once the dictionary is loaded", async ({ page }) => {
+    await page.goto(APP + "?dict=false");
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    const rules = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(rules).not.toContain("ˈ"); // the rules cannot know the stress
+
+    await page.goto(APP); // dictionary on, same browser, same localStorage cache
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
+  });
+
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
   test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {

@@ -1,4 +1,6 @@
 import {
+  dictionaryLookupKey,
+  normalizeBulgarianStress,
   fetchWithCache,
   loadFileFromZipOrPath,
   updateLoadingText,
@@ -332,12 +334,17 @@ class ChunkedLexicon {
 
     const needed = new Set();
     for (const raw of words) {
-      const cleaned = String(raw).replace(/[^\p{Letter}\p{Mark}-]+/gu, "");
-      if (!cleaned) continue;
-      for (const candidate of [cleaned, cleaned.toLowerCase()]) {
-        const chunkKey = this.chunkKeyFor(candidate);
-        if (chunkKey !== null && !this.chunkCache.has(chunkKey)) {
-          needed.add(chunkKey);
+      // The key the look-up reads (utils.js dictionaryLookupKey), and for Bulgarian also the form its handler looks
+      // up after rewriting ѝ -> и and a lone grave -> acute.
+      const keys = [dictionaryLookupKey(this.language, raw)];
+      if (this.language === "Bulgarian") keys.push(dictionaryLookupKey(this.language, normalizeBulgarianStress(String(raw))));
+      for (const cleaned of keys) {
+        if (!cleaned) continue;
+        for (const candidate of [cleaned, cleaned.toLowerCase()]) {
+          const chunkKey = this.chunkKeyFor(candidate);
+          if (chunkKey !== null && !this.chunkCache.has(chunkKey)) {
+            needed.add(chunkKey);
+          }
         }
       }
     }
