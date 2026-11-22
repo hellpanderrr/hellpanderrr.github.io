@@ -63,7 +63,8 @@ function getIpa(text, lang, lang_style, lang_form) {
   // A rules-only answer (the dictionary is not loaded: its download failed, or ?dict=false) must not share a key with
   // the dictionary's answer, or it would be served for up to a week after the dictionary arrives.
   if (IPA_CACHE_REV[lang]) {
-    args += ";" + IPA_CACHE_REV[lang] + (globalThis.lexicon?.[lang] ? "" : "-nodict");
+    const dict = globalThis.lexicon?.[lang];
+    args += ";" + IPA_CACHE_REV[lang] + (dict && !dict.prefetchFailed ? "" : "-nodict");
   }
   // Call memoized get_ipa_cache function to retrieve the IPA representation
   return get_ipa_cache(text, args);

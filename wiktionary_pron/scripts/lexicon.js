@@ -348,6 +348,7 @@ class ChunkedLexicon {
         }
       }
     }
+    this.prefetchFailed = false;
     if (needed.size === 0) return;
 
     // Non-fatal like every other IDB path here: a blocked/broken IndexedDB
@@ -365,6 +366,9 @@ class ChunkedLexicon {
         }),
       );
     } catch (e) {
+      // Remembered: the look-ups after this miss, and the answer is the rules' - main.js getIpa must not cache it as
+      // a dictionary-backed one.
+      this.prefetchFailed = true;
       console.warn(`[ChunkedLexicon:${this.language}] prefetch failed`, e);
     }
   }

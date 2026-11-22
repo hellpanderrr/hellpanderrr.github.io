@@ -356,6 +356,41 @@ test.describe("lexicon path", () => {
     await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
   });
 
+  // Bot follow-up: when the chunk store cannot be read during prefetch, the dictionary object still exists but the
+  // look-up misses and the RULES answer; that answer must not be cached as a dictionary-backed one.
+  test("Bulgarian: a rules answer after a failed chunk read is not cached as the dictionary's", async ({ page }) => {
+    const persisted = page.waitForEvent("console", {
+      predicate: (m) => m.text().includes("persisted") && m.text().includes("chunks"),
+      timeout: 180_000,
+    });
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await persisted;
+
+    await page.reload(); // return visit: chunked mode
+    await selectLanguage(page, "Bulgarian", 180_000);
+    // the chunk store cannot be read (every read of the chunks store throws) for the first transcription
+    await page.evaluate(() => {
+      globalThis.lexicon["Bulgarian"].chunkCache.clear(); // nothing resident: every word needs a chunk read
+      const real = IDBObjectStore.prototype.get;
+      window.__realGet = real;
+      IDBObjectStore.prototype.get = function (...args) {
+        if (this.name === "chunks") throw new Error("blocked");
+        return real.apply(this, args);
+      };
+    });
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    const rules = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(rules).not.toContain("ˈ"); // the rules answered (no stress)
+
+    await page.evaluate(() => {
+      IDBObjectStore.prototype.get = window.__realGet; // readable again
+    });
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
+  });
+
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
   test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {
