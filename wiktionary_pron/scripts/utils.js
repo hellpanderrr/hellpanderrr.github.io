@@ -510,7 +510,13 @@ const ipaHandlers = {
       ({ cleanText, langForm, langStyle }) => {
         // langStyle needed for French post-processing
         let ipa = null;
-        if (lang === "Bulgarian") cleanText = normalizeBulgarianStress(cleanText);
+        if (lang === "Bulgarian") {
+          cleanText = normalizeBulgarianStress(cleanText);
+          // The preposition "в" is the commonest word of two letters or fewer (71 of 2,500 words) and the rules read a
+          // lone letter with final devoicing ("f"); before a voiced sound it is [v], and the dictionary has no
+          // single-letter keys (their entries are letter names).
+          if (langForm === "Phonemic" && /^в$/i.test(cleanText)) return "v";
+        }
 
         // Step 1: Attempt lexicon lookup for Phonemic form
         let stressedForms = null;

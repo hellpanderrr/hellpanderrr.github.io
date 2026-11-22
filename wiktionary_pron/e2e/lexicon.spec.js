@@ -41,7 +41,7 @@ test.describe("lexicon path", () => {
   });
 
   // Stress is not in Bulgarian or Belarusian spelling, so each has an IPA dictionary
-  // (kaikki.org -> utils/bg_lexicon_v5.zip, be_lexicon_v5.zip). Without it the rules print no
+  // (kaikki.org -> utils/bg_lexicon_v6.zip, be_lexicon_v6.zip). Without it the rules print no
   // stress mark at all ("работа" -> rɐbotɐ).
   for (const [lang, word, expected] of [
     ["Bulgarian", "работа", "ˈrabotɐ"], // has its own Wiktionary entry: its IPA, as written
@@ -264,6 +264,56 @@ test.describe("lexicon path", () => {
     await expect(span).toBeVisible();
     expect((await span.textContent()).trim()).toBe("mas");
     expect(await span.getAttribute("all_values")).toContain("majs");
+  });
+
+  // Third review pass (end-to-end on real texts, 2026-11-22).
+  // Line mode put a stress mark on every one-syllable word (на́, и́, ва́): 43% of the marks in a Bulgarian text, and
+  // the IPA beside it had none. Clitics and prepositions carry no stress.
+  for (const [lang, text, bare, marked] of [
+    ["Bulgarian", "на север", "на", "на́"],
+    ["Belorussian", "на краіны", "на", "на́"],
+  ]) {
+    test(`${lang}: a one-syllable word is not given a stress mark in line mode`, async ({ page }) => {
+      await page.goto(APP);
+      await selectLanguage(page, lang, 180_000);
+      await page.fill("#text_to_transcribe", text);
+      await page.click("#submit_by_line");
+      // line mode shows each word in its own .input_text element
+      const words = (await page.locator("#result .input_text").allTextContents()).map((t) => t.trim());
+      expect(words[0]).toBe(bare); // "на" stays as typed
+      expect(words[0]).not.toContain(marked);
+      expect(words[1]).toContain("́"); // the polysyllable beside it still gets its mark
+    });
+  }
+
+  // The accent over a Belarusian "і" was written on a LATIN dotless ı (краı́ны): copy and search broke.
+  test("Belorussian: the stressed і stays a Cyrillic letter", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Belorussian", 180_000);
+    await page.fill("#text_to_transcribe", "краіны");
+    await page.click("#submit_by_line");
+    const shown = (await page.locator("#result .input_text").first().textContent()).trim();
+    expect(shown).toContain("́");
+    expect(shown).not.toContain("ı"); // no Latin dotless i
+    expect(shown.normalize("NFD").replace(/́/g, "")).toBe("краіны");
+  });
+
+  // A word wrapped in apostrophes/quotes is one token that includes the quotes: it got no mark at all.
+  test("Belorussian: a quoted apostrophe word gets its stress mark, quotes kept", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Belorussian", 180_000);
+    await page.fill("#text_to_transcribe", "'п'яны'");
+    await page.click("#submit_by_line");
+    await expect(page.locator("#result .input_text").first()).toContainText("'п'я́ны'");
+  });
+
+  // The preposition "в" (71 of 2,500 words) was read with final devoicing: f.
+  test("Bulgarian: the preposition в is v", async ({ page }) => {
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "в");
+    await page.click("#submit");
+    expect((await page.locator("#result .ipa").first().textContent()).trim()).toBe("v");
   });
 
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it

@@ -515,7 +515,9 @@ async function transcribe(mode, translate = false, inputText = null) {
        * Cyrillic letters like 'і' and 'ё' to ensure correct typography.
        */
       const applyStress = (vowel) => {
-        if (vowel === "і") return "ı" + STRESS_MARK; // Use Latin dotless 'ı'
+        // Ukrainian: Latin dotless 'ı' so the accent does not collide with the dot. Belarusian keeps the Cyrillic
+        // letter: the Latin one inside a Cyrillic word breaks copy and search (краı́ны in 31 of 247 marked words).
+        if (vowel === "і" && lang !== "Belorussian") return "ı" + STRESS_MARK;
         if (vowel === "ё" || vowel === "Ё") return vowel; // 'ё' is already stressed
         return vowel + STRESS_MARK;
       };
@@ -526,7 +528,13 @@ async function transcribe(mode, translate = false, inputText = null) {
       document.querySelectorAll(".input_text").forEach((element) => {
         element.textContent = element.textContent.replace(
           WORD_RE, // Matches each word
-          (word) => {
+          function stressWord(word) {
+            // Quotes around a word ('п'яны') are part of the token (the apostrophe is a word character): stress
+            // the word, keep the quotes.
+            if (lang === "Belorussian" && /^['’ʼ]|['’ʼ]$/.test(word)) {
+              const m = word.match(/^(['’ʼ]*)(.*?)(['’ʼ]*)$/u);
+              return m[2] ? m[1] + stressWord(m[2]) + m[3] : word;
+            }
             // A word the reader already marked (combining accent) is shown as typed.
             if (/\p{M}/u.test(word)) return word;
 
@@ -578,9 +586,12 @@ async function transcribe(mode, translate = false, inputText = null) {
             // This code now runs if:
             //   a) The word was not in the dictionary.
             //   b) The word was in the dictionary but had NO stress mark.
+            // (Not for Bulgarian/Belarusian: there the words of one syllable are mostly clitics and prepositions -
+            // на, и, е, от, се, за, ва - that carry no stress, and a mark on them contradicted the IPA: 43% of the
+            // marks in a Bulgarian text.)
             const vowelRegex = VOWELS[lang];
             const syllables = word.match(vowelRegex);
-            if (syllables && syllables.length === 1) {
+            if (lang !== "Bulgarian" && lang !== "Belorussian" && syllables && syllables.length === 1) {
               return word.replace(VOWELS_REPLACE[lang], (vowel) =>
                 applyStress(vowel),
               );

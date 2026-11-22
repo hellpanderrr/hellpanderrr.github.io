@@ -12,8 +12,8 @@ const LEXICON_LANGUAGES = {
   Ukrainian: "uk_lexicon_v4.zip",
   Russian: "ru_lexicon_v4.zip",
   Icelandic: "is_lexicon.zip",
-  Bulgarian: "bg_lexicon_v5.zip",
-  Belorussian: "be_lexicon_v5.zip",
+  Bulgarian: "bg_lexicon_v6.zip",
+  Belorussian: "be_lexicon_v6.zip",
   Portuguese: "pt_lexicon_v4.zip",
 };
 
