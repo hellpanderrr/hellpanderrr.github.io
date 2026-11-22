@@ -391,6 +391,47 @@ test.describe("lexicon path", () => {
     await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
   });
 
+  // Bot follow-up: a MIXED failure. One chunk is resident, another read fails: the first word is still answered from the
+  // dictionary, the second by the rules. No single cache key describes that batch (a later ?dict=false visit got the
+  // dictionary's answer for the first word), so such a batch bypasses the cache.
+  test("Bulgarian: a batch answered half from a resident chunk after a failed read is not cached", async ({ page }) => {
+    const persisted = page.waitForEvent("console", {
+      predicate: (m) => m.text().includes("persisted") && m.text().includes("chunks"),
+      timeout: 180_000,
+    });
+    await page.goto(APP);
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await persisted;
+
+    await page.reload(); // return visit: chunked mode
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа"); // loads the chunk of "работа"
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa").first()).toContainText("ˈrabotɐ");
+
+    await page.evaluate(() => {
+      const real = IDBObjectStore.prototype.get;
+      window.__realGet = real;
+      IDBObjectStore.prototype.get = function (...args) {
+        if (this.name === "chunks") throw new Error("blocked");
+        return real.apply(this, args);
+      };
+    });
+    await page.fill("#text_to_transcribe", "работа ябълка"); // "работа" resident, "ябълка" needs a read that fails
+    await page.click("#submit");
+    await expect(page.locator("#result .ipa")).toHaveCount(2);
+    await page.evaluate(() => {
+      IDBObjectStore.prototype.get = window.__realGet;
+    });
+
+    await page.goto(APP + "?dict=false"); // later, with the dictionary switched off
+    await selectLanguage(page, "Bulgarian", 180_000);
+    await page.fill("#text_to_transcribe", "работа");
+    await page.click("#submit");
+    const t = (await page.locator("#result .ipa").first().textContent()).trim();
+    expect(t, "the dictionary's answer must not come back from the cache when the dictionary is off").not.toContain("ˈ");
+  });
+
   // Bulgarian text marks stress with a GRAVE accent (Wikipedia does); the rules used to error on it
   // ("Бълга̀рия" -> an error cell), and on the pronoun "ѝ".
   test("Bulgarian: a typed grave accent is the stress, and ѝ transcribes", async ({ page }) => {

@@ -64,7 +64,10 @@ function getIpa(text, lang, lang_style, lang_form) {
   // the dictionary's answer, or it would be served for up to a week after the dictionary arrives.
   if (IPA_CACHE_REV[lang]) {
     const dict = globalThis.lexicon?.[lang];
-    args += ";" + IPA_CACHE_REV[lang] + (dict && !dict.prefetchFailed ? "" : "-nodict");
+    // After a FAILED chunk read some words may have been answered from a resident chunk and others by the rules: no
+    // single key describes that batch, so it bypasses the cache altogether (not read, not written).
+    if (dict && dict.prefetchFailed) return get_ipa_no_cache(text, args);
+    args += ";" + IPA_CACHE_REV[lang] + (dict ? "" : "-nodict");
   }
   // Call memoized get_ipa_cache function to retrieve the IPA representation
   return get_ipa_cache(text, args);
